@@ -5,8 +5,11 @@ RewriteBase /
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s([^.]+)\.php [NC]
 RewriteRule ^ %1 [R=301,L]
 
-# Blog posts: /blog/{slug} -> blog.php
-RewriteRule ^blog/([a-zA-Z0-9\-]+)$ blog.php [L,QSA]
+# Blog posts: /blog/{slug} -> blog.php (case-insensitive)
+RewriteRule ^blog/([a-zA-Z0-9\-]+)$ blog.php?slug=$1 [L,QSA,NC]
+
+# Blog listing: /blog or /blog/ -> blog-listing.php
+RewriteRule ^blog/?$ blog-listing.php [L,NC]
 
 # Package details: /package/{slug} -> package.php
 RewriteRule ^package/([a-zA-Z0-9\-&,]+)$ package.php [L,QSA]
@@ -14,7 +17,7 @@ RewriteRule ^package/([a-zA-Z0-9\-&,]+)$ package.php [L,QSA]
 # Static pages without .php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(about-us|contact|faq|blog|cancellation-policy|privacy-policy|terms-and-condition|sitemap)$ $1.php [L]
+RewriteRule ^(about-us|contact|faq|cancellation-policy|privacy-policy|terms-and-condition|sitemap)$ $1.php [L]
 
 # Collection pages: /{slug} -> collection.php (must be LAST)
 RewriteCond %{REQUEST_FILENAME} !-f

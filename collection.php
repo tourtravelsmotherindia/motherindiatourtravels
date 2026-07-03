@@ -287,6 +287,21 @@ if (mobileMenu) {
     });
   }
 }
+
+// Force full page reload for static PHP site navigation
+d.addEventListener('click', function(e) {
+  var a = e.target.closest('a');
+  if (a && a.href) {
+    var url = new URL(a.href, window.location.href);
+    if (url.origin === window.location.origin) {
+      if (url.pathname === window.location.pathname && url.hash) {
+        return;
+      }
+      e.stopPropagation();
+      window.location.href = a.href;
+    }
+  }
+}, true);
 })();
 </script>
 <?php

@@ -1,7 +1,4 @@
 <?php
-/**
- * Blog Post Page — self-contained, no travelxploria/ dependency
- */
 require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/functions.php';
 
@@ -11,28 +8,41 @@ if (empty($slug)) { header('Location: /blog'); exit; }
 $page = getPageData('blogs', $slug);
 if (!$page) { http_response_code(404); header('Location: /blog'); exit; }
 
-$blogTitle = $page['blog_title'] ?? str_replace('-', ' ', ucwords($slug));
-$desc      = $page['description'] ?? $blogTitle;
-$pubDate   = $page['publish_date'] ?? '';
-$body      = $page['body_content'] ?? '';
-$related   = $page['related_blogs'] ?? [];
-$images    = $page['images'] ?? [];
+$blogTitle  = $page['blog_title'] ?? str_replace('-', ' ', ucwords($slug));
+$desc       = $page['description'] ?? $blogTitle;
+$pubDate    = $page['publish_date'] ?? '';
+$body       = $page['body_content'] ?? '';
+$related    = $page['related_blogs'] ?? [];
+$images     = $page['images'] ?? [];
 
-// FIX: Use blog_title for SEO (original had cross-contamination bug)
 $title   = $blogTitle . ' | TravelXploria';
 $ogTitle = $blogTitle;
 
-// Fix relative links in body_content
+// Strip the leading "Published by travelxploria on ..." line from body_content (blog.php adds its own)
+$body = preg_replace('#^<p>Published by\s*<!-- -->travelxploria<!-- -->\s*on\s*<!-- -->[^<]*<!-- --></p>#', '', $body);
+
+// Fix relative .html links in body_content
 $body = str_replace(['href="index.html"','href="about-us.html"','href="contact.html"','href="faq.html"','href="Blog.html"'],
                     ['href="/"','href="/about-us"','href="/contact"','href="/faq"','href="/blog"'], $body);
 $body = preg_replace('/href="([a-z][a-zA-Z0-9\-]+)\.html"/', 'href="/$1"', $body);
 $body = preg_replace('/href="package\/([^"]+)\.html"/', 'href="/package/$1"', $body);
 $body = preg_replace('/href="blog\/([^"]+)\.html"/', 'href="/blog/$1"', $body);
 
-// Prepend published date if missing from body_content
-$pubLine = $pubDate ? '<p class="text-gray-600 text-center">Published by Travelxploria on ' . e($pubDate) . '</p>' : '';
+// Fix _next/image URLs in body_content -> direct image URLs
+$body = preg_replace_callback('/src="[^"]*_next\/image[^"]*"/', function($m) {
+    if (preg_match('/url=([^&\s"]+)/', $m[0], $u)) return 'src="' . rawurldecode($u[1]) . '"';
+    return $m[0];
+}, $body);
+$body = preg_replace_callback('/srcset="[^"]*_next\/image[^"]*"/', function($m) {
+    if (preg_match('/url=([^&\s,]+)/', $m[0], $u)) return 'srcset="' . rawurldecode($u[1]) . ' 1x"';
+    return $m[0];
+}, $body);
 
-// Output shell head
+// Load slug mappings for related blog URL resolution
+$mappings = loadData('slug-mappings.json');
+$titleToSlug = $mappings['blog_title_to_slug'] ?? [];
+
+// Output shell head with SEO overrides
 ob_start();
 include __DIR__ . '/includes/shell-head.php';
 $html = ob_get_clean();
@@ -62,7 +72,7 @@ echo $html;
     <h2 class="text-2xl font-semibold mb-8 text-gray-900">Related Blogs</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <?php foreach (array_slice($related, 0, 6) as $rbTitle):
-            $rbSlug = strtolower(preg_replace('/[^a-zA-Z0-9]+/', '-', $rbTitle));
+            $rbSlug = $titleToSlug[$rbTitle] ?? strtolower(preg_replace('/[^a-zA-Z0-9]+/', '-', trim($rbTitle)));
             $rbSlug = trim($rbSlug, '-');
         ?>
         <a href="/blog/<?php echo urlencode($rbSlug); ?>" class="group bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300"><div class="p-6"><h3 class="text-lg font-bold text-gray-900 group-hover:text-red transition-colors line-clamp-2"><?php echo e($rbTitle); ?></h3><div class="mt-3 text-red font-medium text-sm flex items-center gap-1">Read More <span>→</span></div></div></a>
