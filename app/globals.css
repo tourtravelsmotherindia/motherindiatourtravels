@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Dancing+Script:wght@400;500;600;700&display=swap');
+
+@layer base {
+  body {
+    @apply font-sans text-base text-black;
+  }
+}
+
+@layer components {
+  /* Auto-shining shimmer effect */
+  .auto-shining {
+    @apply relative overflow-hidden;
+  }
+  .auto-shining::after {
+    content: "";
+    @apply absolute top-0 left-[-100%] w-[200%] h-full;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 1),
+      transparent
+    );
+    opacity: 0.6;
+    transform: skewX(-20deg);
+    animation: shimmer 2s infinite;
+  }
+
+  /* Animated gradient */
+  .animated-gradient {
+    background: linear-gradient(270deg, #fe6a4d, #6bc763, #ff886f, #30c422);
+    background-size: 600% 600%;
+    animation: gradient-x 5s ease infinite;
+    @apply text-white;
+  }
+
+  /* Custom loader / progress bar */
+  .custom-loader {
+    height: 4px;
+    background: linear-gradient(90deg, #ff7b7b, #fdefb6, #d4f09f);
+    @apply absolute top-0 left-0;
+    width: 0;
+    animation: loaderProgress 1.5s ease-out forwards;
+  }
+
+  /* Selected state */
+  .bg-selected {
+    background: #ffce8c;
+    border: 1px solid #ffce8c;
+    color: #471717;
+  }
+
+  /* Image container utility */
+  .bg-img {
+    width: 80px;
+    flex-shrink: 0;
+  }
+
+  /* Gradient text utility */
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+  }
+}
+
+@layer utilities {
+  .dancing-script {
+    font-family: "Dancing Script", cursive;
+  }
+}
