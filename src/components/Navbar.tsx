@@ -41,8 +41,8 @@ export default function Navbar() {
     }`}>
       <nav className={`rounded-full px-6 transition-all duration-300 flex items-center justify-between border ${
         scrolled
-          ? "bg-white/80 backdrop-blur-md py-2.5 shadow-premium border-border-light/60"
-          : "bg-white py-3.5 shadow-premium border-border-light"
+          ? "bg-white/80 backdrop-blur-md py-2.5 shadow-[0_8px_30px_rgba(0,0,0,0.06)] border-border-light/60"
+          : "bg-white py-3.5 shadow-[0_8px_30px_rgba(0,0,0,0.06)] border-border-light"
       }`}>
         {/* Logo + Brand Name */}
         <Link href="/" className="flex items-center gap-3 group shrink-0">
@@ -97,7 +97,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
-            className="absolute top-24 left-4 right-4 bg-white rounded-3xl p-6 shadow-premium border border-border-light flex flex-col gap-4 md:hidden z-40"
+            className="absolute top-24 left-4 right-4 bg-white rounded-3xl p-6 shadow-[0_8px_30px_rgba(0,0,0,0.06)] border border-border-light flex flex-col gap-4 md:hidden z-40"
           >
             <div className="flex flex-col gap-3">
               {navLinks.map((link) => (
