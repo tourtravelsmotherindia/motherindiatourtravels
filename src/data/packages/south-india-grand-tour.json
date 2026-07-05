@@ -1,0 +1,186 @@
+{
+  "id": "south-india-grand-tour",
+  "slug": "south-india-grand-tour",
+  "name": "South India Grand Tour",
+  "is_popular": false,
+  "destinations": [
+    "Chennai",
+    "Mahabalipuram",
+    "Pondicherry",
+    "Ooty",
+    "Mysore",
+    "Bangalore",
+    "Cochin"
+  ],
+  "destination_ids": [
+    "chennai",
+    "mahabalipuram",
+    "pondicherry",
+    "ooty",
+    "mysore",
+    "bangalore",
+    "cochin"
+  ],
+  "primary_destination": "Chennai",
+  "category_ids": [
+    "domestic-tour-packages",
+    "south-india-tour-packages",
+    "luxury-tour-packages"
+  ],
+  "state_id": "tamil-nadu",
+  "country_id": "india",
+  "is_domestic": true,
+  "hero_image": "",
+  "overview": "Explore the best of Chennai, Mahabalipuram, Pondicherry, Ooty, Mysore, Bangalore, Cochin with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
+  "highlights": [
+    "Visit Chennai",
+    "Visit Mahabalipuram",
+    "Visit Pondicherry",
+    "Visit Ooty",
+    "Visit Mysore",
+    "Visit Bangalore",
+    "Visit Cochin"
+  ],
+  "inclusions": [
+    "Accommodation in listed or similar hotels",
+    "Welcome Drink (Non-Alcoholic)",
+    "Meals as per itinerary (Breakfast & Dinner)",
+    "All transfers and sightseeing by private AC vehicle",
+    "All long distance travel as per itinerary",
+    "Chauffeur, Toll Taxes, Parking, Fuel charges",
+    "State Taxes, Green Taxes, Road Taxes",
+    "Comfortable AC vehicles",
+    "Licensed Tour Guide Services"
+  ],
+  "exclusions": [
+    "Meals other than those specified",
+    "Personal expenses (porterage, tips, laundry, mineral water)",
+    "Monument entrance fees and camera charges",
+    "Any activity not mentioned in inclusions",
+    "Travel Insurance",
+    "Additional cost due to flight cancellation, roadblocks, political unrest",
+    "Driver and Guide tips",
+    "Air/train fare unless specified",
+    "GST (5% on tour cost)"
+  ],
+  "notes": [
+    "Taj Mahal is closed every Friday",
+    "Tailor-made tours available on request",
+    "Prices are per person on twin sharing basis"
+  ],
+  "variants": [
+    {
+      "label": "13N/14D",
+      "nights": 13,
+      "days": 14,
+      "duration_text": "13N/14D",
+      "old_html_file": "south-india-tour-fouteen-days.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "– Chennai welcome on arrival at int’l airport in chennai",
+          "description": "– Chennai welcome on arrival at int’l airport in chennai. transfer to a hotel. overnight stay at hotel in chennai"
+        },
+        {
+          "day": 2,
+          "title": "– Chennai sightseeing: After breakfast, Proceed for a city tour visiting Sri par",
+          "description": "– Chennai sightseeing: After breakfast, Proceed for a city tour visiting Sri parthasarathy temple, kapaleeshwar temple, fort st.george, government museum,marina beach. Evening free at leisure. Dinner & overnight stay at a hotel in Chennai."
+        },
+        {
+          "day": 3,
+          "title": "– Chennai – kanchipuram – mahabalipuram: After breakfast, drive to mahabalipuram",
+          "description": "– Chennai – kanchipuram – mahabalipuram: After breakfast, drive to mahabalipuram. Via sightseeing of kanchipuram (kamakshi amman temple, kailasanathar temple, ekambareshwar temple). On arrival check-in at the hotel. Afternoon proceed for sightseeing and visit the sea shore temple, the five rathas. Dinner & overnight stay at a hotel in mahabalipuram."
+        },
+        {
+          "day": 4,
+          "title": "– Mahabalipuram – Pondichery*\n                    Breakfast at hotel",
+          "description": "– Mahabalipuram – Pondichery*\n                    Breakfast at hotel. Drive to pondicherry. On arrival check-in at hotel.proceed for city tour visiting aurobindo ashram and pondicherry museum day free at leisure. Enjoy the beautiful beaches. dinner & overnight stay at a hotel in pondicherry."
+        },
+        {
+          "day": 5,
+          "title": "– Pondicherry – Tirchy – Thanjavur*\n                    Breakfast at hotel",
+          "description": "– Pondicherry – Tirchy – Thanjavur*\n                    Breakfast at hotel. Drive to thanjavur enroute visiting the rock fort temple in trichy. Upon arrival check in at the hotel. Afternoon proceed for a tour round tanjore city visiting the various temples, outstanding among them is the brihadeswara temple. Dinner & overnight stay at hotel in thanjavur."
+        },
+        {
+          "day": 6,
+          "title": "– Thanjavur – Madurai\n                    Breakfast at hotel",
+          "description": "– Thanjavur – Madurai\n                    Breakfast at hotel. Drive to madurai. On arrival check-in at the hotel. Afternoon sightseeing of famous meenakshi temple, a splendid example of dravidian architecture, thirumalai nayak mahal and gandhi museum. Dinner & overnight stay at a hotel in madurai."
+        },
+        {
+          "day": 6,
+          "title": "– Thanjavur – Madurai\n                    Breakfast at hotel",
+          "description": "– Thanjavur – Madurai\n                    Breakfast at hotel. Drive to madurai. On arrival check-in at the hotel. Afternoon sightseeing of famous meenakshi temple, a splendid example of dravidian architecture, thirumalai nayak mahal and gandhi museum. Dinner & overnight stay at a hotel in madurai."
+        },
+        {
+          "day": 7,
+          "title": "– Madurai – Thekkady Breakfast at hotel",
+          "description": "– Madurai – Thekkady Breakfast at hotel. drive to thekkady. On arrival check into the hotel. In the afternoon visit periyar-one of the finest wildlife reserves in the world and enjoy boat cruises on periyar lake. Dinner & overnight stay at hotel in thekkady"
+        },
+        {
+          "day": 8,
+          "title": "– Thekkady – Kumarkom – Alappuzha*\n                    Breakfast at hotel",
+          "description": "– Thekkady – Kumarkom – Alappuzha*\n                    Breakfast at hotel. Drive to kumarakom. On arrival check-in to the house boat. Full day enjoy back water cruise. Dinner & overnight on a houseboat."
+        },
+        {
+          "day": 9,
+          "title": "– Alappuzha – Cochin\n                    Breakfast at houseboat",
+          "description": "– Alappuzha – Cochin\n                    Breakfast at houseboat. Straight drive to Cochin. On arrival check-in at the hotel. After some rest proceed for city tour visiting dutch palace, jewish synagogue, st.francis church, dutch cemetery, chinese fishing nets at the entrance of cochin harbour & willingdon island. Day free at leisure. Dinner & overnight stay at a hotel in Cochin."
+        },
+        {
+          "day": 10,
+          "title": "– Cochin – Ooty\n                    Breakfast at hotel",
+          "description": "– Cochin – Ooty\n                    Breakfast at hotel. Drive to Ooty. On arrival check-in at the hotel. Day free at leisure. Dinner & overnight stay at a hotel in Ooty."
+        },
+        {
+          "day": 11,
+          "title": "– Ooty – Mysore\n                    Breakfast at hotel proceeds for sightseeing,",
+          "description": "– Ooty – Mysore\n                    Breakfast at hotel proceeds for sightseeing, visiting botanical garden, Ooty lake, Doddabetta (highest point in ooty). Afternoon drive to mysore. On arrival check-in at the hotel. Dinner & overnight stay at a hotel in Mysore."
+        },
+        {
+          "day": 12,
+          "title": "– Mysore\n                    Breakfast at hotel",
+          "description": "– Mysore\n                    Breakfast at hotel. Proceed for a city tour visiting mysore palace (the residence of the royal family), Chamundi hills (temple of goddess chamundeshwari.) lunch at the hotel. Evening visit vrindavan garden (one of the best in south india.). Dinner & overnight stay at hotel in mysore"
+        },
+        {
+          "day": 13,
+          "title": "– Mysore – Bangalore\n                    Breakfast at hotel",
+          "description": "– Mysore – Bangalore\n                    Breakfast at hotel. Drive to Bangalore via Srirangapatna (fort & temples) & Somnathpur (famous for its 13th century hoysala temple). On arrival check-in at the hotel. Day free at leisure. Dinner & overnight stay at a hotel in Bangalore."
+        },
+        {
+          "day": 14,
+          "title": "– Bangalore – Chennai\n                    Breakfast at hotel",
+          "description": "– Bangalore – Chennai\n                    Breakfast at hotel. Proceed for a city tour visiting Vidhana Soudha (houses the state legislative assembly of karnataka), tipu’s palace (summer palace of tipu sultan -1781-1791 ad. ), lal bagh botanical garden. Timely transfer to airport to board on flight for onward journey.\nPlease note: We can arrange tailor-made tours\nPlease note: House Boat on Demand\nInclusions\nAccommodation\nWelcome Drink Non Alcoholic.\nWelcome drink at hotel\nMeals\nAll Transfers, All"
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "domestic-tour-packages",
+    "south-india-tour-packages",
+    "luxury-tour-packages",
+    "chennai",
+    "mahabalipuram",
+    "pondicherry",
+    "ooty",
+    "mysore",
+    "bangalore",
+    "cochin"
+  ],
+  "seo": {
+    "title": "South India Grand Tour | Mother India Tour Travels",
+    "description": "Book South India Grand Tour with Mother India Tour Travels. Best deals on Chennai, Mahabalipuram, Pondicherry, Ooty, Mysore, Bangalore, Cochin tour packages. Includes hotels, transport & guide.",
+    "keywords": [
+      "South India Grand Tour",
+      "Chennai",
+      "Mahabalipuram",
+      "Pondicherry",
+      "Ooty",
+      "Mysore",
+      "Bangalore",
+      "Cochin",
+      "tour package",
+      "India travel",
+      "Mother India Tour"
+    ]
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "id": "kashmir-vaishno-devi-tour",
+  "slug": "kashmir-vaishno-devi-tour",
+  "name": "Kashmir with Vaishno Devi Tour",
+  "is_popular": false,
+  "destinations": [
+    "Jammu",
+    "Katra",
+    "Srinagar"
+  ],
+  "destination_ids": [
+    "jammu",
+    "katra",
+    "srinagar"
+  ],
+  "primary_destination": "Jammu",
+  "category_ids": [
+    "domestic-tour-packages",
+    "north-india-tour-packages",
+    "spiritual-tour-packages"
+  ],
+  "state_id": "jammu-kashmir",
+  "country_id": "india",
+  "is_domestic": true,
+  "hero_image": "",
+  "overview": "Explore the best of Jammu, Katra, Srinagar with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
+  "highlights": [
+    "Visit Jammu",
+    "Visit Katra",
+    "Visit Srinagar"
+  ],
+  "inclusions": [
+    "Accommodation in listed or similar hotels",
+    "Welcome Drink (Non-Alcoholic)",
+    "Meals as per itinerary (Breakfast & Dinner)",
+    "All transfers and sightseeing by private AC vehicle",
+    "All long distance travel as per itinerary",
+    "Chauffeur, Toll Taxes, Parking, Fuel charges",
+    "State Taxes, Green Taxes, Road Taxes",
+    "Comfortable AC vehicles",
+    "Licensed Tour Guide Services"
+  ],
+  "exclusions": [
+    "Meals other than those specified",
+    "Personal expenses (porterage, tips, laundry, mineral water)",
+    "Monument entrance fees and camera charges",
+    "Any activity not mentioned in inclusions",
+    "Travel Insurance",
+    "Additional cost due to flight cancellation, roadblocks, political unrest",
+    "Driver and Guide tips",
+    "Air/train fare unless specified",
+    "GST (5% on tour cost)"
+  ],
+  "notes": [
+    "Taj Mahal is closed every Friday",
+    "Tailor-made tours available on request",
+    "Prices are per person on twin sharing basis"
+  ],
+  "variants": [
+    {
+      "label": "2N/3D",
+      "nights": 2,
+      "days": 3,
+      "duration_text": "2N/3D",
+      "old_html_file": "kashmir three das maa vaisho devi.html",
+      "itinerary": []
+    }
+  ],
+  "tags": [
+    "domestic-tour-packages",
+    "north-india-tour-packages",
+    "spiritual-tour-packages",
+    "jammu",
+    "katra",
+    "srinagar"
+  ],
+  "seo": {
+    "title": "Kashmir with Vaishno Devi Tour | Mother India Tour Travels",
+    "description": "Book Kashmir with Vaishno Devi Tour with Mother India Tour Travels. Best deals on Jammu, Katra, Srinagar tour packages. Includes hotels, transport & guide.",
+    "keywords": [
+      "Kashmir with Vaishno Devi Tour",
+      "Jammu",
+      "Katra",
+      "Srinagar",
+      "tour package",
+      "India travel",
+      "Mother India Tour"
+    ]
+  }
+}

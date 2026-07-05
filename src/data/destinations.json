@@ -1,0 +1,698 @@
+{
+  "total": 19,
+  "destinations": [
+    {
+      "id": "delhi",
+      "name": "Delhi",
+      "slug": "delhi",
+      "state_id": "delhi",
+      "country_id": "india",
+      "type": "city",
+      "is_featured": true,
+      "description": "Delhi, India's capital, is a city where ancient history meets modern life. Home to iconic landmarks like the Red Fort, Qutub Minar, and India Gate.",
+      "best_time_to_visit": "October to March",
+      "climate": "Extreme continental – hot summers, cold winters",
+      "top_attractions": [
+        "Red Fort",
+        "Qutub Minar",
+        "India Gate",
+        "Humayun's Tomb",
+        "Lotus Temple",
+        "Jama Masjid",
+        "Chandni Chowk"
+      ],
+      "nearby_destinations": [
+        "agra",
+        "jaipur",
+        "haridwar",
+        "mathura"
+      ],
+      "seo_title": "Delhi Tour Packages | Best Deals on Delhi Holiday Packages",
+      "seo_description": "Explore Delhi with Mother India Tour Travels. Best Delhi tour packages, sightseeing, heritage walks and more. Book now!",
+      "image": "https://img.freepik.com/free-photo/india-gate-new-delhi-india_1268-17497.jpg",
+      "package_ids": [
+        "corbett-national-park-tour",
+        "delhi-agra-mathura-tour",
+        "delhi-agra-tour",
+        "delhi-manali-volvo-tour",
+        "golden-triangle-tour",
+        "golden-triangle-tour-haridwar-rishikesh",
+        "golden-triangle-tour-kerala",
+        "golden-triangle-tour-khajuraho",
+        "golden-triangle-tour-khajuraho-varanasi",
+        "golden-triangle-tour-mathura",
+        "golden-triangle-tour-pushkar",
+        "golden-triangle-tour-ranthambore",
+        "golden-triangle-tour-varanasi",
+        "haridwar-rishikesh-agra-tour",
+        "haridwar-rishikesh-tour",
+        "himachal-amritsar-tour",
+        "mussoorie-tour",
+        "nainital-corbett-tour",
+        "north-india-grand-tour",
+        "north-india-tour",
+        "rajasthan-complete-tour",
+        "rajasthan-grand-tour",
+        "rajasthan-grand-tour-varanasi",
+        "rajasthan-heritage-tour",
+        "rajasthan-tour",
+        "rajasthan-tour-khajuraho-varanasi",
+        "same-day-agra-tour",
+        "shimla-manali-agra-tour",
+        "shimla-manali-chandigarh-tour",
+        "shimla-manali-tour",
+        "spiritual-circuit-tour",
+        "uttarakhand-tour"
+      ],
+      "package_count": 32
+    },
+    {
+      "id": "agra",
+      "name": "Agra",
+      "slug": "agra",
+      "state_id": "uttar-pradesh",
+      "country_id": "india",
+      "type": "city",
+      "is_featured": true,
+      "description": "Agra is home to the magnificent Taj Mahal, one of the Seven Wonders of the World. The city also houses the Agra Fort and Fatehpur Sikri.",
+      "best_time_to_visit": "October to March",
+      "climate": "Semi-arid – hot summers, mild winters",
+      "top_attractions": [
+        "Taj Mahal",
+        "Agra Fort",
+        "Fatehpur Sikri",
+        "Mehtab Bagh",
+        "Itimad-ud-Daulah"
+      ],
+      "nearby_destinations": [
+        "delhi",
+        "jaipur",
+        "mathura",
+        "varanasi"
+      ],
+      "seo_title": "Agra Tour Packages | Taj Mahal Tour | Best Agra Holiday Deals",
+      "seo_description": "Visit Agra and the iconic Taj Mahal with Mother India Tour Travels. Best Agra tour packages from Delhi. Book now!",
+      "image": "https://img.freepik.com/free-photo/majestic-mausoleum-ancient-god-spiritual-journey-generated-by-ai_188544-11114.jpg",
+      "package_ids": [
+        "delhi-agra-mathura-tour",
+        "delhi-agra-tour",
+        "golden-triangle-tour",
+        "golden-triangle-tour-haridwar-rishikesh",
+        "golden-triangle-tour-kerala",
+        "golden-triangle-tour-khajuraho",
+        "golden-triangle-tour-khajuraho-varanasi",
+        "golden-triangle-tour-mathura",
+        "golden-triangle-tour-pushkar",
+        "golden-triangle-tour-ranthambore",
+        "golden-triangle-tour-varanasi",
+        "haridwar-rishikesh-agra-tour",
+        "north-india-grand-tour",
+        "north-india-tour",
+        "rajasthan-complete-tour",
+        "rajasthan-grand-tour",
+        "rajasthan-grand-tour-varanasi",
+        "rajasthan-heritage-tour",
+        "same-day-agra-tour",
+        "shimla-manali-agra-tour",
+        "spiritual-circuit-tour"
+      ],
+      "package_count": 21
+    },
+    {
+      "id": "jaipur",
+      "name": "Jaipur",
+      "slug": "jaipur",
+      "state_id": "rajasthan",
+      "country_id": "india",
+      "type": "city",
+      "is_featured": true,
+      "description": "Jaipur, the Pink City, is the capital of Rajasthan. Known for its stunning palaces, forts, and vibrant bazaars, Jaipur is a treasure trove of Rajput heritage.",
+      "best_time_to_visit": "October to March",
+      "climate": "Semi-arid – very hot summers, mild winters",
+      "top_attractions": [
+        "Amber Fort",
+        "Hawa Mahal",
+        "City Palace",
+        "Jantar Mantar",
+        "Nahargarh Fort",
+        "Jal Mahal"
+      ],
+      "nearby_destinations": [
+        "delhi",
+        "agra",
+        "pushkar",
+        "ranthambore",
+        "udaipur"
+      ],
+      "seo_title": "Jaipur Tour Packages | Pink City Holiday Deals | Rajasthan",
+      "seo_description": "Explore Jaipur, the Pink City of India. Best Jaipur tour packages including Amber Fort, Hawa Mahal and more. Book with Mother India Tour Travels.",
+      "image": "https://img.freepik.com/free-photo/hawa-mahal-palace-jaipur-india_53876-31311.jpg",
+      "package_ids": [
+        "golden-triangle-tour",
+        "golden-triangle-tour-haridwar-rishikesh",
+        "golden-triangle-tour-kerala",
+        "golden-triangle-tour-khajuraho",
+        "golden-triangle-tour-khajuraho-varanasi",
+        "golden-triangle-tour-mathura",
+        "golden-triangle-tour-pushkar",
+        "golden-triangle-tour-ranthambore",
+        "golden-triangle-tour-varanasi",
+        "north-india-grand-tour",
+        "north-india-tour",
+        "rajasthan-complete-tour",
+        "rajasthan-grand-tour",
+        "rajasthan-grand-tour-varanasi",
+        "rajasthan-heritage-tour",
+        "rajasthan-tour",
+        "rajasthan-tour-khajuraho-varanasi"
+      ],
+      "package_count": 17
+    },
+    {
+      "id": "varanasi",
+      "name": "Varanasi",
+      "slug": "varanasi",
+      "state_id": "uttar-pradesh",
+      "country_id": "india",
+      "type": "city",
+      "is_featured": true,
+      "description": "Varanasi, one of the world's oldest cities, is India's spiritual capital. The ghats along the Ganges, evening Ganga Aarti, and ancient temples make it unforgettable.",
+      "best_time_to_visit": "October to March",
+      "climate": "Humid subtropical",
+      "top_attractions": [
+        "Dashashwamedh Ghat",
+        "Kashi Vishwanath Temple",
+        "Sarnath",
+        "Assi Ghat",
+        "Manikarnika Ghat"
+      ],
+      "nearby_destinations": [
+        "prayagraj",
+        "ayodhya",
+        "khajuraho",
+        "agra"
+      ],
+      "seo_title": "Varanasi Tour Packages | Spiritual City of India | Ganga Aarti",
+      "seo_description": "Visit Varanasi, the spiritual heart of India. Witness Ganga Aarti, ancient ghats and temples. Book Varanasi tour with Mother India Tour Travels.",
+      "image": "",
+      "package_ids": [
+        "golden-triangle-tour-khajuraho-varanasi",
+        "golden-triangle-tour-varanasi",
+        "north-india-grand-tour",
+        "rajasthan-grand-tour",
+        "rajasthan-grand-tour-varanasi",
+        "rajasthan-tour-khajuraho-varanasi",
+        "spiritual-circuit-tour",
+        "varanasi-prayagraj-ayodhya-tour",
+        "varanasi-prayagraj-chitrakoot-tour",
+        "varanasi-prayagraj-tour",
+        "varanasi-tour"
+      ],
+      "package_count": 11
+    },
+    {
+      "id": "srinagar",
+      "name": "Srinagar",
+      "slug": "srinagar",
+      "state_id": "jammu-kashmir",
+      "country_id": "india",
+      "type": "city",
+      "is_featured": true,
+      "description": "Srinagar, the summer capital of Jammu & Kashmir, is famous for its Dal Lake, houseboats, and stunning Mughal Gardens.",
+      "best_time_to_visit": "April to October",
+      "climate": "Highland continental",
+      "top_attractions": [
+        "Dal Lake",
+        "Mughal Gardens",
+        "Shankaracharya Temple",
+        "Hazratbal Shrine",
+        "Nishat Bagh"
+      ],
+      "nearby_destinations": [
+        "pahalgam",
+        "gulmarg",
+        "sonamarg"
+      ],
+      "seo_title": "Srinagar Tour Packages | Kashmir Tour | Dal Lake Houseboat",
+      "seo_description": "Book Srinagar Kashmir tour packages. Experience Dal Lake houseboats, Mughal Gardens and snow peaks. Best Kashmir tours by Mother India Tour Travels.",
+      "image": "",
+      "package_ids": [
+        "kashmir-tour",
+        "kashmir-vaishno-devi-tour"
+      ],
+      "package_count": 2
+    },
+    {
+      "id": "shimla",
+      "name": "Shimla",
+      "slug": "shimla",
+      "state_id": "himachal-pradesh",
+      "country_id": "india",
+      "type": "city",
+      "is_featured": true,
+      "description": "Shimla, the former summer capital of British India, is a charming hill station known for its colonial architecture, apple orchards, and scenic views.",
+      "best_time_to_visit": "March to June, September to November",
+      "climate": "Highland – cool summers, snowy winters",
+      "top_attractions": [
+        "Mall Road",
+        "Christ Church",
+        "Jakhoo Temple",
+        "Kufri",
+        "Chail"
+      ],
+      "nearby_destinations": [
+        "manali",
+        "chandigarh",
+        "dharamshala"
+      ],
+      "seo_title": "Shimla Tour Packages | Himachal Pradesh Holiday | Best Deals",
+      "seo_description": "Book Shimla tour packages. Explore Mall Road, colonial architecture and scenic Himalayas. Shimla holiday packages by Mother India Tour Travels.",
+      "image": "",
+      "package_ids": [
+        "himachal-amritsar-tour",
+        "shimla-manali-agra-tour",
+        "shimla-manali-chandigarh-tour",
+        "shimla-manali-tour"
+      ],
+      "package_count": 4
+    },
+    {
+      "id": "manali",
+      "name": "Manali",
+      "slug": "manali",
+      "state_id": "himachal-pradesh",
+      "country_id": "india",
+      "type": "city",
+      "is_featured": true,
+      "description": "Manali is a high-altitude Himalayan resort town known for skiing, trekking, adventure sports, and scenic views of snow-capped mountains.",
+      "best_time_to_visit": "October to June (for snow), July to September (for trekking)",
+      "climate": "Alpine – cold winters with heavy snowfall",
+      "top_attractions": [
+        "Solang Valley",
+        "Rohtang Pass",
+        "Hadimba Temple",
+        "Old Manali",
+        "Beas River"
+      ],
+      "nearby_destinations": [
+        "shimla",
+        "kasol",
+        "spiti",
+        "dharamshala"
+      ],
+      "seo_title": "Manali Tour Packages | Himachal Pradesh | Snow Adventure",
+      "seo_description": "Book Manali tour packages for adventure, snow and scenic beauty. Best Manali holiday deals by Mother India Tour Travels.",
+      "image": "",
+      "package_ids": [
+        "delhi-manali-volvo-tour",
+        "himachal-amritsar-tour",
+        "shimla-manali-agra-tour",
+        "shimla-manali-chandigarh-tour",
+        "shimla-manali-tour"
+      ],
+      "package_count": 5
+    },
+    {
+      "id": "haridwar",
+      "name": "Haridwar",
+      "slug": "haridwar",
+      "state_id": "uttarakhand",
+      "country_id": "india",
+      "type": "city",
+      "description": "Haridwar is one of the seven holiest places in Hinduism. The evening Ganga Aarti at Har Ki Pauri ghat is a spectacular spiritual experience.",
+      "best_time_to_visit": "October to March",
+      "climate": "Humid subtropical",
+      "top_attractions": [
+        "Har Ki Pauri",
+        "Chandi Devi Temple",
+        "Mansa Devi Temple",
+        "Maya Devi Temple"
+      ],
+      "nearby_destinations": [
+        "rishikesh",
+        "dehradun",
+        "mussoorie"
+      ],
+      "seo_title": "Haridwar Tour Packages | Ganga Aarti | Spiritual Travel India",
+      "seo_description": "Visit Haridwar with Mother India Tour Travels. Experience the sacred Ganga Aarti. Best Haridwar tour packages.",
+      "image": "",
+      "package_ids": [
+        "golden-triangle-tour-haridwar-rishikesh",
+        "haridwar-rishikesh-agra-tour",
+        "haridwar-rishikesh-tour",
+        "uttarakhand-tour"
+      ],
+      "package_count": 4
+    },
+    {
+      "id": "rishikesh",
+      "name": "Rishikesh",
+      "slug": "rishikesh",
+      "state_id": "uttarakhand",
+      "country_id": "india",
+      "type": "city",
+      "description": "Rishikesh, the 'Yoga Capital of the World', sits at the foothills of the Himalayas. Famous for ashrams, river rafting, and bungee jumping.",
+      "best_time_to_visit": "September to November, February to May",
+      "climate": "Humid subtropical",
+      "top_attractions": [
+        "Laxman Jhula",
+        "Ram Jhula",
+        "Triveni Ghat",
+        "Beatles Ashram",
+        "Parmarth Niketan"
+      ],
+      "nearby_destinations": [
+        "haridwar",
+        "mussoorie",
+        "tehri"
+      ],
+      "seo_title": "Rishikesh Tour Packages | Yoga Capital | River Rafting",
+      "seo_description": "Book Rishikesh tour packages. Yoga, meditation, river rafting and more. Best Rishikesh holiday deals by Mother India Tour Travels.",
+      "image": "",
+      "package_ids": [
+        "golden-triangle-tour-haridwar-rishikesh",
+        "haridwar-rishikesh-agra-tour",
+        "haridwar-rishikesh-tour",
+        "mussoorie-tour",
+        "uttarakhand-tour"
+      ],
+      "package_count": 5
+    },
+    {
+      "id": "darjeeling",
+      "name": "Darjeeling",
+      "slug": "darjeeling",
+      "state_id": "west-bengal",
+      "country_id": "india",
+      "type": "city",
+      "is_featured": true,
+      "description": "Darjeeling, the 'Queen of Hills', offers spectacular views of Kangchenjunga, world-famous tea gardens, and the charming toy train.",
+      "best_time_to_visit": "March to May, September to November",
+      "climate": "Highland – cool and foggy",
+      "top_attractions": [
+        "Tiger Hill",
+        "Batasia Loop",
+        "Tea Gardens",
+        "Himalayan Railway",
+        "Peace Pagoda"
+      ],
+      "nearby_destinations": [
+        "gangtok",
+        "pelling",
+        "kalimpong"
+      ],
+      "seo_title": "Darjeeling Tour Packages | Tea Garden Holiday | Hill Station",
+      "seo_description": "Explore Darjeeling's tea gardens, toy train and Himalayan views. Best Darjeeling tour packages by Mother India Tour Travels.",
+      "image": "",
+      "package_ids": [
+        "himalayan-panorama-tour",
+        "sikkim-darjeeling-pelling-tour",
+        "sikkim-darjeeling-tour"
+      ],
+      "package_count": 3
+    },
+    {
+      "id": "gangtok",
+      "name": "Gangtok",
+      "slug": "gangtok",
+      "state_id": "sikkim",
+      "country_id": "india",
+      "type": "city",
+      "description": "Gangtok, the capital of Sikkim, offers beautiful mountain scenery, Buddhist monasteries, and cable car rides with views of Kangchenjunga.",
+      "best_time_to_visit": "March to May, October to December",
+      "climate": "Subtropical highland",
+      "top_attractions": [
+        "MG Marg",
+        "Rumtek Monastery",
+        "Tsomgo Lake",
+        "Banjhakri Falls",
+        "Nathu La Pass"
+      ],
+      "nearby_destinations": [
+        "darjeeling",
+        "pelling",
+        "lachung"
+      ],
+      "seo_title": "Gangtok Tour Packages | Sikkim Holiday | Monastery Tours",
+      "seo_description": "Book Gangtok Sikkim tour packages. Explore monasteries, mountain views and Nathu La Pass. Best deals by Mother India Tour Travels.",
+      "image": "",
+      "package_ids": [
+        "himalayan-panorama-tour",
+        "sikkim-darjeeling-pelling-tour",
+        "sikkim-darjeeling-tour"
+      ],
+      "package_count": 3
+    },
+    {
+      "id": "cochin",
+      "name": "Cochin (Kochi)",
+      "slug": "cochin",
+      "state_id": "kerala",
+      "country_id": "india",
+      "type": "city",
+      "description": "Cochin (Kochi) is Kerala's largest city and a major port. Known for its colonial heritage, Chinese fishing nets, and vibrant cultural scene.",
+      "best_time_to_visit": "October to March",
+      "climate": "Tropical monsoon",
+      "top_attractions": [
+        "Fort Kochi",
+        "Chinese Fishing Nets",
+        "Mattancherry Palace",
+        "Jew Town",
+        "Marine Drive"
+      ],
+      "nearby_destinations": [
+        "munnar",
+        "thekkady",
+        "alleppey"
+      ],
+      "seo_title": "Cochin Tour Packages | Kochi Kerala | Heritage City Tours",
+      "seo_description": "Explore Cochin with its colonial heritage and backwaters. Best Cochin tour packages by Mother India Tour Travels.",
+      "image": "",
+      "package_ids": [
+        "golden-triangle-tour-kerala",
+        "kerala-munnar-alleppey-tour",
+        "kerala-tour",
+        "south-india-grand-tour"
+      ],
+      "package_count": 4
+    },
+    {
+      "id": "munnar",
+      "name": "Munnar",
+      "slug": "munnar",
+      "state_id": "kerala",
+      "country_id": "india",
+      "type": "city",
+      "is_featured": true,
+      "description": "Munnar is a hill station in Kerala known for its vast tea plantations, misty mountains, and lush green scenery.",
+      "best_time_to_visit": "September to March",
+      "climate": "Subtropical highland – cool and misty",
+      "top_attractions": [
+        "Tea Gardens",
+        "Eravikulam National Park",
+        "Mattupetty Dam",
+        "Top Station",
+        "Neelakurinji"
+      ],
+      "nearby_destinations": [
+        "cochin",
+        "thekkady",
+        "alleppey"
+      ],
+      "seo_title": "Munnar Tour Packages | Kerala Tea Garden | Hill Station",
+      "seo_description": "Book Munnar tour packages. Explore tea gardens, national parks and scenic hills. Best Munnar holiday deals by Mother India Tour Travels.",
+      "image": "",
+      "package_ids": [
+        "golden-triangle-tour-kerala",
+        "kerala-munnar-alleppey-tour",
+        "kerala-tour"
+      ],
+      "package_count": 3
+    },
+    {
+      "id": "alleppey",
+      "name": "Alleppey (Alappuzha)",
+      "slug": "alleppey",
+      "state_id": "kerala",
+      "country_id": "india",
+      "type": "city",
+      "is_featured": true,
+      "description": "Alleppey, the 'Venice of the East', is famous for its tranquil backwaters, houseboat cruises, and beautiful beaches.",
+      "best_time_to_visit": "November to February",
+      "climate": "Tropical monsoon",
+      "top_attractions": [
+        "Backwaters",
+        "Houseboat Cruise",
+        "Alappuzha Beach",
+        "Alleppey Lighthouse",
+        "Marari Beach"
+      ],
+      "nearby_destinations": [
+        "cochin",
+        "munnar",
+        "thekkady",
+        "kovalam"
+      ],
+      "seo_title": "Alleppey Tour Packages | Kerala Backwaters | Houseboat Cruise",
+      "seo_description": "Experience Kerala's backwaters and houseboat cruises in Alleppey. Best Alleppey tour packages by Mother India Tour Travels.",
+      "image": "",
+      "package_ids": [
+        "golden-triangle-tour-kerala",
+        "kerala-munnar-alleppey-tour",
+        "kerala-tour"
+      ],
+      "package_count": 3
+    },
+    {
+      "id": "goa",
+      "name": "Goa",
+      "slug": "goa",
+      "state_id": "goa",
+      "country_id": "india",
+      "type": "state",
+      "is_featured": true,
+      "description": "Goa, India's smallest state, is famous for its stunning beaches, Portuguese heritage, vibrant nightlife, and seafood.",
+      "best_time_to_visit": "November to March",
+      "climate": "Tropical monsoon",
+      "top_attractions": [
+        "Baga Beach",
+        "Calangute Beach",
+        "Basilica of Bom Jesus",
+        "Fort Aguada",
+        "Dudhsagar Falls"
+      ],
+      "nearby_destinations": [
+        "cochin",
+        "mumbai"
+      ],
+      "seo_title": "Goa Tour Packages | Beach Holiday | Best Goa Deals",
+      "seo_description": "Book Goa tour packages. Enjoy beaches, nightlife and Portuguese heritage. Best Goa holiday deals by Mother India Tour Travels.",
+      "image": "",
+      "package_ids": [
+        "goa-tour"
+      ],
+      "package_count": 1
+    },
+    {
+      "id": "kathmandu",
+      "name": "Kathmandu",
+      "slug": "kathmandu",
+      "country_id": "nepal",
+      "type": "city",
+      "is_featured": true,
+      "description": "Kathmandu, Nepal's capital, is a city of temples, festivals, and mountain adventure. The Pashupatinath Temple and Boudhanath Stupa are world-famous.",
+      "best_time_to_visit": "September to November, March to May",
+      "climate": "Subtropical highland",
+      "top_attractions": [
+        "Pashupatinath Temple",
+        "Boudhanath Stupa",
+        "Swayambhunath",
+        "Durbar Square",
+        "Patan"
+      ],
+      "nearby_destinations": [
+        "pokhara",
+        "chitwan",
+        "lumbini"
+      ],
+      "seo_title": "Nepal Tour Packages | Kathmandu | Himalayan Holiday",
+      "seo_description": "Book Nepal tour packages to Kathmandu, Pokhara and more. Himalayan adventures and spiritual journeys. Book with Mother India Tour Travels.",
+      "image": "",
+      "package_ids": [
+        "nepal-grand-tour",
+        "nepal-spiritual-tour",
+        "nepal-tour"
+      ],
+      "package_count": 3
+    },
+    {
+      "id": "bangkok",
+      "name": "Bangkok",
+      "slug": "bangkok",
+      "country_id": "thailand",
+      "type": "city",
+      "is_featured": true,
+      "description": "Bangkok, Thailand's capital, is a city of contrasts with ancient temples, modern malls, vibrant street food, and electrifying nightlife.",
+      "best_time_to_visit": "November to April",
+      "climate": "Tropical savanna",
+      "top_attractions": [
+        "Grand Palace",
+        "Wat Pho",
+        "Chatuchak Market",
+        "Khao San Road",
+        "Chao Phraya River"
+      ],
+      "nearby_destinations": [
+        "pattaya",
+        "phuket",
+        "chiang-mai"
+      ],
+      "seo_title": "Thailand Tour Packages | Bangkok Pattaya | Best Thailand Deals",
+      "seo_description": "Book Thailand tour packages. Explore Bangkok, Pattaya and Phuket. Best Thailand holiday deals by Mother India Tour Travels.",
+      "image": "",
+      "package_ids": [
+        "thailand-tour"
+      ],
+      "package_count": 1
+    },
+    {
+      "id": "dubai",
+      "name": "Dubai",
+      "slug": "dubai",
+      "country_id": "uae",
+      "type": "city",
+      "is_featured": true,
+      "description": "Dubai, a jewel in the desert, is a city of superlatives – the world's tallest building, largest mall, and most luxurious hotels.",
+      "best_time_to_visit": "November to March",
+      "climate": "Hot desert",
+      "top_attractions": [
+        "Burj Khalifa",
+        "Dubai Mall",
+        "Palm Jumeirah",
+        "Dubai Creek",
+        "Desert Safari"
+      ],
+      "nearby_destinations": [
+        "abu-dhabi",
+        "sharjah"
+      ],
+      "seo_title": "Dubai Tour Packages | UAE Holiday | Best Dubai Deals",
+      "seo_description": "Book Dubai tour packages. Visit Burj Khalifa, Desert Safari and more. Best Dubai holiday deals by Mother India Tour Travels.",
+      "image": "",
+      "package_ids": [
+        "dubai-tour"
+      ],
+      "package_count": 1
+    },
+    {
+      "id": "kuala-lumpur",
+      "name": "Kuala Lumpur",
+      "slug": "kuala-lumpur",
+      "country_id": "malaysia",
+      "type": "city",
+      "is_featured": true,
+      "description": "Kuala Lumpur is Malaysia's vibrant capital featuring the iconic Petronas Twin Towers, rich multicultural food scene, and Batu Caves.",
+      "best_time_to_visit": "May to July, December to January",
+      "climate": "Tropical rainforest",
+      "top_attractions": [
+        "Petronas Twin Towers",
+        "Batu Caves",
+        "KL Tower",
+        "Chinatown",
+        "KLCC Park"
+      ],
+      "nearby_destinations": [
+        "genting",
+        "langkawi",
+        "penang"
+      ],
+      "seo_title": "Malaysia Tour Packages | Kuala Lumpur | Best Malaysia Deals",
+      "seo_description": "Book Malaysia tour packages. Visit Petronas Towers, Batu Caves and more. Best Malaysia holiday deals by Mother India Tour Travels.",
+      "image": "",
+      "package_ids": [
+        "malaysia-tour"
+      ],
+      "package_count": 1
+    }
+  ]
+}

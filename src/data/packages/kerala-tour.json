@@ -1,0 +1,355 @@
+{
+  "id": "kerala-tour",
+  "slug": "kerala-tour",
+  "name": "Kerala Tour",
+  "is_popular": true,
+  "destinations": [
+    "Cochin",
+    "Munnar",
+    "Thekkady",
+    "Alleppey"
+  ],
+  "destination_ids": [
+    "cochin",
+    "munnar",
+    "thekkady",
+    "alleppey"
+  ],
+  "primary_destination": "Cochin",
+  "category_ids": [
+    "domestic-tour-packages",
+    "south-india-tour-packages",
+    "honeymoon-tour-packages"
+  ],
+  "state_id": "kerala",
+  "country_id": "india",
+  "is_domestic": true,
+  "hero_image": "https://www.freepik.com/free-photo/beautiful-mountain-landscape-azores-archipelago-portugal_14807246.htm#fromView=search&page=1&position=14&uuid=9b7f87d5-fd95-43a4-8463-9140ce9445ce&query=Kochi",
+  "overview": "Explore the best of Cochin, Munnar, Thekkady, Alleppey with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
+  "highlights": [
+    "Visit Cochin",
+    "Visit Munnar",
+    "Visit Thekkady",
+    "Visit Alleppey"
+  ],
+  "inclusions": [
+    "Accommodation in listed or similar hotels",
+    "Welcome Drink (Non-Alcoholic)",
+    "Meals as per itinerary (Breakfast & Dinner)",
+    "All transfers and sightseeing by private AC vehicle",
+    "All long distance travel as per itinerary",
+    "Chauffeur, Toll Taxes, Parking, Fuel charges",
+    "State Taxes, Green Taxes, Road Taxes",
+    "Comfortable AC vehicles",
+    "Licensed Tour Guide Services"
+  ],
+  "exclusions": [
+    "Meals other than those specified",
+    "Personal expenses (porterage, tips, laundry, mineral water)",
+    "Monument entrance fees and camera charges",
+    "Any activity not mentioned in inclusions",
+    "Travel Insurance",
+    "Additional cost due to flight cancellation, roadblocks, political unrest",
+    "Driver and Guide tips",
+    "Air/train fare unless specified",
+    "GST (5% on tour cost)"
+  ],
+  "notes": [
+    "Taj Mahal is closed every Friday",
+    "Tailor-made tours available on request",
+    "Prices are per person on twin sharing basis"
+  ],
+  "variants": [
+    {
+      "label": "Short",
+      "nights": 3,
+      "days": 4,
+      "duration_text": "3N/4D",
+      "old_html_file": "Cochin-Munnar-Cochin.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrival at Cochin proceed to  Munnar (130 Kms",
+          "description": "Arrival at Cochin proceed to  Munnar (130 Kms. 05 hrs. approx.): Munnar is 1800 mts above sea level and also the home of South India's highest peak (anamudi-2695 mts). On the way to Munnar visit Valparai, Cheeyappara waterfalls and Tea Plantations. Upon arrival at Munnar & transfer to the Hotel. Check in at Hotel. Afternoon visit Rajamala (eravikulam National Park - open as per the directions by the forest authorities), the best place to see Nilgiri Tahr (hemitragus Hilarious)- the mountain goat"
+        },
+        {
+          "day": 2,
+          "title": "Munnar After breakfast, proceed for sightseeing in Munnar",
+          "description": "Munnar After breakfast, proceed for sightseeing in Munnar. Mattupetty dam, Echo Point, Kundala Dam, Pothamedu View Point, Blossom Park etc are some of the highlights of the sightseeing. Shopping & overnight stay at Munnar."
+        },
+        {
+          "day": 3,
+          "title": "Munnar to Cochin (130 kms",
+          "description": "Munnar to Cochin (130 kms. 5 hrs. approx.): \n                    Morning after breakfast transfer to Cochin, and drop you at Cochin airport/railway station.\nHoneymoon Tour available on demand\nPlease note: We can arrange tailor-made tours\nHouseboat Stay on Demand\nInclusions\nAccommodation\nMeals\nA/C Pvt. vehicles as per the itinerary\nA/C Deluxe Houseboat with all meals ( A/C working time 9:30 pm to 6:30 am) - as per demand\nPvt. AC Pvt. vehicle\nGuides Services\nExclusions\nMonument fee / Sightseeing  "
+        }
+      ]
+    },
+    {
+      "label": "3N/4D",
+      "nights": 3,
+      "days": 4,
+      "duration_text": "3N/4D",
+      "old_html_file": "kerala-three-nights-four-days.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrival at Cochin proceed to  Munnar (130 Kms",
+          "description": "Arrival at Cochin proceed to  Munnar (130 Kms. 05 hrs. approx.): Munnar is 1800 mts above sea level and also the home of South India's highest peak (anamudi-2695 mts). On the way to Munnar visit Valparai, Cheeyappara waterfalls and Tea Plantations. Upon arrival at Munnar & transfer to the Hotel. Check in at Hotel. Afternoon visit Rajamala (eravikulam National Park - open as per the directions by the forest authorities), the best place to see Nilgiri Tahr (hemitragus Hilarious)- the mountain goat"
+        },
+        {
+          "day": 2,
+          "title": "Munnar\n\nAfter breakfast, proceed for sightseeing in Munnar",
+          "description": "Munnar\n\nAfter breakfast, proceed for sightseeing in Munnar. Mattupetty dam, Echo Point, Kundala Dam, Pothamedu View Point, Blossom Park etc are some of the highlights of the sightseeing. Shopping & overnight stay at Munnar."
+        },
+        {
+          "day": 3,
+          "title": "Cochin to Alleppey (65 kms",
+          "description": "Cochin to Alleppey (65 kms. 02 hrs. approx.):\n\ncheck out from the hotel and transfer to a houseboat. Around 1200 hrs check in at the Houseboat and start your cruise through the rich and splendid backwater. Just relax at the deluxe houseboat. It will be a unique and exclusive experience in your lifetime. You will be cruising along the village sides and paddy fields witnessing the core life of the Kerala villages for the whole day. The house boat is fully furnished with bedrooms and a kitchen. Din"
+        },
+        {
+          "day": 4,
+          "title": "Alleppey to Cochin (65 kms",
+          "description": "Alleppey to Cochin (65 kms. 2 hrs. approx.): \n\nMorning after breakfast transfer to Cochin, if will have time then local sightseeing includes like Lulu Mall, Cochin beach. And drop according to flight timing.\nInclusions\nA/C Pvt. vehicles as per the itinerary with experience driver\nAccommodation\nMeals: Breakfast & dinner\nA/C  Deluxe Houseboat with all meals ( A/C working time 9:30 pm to 6:30 am)\nAll transfers, Toll tax, Parkings, Sightseeing, fuel, Drivers bata\nExclusions\nMonument fee / Sightseein"
+        }
+      ]
+    },
+    {
+      "label": "5N/6D",
+      "nights": 5,
+      "days": 6,
+      "duration_text": "5N/6D",
+      "old_html_file": "Kerala-Lovers-Tour-Packages.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Cochin to Munnar (130 Kms",
+          "description": "Cochin to Munnar (130 Kms. 05 hrs. approx.)\nMorning arrival & proceed Munnar,  Munnar is 1800 mts above sea level and also the home of South India's highest peak (anamudi-2695 mts). On the way to Munnar visit Valparai, Cheeyappara waterfalls and Tea Plantations. Upon arrival at Munnar & transfer to the Hotel. Check in at Hotel. Afternoon visit Rajamala (eravikulam National Park - open as per the directions by the forest authorities), the best place to see Nilgiri Tahr (hemitragus Hilarious)- the"
+        },
+        {
+          "day": 2,
+          "title": "Munnar\n\nAfter breakfast, proceed for sightseeing in Munnar",
+          "description": "Munnar\n\nAfter breakfast, proceed for sightseeing in Munnar. Mattupetty dam, Echo Point, Kundala Dam, Pothamedu View Point, Blossom Park etc are some of the highlights of the sightseeing. Shopping & overnight stay at Munnar."
+        },
+        {
+          "day": 3,
+          "title": "Munnar to Thekkady (100 kms",
+          "description": "Munnar to Thekkady (100 kms. 03 hrs. approx.)\n\nMorning have breakfast at the resort, later check out the resort and drive to Thekkady. Thekkady is a world famous wildlife sanctuary and it is also called as Periyar. On arrival check in Hotel Afternoon proceed for a game viewing cruise on the Periyar Lake (direct payment basis). The rest of the day is at leisure."
+        },
+        {
+          "day": 4,
+          "title": "Thekkady:\n\nAfter breakfast,  Here you will be able to see a large variety of wil",
+          "description": "Thekkady:\n\nAfter breakfast,  Here you will be able to see a large variety of wildlife, ( Jeep safari direct payment basis) which include elephants, monkeys, deer, wild boar etc. In the evening you can take a Elephant ride at Periyar wildlife (direct payment basis)"
+        },
+        {
+          "day": 5,
+          "title": "Thekkady to Alleppey (160 kms",
+          "description": "Thekkady to Alleppey (160 kms. 04 hrs. approx.):\n\ncheck out from the hotel and transfer to a houseboat. Around 1200 hrs check in at the Houseboat and start your cruise through the rich and splendid backwater. Just relax at the deluxe houseboat. It will be a unique and exclusive experience in your lifetime. You will be cruising along the village sides and paddy fields witnessing the core life of the Kerala villages for the whole day. The house boat is fully furnished with bedrooms and a kitchen. "
+        },
+        {
+          "day": 6,
+          "title": "Morning after breakfast transfer to Cochin, if will have time then local sightse",
+          "description": "Morning after breakfast transfer to Cochin, if will have time then local sightseeing includes like Lulu Mall, Cochin beach. And drop according to flight timing.\nPlease note: We can arrange tailor-made tours\nHouseboat Stay on Demand\nHoneymoon Tour available on demand\nInclusions\nA/C Pvt. vehicles as per the itinerary with experience driver\nAccommodation\nMeals: Breakfast & dinner\nA/C  Deluxe Houseboat with all meals ( A/C working time 9:30 pm to 6:30 am) - on demand\nAll transfers, Toll tax, Parking"
+        }
+      ]
+    },
+    {
+      "label": "5N/6D",
+      "nights": 5,
+      "days": 6,
+      "duration_text": "5N/6D",
+      "old_html_file": "kerala-Cochin-Munnar-Thekkady-Alleppey.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Cochin to Munnar (130 Kms",
+          "description": "Cochin to Munnar (130 Kms. 05 hrs. approx.)\n                    Morning arrival & proceed Munnar,  Munnar is 1800 mts above sea level and also the home of South India's highest peak (anamudi-2695 mts). On the way to Munnar visit Valparai, Cheeyappara waterfalls and Tea Plantations. Upon arrival at Munnar & transfer to the Hotel. Check in at Hotel. Afternoon visit Rajamala (eravikulam National Park - open as per the directions by the forest authorities), the best place to see Nilgiri Tahr (hemitr"
+        },
+        {
+          "day": 2,
+          "title": "Munnar\n                    After breakfast, proceed for sightseeing in Munnar",
+          "description": "Munnar\n                    After breakfast, proceed for sightseeing in Munnar. Mattupetty dam, Echo Point, Kundala Dam, Pothamedu View Point, Blossom Park etc are some of the highlights of the sightseeing. Shopping & overnight stay at Munnar."
+        },
+        {
+          "day": 3,
+          "title": "Munnar to Thekkady (100 kms",
+          "description": "Munnar to Thekkady (100 kms. 03 hrs. approx.)\n                    Morning have breakfast at the resort, later check out the resort and drive to Thekkady. Thekkady is a world famous wildlife sanctuary and it is also called as Periyar. On arrival check in Hotel Afternoon proceed for a game viewing cruise on the Periyar Lake (direct payment basis). The rest of the day is at leisure."
+        },
+        {
+          "day": 4,
+          "title": "Thekkady:\n                    After breakfast,  Here you will be able to see a l",
+          "description": "Thekkady:\n                    After breakfast,  Here you will be able to see a large variety of wildlife, ( Jeep safari direct payment basis) which include elephants, monkeys, deer, wild boar etc. In the evening you can take a Elephant ride at Periyar wildlife (direct payment basis)"
+        },
+        {
+          "day": 5,
+          "title": "Thekkady to Alleppey (160 kms",
+          "description": "Thekkady to Alleppey (160 kms. 04 hrs. approx.):\n                    check out from the hotel and transfer to a houseboat. Around 1200 hrs check in at the Houseboat and start your cruise through the rich and splendid backwater. Just relax at the deluxe houseboat. It will be a unique and exclusive experience in your lifetime. You will be cruising along the village sides and paddy fields witnessing the core life of the Kerala villages for the whole day. The house boat is fully furnished with bedro"
+        },
+        {
+          "day": 6,
+          "title": "Morning after breakfast transfer to Cochin, if will have time then local sightse",
+          "description": "Morning after breakfast transfer to Cochin, if will have time then local sightseeing includes like Lulu Mall, Cochin beach. And drop according to flight timing.\nInclusions\nA/C Pvt. vehicles as per the itinerary with experience driver\nAccommodation\nMeals: Breakfast & dinner\nA/C  Deluxe Houseboat with all meals ( A/C working time 9:30 pm to 6:30 am)\nAll transfers, Toll tax, Parkings, Sightseeing, fuel, Drivers bata\nExclusions\nMonument fee / Sightseeing  tickets or entry fee, Camera fee\nJeep ride, "
+        }
+      ]
+    },
+    {
+      "label": "5N/6D",
+      "nights": 5,
+      "days": 6,
+      "duration_text": "5N/6D",
+      "old_html_file": "India-holiday-tour-kerala-five-nights-six-days.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrival at Delhi Airport company representative assist you and transfer to the h",
+          "description": "Arrival at Delhi Airport company representative assist you and transfer to the hotel. Rest of the day at leisure."
+        },
+        {
+          "day": 2,
+          "title": "Delhi – Agra, (250 KM",
+          "description": "Delhi – Agra, (250 KM. Approx 3 Hrs.) Today after breakfast visit Old & New Delhi visit Jama Masjid, Rajghat (Gandhi Cremation place), India Gate, President House, Parliament, Qutub Minar, Lotus Temple, Humayun’s Tomb, & After proceed to Agra. Rest of the day at leisure."
+        },
+        {
+          "day": 3,
+          "title": "Agra – Ranthambhore VIA Fatehpur Sikri (300 KM",
+          "description": "Agra – Ranthambhore VIA Fatehpur Sikri (300 KM. Approx 6 Hrs.) : Today, after breakfast check out from hotel & proceed to visit memory of Love The Taj Mahal & after visit Agra Fort and proceed to Ranthambhore En-Rout visit Fatehpur Sikri. Rest of the day at leisure."
+        },
+        {
+          "day": 4,
+          "title": "Ranthambhore – Udaipur (415 KM",
+          "description": "Ranthambhore – Udaipur (415 KM. Approx 8 Hrs.) : Today, Early morning proceed to Jungle Safari (Tiger Century) & after come back to hotel & after breakfast proceed to Udaipur. Rest of the day at leisure."
+        },
+        {
+          "day": 5,
+          "title": "Udaipur Sightseeing : Today, after breakfast proceed to visit Jagdish Temple, Ci",
+          "description": "Udaipur Sightseeing : Today, after breakfast proceed to visit Jagdish Temple, City Palace, Princess Garden (Sahelion Ki Badi) & Boat Ride (Own Cost). Rest of the day at leisure."
+        },
+        {
+          "day": 6,
+          "title": "Udaipur – Pushkar (280 KM",
+          "description": "Udaipur – Pushkar (280 KM. Approx 5 Hrs.) : Today, after breakfast proceed to Pushkar Hindu’s Holy City After check in at hotel visit Brahma Temple, Camel Ride (Own Cost). Rest of the day at leisure."
+        },
+        {
+          "day": 7,
+          "title": "Pushkar – Jaipur (150 KM",
+          "description": "Pushkar – Jaipur (150 KM. Approx 3 Hrs.) : Today, after breakfast proceed to Jaipur. Rest of the day at leisure."
+        },
+        {
+          "day": 8,
+          "title": "Jaipur Sightseeing : Today, after breakfast proceed to visit ancient capital of ",
+          "description": "Jaipur Sightseeing : Today, after breakfast proceed to visit ancient capital of Amber. Visit beautiful Amber Fort after Amber Fort proceed to the pink city Jaipur we will visit Hawa Mahal(Window Palace), City Place and Observatory (Jantar Mantar) after visit famous block printing & James & Stone cutting factory work being done since centuries in Jaipur. Rest of the day at leisure."
+        },
+        {
+          "day": 9,
+          "title": "Jaipur – Delhi (280 KM",
+          "description": "Jaipur – Delhi (280 KM. Approx 5-6 Hrs.) : Today, after breakfast proceed to Delhi. Rest of the day at leisure."
+        },
+        {
+          "day": 10,
+          "title": "Today, after breakfast proceed to Delhi Airport/Railway Station for your onward ",
+          "description": "Today, after breakfast proceed to Delhi Airport/Railway Station for your onward journey with sweet memory.\n\nOur more Packages : Delhi Agra Jaipur Rajasthan With Varanasi Tour ! Delhi Jaipur Agra Khajuraho Varanasi Tour ! Delhi Haridwar Rishikesh Delhi Tour Packages ! Delhi Jim Corbett Nainital Delhi Tour ! Delhi Agra Haridwar Rishikesh Delhi Tour ! Delhi Mussoorie Delhi Tour ! Kerala Tour Packages ! Goa Tour Packages ! India Golden Triangle Tour Packages & more .\nPlease note: Taj Mahal Closed on"
+        }
+      ]
+    },
+    {
+      "label": "Main",
+      "nights": 6,
+      "days": 7,
+      "duration_text": "6N/7D",
+      "old_html_file": "Cochin - Munnar - Thekkady - Alleppey.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Cochin to Munnar ( 140 kms 5 hrs",
+          "description": "Cochin to Munnar ( 140 kms 5 hrs. approx.)\n                    On arrival at Cochin, proceed for Munnar-India’s highest tea estate. On the way, you can  enjoy the scenic beauty & the marvellous waterfalls, high mountains with the low flying clouds passing by. Check in at your hotel. Overnight at Munnar."
+        },
+        {
+          "day": 2,
+          "title": "Munnar\n                    After breakfast, proceed for sightseeing in Munnar",
+          "description": "Munnar\n                    After breakfast, proceed for sightseeing in Munnar. Mattupetty dam, Echo Point, Kundala Dam, Pothamedu View Point, Blossom Park etc are some of the highlights of the sightseeing. Shopping & overnight stay at Munnar."
+        },
+        {
+          "day": 3,
+          "title": "Munnar to Thekkady ( 140 kms",
+          "description": "Munnar to Thekkady ( 140 kms. 4 hrs. approx.): \n                    After breakfast depart to Thekkady (Periyar Wild life Sanctuary). Check in your hotel. In the afternoon go for a boat ride (You have to take the ticket directly from the counter . It is subject to the availability) at Periyar Tiger reserve to view the wildlife in the sanctuary.  The boat ride on the lake is a delightful way of spotting elephants and avifauna, for which the park is well known. Overnight at Thekkady."
+        },
+        {
+          "day": 4,
+          "title": "Thekkady to Alleppey ( 140 kms ) A/C Deluxe Houseboat\n                    After ",
+          "description": "Thekkady to Alleppey ( 140 kms ) A/C Deluxe Houseboat\n                    After breakfast depart to Alleppey . Check in your House boat .. The boat will take you to the virgin Kerala backwater villages… to see the real life of Keralities. Overnight at House boat."
+        },
+        {
+          "day": 5,
+          "title": "Alleppey to Cochin ( 90 kms",
+          "description": "Alleppey to Cochin ( 90 kms. 2 hrs. approx.)\n                    After breakfast, Proceed to Cochin & drop you at  Cochin airport/ Rly. station with sweet memories.\nPlease note: We can arrange tailor-made tours\nHouseboat Stay on Demand\nHoneymoon Tour available on demand\nInclusions\nA/C Pvt. vehicles as per the itinerary with experience driver\nAccommodation\nMeals: Breakfast & dinner\nA/C  Deluxe Houseboat with all meals ( A/C working time 9:30 pm to 6:30 am) - on demand\nAll transfers, Toll tax, Par"
+        }
+      ]
+    },
+    {
+      "label": "6N/7D",
+      "nights": 6,
+      "days": 7,
+      "duration_text": "6N/7D",
+      "old_html_file": "kerala six days seven night tour.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Cochin to Munnar (130 Kms",
+          "description": "Cochin to Munnar (130 Kms. 05 hrs. approx.): Morning arrival & proceed Munnar,  Munnar is 1800 mts above sea level and also the home of South India's highest peak (anamudi-2695 mts). On the way to Munnar visit Valparai, Cheeyappara waterfalls and Tea Plantations. Upon arrival at Munnar & transfer to the Hotel. Check in at Hotel. Afternoon visit Rajamala (eravikulam National Park - open as per the directions by the forest authorities), the best place to see Nilgiri Tahr (hemitragus Hilarious)- th"
+        },
+        {
+          "day": 2,
+          "title": "Munnar\nAfter breakfast, proceed for sightseeing in Munnar",
+          "description": "Munnar\nAfter breakfast, proceed for sightseeing in Munnar. Mattupetty dam, Echo Point, Kundala Dam, Pothamedu View Point, Blossom Park etc are some of the highlights of the sightseeing. Shopping & overnight stay at Munnar."
+        },
+        {
+          "day": 3,
+          "title": "Munnar to Thekkady (100 kms",
+          "description": "Munnar to Thekkady (100 kms. 03 hrs. approx.)\n                    Morning have breakfast at the resort, later check out the resort and drive to Thekkady. Thekkady is a world famous wildlife sanctuary and it is also called as Periyar. On arrival check in Hotel Afternoon proceed for a game viewing cruise on the Periyar Lake (direct payment basis). The rest of the day is at leisure."
+        },
+        {
+          "day": 4,
+          "title": "Thekkady:\n                    After breakfast,  Here you will be able to see a l",
+          "description": "Thekkady:\n                    After breakfast,  Here you will be able to see a large variety of wildlife, ( Jeep safari direct payment basis) which include elephants, monkeys, deer, wild boar etc. In the evening you can take a Elephant ride at Periyar wildlife (direct payment basis). Overnight stay at the hotel."
+        },
+        {
+          "day": 5,
+          "title": "Thekkady to Kovalam (220kms/6 hrs",
+          "description": "Thekkady to Kovalam (220kms/6 hrs. approx.): After having breakfast, check out the houseboat and drive to your beach resort at Kovalam; The international beach destination of Kerala. Check in to the beach resort and enjoy the beach till the sun sets in the Arabian Sea. Overnight stay at Kovalam."
+        },
+        {
+          "day": 6,
+          "title": "Kovalam-Trivandrum-Kovalam : sightseeing – After having breakfast, Proceed to vi",
+          "description": "Kovalam-Trivandrum-Kovalam : sightseeing – After having breakfast, Proceed to visit the iconic spots of Old Travancore Kingdom’s capital Trivandrum which includes Napier Museum, Sri Chitra Art Gallery, Zoo, Padmanabhapuram Temple etc . And enjoy the beach till the sun sets in the Arabian Sea. Overnight stay at Kovalam."
+        },
+        {
+          "day": 7,
+          "title": "Kovalam- Trivandrum(12 km/30 min",
+          "description": "Kovalam- Trivandrum(12 km/30 min.) approx.: Transfer to Trivandrum, drop at Airport/Railway Station with sweet journey.\nPlease note: We can arrange tailor-made tours\nHouseboat Stay on Demand\nHoneymoon Tour available on demand\nInclusions\nA/C Pvt. vehicles as per the itinerary with experience driver\nAccommodation\nMeals: Breakfast & dinner\nA/C  Deluxe Houseboat with all meals ( A/C working time 9:30 pm to 6:30 am) - on demand\nAll transfers, Toll tax, Parkings, Sightseeing, fuel, Permit\nExclusions\nM"
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "domestic-tour-packages",
+    "south-india-tour-packages",
+    "honeymoon-tour-packages",
+    "cochin",
+    "munnar",
+    "thekkady",
+    "alleppey"
+  ],
+  "seo": {
+    "title": "Kerala Tour | Mother India Tour Travels",
+    "description": "Book Kerala Tour with Mother India Tour Travels. Best deals on Cochin, Munnar, Thekkady, Alleppey tour packages. Includes hotels, transport & guide.",
+    "keywords": [
+      "Kerala Tour",
+      "Cochin",
+      "Munnar",
+      "Thekkady",
+      "Alleppey",
+      "tour package",
+      "India travel",
+      "Mother India Tour"
+    ]
+  }
+}

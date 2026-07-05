@@ -1,0 +1,189 @@
+{
+  "id": "kashmir-tour",
+  "slug": "kashmir-tour",
+  "name": "Charming Kashmir Tour",
+  "is_popular": true,
+  "destinations": [
+    "Srinagar",
+    "Pahalgam",
+    "Gulmarg"
+  ],
+  "destination_ids": [
+    "srinagar",
+    "pahalgam",
+    "gulmarg"
+  ],
+  "primary_destination": "Srinagar",
+  "category_ids": [
+    "domestic-tour-packages",
+    "north-india-tour-packages",
+    "honeymoon-tour-packages"
+  ],
+  "state_id": "jammu-kashmir",
+  "country_id": "india",
+  "is_domestic": true,
+  "hero_image": "",
+  "overview": "Explore the best of Srinagar, Pahalgam, Gulmarg with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
+  "highlights": [
+    "Visit Srinagar",
+    "Visit Pahalgam",
+    "Visit Gulmarg"
+  ],
+  "inclusions": [
+    "Accommodation in listed or similar hotels",
+    "Welcome Drink (Non-Alcoholic)",
+    "Meals as per itinerary (Breakfast & Dinner)",
+    "All transfers and sightseeing by private AC vehicle",
+    "All long distance travel as per itinerary",
+    "Chauffeur, Toll Taxes, Parking, Fuel charges",
+    "State Taxes, Green Taxes, Road Taxes",
+    "Comfortable AC vehicles",
+    "Licensed Tour Guide Services"
+  ],
+  "exclusions": [
+    "Meals other than those specified",
+    "Personal expenses (porterage, tips, laundry, mineral water)",
+    "Monument entrance fees and camera charges",
+    "Any activity not mentioned in inclusions",
+    "Travel Insurance",
+    "Additional cost due to flight cancellation, roadblocks, political unrest",
+    "Driver and Guide tips",
+    "Air/train fare unless specified",
+    "GST (5% on tour cost)"
+  ],
+  "notes": [
+    "Taj Mahal is closed every Friday",
+    "Tailor-made tours available on request",
+    "Prices are per person on twin sharing basis"
+  ],
+  "variants": [
+    {
+      "label": "3N/4D",
+      "nights": 3,
+      "days": 4,
+      "duration_text": "3N/4D",
+      "old_html_file": "three Nights four Days - Srinagar - Pahalgam - Gulmarg.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrive Srinagar | Srinagar Local Sightseeing",
+          "description": "Arrive Srinagar | Srinagar Local Sightseeing. Welcome to Srinagar, the Lake City. On arrival at Srinagar Airport, begin your Kashmir Tour. You will be transferred to the Hotel. Proceed on a city tour visiting the Shankar Acharya temple situated on the highest hill of Srinagar, the famous Mughal Gardens – Chashmashahi, Nishat & Shalimar. These gardens were Mughal Emperor concepts of Paradise and today these are popular picnic spots. Visit Hazratbal Dargah Also. Overnight stay in a hotel."
+        },
+        {
+          "day": 2,
+          "title": "– Srinagar – Pahalgam – Srinagar After breakfast drive to Pahalgam (The valley o",
+          "description": "– Srinagar – Pahalgam – Srinagar After breakfast drive to Pahalgam (The valley of shepherds). Which is about 96 kms from Srinagar, which will be covered in the app. 3 hours. You Can visit the saffron fields of pampore, Awantipura Ruins (1100 years old temple of Lord Vishnu built by the King Awantivarman), Mattan Temple, on En-route. Drive through the pine forests. Arrive at Pahalgam and You can go for Pony ride, visit Kashmir Valley, Dabyan, Baisaran/ mini-Switzerland, Denow Valley Waterfall (At"
+        },
+        {
+          "day": 3,
+          "title": "– Srinagar –Gulmarg– Srinagar, After breakfast check out from the hotel in Srina",
+          "description": "– Srinagar –Gulmarg– Srinagar, After breakfast check out from the hotel in Srinagar drive to Gulmarg (2440 Meters above Sea level). It is one of the most beautiful hill stations and also called “Meadows of Flower”. It has the world’s highest golf course and Gulmarg is also famous for winter sports like skiing. On arrival and after refreshment one can visit Jai Jai Shiv Shankar Temple and also enjoy a Gondola ride (Cable car, own cost) from Gulmarg to Kongdori and affarwat. Evening return dinner "
+        },
+        {
+          "day": 4,
+          "title": "Return Home with Happy Memories: After breakfast transfer to Srinagar Airport to",
+          "description": "Return Home with Happy Memories: After breakfast transfer to Srinagar Airport to board your flight with Sweet memories.\n(Honeymoon Tour available on demand)\nInclusions\nSrinagar Airport Pickup Drop.\nWelcome Drink on Arrival at the hotel.\n3 Night’s Accommodation in Srinagar\n1 Night Accommodation in Houseboat with Breakfast & dinner\n1 Night Accommodation in Pahalgam\n5 Breakfast\n1 Hour Shikara Ride.\nAll Tour by Pvt. Tempo Traveller\nToll Charges, Parking Charges, Driver Allowance.\n24/7 Customer Suppo"
+        }
+      ]
+    },
+    {
+      "label": "4N/5D",
+      "nights": 4,
+      "days": 5,
+      "duration_text": "4N/5D",
+      "old_html_file": "four Night five Days Paradise Kashmir Tour.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrive Srinagar | Srinagar Local Sightseeing: Welcome to Srinagar, the Lake City",
+          "description": "Arrive Srinagar | Srinagar Local Sightseeing: Welcome to Srinagar, the Lake City. On arrival at Srinagar Airport, begin your Kashmir Tour. You will be transferred to the Hotel. Proceed on a city tour visiting the Shankar Acharya temple situated on the highest hill of Srinagar, the famous Mughal Gardens-Chashmashahi, Nishat Shalimar. These gardens were Mughal Emperor's concept of Paradise and today these are popular picnic spots. Visit Hazratbal Dargah Also. Overnight stay in a hotel."
+        },
+        {
+          "day": 2,
+          "title": "– Srinagar – Sonamarg – Srinagar: Today you embark on a full day excursion to th",
+          "description": "– Srinagar – Sonamarg – Srinagar: Today you embark on a full day excursion to the picturesque meadow of gold’ Sonamarg. Sonamarg is the last stop of Kashmir district. From here starts the territory of ladakh. Situated at an altitude of 2743 mt above sea level. The fast-flowing Sindh River makes it popular for trout and masher fishing in summer. You can opt for a pony ride (Own cost) to one of the Thajiwas glaciers for some fun in snow and ice (by your own payment). You can also visit Zero Point/"
+        },
+        {
+          "day": 3,
+          "title": "– Srinagar – Pahalgam – Srinagar",
+          "description": "– Srinagar – Pahalgam – Srinagar. After breakfast drive to Pahalgam (The valley of shepherds). Which is about 96 kms from Srinagar, which will be covered in the app. 3 hours. You Can visit the saffron fields of pampore, Awantipura Ruins (1100 years old temple of Lord Vishnu built by the King Awantivarman), Mattan Temple on En-route. Drive through the pine forests. Arrive at Pahalgam and enjoy Lidder stream. After You can hire a union car (at your own cost) visit Aru, betaab valley and chandanwar"
+        },
+        {
+          "day": 4,
+          "title": "– Srinagar –Gulmarg - Srinagar : After breakfast check out from the hotel in Sri",
+          "description": "– Srinagar –Gulmarg - Srinagar : After breakfast check out from the hotel in Srinagar drive to Gulmarg (2440 Meters above Sea level). It is one of the most beautiful hill stations and also called “Meadows of Flower”. It has the world’s highest golf course and Gulmarg is also famous for winter sports like skiing. On arrival and after refreshment one can visit Jai Jai Shiv Shankar Temple and also enjoy a Gondola ride (Cable car, own cost) from Gulmarg to Kongdori and affarwat. Evening return dinne"
+        },
+        {
+          "day": 5,
+          "title": "Today, After breakfast transfer to Srinagar Airport to board your flight with Sw",
+          "description": "Today, After breakfast transfer to Srinagar Airport to board your flight with Sweet memories.\nPlease note: We can arrange tailor-made tours\nHouseboat Stay on Demand\nInclusions\nSrinagar Airport Pickup Drop.\nWelcome Drink on Arrival at the hotel.\n3 Night’s Accommodation in Srinagar\n1 Night Accommodation in Houseboat with Breakfast & dinner\n1 Night Accommodation in Pahalgam\n5 Breakfast\n1 Hour Shikara Ride.\nAll Tour by Pvt. Comfortable Vehicle\nToll Charges, Parking Charges, Driver Allowance.\n24/7 Cu"
+        }
+      ]
+    },
+    {
+      "label": "Main",
+      "nights": 5,
+      "days": 6,
+      "duration_text": "5N/6D",
+      "old_html_file": "Days Charming Kashmir Tour.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrive Srinagar, Pickup and transfer to Houseboat",
+          "description": "Arrive Srinagar, Pickup and transfer to Houseboat. Rest of day Srinagar Sightseeing. Enjoy the site scene of the famous places Cheshma Shahi “Royal Spring” Shalimar “Garden of Love”Nishat Garden “Garden of Pleasure”On return visit a local Handicrafts Emporium for hand-knotted specialty silken carpets, shawls, jewelry ornaments. Overnight stay Houseboat."
+        },
+        {
+          "day": 2,
+          "title": "SRINAGAR TO GULMARG - 52 Kms – 2 Hrs approx:\n                    After breakfast",
+          "description": "SRINAGAR TO GULMARG - 52 Kms – 2 Hrs approx:\n                    After breakfast you will proceed for a full day excursion to Gulmarg, Meadow of Flowers(66kms / 2 hr) situated at an altitude of 2730 meters, full day at leisure to take the leisurely walks on the lush green meadows of flowers with a backdrop of the snow capped mountains. Enjoy a pony ride or Gondola ride (rope way at your own cost) to Khilanmarg at your own cost- Overnight in the Gulmarg."
+        },
+        {
+          "day": 3,
+          "title": "GULMARG TO PAHALGAM (154 Kms – 4 Hrs",
+          "description": "GULMARG TO PAHALGAM (154 Kms – 4 Hrs.)\n                    Morning after breakfast you will be transferred by road to Pahalgam Valley of Shepherds,\n                    Arrive and proceed to your hotel, rest of the day at leisure to explore the countryside and\n                    enjoy leisurely walks through the pine forest along the river Lidder, stay at Pahalgam. En- route you will have a rare opportunity to visit the Saffron fields and Avantipur Temple."
+        },
+        {
+          "day": 4,
+          "title": "PAHALGAM \n                    After breakfast you Proceed to Pahalgam sight for ",
+          "description": "PAHALGAM \n                    After breakfast you Proceed to Pahalgam sight for Aru valley and Chandanwari by car (at\n                    your own cost). Aru is a small village, 11 kms upstream the Lidder River, is a beautiful\n                    locality. The route is picturesque with ample campsites. This village is the starting point for treks to the Kolahoi glacier. The most beautiful of these is the huge, undulating meadow of Baisaran,surrounded by thickly wooded forests of pine. Hajan and "
+        },
+        {
+          "day": 5,
+          "title": "PAHALGAM TO SRINAGAR AND Enjoy Tulip Festival and other attractions\n            ",
+          "description": "PAHALGAM TO SRINAGAR AND Enjoy Tulip Festival and other attractions\n                    After Breakfast drive Pahalgam to Srinagar and visit the amazing Tulip Festival. Once you reach the ethereal expanses, check-in to the houseboat. Once you relax, get ready to\n                    partake in the most charming Tulip Festival. Organized every year in April, Indira Gandhi Memorial Tulip Garden, situated in the foothills of the Zabarwan range in Srinagar, overlooking the Dal Lake, plays host to Asi"
+        },
+        {
+          "day": 6,
+          "title": "SRINAGAR  TO SONAMARG (96 Kms – 3 Hrs",
+          "description": "SRINAGAR  TO SONAMARG (96 Kms – 3 Hrs. approx.)\n                    After breakfast drive to Sonamarg ,Excursion to Sonmarg . The mountains around\n                    Sonamarg(90 kms/ 3 hr) is covered with several glaciers, one of the most famous being\n                    the Thajiwas Glacier. This scenic river of ice is set amidst lush meadows and foliage and is a three-km walk or pony ride,back stay at Srinagar. Overnight  in the Hotel."
+        },
+        {
+          "day": 7,
+          "title": "SRINAGAR DEPARTURE\n                    After breakfast drop at Srinagar  airport",
+          "description": "SRINAGAR DEPARTURE\n                    After breakfast drop at Srinagar  airport to catch the flight for your onward Destinationend the Tour with Sweet Memories.\n(Honeymoon Tour available on demand)\nPlease note: We can arrange tailor-made tours\nHouseboat Stay on Demand\nInclusions\nSrinagar Airport Pickup Drop.\nWelcome Drink on Arrival at the hotel.\n3 Night’s Accommodation in Srinagar\n1 Night Accommodation in Houseboat with Breakfast & dinner\n1 Night Accommodation in Pahalgam\n5 Breakfast\n1 Hour Sh"
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "domestic-tour-packages",
+    "north-india-tour-packages",
+    "honeymoon-tour-packages",
+    "srinagar",
+    "pahalgam",
+    "gulmarg"
+  ],
+  "seo": {
+    "title": "Charming Kashmir Tour | Mother India Tour Travels",
+    "description": "Book Charming Kashmir Tour with Mother India Tour Travels. Best deals on Srinagar, Pahalgam, Gulmarg tour packages. Includes hotels, transport & guide.",
+    "keywords": [
+      "Charming Kashmir Tour",
+      "Srinagar",
+      "Pahalgam",
+      "Gulmarg",
+      "tour package",
+      "India travel",
+      "Mother India Tour"
+    ]
+  }
+}

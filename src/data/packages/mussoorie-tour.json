@@ -1,0 +1,119 @@
+{
+  "id": "mussoorie-tour",
+  "slug": "mussoorie-tour",
+  "name": "Delhi Mussoorie Tour",
+  "is_popular": false,
+  "destinations": [
+    "Delhi",
+    "Mussoorie",
+    "Rishikesh"
+  ],
+  "destination_ids": [
+    "delhi",
+    "mussoorie",
+    "rishikesh"
+  ],
+  "primary_destination": "Delhi",
+  "category_ids": [
+    "domestic-tour-packages",
+    "north-india-tour-packages"
+  ],
+  "state_id": "uttarakhand",
+  "country_id": "india",
+  "is_domestic": true,
+  "hero_image": "",
+  "overview": "Explore the best of Delhi, Mussoorie, Rishikesh with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
+  "highlights": [
+    "Visit Delhi",
+    "Visit Mussoorie",
+    "Visit Rishikesh"
+  ],
+  "inclusions": [
+    "Accommodation in listed or similar hotels",
+    "Welcome Drink (Non-Alcoholic)",
+    "Meals as per itinerary (Breakfast & Dinner)",
+    "All transfers and sightseeing by private AC vehicle",
+    "All long distance travel as per itinerary",
+    "Chauffeur, Toll Taxes, Parking, Fuel charges",
+    "State Taxes, Green Taxes, Road Taxes",
+    "Comfortable AC vehicles",
+    "Licensed Tour Guide Services"
+  ],
+  "exclusions": [
+    "Meals other than those specified",
+    "Personal expenses (porterage, tips, laundry, mineral water)",
+    "Monument entrance fees and camera charges",
+    "Any activity not mentioned in inclusions",
+    "Travel Insurance",
+    "Additional cost due to flight cancellation, roadblocks, political unrest",
+    "Driver and Guide tips",
+    "Air/train fare unless specified",
+    "GST (5% on tour cost)"
+  ],
+  "notes": [
+    "Taj Mahal is closed every Friday",
+    "Tailor-made tours available on request",
+    "Prices are per person on twin sharing basis"
+  ],
+  "variants": [
+    {
+      "label": "5N/6D",
+      "nights": 5,
+      "days": 6,
+      "duration_text": "5N/6D",
+      "old_html_file": "India-holiday-tour-delhi-mussoorie-five-nights-six-days.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Delhi – Mussoorie (270 Kms",
+          "description": "Delhi – Mussoorie (270 Kms. Approx. 7 hours): Welcome to Delhi airport/station and proceed to Mussoorie. On arrival check in to your hotel. Remainder of the evening at leisure. Overnight in Mussoorie."
+        },
+        {
+          "day": 2,
+          "title": "Mussoorie – Sightseeing: After breakfast, explore local sightseeing and tour in ",
+          "description": "Mussoorie – Sightseeing: After breakfast, explore local sightseeing and tour in Mussoorie. See the famous plunging Kempty Falls, Gun hillside factor offering breathtaking views of the Himalayas ranges and also the doon valley. You can appreciate shopping at Shopping center road. Evening is free for pastime.Overnight in Mussoorie."
+        },
+        {
+          "day": 3,
+          "title": "Mussoorie – Corbett (250 kms",
+          "description": "Mussoorie – Corbett (250 kms. Approx. 6 hrs): Today after the morning meal proceed to your journey to the jungles of Corbett. On arrival check in to your hotel. You might pick to enjoy the evening safari on your own at an additional cost. Jim Corbett National Park is known for pets like tigers, elephants, sambar, chitals, nilgai and 600 different species of birds. Overnight in Corbett."
+        },
+        {
+          "day": 4,
+          "title": "Corbett– Nainital (150 kms; Approximate 6 hrs) After breakfast, look into and pr",
+          "description": "Corbett– Nainital (150 kms; Approximate 6 hrs) After breakfast, look into and proceed to early morning safari. After that proceed to Nainital. On arrival check in to your hotel. You have the rest of the day at leisure.Overnight in Nainital."
+        },
+        {
+          "day": 5,
+          "title": "Nainital Sightseeing: Today after breakfast, proceed to check out Naina Devi Tem",
+          "description": "Nainital Sightseeing: Today after breakfast, proceed to check out Naina Devi Temple, Hanuman Garhi, Naina Height where one can delight in the breathtaking views of snow-capped Mountain range & Nainital Valley. Evening visit the local market at the Shopping centaur roadway where one can shop for different kinds of candles. Overnight in Nainital."
+        },
+        {
+          "day": 6,
+          "title": "Nainital – Delhi (Approx",
+          "description": "Nainital – Delhi (Approx. 9 hrs): Today after breakfast, transfer to Delhi Airport terminal/ Railway Station to board your flight/train to your next destination or hometown.\nPlease note: Honeymoon Package arrange on demand\nPlease note: We can arrange tailor-made tours\nInclusions\nAccommodation .\nWelcome Drink Non Alcoholic.\nBreakfast/Dinner\nAll Transfers, All sightseeing as per Tour Itinerary\nAll long distance Travels\nToll Taxes, Parkings, Fuel, State taxes\nComfortable vehicle with experienced dr"
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "domestic-tour-packages",
+    "north-india-tour-packages",
+    "delhi",
+    "mussoorie",
+    "rishikesh"
+  ],
+  "seo": {
+    "title": "Delhi Mussoorie Tour | Mother India Tour Travels",
+    "description": "Book Delhi Mussoorie Tour with Mother India Tour Travels. Best deals on Delhi, Mussoorie, Rishikesh tour packages. Includes hotels, transport & guide.",
+    "keywords": [
+      "Delhi Mussoorie Tour",
+      "Delhi",
+      "Mussoorie",
+      "Rishikesh",
+      "tour package",
+      "India travel",
+      "Mother India Tour"
+    ]
+  }
+}

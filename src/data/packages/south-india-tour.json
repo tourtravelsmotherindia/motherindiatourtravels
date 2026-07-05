@@ -1,0 +1,177 @@
+{
+  "id": "south-india-tour",
+  "slug": "south-india-tour",
+  "name": "South India Tour",
+  "is_popular": false,
+  "destinations": [
+    "Chennai",
+    "Mahabalipuram"
+  ],
+  "destination_ids": [
+    "chennai",
+    "mahabalipuram"
+  ],
+  "primary_destination": "Chennai",
+  "category_ids": [
+    "domestic-tour-packages",
+    "south-india-tour-packages"
+  ],
+  "state_id": "tamil-nadu",
+  "country_id": "india",
+  "is_domestic": true,
+  "hero_image": "",
+  "overview": "Explore the best of Chennai, Mahabalipuram with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
+  "highlights": [
+    "Visit Chennai",
+    "Visit Mahabalipuram"
+  ],
+  "inclusions": [
+    "Accommodation in listed or similar hotels",
+    "Welcome Drink (Non-Alcoholic)",
+    "Meals as per itinerary (Breakfast & Dinner)",
+    "All transfers and sightseeing by private AC vehicle",
+    "All long distance travel as per itinerary",
+    "Chauffeur, Toll Taxes, Parking, Fuel charges",
+    "State Taxes, Green Taxes, Road Taxes",
+    "Comfortable AC vehicles",
+    "Licensed Tour Guide Services"
+  ],
+  "exclusions": [
+    "Meals other than those specified",
+    "Personal expenses (porterage, tips, laundry, mineral water)",
+    "Monument entrance fees and camera charges",
+    "Any activity not mentioned in inclusions",
+    "Travel Insurance",
+    "Additional cost due to flight cancellation, roadblocks, political unrest",
+    "Driver and Guide tips",
+    "Air/train fare unless specified",
+    "GST (5% on tour cost)"
+  ],
+  "notes": [
+    "Taj Mahal is closed every Friday",
+    "Tailor-made tours available on request",
+    "Prices are per person on twin sharing basis"
+  ],
+  "variants": [
+    {
+      "label": "2N/3D",
+      "nights": 2,
+      "days": 3,
+      "duration_text": "2N/3D",
+      "old_html_file": "south-india-tour-three-days-two-nights.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Kozhikode to Wayanad: On arriving at the Kozhikode railway station/ airport, mee",
+          "description": "Kozhikode to Wayanad: On arriving at the Kozhikode railway station/ airport, meet our representative. He helps you with an assisted transfer to Wayanad, by road, which takes around 3 hours. Upon reaching the well-known Vythiri Resort, one of the most popular treehouse resorts in Wayanad, which is positioned above the thick canopies of the rainforest. Check into your treehouse. Vythiri resort is an eco-friendly resort that has treehouses and cottages, which are built using local materials along w"
+        },
+        {
+          "day": 2,
+          "title": "Wayanad sightseeing: After breakfast, get ready for a city tour of Wayand",
+          "description": "Wayanad sightseeing: After breakfast, get ready for a city tour of Wayand. You visit the placid Lake Pookot- a freshwater lake where the visitors can enjoy boat riding, amid fresh air and green ambiance. Next, you visit the three-tiered Soojipara waterfalls that are also known as Sentinel Rock Waterfalls. Thereafter, your next visit is to the largest dam of India, Bansura Sagar dam, which is also the second largest earth dam in Asia. The surroundings of the dam are tranquil and breathtaking. Con"
+        },
+        {
+          "day": 3,
+          "title": "Wayanad to Kozhikode: On the last day of your tour, get an assisted transfer to ",
+          "description": "Wayanad to Kozhikode: On the last day of your tour, get an assisted transfer to the railway station / airport in Kozhikode to board a train / flight for your onward journey.\nPlease note: We can arrange tailor-made tours\nInclusions\nAccommodation\nWelcome Drink Non Alcoholic.\nWelcome drink at hotel\nMeals\nAll Transfers, All sightseeing as per Tour Itinerary\nAll long distance Travels\nToll Taxes, Parkings, Fuel\nState Taxes, Road Taxes\nGuide services\nPvt. AC vehicle with driver\nExclusions\nMeals other t"
+        }
+      ]
+    },
+    {
+      "label": "5N/6D",
+      "nights": 5,
+      "days": 6,
+      "duration_text": "5N/6D",
+      "old_html_file": "south-india-tour-five-nights-six-days.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Bangalore to Coorg: After arriving in Bangalore, you are escorted to be moved to",
+          "description": "Bangalore to Coorg: After arriving in Bangalore, you are escorted to be moved to Coorg. Once you reach there, you check- in at the hotel and spend the rest of the day at leisure, in the comfort of the hotel and later retire for the night."
+        },
+        {
+          "day": 2,
+          "title": "Coorg Sightseeing:\n                    Your day has been planned out for the sig",
+          "description": "Coorg Sightseeing:\n                    Your day has been planned out for the sightseeing tour in Coorg for half day, directly after breakfast you leave. You visit the coffee plantations, and the orchards; there is a Fort on top of a hill that overlooks the town. There is a temple of Lord Omkareswara, the design in the temple is appealing. Later in the evening you return to the hotel for an overnight stay."
+        },
+        {
+          "day": 3,
+          "title": "Coorg to Mysore: Post breakfast, you check out of the hotel at Coorg and reach M",
+          "description": "Coorg to Mysore: Post breakfast, you check out of the hotel at Coorg and reach Mysore by car. In Mysore, you check – in at the hotel and leave to visit the famous Mysore Palace. The palace is magnificent and praise worthy, later go on to visit the temple on the Chamundi Hill. You return to the Hotel after that for a Goodnight stay"
+        },
+        {
+          "day": 4,
+          "title": "Mysore to Wayanad: You drive to Wayanad after breakfast and check out of the hot",
+          "description": "Mysore to Wayanad: You drive to Wayanad after breakfast and check out of the hotel. After reaching Wayanad, you check in at the hotel and spend the rest of the day at leisure and later, sleep over for the night."
+        },
+        {
+          "day": 5,
+          "title": "Wayanad sightseeing:\n                    Post breakfast, you go out for a sights",
+          "description": "Wayanad sightseeing:\n                    Post breakfast, you go out for a sightseeing trip in Wayanad. You visit the Glass house at Kottamuda, Chembra Peak, Edakkal Caves, Banasurasagar Dam, Pazhassi tomb and more. Later, you return to the hotel for an overnight stay."
+        },
+        {
+          "day": 6,
+          "title": "Departure: After breakfast, you are returned to the Calicut airport or railway s",
+          "description": "Departure: After breakfast, you are returned to the Calicut airport or railway station for your further journey.the trip ends here.\nPlease note: We can arrange tailor-made tours\nInclusions\nAccommodation\nWelcome Drink Non Alcoholic.\nWelcome drink at hotel\nMeals\nAll Transfers, All sightseeing as per Tour Itinerary\nAll long distance Travels\nToll Taxes, Parkings, Fuel\nState Taxes, Road Taxes\nGuide services\nPvt. AC vehicle with driver\nExclusions\nMeals other than those specified above\nPersonal expense"
+        }
+      ]
+    },
+    {
+      "label": "5N/6D",
+      "nights": 5,
+      "days": 6,
+      "duration_text": "5N/6D",
+      "old_html_file": "south-india-tour-six-days-five-nights.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Bangalore to Mysore: You first arrive at the Bangalore airport, where you will b",
+          "description": "Bangalore to Mysore: You first arrive at the Bangalore airport, where you will be received by the representative. Then, you head towards Mysore, it takes about 3 hours to drive there. Once you are there, you check- in at the hotel. Later, you visit the beautiful Brindavan Garden and return back to the hotel for dinner and an overnight stay."
+        },
+        {
+          "day": 2,
+          "title": "Mysore to Ooty: You check – out of the hotel in the morning, after your breakfas",
+          "description": "Mysore to Ooty: You check – out of the hotel in the morning, after your breakfast. You go out for a sightseeing tour in Mysore; visit the Chamundi Hills and the Bull Temple. Lastly, you visit the Mysore Palace and proceed to Ooty. On the way you stop to see the Pykara Lake, which offers a great view. Once you reach Ooty, you check- in at the hotel, enjoy your dinner, and later retire for the night."
+        },
+        {
+          "day": 3,
+          "title": "Ooty sightseeing: Your day is planned out for Ooty sightseeing, so to do that yo",
+          "description": "Ooty sightseeing: Your day is planned out for Ooty sightseeing, so to do that you leave right away after breakfast. You visit Doddabetta Peak, Botanical Garden and later visit Charing Cross, You can indulge in shopping and a nice lunch in the town. Next, you visit the Tea Museum and the Ooty lake where you can enjoy the boat ride. Later, in the evening, you return to the hotel for an overnight stay."
+        },
+        {
+          "day": 4,
+          "title": "Ooty to Kodaikanal: You check out of the hotel in the morning after breakfast an",
+          "description": "Ooty to Kodaikanal: You check out of the hotel in the morning after breakfast and head towards Coonoor. There is also a toy train ride that takes you to Coonoor, you can opt for that. After the exciting train journey, you visit the Sim’s park, dolphin’s nose and lamb’s rock. You further drive to Kodaikanal, and on reaching there you check in at the hotel where dinner will be served and you can retire for the night."
+        },
+        {
+          "day": 5,
+          "title": "Kodaikanal sightseeing: After breakfast, you go out for kodaikanal sightseeing, ",
+          "description": "Kodaikanal sightseeing: After breakfast, you go out for kodaikanal sightseeing, the place is covered in greenery and the view it offers is spectacular. Visit the Pillar Rock and the Coakers Walk. Later you can enjoy boating at the Kodai lake and then, return to the hotel. Have dinner and stay overnight."
+        },
+        {
+          "day": 6,
+          "title": "Kodaikanal to Coimbatore: The trip comes to an end with your return to the airpo",
+          "description": "Kodaikanal to Coimbatore: The trip comes to an end with your return to the airport for your journey later.\nPlease note: We can arrange tailor-made tours\nInclusions\nAccommodation\nWelcome Drink Non Alcoholic.\nWelcome drink at hotel\nMeals\nAll Transfers, All sightseeing as per Tour Itinerary\nAll long distance Travels\nToll Taxes, Parkings, Fuel\nState Taxes, Road Taxes\nGuide services\nPvt. AC vehicle with driver\nExclusions\nMeals other than those specified above\nPersonal expenses like portages, tips, la"
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "domestic-tour-packages",
+    "south-india-tour-packages",
+    "chennai",
+    "mahabalipuram"
+  ],
+  "seo": {
+    "title": "South India Tour | Mother India Tour Travels",
+    "description": "Book South India Tour with Mother India Tour Travels. Best deals on Chennai, Mahabalipuram tour packages. Includes hotels, transport & guide.",
+    "keywords": [
+      "South India Tour",
+      "Chennai",
+      "Mahabalipuram",
+      "tour package",
+      "India travel",
+      "Mother India Tour"
+    ]
+  }
+}

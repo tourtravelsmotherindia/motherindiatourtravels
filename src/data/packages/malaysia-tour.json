@@ -1,0 +1,86 @@
+{
+  "id": "malaysia-tour",
+  "slug": "malaysia-tour",
+  "name": "Malaysia Tour",
+  "is_popular": true,
+  "destinations": [
+    "Kuala Lumpur",
+    "Genting",
+    "Langkawi"
+  ],
+  "destination_ids": [
+    "kuala-lumpur",
+    "genting",
+    "langkawi"
+  ],
+  "primary_destination": "Kuala Lumpur",
+  "category_ids": [
+    "international-tour-packages"
+  ],
+  "state_id": null,
+  "country_id": "malaysia",
+  "is_domestic": false,
+  "hero_image": "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+  "overview": "Explore the best of Kuala Lumpur, Genting, Langkawi with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
+  "highlights": [
+    "Visit Kuala Lumpur",
+    "Visit Genting",
+    "Visit Langkawi"
+  ],
+  "inclusions": [
+    "Accommodation in listed or similar hotels",
+    "Welcome Drink (Non-Alcoholic)",
+    "Meals as per itinerary (Breakfast & Dinner)",
+    "All transfers and sightseeing by private AC vehicle",
+    "All long distance travel as per itinerary",
+    "Chauffeur, Toll Taxes, Parking, Fuel charges",
+    "State Taxes, Green Taxes, Road Taxes",
+    "Comfortable AC vehicles",
+    "Licensed Tour Guide Services"
+  ],
+  "exclusions": [
+    "Meals other than those specified",
+    "Personal expenses (porterage, tips, laundry, mineral water)",
+    "Monument entrance fees and camera charges",
+    "Any activity not mentioned in inclusions",
+    "Travel Insurance",
+    "Additional cost due to flight cancellation, roadblocks, political unrest",
+    "Driver and Guide tips",
+    "Air/train fare unless specified",
+    "GST (5% on tour cost)"
+  ],
+  "notes": [
+    "Taj Mahal is closed every Friday",
+    "Tailor-made tours available on request",
+    "Prices are per person on twin sharing basis"
+  ],
+  "variants": [
+    {
+      "label": "Main",
+      "nights": 5,
+      "days": 6,
+      "duration_text": "5N/6D",
+      "old_html_file": "malaysia-tour.html",
+      "itinerary": []
+    }
+  ],
+  "tags": [
+    "international-tour-packages",
+    "kuala-lumpur",
+    "genting",
+    "langkawi"
+  ],
+  "seo": {
+    "title": "Malaysia Tour | Mother India Tour Travels",
+    "description": "Book Malaysia Tour with Mother India Tour Travels. Best deals on Kuala Lumpur, Genting, Langkawi tour packages. Includes hotels, transport & guide.",
+    "keywords": [
+      "Malaysia Tour",
+      "Kuala Lumpur",
+      "Genting",
+      "Langkawi",
+      "tour package",
+      "India travel",
+      "Mother India Tour"
+    ]
+  }
+}

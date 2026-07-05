@@ -1,0 +1,135 @@
+{
+  "id": "haridwar-rishikesh-tour",
+  "slug": "haridwar-rishikesh-tour",
+  "name": "Haridwar Rishikesh Tour",
+  "is_popular": false,
+  "destinations": [
+    "Delhi",
+    "Haridwar",
+    "Rishikesh"
+  ],
+  "destination_ids": [
+    "delhi",
+    "haridwar",
+    "rishikesh"
+  ],
+  "primary_destination": "Delhi",
+  "category_ids": [
+    "domestic-tour-packages",
+    "north-india-tour-packages",
+    "spiritual-tour-packages"
+  ],
+  "state_id": "uttarakhand",
+  "country_id": "india",
+  "is_domestic": true,
+  "hero_image": "",
+  "overview": "Explore the best of Delhi, Haridwar, Rishikesh with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
+  "highlights": [
+    "Visit Delhi",
+    "Visit Haridwar",
+    "Visit Rishikesh"
+  ],
+  "inclusions": [
+    "Accommodation in listed or similar hotels",
+    "Welcome Drink (Non-Alcoholic)",
+    "Meals as per itinerary (Breakfast & Dinner)",
+    "All transfers and sightseeing by private AC vehicle",
+    "All long distance travel as per itinerary",
+    "Chauffeur, Toll Taxes, Parking, Fuel charges",
+    "State Taxes, Green Taxes, Road Taxes",
+    "Comfortable AC vehicles",
+    "Licensed Tour Guide Services"
+  ],
+  "exclusions": [
+    "Meals other than those specified",
+    "Personal expenses (porterage, tips, laundry, mineral water)",
+    "Monument entrance fees and camera charges",
+    "Any activity not mentioned in inclusions",
+    "Travel Insurance",
+    "Additional cost due to flight cancellation, roadblocks, political unrest",
+    "Driver and Guide tips",
+    "Air/train fare unless specified",
+    "GST (5% on tour cost)"
+  ],
+  "notes": [
+    "Taj Mahal is closed every Friday",
+    "Tailor-made tours available on request",
+    "Prices are per person on twin sharing basis"
+  ],
+  "variants": [
+    {
+      "label": "2N/3D",
+      "nights": 2,
+      "days": 3,
+      "duration_text": "2N/3D",
+      "old_html_file": "India-holiday-tour-rishikesh-hridwar-two-nights-three-days.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Delhi to Haridwar, Today, Morning meet our driver at your Home | Hotel | Airport",
+          "description": "Delhi to Haridwar, Today, Morning meet our driver at your Home | Hotel | Airport | Railway Station and transfer to Haridwar. Check in to the hotel at Arrival in Haridwar/Rishikesh. Afternoon visit Daksh Temple, Pawan Dham as well as Moti Bazar. Go To Har Ki Pauri for Ganga Aarti. Return to the hotel. Dinner and Night stay at the hotel."
+        },
+        {
+          "day": 2,
+          "title": "Sightseeing with Rishikesh: Morning you can take a divine dip in the river Ganga",
+          "description": "Sightseeing with Rishikesh: Morning you can take a divine dip in the river Ganga. Later on, returne to hotel. After breakfast visit Mansa Devi Temple (By cable car). Transfer to Rishikesh. Go to Triveni Ghat, Bharat Mandir, Lakshman Temple, Lakshman Jhula as well as Ram Jhula. Evening visit Ganga Aarti at Parmarth Niketan. Overnight stay at the hotel."
+        },
+        {
+          "day": 3,
+          "title": "Haridwar To Delhi – Morning after breakfast, check out from the hotel",
+          "description": "Haridwar To Delhi – Morning after breakfast, check out from the hotel. Go to Chandi Devi Temple (by cable car). Transfer to Delhi. Dropping at Delhi home/ hotel/ airport/ railway station.\nPlease note: We can arrange tailor-made tours\nInclusions\nAccommodation .\nWelcome Drink Non Alcoholic.\nBreakfast/Dinner\nAll Transfers, All sightseeing as per Tour Itinerary\nAll long distance Travels\nToll Taxes, Parkings, Fuel, State taxes\nComfortable vehicle with experienced driver\nGuide Services\nExclusions\nMeal"
+        }
+      ]
+    },
+    {
+      "label": "3N/4D",
+      "nights": 3,
+      "days": 4,
+      "duration_text": "3N/4D",
+      "old_html_file": "Delhi-Haridwar-Rishikesh-Delhi-Tour-three-nights-four-days.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Delhi: Arrival Delhi & drop you hotel & after breakfast proceed to sightseeing O",
+          "description": "Delhi: Arrival Delhi & drop you hotel & after breakfast proceed to sightseeing Old and New Delhi. Rest of the day at leisure."
+        },
+        {
+          "day": 2,
+          "title": "Delhi to Haridwar (250 Kms",
+          "description": "Delhi to Haridwar (250 Kms. 6 Hrs.): After breakfast proceed to . Haridwar check in at the hotel & after refresh proceed to go Har-Ki-Podi for evening Ganga AArti. Rest of the day at leisure."
+        },
+        {
+          "day": 3,
+          "title": "After breakfast visit Laxman Jhula, Ram Jhula and Temples",
+          "description": "After breakfast visit Laxman Jhula, Ram Jhula and Temples. Rest of the day at leisure."
+        },
+        {
+          "day": 4,
+          "title": "Haridwar to Delhi (250 Kms",
+          "description": "Haridwar to Delhi (250 Kms. 6 Hrs.): After breakfast proceed to Delhi and drop you at the Airport/Railway Station.\nHoneymoon Tour available on demand\nInclusions\nAccommodation\nWelcome Drink Non Alcoholic.\nBreakfast & Dinner\nAll Transfers, All sightseeing as per Tour Itinerary\nAll long distance Travels\nToll Taxes, Parkings, Fuel\nState Taxes, Green Taxes, Road Taxes\nComfortable vehicles AC\nAC NOT OPERATE ON HILLY AREA\nChauffeur\nExclusions\nMeals other than those specified above\nPersonal expenses lik"
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "domestic-tour-packages",
+    "north-india-tour-packages",
+    "spiritual-tour-packages",
+    "delhi",
+    "haridwar",
+    "rishikesh"
+  ],
+  "seo": {
+    "title": "Haridwar Rishikesh Tour | Mother India Tour Travels",
+    "description": "Book Haridwar Rishikesh Tour with Mother India Tour Travels. Best deals on Delhi, Haridwar, Rishikesh tour packages. Includes hotels, transport & guide.",
+    "keywords": [
+      "Haridwar Rishikesh Tour",
+      "Delhi",
+      "Haridwar",
+      "Rishikesh",
+      "tour package",
+      "India travel",
+      "Mother India Tour"
+    ]
+  }
+}
