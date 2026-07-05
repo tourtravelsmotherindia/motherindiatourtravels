@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Mail, Phone, MapPin, ShieldCheck, Send, CheckCircle2 } from "lucide-react";
+import companyData from "@/data/company.json";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
@@ -39,11 +40,20 @@ export default function Footer() {
             </span>
           </Link>
           <p className="text-xs text-white/60 font-medium leading-relaxed max-w-sm">
-            Experience the magic of India with custom guided tours, serene houseboat cruises, majestic desert safaris, and spiritual Himalayan retreats. Crafting unforgettable memories since 2012.
+            {companyData.about}
           </p>
           {/* Social Icons */}
           <div className="flex items-center gap-3 mt-2">
             {[
+              {
+                name: "Facebook",
+                svg: (
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                  </svg>
+                ),
+                href: companyData.social_media.facebook
+              },
               {
                 name: "Instagram",
                 svg: (
@@ -53,16 +63,7 @@ export default function Footer() {
                     <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
                   </svg>
                 ),
-                href: "#"
-              },
-              {
-                name: "Facebook",
-                svg: (
-                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-                  </svg>
-                ),
-                href: "#"
+                href: companyData.social_media.instagram
               },
               {
                 name: "Twitter",
@@ -71,22 +72,43 @@ export default function Footer() {
                     <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
                   </svg>
                 ),
-                href: "#"
+                href: companyData.social_media.twitter
               },
               {
-                name: "YouTube",
+                name: "LinkedIn",
                 svg: (
                   <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.41 19c1.71.46 8.59.46 8.59.46s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path>
-                    <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                    <rect x="2" y="9" width="4" height="12"></rect>
+                    <circle cx="4" cy="4" r="2"></circle>
                   </svg>
                 ),
-                href: "#"
+                href: companyData.social_media.linkedin
+              },
+              {
+                name: "Pinterest",
+                svg: (
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M8 22c.5-1.5 1.5-4.5 1.5-4.5s-.38-.75-.38-1.88c0-1.75 1-3.08 2.3-3.08 1.08 0 1.6.82 1.6 1.8 0 1.09-.7 2.73-1.05 4.25-.3 1.25.62 2.27 1.85 2.27 2.23 0 3.95-2.35 3.95-5.75 0-3-2.17-5.1-5.26-5.1-3.58 0-5.69 2.68-5.69 5.46 0 1.08.42 2.25.94 2.88.1.13.1.25.07.38l-.35 1.48c-.06.25-.2.32-.46.2-1.72-.8-2.67-3.32-2.67-5.35 0-4.36 3.17-8.36 9.13-8.36 4.8 0 8.52 3.42 8.52 7.98 0 4.77-3.01 8.61-7.18 8.61-1.4 0-2.72-.73-3.17-1.59l-.86 3.29c-.31 1.2-1.15 2.71-1.72 3.65 1.3.38 2.67.59 4.09.59 7.73 0 14-6.27 14-14S19.73 2 12 2 0 8.27 0 16c0 2.8 1.08 5.36 2.87 7.28a8 8 0 0 1-.87-4.28c0-.75.06-1.5.17-2.25l1.83-7.75"></path>
+                  </svg>
+                ),
+                href: companyData.social_media.pinterest
+              },
+              {
+                name: "WhatsApp",
+                svg: (
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                  </svg>
+                ),
+                href: companyData.social_media.whatsapp
               }
             ].map((social) => (
               <a
                 key={social.name}
                 href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-9 h-9 rounded-full border border-white/10 hover:border-brand hover:bg-brand flex items-center justify-center transition-all duration-300 text-white/70 hover:text-white"
                 aria-label={social.name}
               >
@@ -191,15 +213,30 @@ export default function Footer() {
             <ul className="flex flex-col gap-3">
               <li className="flex items-start gap-2.5 text-xs text-white/60">
                 <MapPin className="w-4 h-4 text-brand shrink-0 mt-0.5" />
-                <span>123 Heritage Way, Connaught Place, New Delhi, India</span>
+                <span>{companyData.address}</span>
               </li>
-              <li className="flex items-center gap-2.5 text-xs text-white/60">
-                <Phone className="w-4 h-4 text-brand shrink-0" />
-                <span>+91 98765 43210</span>
-              </li>
+              {companyData.phone.map((phoneNum, idx) => (
+                <li key={idx} className="flex items-center gap-2.5 text-xs text-white/60">
+                  <Phone className="w-4 h-4 text-brand shrink-0" />
+                  <a href={`tel:${phoneNum.replace(/\s+/g, "")}`} className="hover:text-white transition-colors duration-200">
+                    {phoneNum}
+                  </a>
+                </li>
+              ))}
               <li className="flex items-center gap-2.5 text-xs text-white/60">
                 <Mail className="w-4 h-4 text-brand shrink-0" />
-                <span>contact@motherindiatravels.com</span>
+                <a href={`mailto:${companyData.email}`} className="hover:text-white transition-colors duration-200">
+                  {companyData.email}
+                </a>
+              </li>
+              <li className="flex items-start gap-2.5 text-xs text-white/60 pt-2 border-t border-white/5 mt-1">
+                <div className="text-[10px] font-extrabold uppercase tracking-wider text-white/40 w-full">
+                  Working Hours
+                  <div className="font-normal normal-case mt-1 text-white/50 flex flex-col gap-0.5">
+                    <span>{companyData.working_hours.weekdays}</span>
+                    <span>{companyData.working_hours.weekends}</span>
+                  </div>
+                </div>
               </li>
             </ul>
           </div>
@@ -210,7 +247,7 @@ export default function Footer() {
       <div className="max-w-[1440px] mx-auto px-4 md:px-8 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
         <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8">
           <p className="text-[10px] font-semibold text-white/40 uppercase tracking-widest text-center md:text-left">
-            © {new Date().getFullYear()} Mother India Tour Travels. All rights reserved.
+            © {new Date().getFullYear()} {companyData.name}. All rights reserved.
           </p>
           <div className="flex gap-4 text-[10px] font-semibold text-white/40 uppercase tracking-widest">
             <Link href="#" className="hover:text-white transition-colors duration-200">Privacy Policy</Link>
@@ -218,9 +255,16 @@ export default function Footer() {
             <Link href="#" className="hover:text-white transition-colors duration-200">Terms of Use</Link>
           </div>
         </div>
-        <div className="flex items-center gap-2 px-3.5 py-1.5 bg-white/5 border border-white/10 rounded-full text-[10px] font-bold text-white/70 uppercase tracking-wider">
-          <ShieldCheck className="w-4 h-4 text-brand" />
-          <span>Government Registered Tour Operator</span>
+        <div className="flex flex-wrap items-center gap-2.5">
+          <div className="flex items-center gap-2 px-3.5 py-1.5 bg-white/5 border border-white/10 rounded-full text-[10px] font-bold text-white/70 uppercase tracking-wider">
+            <ShieldCheck className="w-4 h-4 text-brand" />
+            <span>Government Registered Tour Operator</span>
+          </div>
+          {companyData.certifications.map((cert, idx) => (
+            <div key={idx} className="flex items-center gap-1.5 px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-[10px] font-bold text-white/70 uppercase tracking-wider">
+              <span>{cert}</span>
+            </div>
+          ))}
         </div>
       </div>
     </footer>
