@@ -45,7 +45,7 @@ export default function TravelerMoments() {
       name: "Emma Wilson",
       role: "Verified Traveler",
       avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150&h=150&q=80",
-      image: "https://images.unsplash.com/photo-1472214222541-d510753a49fa?auto=format&fit=crop&w=600&q=80",
+      image: "https://images.unsplash.com/photo-1542401886-65d6c61db217?auto=format&fit=crop&w=600&q=80",
       quote: "Sleeping under the Jaisalmer desert stars was an experience of a lifetime. The staff was incredibly friendly.",
       hasVideo: false,
       rating: 5,
@@ -61,7 +61,7 @@ export default function TravelerMoments() {
   };
 
   return (
-    <section className="py-16 px-4 md:px-8 max-w-[1440px] mx-auto overflow-hidden">
+    <section id="blog" className="py-16 px-4 md:px-8 max-w-[1440px] mx-auto overflow-hidden">
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
         <div>
@@ -115,6 +115,7 @@ export default function TravelerMoments() {
                   src={review.image}
                   alt={`${review.name} travel moment`}
                   fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover transition-transform duration-500 hover:scale-103"
                 />
                 
@@ -144,6 +145,7 @@ export default function TravelerMoments() {
                     src={review.avatar}
                     alt={review.name}
                     fill
+                    sizes="44px"
                     className="object-cover"
                   />
                 </div>

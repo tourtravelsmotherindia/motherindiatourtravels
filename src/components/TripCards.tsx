@@ -32,7 +32,7 @@ export default function TripCards() {
         bgColor: "bg-orange-50",
         textColor: "text-orange-700",
       },
-      price: "$1,450",
+      price: "₹1,450",
       duration: "5 days",
     },
     {
@@ -45,7 +45,7 @@ export default function TripCards() {
         bgColor: "bg-purple-50",
         textColor: "text-purple-700",
       },
-      price: "$1,190",
+      price: "₹1,190",
       duration: "4 days",
     },
     {
@@ -58,7 +58,7 @@ export default function TripCards() {
         bgColor: "bg-red-50",
         textColor: "text-red-700",
       },
-      price: "$950",
+      price: "₹950",
       duration: "4 days",
     },
     {
@@ -71,13 +71,13 @@ export default function TripCards() {
         bgColor: "bg-blue-50",
         textColor: "text-blue-700",
       },
-      price: "$1,200",
+      price: "₹1,200",
       duration: "6 days",
     },
   ];
 
   return (
-    <section id="trips" className="py-16 px-4 md:px-8 max-w-[1440px] mx-auto">
+    <section id="packages" className="py-16 px-4 md:px-8 max-w-[1440px] mx-auto">
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
         <div>
@@ -117,6 +117,7 @@ export default function TripCards() {
                   src={trip.image}
                   alt={trip.title}
                   fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>

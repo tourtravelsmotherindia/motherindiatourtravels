@@ -9,39 +9,63 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [lang] = useState("EN");
+  const [scrolled, setScrolled] = useState(false);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const navLinks = [
-    { name: "Home", href: "#" },
-    { name: "Trips", href: "#trips" },
+    { name: "Home", href: "#home" },
     { name: "About", href: "#about" },
+    { name: "Packages", href: "#packages" },
     { name: "Blog", href: "#blog" },
+    { name: "FAQ", href: "#faq" },
+    { name: "Gallery", href: "#gallery" },
     { name: "Contact", href: "#contact" },
   ];
 
   return (
-    <header className="absolute top-6 left-0 right-0 z-50 px-4 md:px-8 max-w-[1440px] mx-auto">
-      <nav className="bg-white rounded-full px-6 py-3.5 shadow-premium flex items-center justify-between border border-border-light">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
+    <header className={`fixed left-0 right-0 z-50 px-4 md:px-8 max-w-[1440px] mx-auto transition-all duration-300 ${
+      scrolled ? "top-3" : "top-6"
+    }`}>
+      <nav className={`rounded-full px-6 transition-all duration-300 flex items-center justify-between border ${
+        scrolled
+          ? "bg-white/80 backdrop-blur-md py-2.5 shadow-premium border-border-light/60"
+          : "bg-white py-3.5 shadow-premium border-border-light"
+      }`}>
+        {/* Logo + Brand Name */}
+        <Link href="/" className="flex items-center gap-3 group shrink-0">
           <Image
             src="/logo.png?v=234567"
             alt="Mother India Tour Travels Logo"
-            width={120}
+            width={44}
             height={44}
-            className="h-11 w-auto object-contain transition-transform group-hover:scale-103 duration-300"
+            className="h-11 w-11 object-contain transition-transform group-hover:scale-103 duration-300"
             priority
           />
+          <span className="hidden sm:block font-sans text-base lg:text-lg font-extrabold text-foreground tracking-tight leading-none whitespace-nowrap">
+            Mother India Tour Travels
+          </span>
         </Link>
 
         {/* Desktop Nav Links */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-6 lg:gap-8">
           {navLinks.map((link) => (
             <Link
               key={link.name}
               href={link.href}
-              className="text-foreground hover:text-brand font-medium text-sm transition-colors duration-200"
+              className="text-foreground hover:text-brand font-semibold text-sm transition-colors duration-200"
             >
               {link.name}
             </Link>

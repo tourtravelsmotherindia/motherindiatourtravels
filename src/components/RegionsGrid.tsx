@@ -60,7 +60,7 @@ export default function RegionsGrid() {
     {
       id: 6,
       name: "Northeast India",
-      image: "https://images.unsplash.com/photo-1506461883276-594a12b11db3?auto=format&fit=crop&w=800&q=80",
+      image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80",
       states: "Meghalaya, Assam, Sikkim, Arunachal Pradesh",
       moreCount: "+ 13 more destinations",
       badges: ["All Adventures", "Deals"],
@@ -68,7 +68,7 @@ export default function RegionsGrid() {
   ];
 
   return (
-    <section className="py-16 px-4 md:px-8 max-w-[1440px] mx-auto">
+    <section id="about" className="py-16 px-4 md:px-8 max-w-[1440px] mx-auto">
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
         <div>
