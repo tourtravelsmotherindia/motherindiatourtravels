@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import WhyChooseUs from "@/components/WhyChooseUs";
 import TripCards from "@/components/TripCards";
 import PopularDestinations from "@/components/PopularDestinations";
 import Gallery from "@/components/Gallery";
@@ -20,6 +21,9 @@ export default function Home() {
       <main className="flex-1">
         {/* Hero Banner and Search Bar */}
         <Hero />
+
+        {/* Why Choose Us trust section */}
+        <WhyChooseUs />
 
         {/* Selected Trip Cards / Packages */}
         <TripCards />
