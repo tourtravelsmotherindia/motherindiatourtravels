@@ -2,12 +2,32 @@
   "name": "Mother India Tour Travels",
   "tagline": "Explore India with Trusted Tours",
   "website": "https://www.motherindiatourtravels.com",
-  "phone": ["+91 9810140121", "+91 99710 53881"],
+  "phone": ["+919810140121", "+919971053881"],
   "email": "tourtravelsmotherindia@gmail.com",
   "address": "B63/B63A, New Jankipuri, Uttam Nagar, New Delhi - 110059",
   "working_hours": {
-    "weekdays": "Mon – Fri: 9:00 AM to 8:00 PM",
-    "weekends": "Sat – Sun: 9:00 AM to 8:00 PM"
+    "timezone": "Asia/Kolkata",
+    "schedule": [
+      {
+        "days": ["mon", "tue", "wed", "thu", "fri"],
+        "hours": [
+          {
+            "open": "09:00",
+            "close": "20:00"
+          }
+        ]
+      },
+      {
+        "days": ["sat", "sun"],
+        "hours": [
+          {
+            "open": "09:00",
+            "close": "20:00"
+          }
+        ]
+      }
+    ],
+    "exceptions": []
   },
   "social_media": {
     "facebook": "https://www.facebook.com/driverandcarhire",
