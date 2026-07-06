@@ -58,36 +58,36 @@ export default function TripCards() {
 
         {/* Sliding Pill Switch Selector */}
         <div className="flex items-center gap-6 self-start md:self-end">
-          <div className="relative flex p-1.5 bg-brand-light rounded-full border border-brand/10 shadow-sm">
+          <div className="relative flex p-1 bg-neutral-100 rounded-full border border-neutral-200/50 shadow-inner">
             <button
               onClick={() => setIsDomestic(true)}
-              className={`relative px-5 py-2.5 text-xs font-bold uppercase tracking-wider rounded-full transition-colors duration-300 z-10 cursor-pointer select-none ${
-                isDomestic ? "text-white" : "text-brand hover:text-brand-hover"
+              className={`relative px-5 py-2 text-xs font-bold uppercase tracking-wider rounded-full transition-colors duration-300 z-10 cursor-pointer select-none ${
+                isDomestic ? "text-white" : "text-neutral-500 hover:text-neutral-900"
               }`}
             >
               {isDomestic && (
                 <motion.span
                   layoutId="activeTripTab"
-                  className="absolute inset-0 bg-brand rounded-full shadow-sm -z-10"
+                  className="absolute inset-0 bg-neutral-900 rounded-full shadow-md -z-10"
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}
-              India Escapes
+              Domestic
             </button>
             <button
               onClick={() => setIsDomestic(false)}
-              className={`relative px-5 py-2.5 text-xs font-bold uppercase tracking-wider rounded-full transition-colors duration-300 z-10 cursor-pointer select-none ${
-                !isDomestic ? "text-white" : "text-brand hover:text-brand-hover"
+              className={`relative px-5 py-2 text-xs font-bold uppercase tracking-wider rounded-full transition-colors duration-300 z-10 cursor-pointer select-none ${
+                !isDomestic ? "text-white" : "text-neutral-500 hover:text-neutral-900"
               }`}
             >
               {!isDomestic && (
                 <motion.span
                   layoutId="activeTripTab"
-                  className="absolute inset-0 bg-brand rounded-full shadow-sm -z-10"
+                  className="absolute inset-0 bg-neutral-900 rounded-full shadow-md -z-10"
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}
-              Global Getaways
+              International
             </button>
           </div>
 
