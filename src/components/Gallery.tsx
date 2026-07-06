@@ -58,7 +58,7 @@ export default function Gallery() {
   ];
 
   return (
-    <section id="gallery" className="py-20 px-4 md:px-8 max-w-[1440px] mx-auto scroll-mt-24">
+    <section id="gallery" className="py-20 px-4 md:px-8 max-w-360 mx-auto scroll-mt-24">
       {/* Section Header */}
       <div className="text-center mb-14">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-light text-brand text-xs font-bold uppercase tracking-wider mb-3">
