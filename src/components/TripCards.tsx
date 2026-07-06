@@ -1,171 +1,215 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Clock } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Clock, Heart, MapPin, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import packagesData from "@/data/packages-index.json";
 
-interface Trip {
-  id: number;
-  title: string;
-  image: string;
-  badge: {
-    text: string;
-    dotColor: string;
-    bgColor: string;
-    textColor: string;
-  };
-  price: string;
-  duration: string;
+interface PackageItem {
+  id: string;
+  slug: string;
+  name: string;
+  is_popular: boolean;
+  is_domestic: boolean;
+  destinations: string[];
+  duration_range: string;
+  hero_image: string;
+  min_days: number;
 }
 
 export default function TripCards() {
-  const trips: Trip[] = [
-    {
-      id: 1,
-      title: "Himalayan Heights Retreat",
-      image: "/images/trip_ladakh.png",
-      badge: {
-        text: "Private Guided",
-        dotColor: "bg-orange-500",
-        bgColor: "bg-orange-50",
-        textColor: "text-orange-700",
-      },
-      price: "₹1,450",
-      duration: "5 days",
-    },
-    {
-      id: 2,
-      title: "Kerala Backwater Escape",
-      image: "/images/trip_kerala.png",
-      badge: {
-        text: "Self-Guided",
-        dotColor: "bg-purple-500",
-        bgColor: "bg-purple-50",
-        textColor: "text-purple-700",
-      },
-      price: "₹1,190",
-      duration: "4 days",
-    },
-    {
-      id: 3,
-      title: "Rajasthan Desert Safari",
-      image: "/images/trip_rajasthan.png",
-      badge: {
-        text: "Small Group Tour",
-        dotColor: "bg-red-500",
-        bgColor: "bg-red-50",
-        textColor: "text-red-700",
-      },
-      price: "₹950",
-      duration: "4 days",
-    },
-    {
-      id: 4,
-      title: "Taj Mahal & Golden Triangle",
-      image: "/images/trip_tajmahal.png",
-      badge: {
-        text: "Solo Adventure",
-        dotColor: "bg-blue-500",
-        bgColor: "bg-blue-50",
-        textColor: "text-blue-700",
-      },
-      price: "₹1,200",
-      duration: "6 days",
-    },
-  ];
+  const [isDomestic, setIsDomestic] = useState(true);
+  const [favorites, setFavorites] = useState<string[]>([]);
+
+  // Cast packages index data
+  const allPackages = (packagesData.packages || []) as PackageItem[];
+
+  // Filter packages: show popular only
+  const popularPackages = allPackages.filter((pkg) => pkg.is_popular);
+
+  // Filter domestic and international packages and get first 4
+  const domesticPackages = popularPackages.filter((pkg) => pkg.is_domestic).slice(0, 4);
+  const internationalPackages = popularPackages.filter((pkg) => !pkg.is_domestic).slice(0, 4);
+
+  // Determine current display list
+  const currentTrips = isDomestic ? domesticPackages : internationalPackages;
+
+  // Toggle favorite
+  const toggleFavorite = (slug: string) => {
+    setFavorites((prev) =>
+      prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug]
+    );
+  };
 
   return (
-    <section id="packages" className="py-16 px-4 md:px-8 max-w-[1440px] mx-auto">
+    <section id="packages" className="py-20 px-4 md:px-8 max-w-[1440px] mx-auto overflow-hidden">
       {/* Section Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+      <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
         <div>
           <h2 className="text-3xl md:text-5xl font-extrabold text-foreground tracking-tight leading-[1.1]">
             Explore <span className="text-brand">Trips</span>
           </h2>
-          <p className="text-muted font-medium mt-2">Handpicked adventures designed to inspire</p>
+          <p className="text-muted font-medium mt-2">
+            Handpicked adventures designed to inspire your next journey
+          </p>
         </div>
+
+        {/* Sliding Pill Switch Selector */}
+        <div className="flex items-center gap-6 self-start md:self-end">
+          <div className="relative flex p-1.5 bg-brand-light rounded-full border border-brand/10 shadow-sm">
+            <button
+              onClick={() => setIsDomestic(true)}
+              className={`relative px-5 py-2.5 text-xs font-bold uppercase tracking-wider rounded-full transition-colors duration-300 z-10 cursor-pointer select-none ${
+                isDomestic ? "text-white" : "text-brand hover:text-brand-hover"
+              }`}
+            >
+              {isDomestic && (
+                <motion.span
+                  layoutId="activeTripTab"
+                  className="absolute inset-0 bg-brand rounded-full shadow-sm -z-10"
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                />
+              )}
+              India Escapes
+            </button>
+            <button
+              onClick={() => setIsDomestic(false)}
+              className={`relative px-5 py-2.5 text-xs font-bold uppercase tracking-wider rounded-full transition-colors duration-300 z-10 cursor-pointer select-none ${
+                !isDomestic ? "text-white" : "text-brand hover:text-brand-hover"
+              }`}
+            >
+              {!isDomestic && (
+                <motion.span
+                  layoutId="activeTripTab"
+                  className="absolute inset-0 bg-brand rounded-full shadow-sm -z-10"
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                />
+              )}
+              Global Getaways
+            </button>
+          </div>
+
+          <Link
+            href="/packages"
+            className="hidden sm:flex items-center gap-2 text-brand hover:text-brand-hover font-bold text-sm group shrink-0"
+          >
+            <span>See All Trips</span>
+            <span className="w-8 h-8 rounded-full border border-brand/20 flex items-center justify-center group-hover:border-brand transition-all duration-300">
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 duration-300" />
+            </span>
+          </Link>
+        </div>
+      </div>
+
+      {/* Grid of Trip Cards */}
+      <motion.div
+        key={isDomestic ? "domestic" : "international"}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+      >
+        {currentTrips.map((pkg, idx) => {
+          const isFavorite = favorites.includes(pkg.slug);
+          const imageSrc = pkg.hero_image || "/images/placeholder-landscape.png";
+
+          return (
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.4, delay: idx * 0.05 }}
+              key={pkg.id}
+              className="group relative w-full h-[420px] rounded-[2rem] overflow-hidden shadow-card hover:shadow-premium transition-all duration-500 bg-gray-50 flex flex-col"
+            >
+              {/* Background Image */}
+              <div className="absolute inset-0 z-0">
+                <Image
+                  src={imageSrc}
+                  alt={pkg.name}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                />
+                {/* Gradient overlays for readability */}
+                <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/40 to-transparent z-10" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent z-10" />
+              </div>
+
+              {/* Glassmorphic Duration Badge */}
+              <div className="absolute top-4 left-4 z-20 bg-white/20 backdrop-blur-md border border-white/25 text-white text-[10px] font-extrabold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-1.5 select-none">
+                <Clock className="w-3.5 h-3.5" />
+                <span>{pkg.duration_range || `${pkg.min_days} Days`}</span>
+              </div>
+
+              {/* Glassmorphic Favorite Button */}
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  toggleFavorite(pkg.slug);
+                }}
+                className="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-white/20 backdrop-blur-md border border-white/25 flex items-center justify-center text-white hover:bg-white hover:text-red-500 hover:border-white transition-all duration-300 active:scale-90 group/heart cursor-pointer shadow-sm"
+              >
+                <Heart
+                  className={`w-4.5 h-4.5 transition-transform duration-300 group-hover/heart:scale-110 ${
+                    isFavorite ? "fill-red-500 text-red-500" : "text-white"
+                  }`}
+                />
+              </button>
+
+              {/* Bottom Card Content overlay */}
+              <div className="mt-auto p-6 z-20 flex flex-col justify-end">
+                <h3 className="text-xl font-extrabold text-white leading-snug tracking-tight mb-2 group-hover:text-brand transition-colors duration-300 drop-shadow-sm">
+                  {pkg.name}
+                </h3>
+                <div className="flex items-center justify-between mt-1 gap-2">
+                  {/* Destinations with pin icon */}
+                  <div className="flex items-center gap-1.5 text-white/80 text-xs font-semibold">
+                    <MapPin className="w-3.5 h-3.5 text-brand shrink-0" />
+                    <span className="truncate max-w-[130px] sm:max-w-[160px] drop-shadow-sm">
+                      {pkg.destinations.slice(0, 2).join(", ")}
+                      {pkg.destinations.length > 2 && "..."}
+                    </span>
+                  </div>
+
+                  {/* Rating & Action Button */}
+                  <div className="flex items-center gap-2 shrink-0">
+                    <div className="flex items-center gap-1 bg-black/45 backdrop-blur-md border border-white/10 px-2 py-1 rounded-lg text-yellow-400 text-[10px] font-extrabold shadow-sm select-none">
+                      <Star className="w-3 h-3 fill-current" />
+                      <span>4.9</span>
+                    </div>
+                    <div className="w-8 h-8 rounded-full bg-white text-brand-dark flex items-center justify-center shadow-md transition-all duration-300 group-hover:bg-brand group-hover:text-white group-hover:scale-105 active:scale-95">
+                      <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:rotate-45" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card Link overlay to wrap the entire card visually */}
+              <Link
+                href={`/packages/${pkg.slug}`}
+                className="absolute inset-0 z-10 cursor-pointer"
+                aria-label={`View details for ${pkg.name}`}
+              />
+            </motion.div>
+          );
+        })}
+      </motion.div>
+
+      {/* Mobile-only See All Button */}
+      <div className="mt-10 flex justify-center sm:hidden">
         <Link
-          href="#"
-          className="flex items-center gap-2 text-brand hover:text-brand-hover font-bold text-sm group shrink-0"
+          href="/packages"
+          className="flex items-center gap-2 text-brand hover:text-brand-hover font-bold text-sm group"
         >
           <span>See All Trips</span>
           <span className="w-8 h-8 rounded-full border border-brand/20 flex items-center justify-center group-hover:border-brand transition-all duration-300">
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 duration-300" />
           </span>
         </Link>
-      </div>
-
-      {/* Grid of Trip Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {trips.map((trip, idx) => (
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.5, delay: idx * 0.1 }}
-            key={trip.id}
-            className="group bg-white rounded-[2rem] overflow-hidden border border-border-light shadow-card hover:shadow-premium transition-all duration-300 flex flex-col h-full"
-          >
-            {/* Image Container */}
-            <div className="relative h-56 w-full overflow-hidden p-3 pb-0">
-              <div className="relative w-full h-full rounded-[1.5rem] overflow-hidden">
-                <Image
-                  src={trip.image}
-                  alt={trip.title}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-            </div>
-
-            {/* Content Container */}
-            <div className="p-5 pt-4 flex flex-col flex-1">
-              {/* Custom Badge */}
-              <div className="flex items-center mb-3">
-                <div
-                  className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${trip.badge.bgColor} ${trip.badge.textColor}`}
-                >
-                  <span className={`w-1.5 h-1.5 rounded-full ${trip.badge.dotColor}`} />
-                  {trip.badge.text}
-                </div>
-              </div>
-
-              {/* Title */}
-              <h3 className="text-base font-bold text-foreground line-clamp-2 leading-snug mb-4 group-hover:text-brand transition-colors duration-200">
-                {trip.title}
-              </h3>
-
-              {/* Spacer pushes the rest to the bottom */}
-              <div className="mt-auto" />
-
-              {/* Price & Duration */}
-              <div className="flex items-center justify-between pt-4 border-t border-border-light mb-4">
-                <div className="flex flex-col">
-                  <span className="text-[10px] text-muted font-bold uppercase tracking-wider">
-                    Price
-                  </span>
-                  <span className="text-lg font-extrabold text-foreground leading-none mt-1">
-                    {trip.price}
-                  </span>
-                </div>
-                <div className="flex items-center gap-1 text-muted">
-                  <Clock className="w-3.5 h-3.5 text-muted/65" />
-                  <span className="text-xs font-semibold">{trip.duration}</span>
-                </div>
-              </div>
-
-              {/* Button */}
-              <Link
-                href="#"
-                className="w-full py-3 bg-brand hover:bg-brand-hover text-white rounded-2xl text-center text-xs font-bold transition-all duration-200 block shadow-sm"
-              >
-                View Details
-              </Link>
-            </div>
-          </motion.div>
-        ))}
       </div>
     </section>
   );
