@@ -5,11 +5,11 @@ import WhyChooseUs from "@/components/WhyChooseUs";
 import TripCards from "@/components/TripCards";
 import PopularDestinations from "@/components/PopularDestinations";
 import Gallery from "@/components/Gallery";
-import TravelerMoments from "@/components/TravelerMoments";
 import PartnerAirlines from "@/components/PartnerAirlines";
 import RegionsGrid from "@/components/RegionsGrid";
 import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
+import TestimonialsSection from "@/components/TravelerMoments";
 
 export default function Home() {
   return (
@@ -35,7 +35,7 @@ export default function Home() {
         <Gallery />
 
         {/* Traveler Moments / Testimonials */}
-        <TravelerMoments />
+        <TestimonialsSection />
 
         {/* Search Top Airlines Grid */}
         <PartnerAirlines />
