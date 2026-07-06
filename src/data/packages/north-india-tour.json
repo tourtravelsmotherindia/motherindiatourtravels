@@ -3,31 +3,16 @@
   "slug": "north-india-tour",
   "name": "North India Tour",
   "is_popular": false,
-  "destinations": [
-    "Delhi",
-    "Agra",
-    "Jaipur"
-  ],
-  "destination_ids": [
-    "delhi",
-    "agra",
-    "jaipur"
-  ],
+  "destinations": ["Delhi", "Agra", "Jaipur"],
+  "destination_ids": ["delhi", "agra", "jaipur"],
   "primary_destination": "Delhi",
-  "category_ids": [
-    "domestic-tour-packages",
-    "north-india-tour-packages"
-  ],
+  "category_ids": ["domestic-tour-packages", "north-india-tour-packages"],
   "state_id": "uttar-pradesh",
   "country_id": "india",
   "is_domestic": true,
   "hero_image": "",
   "overview": "Explore the best of Delhi, Agra, Jaipur with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
-  "highlights": [
-    "Visit Delhi",
-    "Visit Agra",
-    "Visit Jaipur"
-  ],
+  "highlights": ["Visit Delhi", "Visit Agra", "Visit Jaipur"],
   "inclusions": [
     "Accommodation in listed or similar hotels",
     "Welcome Drink (Non-Alcoholic)",
@@ -96,13 +81,7 @@
       ]
     }
   ],
-  "tags": [
-    "domestic-tour-packages",
-    "north-india-tour-packages",
-    "delhi",
-    "agra",
-    "jaipur"
-  ],
+  "tags": ["domestic-tour-packages", "north-india-tour-packages", "delhi", "agra", "jaipur"],
   "seo": {
     "title": "North India Tour | Mother India Tour Travels",
     "description": "Book North India Tour with Mother India Tour Travels. Best deals on Delhi, Agra, Jaipur tour packages. Includes hotels, transport & guide.",

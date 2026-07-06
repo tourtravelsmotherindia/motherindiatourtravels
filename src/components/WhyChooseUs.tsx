@@ -1,25 +1,24 @@
 "use client";
 
-import React from "react";
-import { Compass, Coins, Headphones } from "lucide-react";
+import { Coins, Compass, Headphones } from "lucide-react";
 
 export default function WhyChooseUs() {
   const features = [
     {
       icon: <Compass className="w-14 h-14 stroke-[1.25]" />,
       title: "100+ Destinations",
-      description: "Explore our wide selection of destinations across all continents."
+      description: "Explore our wide selection of destinations across all continents.",
     },
     {
       icon: <Coins className="w-14 h-14 stroke-[1.25]" />,
       title: "Best Price Guarantee",
-      description: "We offer competitive prices with no hidden fees."
+      description: "We offer competitive prices with no hidden fees.",
     },
     {
       icon: <Headphones className="w-14 h-14 stroke-[1.25]" />,
       title: "24/7 Support",
-      description: "Our travel experts are available anytime to assist you."
-    }
+      description: "Our travel experts are available anytime to assist you.",
+    },
   ];
 
   return (

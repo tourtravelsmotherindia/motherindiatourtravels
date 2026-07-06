@@ -3,31 +3,16 @@
   "slug": "mussoorie-tour",
   "name": "Delhi Mussoorie Tour",
   "is_popular": false,
-  "destinations": [
-    "Delhi",
-    "Mussoorie",
-    "Rishikesh"
-  ],
-  "destination_ids": [
-    "delhi",
-    "mussoorie",
-    "rishikesh"
-  ],
+  "destinations": ["Delhi", "Mussoorie", "Rishikesh"],
+  "destination_ids": ["delhi", "mussoorie", "rishikesh"],
   "primary_destination": "Delhi",
-  "category_ids": [
-    "domestic-tour-packages",
-    "north-india-tour-packages"
-  ],
+  "category_ids": ["domestic-tour-packages", "north-india-tour-packages"],
   "state_id": "uttarakhand",
   "country_id": "india",
   "is_domestic": true,
   "hero_image": "",
   "overview": "Explore the best of Delhi, Mussoorie, Rishikesh with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
-  "highlights": [
-    "Visit Delhi",
-    "Visit Mussoorie",
-    "Visit Rishikesh"
-  ],
+  "highlights": ["Visit Delhi", "Visit Mussoorie", "Visit Rishikesh"],
   "inclusions": [
     "Accommodation in listed or similar hotels",
     "Welcome Drink (Non-Alcoholic)",

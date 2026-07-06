@@ -3,24 +3,8 @@
   "slug": "rajasthan-complete-tour",
   "name": "Complete Rajasthan Tour",
   "is_popular": false,
-  "destinations": [
-    "Delhi",
-    "Agra",
-    "Jaipur",
-    "Udaipur",
-    "Jodhpur",
-    "Jaisalmer",
-    "Bikaner"
-  ],
-  "destination_ids": [
-    "delhi",
-    "agra",
-    "jaipur",
-    "udaipur",
-    "jodhpur",
-    "jaisalmer",
-    "bikaner"
-  ],
+  "destinations": ["Delhi", "Agra", "Jaipur", "Udaipur", "Jodhpur", "Jaisalmer", "Bikaner"],
+  "destination_ids": ["delhi", "agra", "jaipur", "udaipur", "jodhpur", "jaisalmer", "bikaner"],
   "primary_destination": "Delhi",
   "category_ids": [
     "domestic-tour-packages",

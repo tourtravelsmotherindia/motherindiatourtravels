@@ -3,28 +3,16 @@
   "slug": "nepal-spiritual-tour",
   "name": "Nepal Spiritual Tour",
   "is_popular": false,
-  "destinations": [
-    "Kathmandu",
-    "Lumbini"
-  ],
-  "destination_ids": [
-    "kathmandu",
-    "lumbini"
-  ],
+  "destinations": ["Kathmandu", "Lumbini"],
+  "destination_ids": ["kathmandu", "lumbini"],
   "primary_destination": "Kathmandu",
-  "category_ids": [
-    "international-tour-packages",
-    "spiritual-tour-packages"
-  ],
+  "category_ids": ["international-tour-packages", "spiritual-tour-packages"],
   "state_id": null,
   "country_id": "nepal",
   "is_domestic": false,
   "hero_image": "",
   "overview": "Explore the best of Kathmandu, Lumbini with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
-  "highlights": [
-    "Visit Kathmandu",
-    "Visit Lumbini"
-  ],
+  "highlights": ["Visit Kathmandu", "Visit Lumbini"],
   "inclusions": [
     "Accommodation in listed or similar hotels",
     "Welcome Drink (Non-Alcoholic)",
@@ -93,12 +81,7 @@
       ]
     }
   ],
-  "tags": [
-    "international-tour-packages",
-    "spiritual-tour-packages",
-    "kathmandu",
-    "lumbini"
-  ],
+  "tags": ["international-tour-packages", "spiritual-tour-packages", "kathmandu", "lumbini"],
   "seo": {
     "title": "Nepal Spiritual Tour | Mother India Tour Travels",
     "description": "Book Nepal Spiritual Tour with Mother India Tour Travels. Best deals on Kathmandu, Lumbini tour packages. Includes hotels, transport & guide.",

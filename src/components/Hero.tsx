@@ -1,9 +1,11 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Calendar, ChevronLeft, ChevronRight, MapPin, Search, Users } from "lucide-react";
 import Image from "next/image";
-import { Search, Calendar, Users, MapPin, ChevronLeft, ChevronRight } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import type React from "react";
+import { useCallback, useEffect, useState } from "react";
+
 import heroData from "@/data/hero.json";
 
 interface Slide {
@@ -45,9 +47,7 @@ export default function Hero() {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    alert(
-      `Searching for: ${destination} | Dates: ${checkIn} to ${checkOut} | Guests: ${guests}`,
-    );
+    alert(`Searching for: ${destination} | Dates: ${checkIn} to ${checkOut} | Guests: ${guests}`);
   };
 
   return (
@@ -56,6 +56,7 @@ export default function Hero() {
       className="relative w-full px-4 md:px-8 pt-4 pb-20 max-w-[1440px] mx-auto"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
+      aria-label="Hero slider"
     >
       {/* Hero Banner Container */}
       <div className="relative h-[550px] md:h-[650px] w-full rounded-[2.5rem] overflow-hidden bg-black">
@@ -111,6 +112,7 @@ export default function Hero() {
 
         {/* Navigation Arrows */}
         <button
+          type="button"
           onClick={prevSlide}
           className="absolute top-1/2 left-4 md:left-6 transform -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white flex items-center justify-center hover:bg-white/25 transition-all duration-300 cursor-pointer"
           aria-label="Previous slide"
@@ -118,6 +120,7 @@ export default function Hero() {
           <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
         </button>
         <button
+          type="button"
           onClick={nextSlide}
           className="absolute top-1/2 right-4 md:right-6 transform -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white flex items-center justify-center hover:bg-white/25 transition-all duration-300 cursor-pointer"
           aria-label="Next slide"
@@ -129,6 +132,7 @@ export default function Hero() {
         <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20 flex gap-2.5">
           {slides.map((_, index) => (
             <button
+              type="button"
               key={index}
               onClick={() => goToSlide(index)}
               className={`w-2.5 h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
@@ -150,20 +154,21 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="bg-white rounded-3xl p-6 md:p-8 shadow-premium border border-border-light flex flex-col items-center gap-6"
         >
-          <form
-            onSubmit={handleSearch}
-            className="w-full flex flex-col items-center gap-6"
-          >
+          <form onSubmit={handleSearch} className="w-full flex flex-col items-center gap-6">
             {/* Grid of Inputs */}
             <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-center divide-y sm:divide-y-0 lg:divide-x divide-border-light">
               {/* Destination Column */}
               <div className="flex items-center gap-3.5 pb-4 sm:pb-0 lg:px-4">
                 <MapPin className="w-5 h-5 text-brand shrink-0" />
                 <div className="flex-1 min-w-0">
-                  <label className="block text-[10px] text-muted font-bold uppercase tracking-wider mb-0.5">
+                  <label
+                    htmlFor="search-destination"
+                    className="block text-[10px] text-muted font-bold uppercase tracking-wider mb-0.5"
+                  >
                     Destination
                   </label>
                   <input
+                    id="search-destination"
                     type="text"
                     value={destination}
                     onChange={(e) => setDestination(e.target.value)}
@@ -177,10 +182,14 @@ export default function Hero() {
               <div className="flex items-center gap-3.5 pt-4 sm:pt-0 sm:pb-4 lg:pb-0 lg:px-4">
                 <Calendar className="w-5 h-5 text-brand shrink-0" />
                 <div className="flex-1 min-w-0">
-                  <label className="block text-[10px] text-muted font-bold uppercase tracking-wider mb-0.5">
+                  <label
+                    htmlFor="search-checkin"
+                    className="block text-[10px] text-muted font-bold uppercase tracking-wider mb-0.5"
+                  >
                     Check-in Date
                   </label>
                   <input
+                    id="search-checkin"
                     type="date"
                     value={checkIn}
                     onChange={(e) => setCheckIn(e.target.value)}
@@ -193,10 +202,14 @@ export default function Hero() {
               <div className="flex items-center gap-3.5 pt-4 sm:pt-0 sm:pb-4 lg:pb-0 lg:px-4">
                 <Calendar className="w-5 h-5 text-brand shrink-0" />
                 <div className="flex-1 min-w-0">
-                  <label className="block text-[10px] text-muted font-bold uppercase tracking-wider mb-0.5">
+                  <label
+                    htmlFor="search-checkout"
+                    className="block text-[10px] text-muted font-bold uppercase tracking-wider mb-0.5"
+                  >
                     Check-out Date
                   </label>
                   <input
+                    id="search-checkout"
                     type="date"
                     value={checkOut}
                     onChange={(e) => setCheckOut(e.target.value)}
@@ -209,10 +222,14 @@ export default function Hero() {
               <div className="flex items-center gap-3.5 pt-4 sm:pt-0 lg:px-4">
                 <Users className="w-5 h-5 text-brand shrink-0" />
                 <div className="flex-1 min-w-0">
-                  <label className="block text-[10px] text-muted font-bold uppercase tracking-wider mb-0.5">
+                  <label
+                    htmlFor="search-guests"
+                    className="block text-[10px] text-muted font-bold uppercase tracking-wider mb-0.5"
+                  >
                     Add Guests
                   </label>
                   <select
+                    id="search-guests"
                     value={guests}
                     onChange={(e) => setGuests(Number(e.target.value))}
                     className="w-full text-sm font-semibold text-foreground focus:outline-none bg-transparent cursor-pointer appearance-none"

@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowLeft, ArrowRight, Heart, Star } from "lucide-react";
 import Image from "next/image";
-import { ArrowLeft, ArrowRight, Star, Heart } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useRef, useState } from "react";
 
 interface Destination {
   id: number;
@@ -25,7 +25,8 @@ const destinations: Destination[] = [
     rating: 4.9,
     ratingCount: "(74k)",
     price: "$399",
-    image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=80",
+    image:
+      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=80",
   },
   {
     id: 2,
@@ -35,7 +36,8 @@ const destinations: Destination[] = [
     rating: 4.8,
     ratingCount: "(12k)",
     price: "$499",
-    image: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80",
+    image:
+      "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80",
   },
   {
     id: 3,
@@ -45,7 +47,8 @@ const destinations: Destination[] = [
     rating: 4.7,
     ratingCount: "(32k)",
     price: "$599",
-    image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=800&q=80",
+    image:
+      "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=800&q=80",
   },
   {
     id: 4,
@@ -55,7 +58,8 @@ const destinations: Destination[] = [
     rating: 4.9,
     ratingCount: "(54k)",
     price: "$450",
-    image: "https://images.unsplash.com/photo-1527631746610-bca00a040d60?auto=format&fit=crop&w=800&q=80",
+    image:
+      "https://images.unsplash.com/photo-1527631746610-bca00a040d60?auto=format&fit=crop&w=800&q=80",
   },
   {
     id: 5,
@@ -65,7 +69,8 @@ const destinations: Destination[] = [
     rating: 4.9,
     ratingCount: "(8k)",
     price: "$650",
-    image: "https://images.unsplash.com/photo-1596176530529-78163a4f7af2?auto=format&fit=crop&w=800&q=80",
+    image:
+      "https://images.unsplash.com/photo-1596176530529-78163a4f7af2?auto=format&fit=crop&w=800&q=80",
   },
   {
     id: 6,
@@ -75,11 +80,20 @@ const destinations: Destination[] = [
     rating: 4.8,
     ratingCount: "(15k)",
     price: "$420",
-    image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=800&q=80",
+    image:
+      "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=800&q=80",
   },
 ];
 
-function DestinationCard({ dest, isMobile = false, priority = false }: { dest: Destination; isMobile?: boolean; priority?: boolean }) {
+function DestinationCard({
+  dest,
+  isMobile = false,
+  priority = false,
+}: {
+  dest: Destination;
+  isMobile?: boolean;
+  priority?: boolean;
+}) {
   const [isFavorite, setIsFavorite] = useState(false);
 
   return (
@@ -96,6 +110,7 @@ function DestinationCard({ dest, isMobile = false, priority = false }: { dest: D
 
       {/* Favorite Button (Heart Icon) */}
       <button
+        type="button"
         onClick={(e) => {
           e.stopPropagation();
           setIsFavorite(!isFavorite);
@@ -117,7 +132,8 @@ function DestinationCard({ dest, isMobile = false, priority = false }: { dest: D
       <div className="absolute inset-0 p-6 flex flex-col justify-end text-white z-10">
         <div className="flex flex-col">
           <h3 className="text-xl lg:text-2xl font-extrabold tracking-tight leading-tight mb-1">
-            {dest.name}, <span className="text-white/80 font-semibold text-lg lg:text-xl">{dest.location}</span>
+            {dest.name},{" "}
+            <span className="text-white/80 font-semibold text-lg lg:text-xl">{dest.location}</span>
           </h3>
 
           {/* Duration & Rating Row */}
@@ -140,7 +156,10 @@ function DestinationCard({ dest, isMobile = false, priority = false }: { dest: D
               : "h-0 opacity-0 group-hover:h-10 group-hover:opacity-100 group-hover:mt-4"
           }`}
         >
-          <button className="bg-brand hover:bg-brand-hover text-white text-xs lg:text-sm font-bold py-2 px-6 rounded-full transition-colors cursor-pointer shadow-sm">
+          <button
+            type="button"
+            className="bg-brand hover:bg-brand-hover text-white text-xs lg:text-sm font-bold py-2 px-6 rounded-full transition-colors cursor-pointer shadow-sm"
+          >
             View
           </button>
         </div>
@@ -195,7 +214,7 @@ export default function PopularDestinations() {
         <div className="flex items-center justify-between mb-12 gap-4">
           <div>
             <h2 className="text-3xl md:text-5xl font-extrabold text-foreground tracking-tight leading-[1.1]">
-             Explore Top <span className="text-brand">Destination</span>
+              Explore Top <span className="text-brand">Destination</span>
             </h2>
             <p className="text-muted font-medium mt-2 text-sm md:text-base">
               Explore the world&apos;s most sought-after travel experiences
@@ -204,6 +223,7 @@ export default function PopularDestinations() {
           {/* Navigation Buttons */}
           <div className="flex items-center gap-3 shrink-0">
             <button
+              type="button"
               onClick={handlePrev}
               className="w-12 h-12 rounded-full border border-zinc-200 bg-white flex items-center justify-center text-zinc-700 hover:bg-zinc-50 hover:border-zinc-300 transition-all duration-200 cursor-pointer shadow-sm"
               aria-label="Previous destination"
@@ -211,6 +231,7 @@ export default function PopularDestinations() {
               <ArrowLeft className="w-5 h-5" />
             </button>
             <button
+              type="button"
               onClick={handleNext}
               className="w-12 h-12 rounded-full bg-brand flex items-center justify-center text-white hover:bg-brand-hover transition-all duration-200 cursor-pointer shadow-sm"
               aria-label="Next destination"
@@ -239,6 +260,7 @@ export default function PopularDestinations() {
           <div className="flex items-center justify-center gap-2 mt-2">
             {destinations.map((_, idx) => (
               <button
+                type="button"
                 key={idx}
                 onClick={() => scrollToCard(idx)}
                 className={`h-2.5 rounded-full transition-all duration-300 ${

@@ -244,12 +244,7 @@
       "icon": "🏖️",
       "seo_title": "Beach Tour Packages | Goa Andaman Kerala Beach Holidays",
       "seo_description": "Best beach tour packages to Goa, Andaman Islands, Kerala beaches. Affordable holiday packages by Mother India Tour Travels.",
-      "package_ids": [
-        "andaman-island-tour",
-        "andaman-tour",
-        "goa-tour",
-        "thailand-tour"
-      ],
+      "package_ids": ["andaman-island-tour", "andaman-tour", "goa-tour", "thailand-tour"],
       "package_count": 4
     },
     {
@@ -260,10 +255,7 @@
       "icon": "🗓️",
       "seo_title": "Weekend Tour Packages | Short Holiday Packages from Delhi",
       "seo_description": "Best weekend tour packages from Delhi. Short 2-3 day trips to Agra, Jaipur, Haridwar, Rishikesh. Book with Mother India Tour Travels.",
-      "package_ids": [
-        "goa-tour",
-        "same-day-agra-tour"
-      ],
+      "package_ids": ["goa-tour", "same-day-agra-tour"],
       "package_count": 2
     },
     {
@@ -290,9 +282,7 @@
       "icon": "💰",
       "seo_title": "Budget Tour Packages India | Cheap Holiday Packages",
       "seo_description": "Affordable budget tour packages across India. Best deals on India tours. Book cheap holiday packages with Mother India Tour Travels.",
-      "package_ids": [
-        "delhi-manali-volvo-tour"
-      ],
+      "package_ids": ["delhi-manali-volvo-tour"],
       "package_count": 1
     }
   ]

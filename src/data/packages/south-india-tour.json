@@ -3,28 +3,16 @@
   "slug": "south-india-tour",
   "name": "South India Tour",
   "is_popular": false,
-  "destinations": [
-    "Chennai",
-    "Mahabalipuram"
-  ],
-  "destination_ids": [
-    "chennai",
-    "mahabalipuram"
-  ],
+  "destinations": ["Chennai", "Mahabalipuram"],
+  "destination_ids": ["chennai", "mahabalipuram"],
   "primary_destination": "Chennai",
-  "category_ids": [
-    "domestic-tour-packages",
-    "south-india-tour-packages"
-  ],
+  "category_ids": ["domestic-tour-packages", "south-india-tour-packages"],
   "state_id": "tamil-nadu",
   "country_id": "india",
   "is_domestic": true,
   "hero_image": "",
   "overview": "Explore the best of Chennai, Mahabalipuram with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
-  "highlights": [
-    "Visit Chennai",
-    "Visit Mahabalipuram"
-  ],
+  "highlights": ["Visit Chennai", "Visit Mahabalipuram"],
   "inclusions": [
     "Accommodation in listed or similar hotels",
     "Welcome Drink (Non-Alcoholic)",
@@ -156,12 +144,7 @@
       ]
     }
   ],
-  "tags": [
-    "domestic-tour-packages",
-    "south-india-tour-packages",
-    "chennai",
-    "mahabalipuram"
-  ],
+  "tags": ["domestic-tour-packages", "south-india-tour-packages", "chennai", "mahabalipuram"],
   "seo": {
     "title": "South India Tour | Mother India Tour Travels",
     "description": "Book South India Tour with Mother India Tour Travels. Best deals on Chennai, Mahabalipuram tour packages. Includes hotels, transport & guide.",

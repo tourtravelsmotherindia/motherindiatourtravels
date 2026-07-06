@@ -3,18 +3,8 @@
   "slug": "kerala-tour",
   "name": "Kerala Tour",
   "is_popular": true,
-  "destinations": [
-    "Cochin",
-    "Munnar",
-    "Thekkady",
-    "Alleppey"
-  ],
-  "destination_ids": [
-    "cochin",
-    "munnar",
-    "thekkady",
-    "alleppey"
-  ],
+  "destinations": ["Cochin", "Munnar", "Thekkady", "Alleppey"],
+  "destination_ids": ["cochin", "munnar", "thekkady", "alleppey"],
   "primary_destination": "Cochin",
   "category_ids": [
     "domestic-tour-packages",
@@ -26,12 +16,7 @@
   "is_domestic": true,
   "hero_image": "https://www.freepik.com/free-photo/beautiful-mountain-landscape-azores-archipelago-portugal_14807246.htm#fromView=search&page=1&position=14&uuid=9b7f87d5-fd95-43a4-8463-9140ce9445ce&query=Kochi",
   "overview": "Explore the best of Cochin, Munnar, Thekkady, Alleppey with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
-  "highlights": [
-    "Visit Cochin",
-    "Visit Munnar",
-    "Visit Thekkady",
-    "Visit Alleppey"
-  ],
+  "highlights": ["Visit Cochin", "Visit Munnar", "Visit Thekkady", "Visit Alleppey"],
   "inclusions": [
     "Accommodation in listed or similar hotels",
     "Welcome Drink (Non-Alcoholic)",

@@ -3,34 +3,16 @@
   "slug": "shimla-manali-agra-tour",
   "name": "Shimla Manali Agra Tour",
   "is_popular": false,
-  "destinations": [
-    "Delhi",
-    "Shimla",
-    "Manali",
-    "Agra"
-  ],
-  "destination_ids": [
-    "delhi",
-    "shimla",
-    "manali",
-    "agra"
-  ],
+  "destinations": ["Delhi", "Shimla", "Manali", "Agra"],
+  "destination_ids": ["delhi", "shimla", "manali", "agra"],
   "primary_destination": "Delhi",
-  "category_ids": [
-    "domestic-tour-packages",
-    "north-india-tour-packages"
-  ],
+  "category_ids": ["domestic-tour-packages", "north-india-tour-packages"],
   "state_id": "himachal-pradesh",
   "country_id": "india",
   "is_domestic": true,
   "hero_image": "",
   "overview": "Explore the best of Delhi, Shimla, Manali, Agra with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
-  "highlights": [
-    "Visit Delhi",
-    "Visit Shimla",
-    "Visit Manali",
-    "Visit Agra"
-  ],
+  "highlights": ["Visit Delhi", "Visit Shimla", "Visit Manali", "Visit Agra"],
   "inclusions": [
     "Accommodation in listed or similar hotels",
     "Welcome Drink (Non-Alcoholic)",

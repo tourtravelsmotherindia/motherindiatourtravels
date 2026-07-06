@@ -10,20 +10,10 @@
       "is_featured": true,
       "capital": "New Delhi",
       "currency": "INR",
-      "language": [
-        "Hindi",
-        "English"
-      ],
+      "language": ["Hindi", "English"],
       "visa_required_for_indians": false,
       "description": "India is a land of incredible diversity – ancient temples, Himalayan peaks, tropical beaches, and a 5000-year-old civilization.",
-      "popular_destinations": [
-        "delhi",
-        "agra",
-        "jaipur",
-        "kerala",
-        "kashmir",
-        "goa"
-      ],
+      "popular_destinations": ["delhi", "agra", "jaipur", "kerala", "kashmir", "goa"],
       "seo_title": "India Tour Packages | Domestic Holiday Packages | Best India Tours",
       "seo_description": "Explore India with Mother India Tour Travels. Best domestic tour packages for Delhi, Agra, Jaipur, Kerala, Kashmir, Goa and more.",
       "image": "https://img.freepik.com/free-photo/india-gate-new-delhi-india_1268-17497.jpg",
@@ -88,25 +78,14 @@
       "is_featured": true,
       "capital": "Kathmandu",
       "currency": "NPR",
-      "language": [
-        "Nepali"
-      ],
+      "language": ["Nepali"],
       "visa_required_for_indians": false,
       "description": "Nepal is the land of Himalayas, home to 8 of the world's 10 highest mountains including Mount Everest. A paradise for trekkers and spiritual seekers.",
-      "popular_destinations": [
-        "kathmandu",
-        "pokhara",
-        "chitwan",
-        "lumbini"
-      ],
+      "popular_destinations": ["kathmandu", "pokhara", "chitwan", "lumbini"],
       "seo_title": "Nepal Tour Packages | Himalayan Holiday | Kathmandu Pokhara Tours",
       "seo_description": "Best Nepal tour packages from India. Explore Kathmandu, Pokhara, Himalayan treks and spiritual sites. Book with Mother India Tour Travels.",
       "image": "",
-      "package_ids": [
-        "nepal-grand-tour",
-        "nepal-spiritual-tour",
-        "nepal-tour"
-      ],
+      "package_ids": ["nepal-grand-tour", "nepal-spiritual-tour", "nepal-tour"],
       "package_count": 3
     },
     {
@@ -118,24 +97,15 @@
       "is_featured": true,
       "capital": "Bangkok",
       "currency": "THB",
-      "language": [
-        "Thai"
-      ],
+      "language": ["Thai"],
       "visa_required_for_indians": true,
       "visa_on_arrival": true,
       "description": "Thailand is the 'Land of Smiles' offering golden temples, tropical islands, elephant sanctuaries, and vibrant street food.",
-      "popular_destinations": [
-        "bangkok",
-        "pattaya",
-        "phuket",
-        "chiang-mai"
-      ],
+      "popular_destinations": ["bangkok", "pattaya", "phuket", "chiang-mai"],
       "seo_title": "Thailand Tour Packages from India | Bangkok Pattaya Phuket Tours",
       "seo_description": "Best Thailand tour packages from India. Explore Bangkok, Pattaya, Phuket. Affordable international tours by Mother India Tour Travels.",
       "image": "",
-      "package_ids": [
-        "thailand-tour"
-      ],
+      "package_ids": ["thailand-tour"],
       "package_count": 1
     },
     {
@@ -147,25 +117,15 @@
       "is_featured": true,
       "capital": "Kuala Lumpur",
       "currency": "MYR",
-      "language": [
-        "Malay",
-        "English"
-      ],
+      "language": ["Malay", "English"],
       "visa_required_for_indians": true,
       "visa_on_arrival": true,
       "description": "Malaysia is a multi-cultural gem offering modern cities, pristine rainforests, stunning beaches, and world-class cuisine.",
-      "popular_destinations": [
-        "kuala-lumpur",
-        "genting",
-        "langkawi",
-        "penang"
-      ],
+      "popular_destinations": ["kuala-lumpur", "genting", "langkawi", "penang"],
       "seo_title": "Malaysia Tour Packages from India | Kuala Lumpur Genting Tours",
       "seo_description": "Best Malaysia tour packages from India. Explore Kuala Lumpur, Petronas Towers, Batu Caves. Book with Mother India Tour Travels.",
       "image": "",
-      "package_ids": [
-        "malaysia-tour"
-      ],
+      "package_ids": ["malaysia-tour"],
       "package_count": 1
     },
     {
@@ -177,23 +137,15 @@
       "is_featured": true,
       "capital": "Abu Dhabi",
       "currency": "AED",
-      "language": [
-        "Arabic",
-        "English"
-      ],
+      "language": ["Arabic", "English"],
       "visa_required_for_indians": true,
       "visa_on_arrival": false,
       "description": "UAE is a land of luxury and innovation. From the world's tallest building to golden deserts, UAE offers a unique blend of tradition and modernity.",
-      "popular_destinations": [
-        "dubai",
-        "abu-dhabi"
-      ],
+      "popular_destinations": ["dubai", "abu-dhabi"],
       "seo_title": "Dubai UAE Tour Packages from India | Best Dubai Deals",
       "seo_description": "Best Dubai UAE tour packages from India. Burj Khalifa, Desert Safari, Palm Jumeirah. Book with Mother India Tour Travels.",
       "image": "",
-      "package_ids": [
-        "dubai-tour"
-      ],
+      "package_ids": ["dubai-tour"],
       "package_count": 1
     }
   ]

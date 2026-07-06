@@ -22,11 +22,7 @@
     "cochin"
   ],
   "primary_destination": "Chennai",
-  "category_ids": [
-    "domestic-tour-packages",
-    "south-india-tour-packages",
-    "luxury-tour-packages"
-  ],
+  "category_ids": ["domestic-tour-packages", "south-india-tour-packages", "luxury-tour-packages"],
   "state_id": "tamil-nadu",
   "country_id": "india",
   "is_domestic": true,

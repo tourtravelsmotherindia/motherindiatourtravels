@@ -21,12 +21,7 @@
         "Jama Masjid",
         "Chandni Chowk"
       ],
-      "nearby_destinations": [
-        "agra",
-        "jaipur",
-        "haridwar",
-        "mathura"
-      ],
+      "nearby_destinations": ["agra", "jaipur", "haridwar", "mathura"],
       "seo_title": "Delhi Tour Packages | Best Deals on Delhi Holiday Packages",
       "seo_description": "Explore Delhi with Mother India Tour Travels. Best Delhi tour packages, sightseeing, heritage walks and more. Book now!",
       "image": "https://img.freepik.com/free-photo/india-gate-new-delhi-india_1268-17497.jpg",
@@ -84,12 +79,7 @@
         "Mehtab Bagh",
         "Itimad-ud-Daulah"
       ],
-      "nearby_destinations": [
-        "delhi",
-        "jaipur",
-        "mathura",
-        "varanasi"
-      ],
+      "nearby_destinations": ["delhi", "jaipur", "mathura", "varanasi"],
       "seo_title": "Agra Tour Packages | Taj Mahal Tour | Best Agra Holiday Deals",
       "seo_description": "Visit Agra and the iconic Taj Mahal with Mother India Tour Travels. Best Agra tour packages from Delhi. Book now!",
       "image": "https://img.freepik.com/free-photo/majestic-mausoleum-ancient-god-spiritual-journey-generated-by-ai_188544-11114.jpg",
@@ -137,13 +127,7 @@
         "Nahargarh Fort",
         "Jal Mahal"
       ],
-      "nearby_destinations": [
-        "delhi",
-        "agra",
-        "pushkar",
-        "ranthambore",
-        "udaipur"
-      ],
+      "nearby_destinations": ["delhi", "agra", "pushkar", "ranthambore", "udaipur"],
       "seo_title": "Jaipur Tour Packages | Pink City Holiday Deals | Rajasthan",
       "seo_description": "Explore Jaipur, the Pink City of India. Best Jaipur tour packages including Amber Fort, Hawa Mahal and more. Book with Mother India Tour Travels.",
       "image": "https://img.freepik.com/free-photo/hawa-mahal-palace-jaipur-india_53876-31311.jpg",
@@ -186,12 +170,7 @@
         "Assi Ghat",
         "Manikarnika Ghat"
       ],
-      "nearby_destinations": [
-        "prayagraj",
-        "ayodhya",
-        "khajuraho",
-        "agra"
-      ],
+      "nearby_destinations": ["prayagraj", "ayodhya", "khajuraho", "agra"],
       "seo_title": "Varanasi Tour Packages | Spiritual City of India | Ganga Aarti",
       "seo_description": "Visit Varanasi, the spiritual heart of India. Witness Ganga Aarti, ancient ghats and temples. Book Varanasi tour with Mother India Tour Travels.",
       "image": "",
@@ -228,18 +207,11 @@
         "Hazratbal Shrine",
         "Nishat Bagh"
       ],
-      "nearby_destinations": [
-        "pahalgam",
-        "gulmarg",
-        "sonamarg"
-      ],
+      "nearby_destinations": ["pahalgam", "gulmarg", "sonamarg"],
       "seo_title": "Srinagar Tour Packages | Kashmir Tour | Dal Lake Houseboat",
       "seo_description": "Book Srinagar Kashmir tour packages. Experience Dal Lake houseboats, Mughal Gardens and snow peaks. Best Kashmir tours by Mother India Tour Travels.",
       "image": "",
-      "package_ids": [
-        "kashmir-tour",
-        "kashmir-vaishno-devi-tour"
-      ],
+      "package_ids": ["kashmir-tour", "kashmir-vaishno-devi-tour"],
       "package_count": 2
     },
     {
@@ -253,18 +225,8 @@
       "description": "Shimla, the former summer capital of British India, is a charming hill station known for its colonial architecture, apple orchards, and scenic views.",
       "best_time_to_visit": "March to June, September to November",
       "climate": "Highland – cool summers, snowy winters",
-      "top_attractions": [
-        "Mall Road",
-        "Christ Church",
-        "Jakhoo Temple",
-        "Kufri",
-        "Chail"
-      ],
-      "nearby_destinations": [
-        "manali",
-        "chandigarh",
-        "dharamshala"
-      ],
+      "top_attractions": ["Mall Road", "Christ Church", "Jakhoo Temple", "Kufri", "Chail"],
+      "nearby_destinations": ["manali", "chandigarh", "dharamshala"],
       "seo_title": "Shimla Tour Packages | Himachal Pradesh Holiday | Best Deals",
       "seo_description": "Book Shimla tour packages. Explore Mall Road, colonial architecture and scenic Himalayas. Shimla holiday packages by Mother India Tour Travels.",
       "image": "",
@@ -294,12 +256,7 @@
         "Old Manali",
         "Beas River"
       ],
-      "nearby_destinations": [
-        "shimla",
-        "kasol",
-        "spiti",
-        "dharamshala"
-      ],
+      "nearby_destinations": ["shimla", "kasol", "spiti", "dharamshala"],
       "seo_title": "Manali Tour Packages | Himachal Pradesh | Snow Adventure",
       "seo_description": "Book Manali tour packages for adventure, snow and scenic beauty. Best Manali holiday deals by Mother India Tour Travels.",
       "image": "",
@@ -328,11 +285,7 @@
         "Mansa Devi Temple",
         "Maya Devi Temple"
       ],
-      "nearby_destinations": [
-        "rishikesh",
-        "dehradun",
-        "mussoorie"
-      ],
+      "nearby_destinations": ["rishikesh", "dehradun", "mussoorie"],
       "seo_title": "Haridwar Tour Packages | Ganga Aarti | Spiritual Travel India",
       "seo_description": "Visit Haridwar with Mother India Tour Travels. Experience the sacred Ganga Aarti. Best Haridwar tour packages.",
       "image": "",
@@ -361,11 +314,7 @@
         "Beatles Ashram",
         "Parmarth Niketan"
       ],
-      "nearby_destinations": [
-        "haridwar",
-        "mussoorie",
-        "tehri"
-      ],
+      "nearby_destinations": ["haridwar", "mussoorie", "tehri"],
       "seo_title": "Rishikesh Tour Packages | Yoga Capital | River Rafting",
       "seo_description": "Book Rishikesh tour packages. Yoga, meditation, river rafting and more. Best Rishikesh holiday deals by Mother India Tour Travels.",
       "image": "",
@@ -396,11 +345,7 @@
         "Himalayan Railway",
         "Peace Pagoda"
       ],
-      "nearby_destinations": [
-        "gangtok",
-        "pelling",
-        "kalimpong"
-      ],
+      "nearby_destinations": ["gangtok", "pelling", "kalimpong"],
       "seo_title": "Darjeeling Tour Packages | Tea Garden Holiday | Hill Station",
       "seo_description": "Explore Darjeeling's tea gardens, toy train and Himalayan views. Best Darjeeling tour packages by Mother India Tour Travels.",
       "image": "",
@@ -428,11 +373,7 @@
         "Banjhakri Falls",
         "Nathu La Pass"
       ],
-      "nearby_destinations": [
-        "darjeeling",
-        "pelling",
-        "lachung"
-      ],
+      "nearby_destinations": ["darjeeling", "pelling", "lachung"],
       "seo_title": "Gangtok Tour Packages | Sikkim Holiday | Monastery Tours",
       "seo_description": "Book Gangtok Sikkim tour packages. Explore monasteries, mountain views and Nathu La Pass. Best deals by Mother India Tour Travels.",
       "image": "",
@@ -460,11 +401,7 @@
         "Jew Town",
         "Marine Drive"
       ],
-      "nearby_destinations": [
-        "munnar",
-        "thekkady",
-        "alleppey"
-      ],
+      "nearby_destinations": ["munnar", "thekkady", "alleppey"],
       "seo_title": "Cochin Tour Packages | Kochi Kerala | Heritage City Tours",
       "seo_description": "Explore Cochin with its colonial heritage and backwaters. Best Cochin tour packages by Mother India Tour Travels.",
       "image": "",
@@ -494,19 +431,11 @@
         "Top Station",
         "Neelakurinji"
       ],
-      "nearby_destinations": [
-        "cochin",
-        "thekkady",
-        "alleppey"
-      ],
+      "nearby_destinations": ["cochin", "thekkady", "alleppey"],
       "seo_title": "Munnar Tour Packages | Kerala Tea Garden | Hill Station",
       "seo_description": "Book Munnar tour packages. Explore tea gardens, national parks and scenic hills. Best Munnar holiday deals by Mother India Tour Travels.",
       "image": "",
-      "package_ids": [
-        "golden-triangle-tour-kerala",
-        "kerala-munnar-alleppey-tour",
-        "kerala-tour"
-      ],
+      "package_ids": ["golden-triangle-tour-kerala", "kerala-munnar-alleppey-tour", "kerala-tour"],
       "package_count": 3
     },
     {
@@ -527,20 +456,11 @@
         "Alleppey Lighthouse",
         "Marari Beach"
       ],
-      "nearby_destinations": [
-        "cochin",
-        "munnar",
-        "thekkady",
-        "kovalam"
-      ],
+      "nearby_destinations": ["cochin", "munnar", "thekkady", "kovalam"],
       "seo_title": "Alleppey Tour Packages | Kerala Backwaters | Houseboat Cruise",
       "seo_description": "Experience Kerala's backwaters and houseboat cruises in Alleppey. Best Alleppey tour packages by Mother India Tour Travels.",
       "image": "",
-      "package_ids": [
-        "golden-triangle-tour-kerala",
-        "kerala-munnar-alleppey-tour",
-        "kerala-tour"
-      ],
+      "package_ids": ["golden-triangle-tour-kerala", "kerala-munnar-alleppey-tour", "kerala-tour"],
       "package_count": 3
     },
     {
@@ -561,16 +481,11 @@
         "Fort Aguada",
         "Dudhsagar Falls"
       ],
-      "nearby_destinations": [
-        "cochin",
-        "mumbai"
-      ],
+      "nearby_destinations": ["cochin", "mumbai"],
       "seo_title": "Goa Tour Packages | Beach Holiday | Best Goa Deals",
       "seo_description": "Book Goa tour packages. Enjoy beaches, nightlife and Portuguese heritage. Best Goa holiday deals by Mother India Tour Travels.",
       "image": "",
-      "package_ids": [
-        "goa-tour"
-      ],
+      "package_ids": ["goa-tour"],
       "package_count": 1
     },
     {
@@ -590,19 +505,11 @@
         "Durbar Square",
         "Patan"
       ],
-      "nearby_destinations": [
-        "pokhara",
-        "chitwan",
-        "lumbini"
-      ],
+      "nearby_destinations": ["pokhara", "chitwan", "lumbini"],
       "seo_title": "Nepal Tour Packages | Kathmandu | Himalayan Holiday",
       "seo_description": "Book Nepal tour packages to Kathmandu, Pokhara and more. Himalayan adventures and spiritual journeys. Book with Mother India Tour Travels.",
       "image": "",
-      "package_ids": [
-        "nepal-grand-tour",
-        "nepal-spiritual-tour",
-        "nepal-tour"
-      ],
+      "package_ids": ["nepal-grand-tour", "nepal-spiritual-tour", "nepal-tour"],
       "package_count": 3
     },
     {
@@ -622,17 +529,11 @@
         "Khao San Road",
         "Chao Phraya River"
       ],
-      "nearby_destinations": [
-        "pattaya",
-        "phuket",
-        "chiang-mai"
-      ],
+      "nearby_destinations": ["pattaya", "phuket", "chiang-mai"],
       "seo_title": "Thailand Tour Packages | Bangkok Pattaya | Best Thailand Deals",
       "seo_description": "Book Thailand tour packages. Explore Bangkok, Pattaya and Phuket. Best Thailand holiday deals by Mother India Tour Travels.",
       "image": "",
-      "package_ids": [
-        "thailand-tour"
-      ],
+      "package_ids": ["thailand-tour"],
       "package_count": 1
     },
     {
@@ -652,16 +553,11 @@
         "Dubai Creek",
         "Desert Safari"
       ],
-      "nearby_destinations": [
-        "abu-dhabi",
-        "sharjah"
-      ],
+      "nearby_destinations": ["abu-dhabi", "sharjah"],
       "seo_title": "Dubai Tour Packages | UAE Holiday | Best Dubai Deals",
       "seo_description": "Book Dubai tour packages. Visit Burj Khalifa, Desert Safari and more. Best Dubai holiday deals by Mother India Tour Travels.",
       "image": "",
-      "package_ids": [
-        "dubai-tour"
-      ],
+      "package_ids": ["dubai-tour"],
       "package_count": 1
     },
     {
@@ -681,17 +577,11 @@
         "Chinatown",
         "KLCC Park"
       ],
-      "nearby_destinations": [
-        "genting",
-        "langkawi",
-        "penang"
-      ],
+      "nearby_destinations": ["genting", "langkawi", "penang"],
       "seo_title": "Malaysia Tour Packages | Kuala Lumpur | Best Malaysia Deals",
       "seo_description": "Book Malaysia tour packages. Visit Petronas Towers, Batu Caves and more. Best Malaysia holiday deals by Mother India Tour Travels.",
       "image": "",
-      "package_ids": [
-        "malaysia-tour"
-      ],
+      "package_ids": ["malaysia-tour"],
       "package_count": 1
     }
   ]

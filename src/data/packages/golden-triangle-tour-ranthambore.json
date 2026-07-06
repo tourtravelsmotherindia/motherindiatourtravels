@@ -3,35 +3,16 @@
   "slug": "golden-triangle-tour-ranthambore",
   "name": "Golden Triangle Tour with Ranthambore",
   "is_popular": false,
-  "destinations": [
-    "Delhi",
-    "Agra",
-    "Jaipur",
-    "Ranthambore"
-  ],
-  "destination_ids": [
-    "delhi",
-    "agra",
-    "jaipur",
-    "ranthambore"
-  ],
+  "destinations": ["Delhi", "Agra", "Jaipur", "Ranthambore"],
+  "destination_ids": ["delhi", "agra", "jaipur", "ranthambore"],
   "primary_destination": "Delhi",
-  "category_ids": [
-    "domestic-tour-packages",
-    "north-india-tour-packages",
-    "wildlife-tour-packages"
-  ],
+  "category_ids": ["domestic-tour-packages", "north-india-tour-packages", "wildlife-tour-packages"],
   "state_id": "rajasthan",
   "country_id": "india",
   "is_domestic": true,
   "hero_image": "https://images.unsplash.com/photo-1587330979470-3595ac045ab0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
   "overview": "Explore the best of Delhi, Agra, Jaipur, Ranthambore with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
-  "highlights": [
-    "Visit Delhi",
-    "Visit Agra",
-    "Visit Jaipur",
-    "Visit Ranthambore"
-  ],
+  "highlights": ["Visit Delhi", "Visit Agra", "Visit Jaipur", "Visit Ranthambore"],
   "inclusions": [
     "Accommodation in listed or similar hotels",
     "Welcome Drink (Non-Alcoholic)",

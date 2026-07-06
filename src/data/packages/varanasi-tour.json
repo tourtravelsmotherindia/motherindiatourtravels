@@ -3,12 +3,8 @@
   "slug": "varanasi-tour",
   "name": "Varanasi Tour",
   "is_popular": false,
-  "destinations": [
-    "Varanasi"
-  ],
-  "destination_ids": [
-    "varanasi"
-  ],
+  "destinations": ["Varanasi"],
+  "destination_ids": ["varanasi"],
   "primary_destination": "Varanasi",
   "category_ids": [
     "domestic-tour-packages",
@@ -20,9 +16,7 @@
   "is_domestic": true,
   "hero_image": "",
   "overview": "Explore the best of Varanasi with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
-  "highlights": [
-    "Visit Varanasi"
-  ],
+  "highlights": ["Visit Varanasi"],
   "inclusions": [
     "Accommodation in listed or similar hotels",
     "Welcome Drink (Non-Alcoholic)",
@@ -85,12 +79,6 @@
   "seo": {
     "title": "Varanasi Tour | Mother India Tour Travels",
     "description": "Book Varanasi Tour with Mother India Tour Travels. Best deals on Varanasi tour packages. Includes hotels, transport & guide.",
-    "keywords": [
-      "Varanasi Tour",
-      "Varanasi",
-      "tour package",
-      "India travel",
-      "Mother India Tour"
-    ]
+    "keywords": ["Varanasi Tour", "Varanasi", "tour package", "India travel", "Mother India Tour"]
   }
 }

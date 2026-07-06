@@ -3,32 +3,16 @@
   "slug": "thailand-tour",
   "name": "Thailand Tour",
   "is_popular": true,
-  "destinations": [
-    "Bangkok",
-    "Pattaya",
-    "Phuket"
-  ],
-  "destination_ids": [
-    "bangkok",
-    "pattaya",
-    "phuket"
-  ],
+  "destinations": ["Bangkok", "Pattaya", "Phuket"],
+  "destination_ids": ["bangkok", "pattaya", "phuket"],
   "primary_destination": "Bangkok",
-  "category_ids": [
-    "international-tour-packages",
-    "beach-tour-packages",
-    "honeymoon-tour-packages"
-  ],
+  "category_ids": ["international-tour-packages", "beach-tour-packages", "honeymoon-tour-packages"],
   "state_id": null,
   "country_id": "thailand",
   "is_domestic": false,
   "hero_image": "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80",
   "overview": "Explore the best of Bangkok, Pattaya, Phuket with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
-  "highlights": [
-    "Visit Bangkok",
-    "Visit Pattaya",
-    "Visit Phuket"
-  ],
+  "highlights": ["Visit Bangkok", "Visit Pattaya", "Visit Phuket"],
   "inclusions": [
     "Accommodation in listed or similar hotels",
     "Welcome Drink (Non-Alcoholic)",

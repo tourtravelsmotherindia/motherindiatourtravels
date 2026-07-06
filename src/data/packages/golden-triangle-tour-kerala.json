@@ -3,22 +3,8 @@
   "slug": "golden-triangle-tour-kerala",
   "name": "Golden Triangle Tour with Kerala",
   "is_popular": false,
-  "destinations": [
-    "Delhi",
-    "Agra",
-    "Jaipur",
-    "Cochin",
-    "Munnar",
-    "Alleppey"
-  ],
-  "destination_ids": [
-    "delhi",
-    "agra",
-    "jaipur",
-    "cochin",
-    "munnar",
-    "alleppey"
-  ],
+  "destinations": ["Delhi", "Agra", "Jaipur", "Cochin", "Munnar", "Alleppey"],
+  "destination_ids": ["delhi", "agra", "jaipur", "cochin", "munnar", "alleppey"],
   "primary_destination": "Delhi",
   "category_ids": [
     "domestic-tour-packages",

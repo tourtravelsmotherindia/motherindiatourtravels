@@ -3,25 +3,10 @@
   "slug": "himachal-amritsar-tour",
   "name": "Himachal Tour with Amritsar",
   "is_popular": false,
-  "destinations": [
-    "Delhi",
-    "Amritsar",
-    "Dharamshala",
-    "Shimla",
-    "Manali"
-  ],
-  "destination_ids": [
-    "delhi",
-    "amritsar",
-    "dharamshala",
-    "shimla",
-    "manali"
-  ],
+  "destinations": ["Delhi", "Amritsar", "Dharamshala", "Shimla", "Manali"],
+  "destination_ids": ["delhi", "amritsar", "dharamshala", "shimla", "manali"],
   "primary_destination": "Delhi",
-  "category_ids": [
-    "domestic-tour-packages",
-    "north-india-tour-packages"
-  ],
+  "category_ids": ["domestic-tour-packages", "north-india-tour-packages"],
   "state_id": "himachal-pradesh",
   "country_id": "india",
   "is_domestic": true,

@@ -3,28 +3,16 @@
   "slug": "himalayan-panorama-tour",
   "name": "Himalayan Panorama Tour",
   "is_popular": false,
-  "destinations": [
-    "Darjeeling",
-    "Gangtok"
-  ],
-  "destination_ids": [
-    "darjeeling",
-    "gangtok"
-  ],
+  "destinations": ["Darjeeling", "Gangtok"],
+  "destination_ids": ["darjeeling", "gangtok"],
   "primary_destination": "Darjeeling",
-  "category_ids": [
-    "domestic-tour-packages",
-    "north-india-tour-packages"
-  ],
+  "category_ids": ["domestic-tour-packages", "north-india-tour-packages"],
   "state_id": "west-bengal",
   "country_id": "india",
   "is_domestic": true,
   "hero_image": "",
   "overview": "Explore the best of Darjeeling, Gangtok with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
-  "highlights": [
-    "Visit Darjeeling",
-    "Visit Gangtok"
-  ],
+  "highlights": ["Visit Darjeeling", "Visit Gangtok"],
   "inclusions": [
     "Accommodation in listed or similar hotels",
     "Welcome Drink (Non-Alcoholic)",
@@ -88,12 +76,7 @@
       ]
     }
   ],
-  "tags": [
-    "domestic-tour-packages",
-    "north-india-tour-packages",
-    "darjeeling",
-    "gangtok"
-  ],
+  "tags": ["domestic-tour-packages", "north-india-tour-packages", "darjeeling", "gangtok"],
   "seo": {
     "title": "Himalayan Panorama Tour | Mother India Tour Travels",
     "description": "Book Himalayan Panorama Tour with Mother India Tour Travels. Best deals on Darjeeling, Gangtok tour packages. Includes hotels, transport & guide.",

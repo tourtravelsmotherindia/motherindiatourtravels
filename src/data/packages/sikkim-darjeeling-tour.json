@@ -3,14 +3,8 @@
   "slug": "sikkim-darjeeling-tour",
   "name": "Sikkim Darjeeling Tour",
   "is_popular": false,
-  "destinations": [
-    "Darjeeling",
-    "Gangtok"
-  ],
-  "destination_ids": [
-    "darjeeling",
-    "gangtok"
-  ],
+  "destinations": ["Darjeeling", "Gangtok"],
+  "destination_ids": ["darjeeling", "gangtok"],
   "primary_destination": "Darjeeling",
   "category_ids": [
     "domestic-tour-packages",
@@ -22,10 +16,7 @@
   "is_domestic": true,
   "hero_image": "",
   "overview": "Explore the best of Darjeeling, Gangtok with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
-  "highlights": [
-    "Visit Darjeeling",
-    "Visit Gangtok"
-  ],
+  "highlights": ["Visit Darjeeling", "Visit Gangtok"],
   "inclusions": [
     "Accommodation in listed or similar hotels",
     "Welcome Drink (Non-Alcoholic)",

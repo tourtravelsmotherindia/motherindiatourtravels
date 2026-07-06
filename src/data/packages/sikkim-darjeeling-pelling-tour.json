@@ -3,31 +3,16 @@
   "slug": "sikkim-darjeeling-pelling-tour",
   "name": "Pelling Darjeeling Gangtok Tour",
   "is_popular": false,
-  "destinations": [
-    "Pelling",
-    "Darjeeling",
-    "Gangtok"
-  ],
-  "destination_ids": [
-    "pelling",
-    "darjeeling",
-    "gangtok"
-  ],
+  "destinations": ["Pelling", "Darjeeling", "Gangtok"],
+  "destination_ids": ["pelling", "darjeeling", "gangtok"],
   "primary_destination": "Pelling",
-  "category_ids": [
-    "domestic-tour-packages",
-    "north-india-tour-packages"
-  ],
+  "category_ids": ["domestic-tour-packages", "north-india-tour-packages"],
   "state_id": "sikkim",
   "country_id": "india",
   "is_domestic": true,
   "hero_image": "",
   "overview": "Explore the best of Pelling, Darjeeling, Gangtok with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
-  "highlights": [
-    "Visit Pelling",
-    "Visit Darjeeling",
-    "Visit Gangtok"
-  ],
+  "highlights": ["Visit Pelling", "Visit Darjeeling", "Visit Gangtok"],
   "inclusions": [
     "Accommodation in listed or similar hotels",
     "Welcome Drink (Non-Alcoholic)",

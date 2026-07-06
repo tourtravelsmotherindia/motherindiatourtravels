@@ -1,15 +1,14 @@
-import React from "react";
-import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import WhyChooseUs from "@/components/WhyChooseUs";
-import TripCards from "@/components/TripCards";
-import PopularDestinations from "@/components/PopularDestinations";
-import Gallery from "@/components/Gallery";
-import PartnerAirlines from "@/components/PartnerAirlines";
-import RegionsGrid from "@/components/RegionsGrid";
 import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
+import Gallery from "@/components/Gallery";
+import Hero from "@/components/Hero";
+import Navbar from "@/components/Navbar";
+import PartnerAirlines from "@/components/PartnerAirlines";
+import PopularDestinations from "@/components/PopularDestinations";
+import RegionsGrid from "@/components/RegionsGrid";
 import TestimonialsSection from "@/components/TravelerMoments";
+import TripCards from "@/components/TripCards";
+import WhyChooseUs from "@/components/WhyChooseUs";
 
 export default function Home() {
   return (

@@ -3,31 +3,16 @@
   "slug": "kerala-munnar-alleppey-tour",
   "name": "Kerala Munnar Alleppey Tour",
   "is_popular": false,
-  "destinations": [
-    "Cochin",
-    "Munnar",
-    "Alleppey"
-  ],
-  "destination_ids": [
-    "cochin",
-    "munnar",
-    "alleppey"
-  ],
+  "destinations": ["Cochin", "Munnar", "Alleppey"],
+  "destination_ids": ["cochin", "munnar", "alleppey"],
   "primary_destination": "Cochin",
-  "category_ids": [
-    "domestic-tour-packages",
-    "south-india-tour-packages"
-  ],
+  "category_ids": ["domestic-tour-packages", "south-india-tour-packages"],
   "state_id": "kerala",
   "country_id": "india",
   "is_domestic": true,
   "hero_image": "",
   "overview": "Explore the best of Cochin, Munnar, Alleppey with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
-  "highlights": [
-    "Visit Cochin",
-    "Visit Munnar",
-    "Visit Alleppey"
-  ],
+  "highlights": ["Visit Cochin", "Visit Munnar", "Visit Alleppey"],
   "inclusions": [
     "Accommodation in listed or similar hotels",
     "Welcome Drink (Non-Alcoholic)",
@@ -86,13 +71,7 @@
       ]
     }
   ],
-  "tags": [
-    "domestic-tour-packages",
-    "south-india-tour-packages",
-    "cochin",
-    "munnar",
-    "alleppey"
-  ],
+  "tags": ["domestic-tour-packages", "south-india-tour-packages", "cochin", "munnar", "alleppey"],
   "seo": {
     "title": "Kerala Munnar Alleppey Tour | Mother India Tour Travels",
     "description": "Book Kerala Munnar Alleppey Tour with Mother India Tour Travels. Best deals on Cochin, Munnar, Alleppey tour packages. Includes hotels, transport & guide.",

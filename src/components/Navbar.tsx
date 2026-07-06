@@ -1,17 +1,17 @@
 "use client";
 
-import React, { useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
+import { AnimatePresence, motion } from "framer-motion";
 import { Globe, Menu, X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [lang] = useState("EN");
   const [scrolled, setScrolled] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 20) {
         setScrolled(true);
@@ -36,14 +36,18 @@ export default function Navbar() {
   ];
 
   return (
-    <header className={`fixed left-0 right-0 z-50 px-4 md:px-8 max-w-[1440px] mx-auto transition-all duration-300 ${
-      scrolled ? "top-3" : "top-6"
-    }`}>
-      <nav className={`rounded-full px-6 transition-all duration-300 flex items-center justify-between border ${
-        scrolled
-          ? "bg-white/80 backdrop-blur-md py-2.5 shadow-[0_8px_30px_rgba(0,0,0,0.06)] border-border-light/60"
-          : "bg-white py-3.5 shadow-[0_8px_30px_rgba(0,0,0,0.06)] border-border-light"
-      }`}>
+    <header
+      className={`fixed left-0 right-0 z-50 px-4 md:px-8 max-w-[1440px] mx-auto transition-all duration-300 ${
+        scrolled ? "top-3" : "top-6"
+      }`}
+    >
+      <nav
+        className={`rounded-full px-6 transition-all duration-300 flex items-center justify-between border ${
+          scrolled
+            ? "bg-white/80 backdrop-blur-md py-2.5 shadow-[0_8px_30px_rgba(0,0,0,0.06)] border-border-light/60"
+            : "bg-white py-3.5 shadow-[0_8px_30px_rgba(0,0,0,0.06)] border-border-light"
+        }`}
+      >
         {/* Logo + Brand Name */}
         <Link href="/" className="flex items-center gap-3 group shrink-0">
           <Image
@@ -74,12 +78,16 @@ export default function Navbar() {
 
         {/* Right Side: Language & Mobile Toggle */}
         <div className="flex items-center gap-4">
-          <button className="flex items-center gap-1.5 px-4 py-2 border border-border-light rounded-full text-foreground hover:bg-brand-light hover:text-brand hover:border-brand/30 transition-all duration-200 text-xs font-semibold">
+          <button
+            type="button"
+            className="flex items-center gap-1.5 px-4 py-2 border border-border-light rounded-full text-foreground hover:bg-brand-light hover:text-brand hover:border-brand/30 transition-all duration-200 text-xs font-semibold"
+          >
             <Globe className="w-3.5 h-3.5" />
             <span>{lang}</span>
           </button>
 
           <button
+            type="button"
             onClick={toggleMenu}
             className="md:hidden p-2 text-foreground hover:text-brand hover:bg-brand-light rounded-full transition-colors duration-200"
             aria-label="Toggle menu"

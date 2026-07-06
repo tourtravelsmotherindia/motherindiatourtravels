@@ -3,26 +3,16 @@
   "slug": "goa-tour",
   "name": "Goa Tour",
   "is_popular": false,
-  "destinations": [
-    "Goa"
-  ],
-  "destination_ids": [
-    "goa"
-  ],
+  "destinations": ["Goa"],
+  "destination_ids": ["goa"],
   "primary_destination": "Goa",
-  "category_ids": [
-    "domestic-tour-packages",
-    "beach-tour-packages",
-    "weekend-tour-packages"
-  ],
+  "category_ids": ["domestic-tour-packages", "beach-tour-packages", "weekend-tour-packages"],
   "state_id": "goa",
   "country_id": "india",
   "is_domestic": true,
   "hero_image": "",
   "overview": "Explore the best of Goa with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
-  "highlights": [
-    "Visit Goa"
-  ],
+  "highlights": ["Visit Goa"],
   "inclusions": [
     "Accommodation in listed or similar hotels",
     "Welcome Drink (Non-Alcoholic)",
@@ -139,21 +129,10 @@
       ]
     }
   ],
-  "tags": [
-    "domestic-tour-packages",
-    "beach-tour-packages",
-    "weekend-tour-packages",
-    "goa"
-  ],
+  "tags": ["domestic-tour-packages", "beach-tour-packages", "weekend-tour-packages", "goa"],
   "seo": {
     "title": "Goa Tour | Mother India Tour Travels",
     "description": "Book Goa Tour with Mother India Tour Travels. Best deals on Goa tour packages. Includes hotels, transport & guide.",
-    "keywords": [
-      "Goa Tour",
-      "Goa",
-      "tour package",
-      "India travel",
-      "Mother India Tour"
-    ]
+    "keywords": ["Goa Tour", "Goa", "tour package", "India travel", "Mother India Tour"]
   }
 }

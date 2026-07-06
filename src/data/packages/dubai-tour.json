@@ -3,25 +3,16 @@
   "slug": "dubai-tour",
   "name": "Dubai Tour",
   "is_popular": true,
-  "destinations": [
-    "Dubai"
-  ],
-  "destination_ids": [
-    "dubai"
-  ],
+  "destinations": ["Dubai"],
+  "destination_ids": ["dubai"],
   "primary_destination": "Dubai",
-  "category_ids": [
-    "international-tour-packages",
-    "luxury-tour-packages"
-  ],
+  "category_ids": ["international-tour-packages", "luxury-tour-packages"],
   "state_id": null,
   "country_id": "uae",
   "is_domestic": false,
   "hero_image": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
   "overview": "Explore the best of Dubai with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
-  "highlights": [
-    "Visit Dubai"
-  ],
+  "highlights": ["Visit Dubai"],
   "inclusions": [
     "Accommodation in listed or similar hotels",
     "Welcome Drink (Non-Alcoholic)",
@@ -59,20 +50,10 @@
       "itinerary": []
     }
   ],
-  "tags": [
-    "international-tour-packages",
-    "luxury-tour-packages",
-    "dubai"
-  ],
+  "tags": ["international-tour-packages", "luxury-tour-packages", "dubai"],
   "seo": {
     "title": "Dubai Tour | Mother India Tour Travels",
     "description": "Book Dubai Tour with Mother India Tour Travels. Best deals on Dubai tour packages. Includes hotels, transport & guide.",
-    "keywords": [
-      "Dubai Tour",
-      "Dubai",
-      "tour package",
-      "India travel",
-      "Mother India Tour"
-    ]
+    "keywords": ["Dubai Tour", "Dubai", "tour package", "India travel", "Mother India Tour"]
   }
 }

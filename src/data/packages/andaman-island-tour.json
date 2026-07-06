@@ -12,11 +12,7 @@
   "is_domestic": true,
   "hero_image": "",
   "overview": "Explore the best of Port Blair, Havelock Island, Neil Island with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
-  "highlights": [
-    "Visit Port Blair",
-    "Visit Havelock Island",
-    "Visit Neil Island"
-  ],
+  "highlights": ["Visit Port Blair", "Visit Havelock Island", "Visit Neil Island"],
   "inclusions": [
     "Accommodation in listed or similar hotels",
     "Welcome Drink (Non-Alcoholic)",

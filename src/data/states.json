@@ -150,10 +150,7 @@
       "country_id": "india",
       "capital": "Srinagar",
       "is_featured": true,
-      "package_ids": [
-        "kashmir-tour",
-        "kashmir-vaishno-devi-tour"
-      ],
+      "package_ids": ["kashmir-tour", "kashmir-vaishno-devi-tour"],
       "package_count": 2
     },
     {
@@ -205,9 +202,7 @@
       "country_id": "india",
       "capital": "Panaji",
       "is_featured": true,
-      "package_ids": [
-        "goa-tour"
-      ],
+      "package_ids": ["goa-tour"],
       "package_count": 1
     },
     {
@@ -216,10 +211,7 @@
       "slug": "andaman-nicobar",
       "country_id": "india",
       "capital": "Port Blair",
-      "package_ids": [
-        "andaman-island-tour",
-        "andaman-tour"
-      ],
+      "package_ids": ["andaman-island-tour", "andaman-tour"],
       "package_count": 2
     },
     {
@@ -243,10 +235,7 @@
       "slug": "tamil-nadu",
       "country_id": "india",
       "capital": "Chennai",
-      "package_ids": [
-        "south-india-grand-tour",
-        "south-india-tour"
-      ],
+      "package_ids": ["south-india-grand-tour", "south-india-tour"],
       "package_count": 2
     },
     {
@@ -255,9 +244,7 @@
       "slug": "karnataka",
       "country_id": "india",
       "capital": "Bengaluru",
-      "package_ids": [
-        "south-india-grand-tour"
-      ],
+      "package_ids": ["south-india-grand-tour"],
       "package_count": 1
     }
   ]

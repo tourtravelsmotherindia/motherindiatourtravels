@@ -3,24 +3,8 @@
   "slug": "rajasthan-grand-tour-varanasi",
   "name": "Delhi Rajasthan Taj Mahal with Varanasi Tour",
   "is_popular": false,
-  "destinations": [
-    "Delhi",
-    "Agra",
-    "Jaipur",
-    "Jodhpur",
-    "Jaisalmer",
-    "Udaipur",
-    "Varanasi"
-  ],
-  "destination_ids": [
-    "delhi",
-    "agra",
-    "jaipur",
-    "jodhpur",
-    "jaisalmer",
-    "udaipur",
-    "varanasi"
-  ],
+  "destinations": ["Delhi", "Agra", "Jaipur", "Jodhpur", "Jaisalmer", "Udaipur", "Varanasi"],
+  "destination_ids": ["delhi", "agra", "jaipur", "jodhpur", "jaisalmer", "udaipur", "varanasi"],
   "primary_destination": "Delhi",
   "category_ids": [
     "domestic-tour-packages",

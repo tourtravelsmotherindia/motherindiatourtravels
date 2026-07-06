@@ -3,22 +3,8 @@
   "slug": "rajasthan-tour-khajuraho-varanasi",
   "name": "Rajasthan Tour with Khajuraho & Varanasi",
   "is_popular": false,
-  "destinations": [
-    "Delhi",
-    "Jaipur",
-    "Jodhpur",
-    "Jaisalmer",
-    "Khajuraho",
-    "Varanasi"
-  ],
-  "destination_ids": [
-    "delhi",
-    "jaipur",
-    "jodhpur",
-    "jaisalmer",
-    "khajuraho",
-    "varanasi"
-  ],
+  "destinations": ["Delhi", "Jaipur", "Jodhpur", "Jaisalmer", "Khajuraho", "Varanasi"],
+  "destination_ids": ["delhi", "jaipur", "jodhpur", "jaisalmer", "khajuraho", "varanasi"],
   "primary_destination": "Delhi",
   "category_ids": [
     "domestic-tour-packages",

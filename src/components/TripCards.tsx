@@ -1,10 +1,9 @@
 "use client";
 
-import React from "react";
+import { motion } from "framer-motion";
+import { ArrowRight, Clock } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Clock } from "lucide-react";
-import { motion } from "framer-motion";
 
 interface Trip {
   id: number;
@@ -82,11 +81,9 @@ export default function TripCards() {
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
         <div>
           <h2 className="text-3xl md:text-5xl font-extrabold text-foreground tracking-tight leading-[1.1]">
-            Find Trips That <span className="font-serif italic font-medium text-brand">Move You</span>
+            Explore <span className="text-brand">Trips</span>
           </h2>
-          <p className="text-muted font-medium mt-2">
-            Handpicked adventures designed to inspire
-          </p>
+          <p className="text-muted font-medium mt-2">Handpicked adventures designed to inspire</p>
         </div>
         <Link
           href="#"
@@ -146,7 +143,9 @@ export default function TripCards() {
               {/* Price & Duration */}
               <div className="flex items-center justify-between pt-4 border-t border-border-light mb-4">
                 <div className="flex flex-col">
-                  <span className="text-[10px] text-muted font-bold uppercase tracking-wider">Price</span>
+                  <span className="text-[10px] text-muted font-bold uppercase tracking-wider">
+                    Price
+                  </span>
                   <span className="text-lg font-extrabold text-foreground leading-none mt-1">
                     {trip.price}
                   </span>

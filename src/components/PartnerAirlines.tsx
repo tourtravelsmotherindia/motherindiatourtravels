@@ -1,8 +1,7 @@
 "use client";
 
-import React from "react";
-import { ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
 
 interface Airline {
   id: number;
@@ -14,14 +13,56 @@ interface Airline {
 
 export default function PartnerAirlines() {
   const airlines: Airline[] = [
-    { id: 1, name: "Air India", logoColor: "bg-[#D61F27]", logoLetter: "AI", textColor: "text-white" },
-    { id: 2, name: "Emirates", logoColor: "bg-[#D71921]", logoLetter: "EK", textColor: "text-white" },
-    { id: 3, name: "Singapore Airlines", logoColor: "bg-[#06205C]", logoLetter: "SQ", textColor: "text-[#D2A145]" },
-    { id: 4, name: "Vistara", logoColor: "bg-[#4E1436]", logoLetter: "UK", textColor: "text-[#DCA54C]" },
+    {
+      id: 1,
+      name: "Air India",
+      logoColor: "bg-[#D61F27]",
+      logoLetter: "AI",
+      textColor: "text-white",
+    },
+    {
+      id: 2,
+      name: "Emirates",
+      logoColor: "bg-[#D71921]",
+      logoLetter: "EK",
+      textColor: "text-white",
+    },
+    {
+      id: 3,
+      name: "Singapore Airlines",
+      logoColor: "bg-[#06205C]",
+      logoLetter: "SQ",
+      textColor: "text-[#D2A145]",
+    },
+    {
+      id: 4,
+      name: "Vistara",
+      logoColor: "bg-[#4E1436]",
+      logoLetter: "UK",
+      textColor: "text-[#DCA54C]",
+    },
     { id: 5, name: "IndiGo", logoColor: "bg-[#002B73]", logoLetter: "6E", textColor: "text-white" },
-    { id: 6, name: "AirAsia", logoColor: "bg-[#E01E26]", logoLetter: "AK", textColor: "text-white" },
-    { id: 7, name: "Qatar Airways", logoColor: "bg-[#5A122C]", logoLetter: "QR", textColor: "text-[#D0A465]" },
-    { id: 8, name: "Turkish Airlines", logoColor: "bg-[#E81932]", logoLetter: "TK", textColor: "text-white" },
+    {
+      id: 6,
+      name: "AirAsia",
+      logoColor: "bg-[#E01E26]",
+      logoLetter: "AK",
+      textColor: "text-white",
+    },
+    {
+      id: 7,
+      name: "Qatar Airways",
+      logoColor: "bg-[#5A122C]",
+      logoLetter: "QR",
+      textColor: "text-[#D0A465]",
+    },
+    {
+      id: 8,
+      name: "Turkish Airlines",
+      logoColor: "bg-[#E81932]",
+      logoLetter: "TK",
+      textColor: "text-white",
+    },
   ];
 
   return (
@@ -40,15 +81,14 @@ export default function PartnerAirlines() {
         {/* Airlines Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {airlines.map((airline, idx) => (
-            <motion.a
-              href="#"
+            <motion.div
               key={airline.id}
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: idx * 0.05 }}
               whileHover={{ scale: 1.02 }}
-              className="bg-white rounded-full p-4 border border-border-light shadow-card hover:shadow-premium flex items-center justify-between hover:border-brand/20 transition-all duration-300 group"
+              className="bg-white rounded-full p-4 border border-border-light shadow-card hover:shadow-premium flex items-center justify-between hover:border-brand/20 transition-all duration-300 group cursor-pointer"
             >
               {/* Airline Branding */}
               <div className="flex items-center gap-3.5">
@@ -67,7 +107,7 @@ export default function PartnerAirlines() {
               <div className="w-8 h-8 rounded-full border border-border-light group-hover:border-brand/20 flex items-center justify-center text-muted group-hover:text-brand group-hover:bg-brand-light transition-all duration-300 shrink-0">
                 <ArrowUpRight className="w-4 h-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 duration-300" />
               </div>
-            </motion.a>
+            </motion.div>
           ))}
         </div>
       </div>

@@ -3,34 +3,16 @@
   "slug": "uttarakhand-tour",
   "name": "Uttarakhand Tour",
   "is_popular": false,
-  "destinations": [
-    "Delhi",
-    "Haridwar",
-    "Rishikesh",
-    "Nainital"
-  ],
-  "destination_ids": [
-    "delhi",
-    "haridwar",
-    "rishikesh",
-    "nainital"
-  ],
+  "destinations": ["Delhi", "Haridwar", "Rishikesh", "Nainital"],
+  "destination_ids": ["delhi", "haridwar", "rishikesh", "nainital"],
   "primary_destination": "Delhi",
-  "category_ids": [
-    "domestic-tour-packages",
-    "north-india-tour-packages"
-  ],
+  "category_ids": ["domestic-tour-packages", "north-india-tour-packages"],
   "state_id": "uttarakhand",
   "country_id": "india",
   "is_domestic": true,
   "hero_image": "",
   "overview": "Explore the best of Delhi, Haridwar, Rishikesh, Nainital with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
-  "highlights": [
-    "Visit Delhi",
-    "Visit Haridwar",
-    "Visit Rishikesh",
-    "Visit Nainital"
-  ],
+  "highlights": ["Visit Delhi", "Visit Haridwar", "Visit Rishikesh", "Visit Nainital"],
   "inclusions": [
     "Accommodation in listed or similar hotels",
     "Welcome Drink (Non-Alcoholic)",

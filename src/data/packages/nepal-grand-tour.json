@@ -3,33 +3,16 @@
   "slug": "nepal-grand-tour",
   "name": "Nepal Grand Tour",
   "is_popular": false,
-  "destinations": [
-    "Kathmandu",
-    "Pokhara",
-    "Chitwan",
-    "Lumbini"
-  ],
-  "destination_ids": [
-    "kathmandu",
-    "pokhara",
-    "chitwan",
-    "lumbini"
-  ],
+  "destinations": ["Kathmandu", "Pokhara", "Chitwan", "Lumbini"],
+  "destination_ids": ["kathmandu", "pokhara", "chitwan", "lumbini"],
   "primary_destination": "Kathmandu",
-  "category_ids": [
-    "international-tour-packages"
-  ],
+  "category_ids": ["international-tour-packages"],
   "state_id": null,
   "country_id": "nepal",
   "is_domestic": false,
   "hero_image": "",
   "overview": "Explore the best of Kathmandu, Pokhara, Chitwan, Lumbini with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
-  "highlights": [
-    "Visit Kathmandu",
-    "Visit Pokhara",
-    "Visit Chitwan",
-    "Visit Lumbini"
-  ],
+  "highlights": ["Visit Kathmandu", "Visit Pokhara", "Visit Chitwan", "Visit Lumbini"],
   "inclusions": [
     "Accommodation in listed or similar hotels",
     "Welcome Drink (Non-Alcoholic)",
@@ -118,13 +101,7 @@
       ]
     }
   ],
-  "tags": [
-    "international-tour-packages",
-    "kathmandu",
-    "pokhara",
-    "chitwan",
-    "lumbini"
-  ],
+  "tags": ["international-tour-packages", "kathmandu", "pokhara", "chitwan", "lumbini"],
   "seo": {
     "title": "Nepal Grand Tour | Mother India Tour Travels",
     "description": "Book Nepal Grand Tour with Mother India Tour Travels. Best deals on Kathmandu, Pokhara, Chitwan, Lumbini tour packages. Includes hotels, transport & guide.",

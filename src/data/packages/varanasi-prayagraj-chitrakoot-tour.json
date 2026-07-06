@@ -3,16 +3,8 @@
   "slug": "varanasi-prayagraj-chitrakoot-tour",
   "name": "Varanasi Prayagraj Chitrakoot Tour",
   "is_popular": false,
-  "destinations": [
-    "Varanasi",
-    "Prayagraj",
-    "Chitrakoot"
-  ],
-  "destination_ids": [
-    "varanasi",
-    "prayagraj",
-    "chitrakoot"
-  ],
+  "destinations": ["Varanasi", "Prayagraj", "Chitrakoot"],
+  "destination_ids": ["varanasi", "prayagraj", "chitrakoot"],
   "primary_destination": "Varanasi",
   "category_ids": [
     "domestic-tour-packages",
@@ -24,11 +16,7 @@
   "is_domestic": true,
   "hero_image": "",
   "overview": "Explore the best of Varanasi, Prayagraj, Chitrakoot with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
-  "highlights": [
-    "Visit Varanasi",
-    "Visit Prayagraj",
-    "Visit Chitrakoot"
-  ],
+  "highlights": ["Visit Varanasi", "Visit Prayagraj", "Visit Chitrakoot"],
   "inclusions": [
     "Accommodation in listed or similar hotels",
     "Welcome Drink (Non-Alcoholic)",

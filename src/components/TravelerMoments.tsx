@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowLeft, ArrowRight, Play, Star } from "lucide-react";
 import Image from "next/image";
-import { Play, ArrowLeft, ArrowRight, Star } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 
 interface Review {
   id: number;
@@ -24,9 +24,12 @@ export default function TravelerMoments() {
       id: 1,
       name: "Salahuddin Shakib",
       role: "Founder & CEO at Pixetive",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80",
-      image: "https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=800&q=80",
-      quote: "I am a traveler and Mother India Travels helps me a lot in finding interesting tourist destinations and of course the price offered is very worth it.",
+      avatar:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80",
+      image:
+        "https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=800&q=80",
+      quote:
+        "I am a traveler and Mother India Travels helps me a lot in finding interesting tourist destinations and of course the price offered is very worth it.",
       hasVideo: false,
       rating: 5,
     },
@@ -34,9 +37,12 @@ export default function TravelerMoments() {
       id: 2,
       name: "Sarah Johnson",
       role: "Verified Traveler",
-      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&h=150&q=80",
-      image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
-      quote: "The view from Tiger Nest in Ladakh was absolutely breathtaking! A life-changing journey organized flawlessly.",
+      avatar:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&h=150&q=80",
+      image:
+        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
+      quote:
+        "The view from Tiger Nest in Ladakh was absolutely breathtaking! A life-changing journey organized flawlessly.",
       hasVideo: true,
       rating: 5,
     },
@@ -44,9 +50,12 @@ export default function TravelerMoments() {
       id: 3,
       name: "Michael Chen",
       role: "Verified Traveler",
-      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&h=150&q=80",
-      image: "https://images.unsplash.com/photo-1542401886-65d6c61db217?auto=format&fit=crop&w=800&q=80",
-      quote: "Kerala houseboats are a dream! Every evening was magical, and the food was outstanding. Highly recommend them!",
+      avatar:
+        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&h=150&q=80",
+      image:
+        "https://images.unsplash.com/photo-1542401886-65d6c61db217?auto=format&fit=crop&w=800&q=80",
+      quote:
+        "Kerala houseboats are a dream! Every evening was magical, and the food was outstanding. Highly recommend them!",
       hasVideo: false,
       rating: 5,
     },
@@ -54,9 +63,12 @@ export default function TravelerMoments() {
       id: 4,
       name: "Emma Wilson",
       role: "Solo Backpacker",
-      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150&h=150&q=80",
-      image: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80",
-      quote: "Sleeping under the Jaisalmer desert stars was an experience of a lifetime. The staff was incredibly friendly.",
+      avatar:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150&h=150&q=80",
+      image:
+        "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80",
+      quote:
+        "Sleeping under the Jaisalmer desert stars was an experience of a lifetime. The staff was incredibly friendly.",
       hasVideo: false,
       rating: 5,
     },
@@ -89,6 +101,7 @@ export default function TravelerMoments() {
         {/* Navigation Buttons */}
         <div className="flex items-center gap-3 shrink-0">
           <button
+            type="button"
             onClick={handlePrev}
             className="w-12 h-12 rounded-full border border-zinc-200 bg-white flex items-center justify-center text-zinc-700 hover:bg-zinc-50 hover:border-zinc-300 transition-all duration-200 cursor-pointer shadow-sm"
             aria-label="Previous testimonial"
@@ -96,6 +109,7 @@ export default function TravelerMoments() {
             <ArrowLeft className="w-5 h-5" />
           </button>
           <button
+            type="button"
             onClick={handleNext}
             className="w-12 h-12 rounded-full bg-brand flex items-center justify-center text-white hover:bg-brand-hover transition-all duration-200 cursor-pointer shadow-sm"
             aria-label="Next testimonial"
@@ -110,7 +124,7 @@ export default function TravelerMoments() {
         {reviews.slice(0, 3).map((review, idx) => {
           // Adjust display indices to simulate shifting carousel on mobile
           const displayIdx = (idx - currentIndex + 3) % 3;
-          
+
           return (
             <motion.div
               layout
@@ -132,7 +146,7 @@ export default function TravelerMoments() {
                   sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover transition-transform duration-500 hover:scale-103"
                 />
-                
+
                 {/* Play Button Overlay */}
                 {review.hasVideo && (
                   <div className="absolute inset-0 bg-black/15 flex items-center justify-center">
@@ -164,9 +178,7 @@ export default function TravelerMoments() {
                   />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-sm font-extrabold text-foreground truncate">
-                    {review.name}
-                  </h4>
+                  <h4 className="text-sm font-extrabold text-foreground truncate">{review.name}</h4>
                   <div className="flex items-center gap-1.5 mt-0.5">
                     <span className="text-[10px] text-brand font-bold uppercase tracking-wider">
                       {review.role}
@@ -210,7 +222,10 @@ export default function TravelerMoments() {
                 />
                 {reviewA.hasVideo && (
                   <div className="absolute inset-0 bg-black/15 flex items-center justify-center">
-                    <button className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white cursor-pointer shadow-lg hover:bg-white/30 transition-all">
+                    <button
+                      type="button"
+                      className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white cursor-pointer shadow-lg hover:bg-white/30 transition-all"
+                    >
                       <Play className="w-5 h-5 fill-white text-white translate-x-0.5" />
                     </button>
                   </div>
@@ -222,7 +237,7 @@ export default function TravelerMoments() {
                 <blockquote className="text-[1.25rem] lg:text-[1.45rem] font-medium text-foreground/90 leading-relaxed italic pr-8">
                   &ldquo;{reviewA.quote}&rdquo;
                 </blockquote>
-                
+
                 <div className="flex items-center justify-between pt-4 border-t border-zinc-100">
                   <div className="flex items-center gap-4">
                     <div className="relative w-12 h-12 rounded-xl overflow-hidden shrink-0">
@@ -238,12 +253,10 @@ export default function TravelerMoments() {
                       <h4 className="text-base font-extrabold text-foreground leading-snug">
                         {reviewA.name}
                       </h4>
-                      <p className="text-xs text-zinc-500 font-medium mt-0.5">
-                        {reviewA.role}
-                      </p>
+                      <p className="text-xs text-zinc-500 font-medium mt-0.5">{reviewA.role}</p>
                     </div>
                   </div>
-                  
+
                   {/* Stars */}
                   <div className="flex items-center gap-0.5">
                     {[...Array(reviewA.rating)].map((_, i) => (
@@ -261,7 +274,7 @@ export default function TravelerMoments() {
                 <blockquote className="text-[1.25rem] lg:text-[1.45rem] font-medium text-foreground/90 leading-relaxed italic pr-8">
                   &ldquo;{reviewB.quote}&rdquo;
                 </blockquote>
-                
+
                 <div className="flex items-center justify-between pt-4 border-t border-zinc-100">
                   <div className="flex items-center gap-4">
                     <div className="relative w-12 h-12 rounded-xl overflow-hidden shrink-0">
@@ -277,12 +290,10 @@ export default function TravelerMoments() {
                       <h4 className="text-base font-extrabold text-foreground leading-snug">
                         {reviewB.name}
                       </h4>
-                      <p className="text-xs text-zinc-500 font-medium mt-0.5">
-                        {reviewB.role}
-                      </p>
+                      <p className="text-xs text-zinc-500 font-medium mt-0.5">{reviewB.role}</p>
                     </div>
                   </div>
-                  
+
                   {/* Stars */}
                   <div className="flex items-center gap-0.5">
                     {[...Array(reviewB.rating)].map((_, i) => (
@@ -303,7 +314,10 @@ export default function TravelerMoments() {
                 />
                 {reviewB.hasVideo && (
                   <div className="absolute inset-0 bg-black/15 flex items-center justify-center">
-                    <button className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white cursor-pointer shadow-lg hover:bg-white/30 transition-all">
+                    <button
+                      type="button"
+                      className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white cursor-pointer shadow-lg hover:bg-white/30 transition-all"
+                    >
                       <Play className="w-5 h-5 fill-white text-white translate-x-0.5" />
                     </button>
                   </div>

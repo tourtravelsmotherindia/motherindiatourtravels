@@ -3,30 +3,16 @@
   "slug": "malaysia-tour",
   "name": "Malaysia Tour",
   "is_popular": true,
-  "destinations": [
-    "Kuala Lumpur",
-    "Genting",
-    "Langkawi"
-  ],
-  "destination_ids": [
-    "kuala-lumpur",
-    "genting",
-    "langkawi"
-  ],
+  "destinations": ["Kuala Lumpur", "Genting", "Langkawi"],
+  "destination_ids": ["kuala-lumpur", "genting", "langkawi"],
   "primary_destination": "Kuala Lumpur",
-  "category_ids": [
-    "international-tour-packages"
-  ],
+  "category_ids": ["international-tour-packages"],
   "state_id": null,
   "country_id": "malaysia",
   "is_domestic": false,
   "hero_image": "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
   "overview": "Explore the best of Kuala Lumpur, Genting, Langkawi with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
-  "highlights": [
-    "Visit Kuala Lumpur",
-    "Visit Genting",
-    "Visit Langkawi"
-  ],
+  "highlights": ["Visit Kuala Lumpur", "Visit Genting", "Visit Langkawi"],
   "inclusions": [
     "Accommodation in listed or similar hotels",
     "Welcome Drink (Non-Alcoholic)",
@@ -64,12 +50,7 @@
       "itinerary": []
     }
   ],
-  "tags": [
-    "international-tour-packages",
-    "kuala-lumpur",
-    "genting",
-    "langkawi"
-  ],
+  "tags": ["international-tour-packages", "kuala-lumpur", "genting", "langkawi"],
   "seo": {
     "title": "Malaysia Tour | Mother India Tour Travels",
     "description": "Book Malaysia Tour with Mother India Tour Travels. Best deals on Kuala Lumpur, Genting, Langkawi tour packages. Includes hotels, transport & guide.",

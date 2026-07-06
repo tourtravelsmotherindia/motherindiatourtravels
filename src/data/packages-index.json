@@ -11,11 +11,7 @@
       "destinations": ["Port Blair", "Havelock Island", "Neil Island"],
       "destination_ids": ["port-blair", "havelock-island", "neil-island"],
       "primary_destination": "Port Blair",
-      "category_ids": [
-        "domestic-tour-packages",
-        "beach-tour-packages",
-        "honeymoon-tour-packages"
-      ],
+      "category_ids": ["domestic-tour-packages", "beach-tour-packages", "honeymoon-tour-packages"],
       "state_id": "andaman-nicobar",
       "country_id": "india",
       "min_nights": 3,
@@ -106,13 +102,7 @@
       "duration_range": "3N/4D – 5N/6D",
       "variant_count": 6,
       "hero_image": "https://img.freepik.com/free-photo/majestic-mausoleum-ancient-god-spiritual-journey-generated-by-ai_188544-11114.jpg?ga=GA1.1.1966161202.1734948006&semt=ais_hybrid&w=740",
-      "tags": [
-        "domestic-tour-packages",
-        "north-india-tour-packages",
-        "delhi",
-        "agra",
-        "jaipur"
-      ]
+      "tags": ["domestic-tour-packages", "north-india-tour-packages", "delhi", "agra", "jaipur"]
     },
     {
       "id": "kerala-tour",
@@ -166,12 +156,7 @@
       "duration_range": "5N/6D",
       "variant_count": 1,
       "hero_image": "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
-      "tags": [
-        "international-tour-packages",
-        "kuala-lumpur",
-        "genting",
-        "langkawi"
-      ]
+      "tags": ["international-tour-packages", "kuala-lumpur", "genting", "langkawi"]
     },
     {
       "id": "nepal-tour",
@@ -291,24 +276,8 @@
       "name": "Complete Rajasthan Tour",
       "is_popular": false,
       "is_domestic": true,
-      "destinations": [
-        "Delhi",
-        "Agra",
-        "Jaipur",
-        "Udaipur",
-        "Jodhpur",
-        "Jaisalmer",
-        "Bikaner"
-      ],
-      "destination_ids": [
-        "delhi",
-        "agra",
-        "jaipur",
-        "udaipur",
-        "jodhpur",
-        "jaisalmer",
-        "bikaner"
-      ],
+      "destinations": ["Delhi", "Agra", "Jaipur", "Udaipur", "Jodhpur", "Jaisalmer", "Bikaner"],
+      "destination_ids": ["delhi", "agra", "jaipur", "udaipur", "jodhpur", "jaisalmer", "bikaner"],
       "primary_destination": "Delhi",
       "category_ids": [
         "domestic-tour-packages",
@@ -388,12 +357,7 @@
       "duration_range": "1N/2D – 2N/3D",
       "variant_count": 2,
       "hero_image": "",
-      "tags": [
-        "domestic-tour-packages",
-        "north-india-tour-packages",
-        "delhi",
-        "agra"
-      ]
+      "tags": ["domestic-tour-packages", "north-india-tour-packages", "delhi", "agra"]
     },
     {
       "id": "delhi-manali-volvo-tour",
@@ -459,24 +423,8 @@
       "name": "Delhi Rajasthan Taj Mahal with Varanasi Tour",
       "is_popular": false,
       "is_domestic": true,
-      "destinations": [
-        "Delhi",
-        "Agra",
-        "Jaipur",
-        "Jodhpur",
-        "Jaisalmer",
-        "Udaipur",
-        "Varanasi"
-      ],
-      "destination_ids": [
-        "delhi",
-        "agra",
-        "jaipur",
-        "jodhpur",
-        "jaisalmer",
-        "udaipur",
-        "varanasi"
-      ],
+      "destinations": ["Delhi", "Agra", "Jaipur", "Jodhpur", "Jaisalmer", "Udaipur", "Varanasi"],
+      "destination_ids": ["delhi", "agra", "jaipur", "jodhpur", "jaisalmer", "udaipur", "varanasi"],
       "primary_destination": "Delhi",
       "category_ids": [
         "domestic-tour-packages",
@@ -516,11 +464,7 @@
       "destinations": ["Goa"],
       "destination_ids": ["goa"],
       "primary_destination": "Goa",
-      "category_ids": [
-        "domestic-tour-packages",
-        "beach-tour-packages",
-        "weekend-tour-packages"
-      ],
+      "category_ids": ["domestic-tour-packages", "beach-tour-packages", "weekend-tour-packages"],
       "state_id": "goa",
       "country_id": "india",
       "min_nights": 2,
@@ -530,12 +474,7 @@
       "duration_range": "2N/3D – 4N/5D",
       "variant_count": 3,
       "hero_image": "",
-      "tags": [
-        "domestic-tour-packages",
-        "beach-tour-packages",
-        "weekend-tour-packages",
-        "goa"
-      ]
+      "tags": ["domestic-tour-packages", "beach-tour-packages", "weekend-tour-packages", "goa"]
     },
     {
       "id": "golden-triangle-tour-haridwar-rishikesh",
@@ -577,22 +516,8 @@
       "name": "Golden Triangle Tour with Kerala",
       "is_popular": false,
       "is_domestic": true,
-      "destinations": [
-        "Delhi",
-        "Agra",
-        "Jaipur",
-        "Cochin",
-        "Munnar",
-        "Alleppey"
-      ],
-      "destination_ids": [
-        "delhi",
-        "agra",
-        "jaipur",
-        "cochin",
-        "munnar",
-        "alleppey"
-      ],
+      "destinations": ["Delhi", "Agra", "Jaipur", "Cochin", "Munnar", "Alleppey"],
+      "destination_ids": ["delhi", "agra", "jaipur", "cochin", "munnar", "alleppey"],
       "primary_destination": "Delhi",
       "category_ids": [
         "domestic-tour-packages",
@@ -938,13 +863,7 @@
       "is_popular": false,
       "is_domestic": true,
       "destinations": ["Delhi", "Amritsar", "Dharamshala", "Shimla", "Manali"],
-      "destination_ids": [
-        "delhi",
-        "amritsar",
-        "dharamshala",
-        "shimla",
-        "manali"
-      ],
+      "destination_ids": ["delhi", "amritsar", "dharamshala", "shimla", "manali"],
       "primary_destination": "Delhi",
       "category_ids": ["domestic-tour-packages", "north-india-tour-packages"],
       "state_id": "himachal-pradesh",
@@ -985,12 +904,7 @@
       "duration_range": "4N/5D",
       "variant_count": 1,
       "hero_image": "",
-      "tags": [
-        "domestic-tour-packages",
-        "north-india-tour-packages",
-        "darjeeling",
-        "gangtok"
-      ]
+      "tags": ["domestic-tour-packages", "north-india-tour-packages", "darjeeling", "gangtok"]
     },
     {
       "id": "corbett-national-park-tour",
@@ -1133,13 +1047,7 @@
       "duration_range": "9N/10D",
       "variant_count": 1,
       "hero_image": "",
-      "tags": [
-        "international-tour-packages",
-        "kathmandu",
-        "pokhara",
-        "chitwan",
-        "lumbini"
-      ]
+      "tags": ["international-tour-packages", "kathmandu", "pokhara", "chitwan", "lumbini"]
     },
     {
       "id": "nepal-spiritual-tour",
@@ -1150,10 +1058,7 @@
       "destinations": ["Kathmandu", "Lumbini"],
       "destination_ids": ["kathmandu", "lumbini"],
       "primary_destination": "Kathmandu",
-      "category_ids": [
-        "international-tour-packages",
-        "spiritual-tour-packages"
-      ],
+      "category_ids": ["international-tour-packages", "spiritual-tour-packages"],
       "state_id": null,
       "country_id": "nepal",
       "min_nights": 5,
@@ -1163,12 +1068,7 @@
       "duration_range": "5N/6D",
       "variant_count": 1,
       "hero_image": "",
-      "tags": [
-        "international-tour-packages",
-        "spiritual-tour-packages",
-        "kathmandu",
-        "lumbini"
-      ]
+      "tags": ["international-tour-packages", "spiritual-tour-packages", "kathmandu", "lumbini"]
     },
     {
       "id": "north-india-grand-tour",
@@ -1218,13 +1118,7 @@
       "duration_range": "5N/6D",
       "variant_count": 1,
       "hero_image": "",
-      "tags": [
-        "domestic-tour-packages",
-        "north-india-tour-packages",
-        "delhi",
-        "agra",
-        "jaipur"
-      ]
+      "tags": ["domestic-tour-packages", "north-india-tour-packages", "delhi", "agra", "jaipur"]
     },
     {
       "id": "sikkim-darjeeling-pelling-tour",
@@ -1327,22 +1221,8 @@
       "name": "Rajasthan Tour with Khajuraho & Varanasi",
       "is_popular": false,
       "is_domestic": true,
-      "destinations": [
-        "Delhi",
-        "Jaipur",
-        "Jodhpur",
-        "Jaisalmer",
-        "Khajuraho",
-        "Varanasi"
-      ],
-      "destination_ids": [
-        "delhi",
-        "jaipur",
-        "jodhpur",
-        "jaisalmer",
-        "khajuraho",
-        "varanasi"
-      ],
+      "destinations": ["Delhi", "Jaipur", "Jodhpur", "Jaisalmer", "Khajuraho", "Varanasi"],
+      "destination_ids": ["delhi", "jaipur", "jodhpur", "jaisalmer", "khajuraho", "varanasi"],
       "primary_destination": "Delhi",
       "category_ids": [
         "domestic-tour-packages",
@@ -1389,12 +1269,7 @@
       "duration_range": "Day Trip",
       "variant_count": 1,
       "hero_image": "",
-      "tags": [
-        "domestic-tour-packages",
-        "weekend-tour-packages",
-        "delhi",
-        "agra"
-      ]
+      "tags": ["domestic-tour-packages", "weekend-tour-packages", "delhi", "agra"]
     },
     {
       "id": "shimla-manali-agra-tour",
@@ -1554,12 +1429,7 @@
       "duration_range": "2N/3D – 5N/6D",
       "variant_count": 3,
       "hero_image": "",
-      "tags": [
-        "domestic-tour-packages",
-        "south-india-tour-packages",
-        "chennai",
-        "mahabalipuram"
-      ]
+      "tags": ["domestic-tour-packages", "south-india-tour-packages", "chennai", "mahabalipuram"]
     },
     {
       "id": "spiritual-circuit-tour",
