@@ -109,6 +109,7 @@ export default function RegionsGrid() {
                 fill
                 sizes="(max-width: 768px) 100vw, 550px"
                 className="object-cover transition-transform duration-500 group-hover:scale-103"
+                priority={idx < 2}
               />
               {/* Floating Badges */}
               <div className="absolute top-5 left-5 flex items-center gap-2">
