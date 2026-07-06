@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight, Clock, Heart, MapPin, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+
 import packagesData from "@/data/packages-index.json";
 
 interface PackageItem {
@@ -39,7 +40,7 @@ export default function TripCards() {
   // Toggle favorite
   const toggleFavorite = (slug: string) => {
     setFavorites((prev) =>
-      prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug]
+      prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug],
     );
   };
 
