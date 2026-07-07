@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Camera, Eye } from "lucide-react";
+import { Eye } from "lucide-react";
 import Image from "next/image";
 
 interface GalleryItem {
@@ -60,18 +60,16 @@ export default function Gallery() {
   return (
     <section id="gallery" className="py-20 px-4 md:px-8 max-w-360 mx-auto scroll-mt-24">
       {/* Section Header */}
-      <div className="text-center mb-14">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-light text-brand text-xs font-bold uppercase tracking-wider mb-3">
-          <Camera className="w-3.5 h-3.5" />
-          <span>Visual Journey</span>
+      <div className="flex items-center justify-between mb-12 gap-4">
+        <div>
+          <h2 className="text-3xl md:text-5xl font-extrabold text-foreground tracking-tight leading-[1.1]">
+            Our Travel <span className="text-brand">Gallery</span>
+          </h2>
+          <p className="text-muted font-medium mt-2 text-sm md:text-base">
+            Catch a glimpse of the mesmerizing landscapes, historical monuments, and soulful cultures
+            captured during our curated trips.
+          </p>
         </div>
-        <h2 className="text-3xl md:text-5xl font-extrabold text-foreground tracking-tight leading-[1.1]">
-          Our Travel <span className="font-serif italic font-medium text-brand">Gallery</span>
-        </h2>
-        <p className="text-muted font-medium mt-3 text-sm md:text-base max-w-2xl mx-auto">
-          Catch a glimpse of the mesmerizing landscapes, historical monuments, and soulful cultures
-          captured during our curated trips.
-        </p>
       </div>
 
       {/* Grid Layout */}
