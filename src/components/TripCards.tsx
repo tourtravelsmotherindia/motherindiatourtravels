@@ -59,17 +59,17 @@ export default function TripCards() {
 
         {/* Sliding Pill Switch Selector */}
         <div className="flex items-center gap-6 self-start md:self-end">
-          <div className="relative flex p-1 bg-neutral-100 rounded-full border border-neutral-200/50 shadow-inner">
+          <div className="bg-neutral-100 p-1 rounded-full flex gap-1 border border-neutral-200/50 relative">
             <button
               onClick={() => setIsDomestic(true)}
-              className={`relative px-5 py-2 text-xs font-bold uppercase tracking-wider rounded-full transition-colors duration-300 z-10 cursor-pointer select-none ${
-                isDomestic ? "text-white" : "text-neutral-500 hover:text-neutral-900"
+              className={`relative px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-colors duration-200 z-10 cursor-pointer select-none ${
+                isDomestic ? "text-foreground" : "text-muted hover:text-foreground"
               }`}
             >
               {isDomestic && (
                 <motion.span
                   layoutId="activeTripTab"
-                  className="absolute inset-0 bg-neutral-900 rounded-full shadow-md -z-10"
+                  className="absolute inset-0 bg-white rounded-full shadow-sm -z-10"
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}
@@ -77,14 +77,14 @@ export default function TripCards() {
             </button>
             <button
               onClick={() => setIsDomestic(false)}
-              className={`relative px-5 py-2 text-xs font-bold uppercase tracking-wider rounded-full transition-colors duration-300 z-10 cursor-pointer select-none ${
-                !isDomestic ? "text-white" : "text-neutral-500 hover:text-neutral-900"
+              className={`relative px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-colors duration-200 z-10 cursor-pointer select-none ${
+                !isDomestic ? "text-foreground" : "text-muted hover:text-foreground"
               }`}
             >
               {!isDomestic && (
                 <motion.span
                   layoutId="activeTripTab"
-                  className="absolute inset-0 bg-neutral-900 rounded-full shadow-md -z-10"
+                  className="absolute inset-0 bg-white rounded-full shadow-sm -z-10"
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}

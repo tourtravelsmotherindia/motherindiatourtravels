@@ -804,27 +804,37 @@ export default function Hero() {
                 >
                   {/* Segmented Tab Control */}
                   <div className="flex justify-center mb-6">
-                    <div className="bg-gray-100 p-1 rounded-full flex gap-1 border border-border-light">
+                    <div className="bg-gray-100 p-1 rounded-full flex gap-1 border border-border-light relative">
                       <button
                         type="button"
                         onClick={() => setDateMode("calendar")}
-                        className={`px-6 py-2 rounded-full text-xs font-bold transition-all duration-200 cursor-pointer ${
-                          dateMode === "calendar"
-                            ? "bg-white text-foreground shadow-sm"
-                            : "text-muted hover:text-foreground"
+                        className={`relative px-6 py-2 rounded-full text-xs font-bold transition-colors duration-200 z-10 cursor-pointer ${
+                          dateMode === "calendar" ? "text-foreground" : "text-muted hover:text-foreground"
                         }`}
                       >
+                        {dateMode === "calendar" && (
+                          <motion.span
+                            layoutId="activeDateTab"
+                            className="absolute inset-0 bg-white rounded-full shadow-sm -z-10"
+                            transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                          />
+                        )}
                         Calendar
                       </button>
                       <button
                         type="button"
                         onClick={() => setDateMode("flexible")}
-                        className={`px-6 py-2 rounded-full text-xs font-bold transition-all duration-200 cursor-pointer ${
-                          dateMode === "flexible"
-                            ? "bg-white text-foreground shadow-sm"
-                            : "text-muted hover:text-foreground"
+                        className={`relative px-6 py-2 rounded-full text-xs font-bold transition-colors duration-200 z-10 cursor-pointer ${
+                          dateMode === "flexible" ? "text-foreground" : "text-muted hover:text-foreground"
                         }`}
                       >
+                        {dateMode === "flexible" && (
+                          <motion.span
+                            layoutId="activeDateTab"
+                            className="absolute inset-0 bg-white rounded-full shadow-sm -z-10"
+                            transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                          />
+                        )}
                         {"I'm flexible"}
                       </button>
                     </div>
