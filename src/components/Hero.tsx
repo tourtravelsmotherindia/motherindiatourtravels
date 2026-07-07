@@ -2,17 +2,21 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import {
+  AlertCircle,
   Calendar,
+  CalendarDays,
+  CalendarRange,
   ChevronLeft,
   ChevronRight,
-  Clock,
   Compass,
   MapPin,
   Minus,
   Navigation,
   Plus,
   Search,
+  Timer,
   Users,
+  X,
 } from "lucide-react";
 import Image from "next/image";
 import type React from "react";
@@ -72,7 +76,7 @@ export default function Hero() {
   });
 
   // Flexible date selection states
-  const [flexibleDuration, setFlexibleDuration] = useState<"weekend" | "week" | "month" | "other">("week");
+  const [flexibleDurationDays, setFlexibleDurationDays] = useState<"any" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "8-10">("7");
   const [selectedFlexibleMonth, setSelectedFlexibleMonth] = useState<Date>(() => {
     const today = new Date();
     return new Date(today.getFullYear(), today.getMonth(), 1);
@@ -82,6 +86,20 @@ export default function Hero() {
   const [adults, setAdults] = useState(1);
   const [childrenCount, setChildrenCount] = useState(0);
   const [kids, setKids] = useState(0);
+
+  // Toast notification state
+  const [toast, setToast] = useState<{
+    title: string;
+    message: string;
+  } | null>(null);
+
+  // Auto-dismiss toast
+  useEffect(() => {
+    if (toast) {
+      const timer = setTimeout(() => setToast(null), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [toast]);
 
   // Refs for outside click detection
   const destinationRef = useRef<HTMLDivElement>(null);
@@ -191,6 +209,13 @@ export default function Hero() {
     return date > selectedCheckIn && date < selectedCheckOut;
   };
 
+  const getDurationDays = () => {
+    if (!selectedCheckIn || !selectedCheckOut) return null;
+    const diffTime = Math.abs(selectedCheckOut.getTime() - selectedCheckIn.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  };
+
   const isDateInHoverRange = (date: Date) => {
     if (!selectedCheckIn || selectedCheckOut || !hoverDate) return false;
     return date > selectedCheckIn && date < hoverDate;
@@ -210,6 +235,18 @@ export default function Hero() {
       if (date < selectedCheckIn) {
         setSelectedCheckIn(date);
       } else {
+        // Calculate duration in days
+        const diffTime = Math.abs(date.getTime() - selectedCheckIn.getTime());
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        if (diffDays > 10) {
+          setToast({
+            title: "Maximum duration exceeded",
+            message: "Tours are limited to a maximum of 10 days",
+          });
+          return;
+        }
+
         setSelectedCheckOut(date);
       }
     }
@@ -235,8 +272,8 @@ export default function Hero() {
     return months;
   }, []);
 
-  const handleFlexibleSelection = (duration: typeof flexibleDuration, month: Date) => {
-    setFlexibleDuration(duration);
+  const handleFlexibleSelection = (durationDays: typeof flexibleDurationDays, month: Date) => {
+    setFlexibleDurationDays(durationDays);
     setSelectedFlexibleMonth(month);
 
     const year = month.getFullYear();
@@ -244,25 +281,16 @@ export default function Hero() {
     let start = new Date(year, m, 1);
     let end = new Date(year, m, 8);
 
-    if (duration === "weekend") {
-      let firstFriday = 1;
-      for (let d = 1; d <= 7; d++) {
-        if (new Date(year, m, d).getDay() === 5) {
-          firstFriday = d;
-          break;
-        }
-      }
-      start = new Date(year, m, firstFriday);
-      end = new Date(year, m, firstFriday + 2);
-    } else if (duration === "week") {
-      start = new Date(year, m, 1);
-      end = new Date(year, m, 8);
-    } else if (duration === "month") {
+    if (durationDays === "any") {
       start = new Date(year, m, 1);
       end = new Date(year, m + 1, 0);
-    } else {
+    } else if (durationDays === "8-10") {
       start = new Date(year, m, 1);
-      end = new Date(year, m, 11);
+      end = new Date(year, m, 10);
+    } else {
+      const days = parseInt(durationDays, 10);
+      start = new Date(year, m, 1);
+      end = new Date(year, m, days + 1);
     }
 
     setSelectedCheckIn(start);
@@ -292,9 +320,9 @@ export default function Hero() {
     return `${yyyy}-${mm}-${dd}`;
   };
 
-  const formatGuestsSummary = () => {
+  const formatTravelersSummary = () => {
     const total = adults + childrenCount + kids;
-    if (total === 0) return "Add guests";
+    if (total === 0) return "Add travelers";
     const parts = [];
     parts.push(`${adults} Adult${adults > 1 ? "s" : ""}`);
     if (childrenCount > 0) {
@@ -303,7 +331,7 @@ export default function Hero() {
     if (kids > 0) {
       parts.push(`${kids} Kid${kids > 1 ? "s" : ""}`);
     }
-    return `${total} Guest${total > 1 ? "s" : ""} (${parts.join(", ")})`;
+    return `${total} Traveler${total > 1 ? "s" : ""} (${parts.join(", ")})`;
   };
 
   const handleSearch = (e: React.FormEvent) => {
@@ -312,15 +340,15 @@ export default function Hero() {
       alert("Please select a destination");
       return;
     }
-    const guestCount = adults + childrenCount + kids;
+    const travelerCount = adults + childrenCount + kids;
     if (dateMode === "calendar") {
       const checkInStr = selectedCheckIn ? toISODate(selectedCheckIn) : "";
       const checkOutStr = selectedCheckOut ? toISODate(selectedCheckOut) : "";
-      alert(`Searching Calendar: ${destination} | Dates: ${checkInStr} to ${checkOutStr} | Guests: ${guestCount} (${adults} Adults, ${childrenCount} Children, ${kids} Kids)`);
+      alert(`Searching Calendar: ${destination} | Departure: ${checkInStr} | Return: ${checkOutStr} | Travelers: ${travelerCount} (${adults} Adults, ${childrenCount} Children, ${kids} Kids)`);
     } else {
-      const durationLabel = flexibleDuration === "weekend" ? "Weekend" : flexibleDuration === "week" ? "Week" : flexibleDuration === "month" ? "Month" : "Other";
+      const durationLabel = flexibleDurationDays === "any" ? "Any Duration" : flexibleDurationDays === "8-10" ? "8-10 Days" : `${flexibleDurationDays} Days`;
       const monthStr = selectedFlexibleMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" });
-      alert(`Searching Flexible: ${destination} | Duration: ${durationLabel} | Month: ${monthStr} | Guests: ${guestCount} (${adults} Adults, ${childrenCount} Children, ${kids} Kids)`);
+      alert(`Searching Flexible: ${destination} | Duration: ${durationLabel} | Travel Month: ${monthStr} | Travelers: ${travelerCount} (${adults} Adults, ${childrenCount} Children, ${kids} Kids)`);
     }
   };
 
@@ -628,7 +656,7 @@ export default function Hero() {
                 </AnimatePresence>
               </div>
 
-              {/* Column 2: Check-in / Trip */}
+              {/* Column 2: Departure / Duration */}
               <div
                 ref={datesRef}
                 className="flex items-center gap-3.5 pt-4 sm:pt-0 sm:pb-4 lg:pb-0 lg:px-4 cursor-pointer relative w-full"
@@ -637,50 +665,54 @@ export default function Hero() {
                 {dateMode === "calendar" ? (
                   <Calendar className="w-5 h-5 text-brand shrink-0" />
                 ) : (
-                  <Clock className="w-5 h-5 text-brand shrink-0" />
+                  <Timer className="w-5 h-5 text-brand shrink-0" />
                 )}
                 <div className="flex-1 min-w-0">
                   <span className="block text-[10px] text-muted font-bold uppercase tracking-wider mb-0.5">
-                    {dateMode === "calendar" ? "Check-in" : "Trip"}
+                    {dateMode === "calendar" ? "Departure" : "Duration"}
                   </span>
                   <div className="text-sm font-semibold text-foreground">
                     {dateMode === "calendar"
                       ? selectedCheckIn ? formatDate(selectedCheckIn) : "Add date"
-                      : (flexibleDuration === "weekend" ? "Weekend" : flexibleDuration === "week" ? "Week" : flexibleDuration === "month" ? "Month" : "Other")
+                      : (flexibleDurationDays === "any" ? "Any Duration" : flexibleDurationDays === "8-10" ? "8-10 Days" : `${flexibleDurationDays} Days`)
                     }
                   </div>
                 </div>
               </div>
 
-              {/* Column 3: Check-out / Month */}
+              {/* Column 3: Return / Travel Month */}
               <div
                 ref={checkoutRef}
                 className="flex items-center gap-3.5 pt-4 sm:pt-0 sm:pb-4 lg:pb-0 lg:px-4 cursor-pointer relative w-full"
                 onClick={() => setActiveDropdown("dates")}
               >
-                <Calendar className="w-5 h-5 text-brand shrink-0" />
+                {dateMode === "calendar" ? (
+                  <CalendarRange className="w-5 h-5 text-brand shrink-0" />
+                ) : (
+                  <CalendarDays className="w-5 h-5 text-brand shrink-0" />
+                )}
                 <div className="flex-1 min-w-0">
                   <span className="block text-[10px] text-muted font-bold uppercase tracking-wider mb-0.5">
-                    {dateMode === "calendar" ? "Check-out" : "Month"}
+                    {dateMode === "calendar" ? "Return" : "Travel Month"}
                   </span>
                   <div className="text-sm font-semibold text-foreground">
                     {dateMode === "calendar"
-                      ? selectedCheckOut ? formatDate(selectedCheckOut) : "Add date"
+                      ? selectedCheckOut ? `${formatDate(selectedCheckOut)}${getDurationDays() ? ` (${getDurationDays()} Days)` : ""}` : "Add date"
                       : selectedFlexibleMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" })
                     }
                   </div>
                 </div>
               </div>
 
-              {/* Guests Column */}
+              {/* Travelers Column */}
               <div ref={guestsRef} className="relative flex items-center gap-3.5 pt-4 sm:pt-0 lg:px-4 cursor-pointer w-full" onClick={() => setActiveDropdown("guests")}>
                 <Users className="w-5 h-5 text-brand shrink-0" />
                 <div className="flex-1 min-w-0">
                   <span className="block text-[10px] text-muted font-bold uppercase tracking-wider mb-0.5">
-                    Add Guests
+                    Travelers
                   </span>
                   <div className="text-sm font-semibold text-foreground truncate">
-                    {formatGuestsSummary()}
+                    {formatTravelersSummary()}
                   </div>
                 </div>
 
@@ -873,11 +905,11 @@ export default function Hero() {
                       <div className="flex justify-between items-center border-t border-border-light pt-4 mt-6">
                         <div className="text-xs text-muted">
                           {selectedCheckIn && selectedCheckOut ? (
-                            <span>Selected: {formatDate(selectedCheckIn)} – {formatDate(selectedCheckOut)}</span>
+                            <span>Selected: {formatDate(selectedCheckIn)} – {formatDate(selectedCheckOut)}{getDurationDays() ? ` (${getDurationDays()} Days)` : ""}</span>
                           ) : selectedCheckIn ? (
-                            <span>Select check-out date</span>
+                            <span>Select return date</span>
                           ) : (
-                            <span>Select check-in date</span>
+                            <span>Select departure date</span>
                           )}
                         </div>
                         <button
@@ -893,23 +925,23 @@ export default function Hero() {
                     <div>
                       {/* I'm flexible view */}
                       <div className="space-y-6">
-                        {/* How long */}
+                        {/* How many days */}
                         <div>
-                          <div className="text-sm font-bold text-foreground mb-3 text-center sm:text-left">
-                            How long do you want to stay?
+                          <div className="text-sm font-bold text-foreground mb-3 text-center sm:text-left font-sans">
+                            How many days?
                           </div>
                           <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
-                            {(["weekend", "week", "month", "other"] as const).map((dur) => {
-                              const label = dur === "weekend" ? "Weekend" : dur === "week" ? "Week" : dur === "month" ? "Month" : "Other";
+                            {(["any", "3", "4", "5", "6", "7", "8", "9", "10", "8-10"] as const).map((dur) => {
+                              const label = dur === "any" ? "Any" : dur === "8-10" ? "8-10 Days" : `${dur} Days`;
                               return (
                                 <button
                                   type="button"
                                   key={dur}
                                   onClick={() => handleFlexibleSelection(dur, selectedFlexibleMonth)}
                                   className={`px-4 py-2 rounded-full border text-xs font-semibold transition-all duration-200 cursor-pointer ${
-                                    flexibleDuration === dur
-                                      ? "border-brand bg-brand-light text-brand shadow-premium"
-                                      : "border-border-light bg-white hover:border-brand/40 text-muted"
+                                    flexibleDurationDays === dur
+                                      ? "border-brand bg-brand-light/35 text-brand font-semibold shadow-premium"
+                                      : "border-border-light bg-white hover:border-brand/40 hover:bg-brand-light/10 text-muted"
                                   }`}
                                 >
                                   {label}
@@ -919,10 +951,10 @@ export default function Hero() {
                           </div>
                         </div>
 
-                        {/* When */}
+                        {/* Travel Month */}
                         <div>
-                          <div className="text-sm font-bold text-foreground mb-3 text-center sm:text-left">
-                            When do you want to go?
+                          <div className="text-sm font-bold text-foreground mb-3 text-center sm:text-left font-sans">
+                            Travel Month
                           </div>
                           <div className="w-full flex gap-3 overflow-x-auto pb-4 snap-x no-scrollbar">
                             {flexibleMonths.map((m) => {
@@ -931,7 +963,7 @@ export default function Hero() {
                                 <button
                                   type="button"
                                   key={m.toISOString()}
-                                  onClick={() => handleFlexibleSelection(flexibleDuration, m)}
+                                  onClick={() => handleFlexibleSelection(flexibleDurationDays, m)}
                                   className={`flex-shrink-0 snap-start flex flex-col items-center gap-2 p-3.5 rounded-2xl border transition-all duration-200 w-24 cursor-pointer ${
                                     isSelected
                                       ? "border-brand bg-brand-light/35 text-brand font-semibold shadow-premium"
@@ -969,12 +1001,8 @@ export default function Hero() {
 
                         {/* Footer Actions */}
                         <div className="flex justify-between items-center border-t border-border-light pt-4">
-                          <div className="text-xs text-muted">
-                            {selectedCheckIn && selectedCheckOut ? (
-                              <span>Selected: {flexibleDuration === "weekend" ? "Weekend" : flexibleDuration === "week" ? "Week" : flexibleDuration === "month" ? "Month" : "Flexible duration"} in {selectedFlexibleMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" })}</span>
-                            ) : (
-                              <span>Choose duration and month</span>
-                            )}
+                          <div className="text-xs text-muted font-sans">
+                            Selected: {flexibleDurationDays === "any" ? "Any Duration" : flexibleDurationDays === "8-10" ? "8-10 Days" : `${flexibleDurationDays} Days`} • {selectedFlexibleMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" })}
                           </div>
                           <button
                             type="button"
@@ -1006,6 +1034,37 @@ export default function Hero() {
           </form>
         </motion.div>
       </div>
+
+      {/* Toast Notification */}
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.9 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="fixed bottom-6 right-6 z-[9999] flex items-center gap-4 bg-white border border-neutral-100 rounded-full shadow-2xl py-2.5 pl-3 pr-6 min-w-[320px] max-w-[90vw] sm:max-w-md pointer-events-auto"
+          >
+            <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center shrink-0">
+              <AlertCircle className="w-6 h-6 text-white fill-red-500" />
+            </div>
+            
+            <div className="flex flex-col text-left">
+              <span className="text-sm font-bold text-neutral-800 leading-snug">{toast.title}</span>
+              <span className="text-xs font-bold text-red-500 mt-0.5">{toast.message}</span>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setToast(null)}
+              className="text-neutral-400 hover:text-neutral-600 transition-colors duration-200 cursor-pointer ml-auto shrink-0 p-1"
+              aria-label="Dismiss notification"
+            >
+              <X className="w-4.5 h-4.5 text-neutral-400" />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
