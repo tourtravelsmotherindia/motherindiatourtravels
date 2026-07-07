@@ -78,7 +78,7 @@ export default function RegionsGrid() {
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
         <div>
           <h2 className="text-3xl md:text-5xl font-extrabold text-foreground tracking-tight leading-[1.1]">
-            Destination By <span className="font-serif italic font-medium text-brand">Region</span>
+            Destination By <span className="text-brand">Region</span>
           </h2>
           <p className="text-muted font-medium mt-2">
             Explore adventures across every corner of the incredible Indian subcontinent
