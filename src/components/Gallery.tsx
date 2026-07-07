@@ -66,8 +66,8 @@ export default function Gallery() {
             Our Travel <span className="text-brand">Gallery</span>
           </h2>
           <p className="text-muted font-medium mt-2 text-sm md:text-base">
-            Catch a glimpse of the mesmerizing landscapes, historical monuments, and soulful cultures
-            captured during our curated trips.
+            Catch a glimpse of the mesmerizing landscapes, historical monuments, and soulful
+            cultures captured during our curated trips.
           </p>
         </div>
       </div>

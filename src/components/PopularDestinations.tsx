@@ -116,11 +116,7 @@ function DestinationCard({
         src={dest.image}
         alt={dest.name}
         fill
-        sizes={
-          isMobile
-            ? "(max-width: 768px) 100vw, 290px"
-            : "(max-width: 1024px) 50vw, 600px"
-        }
+        sizes={isMobile ? "(max-width: 768px) 100vw, 290px" : "(max-width: 1024px) 50vw, 600px"}
         className="object-cover transition-transform duration-700 group-hover:scale-105"
         priority={priority}
       />
@@ -137,9 +133,7 @@ function DestinationCard({
       >
         <Heart
           className={`w-5 h-5 transition-colors ${
-            isFavorite
-              ? "fill-red-500 text-red-500"
-              : "text-zinc-400 group-hover:text-red-500"
+            isFavorite ? "fill-red-500 text-red-500" : "text-zinc-400 group-hover:text-red-500"
           }`}
         />
       </button>
@@ -152,9 +146,7 @@ function DestinationCard({
         <div className="flex flex-col">
           <h3 className="text-xl lg:text-2xl font-extrabold tracking-tight leading-tight mb-1">
             {dest.name},{" "}
-            <span className="text-white/80 font-semibold text-lg lg:text-xl">
-              {dest.location}
-            </span>
+            <span className="text-white/80 font-semibold text-lg lg:text-xl">{dest.location}</span>
           </h3>
 
           {/* Duration & Rating Row */}
@@ -196,7 +188,6 @@ function DestinationCard({
   );
 }
 
-
 export default function PopularDestinations() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0); // for mobile dots
@@ -237,7 +228,8 @@ export default function PopularDestinations() {
   if (destinations.length === 0) return null;
 
   // Wrap index for safety
-  const wrap = (i: number) => ((i % destinations.length) + destinations.length) % destinations.length;
+  const wrap = (i: number) =>
+    ((i % destinations.length) + destinations.length) % destinations.length;
 
   // Get current active set of 4 destinations for desktop view
   const cardA = destinations[wrap(currentIndex)];
@@ -302,9 +294,7 @@ export default function PopularDestinations() {
                 key={idx}
                 onClick={() => scrollToCard(idx)}
                 className={`h-2.5 rounded-full transition-all duration-300 ${
-                  activeIndex === idx
-                    ? "w-8 bg-brand"
-                    : "w-2.5 bg-muted/30 hover:bg-muted/50"
+                  activeIndex === idx ? "w-8 bg-brand" : "w-2.5 bg-muted/30 hover:bg-muted/50"
                 }`}
                 aria-label={`Go to slide ${idx + 1}`}
               />
