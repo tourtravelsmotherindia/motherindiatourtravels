@@ -2,7 +2,6 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import {
-  AlertCircle,
   Calendar,
   CalendarDays,
   CalendarRange,
@@ -16,12 +15,12 @@ import {
   Search,
   Timer,
   Users,
-  X,
 } from "lucide-react";
 import Image from "next/image";
 import type React from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import { useToast } from "@/context/ToastContext";
 import heroData from "@/data/hero.json";
 import packagesData from "@/data/packages-index.json";
 
@@ -58,6 +57,7 @@ const popularSuggestions = [
 ];
 
 export default function Hero() {
+  const { showToast } = useToast();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [destination, setDestination] = useState("");
   const [isPaused, setIsPaused] = useState(false);
@@ -86,20 +86,6 @@ export default function Hero() {
   const [adults, setAdults] = useState(1);
   const [childrenCount, setChildrenCount] = useState(0);
   const [kids, setKids] = useState(0);
-
-  // Toast notification state
-  const [toast, setToast] = useState<{
-    title: string;
-    message: string;
-  } | null>(null);
-
-  // Auto-dismiss toast
-  useEffect(() => {
-    if (toast) {
-      const timer = setTimeout(() => setToast(null), 4000);
-      return () => clearTimeout(timer);
-    }
-  }, [toast]);
 
   // Refs for outside click detection
   const destinationRef = useRef<HTMLDivElement>(null);
@@ -240,10 +226,11 @@ export default function Hero() {
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
         if (diffDays > 10) {
-          setToast({
-            title: "Maximum duration exceeded",
-            message: "Tours are limited to a maximum of 10 days",
-          });
+          showToast(
+            "error",
+            "Maximum duration exceeded",
+            "Tours are limited to a maximum of 10 days"
+          );
           return;
         }
 
@@ -1034,37 +1021,6 @@ export default function Hero() {
           </form>
         </motion.div>
       </div>
-
-      {/* Toast Notification */}
-      <AnimatePresence>
-        {toast && (
-          <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-            className="fixed bottom-6 right-6 z-[9999] flex items-center gap-4 bg-white border border-neutral-100 rounded-full shadow-2xl py-2.5 pl-3 pr-6 min-w-[320px] max-w-[90vw] sm:max-w-md pointer-events-auto"
-          >
-            <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center shrink-0">
-              <AlertCircle className="w-6 h-6 text-white fill-red-500" />
-            </div>
-            
-            <div className="flex flex-col text-left">
-              <span className="text-sm font-bold text-neutral-800 leading-snug">{toast.title}</span>
-              <span className="text-xs font-bold text-red-500 mt-0.5">{toast.message}</span>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => setToast(null)}
-              className="text-neutral-400 hover:text-neutral-600 transition-colors duration-200 cursor-pointer ml-auto shrink-0 p-1"
-              aria-label="Dismiss notification"
-            >
-              <X className="w-4.5 h-4.5 text-neutral-400" />
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </section>
   );
 }
