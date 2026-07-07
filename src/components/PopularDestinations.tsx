@@ -3,94 +3,107 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, Heart, Star } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRef, useState } from "react";
 
-interface Destination {
-  id: number;
+import destinationsData from "@/data/destinations.json";
+import packagesData from "@/data/packages-index.json";
+
+interface DestinationItem {
+  id: string;
+  slug: string;
+  name: string;
+  state_id?: string;
+  country_id: string;
+  is_featured: boolean;
+  description: string;
+  best_time_to_visit: string;
+  top_attractions: string[];
+  image: string;
+  package_ids: string[];
+  package_count: number;
+}
+
+interface PackageItem {
+  id: string;
+  slug: string;
+  name: string;
+  hero_image: string;
+  duration_range: string;
+  destinations: string[];
+  destination_ids: string[];
+  is_domestic: boolean;
+}
+
+interface DestinationDisplay {
+  slug: string;
   name: string;
   location: string;
   duration: string;
   rating: number;
   ratingCount: string;
-  price: string;
   image: string;
 }
 
-const destinations: Destination[] = [
-  {
-    id: 1,
-    name: "Klingking Beach",
-    location: "Bali, Indonesia",
-    duration: "3 Days & 2 Nights",
-    rating: 4.9,
-    ratingCount: "(74k)",
-    price: "$399",
-    image:
-      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    id: 2,
-    name: "Red Rock Canyon",
-    location: "Nevada, USA",
-    duration: "4 Days & 3 Nights",
-    rating: 4.8,
-    ratingCount: "(12k)",
-    price: "$499",
-    image:
-      "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    id: 3,
-    name: "Cinque Terre",
-    location: "Liguria, Italy",
-    duration: "5 Days & 4 Nights",
-    rating: 4.7,
-    ratingCount: "(32k)",
-    price: "$599",
-    image:
-      "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    id: 4,
-    name: "Venice Canals",
-    location: "Venice, Italy",
-    duration: "3 Days & 2 Nights",
-    rating: 4.9,
-    ratingCount: "(54k)",
-    price: "$450",
-    image:
-      "https://images.unsplash.com/photo-1527631746610-bca00a040d60?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    id: 5,
-    name: "Leh Ladakh",
-    location: "Ladakh, India",
-    duration: "6 Days & 5 Nights",
-    rating: 4.9,
-    ratingCount: "(8k)",
-    price: "$650",
-    image:
-      "https://images.unsplash.com/photo-1596176530529-78163a4f7af2?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    id: 6,
-    name: "Kerala Backwaters",
-    location: "Alappuzha, India",
-    duration: "5 Days & 4 Nights",
-    rating: 4.8,
-    ratingCount: "(15k)",
-    price: "$420",
-    image:
-      "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=800&q=80",
-  },
-];
+/** Turn a state/country id like "uttar-pradesh" into "Uttar Pradesh" */
+function formatLocation(countryId: string, stateId?: string): string {
+  const countryNames: Record<string, string> = {
+    india: "India",
+    nepal: "Nepal",
+    thailand: "Thailand",
+    uae: "UAE",
+    malaysia: "Malaysia",
+  };
+
+  if (countryId === "india" && stateId) {
+    return stateId
+      .split("-")
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(" ");
+  }
+
+  return countryNames[countryId] || countryId.toUpperCase();
+}
+
+/** Build the display list from JSON data — featured destinations enriched with package info */
+function buildFeaturedDestinations(): DestinationDisplay[] {
+  const allDestinations = (destinationsData.destinations || []) as DestinationItem[];
+  const allPackages = (packagesData.packages || []) as PackageItem[];
+
+  const featured = allDestinations.filter((d) => d.is_featured);
+
+  return featured.map((dest) => {
+    // Prefer destination image; fall back to a related package's hero_image
+    let image = dest.image;
+    if (!image) {
+      const relatedPkg = allPackages.find(
+        (pkg) => pkg.destination_ids?.includes(dest.slug) && pkg.hero_image,
+      );
+      image = relatedPkg?.hero_image || "/images/placeholder-landscape.png";
+    }
+
+    // Count label
+    const count = dest.package_count;
+    const ratingCount = count > 1 ? `(${count} packages)` : `(${count} package)`;
+
+    return {
+      slug: dest.slug,
+      name: dest.name,
+      location: formatLocation(dest.country_id, dest.state_id),
+      duration: dest.best_time_to_visit,
+      rating: 4.9,
+      ratingCount,
+      image,
+    };
+  });
+}
 
 function DestinationCard({
   dest,
   isMobile = false,
   priority = false,
 }: {
-  dest: Destination;
+  dest: DestinationDisplay;
   isMobile?: boolean;
   priority?: boolean;
 }) {
@@ -103,7 +116,11 @@ function DestinationCard({
         src={dest.image}
         alt={dest.name}
         fill
-        sizes={isMobile ? "(max-width: 768px) 100vw, 290px" : "(max-width: 1024px) 50vw, 600px"}
+        sizes={
+          isMobile
+            ? "(max-width: 768px) 100vw, 290px"
+            : "(max-width: 1024px) 50vw, 600px"
+        }
         className="object-cover transition-transform duration-700 group-hover:scale-105"
         priority={priority}
       />
@@ -120,7 +137,9 @@ function DestinationCard({
       >
         <Heart
           className={`w-5 h-5 transition-colors ${
-            isFavorite ? "fill-red-500 text-red-500" : "text-zinc-400 group-hover:text-red-500"
+            isFavorite
+              ? "fill-red-500 text-red-500"
+              : "text-zinc-400 group-hover:text-red-500"
           }`}
         />
       </button>
@@ -133,7 +152,9 @@ function DestinationCard({
         <div className="flex flex-col">
           <h3 className="text-xl lg:text-2xl font-extrabold tracking-tight leading-tight mb-1">
             {dest.name},{" "}
-            <span className="text-white/80 font-semibold text-lg lg:text-xl">{dest.location}</span>
+            <span className="text-white/80 font-semibold text-lg lg:text-xl">
+              {dest.location}
+            </span>
           </h3>
 
           {/* Duration & Rating Row */}
@@ -156,29 +177,40 @@ function DestinationCard({
               : "h-0 opacity-0 group-hover:h-10 group-hover:opacity-100 group-hover:mt-4"
           }`}
         >
-          <button
-            type="button"
-            className="bg-brand hover:bg-brand-hover text-white text-xs lg:text-sm font-bold py-2 px-6 rounded-full transition-colors cursor-pointer shadow-sm"
+          <Link
+            href={`/destinations/${dest.slug}`}
+            className="bg-brand hover:bg-brand-hover text-white text-xs lg:text-sm font-bold py-2 px-6 rounded-full transition-colors cursor-pointer shadow-sm inline-block"
           >
             View
-          </button>
+          </Link>
         </div>
       </div>
+
+      {/* Full-card clickable overlay for desktop (mobile uses explicit View button) */}
+      <Link
+        href={`/destinations/${dest.slug}`}
+        className="absolute inset-0 z-10 cursor-pointer hidden md:block"
+        aria-label={`View details for ${dest.name}`}
+      />
     </div>
   );
 }
+
 
 export default function PopularDestinations() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0); // for mobile dots
   const [currentIndex, setCurrentIndex] = useState(0); // for desktop pagination
 
+  // Build data from JSON — stable reference via useState initializer
+  const [destinations] = useState<DestinationDisplay[]>(buildFeaturedDestinations);
+
   // Mobile scroll handlers
   const handleScroll = () => {
     if (!containerRef.current) return;
     const scrollLeft = containerRef.current.scrollLeft;
     const width = containerRef.current.offsetWidth;
-    const index = Math.round(scrollLeft / (width / 1.1)); // Approx mobile card width
+    const index = Math.round(scrollLeft / (width / 1.1));
     setActiveIndex(Math.min(Math.max(index, 0), destinations.length - 1));
   };
 
@@ -201,11 +233,17 @@ export default function PopularDestinations() {
     setCurrentIndex((prev) => (prev === destinations.length - 1 ? 0 : prev + 1));
   };
 
+  // Edge case: empty data → render nothing
+  if (destinations.length === 0) return null;
+
+  // Wrap index for safety
+  const wrap = (i: number) => ((i % destinations.length) + destinations.length) % destinations.length;
+
   // Get current active set of 4 destinations for desktop view
-  const cardA = destinations[currentIndex];
-  const cardB = destinations[(currentIndex + 1) % destinations.length];
-  const cardC = destinations[(currentIndex + 2) % destinations.length];
-  const cardD = destinations[(currentIndex + 3) % destinations.length];
+  const cardA = destinations[wrap(currentIndex)];
+  const cardB = destinations[wrap(currentIndex + 1)];
+  const cardC = destinations[wrap(currentIndex + 2)];
+  const cardD = destinations[wrap(currentIndex + 3)];
 
   return (
     <section className="py-16 bg-white border-y border-border-light">
@@ -241,7 +279,7 @@ export default function PopularDestinations() {
           </div>
         </div>
 
-        {/* MOBILE VIEW: Keeps the original horizontal scroll layout */}
+        {/* MOBILE VIEW: Horizontal scroll layout */}
         <div className="md:hidden">
           <div
             ref={containerRef}
@@ -250,7 +288,7 @@ export default function PopularDestinations() {
             style={{ scrollBehavior: "smooth" }}
           >
             {destinations.map((dest, idx) => (
-              <div key={dest.id} className="h-[400px] w-[290px] shrink-0 snap-start">
+              <div key={dest.slug} className="h-[400px] w-[290px] shrink-0 snap-start">
                 <DestinationCard dest={dest} isMobile priority={idx === 0} />
               </div>
             ))}
@@ -264,7 +302,9 @@ export default function PopularDestinations() {
                 key={idx}
                 onClick={() => scrollToCard(idx)}
                 className={`h-2.5 rounded-full transition-all duration-300 ${
-                  activeIndex === idx ? "w-8 bg-brand" : "w-2.5 bg-muted/30 hover:bg-muted/50"
+                  activeIndex === idx
+                    ? "w-8 bg-brand"
+                    : "w-2.5 bg-muted/30 hover:bg-muted/50"
                 }`}
                 aria-label={`Go to slide ${idx + 1}`}
               />
@@ -272,7 +312,7 @@ export default function PopularDestinations() {
           </div>
         </div>
 
-        {/* DESKTOP VIEW: The new alternating asymmetric grid layout */}
+        {/* DESKTOP VIEW: Alternating asymmetric grid layout */}
         <div className="hidden md:block min-h-[640px] relative">
           <AnimatePresence mode="wait">
             <motion.div
