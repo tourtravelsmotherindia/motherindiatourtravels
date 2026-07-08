@@ -318,7 +318,7 @@ export default function Footer() {
 
         {/* Footer Copyright */}
         <div className="pt-8 border-t border-neutral-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs font-medium text-neutral-400 text-center sm:text-left">
+          <p className="text-xs font-medium text-neutral-400 text-center sm:text-left" suppressHydrationWarning>
             © {new Date().getFullYear()} {companyData.name}. All rights reserved.
           </p>
         </div>
