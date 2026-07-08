@@ -211,10 +211,14 @@ export default function Hero() {
     return date > selectedCheckIn && date < hoverDate;
   };
 
-  const isDateDisabled = (date: Date) => {
+  const todayRef = useMemo(() => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    return date < today;
+    return today;
+  }, []);
+
+  const isDateDisabled = (date: Date) => {
+    return date < todayRef;
   };
 
   const handleDateClick = (date: Date) => {
@@ -293,14 +297,20 @@ export default function Hero() {
     setActiveDropdown(null);
   };
 
-  // Date Formatting for Display
+  const MONTHS_SHORT = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+  ];
+
+  const MONTHS_LONG = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December",
+  ];
+
+  // Date Formatting for Display — deterministic, no toLocaleDateString (avoids hydration mismatches)
   const formatDate = (date: Date | null) => {
     if (!date) return "";
-    return date.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    });
+    return `${MONTHS_SHORT[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
   };
 
   const toISODate = (date: Date | null) => {
@@ -345,10 +355,7 @@ export default function Hero() {
           : flexibleDurationDays === "8-10"
             ? "8-10 Days"
             : `${flexibleDurationDays} Days`;
-      const monthStr = selectedFlexibleMonth.toLocaleDateString("en-US", {
-        month: "long",
-        year: "numeric",
-      });
+      const monthStr = `${MONTHS_LONG[selectedFlexibleMonth.getMonth()]} ${selectedFlexibleMonth.getFullYear()}`;
       alert(
         `Searching Flexible: ${destination} | Duration: ${durationLabel} | Travel Month: ${monthStr} | Travelers: ${travelerCount} (${adults} Adults, ${childrenCount} Children, ${kids} Kids)`,
       );
@@ -361,10 +368,7 @@ export default function Hero() {
     const month = monthDate.getMonth();
     const days = generateMonthDays(year, month);
 
-    const monthLabel = monthDate.toLocaleDateString("en-US", {
-      month: "long",
-      year: "numeric",
-    });
+    const monthLabel = `${MONTHS_LONG[monthDate.getMonth()]} ${monthDate.getFullYear()}`;
 
     return (
       <div className="flex-1 min-w-[220px] sm:min-w-[240px]">
@@ -713,10 +717,7 @@ export default function Hero() {
                       ? selectedCheckOut
                         ? `${formatDate(selectedCheckOut)}${getDurationDays() ? ` (${getDurationDays()} Days)` : ""}`
                         : "Add date"
-                      : selectedFlexibleMonth.toLocaleDateString("en-US", {
-                          month: "long",
-                          year: "numeric",
-                        })}
+                      : `${MONTHS_LONG[selectedFlexibleMonth.getMonth()]} ${selectedFlexibleMonth.getFullYear()}`}
                   </div>
                 </div>
               </div>
@@ -1031,7 +1032,7 @@ export default function Hero() {
                                             : "bg-gray-200 text-muted"
                                         }`}
                                       >
-                                        {m.toLocaleDateString("en-US", { month: "short" })}
+                                        {MONTHS_SHORT[m.getMonth()]}
                                       </div>
                                       <div className="flex-1 flex items-center justify-center text-[10px] font-bold font-sans">
                                         1
@@ -1041,7 +1042,7 @@ export default function Hero() {
                                     {/* Month Labels */}
                                     <div className="text-center">
                                       <div className="text-[10px] font-bold text-foreground truncate font-sans">
-                                        {m.toLocaleDateString("en-US", { month: "long" })}
+                                        {MONTHS_LONG[m.getMonth()]}
                                       </div>
                                       <div className="text-[8px] text-muted font-sans">
                                         {m.getFullYear()}
@@ -1063,10 +1064,7 @@ export default function Hero() {
                                   ? "8-10 Days"
                                   : `${flexibleDurationDays} Days`}{" "}
                               •{" "}
-                              {selectedFlexibleMonth.toLocaleDateString("en-US", {
-                                month: "long",
-                                year: "numeric",
-                              })}
+                              {`${MONTHS_LONG[selectedFlexibleMonth.getMonth()]} ${selectedFlexibleMonth.getFullYear()}`}
                             </div>
                             <button
                               type="button"
