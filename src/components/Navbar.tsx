@@ -4,9 +4,11 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Globe, Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [lang] = useState("EN");
   const [scrolled, setScrolled] = useState(false);
@@ -25,10 +27,19 @@ export default function Navbar() {
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
+  const isHome = pathname === "/";
+
+  const getHref = (href: string) => {
+    if (href.startsWith("#")) {
+      return isHome ? href : `/${href}`;
+    }
+    return href;
+  };
+
   const navLinks = [
     { name: "Home", href: "#home" },
     { name: "About", href: "#about" },
-    { name: "Packages", href: "#packages" },
+    { name: "Packages", href: "/packages" },
     { name: "Blog", href: "#blog" },
     { name: "FAQ", href: "#faq" },
     { name: "Gallery", href: "#gallery" },
@@ -68,7 +79,7 @@ export default function Navbar() {
           {navLinks.map((link) => (
             <Link
               key={link.name}
-              href={link.href}
+              href={getHref(link.href)}
               className="text-foreground hover:text-brand font-semibold text-sm transition-colors duration-200"
             >
               {link.name}
@@ -111,7 +122,7 @@ export default function Navbar() {
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
-                  href={link.href}
+                  href={getHref(link.href)}
                   onClick={() => setIsOpen(false)}
                   className="text-foreground hover:text-brand font-medium text-base py-2 px-3 hover:bg-brand-light rounded-xl transition-all duration-200"
                 >
