@@ -87,7 +87,9 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
 
             <div className="flex flex-col text-left">
               <span className="text-sm font-bold text-neutral-800 leading-snug">{toast.title}</span>
-              <span className={`text-xs font-bold ${getMessageColor()} mt-0.5`}>{toast.message}</span>
+              <span className={`text-xs font-bold ${getMessageColor()} mt-0.5`}>
+                {toast.message}
+              </span>
             </div>
 
             <button

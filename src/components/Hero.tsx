@@ -38,11 +38,13 @@ const AUTO_ROTATE_INTERVAL = 5000;
 // Extract unique destinations from packages
 const allDestinations = Array.from(
   new Set(
-    packagesData.packages.flatMap((pkg: { primary_destination: string; destinations?: string[] }) => [
-      pkg.primary_destination,
-      ...(pkg.destinations || []),
-    ])
-  )
+    packagesData.packages.flatMap(
+      (pkg: { primary_destination: string; destinations?: string[] }) => [
+        pkg.primary_destination,
+        ...(pkg.destinations || []),
+      ],
+    ),
+  ),
 )
   .filter(Boolean)
   .sort();
@@ -63,7 +65,9 @@ export default function Hero() {
   const [isPaused, setIsPaused] = useState(false);
 
   // Dropdown UI states
-  const [activeDropdown, setActiveDropdown] = useState<"destination" | "dates" | "guests" | null>(null);
+  const [activeDropdown, setActiveDropdown] = useState<"destination" | "dates" | "guests" | null>(
+    null,
+  );
 
   // Date selection states
   const [dateMode, setDateMode] = useState<"calendar" | "flexible">("calendar");
@@ -76,7 +80,9 @@ export default function Hero() {
   });
 
   // Flexible date selection states
-  const [flexibleDurationDays, setFlexibleDurationDays] = useState<"any" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "8-10">("7");
+  const [flexibleDurationDays, setFlexibleDurationDays] = useState<
+    "any" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "8-10"
+  >("7");
   const [selectedFlexibleMonth, setSelectedFlexibleMonth] = useState<Date>(() => {
     const today = new Date();
     return new Date(today.getFullYear(), today.getMonth(), 1);
@@ -150,9 +156,7 @@ export default function Hero() {
   // Destination filtering
   const filteredDestinations = useMemo(() => {
     if (!destination) return [];
-    return allDestinations.filter((dest) =>
-      dest.toLowerCase().includes(destination.toLowerCase())
-    );
+    return allDestinations.filter((dest) => dest.toLowerCase().includes(destination.toLowerCase()));
   }, [destination]);
 
   // Calendar Helpers
@@ -229,7 +233,7 @@ export default function Hero() {
           showToast(
             "error",
             "Maximum duration exceeded",
-            "Tours are limited to a maximum of 10 days"
+            "Tours are limited to a maximum of 10 days",
           );
           return;
         }
@@ -331,11 +335,23 @@ export default function Hero() {
     if (dateMode === "calendar") {
       const checkInStr = selectedCheckIn ? toISODate(selectedCheckIn) : "";
       const checkOutStr = selectedCheckOut ? toISODate(selectedCheckOut) : "";
-      alert(`Searching Calendar: ${destination} | Departure: ${checkInStr} | Return: ${checkOutStr} | Travelers: ${travelerCount} (${adults} Adults, ${childrenCount} Children, ${kids} Kids)`);
+      alert(
+        `Searching Calendar: ${destination} | Departure: ${checkInStr} | Return: ${checkOutStr} | Travelers: ${travelerCount} (${adults} Adults, ${childrenCount} Children, ${kids} Kids)`,
+      );
     } else {
-      const durationLabel = flexibleDurationDays === "any" ? "Any Duration" : flexibleDurationDays === "8-10" ? "8-10 Days" : `${flexibleDurationDays} Days`;
-      const monthStr = selectedFlexibleMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" });
-      alert(`Searching Flexible: ${destination} | Duration: ${durationLabel} | Travel Month: ${monthStr} | Travelers: ${travelerCount} (${adults} Adults, ${childrenCount} Children, ${kids} Kids)`);
+      const durationLabel =
+        flexibleDurationDays === "any"
+          ? "Any Duration"
+          : flexibleDurationDays === "8-10"
+            ? "8-10 Days"
+            : `${flexibleDurationDays} Days`;
+      const monthStr = selectedFlexibleMonth.toLocaleDateString("en-US", {
+        month: "long",
+        year: "numeric",
+      });
+      alert(
+        `Searching Flexible: ${destination} | Duration: ${durationLabel} | Travel Month: ${monthStr} | Travelers: ${travelerCount} (${adults} Adults, ${childrenCount} Children, ${kids} Kids)`,
+      );
     }
   };
 
@@ -352,7 +368,9 @@ export default function Hero() {
 
     return (
       <div className="flex-1 min-w-[220px] sm:min-w-[240px]">
-        <div className="text-center font-bold text-foreground mb-3 font-sans text-sm">{monthLabel}</div>
+        <div className="text-center font-bold text-foreground mb-3 font-sans text-sm">
+          {monthLabel}
+        </div>
 
         {/* Weekdays */}
         <div className="grid grid-cols-7 gap-0.5 text-center text-[10px] font-bold text-muted mb-1.5 uppercase tracking-wider">
@@ -530,12 +548,17 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="bg-white rounded-3xl p-6 md:p-8 shadow-premium border border-border-light flex flex-col items-center gap-6"
         >
-          <form onSubmit={handleSearch} className="w-full flex flex-col items-center gap-6 relative">
+          <form
+            onSubmit={handleSearch}
+            className="w-full flex flex-col items-center gap-6 relative"
+          >
             {/* Grid of Inputs */}
             <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-center divide-y sm:divide-y-0 lg:divide-x divide-border-light relative">
-              
               {/* Destination Column */}
-              <div ref={destinationRef} className="relative flex items-center gap-3.5 pb-4 sm:pb-0 lg:px-4 w-full">
+              <div
+                ref={destinationRef}
+                className="relative flex items-center gap-3.5 pb-4 sm:pb-0 lg:px-4 w-full"
+              >
                 <MapPin className="w-5 h-5 text-brand shrink-0" />
                 <div className="flex-1 min-w-0">
                   <label
@@ -593,9 +616,7 @@ export default function Hero() {
                                     <div className="text-sm font-bold text-foreground group-hover:text-brand transition-colors duration-200">
                                       {sugg.name}
                                     </div>
-                                    <div className="text-xs text-muted">
-                                      {sugg.desc}
-                                    </div>
+                                    <div className="text-xs text-muted">{sugg.desc}</div>
                                   </div>
                                 </button>
                               );
@@ -660,9 +681,14 @@ export default function Hero() {
                   </span>
                   <div className="text-sm font-semibold text-foreground">
                     {dateMode === "calendar"
-                      ? selectedCheckIn ? formatDate(selectedCheckIn) : "Add date"
-                      : (flexibleDurationDays === "any" ? "Any Duration" : flexibleDurationDays === "8-10" ? "8-10 Days" : `${flexibleDurationDays} Days`)
-                    }
+                      ? selectedCheckIn
+                        ? formatDate(selectedCheckIn)
+                        : "Add date"
+                      : flexibleDurationDays === "any"
+                        ? "Any Duration"
+                        : flexibleDurationDays === "8-10"
+                          ? "8-10 Days"
+                          : `${flexibleDurationDays} Days`}
                   </div>
                 </div>
               </div>
@@ -684,15 +710,23 @@ export default function Hero() {
                   </span>
                   <div className="text-sm font-semibold text-foreground">
                     {dateMode === "calendar"
-                      ? selectedCheckOut ? `${formatDate(selectedCheckOut)}${getDurationDays() ? ` (${getDurationDays()} Days)` : ""}` : "Add date"
-                      : selectedFlexibleMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" })
-                    }
+                      ? selectedCheckOut
+                        ? `${formatDate(selectedCheckOut)}${getDurationDays() ? ` (${getDurationDays()} Days)` : ""}`
+                        : "Add date"
+                      : selectedFlexibleMonth.toLocaleDateString("en-US", {
+                          month: "long",
+                          year: "numeric",
+                        })}
                   </div>
                 </div>
               </div>
 
               {/* Travelers Column */}
-              <div ref={guestsRef} className="relative flex items-center gap-3.5 pt-4 sm:pt-0 lg:px-4 cursor-pointer w-full" onClick={() => setActiveDropdown("guests")}>
+              <div
+                ref={guestsRef}
+                className="relative flex items-center gap-3.5 pt-4 sm:pt-0 lg:px-4 cursor-pointer w-full"
+                onClick={() => setActiveDropdown("guests")}
+              >
                 <Users className="w-5 h-5 text-brand shrink-0" />
                 <div className="flex-1 min-w-0">
                   <span className="block text-[10px] text-muted font-bold uppercase tracking-wider mb-0.5">
@@ -730,7 +764,9 @@ export default function Hero() {
                             >
                               <Minus className="w-4 h-4" />
                             </button>
-                            <span className="text-sm font-bold text-foreground w-4 text-center">{adults}</span>
+                            <span className="text-sm font-bold text-foreground w-4 text-center">
+                              {adults}
+                            </span>
                             <button
                               type="button"
                               onClick={() => setAdults(adults + 1)}
@@ -756,7 +792,9 @@ export default function Hero() {
                             >
                               <Minus className="w-4 h-4" />
                             </button>
-                            <span className="text-sm font-bold text-foreground w-4 text-center">{childrenCount}</span>
+                            <span className="text-sm font-bold text-foreground w-4 text-center">
+                              {childrenCount}
+                            </span>
                             <button
                               type="button"
                               onClick={() => setChildrenCount(childrenCount + 1)}
@@ -782,7 +820,9 @@ export default function Hero() {
                             >
                               <Minus className="w-4 h-4" />
                             </button>
-                            <span className="text-sm font-bold text-foreground w-4 text-center">{kids}</span>
+                            <span className="text-sm font-bold text-foreground w-4 text-center">
+                              {kids}
+                            </span>
                             <button
                               type="button"
                               onClick={() => setKids(kids + 1)}
@@ -811,185 +851,101 @@ export default function Hero() {
 
               {/* Dates Popover (placed inside relative grid container to align at high level) */}
               <AnimatePresence>
-              {activeDropdown === "dates" && (
-                <motion.div
-                  ref={datesPopoverRef}
-                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                  transition={{ duration: 0.15 }}
-                  onClick={(e) => e.stopPropagation()} // Prevent close on clicking inside popup
-                  className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[calc(100vw-32px)] sm:w-auto min-w-[300px] sm:min-w-[560px] bg-white rounded-3xl border border-border-light shadow-2xl p-4 z-40 cursor-default"
-                >
-                  {/* Segmented Tab Control */}
-                  <div className="flex justify-center mb-6">
-                    <div className="bg-gray-100 p-1 rounded-full flex gap-1 border border-border-light relative">
-                      <button
-                        type="button"
-                        onClick={() => setDateMode("calendar")}
-                        className={`relative px-6 py-2 rounded-full text-xs font-bold transition-colors duration-200 z-10 cursor-pointer ${
-                          dateMode === "calendar" ? "text-foreground" : "text-muted hover:text-foreground"
-                        }`}
-                      >
-                        {dateMode === "calendar" && (
-                          <motion.span
-                            layoutId="activeDateTab"
-                            className="absolute inset-0 bg-white rounded-full shadow-sm -z-10"
-                            transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                          />
-                        )}
-                        Calendar
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setDateMode("flexible")}
-                        className={`relative px-6 py-2 rounded-full text-xs font-bold transition-colors duration-200 z-10 cursor-pointer ${
-                          dateMode === "flexible" ? "text-foreground" : "text-muted hover:text-foreground"
-                        }`}
-                      >
-                        {dateMode === "flexible" && (
-                          <motion.span
-                            layoutId="activeDateTab"
-                            className="absolute inset-0 bg-white rounded-full shadow-sm -z-10"
-                            transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                          />
-                        )}
-                        {"I'm flexible"}
-                      </button>
-                    </div>
-                  </div>
-
-                  {dateMode === "calendar" ? (
-                    <div>
-                      {/* Double Calendar Header with arrows */}
-                      <div className="flex items-center justify-between px-2 mb-4">
+                {activeDropdown === "dates" && (
+                  <motion.div
+                    ref={datesPopoverRef}
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    transition={{ duration: 0.15 }}
+                    onClick={(e) => e.stopPropagation()} // Prevent close on clicking inside popup
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[calc(100vw-32px)] sm:w-auto min-w-[300px] sm:min-w-[560px] bg-white rounded-3xl border border-border-light shadow-2xl p-4 z-40 cursor-default"
+                  >
+                    {/* Segmented Tab Control */}
+                    <div className="flex justify-center mb-6">
+                      <div className="bg-gray-100 p-1 rounded-full flex gap-1 border border-border-light relative">
                         <button
                           type="button"
-                          onClick={prevMonth}
-                          className="w-8 h-8 rounded-full border border-border-light flex items-center justify-center text-muted hover:text-brand hover:border-brand/40 transition-colors duration-200 cursor-pointer"
+                          onClick={() => setDateMode("calendar")}
+                          className={`relative px-6 py-2 rounded-full text-xs font-bold transition-colors duration-200 z-10 cursor-pointer ${
+                            dateMode === "calendar"
+                              ? "text-foreground"
+                              : "text-muted hover:text-foreground"
+                          }`}
                         >
-                          <ChevronLeft className="w-4 h-4" />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={nextMonth}
-                          className="w-8 h-8 rounded-full border border-border-light flex items-center justify-center text-muted hover:text-brand hover:border-brand/40 transition-colors duration-200 cursor-pointer"
-                        >
-                          <ChevronRight className="w-4 h-4" />
-                        </button>
-                      </div>
-
-                      {/* Side-by-side Monthly Calendars */}
-                      <div className="flex flex-col sm:flex-row gap-5 items-start justify-center">
-                        {renderCalendarMonth(calendarMonth)}
-                        <div className="hidden sm:block border-l border-border-light h-[230px] self-stretch" />
-                        <div className="hidden sm:block">
-                          {renderCalendarMonth(rightMonthDate)}
-                        </div>
-                      </div>
-                      
-                      {/* Footer Actions */}
-                      <div className="flex justify-between items-center border-t border-border-light pt-4 mt-6">
-                        <div className="text-xs text-muted">
-                          {selectedCheckIn && selectedCheckOut ? (
-                            <span>Selected: {formatDate(selectedCheckIn)} – {formatDate(selectedCheckOut)}{getDurationDays() ? ` (${getDurationDays()} Days)` : ""}</span>
-                          ) : selectedCheckIn ? (
-                            <span>Select return date</span>
-                          ) : (
-                            <span>Select departure date</span>
+                          {dateMode === "calendar" && (
+                            <motion.span
+                              layoutId="activeDateTab"
+                              className="absolute inset-0 bg-white rounded-full shadow-sm -z-10"
+                              transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                            />
                           )}
-                        </div>
+                          Calendar
+                        </button>
                         <button
                           type="button"
-                          onClick={() => setActiveDropdown(null)}
-                          className="px-6 py-2 bg-brand hover:bg-brand-hover text-white rounded-lg font-bold text-xs shadow-premium transition-all duration-200 cursor-pointer"
+                          onClick={() => setDateMode("flexible")}
+                          className={`relative px-6 py-2 rounded-full text-xs font-bold transition-colors duration-200 z-10 cursor-pointer ${
+                            dateMode === "flexible"
+                              ? "text-foreground"
+                              : "text-muted hover:text-foreground"
+                          }`}
                         >
-                          Apply
+                          {dateMode === "flexible" && (
+                            <motion.span
+                              layoutId="activeDateTab"
+                              className="absolute inset-0 bg-white rounded-full shadow-sm -z-10"
+                              transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                            />
+                          )}
+                          {"I'm flexible"}
                         </button>
                       </div>
                     </div>
-                  ) : (
-                    <div>
-                      {/* I'm flexible view */}
-                      <div className="space-y-6">
-                        {/* How many days */}
-                        <div>
-                          <div className="text-sm font-bold text-foreground mb-3 text-center sm:text-left font-sans">
-                            How many days?
-                          </div>
-                          <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
-                            {(["any", "3", "4", "5", "6", "7", "8", "9", "10", "8-10"] as const).map((dur) => {
-                              const label = dur === "any" ? "Any" : dur === "8-10" ? "8-10 Days" : `${dur} Days`;
-                              return (
-                                <button
-                                  type="button"
-                                  key={dur}
-                                  onClick={() => handleFlexibleSelection(dur, selectedFlexibleMonth)}
-                                  className={`px-4 py-2 rounded-full border text-xs font-semibold transition-all duration-200 cursor-pointer ${
-                                    flexibleDurationDays === dur
-                                      ? "border-brand bg-brand-light/35 text-brand font-semibold shadow-premium"
-                                      : "border-border-light bg-white hover:border-brand/40 hover:bg-brand-light/10 text-muted"
-                                  }`}
-                                >
-                                  {label}
-                                </button>
-                              );
-                            })}
-                          </div>
+
+                    {dateMode === "calendar" ? (
+                      <div>
+                        {/* Double Calendar Header with arrows */}
+                        <div className="flex items-center justify-between px-2 mb-4">
+                          <button
+                            type="button"
+                            onClick={prevMonth}
+                            className="w-8 h-8 rounded-full border border-border-light flex items-center justify-center text-muted hover:text-brand hover:border-brand/40 transition-colors duration-200 cursor-pointer"
+                          >
+                            <ChevronLeft className="w-4 h-4" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={nextMonth}
+                            className="w-8 h-8 rounded-full border border-border-light flex items-center justify-center text-muted hover:text-brand hover:border-brand/40 transition-colors duration-200 cursor-pointer"
+                          >
+                            <ChevronRight className="w-4 h-4" />
+                          </button>
                         </div>
 
-                        {/* Travel Month */}
-                        <div>
-                          <div className="text-sm font-bold text-foreground mb-3 text-center sm:text-left font-sans">
-                            Travel Month
-                          </div>
-                          <div className="w-full flex gap-3 overflow-x-auto pb-4 snap-x no-scrollbar">
-                            {flexibleMonths.map((m) => {
-                              const isSelected = selectedFlexibleMonth.getMonth() === m.getMonth() && selectedFlexibleMonth.getFullYear() === m.getFullYear();
-                              return (
-                                <button
-                                  type="button"
-                                  key={m.toISOString()}
-                                  onClick={() => handleFlexibleSelection(flexibleDurationDays, m)}
-                                  className={`flex-shrink-0 snap-start flex flex-col items-center gap-2 p-3.5 rounded-2xl border transition-all duration-200 w-24 cursor-pointer ${
-                                    isSelected
-                                      ? "border-brand bg-brand-light/35 text-brand font-semibold shadow-premium"
-                                      : "border-border-light bg-white hover:border-brand/40 hover:bg-brand-light/10 text-muted"
-                                  }`}
-                                >
-                                  {/* Calendar sheet icon */}
-                                  <div className={`w-8 h-8 rounded-lg flex flex-col overflow-hidden border transition-colors duration-200 ${
-                                    isSelected ? "border-brand/30 bg-brand text-white" : "border-border-light bg-gray-50 text-muted"
-                                  }`}>
-                                    <div className={`text-[7px] font-bold uppercase text-center py-0.5 transition-colors duration-200 ${
-                                      isSelected ? "bg-brand-hover text-white" : "bg-gray-200 text-muted"
-                                    }`}>
-                                      {m.toLocaleDateString("en-US", { month: "short" })}
-                                    </div>
-                                    <div className="flex-1 flex items-center justify-center text-[10px] font-bold font-sans">
-                                      1
-                                    </div>
-                                  </div>
-                                  
-                                  {/* Month Labels */}
-                                  <div className="text-center">
-                                    <div className="text-[10px] font-bold text-foreground truncate font-sans">
-                                      {m.toLocaleDateString("en-US", { month: "long" })}
-                                    </div>
-                                    <div className="text-[8px] text-muted font-sans">
-                                      {m.getFullYear()}
-                                    </div>
-                                  </div>
-                                </button>
-                              );
-                            })}
+                        {/* Side-by-side Monthly Calendars */}
+                        <div className="flex flex-col sm:flex-row gap-5 items-start justify-center">
+                          {renderCalendarMonth(calendarMonth)}
+                          <div className="hidden sm:block border-l border-border-light h-[230px] self-stretch" />
+                          <div className="hidden sm:block">
+                            {renderCalendarMonth(rightMonthDate)}
                           </div>
                         </div>
 
                         {/* Footer Actions */}
-                        <div className="flex justify-between items-center border-t border-border-light pt-4">
-                          <div className="text-xs text-muted font-sans">
-                            Selected: {flexibleDurationDays === "any" ? "Any Duration" : flexibleDurationDays === "8-10" ? "8-10 Days" : `${flexibleDurationDays} Days`} • {selectedFlexibleMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" })}
+                        <div className="flex justify-between items-center border-t border-border-light pt-4 mt-6">
+                          <div className="text-xs text-muted">
+                            {selectedCheckIn && selectedCheckOut ? (
+                              <span>
+                                Selected: {formatDate(selectedCheckIn)} –{" "}
+                                {formatDate(selectedCheckOut)}
+                                {getDurationDays() ? ` (${getDurationDays()} Days)` : ""}
+                              </span>
+                            ) : selectedCheckIn ? (
+                              <span>Select return date</span>
+                            ) : (
+                              <span>Select departure date</span>
+                            )}
                           </div>
                           <button
                             type="button"
@@ -999,13 +955,133 @@ export default function Hero() {
                             Apply
                           </button>
                         </div>
-
                       </div>
-                    </div>
-                  )}
-                </motion.div>
-              )}
-            </AnimatePresence>
+                    ) : (
+                      <div>
+                        {/* I'm flexible view */}
+                        <div className="space-y-6">
+                          {/* How many days */}
+                          <div>
+                            <div className="text-sm font-bold text-foreground mb-3 text-center sm:text-left font-sans">
+                              How many days?
+                            </div>
+                            <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
+                              {(
+                                ["any", "3", "4", "5", "6", "7", "8", "9", "10", "8-10"] as const
+                              ).map((dur) => {
+                                const label =
+                                  dur === "any"
+                                    ? "Any"
+                                    : dur === "8-10"
+                                      ? "8-10 Days"
+                                      : `${dur} Days`;
+                                return (
+                                  <button
+                                    type="button"
+                                    key={dur}
+                                    onClick={() =>
+                                      handleFlexibleSelection(dur, selectedFlexibleMonth)
+                                    }
+                                    className={`px-4 py-2 rounded-full border text-xs font-semibold transition-all duration-200 cursor-pointer ${
+                                      flexibleDurationDays === dur
+                                        ? "border-brand bg-brand-light/35 text-brand font-semibold shadow-premium"
+                                        : "border-border-light bg-white hover:border-brand/40 hover:bg-brand-light/10 text-muted"
+                                    }`}
+                                  >
+                                    {label}
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          </div>
+
+                          {/* Travel Month */}
+                          <div>
+                            <div className="text-sm font-bold text-foreground mb-3 text-center sm:text-left font-sans">
+                              Travel Month
+                            </div>
+                            <div className="w-full flex gap-3 overflow-x-auto pb-4 snap-x no-scrollbar">
+                              {flexibleMonths.map((m) => {
+                                const isSelected =
+                                  selectedFlexibleMonth.getMonth() === m.getMonth() &&
+                                  selectedFlexibleMonth.getFullYear() === m.getFullYear();
+                                return (
+                                  <button
+                                    type="button"
+                                    key={m.toISOString()}
+                                    onClick={() => handleFlexibleSelection(flexibleDurationDays, m)}
+                                    className={`flex-shrink-0 snap-start flex flex-col items-center gap-2 p-3.5 rounded-2xl border transition-all duration-200 w-24 cursor-pointer ${
+                                      isSelected
+                                        ? "border-brand bg-brand-light/35 text-brand font-semibold shadow-premium"
+                                        : "border-border-light bg-white hover:border-brand/40 hover:bg-brand-light/10 text-muted"
+                                    }`}
+                                  >
+                                    {/* Calendar sheet icon */}
+                                    <div
+                                      className={`w-8 h-8 rounded-lg flex flex-col overflow-hidden border transition-colors duration-200 ${
+                                        isSelected
+                                          ? "border-brand/30 bg-brand text-white"
+                                          : "border-border-light bg-gray-50 text-muted"
+                                      }`}
+                                    >
+                                      <div
+                                        className={`text-[7px] font-bold uppercase text-center py-0.5 transition-colors duration-200 ${
+                                          isSelected
+                                            ? "bg-brand-hover text-white"
+                                            : "bg-gray-200 text-muted"
+                                        }`}
+                                      >
+                                        {m.toLocaleDateString("en-US", { month: "short" })}
+                                      </div>
+                                      <div className="flex-1 flex items-center justify-center text-[10px] font-bold font-sans">
+                                        1
+                                      </div>
+                                    </div>
+
+                                    {/* Month Labels */}
+                                    <div className="text-center">
+                                      <div className="text-[10px] font-bold text-foreground truncate font-sans">
+                                        {m.toLocaleDateString("en-US", { month: "long" })}
+                                      </div>
+                                      <div className="text-[8px] text-muted font-sans">
+                                        {m.getFullYear()}
+                                      </div>
+                                    </div>
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          </div>
+
+                          {/* Footer Actions */}
+                          <div className="flex justify-between items-center border-t border-border-light pt-4">
+                            <div className="text-xs text-muted font-sans">
+                              Selected:{" "}
+                              {flexibleDurationDays === "any"
+                                ? "Any Duration"
+                                : flexibleDurationDays === "8-10"
+                                  ? "8-10 Days"
+                                  : `${flexibleDurationDays} Days`}{" "}
+                              •{" "}
+                              {selectedFlexibleMonth.toLocaleDateString("en-US", {
+                                month: "long",
+                                year: "numeric",
+                              })}
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => setActiveDropdown(null)}
+                              className="px-6 py-2 bg-brand hover:bg-brand-hover text-white rounded-lg font-bold text-xs shadow-premium transition-all duration-200 cursor-pointer"
+                            >
+                              Apply
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
             {/* CTA Button */}
