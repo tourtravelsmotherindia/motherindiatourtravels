@@ -352,7 +352,7 @@ export default function PackagesPage() {
                     <div className="px-1 pb-1">
                       <Link
                         href={`/packages/${pkg.slug}`}
-                        className="block w-full border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white font-bold text-xs uppercase tracking-wider py-3.5 rounded-full transition-all duration-300 text-center select-none"
+                        className="block w-full border border-neutral-900 text-neutral-900 hover:bg-brand hover:border-brand hover:text-white font-bold text-xs uppercase tracking-wider py-3.5 rounded-full transition-all duration-300 text-center select-none"
                       >
                         View Details
                       </Link>
@@ -369,7 +369,6 @@ export default function PackagesPage() {
                 <button
                   onClick={() => {
                     setCurrentPage((prev) => Math.max(prev - 1, 1));
-                    window.scrollTo({ top: 0, behavior: "smooth" });
                   }}
                   disabled={currentPage === 1}
                   className="w-9 h-9 rounded-full flex items-center justify-center text-neutral-700 hover:bg-neutral-200/50 disabled:opacity-30 disabled:hover:bg-transparent transition-all duration-200 cursor-pointer disabled:cursor-not-allowed select-none"
@@ -398,7 +397,6 @@ export default function PackagesPage() {
                       key={`page-${page}`}
                       onClick={() => {
                         setCurrentPage(Number(page));
-                        window.scrollTo({ top: 0, behavior: "smooth" });
                       }}
                       className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-200 select-none cursor-pointer ${
                         isPageActive
@@ -415,7 +413,6 @@ export default function PackagesPage() {
                 <button
                   onClick={() => {
                     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-                    window.scrollTo({ top: 0, behavior: "smooth" });
                   }}
                   disabled={currentPage === totalPages}
                   className="w-9 h-9 rounded-full flex items-center justify-center text-neutral-700 hover:bg-neutral-200/50 disabled:opacity-30 disabled:hover:bg-transparent transition-all duration-200 cursor-pointer disabled:cursor-not-allowed select-none"
