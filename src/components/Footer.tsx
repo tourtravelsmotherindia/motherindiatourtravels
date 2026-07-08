@@ -222,7 +222,7 @@ export default function Footer() {
                 height={48}
                 className="h-12 w-12 object-contain transition-transform group-hover:scale-105 duration-300"
               />
-              <span className="font-sans text-lg lg:text-xl font-extrabold text-neutral-900 tracking-tight leading-none whitespace-nowrap">
+              <span className="font-display text-lg lg:text-xl font-extrabold text-neutral-900 tracking-tight leading-none whitespace-nowrap">
                 Mother India Tour Travels
               </span>
             </Link>

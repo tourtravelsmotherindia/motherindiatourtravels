@@ -174,7 +174,7 @@ export default function PackagesPage() {
       <main className="flex-1 max-w-[1440px] mx-auto px-4 md:px-8 py-12 w-full">
         {/* Page Title Header */}
         <div className="mb-12 text-center md:text-left">
-          <h1 className="text-4xl md:text-6xl font-extrabold text-foreground tracking-tight font-serif">
+          <h1 className="text-4xl md:text-6xl font-extrabold text-foreground tracking-tight font-display">
             All <span className="text-brand">Tour Packages</span>
           </h1>
           <p className="text-neutral-500 font-medium mt-3 text-sm md:text-base max-w-2xl">

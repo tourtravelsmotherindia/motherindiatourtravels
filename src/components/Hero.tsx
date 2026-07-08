@@ -497,7 +497,7 @@ export default function Hero() {
                 <span className="inline-block text-white font-semibold tracking-widest text-xs md:text-sm bg-black/30 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/15 mb-4">
                   {slides[currentSlide].tag}
                 </span>
-                <h1 className="text-4xl md:text-6xl font-extrabold text-white mt-4 leading-tight tracking-tight font-sans [text-shadow:0_2px_12px_rgba(0,0,0,0.7)]">
+                <h1 className="text-4xl md:text-6xl font-extrabold text-white mt-4 leading-tight tracking-tight font-display [text-shadow:0_2px_12px_rgba(0,0,0,0.7)]">
                   {slides[currentSlide].title}
                 </h1>
                 <p className="text-gray-100 mt-6 text-base md:text-lg max-w-lg leading-relaxed [text-shadow:0_1px_6px_rgba(0,0,0,0.6)]">

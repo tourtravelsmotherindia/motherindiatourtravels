@@ -1,19 +1,42 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
-import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
+import { Poppins } from "next/font/google";
+import localFont from "next/font/local";
 
 import { ToastProvider } from "@/context/ToastContext";
 
-const plusJakartaSans = Plus_Jakarta_Sans({
-  variable: "--font-plus-jakarta-sans",
+const poppins = Poppins({
+  variable: "--font-poppins",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
 
-const playfairDisplay = Playfair_Display({
-  variable: "--font-playfair-display",
-  subsets: ["latin"],
+const tripSans = localFont({
+  src: [
+    {
+      path: "../../public/fonts/TripSans-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/TripSans-Medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/TripSans-Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/TripSans-VF.woff2",
+      weight: "100 900",
+      style: "normal",
+    },
+  ],
+  variable: "--font-trip-sans",
   display: "swap",
 });
 
@@ -40,7 +63,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${plusJakartaSans.variable} ${playfairDisplay.variable} h-full antialiased`}
+      className={`${poppins.variable} ${tripSans.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <ToastProvider>{children}</ToastProvider>

@@ -69,7 +69,7 @@ export default function Navbar() {
             className="h-11 w-11 object-contain transition-transform group-hover:scale-103 duration-300"
             priority
           />
-          <span className="hidden sm:block font-sans text-base lg:text-lg font-extrabold text-foreground tracking-tight leading-none whitespace-nowrap">
+          <span className="hidden sm:block font-display text-base lg:text-lg font-extrabold text-foreground tracking-tight leading-none whitespace-nowrap">
             Mother India Tour Travels
           </span>
         </Link>
