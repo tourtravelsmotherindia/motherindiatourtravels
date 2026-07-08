@@ -3,14 +3,24 @@
 import { ArrowRight, CheckCircle2, Mail, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import type React from "react";
 import { useState } from "react";
 
 import companyData from "@/data/company.json";
 
 export default function Footer() {
+  const pathname = usePathname();
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+
+  const isHome = pathname === "/";
+  const getHref = (href: string) => {
+    if (href.startsWith("#")) {
+      return isHome ? href : `/${href}`;
+    }
+    return href;
+  };
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -271,7 +281,7 @@ export default function Footer() {
               {[
                 { name: "Home", href: "#home" },
                 { name: "About Us", href: "#about" },
-                { name: "Tour Packages", href: "#packages" },
+                { name: "Tour Packages", href: "/packages" },
                 { name: "Travel Blog", href: "#blog" },
                 { name: "FAQs", href: "#faq" },
                 { name: "Gallery", href: "#gallery" },
@@ -281,7 +291,7 @@ export default function Footer() {
               ].map((link) => (
                 <li key={link.name}>
                   <Link
-                    href={link.href}
+                    href={getHref(link.href)}
                     className="hover:text-neutral-950 hover:translate-x-1 transition-all duration-200 inline-block"
                   >
                     {link.name}
