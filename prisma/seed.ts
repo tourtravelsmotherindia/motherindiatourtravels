@@ -508,6 +508,11 @@ async function main() {
   });
   console.log("  ✓ Seeded site config");
 
+  // Consolidate SQLite file (disable WAL for Vercel read-only filesystem support) ──
+  console.log("\n🧹 Consolidating database file for production deployment...");
+  await prisma.$queryRawUnsafe("PRAGMA journal_mode=DELETE");
+  await prisma.$queryRawUnsafe("VACUUM");
+
   console.log("\n✅ Seed complete!");
 }
 

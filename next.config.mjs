@@ -5,6 +5,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  outputFileTracingIncludes: {
+    "/**/*": ["./data/travel.db"],
+  },
   turbopack: {
     root: __dirname,
   },
