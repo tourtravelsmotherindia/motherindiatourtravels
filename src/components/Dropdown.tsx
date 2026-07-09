@@ -111,7 +111,7 @@ export default function Dropdown({
               align === "right" ? "right-0" : "left-0"
             } ${menuClassName.includes("w-") ? "" : "w-72"} ${menuClassName}`}
           >
-            <div className="flex flex-col gap-0.5" role="menu" aria-orientation="vertical">
+            <div className="flex flex-col gap-0.5 max-h-60 overflow-y-auto pr-1 dropdown-scrollbar" role="menu" aria-orientation="vertical">
               {options.map((option, index) => {
                 const OptionIcon = option.icon;
                 const BadgeIcon = option.badge?.icon;
