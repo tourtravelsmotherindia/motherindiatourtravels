@@ -125,7 +125,7 @@ export default function TripCards({ packagesData }: { packagesData?: PackagesDat
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.4, delay: idx * 0.05 }}
               key={pkg.id}
-              className="group relative w-full h-[420px] xl:h-[450px] 2xl:h-[480px] rounded-[2rem] overflow-hidden shadow-card hover:shadow-premium transition-all duration-500 bg-gray-50 flex flex-col"
+              className="group relative w-full h-[340px] sm:h-[380px] md:h-[400px] lg:h-[350px] xl:h-[380px] 2xl:h-[420px] rounded-[2rem] overflow-hidden shadow-card hover:shadow-premium transition-all duration-500 bg-gray-50 flex flex-col"
             >
               {/* Background Image */}
               <div className="absolute inset-0 z-0">
@@ -164,15 +164,15 @@ export default function TripCards({ packagesData }: { packagesData?: PackagesDat
               </button>
 
               {/* Bottom Card Content overlay */}
-              <div className="mt-auto p-6 z-20 flex flex-col justify-end">
-                <h3 className="text-xl font-bold text-white leading-snug tracking-tight mb-2 group-hover:text-brand transition-colors duration-300 drop-shadow-sm">
+              <div className="mt-auto p-5 xl:p-6 z-20 flex flex-col justify-end">
+                <h3 className="text-lg xl:text-xl font-bold text-white leading-snug tracking-tight mb-2 group-hover:text-brand transition-colors duration-300 drop-shadow-sm">
                   {pkg.name}
                 </h3>
                 <div className="flex items-center justify-between mt-1 gap-2">
                   {/* Destinations with pin icon */}
-                  <div className="flex items-center gap-1.5 text-white/80 text-xs font-normal">
+                  <div className="flex items-center gap-1.5 text-white/80 text-xs font-normal min-w-0 flex-1">
                     <MapPin className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
-                    <span className="truncate max-w-[130px] sm:max-w-[160px] drop-shadow-sm">
+                    <span className="truncate drop-shadow-sm">
                       {pkg.destinations.slice(0, 2).join(", ")}
                       {pkg.destinations.length > 2 && "..."}
                     </span>
