@@ -61,7 +61,10 @@ function sorted(arr: string[]): string[] {
 // ─── Verification Functions ─────────────────────────────────────────────────────
 
 async function verifyCountries() {
-  const json = readJson("countries.json") as { countries: Record<string, unknown>[]; total: number };
+  const json = readJson("countries.json") as {
+    countries: Record<string, unknown>[];
+    total: number;
+  };
   const db = await prisma.country.findMany();
 
   if (db.length !== json.total) {
@@ -137,7 +140,10 @@ async function verifyStates() {
 }
 
 async function verifyDestinations() {
-  const json = readJson("destinations.json") as { destinations: Record<string, unknown>[]; total: number };
+  const json = readJson("destinations.json") as {
+    destinations: Record<string, unknown>[];
+    total: number;
+  };
   const db = await prisma.destination.findMany();
 
   if (db.length !== json.total) {
@@ -173,7 +179,10 @@ async function verifyDestinations() {
 }
 
 async function verifyCategories() {
-  const json = readJson("categories.json") as { categories: Record<string, unknown>[]; total: number };
+  const json = readJson("categories.json") as {
+    categories: Record<string, unknown>[];
+    total: number;
+  };
   const db = await prisma.category.findMany();
 
   if (db.length !== json.total) {
@@ -200,7 +209,10 @@ async function verifyCategories() {
 }
 
 async function verifyPackages() {
-  const json = readJson("packages-index.json") as { packages: Record<string, unknown>[]; total: number };
+  const json = readJson("packages-index.json") as {
+    packages: Record<string, unknown>[];
+    total: number;
+  };
   const db = await prisma.package.findMany();
 
   if (db.length !== json.total) {
@@ -325,7 +337,10 @@ async function verifyFAQs() {
 }
 
 async function verifyTestimonials() {
-  const json = readJson("testimonials.json") as { testimonials: Record<string, unknown>[]; total: number };
+  const json = readJson("testimonials.json") as {
+    testimonials: Record<string, unknown>[];
+    total: number;
+  };
   const db = await prisma.testimonial.findMany();
 
   if (db.length !== json.total) {

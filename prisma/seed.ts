@@ -20,71 +20,143 @@ interface JsonRecord {
 }
 
 interface CountryJson {
-  id: string; name: string; slug: string; continent: string;
-  is_domestic: boolean; is_featured?: boolean; capital: string; currency: string;
-  language?: string[]; visa_required_for_indians: string; visa_on_arrival?: boolean;
-  description: string; popular_destinations?: string[]; seo_title: string;
-  seo_description: string; image?: string; package_count?: number;
+  id: string;
+  name: string;
+  slug: string;
+  continent: string;
+  is_domestic: boolean;
+  is_featured?: boolean;
+  capital: string;
+  currency: string;
+  language?: string[];
+  visa_required_for_indians: string;
+  visa_on_arrival?: boolean;
+  description: string;
+  popular_destinations?: string[];
+  seo_title: string;
+  seo_description: string;
+  image?: string;
+  package_count?: number;
 }
 
 interface StateJson {
-  id: string; name: string; slug: string; country_id: string;
-  capital: string; is_featured?: boolean; package_count?: number;
+  id: string;
+  name: string;
+  slug: string;
+  country_id: string;
+  capital: string;
+  is_featured?: boolean;
+  package_count?: number;
 }
 
 interface DestinationJson {
-  id: string; name: string; slug: string; state_id?: string; country_id: string;
-  type?: string; is_featured?: boolean; description: string; best_time_to_visit: string;
-  climate?: string; top_attractions?: string[]; nearby_destinations?: string[];
-  seo_title: string; seo_description: string; image?: string; package_count?: number;
+  id: string;
+  name: string;
+  slug: string;
+  state_id?: string;
+  country_id: string;
+  type?: string;
+  is_featured?: boolean;
+  description: string;
+  best_time_to_visit: string;
+  climate?: string;
+  top_attractions?: string[];
+  nearby_destinations?: string[];
+  seo_title: string;
+  seo_description: string;
+  image?: string;
+  package_count?: number;
 }
 
 interface CategoryJson {
-  id: string; name: string; slug: string; description: string;
-  icon: string; seo_title: string; seo_description: string; package_count?: number;
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  icon: string;
+  seo_title: string;
+  seo_description: string;
+  package_count?: number;
 }
 
 interface PackageIndexEntry {
-  id: string; slug: string; name: string; is_popular?: boolean;
-  is_domestic?: boolean; destinations?: string[]; destination_ids?: string[];
-  primary_destination: string; category_ids?: string[]; state_id?: string;
-  country_id: string; min_nights: number; max_nights: number;
-  min_days: number; max_days: number; duration_range: string;
-  variant_count?: number; hero_image?: string; tags?: string[];
+  id: string;
+  slug: string;
+  name: string;
+  is_popular?: boolean;
+  is_domestic?: boolean;
+  destinations?: string[];
+  destination_ids?: string[];
+  primary_destination: string;
+  category_ids?: string[];
+  state_id?: string;
+  country_id: string;
+  min_nights: number;
+  max_nights: number;
+  min_days: number;
+  max_days: number;
+  duration_range: string;
+  variant_count?: number;
+  hero_image?: string;
+  tags?: string[];
 }
 
 interface PackageDetailJson {
-  overview?: string; highlights?: string[]; inclusions?: string[];
-  exclusions?: string[]; notes?: string[]; seo?: { title?: string; description?: string; keywords?: string[] };
+  overview?: string;
+  highlights?: string[];
+  inclusions?: string[];
+  exclusions?: string[];
+  notes?: string[];
+  seo?: { title?: string; description?: string; keywords?: string[] };
   variants?: PackageVariantJson[];
 }
 
 interface PackageVariantJson {
-  label: string; nights: number; days: number;
-  duration_text?: string; old_html_file?: string;
+  label: string;
+  nights: number;
+  days: number;
+  duration_text?: string;
+  old_html_file?: string;
   itinerary?: ItineraryDayJson[];
 }
 
 interface ItineraryDayJson {
-  day: number; title?: string; description?: string;
+  day: number;
+  title?: string;
+  description?: string;
 }
 
 interface HeroSlideJson {
-  id: number; image: string; tag: string; title: string; description: string;
+  id: number;
+  image: string;
+  tag: string;
+  title: string;
+  description: string;
 }
 
 interface FaqJson {
-  question: string; answer: string;
+  question: string;
+  answer: string;
 }
 
 interface BlogJson {
-  id: string; slug: string; title: string; category: string;
-  destinations?: string[]; excerpt: string; author: string; tags?: string[];
+  id: string;
+  slug: string;
+  title: string;
+  category: string;
+  destinations?: string[];
+  excerpt: string;
+  author: string;
+  tags?: string[];
 }
 
 interface TestimonialJson {
-  id: string; reviewer: string; review: string; rating: number;
-  package: string; source: string;
+  id: string;
+  reviewer: string;
+  review: string;
+  rating: number;
+  package: string;
+  source: string;
 }
 
 function readJson(filename: string): unknown {
@@ -171,7 +243,10 @@ async function main() {
   console.log(`  ✓ Seeded ${statesData.total} states`);
 
   // ── Seed Destinations ──
-  const destinationsData = readJson("destinations.json") as { destinations: DestinationJson[]; total: number };
+  const destinationsData = readJson("destinations.json") as {
+    destinations: DestinationJson[];
+    total: number;
+  };
   for (const d of destinationsData.destinations) {
     await prisma.destination.create({
       data: {
@@ -197,7 +272,10 @@ async function main() {
   console.log(`  ✓ Seeded ${destinationsData.total} destinations`);
 
   // ── Seed Categories ──
-  const categoriesData = readJson("categories.json") as { categories: CategoryJson[]; total: number };
+  const categoriesData = readJson("categories.json") as {
+    categories: CategoryJson[];
+    total: number;
+  };
   for (const cat of categoriesData.categories) {
     await prisma.category.create({
       data: {
@@ -215,7 +293,10 @@ async function main() {
   console.log(`  ✓ Seeded ${categoriesData.total} categories`);
 
   // ── Seed Packages (from index + individual detail files) ──
-  const packagesData = readJson("packages-index.json") as { packages: PackageIndexEntry[]; total: number };
+  const packagesData = readJson("packages-index.json") as {
+    packages: PackageIndexEntry[];
+    total: number;
+  };
   let packageCount = 0;
   let variantCount = 0;
   let itineraryCount = 0;
@@ -391,7 +472,10 @@ async function main() {
   console.log(`  ✓ Seeded ${blogsData.total} blog posts`);
 
   // ── Seed Testimonials ──
-  const testimonialsData = readJson("testimonials.json") as { testimonials: TestimonialJson[]; total: number };
+  const testimonialsData = readJson("testimonials.json") as {
+    testimonials: TestimonialJson[];
+    total: number;
+  };
   for (const t of testimonialsData.testimonials) {
     await prisma.testimonial.create({
       data: {
