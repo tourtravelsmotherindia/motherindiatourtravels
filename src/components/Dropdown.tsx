@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, LucideIcon } from "lucide-react";
-import React, { useEffect, useRef,useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export interface DropdownBadge {
   text: string;
@@ -120,10 +120,8 @@ export default function Dropdown({
                 return (
                   <React.Fragment key={option.value || index}>
                     {/* Optional divider line before item */}
-                    {option.divider && (
-                      <div className="h-[1px] bg-neutral-100 my-1.5 mx-2" />
-                    )}
-                    
+                    {option.divider && <div className="h-[1px] bg-neutral-100 my-1.5 mx-2" />}
+
                     <button
                       type="button"
                       onClick={() => handleOptionClick(option)}

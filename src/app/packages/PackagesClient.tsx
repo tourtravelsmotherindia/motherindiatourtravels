@@ -66,15 +66,19 @@ export default function PackagesClient({
   });
 
   const resultsContainerRef = useRef<HTMLDivElement>(null);
-  const isFirstRender = useRef(true);
+  const shouldScrollRef = useRef(false);
 
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
+    if (shouldScrollRef.current) {
+      shouldScrollRef.current = false;
+      resultsContainerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     }
-    resultsContainerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [currentPage]);
+
+  const changePage = (page: number) => {
+    shouldScrollRef.current = true;
+    setCurrentPage(page);
+  };
 
   const itemsPerPage = 9;
 
@@ -427,7 +431,7 @@ export default function PackagesClient({
                 >
                   <button
                     onClick={() => {
-                      setCurrentPage((prev) => Math.max(prev - 1, 1));
+                      changePage(Math.max(currentPage - 1, 1));
                     }}
                     disabled={currentPage === 1}
                     className="w-9 h-9 rounded-full flex items-center justify-center text-neutral-700 hover:bg-neutral-200/50 disabled:opacity-30 disabled:hover:bg-transparent transition-all duration-200 cursor-pointer disabled:cursor-not-allowed select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
@@ -455,7 +459,7 @@ export default function PackagesClient({
                       <button
                         key={`page-${page}`}
                         onClick={() => {
-                          setCurrentPage(Number(page));
+                          changePage(Number(page));
                         }}
                         aria-label={`Go to page ${page}`}
                         aria-current={isPageActive ? "page" : undefined}
@@ -472,7 +476,7 @@ export default function PackagesClient({
 
                   <button
                     onClick={() => {
-                      setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+                      changePage(Math.min(currentPage + 1, totalPages));
                     }}
                     disabled={currentPage === totalPages}
                     className="w-9 h-9 rounded-full flex items-center justify-center text-neutral-700 hover:bg-neutral-200/50 disabled:opacity-30 disabled:hover:bg-transparent transition-all duration-200 cursor-pointer disabled:cursor-not-allowed select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
