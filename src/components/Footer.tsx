@@ -285,17 +285,22 @@ export default function Footer({
               Contact
             </h4>
             <ul className="flex flex-col gap-3 text-sm text-neutral-500 font-medium">
-              {companyData.phone.map((phoneNum, idx) => (
-                <li key={idx} className="flex items-center gap-2.5">
-                  <Phone className="w-4 h-4 text-neutral-400 shrink-0" />
-                  <a
-                    href={`tel:${phoneNum.replace(/\s+/g, "")}`}
-                    className="hover:text-neutral-950 transition-colors duration-200"
-                  >
-                    {phoneNum}
-                  </a>
-                </li>
-              ))}
+              <li className="flex items-start gap-2.5">
+                <Phone className="w-4 h-4 text-neutral-400 shrink-0 mt-0.5" />
+                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 text-neutral-500 font-medium">
+                  {companyData.phone.map((phoneNum, idx) => (
+                    <div key={idx} className="flex items-center gap-1.5 sm:gap-2">
+                      {idx > 0 && <span className="hidden sm:inline text-neutral-300">|</span>}
+                      <a
+                        href={`tel:${phoneNum.replace(/\s+/g, "")}`}
+                        className="hover:text-neutral-950 transition-colors duration-200"
+                      >
+                        {phoneNum}
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              </li>
               <li className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-neutral-400 shrink-0" />
                 <a
