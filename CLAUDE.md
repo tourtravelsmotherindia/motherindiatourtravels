@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+> **For all design system rules, component patterns, coding conventions, and UI/UX constraints, see [AGENTS.md](./AGENTS.md).** This file covers only project structure, commands, tech stack, data layer architecture, and tooling. AGENTS.md is the single source of truth for _how_ to write code in this repo.
+
 ## Version warning
 
 This project uses Next.js 16 with breaking changes from earlier versions. Read `node_modules/next/dist/docs/` before writing framework-specific code.
@@ -9,63 +11,65 @@ This project uses Next.js 16 with breaking changes from earlier versions. Read `
 ## Commands
 
 ```bash
-npm run dev      # Development server (Turbopack)
-npm run build    # Production build
-npm run start    # Start production server
-npm run lint     # ESLint (Next.js core-web-vitals + typescript configs)
+npm run dev         # Development server (Turbopack)
+npm run build       # Production build (runs prisma generate → migrate deploy → db seed → next build)
+npm run start       # Start production server
+npm run lint        # ESLint (Next.js core-web-vitals + typescript configs)
+npm run lint:fix    # ESLint with auto-fix
+npm run format      # Prettier write
+npm run format:check# Prettier check (CI)
+npm run db:seed     # Re-seed the database from data/json/
+npm run db:verify   # Verify DB content matches JSON source files
+npm run db:reset    # Wipe and recreate the database (dev only)
 ```
 
 ## Tech stack
 
 - **Next.js 16** (App Router) with React 19, Turbopack enabled
 - **Tailwind CSS v4** (`@tailwindcss/postcss` plugin)
+- **Prisma v7** with `@prisma/adapter-better-sqlite3` — ORM for local SQLite database
 - **framer-motion** for all animations
 - **lucide-react** for icons
-- All components are **client components** (`"use client"`) — there are no server components in this project
+- All UI components are **client components** (`"use client"`); `page.tsx` files are **async server components** that fetch data and pass as props
 
 ## Architecture
 
-This is a **single-page landing site** for a tour & travel agency. All sections render on `src/app/page.tsx` in order: Navbar → Hero → WhyChooseUs → TripCards → PopularDestinations → Gallery → TestimonialsSection → PartnerAirlines → RegionsGrid → FAQ → Footer.
+This is a **single-page landing site** for a tour & travel agency plus a **packages listing page**. The homepage renders on `src/app/page.tsx` (async server component) with sections in order: Navbar → Hero → WhyChooseUs → TripCards → PopularDestinations → Gallery → TravelerMoments → PartnerAirlines → RegionsGrid → FAQ → Footer. The packages page (`src/app/packages/page.tsx`) follows a **server + client split**: the server component fetches data, the client component (`PackagesClient.tsx`) renders the interactive UI.
 
-### Design system (`src/app/globals.css`)
+## Data Layer (Prisma + SQLite)
 
-Brand color is `#E05423` (`--brand`), mapped to Tailwind tokens via `@theme`. Two Google Fonts: **Plus Jakarta Sans** (`--font-sans`) for body and **Playfair Display** (`--font-serif`) for decorative headings. Standard section wrapper: `max-w-[1440px] mx-auto px-4 md:px-8`.
+The site is **data-driven** — content is stored in a local SQLite database (`data/travel.db`) accessed through Prisma. The original JSON source files live in `data/json/` and are ingested by the seed script (`prisma/seed.ts`).
 
-### Data layer (`src/data/`)
+**Database setup:**
+- Database path: `data/travel.db` (WAL mode + FK enforcement, configured in `src/lib/db/prisma.ts`)
+- Prisma client is generated to `src/generated/prisma/` (non-standard output path)
+- WAL mode produces 3 files: `travel.db`, `travel.db-shm`, `travel.db-wal` — all must be present
+- `.env` must have `DATABASE_URL="file:./data/travel.db"` (path relative to `prisma/` directory)
 
-The site is **data-driven** — content lives in JSON files, not hardcoded in components:
+**Schema** (`prisma/schema.prisma` — 14 models):
 
-| File                  | Purpose                                                                                                          |
-| --------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `company.json`        | Central source: phone numbers, email, address, working hours, social links, about text                           |
-| `hero.json`           | Hero slider slides (image, tag, title, description)                                                              |
-| `faq.json`            | FAQ items with `{phone}` / `{email}` placeholders resolved at render time from `company.json`                    |
-| `site-config.json`    | Planned URL structure, navigation tree, SEO rules, cross-linking logic (not yet fully implemented in components) |
-| `packages-index.json` | Registry of 50+ tour packages (destinations, categories, durations, tags)                                        |
-| `packages/*.json`     | Individual package detail files (one per package)                                                                |
+| Model | Purpose |
+|---|---|
+| `Country`, `State`, `Destination` | Geographic hierarchy with slugs, featured flags, SEO metadata |
+| `Category` | Trip categories with icons |
+| `Package`, `PackageVariant`, `ItineraryDay` | Tour packages with variants (e.g., 3N/4D, 4N/5D) and day-by-day itineraries |
+| `HeroSlide` | Hero carousel slides (image, tag, title, description) |
+| `FAQ`, `FAQTagline` | FAQ items with sort order + singleton tagline |
+| `Company` | Singleton: phones, email, address, schedule, social media, WhatsApp, analytics IDs |
+| `Testimonial` | Customer reviews with ratings |
+| `BlogPost` | Blog posts with slug, tags, destinations |
+| `SiteConfig` | Singleton: navigation, URL structure, SEO rules, cross-linking logic |
 
-### Component patterns
+**Repository layer** (`src/lib/db/repositories/` — 11 files):
 
-- **Navbar**: Fixed, scroll-aware (shrinks/background-blur after 20px scroll), mobile hamburger with framer-motion overlay
-- **Hero**: Data-driven slider from `hero.json` with crossfade `AnimatePresence`, 5s auto-rotation, pause on hover, floating search panel with destination/check-in/check-out/guests
-- **PopularDestinations** / **TestimonialsSection**: Both use the same pattern — desktop asymmetric grid (`grid-cols-[5.8fr_4.2fr]` alternating rows) with `AnimatePresence` pagination, mobile horizontal scroll with dot indicators. The `DestinationCard` and review cards are hoisted out of the main component to avoid render-time component creation errors
-- **FAQ**: Accordion with `AnimatePresence` height animation, resolves `company.json` placeholders at component level
-- **Footer**: Dynamic working hours formatter that collapses same-time schedules across days, social icon SVGs from `company.json`, newsletter form with success toast
+Each model has a dedicated repository exporting async query functions. JSON fields (arrays/objects stored as strings in SQLite) are parsed in the repository before returning — consumers receive typed objects, never raw DB rows. Every repository uses a `safeParse()` helper that wraps `JSON.parse` with a fallback to `[]`.
 
-### Images
+## Images
 
-- `next.config.mjs` allows remote images from `images.unsplash.com` and all local images via `localPatterns`
+- `next.config.mjs` allows remote images from `images.unsplash.com` and `img.freepik.com`, plus all local images via `localPatterns`
 - `fill` images **must** have a `sizes` prop (Next.js 16 requirement enforced at build time)
 - Use `priority` on the first 1–2 visible cards/images for LCP optimization
 - Local images live in `/public/images/`; the logo is `/public/logo.png`
-
-### Important conventions
-
-- `@/*` path alias maps to `src/*` (configured in `tsconfig.json`)
-- `suppressHydrationWarning` is set on `<body>` in `layout.tsx` (prevents browser extension hydration mismatches)
-- Section IDs (`#home`, `#about`, `#packages`, `#faq`, `#gallery`, `#contact`) anchor both the Navbar links and Footer quick links
-- All `<section>` elements that serve as scroll targets use `scroll-mt-24` for the fixed navbar offset
-- Currency is `₹` (Indian Rupee), not `$`
 
 ## graphify
 
