@@ -7,22 +7,27 @@ This document outlines the proposed changes to the SQLite database schema (`pris
 ## 1. Proposed Schema Updates
 
 ### A. Dynamic Package Image Gallery
+
 **Problem**: The `Package` table currently has only a single `heroImage` column. This makes it impossible to define a custom image gallery for each package.
 **Solution**: Add an `images` field to the `Package` model. In SQLite/Prisma, this is best implemented as a stringified JSON array of URLs, or by creating a new `PackageImage` relation model.
 
 ### B. Route Geolocation Coordinates
+
 **Problem**: Map routing coordinates are currently hardcoded in a static dictionary in `PackageMap.tsx`. If a new destination is added in the admin/JSON seeding files, the map won't display it without code modifications.
 **Solution**: Add coordinates fields to the `Destination` model.
 
 ### C. Day-Specific Itinerary Images
+
 **Problem**: The day-by-day itinerary accordions currently load random placeholder images. Each day should ideally show photos specific to that day's activities.
 **Solution**: Add an `images` JSON array column to the `ItineraryDay` model.
 
 ### D. Package Metadata
+
 **Problem**: Metrics like "Tour Style" (e.g. Beach, Pilgrimage, Heritage), "Group Size", and "Accommodation Type" are currently hardcoded in components.
 **Solution**: Add fields to the `Package` or `PackageVariant` models to allow customizing these attributes per tour.
 
 ### E. Split Overview Text (Marketing Pitch vs. Detailed Overview)
+
 **Problem**: The page renders a short **Hero Description** (marketing pitch) directly under the package title, followed by a separate **Trip Overview** (detailed explanation) further down. Currently, the single `overview` field in the database is split in code by paragraph splits.
 **Solution**: Create two separate columns: `marketingPitch` (for the short introductory text) and `overview` (for the full day-by-day or detailed explanation).
 
@@ -64,7 +69,7 @@ model Package {
   groupSizeAvg       Int               @default(10)
   stayType           String            @default("Premium Hotels")
   marketingPitch     String            @default("") // Short marketing intro
-  
+
   overview           String            @default("")
   highlights         String            @default("[]")
   inclusions         String            @default("[]")
@@ -157,10 +162,7 @@ To safely migrate the database and populate the new columns, follow these steps:
    Add the new attributes to the source JSON files in `data/json/packages/*.json`. For example, inside `goa-tour.json`:
    ```json
    {
-     "gallery_images": [
-       "/images/packages/goa-beach.jpg",
-       "/images/packages/goa-fort.jpg"
-     ],
+     "gallery_images": ["/images/packages/goa-beach.jpg", "/images/packages/goa-fort.jpg"],
      "difficulty": "Easy",
      "group_size_max": 15,
      "group_size_avg": 10,

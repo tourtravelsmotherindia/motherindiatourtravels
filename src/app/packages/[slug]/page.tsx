@@ -51,10 +51,6 @@ export default async function PackageDetailPage({ params }: PageProps) {
   }
 
   return (
-    <PackageDetailClient
-      packageData={pkg}
-      allPackages={allPackages}
-      companyData={companyData}
-    />
+    <PackageDetailClient packageData={pkg} allPackages={allPackages} companyData={companyData} />
   );
 }

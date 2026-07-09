@@ -98,67 +98,67 @@ interface RecommendedCardProps {
   onToggleFavorite: (slug: string) => void;
 }
 
-const RecommendedCard = React.memo(({ pkg, isFavorite, onToggleFavorite }: RecommendedCardProps) => {
-  return (
-    <div className="group relative bg-white border border-neutral-100 rounded-[2rem] p-4 shadow-card hover:shadow-premium transition-all duration-500 flex flex-col h-full justify-between">
-      <div>
-        <div className="relative w-full h-[220px] md:h-[260px] rounded-[1.5rem] overflow-hidden bg-neutral-100 z-0">
-          <Image
-            src={pkg.hero_image || "/images/placeholder-landscape.png"}
-            alt={pkg.name}
-            fill
-            sizes="(max-width: 768px) 100vw, 33vw"
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-          />
-        </div>
-
-        <div className="flex items-center justify-between mt-5 mb-3 px-1">
-          <div className="flex items-center gap-1.5 text-neutral-600 font-normal">
-            <Clock className="w-4 h-4 text-neutral-400 shrink-0" />
-            <span className="text-sm">
-              {pkg.duration_range || `${pkg.min_days} Days`}
-            </span>
+const RecommendedCard = React.memo(
+  ({ pkg, isFavorite, onToggleFavorite }: RecommendedCardProps) => {
+    return (
+      <div className="group relative bg-white border border-neutral-100 rounded-[2rem] p-4 shadow-card hover:shadow-premium transition-all duration-500 flex flex-col h-full justify-between">
+        <div>
+          <div className="relative w-full h-[220px] md:h-[260px] rounded-[1.5rem] overflow-hidden bg-neutral-100 z-0">
+            <Image
+              src={pkg.hero_image || "/images/placeholder-landscape.png"}
+              alt={pkg.name}
+              fill
+              sizes="(max-width: 768px) 100vw, 33vw"
+              className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            />
           </div>
 
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              onToggleFavorite(pkg.slug);
-            }}
-            className="w-9 h-9 rounded-full bg-white hover:bg-neutral-50 border border-neutral-200/60 flex items-center justify-center text-neutral-600 hover:text-red-500 transition-all duration-300 active:scale-90 group/heart cursor-pointer shadow-sm z-10"
-            aria-label={isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+          <div className="flex items-center justify-between mt-5 mb-3 px-1">
+            <div className="flex items-center gap-1.5 text-neutral-600 font-normal">
+              <Clock className="w-4 h-4 text-neutral-400 shrink-0" />
+              <span className="text-sm">{pkg.duration_range || `${pkg.min_days} Days`}</span>
+            </div>
+
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                onToggleFavorite(pkg.slug);
+              }}
+              className="w-9 h-9 rounded-full bg-white hover:bg-neutral-50 border border-neutral-200/60 flex items-center justify-center text-neutral-600 hover:text-red-500 transition-all duration-300 active:scale-90 group/heart cursor-pointer shadow-sm z-10"
+              aria-label={isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+            >
+              <Heart
+                className={`w-4 h-4 transition-transform duration-300 group-hover/heart:scale-110 ${
+                  isFavorite
+                    ? "fill-red-500 text-red-500 stroke-red-500"
+                    : "text-neutral-500 stroke-neutral-500"
+                }`}
+              />
+            </button>
+          </div>
+
+          <h3 className="font-bold text-lg text-foreground leading-snug px-1 line-clamp-1 mb-2">
+            {pkg.name}
+          </h3>
+
+          <div className="flex items-center gap-1.5 text-neutral-500 text-xs px-1 mb-6 font-normal">
+            <MapPin className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
+            <span className="truncate">{pkg.destinations.join(", ")}</span>
+          </div>
+        </div>
+
+        <div className="px-1 pb-1">
+          <Link
+            href={`/packages/${pkg.slug}`}
+            className="block w-full border border-neutral-900 text-neutral-900 hover:bg-brand hover:border-brand hover:text-white font-semibold text-xs uppercase tracking-wider py-3.5 rounded-full transition-all duration-300 text-center select-none cursor-pointer"
           >
-            <Heart
-              className={`w-4 h-4 transition-transform duration-300 group-hover/heart:scale-110 ${
-                isFavorite
-                  ? "fill-red-500 text-red-500 stroke-red-500"
-                  : "text-neutral-500 stroke-neutral-500"
-              }`}
-            />
-          </button>
-        </div>
-
-        <h3 className="font-bold text-lg text-foreground leading-snug px-1 line-clamp-1 mb-2">
-          {pkg.name}
-        </h3>
-
-        <div className="flex items-center gap-1.5 text-neutral-500 text-xs px-1 mb-6 font-normal">
-          <MapPin className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
-          <span className="truncate">{pkg.destinations.join(", ")}</span>
+            View Details
+          </Link>
         </div>
       </div>
-
-      <div className="px-1 pb-1">
-        <Link
-          href={`/packages/${pkg.slug}`}
-          className="block w-full border border-neutral-900 text-neutral-900 hover:bg-brand hover:border-brand hover:text-white font-semibold text-xs uppercase tracking-wider py-3.5 rounded-full transition-all duration-300 text-center select-none cursor-pointer"
-        >
-          View Details
-        </Link>
-      </div>
-    </div>
-  );
-});
+    );
+  },
+);
 RecommendedCard.displayName = "RecommendedCard";
 
 // Gallery image resolver helper
@@ -317,16 +317,19 @@ export default function PackageDetailClient({
   // Split overview into marketing pitch (first paragraph) and detailed overview (the rest)
   const overviewParagraphs = useMemo(() => {
     if (!overviewText) return { pitch: "", detailed: "" };
-    const parts = overviewText.split(/\n\n+/).map(p => p.trim()).filter(Boolean);
+    const parts = overviewText
+      .split(/\n\n+/)
+      .map((p) => p.trim())
+      .filter(Boolean);
     if (parts.length > 1) {
       return {
         pitch: parts[0],
-        detailed: parts.slice(1).join("\n\n")
+        detailed: parts.slice(1).join("\n\n"),
       };
     }
     return {
       pitch: parts[0] || "",
-      detailed: DEFAULT_OVERVIEW
+      detailed: DEFAULT_OVERVIEW,
     };
   }, [overviewText]);
 
@@ -351,7 +354,8 @@ export default function PackageDetailClient({
       const lowTag = tag.toLowerCase();
       if (lowTag.includes("beach")) return "Beach";
       if (lowTag.includes("heritage") || lowTag.includes("history")) return "Heritage";
-      if (lowTag.includes("temple") || lowTag.includes("pilgrim") || lowTag.includes("spiritual")) return "Pilgrimage";
+      if (lowTag.includes("temple") || lowTag.includes("pilgrim") || lowTag.includes("spiritual"))
+        return "Pilgrimage";
       if (lowTag.includes("adventure") || lowTag.includes("trek")) return "Adventure";
       if (lowTag.includes("wildlife") || lowTag.includes("safari")) return "Wildlife";
     }
@@ -446,7 +450,7 @@ export default function PackageDetailClient({
     window.dispatchEvent(
       new CustomEvent("open-inquiry-modal", {
         detail: { packageName: pkgName },
-      })
+      }),
     );
   };
 
@@ -741,9 +745,7 @@ export default function PackageDetailClient({
               {/* Itinerary Section */}
               <div className="mb-12 border-b border-border-light pb-10">
                 <div className="flex items-center justify-between mb-8">
-                  <h2 className="text-xl md:text-2xl font-bold text-foreground">
-                    Itinerary
-                  </h2>
+                  <h2 className="text-xl md:text-2xl font-bold text-foreground">Itinerary</h2>
                   <span className="text-xs md:text-sm font-bold text-neutral-400 uppercase tracking-wider">
                     {activeVariant.days} Days / {activeVariant.nights} Nights
                   </span>
@@ -791,9 +793,11 @@ export default function PackageDetailClient({
                         </div>
 
                         {/* Description (Truncated when collapsed, full when expanded) */}
-                        <p className={`text-neutral-500 font-medium text-sm md:text-[14px] leading-relaxed mt-3.5 whitespace-pre-line pr-4 transition-all duration-300 ${
-                          isExpanded ? "" : "line-clamp-3"
-                        }`}>
+                        <p
+                          className={`text-neutral-500 font-medium text-sm md:text-[14px] leading-relaxed mt-3.5 whitespace-pre-line pr-4 transition-all duration-300 ${
+                            isExpanded ? "" : "line-clamp-3"
+                          }`}
+                        >
                           {day.description}
                         </p>
 
