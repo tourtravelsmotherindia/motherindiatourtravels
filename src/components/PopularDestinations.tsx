@@ -4,23 +4,20 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, Heart, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
-
-import destinationsData from "@/data/destinations.json";
-import packagesData from "@/data/packages-index.json";
+import { useMemo, useRef, useState } from "react";
 
 interface DestinationItem {
   id: string;
   slug: string;
   name: string;
-  state_id?: string;
+  state_id?: string | null;
   country_id: string;
   is_featured: boolean;
   description: string;
   best_time_to_visit: string;
-  top_attractions: string[];
+  top_attractions: string[] | string; // JSON string or parsed array
   image: string;
-  package_ids: string[];
+  package_ids?: string[];
   package_count: number;
 }
 
@@ -30,8 +27,8 @@ interface PackageItem {
   name: string;
   hero_image: string;
   duration_range: string;
-  destinations: string[];
-  destination_ids: string[];
+  destinations: string[] | string; // JSON string or parsed array
+  destination_ids?: string[] | string; // JSON string or parsed array
   is_domestic: boolean;
 }
 
@@ -46,7 +43,7 @@ interface DestinationDisplay {
 }
 
 /** Turn a state/country id like "uttar-pradesh" into "Uttar Pradesh" */
-function formatLocation(countryId: string, stateId?: string): string {
+function formatLocation(countryId: string, stateId?: string | null): string {
   const countryNames: Record<string, string> = {
     india: "India",
     nepal: "Nepal",
@@ -65,11 +62,11 @@ function formatLocation(countryId: string, stateId?: string): string {
   return countryNames[countryId] || countryId.toUpperCase();
 }
 
-/** Build the display list from JSON data — featured destinations enriched with package info */
-function buildFeaturedDestinations(): DestinationDisplay[] {
-  const allDestinations = (destinationsData.destinations || []) as DestinationItem[];
-  const allPackages = (packagesData.packages || []) as PackageItem[];
-
+/** Build the display list from data — featured destinations enriched with package info */
+function buildFeaturedDestinationsFrom(
+  allDestinations: DestinationItem[],
+  allPackages: PackageItem[],
+): DestinationDisplay[] {
   const featured = allDestinations.filter((d) => d.is_featured);
 
   return featured.map((dest) => {
@@ -188,13 +185,23 @@ function DestinationCard({
   );
 }
 
-export default function PopularDestinations() {
+export default function PopularDestinations({
+  destinationsData,
+  packagesData,
+}: {
+  destinationsData?: { destinations: DestinationItem[] };
+  packagesData?: { packages: PackageItem[] };
+}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0); // for mobile dots
   const [currentIndex, setCurrentIndex] = useState(0); // for desktop pagination
 
-  // Build data from JSON — stable reference via useState initializer
-  const [destinations] = useState<DestinationDisplay[]>(buildFeaturedDestinations);
+  // Build data from props
+  const destinations = useMemo(() => {
+    const allDestinations = destinationsData?.destinations || [];
+    const allPackages = packagesData?.packages || [];
+    return buildFeaturedDestinationsFrom(allDestinations, allPackages);
+  }, [destinationsData, packagesData]);
 
   // Mobile scroll handlers
   const handleScroll = () => {

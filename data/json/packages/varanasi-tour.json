@@ -1,0 +1,84 @@
+{
+  "id": "varanasi-tour",
+  "slug": "varanasi-tour",
+  "name": "Varanasi Tour",
+  "is_popular": false,
+  "destinations": ["Varanasi"],
+  "destination_ids": ["varanasi"],
+  "primary_destination": "Varanasi",
+  "category_ids": [
+    "domestic-tour-packages",
+    "north-india-tour-packages",
+    "spiritual-tour-packages"
+  ],
+  "state_id": "uttar-pradesh",
+  "country_id": "india",
+  "is_domestic": true,
+  "hero_image": "",
+  "overview": "Explore the best of Varanasi with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
+  "highlights": ["Visit Varanasi"],
+  "inclusions": [
+    "Accommodation in listed or similar hotels",
+    "Welcome Drink (Non-Alcoholic)",
+    "Meals as per itinerary (Breakfast & Dinner)",
+    "All transfers and sightseeing by private AC vehicle",
+    "All long distance travel as per itinerary",
+    "Chauffeur, Toll Taxes, Parking, Fuel charges",
+    "State Taxes, Green Taxes, Road Taxes",
+    "Comfortable AC vehicles",
+    "Licensed Tour Guide Services"
+  ],
+  "exclusions": [
+    "Meals other than those specified",
+    "Personal expenses (porterage, tips, laundry, mineral water)",
+    "Monument entrance fees and camera charges",
+    "Any activity not mentioned in inclusions",
+    "Travel Insurance",
+    "Additional cost due to flight cancellation, roadblocks, political unrest",
+    "Driver and Guide tips",
+    "Air/train fare unless specified",
+    "GST (5% on tour cost)"
+  ],
+  "notes": [
+    "Taj Mahal is closed every Friday",
+    "Tailor-made tours available on request",
+    "Prices are per person on twin sharing basis"
+  ],
+  "variants": [
+    {
+      "label": "2N/3D",
+      "nights": 2,
+      "days": 3,
+      "duration_text": "2N/3D",
+      "old_html_file": "Varanasi-Tour-tw0-night-three-days.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Varanasi: Arrival at Varanasi Airport/Railway station company representative ass",
+          "description": "Varanasi: Arrival at Varanasi Airport/Railway station company representative assist you and transfer to the hotel & refresh drive to visit Sarnath which is known as the place where Lord Budda delivered his first sermon to his disciples. Overnight stay at the hotel."
+        },
+        {
+          "day": 2,
+          "title": "Varanasi sightseeing: Early morning visit the popular ghat of Ganges through boa",
+          "description": "Varanasi sightseeing: Early morning visit the popular ghat of Ganges through boat ride of Varanasi, peoples offering water to Sun God along with taking a holy dip in the Ganges river water, back to hotel & after breakfast proceed to visit Bharat Mata temple, Vishwanath Temple, Sankat Mochan (Hanuman Temple), Annapurna Temple, Banaras Hindu University (BHEU) & Manas Mandir. Overnight stay at the hotel."
+        },
+        {
+          "day": 3,
+          "title": "Varanasi to Prayagraj (210 Kms",
+          "description": "Varanasi to Prayagraj (210 Kms. 3 Hrs.): Today after breakfast, proceed to Varanasi airport/railway station & drop you with sweet memories.\nPlease note: We can arrange tailor-made tours\nInclusions\nAccommodation\nWelcome Drink Non Alcoholic.\nMeals\nAll Transfers, All sightseeing as per Tour Itinerary\nAll long distance Travels\nToll Taxes, Parkings, Fuel\nState Taxes, Green Taxes, Road Taxes\nComfortable vehicles AC\nChauffeur\nExclusions\nMeals other than those specified above\nPersonal expenses like port"
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "domestic-tour-packages",
+    "north-india-tour-packages",
+    "spiritual-tour-packages",
+    "varanasi"
+  ],
+  "seo": {
+    "title": "Varanasi Tour | Mother India Tour Travels",
+    "description": "Book Varanasi Tour with Mother India Tour Travels. Best deals on Varanasi tour packages. Includes hotels, transport & guide.",
+    "keywords": ["Varanasi Tour", "Varanasi", "tour package", "India travel", "Mother India Tour"]
+  }
+}

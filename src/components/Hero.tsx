@@ -21,8 +21,6 @@ import type React from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { useToast } from "@/context/ToastContext";
-import heroData from "@/data/hero.json";
-import packagesData from "@/data/packages-index.json";
 
 interface Slide {
   id: number;
@@ -32,22 +30,20 @@ interface Slide {
   description: string;
 }
 
-const slides: Slide[] = heroData.slides;
-const AUTO_ROTATE_INTERVAL = 5000;
+interface HeroData {
+  slides: Slide[];
+}
 
-// Extract unique destinations from packages
-const allDestinations = Array.from(
-  new Set(
-    packagesData.packages.flatMap(
-      (pkg: { primary_destination: string; destinations?: string[] }) => [
-        pkg.primary_destination,
-        ...(pkg.destinations || []),
-      ],
-    ),
-  ),
-)
-  .filter(Boolean)
-  .sort();
+interface PackageItem {
+  primary_destination: string;
+  destinations?: string[];
+}
+
+interface PackagesData {
+  packages: PackageItem[];
+}
+
+const AUTO_ROTATE_INTERVAL = 5000;
 
 const popularSuggestions = [
   { name: "Nearby", desc: "Find what's around you", icon: Navigation },
@@ -58,11 +54,30 @@ const popularSuggestions = [
   { name: "Dubai", desc: "Luxury shopping & skyscrapers", icon: Compass },
 ];
 
-export default function Hero() {
+export default function Hero({
+  heroData,
+  packagesData,
+}: {
+  heroData?: HeroData;
+  packagesData?: PackagesData;
+}) {
   const { showToast } = useToast();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [destination, setDestination] = useState("");
   const [isPaused, setIsPaused] = useState(false);
+
+  // Derive slides and destinations from props
+  const slides: Slide[] = heroData?.slides || [];
+  const allDestinations = Array.from(
+    new Set(
+      (packagesData?.packages || []).flatMap((pkg: PackageItem) => [
+        pkg.primary_destination,
+        ...(pkg.destinations || []),
+      ]),
+    ),
+  )
+    .filter(Boolean)
+    .sort();
 
   // Dropdown UI states
   const [activeDropdown, setActiveDropdown] = useState<"destination" | "dates" | "guests" | null>(
@@ -157,7 +172,7 @@ export default function Hero() {
   const filteredDestinations = useMemo(() => {
     if (!destination) return [];
     return allDestinations.filter((dest) => dest.toLowerCase().includes(destination.toLowerCase()));
-  }, [destination]);
+  }, [destination, allDestinations]);
 
   // Calendar Helpers
   const getDaysInMonth = (year: number, month: number) => {
@@ -298,13 +313,33 @@ export default function Hero() {
   };
 
   const MONTHS_SHORT = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
   ];
 
   const MONTHS_LONG = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December",
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
 
   // Date Formatting for Display — deterministic, no toLocaleDateString (avoids hydration mismatches)

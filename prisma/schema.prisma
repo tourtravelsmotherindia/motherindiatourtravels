@@ -1,0 +1,255 @@
+// Prisma schema for Mother India Tour Travels
+// SQLite database generated from data/json/ seed files
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+//  Country 
+model Country {
+  id                     String        @id
+  name                   String
+  slug                   String        @unique
+  continent              String
+  isDomestic             Boolean
+  isFeatured             Boolean       @default(false)
+  capital                String
+  currency               String
+  languages              String        // JSON array of strings
+  visaRequiredForIndians Boolean
+  visaOnArrival          Boolean       @default(false)
+  description            String
+  popularDestinations    String        // JSON array of destination slugs
+  seoTitle               String
+  seoDescription         String
+  image                  String        @default("")
+  packageCount           Int           @default(0)
+
+  states        State[]
+  destinations  Destination[]
+  packages      Package[]
+
+  @@index([slug])
+  @@index([isFeatured])
+}
+
+//  State 
+model State {
+  id           String  @id
+  name         String
+  slug         String  @unique
+  countryId    String
+  capital      String
+  isFeatured   Boolean @default(false)
+  packageCount Int     @default(0)
+
+  country      Country        @relation(fields: [countryId], references: [id])
+  destinations Destination[]
+  packages     Package[]
+
+  @@index([countryId])
+  @@index([slug])
+  @@index([isFeatured])
+}
+
+//  Destination 
+model Destination {
+  id                 String  @id
+  name               String
+  slug               String  @unique
+  stateId            String?
+  countryId          String
+  type               String  @default("city")
+  isFeatured         Boolean @default(false)
+  description        String
+  bestTimeToVisit    String
+  climate            String  @default("")
+  topAttractions     String  // JSON array of strings
+  nearbyDestinations String  // JSON array of destination slugs
+  seoTitle           String
+  seoDescription     String
+  image              String  @default("")
+  packageCount       Int     @default(0)
+
+  country Country @relation(fields: [countryId], references: [id])
+  state   State?  @relation(fields: [stateId], references: [id])
+
+  @@index([countryId])
+  @@index([stateId])
+  @@index([slug])
+  @@index([isFeatured])
+}
+
+//  Category 
+model Category {
+  id             String @id
+  name           String
+  slug           String @unique
+  description    String
+  icon           String
+  seoTitle       String
+  seoDescription String
+  packageCount   Int    @default(0)
+
+  @@index([slug])
+}
+
+//  Package 
+model Package {
+  id                 String  @id
+  slug               String  @unique
+  name               String
+  isPopular          Boolean @default(false)
+  isDomestic         Boolean @default(true)
+  destinations       String  // JSON array of display names
+  destinationIds     String  // JSON array of destination slugs
+  primaryDestination String
+  categoryIds        String  // JSON array of category slugs
+  stateId            String?
+  countryId          String
+  minNights          Int
+  maxNights          Int
+  minDays            Int
+  maxDays            Int
+  durationRange      String
+  variantCount       Int     @default(1)
+  heroImage          String  @default("")
+  tags               String  // JSON array of strings
+
+  // Detail fields (from individual package JSON files)
+  overview       String @default("")
+  highlights     String @default("[]")
+  inclusions     String @default("[]")
+  exclusions     String @default("[]")
+  notes          String @default("[]")
+  seoTitle       String @default("")
+  seoDescription String @default("")
+  seoKeywords    String @default("[]")
+
+  country  Country           @relation(fields: [countryId], references: [id])
+  state    State?            @relation(fields: [stateId], references: [id])
+  variants PackageVariant[]
+
+  @@index([slug])
+  @@index([isPopular])
+  @@index([isDomestic])
+  @@index([countryId])
+  @@index([stateId])
+}
+
+//  PackageVariant 
+model PackageVariant {
+  id           String @id
+  packageId    String
+  label        String
+  nights       Int
+  days         Int
+  durationText String
+  oldHtmlFile  String @default("")
+
+  package   Package         @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  itinerary ItineraryDay[]
+
+  @@index([packageId])
+}
+
+//  ItineraryDay 
+model ItineraryDay {
+  id          String @id
+  variantId   String
+  day         Int
+  title       String
+  description String
+
+  variant PackageVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  @@index([variantId])
+}
+
+//  HeroSlide 
+model HeroSlide {
+  id          Int    @id
+  image       String
+  tag         String
+  title       String
+  description String
+}
+
+//  FAQ 
+model FAQ {
+  id        Int    @id @default(autoincrement())
+  question  String
+  answer    String
+  sortOrder Int   @default(0)
+
+  @@index([sortOrder])
+}
+
+//  FAQTagline (singleton) 
+model FAQTagline {
+  id      Int    @id @default(1)
+  tagline String
+}
+
+//  Company (singleton) 
+model Company {
+  id               Int    @id @default(1)
+  name             String
+  tagline          String
+  website          String
+  phones           String // JSON array
+  email            String
+  address          String
+  timezone         String
+  schedule         String // JSON array
+  exceptions       String @default("[]")
+  socialMedia      String // JSON object
+  certifications   String // JSON array
+  about            String
+  whatsappNumber   String
+  googleAnalytics  String @default("")
+  googleTagManager String @default("")
+}
+
+//  BlogPost 
+model BlogPost {
+  id           String @id
+  slug         String @unique
+  title        String
+  category     String
+  destinations String // JSON array
+  excerpt      String
+  author       String
+  tags         String // JSON array
+
+  @@index([slug])
+}
+
+//  Testimonial 
+model Testimonial {
+  id       Int    @id
+  reviewer String
+  review   String
+  rating   Int
+  package  String
+  source   String
+}
+
+//  SiteConfig (singleton) 
+model SiteConfig {
+  id                Int    @id @default(1)
+  siteName          String
+  domain            String
+  navigation        String // JSON object
+  homeTitle         String
+  homeDescription   String
+  ogImage           String
+  crossLinkingRules String // JSON object
+  urlStructure      String // JSON object
+  seoPrinciples     String // JSON array
+}

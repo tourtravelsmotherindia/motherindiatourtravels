@@ -1,0 +1,109 @@
+{
+  "id": "sikkim-darjeeling-pelling-tour",
+  "slug": "sikkim-darjeeling-pelling-tour",
+  "name": "Pelling Darjeeling Gangtok Tour",
+  "is_popular": false,
+  "destinations": ["Pelling", "Darjeeling", "Gangtok"],
+  "destination_ids": ["pelling", "darjeeling", "gangtok"],
+  "primary_destination": "Pelling",
+  "category_ids": ["domestic-tour-packages", "north-india-tour-packages"],
+  "state_id": "sikkim",
+  "country_id": "india",
+  "is_domestic": true,
+  "hero_image": "",
+  "overview": "Explore the best of Pelling, Darjeeling, Gangtok with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
+  "highlights": ["Visit Pelling", "Visit Darjeeling", "Visit Gangtok"],
+  "inclusions": [
+    "Accommodation in listed or similar hotels",
+    "Welcome Drink (Non-Alcoholic)",
+    "Meals as per itinerary (Breakfast & Dinner)",
+    "All transfers and sightseeing by private AC vehicle",
+    "All long distance travel as per itinerary",
+    "Chauffeur, Toll Taxes, Parking, Fuel charges",
+    "State Taxes, Green Taxes, Road Taxes",
+    "Comfortable AC vehicles",
+    "Licensed Tour Guide Services"
+  ],
+  "exclusions": [
+    "Meals other than those specified",
+    "Personal expenses (porterage, tips, laundry, mineral water)",
+    "Monument entrance fees and camera charges",
+    "Any activity not mentioned in inclusions",
+    "Travel Insurance",
+    "Additional cost due to flight cancellation, roadblocks, political unrest",
+    "Driver and Guide tips",
+    "Air/train fare unless specified",
+    "GST (5% on tour cost)"
+  ],
+  "notes": [
+    "Taj Mahal is closed every Friday",
+    "Tailor-made tours available on request",
+    "Prices are per person on twin sharing basis"
+  ],
+  "variants": [
+    {
+      "label": "6N/7D",
+      "nights": 6,
+      "days": 7,
+      "duration_text": "6N/7D",
+      "old_html_file": "Pelling-darjeeling-gangtok-06-nights-07-days.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Bagdogra/NJP- Arrive NJP Railway Station/Bagdogra Airport – our representative w",
+          "description": "Bagdogra/NJP- Arrive NJP Railway Station/Bagdogra Airport – our representative will meet you and we shall head for PELLING (115 KM Max.5 Hrs. Journey). Check in hotel and get fresh. This evening is free. Rest of the day at leisure."
+        },
+        {
+          "day": 2,
+          "title": "Pelling – This morning after breakfast we shall head for a half day sightseeing ",
+          "description": "Pelling – This morning after breakfast we shall head for a half day sightseeing to the worth seen places in and around Pelling such as Khecheopalri Lake, Kanchanjunga Falls, Rimbi Falls, Rock Garden, Pemayangtsey, Rabdentcy Ruins, etc. Return to hotel and enjoy the evening with your friends and family. Rest of the day at leisure."
+        },
+        {
+          "day": 3,
+          "title": "Pelling – Gangtok- This morning after breakfast we shall head to Gangtok (130 KM",
+          "description": "Pelling – Gangtok- This morning after breakfast we shall head to Gangtok (130 KM Max. 5 Hrs. Journey). Check in hotel and get fresh. The evening is free at your own. Rest of the day at leisure."
+        },
+        {
+          "day": 4,
+          "title": "Gangtok – Tsomgo Lake & Baba Mandir (EAST SIKKIM)- This morning after breakfast ",
+          "description": "Gangtok – Tsomgo Lake & Baba Mandir (EAST SIKKIM)- This morning after breakfast we shall head for a full day excursion to three prominent sites – Tsomgo Lake, Nathula Pass and Baba Mandir. We start driving up above Gangtok through intricate winding road along the mystical environs and reach an enchanting Tsomgo lake after about one and half hours. A lake is nestled amidst high peaks at an altitude of 12,400 ft. On winters, you will be able to witness the lake in a frozen state. Spend some time e"
+        },
+        {
+          "day": 5,
+          "title": "Gangtok – Darjeeling- After breakfast, you will be transferred to Darjeeling",
+          "description": "Gangtok – Darjeeling- After breakfast, you will be transferred to Darjeeling. Enjoy the beautiful sceneries on the way! Check into your hotel, refresh and relax. This evening is free to walk around the mall road. Check out the mall in Darjeeling. Rest of the day at leisure."
+        },
+        {
+          "day": 6,
+          "title": "Darjeeling Sightseeing & Tiger Hill- Wake up early this morning, and you will be",
+          "description": "Darjeeling Sightseeing & Tiger Hill- Wake up early this morning, and you will be transferred to TIGER HILL to see the most beautiful sunrise (at 4am approx)! After that, visit Batasia Loope, Ghoom Monastery and return to the hotel! After breakfast, we will take you for a full day sightseeing to Himalayan Zoological Park, Mountaineering Institute, Tenzing & Gombu Rock, Tea Estate, etc. The evening is free for you and is at leisure!"
+        },
+        {
+          "day": 7,
+          "title": "DARJEELING – TRANSFER TO BAGDOGRA/NJP- This morning after breakfast, we shall ch",
+          "description": "DARJEELING – TRANSFER TO BAGDOGRA/NJP- This morning after breakfast, we shall check out of the hotel and transfer to NJP/Bagdogra. Return Home with Happy memories…and regret as you have to leave from these places!\nPlease note: We can arrange tailor-made tours\nInclusions\nAccommodation in well-appointed rooms for 03 nights\nMeals\nWelcome drink at hotel\nAll transfers & sightseeing as per itinerary using Private Vehicle with driver (Vehicle will not be on disposal)\nDriver’s allowance\nToll tax. Parkin"
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "domestic-tour-packages",
+    "north-india-tour-packages",
+    "pelling",
+    "darjeeling",
+    "gangtok"
+  ],
+  "seo": {
+    "title": "Pelling Darjeeling Gangtok Tour | Mother India Tour Travels",
+    "description": "Book Pelling Darjeeling Gangtok Tour with Mother India Tour Travels. Best deals on Pelling, Darjeeling, Gangtok tour packages. Includes hotels, transport & guide.",
+    "keywords": [
+      "Pelling Darjeeling Gangtok Tour",
+      "Pelling",
+      "Darjeeling",
+      "Gangtok",
+      "tour package",
+      "India travel",
+      "Mother India Tour"
+    ]
+  }
+}

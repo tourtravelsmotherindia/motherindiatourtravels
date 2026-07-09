@@ -1,0 +1,152 @@
+{
+  "id": "sikkim-darjeeling-tour",
+  "slug": "sikkim-darjeeling-tour",
+  "name": "Sikkim Darjeeling Tour",
+  "is_popular": false,
+  "destinations": ["Darjeeling", "Gangtok"],
+  "destination_ids": ["darjeeling", "gangtok"],
+  "primary_destination": "Darjeeling",
+  "category_ids": [
+    "domestic-tour-packages",
+    "north-india-tour-packages",
+    "honeymoon-tour-packages"
+  ],
+  "state_id": "west-bengal",
+  "country_id": "india",
+  "is_domestic": true,
+  "hero_image": "",
+  "overview": "Explore the best of Darjeeling, Gangtok with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
+  "highlights": ["Visit Darjeeling", "Visit Gangtok"],
+  "inclusions": [
+    "Accommodation in listed or similar hotels",
+    "Welcome Drink (Non-Alcoholic)",
+    "Meals as per itinerary (Breakfast & Dinner)",
+    "All transfers and sightseeing by private AC vehicle",
+    "All long distance travel as per itinerary",
+    "Chauffeur, Toll Taxes, Parking, Fuel charges",
+    "State Taxes, Green Taxes, Road Taxes",
+    "Comfortable AC vehicles",
+    "Licensed Tour Guide Services"
+  ],
+  "exclusions": [
+    "Meals other than those specified",
+    "Personal expenses (porterage, tips, laundry, mineral water)",
+    "Monument entrance fees and camera charges",
+    "Any activity not mentioned in inclusions",
+    "Travel Insurance",
+    "Additional cost due to flight cancellation, roadblocks, political unrest",
+    "Driver and Guide tips",
+    "Air/train fare unless specified",
+    "GST (5% on tour cost)"
+  ],
+  "notes": [
+    "Taj Mahal is closed every Friday",
+    "Tailor-made tours available on request",
+    "Prices are per person on twin sharing basis"
+  ],
+  "variants": [
+    {
+      "label": "3N/4D",
+      "nights": 3,
+      "days": 4,
+      "duration_text": "3N/4D",
+      "old_html_file": "Sikkim-Darjeeling-Tour-03-Night႓s-04-Day႓s.html",
+      "itinerary": []
+    },
+    {
+      "label": "4N/5D",
+      "nights": 4,
+      "days": 5,
+      "duration_text": "4N/5D",
+      "old_html_file": "Sikkim-Darjeeling-Tour-04-Night-05-Days.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrive NJP Railway Station/Bagdogra Airport To Gangtok",
+          "description": "Arrive NJP Railway Station/Bagdogra Airport To Gangtok. Meet and greet on arrival & transfer to Gangtok(5500 FT.) the capital of Sikkim – The land of the Pristine and un-spoilt natural beauty with alpine landscapes and thick luxuriant forests,River and peaceful lakes. Evening free for own activities. Rest of the day at leisure."
+        },
+        {
+          "day": 2,
+          "title": "After breakfast excursion to Tsomogo Lake(Departure at 9;00 to 9;30 AM) – Situat",
+          "description": "After breakfast excursion to Tsomogo Lake(Departure at 9;00 to 9;30 AM) – Situated at a height of 3,780 Mts. with an average depth of 50 Ft. and Baba Mandir – The shrine maid in memory of sepoy Harbahajan Singh,Back to Gangtok. Evening free . Rest of the day at leisure."
+        },
+        {
+          "day": 3,
+          "title": "After breakfast start for half day sightseeing covering Jhakri Water Falls, Rank",
+          "description": "After breakfast start for half day sightseeing covering Jhakri Water Falls, Ranka Monastery, Research of Tibetology(Close on Sunday and Government Holidays). Do-Drul Chorten, Directorate of Handloom(Close on Sunday and Govt. Holidays), Flower Show. Afternoon transfer to Pelling. Rest of the day at leisure."
+        },
+        {
+          "day": 4,
+          "title": "After breakfast sightseeing includes Rimbi Waterfalls, Rock Garden,Khecheopalri ",
+          "description": "After breakfast sightseeing includes Rimbi Waterfalls, Rock Garden,Khecheopalri Lake and Darap Village, Kanchenjunga Water Falls, Pemayangtse Monestery, Rabdentse Ruins. New Helipad and Kanchenjunga View Tower. Rest of the day at leisure."
+        },
+        {
+          "day": 5,
+          "title": "After breakfast Pelling Bagdogra Airport/NJP Railway Station",
+          "description": "After breakfast Pelling Bagdogra Airport/NJP Railway Station.\nPlease note: We can arrange tailor-made tours\nInclusions\nAccommodation in well-appointed rooms for 03 nights\nMeals\nWelcome drink at hotel\nAll transfers & sightseeing as per itinerary using Private Vehicle with driver (Vehicle will not be on disposal)\nDriver’s allowance\nToll tax. Parking, State tax. permit\nExclusions\nRoute Diversion cost Due to Natural calamities (Land Slide / Road Blockage) / Political Disturbance.\nAnything not mentio"
+        }
+      ]
+    },
+    {
+      "label": "4N/5D",
+      "nights": 4,
+      "days": 5,
+      "duration_text": "4N/5D",
+      "old_html_file": "Sikkim-Darjeeling-Gangtok-Tour-Itinerary-5-Days.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "IXB to Gangtok (120 kms",
+          "description": "IXB to Gangtok (120 kms. 4,5 hrs. approx.): Upon your arrival at Bagdogra Airport, you will have an assisted transfer to Gangtok. Complete the check-in formalities at the hotel. The rest of the day is free at leisure. Overnight at the hotel."
+        },
+        {
+          "day": 2,
+          "title": "Gangtok sightseeing: After breakfast, proceed for a day trip to Tsomgo Lake",
+          "description": "Gangtok sightseeing: After breakfast, proceed for a day trip to Tsomgo Lake. Also known as Changu Lake, this glacial lake is a popular tourist attraction and is located on the road towards the Nathu La pass. The next visit is to Baba Mandir. This shrine is built in the memory of a brave Indian soldier, Harbhajan Singh, who died during the war near the Nathu La Pass. Return to Gangtok. The evening is free for shopping activities. Overnight stay at the hotel. Optional tour to Nathula Pass (Alt 140"
+        },
+        {
+          "day": 3,
+          "title": "Gangtok to Darjeeling (115 kms",
+          "description": "Gangtok to Darjeeling (115 kms. 4 hrs. approx.): After breakfast, proceed for a half-day sightseeing tour of Gangtok covering Banjhakri Falls, Cottage Industry and Handicraft Center, Flower show, Dro-dul Chorten & Institute of Tibetology. Afternoon drive to Darjeeling (7,100 ft.). On arrival, check in to your hotel. Overnight stay at Darjeeling."
+        },
+        {
+          "day": 4,
+          "title": "Darjeeling sightseeing: Early morning, leave to view the sunrise at Tiger Hill",
+          "description": "Darjeeling sightseeing: Early morning, leave to view the sunrise at Tiger Hill. This is a major attraction amongst the tourists. After breakfast, visit Padmaja Naidu Zoological Park (Closed on Thursday), Himalayan Mountaineering Institute (Closed on Thursday), and Tea garden in the undulating valleys to view the scenic landscape of tea plucking and processing.\n                    Visit Ghoom Monastery & Batasia Loop. Also, visit the Japanese Temple dedicated to Lord Buddha and constructed in 197"
+        },
+        {
+          "day": 5,
+          "title": "Darjeeling to IXB Airport (80 kms",
+          "description": "Darjeeling to IXB Airport (80 kms. 3 hrs. approx.): After breakfast, check out from the hotel and transfer to Airport to connect the flight to the onward destination.\nPlease note: We can arrange tailor-made tours\nInclusions\nAccommodation in well-appointed rooms for 03 nights\nMeals\nWelcome drink at hotel\nAll transfers & sightseeing as per itinerary using Private Vehicle with driver (Vehicle will not be on disposal)\nDriver’s allowance\nToll tax. Parking, State tax. permit\nExclusions\nRoute Diversion"
+        }
+      ]
+    },
+    {
+      "label": "8N/9D",
+      "nights": 8,
+      "days": 9,
+      "duration_text": "8N/9D",
+      "old_html_file": "Sikkim-Darjeeling-Tour-08-Night႓s-09-Day႓s.html",
+      "itinerary": []
+    }
+  ],
+  "tags": [
+    "domestic-tour-packages",
+    "north-india-tour-packages",
+    "honeymoon-tour-packages",
+    "darjeeling",
+    "gangtok"
+  ],
+  "seo": {
+    "title": "Sikkim Darjeeling Tour | Mother India Tour Travels",
+    "description": "Book Sikkim Darjeeling Tour with Mother India Tour Travels. Best deals on Darjeeling, Gangtok tour packages. Includes hotels, transport & guide.",
+    "keywords": [
+      "Sikkim Darjeeling Tour",
+      "Darjeeling",
+      "Gangtok",
+      "tour package",
+      "India travel",
+      "Mother India Tour"
+    ]
+  }
+}

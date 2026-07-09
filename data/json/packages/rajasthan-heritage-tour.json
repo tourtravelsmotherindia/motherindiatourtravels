@@ -1,0 +1,157 @@
+{
+  "id": "rajasthan-heritage-tour",
+  "slug": "rajasthan-heritage-tour",
+  "name": "Rajasthan Heritage Tour",
+  "is_popular": false,
+  "destinations": ["Delhi", "Agra", "Ranthambore", "Jaipur", "Mandawa"],
+  "destination_ids": ["delhi", "agra", "ranthambore", "jaipur", "mandawa"],
+  "primary_destination": "Delhi",
+  "category_ids": [
+    "domestic-tour-packages",
+    "north-india-tour-packages",
+    "rajasthan-tour-packages"
+  ],
+  "state_id": "rajasthan",
+  "country_id": "india",
+  "is_domestic": true,
+  "hero_image": "",
+  "overview": "Explore the best of Delhi, Agra, Ranthambore, Jaipur, Mandawa with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
+  "highlights": ["Visit Delhi", "Visit Agra", "Visit Ranthambore", "Visit Jaipur", "Visit Mandawa"],
+  "inclusions": [
+    "Accommodation in listed or similar hotels",
+    "Welcome Drink (Non-Alcoholic)",
+    "Meals as per itinerary (Breakfast & Dinner)",
+    "All transfers and sightseeing by private AC vehicle",
+    "All long distance travel as per itinerary",
+    "Chauffeur, Toll Taxes, Parking, Fuel charges",
+    "State Taxes, Green Taxes, Road Taxes",
+    "Comfortable AC vehicles",
+    "Licensed Tour Guide Services"
+  ],
+  "exclusions": [
+    "Meals other than those specified",
+    "Personal expenses (porterage, tips, laundry, mineral water)",
+    "Monument entrance fees and camera charges",
+    "Any activity not mentioned in inclusions",
+    "Travel Insurance",
+    "Additional cost due to flight cancellation, roadblocks, political unrest",
+    "Driver and Guide tips",
+    "Air/train fare unless specified",
+    "GST (5% on tour cost)"
+  ],
+  "notes": [
+    "Taj Mahal is closed every Friday",
+    "Tailor-made tours available on request",
+    "Prices are per person on twin sharing basis"
+  ],
+  "variants": [
+    {
+      "label": "Main",
+      "nights": 7,
+      "days": 8,
+      "duration_text": "7N/8D",
+      "old_html_file": "India-holiday-tour-Delhi-Agra-Ranthambhore-Jaipur-Mandawa.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Delhi – Manali: Pick up Volvo Coach from proceed Delhi to Manali in the evening",
+          "description": "Delhi – Manali: Pick up Volvo Coach from proceed Delhi to Manali in the evening .Overnight in the Bus."
+        },
+        {
+          "day": 2,
+          "title": "Manali Arrival(Half day local sightseeing: Arrive Manali in the morning , Check ",
+          "description": "Manali Arrival(Half day local sightseeing: Arrive Manali in the morning , Check in to the hotel and after Breakfast & proceed to visit Hadimba Temple, Vashist Temple, Club House, Mall Road & Stay at hotel ."
+        },
+        {
+          "day": 3,
+          "title": "Day trip to Rohtang, Solang Valley/Snow Point: Enjoy the morning breakfast at th",
+          "description": "Day trip to Rohtang, Solang Valley/Snow Point: Enjoy the morning breakfast at the hotel and later get ready for an excursion to visit Solang Valley.Solang Valley is outstandingly beautiful and is an ideal spot to view the majestic snow covered Himalayas, serene natural surrounding, pristine lake and fairy white snow round the year. After cover the sightseeing back to hotel. Stay in hotel."
+        },
+        {
+          "day": 4,
+          "title": "Day trip to visit Manikaran Gurudwara, Kullu valley enjoy boat ride & back to ho",
+          "description": "Day trip to visit Manikaran Gurudwara, Kullu valley enjoy boat ride & back to hotel & stay."
+        },
+        {
+          "day": 5,
+          "title": "Manali To Delhi Departure: Morning after breakfast, Check-out from hotel evening",
+          "description": "Manali To Delhi Departure: Morning after breakfast, Check-out from hotel evening catch the Volvo from Manali to proceed Delhi. Overnight Journey."
+        },
+        {
+          "day": 5,
+          "title": "Delhi – Arrival at Delhi Bus stand Rama Krishna Ashram Metro Station",
+          "description": "Delhi – Arrival at Delhi Bus stand Rama Krishna Ashram Metro Station . proceed for your onward destination….\nHoneymoon Tour available on demand\nPlease note: We can arrange tailor-made tours\nInclusions\nAccommodation .\nWelcome Drink Non Alcoholic.\nBreakfast/Dinner\nAll Transfers, All sightseeing as per Tour Itinerary\nAll long distance Travels\nToll Taxes, Parkings, Fuel, State taxes\nPvt. Vehicle with driver at Manali\nGuide Services\nExclusions\nMeals other than those specified above\nPersonal expenses "
+        }
+      ]
+    },
+    {
+      "label": "Extended",
+      "nights": 9,
+      "days": 10,
+      "duration_text": "9N/10D",
+      "old_html_file": "India-holiday-tour-Delhi-Agra-Ranthambore-Udaipur-Pushkar-Jaipur-Delhi.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrival at Delhi Airport company representative assist you and transfer to the h",
+          "description": "Arrival at Delhi Airport company representative assist you and transfer to the hotel. Rest of the day at leisure."
+        },
+        {
+          "day": 2,
+          "title": "Delhi – Agra, (250 KM",
+          "description": "Delhi – Agra, (250 KM. Approx 3 Hrs.) Today after breakfast visit Old & New Delhi visit Jama Masjid, Rajghat (Gandhi Cremation place), India Gate, President House, Parliament, Qutub Minar, Lotus Temple, Humayun’s Tomb, & After proceed to Agra. Rest of the day at leisure."
+        },
+        {
+          "day": 3,
+          "title": "Agra – Ranthambore VIA Fatehpur Sikri (300 KM",
+          "description": "Agra – Ranthambore VIA Fatehpur Sikri (300 KM. Approx 6 Hrs.) : Today, after breakfast check out from hotel & proceed to visit memory of Love The Taj Mahal & after visit Agra Fort and proceed to Ranthambore En-Rout visit Fatehpur Sikri. Rest of the day at leisure."
+        },
+        {
+          "day": 4,
+          "title": "Ranthambore – Jaipur (160 KM",
+          "description": "Ranthambore – Jaipur (160 KM. Approx 4 Hrs.) : Today, Early morning proceed to Jungle Safari Tiger Century (Own Arrangement) & after come back to hotel & after breakfast proceed to Jaipur. Rest of the day at leisure."
+        },
+        {
+          "day": 5,
+          "title": "Jaipur Sightseeing : Today, after breakfast proceed to visit ancient capital of ",
+          "description": "Jaipur Sightseeing : Today, after breakfast proceed to visit ancient capital of Amber. Visit beautiful Amber Fort after Amber Fort proceed to the pink city Jaipur we will visit Hawa Mahal(Window Palace), City Place and Observatory (Jantar Mantar) after visit famous block printing & James & Stone cutting factory work being done since centuries in Jaipur. Rest of the day at leisure."
+        },
+        {
+          "day": 6,
+          "title": "Jaipur – Mandawa (200 KM",
+          "description": "Jaipur – Mandawa (200 KM. Approx 4 Hrs.): Today, after breakfast proceed to Mandawa after check in walk around Mandawa it’s a small village in Shekhawati Region & visit beautiful painted old houses (Haveli’s) . Rest of the day at leisure."
+        },
+        {
+          "day": 7,
+          "title": "Mandawa – Delhi (260 KM",
+          "description": "Mandawa – Delhi (260 KM. Approx 6-7 Hrs.): Today, after breakfast proceed to Delhi & drop you at Delhi Airport/Railway Station for your onward journey.\nPlease note: Taj mahal closed on every friday\nPlease note: We can arrange tailor-made tours\nInclusions\nAccommodation .\nWelcome Drink Non Alcoholic.\nBreakfast/Dinner\nAll Transfers, All sightseeing as per Tour Itinerary\nAll long distance Travels\nToll Taxes, Parkings, Fuel, State taxes\nComfortable vehicle with experienced driver\nGuide Services\nExclu"
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "domestic-tour-packages",
+    "north-india-tour-packages",
+    "rajasthan-tour-packages",
+    "delhi",
+    "agra",
+    "ranthambore",
+    "jaipur",
+    "mandawa"
+  ],
+  "seo": {
+    "title": "Rajasthan Heritage Tour | Mother India Tour Travels",
+    "description": "Book Rajasthan Heritage Tour with Mother India Tour Travels. Best deals on Delhi, Agra, Ranthambore, Jaipur, Mandawa tour packages. Includes hotels, transport & guide.",
+    "keywords": [
+      "Rajasthan Heritage Tour",
+      "Delhi",
+      "Agra",
+      "Ranthambore",
+      "Jaipur",
+      "Mandawa",
+      "tour package",
+      "India travel",
+      "Mother India Tour"
+    ]
+  }
+}

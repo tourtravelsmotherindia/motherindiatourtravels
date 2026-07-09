@@ -1,0 +1,97 @@
+{
+  "id": "nepal-spiritual-tour",
+  "slug": "nepal-spiritual-tour",
+  "name": "Nepal Spiritual Tour",
+  "is_popular": false,
+  "destinations": ["Kathmandu", "Lumbini"],
+  "destination_ids": ["kathmandu", "lumbini"],
+  "primary_destination": "Kathmandu",
+  "category_ids": ["international-tour-packages", "spiritual-tour-packages"],
+  "state_id": null,
+  "country_id": "nepal",
+  "is_domestic": false,
+  "hero_image": "",
+  "overview": "Explore the best of Kathmandu, Lumbini with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
+  "highlights": ["Visit Kathmandu", "Visit Lumbini"],
+  "inclusions": [
+    "Accommodation in listed or similar hotels",
+    "Welcome Drink (Non-Alcoholic)",
+    "Meals as per itinerary (Breakfast & Dinner)",
+    "All transfers and sightseeing by private AC vehicle",
+    "All long distance travel as per itinerary",
+    "Chauffeur, Toll Taxes, Parking, Fuel charges",
+    "State Taxes, Green Taxes, Road Taxes",
+    "Comfortable AC vehicles",
+    "Licensed Tour Guide Services"
+  ],
+  "exclusions": [
+    "Meals other than those specified",
+    "Personal expenses (porterage, tips, laundry, mineral water)",
+    "Monument entrance fees and camera charges",
+    "Any activity not mentioned in inclusions",
+    "Travel Insurance",
+    "Additional cost due to flight cancellation, roadblocks, political unrest",
+    "Driver and Guide tips",
+    "Air/train fare unless specified",
+    "GST (5% on tour cost)"
+  ],
+  "notes": [
+    "Taj Mahal is closed every Friday",
+    "Tailor-made tours available on request",
+    "Prices are per person on twin sharing basis"
+  ],
+  "variants": [
+    {
+      "label": "5N/6D",
+      "nights": 5,
+      "days": 6,
+      "duration_text": "5N/6D",
+      "old_html_file": "Spiritual-Tour-Package-Kathmandu-Lumbini-for-06-Days.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrival in Kathmandu\nAfter arrival at Tribhuvan International Airport, you’ll be",
+          "description": "Arrival in Kathmandu\nAfter arrival at Tribhuvan International Airport, you’ll be warmly welcomed and\ntransferred to your hotel in Kathmandu. After check-in, you can relax. In the evening,\nexplore the lively Thamel area at your leisure time. Overnight stay in Kathmandu."
+        },
+        {
+          "day": 2,
+          "title": "Kathmandu Sightseeing\nToday, engage yourself in Kathmandu’s rich cultural herita",
+          "description": "Kathmandu Sightseeing\nToday, engage yourself in Kathmandu’s rich cultural heritage with a full-day\nsightseeing tour. Begin with a visit to Pashupatinath Temple and Gujeshowri Temple.\nContinue to Boudhanath Stupa, one of the largest stupas in the world and a UNESCO\nWorld Heritage Site. In the afternoon, explore Swayambhunath Stupa, also known as\nthe Monkey Temple, and finish the day at Kathmandu Durbar Square, a historic\npalace square that showcases traditional Nepalese architecture."
+        },
+        {
+          "day": 3,
+          "title": "Early Morning Trip to Nagarkot and Drive to Pokhara via Manakamana\nEarly in the ",
+          "description": "Early Morning Trip to Nagarkot and Drive to Pokhara via Manakamana\nEarly in the morning, drive to Nagarkot to witness a breathtaking sunrise over the\nHimalayas. After enjoying the stunning views, return to your hotel in Kathmandu for\nbreakfast. Following breakfast, embark on a scenic drive to Manakamana Temple,\naccessible by a cable car ride that offers spectacular views of the surrounding\nlandscape. After visiting the temple, continue your journey to Pokhara. Upon arrival,\ncheck into your hotel"
+        },
+        {
+          "day": 4,
+          "title": "Explore Pokhara\nBegin exploring Pokhara’s highlights, with a boat ride on Phewa ",
+          "description": "Explore Pokhara\nBegin exploring Pokhara’s highlights, with a boat ride on Phewa Lake to watch the\nstunning mountain reflections. Visit Tal Barahi Temple on an island in the lake, and\nhead to Davis Falls and Gupteshwor Mahadev Cave. Wrap up the day with a visit to\nthe Peace Pagoda, which offers panoramic views of the Annapurna range and Pokhara\nValley."
+        },
+        {
+          "day": 5,
+          "title": "Return to Kathmandu\nAfter breakfast, the journey back to Kathmandu will begin by",
+          "description": "Return to Kathmandu\nAfter breakfast, the journey back to Kathmandu will begin by road. Upon arrival,\ncheck into your hotel and spend the remainder of the day at your leisure. You can use\nthis time for some last-minute shopping in Thamel or visit the Garden of Dreams, a\nbeautiful, peaceful garden in the city & heart. Stay in Kathmandu."
+        },
+        {
+          "day": 6,
+          "title": "Departure from Kathmandu\nOn your final day, enjoy breakfast at your hotel before",
+          "description": "Departure from Kathmandu\nOn your final day, enjoy breakfast at your hotel before being transferred to Tribhuvan\nInternational Airport for your departure. Depart with memories of Nepal’s diverse\nlandscapes, spiritual sites, and rich culture.\nPlease note: We can arrange tailor-made tours\nInclusions\nAccommodation\nWelcome Drink Non Alcoholic\nBreakfast & Dinner\nAll Transfers, All sightseeing as per Tour Itinerary\nAll long distance Travels\nDriver Allowance, Toll Taxes, Parkings, Fuel\nState Taxes, Gree"
+        }
+      ]
+    }
+  ],
+  "tags": ["international-tour-packages", "spiritual-tour-packages", "kathmandu", "lumbini"],
+  "seo": {
+    "title": "Nepal Spiritual Tour | Mother India Tour Travels",
+    "description": "Book Nepal Spiritual Tour with Mother India Tour Travels. Best deals on Kathmandu, Lumbini tour packages. Includes hotels, transport & guide.",
+    "keywords": [
+      "Nepal Spiritual Tour",
+      "Kathmandu",
+      "Lumbini",
+      "tour package",
+      "India travel",
+      "Mother India Tour"
+    ]
+  }
+}

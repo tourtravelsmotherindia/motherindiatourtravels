@@ -1,0 +1,88 @@
+{
+  "id": "kerala-munnar-alleppey-tour",
+  "slug": "kerala-munnar-alleppey-tour",
+  "name": "Kerala Munnar Alleppey Tour",
+  "is_popular": false,
+  "destinations": ["Cochin", "Munnar", "Alleppey"],
+  "destination_ids": ["cochin", "munnar", "alleppey"],
+  "primary_destination": "Cochin",
+  "category_ids": ["domestic-tour-packages", "south-india-tour-packages"],
+  "state_id": "kerala",
+  "country_id": "india",
+  "is_domestic": true,
+  "hero_image": "",
+  "overview": "Explore the best of Cochin, Munnar, Alleppey with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
+  "highlights": ["Visit Cochin", "Visit Munnar", "Visit Alleppey"],
+  "inclusions": [
+    "Accommodation in listed or similar hotels",
+    "Welcome Drink (Non-Alcoholic)",
+    "Meals as per itinerary (Breakfast & Dinner)",
+    "All transfers and sightseeing by private AC vehicle",
+    "All long distance travel as per itinerary",
+    "Chauffeur, Toll Taxes, Parking, Fuel charges",
+    "State Taxes, Green Taxes, Road Taxes",
+    "Comfortable AC vehicles",
+    "Licensed Tour Guide Services"
+  ],
+  "exclusions": [
+    "Meals other than those specified",
+    "Personal expenses (porterage, tips, laundry, mineral water)",
+    "Monument entrance fees and camera charges",
+    "Any activity not mentioned in inclusions",
+    "Travel Insurance",
+    "Additional cost due to flight cancellation, roadblocks, political unrest",
+    "Driver and Guide tips",
+    "Air/train fare unless specified",
+    "GST (5% on tour cost)"
+  ],
+  "notes": [
+    "Taj Mahal is closed every Friday",
+    "Tailor-made tours available on request",
+    "Prices are per person on twin sharing basis"
+  ],
+  "variants": [
+    {
+      "label": "Main",
+      "nights": 5,
+      "days": 6,
+      "duration_text": "5N/6D",
+      "old_html_file": "Kerala-Munnar-Alleppey.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrive Srinagar | Srinagar Local Sightseeing",
+          "description": "Arrive Srinagar | Srinagar Local Sightseeing. Welcome to Srinagar, the Lake City. On arrival at Srinagar Airport, begin your Kashmir Tour. You will be transferred to the Hotel. Proceed on a city tour visiting the Shankar Acharya temple situated on the highest hill of Srinagar, the famous Mughal Gardens – Chashmashahi, Nishat & Shalimar. These gardens were Mughal Emperor concepts of Paradise and today these are popular picnic spots. Visit Hazratbal Dargah Also. Overnight stay in a hotel."
+        },
+        {
+          "day": 2,
+          "title": "– Srinagar – Pahalgam – Srinagar After breakfast drive to Pahalgam (The valley o",
+          "description": "– Srinagar – Pahalgam – Srinagar After breakfast drive to Pahalgam (The valley of shepherds). Which is about 96 kms from Srinagar, which will be covered in the app. 3 hours. You Can visit the saffron fields of pampore, Awantipura Ruins (1100 years old temple of Lord Vishnu built by the King Awantivarman), Mattan Temple, on En-route. Drive through the pine forests. Arrive at Pahalgam and You can go for Pony ride, visit Kashmir Valley, Dabyan, Baisaran/ mini-Switzerland, Denow Valley Waterfall (At"
+        },
+        {
+          "day": 3,
+          "title": "– Srinagar –Gulmarg– Srinagar, After breakfast check out from the hotel in Srina",
+          "description": "– Srinagar –Gulmarg– Srinagar, After breakfast check out from the hotel in Srinagar drive to Gulmarg (2440 Meters above Sea level). It is one of the most beautiful hill stations and also called “Meadows of Flower”. It has the world’s highest golf course and Gulmarg is also famous for winter sports like skiing. On arrival and after refreshment one can visit Jai Jai Shiv Shankar Temple and also enjoy a Gondola ride (Cable car, own cost) from Gulmarg to Kongdori and affarwat. Evening return dinner "
+        },
+        {
+          "day": 4,
+          "title": "Return Home with Happy Memories: After breakfast transfer to Srinagar Airport to",
+          "description": "Return Home with Happy Memories: After breakfast transfer to Srinagar Airport to board your flight with Sweet memories.\nPlease note: We can arrange tailor-made tours\nHouseboat Night on Demand\nInclusions\nSrinagar Airport Pickup Drop.\nWelcome Drink on Arrival at the hotel.\n3 Night’s Accommodation in Srinagar\n1 Night Accommodation in Houseboat with Breakfast & dinner\n1 Night Accommodation in Pahalgam\n5 Breakfast\n1 Hour Shikara Ride.\nAll Tour by Pvt. Comfortable Vehicle\nToll Charges, Parking Charges"
+        }
+      ]
+    }
+  ],
+  "tags": ["domestic-tour-packages", "south-india-tour-packages", "cochin", "munnar", "alleppey"],
+  "seo": {
+    "title": "Kerala Munnar Alleppey Tour | Mother India Tour Travels",
+    "description": "Book Kerala Munnar Alleppey Tour with Mother India Tour Travels. Best deals on Cochin, Munnar, Alleppey tour packages. Includes hotels, transport & guide.",
+    "keywords": [
+      "Kerala Munnar Alleppey Tour",
+      "Cochin",
+      "Munnar",
+      "Alleppey",
+      "tour package",
+      "India travel",
+      "Mother India Tour"
+    ]
+  }
+}

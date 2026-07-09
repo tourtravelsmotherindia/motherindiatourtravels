@@ -1,0 +1,251 @@
+{
+  "total": 14,
+  "states": [
+    {
+      "id": "delhi",
+      "name": "Delhi",
+      "slug": "delhi",
+      "country_id": "india",
+      "capital": "New Delhi",
+      "is_featured": true,
+      "package_ids": [
+        "corbett-national-park-tour",
+        "delhi-agra-mathura-tour",
+        "delhi-agra-tour",
+        "delhi-manali-volvo-tour",
+        "golden-triangle-tour",
+        "golden-triangle-tour-haridwar-rishikesh",
+        "golden-triangle-tour-kerala",
+        "golden-triangle-tour-khajuraho",
+        "golden-triangle-tour-khajuraho-varanasi",
+        "golden-triangle-tour-mathura",
+        "golden-triangle-tour-pushkar",
+        "golden-triangle-tour-ranthambore",
+        "golden-triangle-tour-varanasi",
+        "haridwar-rishikesh-agra-tour",
+        "haridwar-rishikesh-tour",
+        "himachal-amritsar-tour",
+        "mussoorie-tour",
+        "nainital-corbett-tour",
+        "north-india-grand-tour",
+        "north-india-tour",
+        "rajasthan-complete-tour",
+        "rajasthan-grand-tour",
+        "rajasthan-grand-tour-varanasi",
+        "rajasthan-heritage-tour",
+        "rajasthan-tour",
+        "rajasthan-tour-khajuraho-varanasi",
+        "same-day-agra-tour",
+        "shimla-manali-agra-tour",
+        "shimla-manali-chandigarh-tour",
+        "shimla-manali-tour",
+        "spiritual-circuit-tour",
+        "uttarakhand-tour"
+      ],
+      "package_count": 32
+    },
+    {
+      "id": "uttar-pradesh",
+      "name": "Uttar Pradesh",
+      "slug": "uttar-pradesh",
+      "country_id": "india",
+      "capital": "Lucknow",
+      "is_featured": true,
+      "package_ids": [
+        "delhi-agra-mathura-tour",
+        "delhi-agra-tour",
+        "golden-triangle-tour",
+        "golden-triangle-tour-haridwar-rishikesh",
+        "golden-triangle-tour-kerala",
+        "golden-triangle-tour-khajuraho",
+        "golden-triangle-tour-khajuraho-varanasi",
+        "golden-triangle-tour-mathura",
+        "golden-triangle-tour-pushkar",
+        "golden-triangle-tour-ranthambore",
+        "golden-triangle-tour-varanasi",
+        "haridwar-rishikesh-agra-tour",
+        "north-india-grand-tour",
+        "north-india-tour",
+        "rajasthan-complete-tour",
+        "rajasthan-grand-tour",
+        "rajasthan-grand-tour-varanasi",
+        "rajasthan-heritage-tour",
+        "rajasthan-tour-khajuraho-varanasi",
+        "same-day-agra-tour",
+        "shimla-manali-agra-tour",
+        "spiritual-circuit-tour",
+        "varanasi-prayagraj-ayodhya-tour",
+        "varanasi-prayagraj-chitrakoot-tour",
+        "varanasi-prayagraj-tour",
+        "varanasi-tour"
+      ],
+      "package_count": 26
+    },
+    {
+      "id": "rajasthan",
+      "name": "Rajasthan",
+      "slug": "rajasthan",
+      "country_id": "india",
+      "capital": "Jaipur",
+      "is_featured": true,
+      "package_ids": [
+        "golden-triangle-tour",
+        "golden-triangle-tour-haridwar-rishikesh",
+        "golden-triangle-tour-kerala",
+        "golden-triangle-tour-khajuraho",
+        "golden-triangle-tour-khajuraho-varanasi",
+        "golden-triangle-tour-mathura",
+        "golden-triangle-tour-pushkar",
+        "golden-triangle-tour-ranthambore",
+        "golden-triangle-tour-varanasi",
+        "north-india-grand-tour",
+        "north-india-tour",
+        "rajasthan-complete-tour",
+        "rajasthan-grand-tour",
+        "rajasthan-grand-tour-varanasi",
+        "rajasthan-heritage-tour",
+        "rajasthan-tour",
+        "rajasthan-tour-khajuraho-varanasi"
+      ],
+      "package_count": 17
+    },
+    {
+      "id": "himachal-pradesh",
+      "name": "Himachal Pradesh",
+      "slug": "himachal-pradesh",
+      "country_id": "india",
+      "capital": "Shimla",
+      "is_featured": true,
+      "package_ids": [
+        "delhi-manali-volvo-tour",
+        "himachal-amritsar-tour",
+        "shimla-manali-agra-tour",
+        "shimla-manali-chandigarh-tour",
+        "shimla-manali-tour"
+      ],
+      "package_count": 5
+    },
+    {
+      "id": "uttarakhand",
+      "name": "Uttarakhand",
+      "slug": "uttarakhand",
+      "country_id": "india",
+      "capital": "Dehradun",
+      "is_featured": true,
+      "package_ids": [
+        "corbett-national-park-tour",
+        "golden-triangle-tour-haridwar-rishikesh",
+        "haridwar-rishikesh-agra-tour",
+        "haridwar-rishikesh-tour",
+        "mussoorie-tour",
+        "nainital-corbett-tour",
+        "uttarakhand-tour"
+      ],
+      "package_count": 7
+    },
+    {
+      "id": "jammu-kashmir",
+      "name": "Jammu & Kashmir",
+      "slug": "jammu-kashmir",
+      "country_id": "india",
+      "capital": "Srinagar",
+      "is_featured": true,
+      "package_ids": ["kashmir-tour", "kashmir-vaishno-devi-tour"],
+      "package_count": 2
+    },
+    {
+      "id": "west-bengal",
+      "name": "West Bengal",
+      "slug": "west-bengal",
+      "country_id": "india",
+      "capital": "Kolkata",
+      "is_featured": true,
+      "package_ids": [
+        "himalayan-panorama-tour",
+        "sikkim-darjeeling-pelling-tour",
+        "sikkim-darjeeling-tour"
+      ],
+      "package_count": 3
+    },
+    {
+      "id": "sikkim",
+      "name": "Sikkim",
+      "slug": "sikkim",
+      "country_id": "india",
+      "capital": "Gangtok",
+      "package_ids": [
+        "himalayan-panorama-tour",
+        "sikkim-darjeeling-pelling-tour",
+        "sikkim-darjeeling-tour"
+      ],
+      "package_count": 3
+    },
+    {
+      "id": "kerala",
+      "name": "Kerala",
+      "slug": "kerala",
+      "country_id": "india",
+      "capital": "Thiruvananthapuram",
+      "is_featured": true,
+      "package_ids": [
+        "golden-triangle-tour-kerala",
+        "kerala-munnar-alleppey-tour",
+        "kerala-tour",
+        "south-india-grand-tour"
+      ],
+      "package_count": 4
+    },
+    {
+      "id": "goa",
+      "name": "Goa",
+      "slug": "goa",
+      "country_id": "india",
+      "capital": "Panaji",
+      "is_featured": true,
+      "package_ids": ["goa-tour"],
+      "package_count": 1
+    },
+    {
+      "id": "andaman-nicobar",
+      "name": "Andaman & Nicobar Islands",
+      "slug": "andaman-nicobar",
+      "country_id": "india",
+      "capital": "Port Blair",
+      "package_ids": ["andaman-island-tour", "andaman-tour"],
+      "package_count": 2
+    },
+    {
+      "id": "madhya-pradesh",
+      "name": "Madhya Pradesh",
+      "slug": "madhya-pradesh",
+      "country_id": "india",
+      "capital": "Bhopal",
+      "package_ids": [
+        "golden-triangle-tour-khajuraho",
+        "golden-triangle-tour-khajuraho-varanasi",
+        "north-india-grand-tour",
+        "rajasthan-grand-tour",
+        "rajasthan-tour-khajuraho-varanasi"
+      ],
+      "package_count": 5
+    },
+    {
+      "id": "tamil-nadu",
+      "name": "Tamil Nadu",
+      "slug": "tamil-nadu",
+      "country_id": "india",
+      "capital": "Chennai",
+      "package_ids": ["south-india-grand-tour", "south-india-tour"],
+      "package_count": 2
+    },
+    {
+      "id": "karnataka",
+      "name": "Karnataka",
+      "slug": "karnataka",
+      "country_id": "india",
+      "capital": "Bengaluru",
+      "package_ids": ["south-india-grand-tour"],
+      "package_count": 1
+    }
+  ]
+}

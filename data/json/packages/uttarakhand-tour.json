@@ -1,0 +1,233 @@
+{
+  "id": "uttarakhand-tour",
+  "slug": "uttarakhand-tour",
+  "name": "Uttarakhand Tour",
+  "is_popular": false,
+  "destinations": ["Delhi", "Haridwar", "Rishikesh", "Nainital"],
+  "destination_ids": ["delhi", "haridwar", "rishikesh", "nainital"],
+  "primary_destination": "Delhi",
+  "category_ids": ["domestic-tour-packages", "north-india-tour-packages"],
+  "state_id": "uttarakhand",
+  "country_id": "india",
+  "is_domestic": true,
+  "hero_image": "",
+  "overview": "Explore the best of Delhi, Haridwar, Rishikesh, Nainital with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
+  "highlights": ["Visit Delhi", "Visit Haridwar", "Visit Rishikesh", "Visit Nainital"],
+  "inclusions": [
+    "Accommodation in listed or similar hotels",
+    "Welcome Drink (Non-Alcoholic)",
+    "Meals as per itinerary (Breakfast & Dinner)",
+    "All transfers and sightseeing by private AC vehicle",
+    "All long distance travel as per itinerary",
+    "Chauffeur, Toll Taxes, Parking, Fuel charges",
+    "State Taxes, Green Taxes, Road Taxes",
+    "Comfortable AC vehicles",
+    "Licensed Tour Guide Services"
+  ],
+  "exclusions": [
+    "Meals other than those specified",
+    "Personal expenses (porterage, tips, laundry, mineral water)",
+    "Monument entrance fees and camera charges",
+    "Any activity not mentioned in inclusions",
+    "Travel Insurance",
+    "Additional cost due to flight cancellation, roadblocks, political unrest",
+    "Driver and Guide tips",
+    "Air/train fare unless specified",
+    "GST (5% on tour cost)"
+  ],
+  "notes": [
+    "Taj Mahal is closed every Friday",
+    "Tailor-made tours available on request",
+    "Prices are per person on twin sharing basis"
+  ],
+  "variants": [
+    {
+      "label": "2N/3D",
+      "nights": 2,
+      "days": 3,
+      "duration_text": "2N/3D",
+      "old_html_file": "Uttarakhand-Holiday-Tour-Packages-two-nights-three-days.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Morning meet our driver at your Home | Hotel | Airport | Railway Station and tra",
+          "description": "Morning meet our driver at your Home | Hotel | Airport | Railway Station and transfer to Haridwar. Check in to the hotel at Arrival in Haridwar/Rishikesh. Afternoon visit Daksh Temple, Pawan Dham as well as Moti Bazar. Go To Har Ki Pauri for Ganga Aarti. Return to the hotel. Dinner and Night stay at the hotel."
+        },
+        {
+          "day": 2,
+          "title": "Morning you can take a divine dip in the river Ganga",
+          "description": "Morning you can take a divine dip in the river Ganga. Later on, returne to hotel. After breakfast visit Mansa Devi Temple (By cable car). Transfer to Rishikesh. Go to Triveni Ghat, Bharat Mandir, Lakshman Temple, Lakshman Jhula as well as Ram Jhula. Evening visit Ganga Aarti at Parmarth Niketan. Overnight stay at the hotel."
+        },
+        {
+          "day": 3,
+          "title": "Morning after breakfast, check out from the hotel",
+          "description": "Morning after breakfast, check out from the hotel. Go to Chandi Devi Temple (by cable car). Transfer to Delhi. Dropping at Delhi home/ hotel/ airport/ railway station.\nPlease note: We can arrange tailor-made tours\nInclusions\nAccommodation\nWelcome Drink Non Alcoholic.\nMeals\nAll Transfers, All sightseeing as per Tour Itinerary\nAll long distance Travels\nDriver Allowance, Toll Taxes, Parkings, Fuel\nState Taxes, Green Taxes, Road Taxes\nComfortable vehicles AC with driver\nAC NOT OPERATE ON HILLY AREA\n"
+        }
+      ]
+    },
+    {
+      "label": "4N/5D",
+      "nights": 4,
+      "days": 5,
+      "duration_text": "4N/5D",
+      "old_html_file": "Uttarakhand-Holiday-Tour-Packages-four-nights-five-days.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrival At Delhi, Our Representative Will Meet You",
+          "description": "Arrival At Delhi, Our Representative Will Meet You. Proceed To Haridwar (210 Kilometers); The Drive From Delhi To Haridwar Takes Around 5 Hours. The Holy City of Haridwar Also Famous As Gateway to God Attracts Tourist from All over India. Haridwar Is Regarded As One Of The Famous Holiest Places For Hindus Worldwide. Evening, Perform Aarti At Har Ki Pauri Ghat. Dinner And Overnight Stay Will Be At The Hotel."
+        },
+        {
+          "day": 2,
+          "title": "Haridwar – Mussoorie: Morning Breakfast at the Hotel",
+          "description": "Haridwar – Mussoorie: Morning Breakfast at the Hotel. Proceed Towards Mussoorie, Located At A Distance Of 100 Kms Via Rishikesh. Enroute Visit the Famous Ram Jhula, Laxman Jhula and Other Old Temples in This Heritage City. Mussoorie Is An Enchanting Hill Station Which Serves As A Perfect Retreat For Tourist In The Himalayan Ranges. This Magnificent Hill Station Of Mussoorie Is A Gem Located In The Foothills Of The Himalayas. Have A Glimpse Of Amazing DoonValley And Shiwalik Ranges. Dinner Will B"
+        },
+        {
+          "day": 3,
+          "title": "Mussoorie: Breakfast at the Hotel",
+          "description": "Mussoorie: Breakfast at the Hotel. Visit The Local Sightseeing Attractions Of Mussoorie Like Kempty Falls, Mussoorie Lake, Lal Bahadur Shastri National Academy Of Administration. Dinner And stay at the hotel"
+        },
+        {
+          "day": 4,
+          "title": "After Breakfast, Proceed For An Excursion Trip To Dhanaulti And Mata Surkanda De",
+          "description": "After Breakfast, Proceed For An Excursion Trip To Dhanaulti And Mata Surkanda Devi Temple. Dhanaulti Is A Scenic Hill Station Located At A Distance 24 Kms From Mussoorie. This Jewel In The Garwal Hills Is A Misty Mountain Retreat For The Tourist. The Scenic Beauty Of Dhanaulti Is Admired By People Looking For Peaceful Hill Resort Away From Busy Daily Life. In Evening Return Back toMussoorie. Dinner And Overnight Stay Will Be At The Hotel."
+        },
+        {
+          "day": 5,
+          "title": "Morning breakfast at the hotel, Proceed to Delhi (290 kms/7 hours) for your retu",
+          "description": "Morning breakfast at the hotel, Proceed to Delhi (290 kms/7 hours) for your return journey & drop at Delhi Airport/Railway Station.\nPlease note: We can arrange tailor-made tours\nInclusions\nAccommodation\nWelcome Drink Non Alcoholic.\nMeals\nAll Transfers, All sightseeing as per Tour Itinerary\nAll long distance Travels\nDriver Allowance, Toll Taxes, Parkings, Fuel\nState Taxes, Green Taxes, Road Taxes\nComfortable vehicles AC with driver\nAC NOT OPERATE ON HILLY AREA\nExclusions\nMeals other than those sp"
+        }
+      ]
+    },
+    {
+      "label": "5N/6D",
+      "nights": 5,
+      "days": 6,
+      "duration_text": "5N/6D",
+      "old_html_file": "Uttarakhand-Holiday-Tour-Packages-five-nights-six-days.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Delhi – Mussoorie (270 Kms",
+          "description": "Delhi – Mussoorie (270 Kms. Approx. 7 hours): Welcome to Delhi airport/station and proceed to Mussoorie. On arrival check in to your hotel. Remainder of the evening at leisure. Overnight in Mussoorie."
+        },
+        {
+          "day": 2,
+          "title": "Mussoorie – Sightseeing: After breakfast, explore local sightseeing and tour in ",
+          "description": "Mussoorie – Sightseeing: After breakfast, explore local sightseeing and tour in Mussoorie. See the famous plunging Kempty Falls, Gun hillside factor offering breathtaking views of the Himalayas ranges and also the doon valley. You can appreciate shopping at Shopping center road. Evening is free for pastime.Overnight in Mussoorie"
+        },
+        {
+          "day": 3,
+          "title": "Mussoorie – Corbett (250 kms",
+          "description": "Mussoorie – Corbett (250 kms. Approx. 6 hrs): Today after the morning meal proceed to your journey to the jungles of Corbett. On arrival check in to your hotel. You might pick to enjoy the evening safari on your own at an additional cost. Jim Corbett National Park is known for pets like tigers, elephants, sambar, chitals, nilgai and 600 different species of birds. Overnight in Corbett."
+        },
+        {
+          "day": 4,
+          "title": "Corbett– Nainital (150 kms; Approximate 6 hrs) After breakfast, look into and pr",
+          "description": "Corbett– Nainital (150 kms; Approximate 6 hrs) After breakfast, look into and proceed to early morning safari. After that proceed to Nainital. On arrival check in to your hotel. You have the rest of the day at leisure.Overnight in Nainital"
+        },
+        {
+          "day": 5,
+          "title": "Nainital Sightseeing: Today after breakfast, proceed to check out Naina Devi Tem",
+          "description": "Nainital Sightseeing: Today after breakfast, proceed to check out Naina Devi Temple, Hanuman Garhi, Naina Height where one can delight in the breathtaking views of snow-capped Mountain range & Nainital Valley. Evening visit the local market at the Shopping center roadway where one can shop for different kinds of candles. Overnight in Nainital."
+        },
+        {
+          "day": 6,
+          "title": "Nainital – Delhi (Approx",
+          "description": "Nainital – Delhi (Approx. 9 hrs): Today after breakfast, transfer to Delhi Airport terminal/ Railway Station to board your flight/train to your next destination or hometown.\nPlease note: We can arrange tailor-made tours\nInclusions\nAccommodation\nWelcome Drink Non Alcoholic.\nMeals\nAll Transfers, All sightseeing as per Tour Itinerary\nAll long distance Travels\nDriver Allowance, Toll Taxes, Parkings, Fuel\nState Taxes, Green Taxes, Road Taxes\nComfortable vehicles AC with driver\nAC NOT OPERATE ON HILLY"
+        }
+      ]
+    },
+    {
+      "label": "10N/11D",
+      "nights": 10,
+      "days": 11,
+      "duration_text": "10N/11D",
+      "old_html_file": "Uttarakhand-Holiday-Tour-Packages-ten-nights-eleven-days.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "DELHI TO HARIDWAR Day",
+          "description": "DELHI TO HARIDWAR Day"
+        },
+        {
+          "day": 2,
+          "title": "HARIDWAR TO PHOOLCHATTI, VIA BARKOT",
+          "description": "HARIDWAR TO PHOOLCHATTI, VIA BARKOT"
+        },
+        {
+          "day": 2,
+          "title": "PHOOLCHATTI TO YAMUNOTRI",
+          "description": "PHOOLCHATTI TO YAMUNOTRI"
+        },
+        {
+          "day": 3,
+          "title": "PHOOLCHATTI TO HARSHL DAY",
+          "description": "PHOOLCHATTI TO HARSHL DAY"
+        },
+        {
+          "day": 4,
+          "title": "HARSIL TO GANGOTRI AND UTTARKASHI",
+          "description": "HARSIL TO GANGOTRI AND UTTARKASHI"
+        },
+        {
+          "day": 5,
+          "title": "UTTARKASHI TO GUPTKASHI, VIA CHAMBA/NEW TEHRI",
+          "description": "UTTARKASHI TO GUPTKASHI, VIA CHAMBA/NEW TEHRI"
+        },
+        {
+          "day": 6,
+          "title": "GUPTKASHI TO KEDARNATH, VIA GAURIKUND",
+          "description": "GUPTKASHI TO KEDARNATH, VIA GAURIKUND"
+        },
+        {
+          "day": 7,
+          "title": "KEDARNATH, GAURIKUND/RAMPUR TO TILWARA",
+          "description": "KEDARNATH, GAURIKUND/RAMPUR TO TILWARA"
+        },
+        {
+          "day": 8,
+          "title": "TILWARA, JOSHIMATH, BADRINATH",
+          "description": "TILWARA, JOSHIMATH, BADRINATH"
+        },
+        {
+          "day": 9,
+          "title": "BADRINATH, JOSHIMATH, KALESHWAR",
+          "description": "BADRINATH, JOSHIMATH, KALESHWAR"
+        },
+        {
+          "day": 10,
+          "title": "KALESHWAR, KAUDIYALA, HARIDWAR",
+          "description": "KALESHWAR, KAUDIYALA, HARIDWAR"
+        },
+        {
+          "day": 11,
+          "title": "HARIDWAR TO DELHI\nPlease note: We can arrange tailor-made tours\nInclusions\nAccom",
+          "description": "HARIDWAR TO DELHI\nPlease note: We can arrange tailor-made tours\nInclusions\nAccommodation\nWelcome Drink Non Alcoholic.\nMeals\nAll Transfers, All sightseeing as per Tour Itinerary\nAll long distance Travels\nDriver Allowance, Toll Taxes, Parkings, Fuel\nState Taxes, Green Taxes, Road Taxes\nComfortable vehicles AC with driver\nAC NOT OPERATE ON HILLY AREA\nExclusions\nMeals other than those specified above\nPersonal expenses like portages, tips, laundry, mineral water etc.\nMonument entrances, camera Fee, e"
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "domestic-tour-packages",
+    "north-india-tour-packages",
+    "delhi",
+    "haridwar",
+    "rishikesh",
+    "nainital"
+  ],
+  "seo": {
+    "title": "Uttarakhand Tour | Mother India Tour Travels",
+    "description": "Book Uttarakhand Tour with Mother India Tour Travels. Best deals on Delhi, Haridwar, Rishikesh, Nainital tour packages. Includes hotels, transport & guide.",
+    "keywords": [
+      "Uttarakhand Tour",
+      "Delhi",
+      "Haridwar",
+      "Rishikesh",
+      "Nainital",
+      "tour package",
+      "India travel",
+      "Mother India Tour"
+    ]
+  }
+}

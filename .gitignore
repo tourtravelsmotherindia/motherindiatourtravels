@@ -43,3 +43,11 @@ next-env.d.ts
 # Miscellaneous
 .remember
 graphify-out
+migration_lock.toml
+/src/generated/prisma
+
+# SQLite database (generated artifact)
+*.db
+*.db-journal
+*.db-wal
+*.db-shm

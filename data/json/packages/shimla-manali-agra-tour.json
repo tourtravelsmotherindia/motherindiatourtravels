@@ -1,0 +1,116 @@
+{
+  "id": "shimla-manali-agra-tour",
+  "slug": "shimla-manali-agra-tour",
+  "name": "Shimla Manali Agra Tour",
+  "is_popular": false,
+  "destinations": ["Delhi", "Shimla", "Manali", "Agra"],
+  "destination_ids": ["delhi", "shimla", "manali", "agra"],
+  "primary_destination": "Delhi",
+  "category_ids": ["domestic-tour-packages", "north-india-tour-packages"],
+  "state_id": "himachal-pradesh",
+  "country_id": "india",
+  "is_domestic": true,
+  "hero_image": "",
+  "overview": "Explore the best of Delhi, Shimla, Manali, Agra with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
+  "highlights": ["Visit Delhi", "Visit Shimla", "Visit Manali", "Visit Agra"],
+  "inclusions": [
+    "Accommodation in listed or similar hotels",
+    "Welcome Drink (Non-Alcoholic)",
+    "Meals as per itinerary (Breakfast & Dinner)",
+    "All transfers and sightseeing by private AC vehicle",
+    "All long distance travel as per itinerary",
+    "Chauffeur, Toll Taxes, Parking, Fuel charges",
+    "State Taxes, Green Taxes, Road Taxes",
+    "Comfortable AC vehicles",
+    "Licensed Tour Guide Services"
+  ],
+  "exclusions": [
+    "Meals other than those specified",
+    "Personal expenses (porterage, tips, laundry, mineral water)",
+    "Monument entrance fees and camera charges",
+    "Any activity not mentioned in inclusions",
+    "Travel Insurance",
+    "Additional cost due to flight cancellation, roadblocks, political unrest",
+    "Driver and Guide tips",
+    "Air/train fare unless specified",
+    "GST (5% on tour cost)"
+  ],
+  "notes": [
+    "Taj Mahal is closed every Friday",
+    "Tailor-made tours available on request",
+    "Prices are per person on twin sharing basis"
+  ],
+  "variants": [
+    {
+      "label": "7N/8D",
+      "nights": 7,
+      "days": 8,
+      "duration_text": "7N/8D",
+      "old_html_file": "Delhi-Shimla-Manali-Agra-Tour-package-for-08-Days.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "New Delhi to Shimla (360Kms 7/8 Hours Approx",
+          "description": "New Delhi to Shimla (360Kms 7/8 Hours Approx.); Upon arrival Morning at the Airport/ Railways station and drive towards Shimla. Shimla, a very popular holiday-retreat, is well-known for its Victorian architecture, which is reflected in certain areas of the Mall and The Ridge.  Upon arrival at Shimla, Overnight at the hotel."
+        },
+        {
+          "day": 2,
+          "title": "Shimla; After breakfast at the hotel, proceed for a half day excursion to Kufri ",
+          "description": "Shimla; After breakfast at the hotel, proceed for a half day excursion to Kufri (2500mts). Kufri is also renowned for other adventure activities such as skiing, tobogganing (sliding downhill on a sled), etc. Kufri has the oldest skiing slopes in Himachal Pradesh.  You can also take a hike or a Pony up to Mashu Peak. Afternoon: Guests will be dropped at the Shimla elivetore & explore by themselves. Attractions of the mall road include Shimla Church, Scandal Point, Gaiety Theater, Town hall, Jaku "
+        },
+        {
+          "day": 3,
+          "title": "Shimla to Manali (272Kms 7/8 Hours Approx",
+          "description": "Shimla to Manali (272Kms 7/8 Hours Approx.) ; After breakfast at the hotel, depart for Manali. Drive past Beas-Sutlej Link project, Pandoh Dam & En-Rout halt Kullu Valley (Boat ride direct payment basi) -  Lunch shall be en-route on direct payment basis. Overnight at the hotel."
+        },
+        {
+          "day": 4,
+          "title": "Manali : After Breakfast, Proceed for local sightseeing of Manali ( Day Trip )",
+          "description": "Manali : After Breakfast, Proceed for local sightseeing of Manali ( Day Trip ). Visit Solang Valley, You can opt for adventure sports like Paragliding, Zorbing, and Skiing (subject to snow & weather conditions) on a direct payment basis.  Overnight at the hotel.\n(Optional tour costing Extra Atul Tunel, Sissu & Rohtang)"
+        },
+        {
+          "day": 5,
+          "title": "Manali : Sightseeing; After Breakfast, Proceed for local sightseeing of Manali",
+          "description": "Manali : Sightseeing; After Breakfast, Proceed for local sightseeing of Manali. Visit Vashishtha Kund & Hadimba Temple, Tibetan Monastery & Mall Road, Van vihar. Overnight at the hotel."
+        },
+        {
+          "day": 6,
+          "title": "Manali to Delhi (550 Kms",
+          "description": "Manali to Delhi (550 Kms./ 12-13 Hours Approx.) : After breakfast Proceed to Delhi & overnight stay at the hotel."
+        },
+        {
+          "day": 7,
+          "title": "Delhi to Agra (250 Kms",
+          "description": "Delhi to Agra (250 Kms./ 3-4 Hours Approx.) ; After breakfast Proceed to Agra a guided tour to visit Taj Mahal & Agra fort. Overnight stay at the hotel"
+        },
+        {
+          "day": 8,
+          "title": "Agra to Delhi (250 Kms",
+          "description": "Agra to Delhi (250 Kms./3-4 Hours Approx.): After breakfast proceed to Delhi and a guided tour to visit India gate, President house, Lotus temple, Qutub minar & drop you at airport/railway station with sweet memories.\nPlease note: Taj Mahal Close on Every Friday\nPlease note: We can arrange tailor-made tours\nInclusions\nAccommodation\nWelcome Drink Non Alcoholic.\nBreakfast & Dinner\nAll Transfers, All sightseeing as per Tour Itinerary\nAll long distance Travels\nToll Taxes, Parkings, Fuel\nState Taxes,"
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "domestic-tour-packages",
+    "north-india-tour-packages",
+    "delhi",
+    "shimla",
+    "manali",
+    "agra"
+  ],
+  "seo": {
+    "title": "Shimla Manali Agra Tour | Mother India Tour Travels",
+    "description": "Book Shimla Manali Agra Tour with Mother India Tour Travels. Best deals on Delhi, Shimla, Manali, Agra tour packages. Includes hotels, transport & guide.",
+    "keywords": [
+      "Shimla Manali Agra Tour",
+      "Delhi",
+      "Shimla",
+      "Manali",
+      "Agra",
+      "tour package",
+      "India travel",
+      "Mother India Tour"
+    ]
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "id": "rajasthan-complete-tour",
+  "slug": "rajasthan-complete-tour",
+  "name": "Complete Rajasthan Tour",
+  "is_popular": false,
+  "destinations": ["Delhi", "Agra", "Jaipur", "Udaipur", "Jodhpur", "Jaisalmer", "Bikaner"],
+  "destination_ids": ["delhi", "agra", "jaipur", "udaipur", "jodhpur", "jaisalmer", "bikaner"],
+  "primary_destination": "Delhi",
+  "category_ids": [
+    "domestic-tour-packages",
+    "north-india-tour-packages",
+    "rajasthan-tour-packages"
+  ],
+  "state_id": "rajasthan",
+  "country_id": "india",
+  "is_domestic": true,
+  "hero_image": "",
+  "overview": "Explore the best of Delhi, Agra, Jaipur, Udaipur, Jodhpur, Jaisalmer, Bikaner with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
+  "highlights": [
+    "Visit Delhi",
+    "Visit Agra",
+    "Visit Jaipur",
+    "Visit Udaipur",
+    "Visit Jodhpur",
+    "Visit Jaisalmer",
+    "Visit Bikaner"
+  ],
+  "inclusions": [
+    "Accommodation in listed or similar hotels",
+    "Welcome Drink (Non-Alcoholic)",
+    "Meals as per itinerary (Breakfast & Dinner)",
+    "All transfers and sightseeing by private AC vehicle",
+    "All long distance travel as per itinerary",
+    "Chauffeur, Toll Taxes, Parking, Fuel charges",
+    "State Taxes, Green Taxes, Road Taxes",
+    "Comfortable AC vehicles",
+    "Licensed Tour Guide Services"
+  ],
+  "exclusions": [
+    "Meals other than those specified",
+    "Personal expenses (porterage, tips, laundry, mineral water)",
+    "Monument entrance fees and camera charges",
+    "Any activity not mentioned in inclusions",
+    "Travel Insurance",
+    "Additional cost due to flight cancellation, roadblocks, political unrest",
+    "Driver and Guide tips",
+    "Air/train fare unless specified",
+    "GST (5% on tour cost)"
+  ],
+  "notes": [
+    "Taj Mahal is closed every Friday",
+    "Tailor-made tours available on request",
+    "Prices are per person on twin sharing basis"
+  ],
+  "variants": [
+    {
+      "label": "10N/11D",
+      "nights": 10,
+      "days": 11,
+      "duration_text": "10N/11D",
+      "old_html_file": "Delhi-Agra-Jaipur-Udaipur-Jodhpur-Jaisalmer-Bikaner-Delhi-ten-nights-eleven-days.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Delhi: Arrival at Delhi Airport company representative assist you and transfer t",
+          "description": "Delhi: Arrival at Delhi Airport company representative assist you and transfer to the hotel. After breakfast proceed to visit Old Delhi & New Delhi. Overnight stay at hotel."
+        },
+        {
+          "day": 2,
+          "title": "Delhi to Agra (230 Kms",
+          "description": "Delhi to Agra (230 Kms. 3 Hrs.): Today after breakfast proceed to Agra & visit Taj Mahal, Agra Fort and Itimad–Ud-Daulah (Baby Taj ). Overnight stay at hotel."
+        },
+        {
+          "day": 3,
+          "title": "Agra to Jaipur (260 Kms",
+          "description": "Agra to Jaipur (260 Kms. 6 Hrs. Approx.): After breakfast drive to Jaipur En-Rout visit Fatehpur Sikri . Overnight stay at hotel."
+        },
+        {
+          "day": 4,
+          "title": "Jaipur Sightseeing: After breakfast proceed to visit ancient capital of Amber",
+          "description": "Jaipur Sightseeing: After breakfast proceed to visit ancient capital of Amber. Visit beautiful Amber Fort after Amber Fort proceed to the pink city Jaipur we will visit Water Palace, Hawa Mahal (Window Palace), City Place and Observatory (Jantar Mantar) after visit famous block printing & James & Stone cutting factory work being done since centuries in Jaipur. Overnight stay at hotel."
+        },
+        {
+          "day": 5,
+          "title": "Jaipur to Udaipur (400 Kms",
+          "description": "Jaipur to Udaipur (400 Kms. 7 Hrs.): Today after breakfast drive to go Udaipur En-Route visit Chittor Garh fort, Overnight stay at hotel."
+        },
+        {
+          "day": 6,
+          "title": "After breakfast visit Udaipur City palace, Jagdish temple, Sahelion ki bari(Prin",
+          "description": "After breakfast visit Udaipur City palace, Jagdish temple, Sahelion ki bari(Princess garden) & boat ride at Lake Pichhola. Overnight stay at the hotel."
+        },
+        {
+          "day": 7,
+          "title": "Udaipur to Jodhpur (250 Kms",
+          "description": "Udaipur to Jodhpur (250 Kms. 7 Hrs. Approx.): Today after breakfast proceed to Jodhpur En-Route visit Ranakpur Jain Temple. overnight stay at the hotel."
+        },
+        {
+          "day": 8,
+          "title": "Jodhpur to Jaisalmer (285 Kms",
+          "description": "Jodhpur to Jaisalmer (285 Kms. 6 Hrs. Approx.) : After breakfast check out & visit Jodhpur Fort, Jaswant Thada & drive to Jaisalmer. Overnight stay at the hotel."
+        },
+        {
+          "day": 9,
+          "title": "Jaisalmer: After breakfast check out from the hotel & proceed to visit Jaisalmer",
+          "description": "Jaisalmer: After breakfast check out from the hotel & proceed to visit Jaisalmer fort, Jain Temple, Patwon-ki-haveli, Ludrwa Jain Temple & after lunch we proceed to sand dunes village resort & enjoy Camel ride, Traditional Rajasthani folk dance. stay at desert resort."
+        },
+        {
+          "day": 10,
+          "title": "Jaisalmer to Bikaner (325 Kms",
+          "description": "Jaisalmer to Bikaner (325 Kms. 6 Hrs. Approx.) : After breakfast check out & proceed to Bikaner visit Bikaner fort & check in at the hotel after refresh proceed to visit world famous Deshnok Temle (Ret Temple). Overnight stay at the hotel."
+        },
+        {
+          "day": 11,
+          "title": "Bikaner to Delhi (440 Kms",
+          "description": "Bikaner to Delhi (440 Kms. 8 Hrs. Approx.) : After breakfast check out & proceed to Delhi En-Route visit Old painted Havelis & drop you at Delhi airport/railway station with sweet memories.\nPlease note: Taj Mahal Closed on every Friday\nPlease note: We can arrange tailor-made tours\nInclusions\nAccommodation\nWelcome Drink Non Alcoholic.\nMeals\nWelcome Drink Non Alcoholic.\nAll Transfers, All sightseeing as per Tour Itinerary\nAll long distance Travels\nToll Taxes, Parkings, Fuel, State Taxes, Road Taxe"
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "domestic-tour-packages",
+    "north-india-tour-packages",
+    "rajasthan-tour-packages",
+    "delhi",
+    "agra",
+    "jaipur",
+    "udaipur",
+    "jodhpur",
+    "jaisalmer",
+    "bikaner"
+  ],
+  "seo": {
+    "title": "Complete Rajasthan Tour | Mother India Tour Travels",
+    "description": "Book Complete Rajasthan Tour with Mother India Tour Travels. Best deals on Delhi, Agra, Jaipur, Udaipur, Jodhpur, Jaisalmer, Bikaner tour packages. Includes hotels, transport & guide.",
+    "keywords": [
+      "Complete Rajasthan Tour",
+      "Delhi",
+      "Agra",
+      "Jaipur",
+      "Udaipur",
+      "Jodhpur",
+      "Jaisalmer",
+      "Bikaner",
+      "tour package",
+      "India travel",
+      "Mother India Tour"
+    ]
+  }
+}

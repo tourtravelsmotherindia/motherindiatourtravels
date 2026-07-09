@@ -1,0 +1,176 @@
+{
+  "site_name": "Mother India Tour Travels",
+  "domain": "https://www.motherindiatourtravels.com",
+  "navigation": {
+    "main": [
+      {
+        "label": "Home",
+        "url": "/"
+      },
+      {
+        "label": "Destinations",
+        "url": "/destinations"
+      },
+      {
+        "label": "Packages",
+        "url": "/packages"
+      },
+      {
+        "label": "Categories",
+        "url": "/categories",
+        "children": [
+          {
+            "label": "Domestic Tours",
+            "url": "/categories/domestic-tour-packages"
+          },
+          {
+            "label": "International Tours",
+            "url": "/categories/international-tour-packages"
+          },
+          {
+            "label": "Honeymoon Tours",
+            "url": "/categories/honeymoon-tour-packages"
+          },
+          {
+            "label": "Family Tours",
+            "url": "/categories/family-tour-packages"
+          },
+          {
+            "label": "Spiritual Tours",
+            "url": "/categories/spiritual-tour-packages"
+          },
+          {
+            "label": "Wildlife Tours",
+            "url": "/categories/wildlife-tour-packages"
+          },
+          {
+            "label": "Beach Tours",
+            "url": "/categories/beach-tour-packages"
+          },
+          {
+            "label": "Luxury Tours",
+            "url": "/categories/luxury-tour-packages"
+          },
+          {
+            "label": "Budget Tours",
+            "url": "/categories/budget-tour-packages"
+          },
+          {
+            "label": "Weekend Tours",
+            "url": "/categories/weekend-tour-packages"
+          }
+        ]
+      },
+      {
+        "label": "India",
+        "url": "/india",
+        "children": [
+          {
+            "label": "Delhi",
+            "url": "/india/delhi"
+          },
+          {
+            "label": "Rajasthan",
+            "url": "/india/rajasthan"
+          },
+          {
+            "label": "Uttar Pradesh",
+            "url": "/india/uttar-pradesh"
+          },
+          {
+            "label": "Kerala",
+            "url": "/india/kerala"
+          },
+          {
+            "label": "Himachal Pradesh",
+            "url": "/india/himachal-pradesh"
+          },
+          {
+            "label": "Uttarakhand",
+            "url": "/india/uttarakhand"
+          },
+          {
+            "label": "Jammu & Kashmir",
+            "url": "/india/jammu-kashmir"
+          },
+          {
+            "label": "West Bengal",
+            "url": "/india/west-bengal"
+          },
+          {
+            "label": "Goa",
+            "url": "/india/goa"
+          }
+        ]
+      },
+      {
+        "label": "International",
+        "url": "/countries",
+        "children": [
+          {
+            "label": "Nepal",
+            "url": "/countries/nepal"
+          },
+          {
+            "label": "Thailand",
+            "url": "/countries/thailand"
+          },
+          {
+            "label": "Malaysia",
+            "url": "/countries/malaysia"
+          },
+          {
+            "label": "Dubai (UAE)",
+            "url": "/countries/uae"
+          }
+        ]
+      },
+      {
+        "label": "Blog",
+        "url": "/blog"
+      },
+      {
+        "label": "About",
+        "url": "/about"
+      },
+      {
+        "label": "Contact",
+        "url": "/contact"
+      }
+    ]
+  },
+  "seo": {
+    "home_title": "Mother India Tour Travels | Best Travel Agency in Delhi",
+    "home_description": "Discover India with Mother India Tour Travels – the best travel agency in Delhi. Affordable & customized tour packages for domestic and international destinations.",
+    "og_image": "https://i.postimg.cc/CMvnKFqV/Whats-App-Image-2025-08-13-at-17-36-07-6265f9e0.jpg"
+  },
+  "cross_linking_rules": {
+    "package → destinations": "package.destination_ids[] → destinations[id]",
+    "package → states": "ALL states whose cities appear in destination_ids (multi-state packages appear in ALL their states)",
+    "package → countries": "package.country_id + any international destinations",
+    "package → categories": "package.category_ids[] → categories[id]",
+    "destination.package_ids": "reverse: packages that visit this destination",
+    "state.package_ids": "reverse: packages that visit ANY city in this state",
+    "country.package_ids": "reverse: packages for this country",
+    "category.package_ids": "reverse: packages tagged with this category"
+  },
+  "url_structure": {
+    "/": "Homepage",
+    "/packages": "All packages listing",
+    "/packages/{slug}": "Package page with duration variants (tabs)",
+    "/destinations": "All destinations listing",
+    "/destinations/{slug}": "Destination page + packages to it",
+    "/categories/{slug}": "Category listing page",
+    "/india/{state-slug}": "State page",
+    "/countries/{slug}": "Country page",
+    "/blog/{slug}": "Blog post",
+    "/search?q=": "Search — noindex"
+  },
+  "seo_principles": [
+    "Duration variants (4D/5D/6D) on ONE package page → no keyword cannibalization",
+    "New package URL only when destination combination changes significantly",
+    "Category pages → informational keywords ('honeymoon tour packages')",
+    "Destination pages → 'X tour', 'visit X' keywords",
+    "Package pages → 'X tour package', 'X itinerary' keywords"
+  ]
+}

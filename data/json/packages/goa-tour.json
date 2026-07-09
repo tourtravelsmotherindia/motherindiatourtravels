@@ -1,0 +1,138 @@
+{
+  "id": "goa-tour",
+  "slug": "goa-tour",
+  "name": "Goa Tour",
+  "is_popular": false,
+  "destinations": ["Goa"],
+  "destination_ids": ["goa"],
+  "primary_destination": "Goa",
+  "category_ids": ["domestic-tour-packages", "beach-tour-packages", "weekend-tour-packages"],
+  "state_id": "goa",
+  "country_id": "india",
+  "is_domestic": true,
+  "hero_image": "",
+  "overview": "Explore the best of Goa with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
+  "highlights": ["Visit Goa"],
+  "inclusions": [
+    "Accommodation in listed or similar hotels",
+    "Welcome Drink (Non-Alcoholic)",
+    "Meals as per itinerary (Breakfast & Dinner)",
+    "All transfers and sightseeing by private AC vehicle",
+    "All long distance travel as per itinerary",
+    "Chauffeur, Toll Taxes, Parking, Fuel charges",
+    "State Taxes, Green Taxes, Road Taxes",
+    "Comfortable AC vehicles",
+    "Licensed Tour Guide Services"
+  ],
+  "exclusions": [
+    "Meals other than those specified",
+    "Personal expenses (porterage, tips, laundry, mineral water)",
+    "Monument entrance fees and camera charges",
+    "Any activity not mentioned in inclusions",
+    "Travel Insurance",
+    "Additional cost due to flight cancellation, roadblocks, political unrest",
+    "Driver and Guide tips",
+    "Air/train fare unless specified",
+    "GST (5% on tour cost)"
+  ],
+  "notes": [
+    "Taj Mahal is closed every Friday",
+    "Tailor-made tours available on request",
+    "Prices are per person on twin sharing basis"
+  ],
+  "variants": [
+    {
+      "label": "2N/3D",
+      "nights": 2,
+      "days": 3,
+      "duration_text": "2N/3D",
+      "old_html_file": "goa-tour-package-two-nights-three-days.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrival in the Morning & Full Day North Goa Sightseeing",
+          "description": "Arrival in the Morning & Full Day North Goa Sightseeing. visit include Anjuna, Baga and Calangute. These beaches will allow you to indulge in water sports such as Parasailing, scuba diving and water skiing.Besides, you can visit the local markets at Anjuna where you can purchase traditional jewellery, handicrafts and souvenirs. Overnight stay in Goa."
+        },
+        {
+          "day": 2,
+          "title": "Full Day South Goa Sightseeing",
+          "description": "Full Day South Goa Sightseeing. Today after breakfast you will head straight towards South Goa. Colva is a popular beach in South Goa. The beach is home to shacks, resort complexes, tourist cottages, discos and eateries.The 2nd day of your Goa Trip will make you experience the nightlife of Goa. Proceed towards the Tito’s bar, one of the most happening party places in Goa to enjoy the vibrant nightlife. Besides, you can also visit the Ingo’s Saturday Night Bazaar famous for shopping.Overnight sta"
+        },
+        {
+          "day": 3,
+          "title": "After breakfast transfer to the Goa Airport/Railway station to board flight/trai",
+          "description": "After breakfast transfer to the Goa Airport/Railway station to board flight/train for onward journey.\nPlease note: We can arrange tailor-made tours\nInclusions\nWelcome Drink on Arrival at the hotel.\n3 Night’s Accommodation in Goa\n3 Breakfast\nSightseeing with a group/pvt.\nComfortable Vehicle\nToll Charges, Parking Charges, Driver Allowance.\n24/7 Customer Support.\nExclusions\nMeals other than those specified above\nPersonal expenses like portages, tips, laundry, mineral water etc.\nMonument entrances, "
+        }
+      ]
+    },
+    {
+      "label": "3N/4D",
+      "nights": 3,
+      "days": 4,
+      "duration_text": "3N/4D",
+      "old_html_file": "goa-tour-package-three-nights-four-days.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Upon your arrival at Goa airport/ railway station, our tour representative assis",
+          "description": "Upon your arrival at Goa airport/ railway station, our tour representative assists you in smooth transfer to the hotel for a pre-booked stay.The first day of your Goa trip will acquaint you with the rich Portuguese culture and heritage of this tiny Indian state. There are several remnants in Old Goa in the form of century old cathedrals such as Basilica of Bom Jesus and Chapel of St. Francis Xavier.Goa is also known for its massive forts which were built by Indian rulers and Portuguese colonies "
+        },
+        {
+          "day": 2,
+          "title": "Tour to Goa is dedicated to the exploration of North Goa beaches",
+          "description": "Tour to Goa is dedicated to the exploration of North Goa beaches. The charm of Goa beaches lies in its beautiful beaches lined on the seashore and attracts a huge crowd of Indian and international tourists. Some popular beaches that you can visit include Anjuna, Baga and Calangute. These beaches will allow you to indulge in water sports such as Parasailing, scuba diving and water skiing.Besides, you can visit the local markets at Anjuna where you can purchase traditional jewellery, handicrafts a"
+        },
+        {
+          "day": 3,
+          "title": "On the 3rd day of your Goa Trip, you will head straight towards South Goa",
+          "description": "On the 3rd day of your Goa Trip, you will head straight towards South Goa. Colva is a popular beach in South Goa. The beach is home to shacks, resort complexes, tourist cottages, discos and eateries. Overnight stay in Goa."
+        },
+        {
+          "day": 4,
+          "title": "After breakfast transfer to the Goa Airport/Railway station to board flight/trai",
+          "description": "After breakfast transfer to the Goa Airport/Railway station to board flight/train for onward journey.\nInclusions\nWelcome Drink on Arrival at the hotel.\n3 Night’s Accommodation in Goa\n3 Breakfast\nSightseeing with a group/pvt.\nComfortable Vehicle\nToll Charges, Parking Charges, Driver Allowance.\n24/7 Customer Support.\nExclusions\nMeals other than those specified above\nPersonal expenses like portages, tips, laundry, mineral water etc.\nMonument entrances, camera Fee, etc.\nAny activity not mentioned in"
+        }
+      ]
+    },
+    {
+      "label": "4N/5D",
+      "nights": 4,
+      "days": 5,
+      "duration_text": "4N/5D",
+      "old_html_file": "goa-tour-package-four-nights-five-days.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Upon your arrival at Goa airport/ railway station, our tour representative assis",
+          "description": "Upon your arrival at Goa airport/ railway station, our tour representative assists you in smooth transfer to the hotel for a pre-booked stay.The first day of your Goa trip will acquaint you with the rich Portuguese culture and heritage of this tiny Indian state. There are several remnants in Old Goa in the form of century old cathedrals such as Basilica of Bom Jesus and Chapel of St. Francis Xavier.Goa is also known for its massive forts which were built by Indian rulers and Portuguese colonies "
+        },
+        {
+          "day": 2,
+          "title": "Tour to Goa is dedicated to the exploration of North Goa beaches",
+          "description": "Tour to Goa is dedicated to the exploration of North Goa beaches. The charm of Goa beaches lies in its beautiful beaches lined on the seashore and attracts a huge crowd of Indian and international tourists. Some popular beaches that you can visit include Anjuna, Baga and Calangute. These beaches will allow you to indulge in water sports such as Parasailing, scuba diving and water skiing.Besides, you can visit the local markets at Anjuna where you can purchase traditional jewellery, handicrafts a"
+        },
+        {
+          "day": 3,
+          "title": "On the 3rd day of your Goa Trip, you will head straight towards South Goa",
+          "description": "On the 3rd day of your Goa Trip, you will head straight towards South Goa. Colva is a popular beach in South Goa. The beach is home to shacks, resort complexes, tourist cottages, discos and eateries. Overnight stay in Goa."
+        },
+        {
+          "day": 4,
+          "title": "After breakfast proceed to visit Dudh Sagra day trip",
+          "description": "After breakfast proceed to visit Dudh Sagra day trip. Overnight stay at the hotel"
+        },
+        {
+          "day": 5,
+          "title": "transfer to the Goa Airport/Railway station to board flight/train for onward jou",
+          "description": "transfer to the Goa Airport/Railway station to board flight/train for onward journey.\nPlease note: We can arrange tailor-made tours\nInclusions\nWelcome Drink on Arrival at the hotel.\n4 Night’s Accommodation in Goa\n4 Breakfast\nSightseeing with a group/pvt.\nComfortable Vehicle\nToll Charges, Parking Charges, Driver Allowance.\n24/7 Customer Support.\nExclusions\nMeals other than those specified above\nPersonal expenses like portages, tips, laundry, mineral water etc.\nMonument entrances, camera Fee, etc."
+        }
+      ]
+    }
+  ],
+  "tags": ["domestic-tour-packages", "beach-tour-packages", "weekend-tour-packages", "goa"],
+  "seo": {
+    "title": "Goa Tour | Mother India Tour Travels",
+    "description": "Book Goa Tour with Mother India Tour Travels. Best deals on Goa tour packages. Includes hotels, transport & guide.",
+    "keywords": ["Goa Tour", "Goa", "tour package", "India travel", "Mother India Tour"]
+  }
+}

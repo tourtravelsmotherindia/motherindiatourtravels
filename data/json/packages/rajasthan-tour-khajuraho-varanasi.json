@@ -1,0 +1,142 @@
+{
+  "id": "rajasthan-tour-khajuraho-varanasi",
+  "slug": "rajasthan-tour-khajuraho-varanasi",
+  "name": "Rajasthan Tour with Khajuraho & Varanasi",
+  "is_popular": false,
+  "destinations": ["Delhi", "Jaipur", "Jodhpur", "Jaisalmer", "Khajuraho", "Varanasi"],
+  "destination_ids": ["delhi", "jaipur", "jodhpur", "jaisalmer", "khajuraho", "varanasi"],
+  "primary_destination": "Delhi",
+  "category_ids": [
+    "domestic-tour-packages",
+    "north-india-tour-packages",
+    "rajasthan-tour-packages"
+  ],
+  "state_id": "rajasthan",
+  "country_id": "india",
+  "is_domestic": true,
+  "hero_image": "",
+  "overview": "Explore the best of Delhi, Jaipur, Jodhpur, Jaisalmer, Khajuraho, Varanasi with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
+  "highlights": [
+    "Visit Delhi",
+    "Visit Jaipur",
+    "Visit Jodhpur",
+    "Visit Jaisalmer",
+    "Visit Khajuraho",
+    "Visit Varanasi"
+  ],
+  "inclusions": [
+    "Accommodation in listed or similar hotels",
+    "Welcome Drink (Non-Alcoholic)",
+    "Meals as per itinerary (Breakfast & Dinner)",
+    "All transfers and sightseeing by private AC vehicle",
+    "All long distance travel as per itinerary",
+    "Chauffeur, Toll Taxes, Parking, Fuel charges",
+    "State Taxes, Green Taxes, Road Taxes",
+    "Comfortable AC vehicles",
+    "Licensed Tour Guide Services"
+  ],
+  "exclusions": [
+    "Meals other than those specified",
+    "Personal expenses (porterage, tips, laundry, mineral water)",
+    "Monument entrance fees and camera charges",
+    "Any activity not mentioned in inclusions",
+    "Travel Insurance",
+    "Additional cost due to flight cancellation, roadblocks, political unrest",
+    "Driver and Guide tips",
+    "Air/train fare unless specified",
+    "GST (5% on tour cost)"
+  ],
+  "notes": [
+    "Taj Mahal is closed every Friday",
+    "Tailor-made tours available on request",
+    "Prices are per person on twin sharing basis"
+  ],
+  "variants": [
+    {
+      "label": "9N/10D",
+      "nights": 9,
+      "days": 10,
+      "duration_text": "9N/10D",
+      "old_html_file": "Rajasthan-Tour-with-Khajuraho-and-Varanasi-for-10-Days.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Delhi: Arrival at Delhi Airport company representatives assist you and transfer ",
+          "description": "Delhi: Arrival at Delhi Airport company representatives assist you and transfer to the hotel after refresh proceed a guided tour to visit Red fort, Jama masjid, India gate, President house, Lotus temple, overnight stay at the hotel."
+        },
+        {
+          "day": 2,
+          "title": "Delhi to Jaipur ( 260 Kms",
+          "description": "Delhi to Jaipur ( 260 Kms. 6 Hrs. approx.): After breakfast proceed to Pink city Jaipur. Rest of the day at leisure."
+        },
+        {
+          "day": 3,
+          "title": "Today after breakfast, a guided tour to visit Amer Fort, Jal Mahal ( water palac",
+          "description": "Today after breakfast, a guided tour to visit Amer Fort, Jal Mahal ( water palace), Hawa Mahal (Window Palace), City Place and Observatory(Jantar Mantar). Rest of the day at leisure."
+        },
+        {
+          "day": 4,
+          "title": "Jaipur to Agra (260 Kms",
+          "description": "Jaipur to Agra (260 Kms. 6 Hrs. approx.): VIA Fatehpur Sikri, Today after breakfast proceed to Agra and stop for visiting  Fatehpur Sikri. Rest of the day at leisure."
+        },
+        {
+          "day": 5,
+          "title": "Today after breakfast, a guided tour to visit The Taj Mahal, Agra Fort",
+          "description": "Today after breakfast, a guided tour to visit The Taj Mahal, Agra Fort. Rest of the day at leisure ."
+        },
+        {
+          "day": 6,
+          "title": "Agra  – Khajuraho (410 Kms",
+          "description": "Agra  – Khajuraho (410 Kms. 6/7 Hrs. approx.): Today after breakfast proceed to Khajuraho En-Route to visit Orchha (Temple Town ). Rest of the day at leisure."
+        },
+        {
+          "day": 7,
+          "title": "Today after breakfast, proceed to sightseeing and visit Western Temples and Jain",
+          "description": "Today after breakfast, proceed to sightseeing and visit Western Temples and Jain Temples. Rest of the day at leisure."
+        },
+        {
+          "day": 8,
+          "title": "Khajuraho – Varanasi (400 Kms",
+          "description": "Khajuraho – Varanasi (400 Kms. 8/9 Hrs. approx.), Today after breakfast proceed to Varanasi. Rest of the day at leisure."
+        },
+        {
+          "day": 9,
+          "title": "Today early morning boat ride excursion on the holly river Ganges to see the fam",
+          "description": "Today early morning boat ride excursion on the holly river Ganges to see the famous bathing Ghats and cremation site, back to hotel and after breakfast, a guided tour to visit Vishweshwar temple, Bharat Mata Temple and Sarnath  & Rest of the day at leisure."
+        },
+        {
+          "day": 10,
+          "title": "Today after breakfast in the morning, proceed to drop you at  Varanasi Airport/R",
+          "description": "Today after breakfast in the morning, proceed to drop you at  Varanasi Airport/Railway station to board a flight for your onward journey.\nPlease note: Taj Mahal Close on Every Friday\nPlease note: We can arrange tailor-made tours\nInclusions\nAccommodation\nWelcome Drink Non Alcoholic.\nBreakfast\nAll Transfers, All sightseeing as per Tour Itinerary\nAll long distance Travels\nToll Taxes, Parkings, Fuel, State taxes\nComfortable vehicle with experienced driver\nCity tour guide English guide: Delhi, Agra, "
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "domestic-tour-packages",
+    "north-india-tour-packages",
+    "rajasthan-tour-packages",
+    "delhi",
+    "jaipur",
+    "jodhpur",
+    "jaisalmer",
+    "khajuraho",
+    "varanasi"
+  ],
+  "seo": {
+    "title": "Rajasthan Tour with Khajuraho & Varanasi | Mother India Tour Travels",
+    "description": "Book Rajasthan Tour with Khajuraho & Varanasi with Mother India Tour Travels. Best deals on Delhi, Jaipur, Jodhpur, Jaisalmer, Khajuraho, Varanasi tour packages. Includes hotels, transport & guide.",
+    "keywords": [
+      "Rajasthan Tour with Khajuraho & Varanasi",
+      "Delhi",
+      "Jaipur",
+      "Jodhpur",
+      "Jaisalmer",
+      "Khajuraho",
+      "Varanasi",
+      "tour package",
+      "India travel",
+      "Mother India Tour"
+    ]
+  }
+}

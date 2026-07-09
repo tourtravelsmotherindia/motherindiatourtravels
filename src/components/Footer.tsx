@@ -7,10 +7,51 @@ import { usePathname } from "next/navigation";
 import type React from "react";
 import { useState } from "react";
 
-import companyData from "@/data/company.json";
+interface FooterCompanyData {
+  name: string;
+  tagline: string;
+  website: string;
+  phone: string[];
+  email: string;
+  address: string;
+  working_hours: {
+    timezone: string;
+    schedule: Array<{
+      days: string[];
+      hours: Array<{ open: string; close: string }>;
+    }>;
+    exceptions: unknown[];
+  };
+  social_media: Record<string, string>;
+  certifications: string[];
+  about: string;
+  whatsapp_number: string;
+  google_analytics: string;
+  google_tag_manager: string;
+}
 
-export default function Footer() {
+export default function Footer({
+  companyData: rawCompanyData,
+}: {
+  companyData?: FooterCompanyData | null;
+}) {
   const pathname = usePathname();
+  // Provide fallback empty object so destructuring doesn't crash
+  const companyData = rawCompanyData || {
+    name: "",
+    tagline: "",
+    website: "",
+    phone: [],
+    email: "",
+    address: "",
+    working_hours: { timezone: "", schedule: [], exceptions: [] },
+    social_media: {} as Record<string, string>,
+    certifications: [],
+    about: "",
+    whatsapp_number: "",
+    google_analytics: "",
+    google_tag_manager: "",
+  };
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
 
@@ -328,7 +369,10 @@ export default function Footer() {
 
         {/* Footer Copyright */}
         <div className="pt-8 border-t border-neutral-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs font-medium text-neutral-400 text-center sm:text-left" suppressHydrationWarning>
+          <p
+            className="text-xs font-medium text-neutral-400 text-center sm:text-left"
+            suppressHydrationWarning
+          >
             © {new Date().getFullYear()} {companyData.name}. All rights reserved.
           </p>
         </div>

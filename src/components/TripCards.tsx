@@ -6,8 +6,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-import packagesData from "@/data/packages-index.json";
-
 interface PackageItem {
   id: string;
   slug: string;
@@ -20,12 +18,16 @@ interface PackageItem {
   min_days: number;
 }
 
-export default function TripCards() {
+interface PackagesData {
+  packages: PackageItem[];
+}
+
+export default function TripCards({ packagesData }: { packagesData?: PackagesData }) {
   const [isDomestic, setIsDomestic] = useState(true);
   const [favorites, setFavorites] = useState<string[]>([]);
 
   // Cast packages index data
-  const allPackages = (packagesData.packages || []) as PackageItem[];
+  const allPackages = (packagesData?.packages || []) as PackageItem[];
 
   // Filter packages: show popular only
   const popularPackages = allPackages.filter((pkg) => pkg.is_popular);

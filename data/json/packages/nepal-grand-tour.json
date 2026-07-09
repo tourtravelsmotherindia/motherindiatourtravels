@@ -1,0 +1,119 @@
+{
+  "id": "nepal-grand-tour",
+  "slug": "nepal-grand-tour",
+  "name": "Nepal Grand Tour",
+  "is_popular": false,
+  "destinations": ["Kathmandu", "Pokhara", "Chitwan", "Lumbini"],
+  "destination_ids": ["kathmandu", "pokhara", "chitwan", "lumbini"],
+  "primary_destination": "Kathmandu",
+  "category_ids": ["international-tour-packages"],
+  "state_id": null,
+  "country_id": "nepal",
+  "is_domestic": false,
+  "hero_image": "",
+  "overview": "Explore the best of Kathmandu, Pokhara, Chitwan, Lumbini with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
+  "highlights": ["Visit Kathmandu", "Visit Pokhara", "Visit Chitwan", "Visit Lumbini"],
+  "inclusions": [
+    "Accommodation in listed or similar hotels",
+    "Welcome Drink (Non-Alcoholic)",
+    "Meals as per itinerary (Breakfast & Dinner)",
+    "All transfers and sightseeing by private AC vehicle",
+    "All long distance travel as per itinerary",
+    "Chauffeur, Toll Taxes, Parking, Fuel charges",
+    "State Taxes, Green Taxes, Road Taxes",
+    "Comfortable AC vehicles",
+    "Licensed Tour Guide Services"
+  ],
+  "exclusions": [
+    "Meals other than those specified",
+    "Personal expenses (porterage, tips, laundry, mineral water)",
+    "Monument entrance fees and camera charges",
+    "Any activity not mentioned in inclusions",
+    "Travel Insurance",
+    "Additional cost due to flight cancellation, roadblocks, political unrest",
+    "Driver and Guide tips",
+    "Air/train fare unless specified",
+    "GST (5% on tour cost)"
+  ],
+  "notes": [
+    "Taj Mahal is closed every Friday",
+    "Tailor-made tours available on request",
+    "Prices are per person on twin sharing basis"
+  ],
+  "variants": [
+    {
+      "label": "9N/10D",
+      "nights": 9,
+      "days": 10,
+      "duration_text": "9N/10D",
+      "old_html_file": "nepal-tour-package-nine-nights-ten-days.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrival at TIA airport Kathmandu, Received and transfer to Hotel, short briefing",
+          "description": "Arrival at TIA airport Kathmandu, Received and transfer to Hotel, short briefing about the program, O/N at Hotel."
+        },
+        {
+          "day": 2,
+          "title": "A full day guided sightseeing tour in Kathmandu, including Durbar Square, Swyamb",
+          "description": "A full day guided sightseeing tour in Kathmandu, including Durbar Square, Swyambhu Nath, Bouddha Nath and Pashupati Nath, O/N at Hotel."
+        },
+        {
+          "day": 3,
+          "title": "Half day guided sightseeing tour to fine art city of Patan and surrounding area,",
+          "description": "Half day guided sightseeing tour to fine art city of Patan and surrounding area, O/N at Hotel."
+        },
+        {
+          "day": 4,
+          "title": "Early morning drive to Chitwan Safari park by tourist coach, arrival transfer to",
+          "description": "Early morning drive to Chitwan Safari park by tourist coach, arrival transfer to Resort, and Tharu village walk, O/N at Resort."
+        },
+        {
+          "day": 5,
+          "title": "Full day Jungle activities in and out side of the national park like, Elephant b",
+          "description": "Full day Jungle activities in and out side of the national park like, Elephant back safari, canoeing, visit elephant breeding center with a nature guide and Tharu cultural show in the evening, O/N Resort."
+        },
+        {
+          "day": 6,
+          "title": "Wake up breakfast and drive to next panoramic destination Pokhara, arrival and t",
+          "description": "Wake up breakfast and drive to next panoramic destination Pokhara, arrival and transfer to Hotel, rest of the time free personal activities, O/N at Hotel."
+        },
+        {
+          "day": 7,
+          "title": "AM: transfer to Sarangkot a hilltop station best for Annapurna range of Himalaya",
+          "description": "AM: transfer to Sarangkot a hilltop station best for Annapurna range of Himalayan view and Sunrise.\n                    PM: visit Bindya Bashini temple and Mahendra cave O/N Hotel."
+        },
+        {
+          "day": 8,
+          "title": "Half day trip to David fall and Peace stupa and boating on Phewa Lake, O/N at Ho",
+          "description": "Half day trip to David fall and Peace stupa and boating on Phewa Lake, O/N at Hotel."
+        },
+        {
+          "day": 9,
+          "title": "Early morning drive back to Kathmandu, arrival and transfer to Hotel, rest of ti",
+          "description": "Early morning drive back to Kathmandu, arrival and transfer to Hotel, rest of time free for shopping, traditional Nepali dinner with cultural show in the evening, O/N Hotel."
+        },
+        {
+          "day": 10,
+          "title": "Everest Mountain flight (optional) in the morning, transfer to Airport for your ",
+          "description": "Everest Mountain flight (optional) in the morning, transfer to Airport for your final departure or join our next program.\nPlease note: We can arrange tailor-made tours\nInclusions\nAccommodation\nWelcome Drink Non Alcoholic\nBreakfast & Dinner\nAll Transfers, All sightseeing as per Tour Itinerary\nAll long distance Travels\nDriver Allowance, Toll Taxes, Parkings, Fuel\nState Taxes, Green Taxes, Road Taxes\nComfortable vehicles AC\nAC NOT OPERATE ON HILLY AREA\nChauffeur\nGuide Service\nExclusions\nMeals other"
+        }
+      ]
+    }
+  ],
+  "tags": ["international-tour-packages", "kathmandu", "pokhara", "chitwan", "lumbini"],
+  "seo": {
+    "title": "Nepal Grand Tour | Mother India Tour Travels",
+    "description": "Book Nepal Grand Tour with Mother India Tour Travels. Best deals on Kathmandu, Pokhara, Chitwan, Lumbini tour packages. Includes hotels, transport & guide.",
+    "keywords": [
+      "Nepal Grand Tour",
+      "Kathmandu",
+      "Pokhara",
+      "Chitwan",
+      "Lumbini",
+      "tour package",
+      "India travel",
+      "Mother India Tour"
+    ]
+  }
+}

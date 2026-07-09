@@ -1,0 +1,98 @@
+{
+  "id": "corbett-national-park-tour",
+  "slug": "corbett-national-park-tour",
+  "name": "Jim Corbett National Park Tour",
+  "is_popular": false,
+  "destinations": ["Delhi", "Corbett"],
+  "destination_ids": ["delhi", "corbett"],
+  "primary_destination": "Delhi",
+  "category_ids": ["domestic-tour-packages", "north-india-tour-packages", "wildlife-tour-packages"],
+  "state_id": "uttarakhand",
+  "country_id": "india",
+  "is_domestic": true,
+  "hero_image": "",
+  "overview": "Explore the best of Delhi, Corbett with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
+  "highlights": ["Visit Delhi", "Visit Corbett"],
+  "inclusions": [
+    "Accommodation in listed or similar hotels",
+    "Welcome Drink (Non-Alcoholic)",
+    "Meals as per itinerary (Breakfast & Dinner)",
+    "All transfers and sightseeing by private AC vehicle",
+    "All long distance travel as per itinerary",
+    "Chauffeur, Toll Taxes, Parking, Fuel charges",
+    "State Taxes, Green Taxes, Road Taxes",
+    "Comfortable AC vehicles",
+    "Licensed Tour Guide Services"
+  ],
+  "exclusions": [
+    "Meals other than those specified",
+    "Personal expenses (porterage, tips, laundry, mineral water)",
+    "Monument entrance fees and camera charges",
+    "Any activity not mentioned in inclusions",
+    "Travel Insurance",
+    "Additional cost due to flight cancellation, roadblocks, political unrest",
+    "Driver and Guide tips",
+    "Air/train fare unless specified",
+    "GST (5% on tour cost)"
+  ],
+  "notes": [
+    "Taj Mahal is closed every Friday",
+    "Tailor-made tours available on request",
+    "Prices are per person on twin sharing basis"
+  ],
+  "variants": [
+    {
+      "label": "4N/5D",
+      "nights": 4,
+      "days": 5,
+      "duration_text": "4N/5D",
+      "old_html_file": "Delhi-Corbett-National-Tiger-Century-04-Nights-05-Days-Tour.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Delhi: Arrival transfer at Delhi airport/railway station & proceed to hotel",
+          "description": "Delhi: Arrival transfer at Delhi airport/railway station & proceed to hotel. Rest of the day at leisure."
+        },
+        {
+          "day": 2,
+          "title": "Delhi sightseeing: After breakfast sightseeing Old and New Delhi",
+          "description": "Delhi sightseeing: After breakfast sightseeing Old and New Delhi . Rest of the day at leisure."
+        },
+        {
+          "day": 3,
+          "title": "Delhi to Corbett (250 Kms",
+          "description": "Delhi to Corbett (250 Kms. 6 Hrs.); After breakfast proceed to Corbett National Park. Rest of the day at leisure."
+        },
+        {
+          "day": 4,
+          "title": "Corbett : Tiger safari tour (Own Arrangement) & back to hotel after proceed loca",
+          "description": "Corbett : Tiger safari tour (Own Arrangement) & back to hotel after proceed local sightseeing . Rest of the day at leisure."
+        },
+        {
+          "day": 5,
+          "title": "Corbett to Delhi (250 Kms",
+          "description": "Corbett to Delhi (250 Kms. 6 Hrs.): After breakfast proceed to Delhi and drop you at the Airport/Railway Station.\nHoneymoon Tour available on demand\nInclusions\nAccommodation\nWelcome Drink Non Alcoholic.\nBreakfast & Dinner\nAll Transfers, All sightseeing as per Tour Itinerary\nAll long distance Travels\nToll Taxes, Parkings, Fuel\nState Taxes, Green Taxes, Road Taxes\nComfortable vehicles AC\nAC NOT OPERATE ON HILLY AREA\nChauffeur\nExclusions\nMeals other than those specified above\nPersonal expenses like"
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "domestic-tour-packages",
+    "north-india-tour-packages",
+    "wildlife-tour-packages",
+    "delhi",
+    "corbett"
+  ],
+  "seo": {
+    "title": "Jim Corbett National Park Tour | Mother India Tour Travels",
+    "description": "Book Jim Corbett National Park Tour with Mother India Tour Travels. Best deals on Delhi, Corbett tour packages. Includes hotels, transport & guide.",
+    "keywords": [
+      "Jim Corbett National Park Tour",
+      "Delhi",
+      "Corbett",
+      "tour package",
+      "India travel",
+      "Mother India Tour"
+    ]
+  }
+}

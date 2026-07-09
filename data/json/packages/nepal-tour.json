@@ -1,0 +1,150 @@
+{
+  "id": "nepal-tour",
+  "slug": "nepal-tour",
+  "name": "Nepal Tour",
+  "is_popular": true,
+  "destinations": ["Kathmandu", "Pokhara"],
+  "destination_ids": ["kathmandu", "pokhara"],
+  "primary_destination": "Kathmandu",
+  "category_ids": ["international-tour-packages"],
+  "state_id": null,
+  "country_id": "nepal",
+  "is_domestic": false,
+  "hero_image": "",
+  "overview": "Explore the best of Kathmandu, Pokhara with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
+  "highlights": ["Visit Kathmandu", "Visit Pokhara"],
+  "inclusions": [
+    "Accommodation in listed or similar hotels",
+    "Welcome Drink (Non-Alcoholic)",
+    "Meals as per itinerary (Breakfast & Dinner)",
+    "All transfers and sightseeing by private AC vehicle",
+    "All long distance travel as per itinerary",
+    "Chauffeur, Toll Taxes, Parking, Fuel charges",
+    "State Taxes, Green Taxes, Road Taxes",
+    "Comfortable AC vehicles",
+    "Licensed Tour Guide Services"
+  ],
+  "exclusions": [
+    "Meals other than those specified",
+    "Personal expenses (porterage, tips, laundry, mineral water)",
+    "Monument entrance fees and camera charges",
+    "Any activity not mentioned in inclusions",
+    "Travel Insurance",
+    "Additional cost due to flight cancellation, roadblocks, political unrest",
+    "Driver and Guide tips",
+    "Air/train fare unless specified",
+    "GST (5% on tour cost)"
+  ],
+  "notes": [
+    "Taj Mahal is closed every Friday",
+    "Tailor-made tours available on request",
+    "Prices are per person on twin sharing basis"
+  ],
+  "variants": [
+    {
+      "label": "3N/4D",
+      "nights": 3,
+      "days": 4,
+      "duration_text": "3N/4D",
+      "old_html_file": "Nepal-Tour-Package-for-04-Days.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrival in Kathmandu: \nUpon arrival at Tribhuvan International Airport, you will",
+          "description": "Arrival in Kathmandu: \nUpon arrival at Tribhuvan International Airport, you will receive a warm welcome and be\ntransferred to your hotel in Kathmandu. After check-in, take some time to relax. In the\nIn the evening, explore the vibrant streets of Thamel at your leisure. Overnight stay in Kathmandu."
+        },
+        {
+          "day": 2,
+          "title": "Kathmandu Sightseeing\nImmerse yourself in Kathmandu’s rich cultural heritage wit",
+          "description": "Kathmandu Sightseeing\nImmerse yourself in Kathmandu’s rich cultural heritage with a full-day sightseeing tour. Start\nyour day with visits to Pashupatinath Temple and Guheshwori Temple. Continue to\nBoudhanath Stupa, one of the largest stupas in the world. In the afternoon, explore\nSwayambhunath Stupa, also known as the Monkey Temple, before concluding the day at\nKathmandu Durbar Square, a historic palace complex showcasing traditional Nepalese\narchitecture. Overnight stay in Kathmandu."
+        },
+        {
+          "day": 3,
+          "title": "Nagarkot – Bhaktapur – Kathmandu\nEarly Morning: Drive to Nagarkot, a hill statio",
+          "description": "Nagarkot – Bhaktapur – Kathmandu\nEarly Morning: Drive to Nagarkot, a hill station known for its breathtaking sunrise views\nover the Himalayas. On a clear day, you may even see Mount Everest.\nMorning: After breakfast, travel to Bhaktapur, an ancient city rich in history, culture, and\ntraditional Newari heritage.\nMidday: Explore Bhaktapur Durbar Square, a UNESCO-listed heritage site renowned for its\nintricate architecture. Visit Nyatapola Temple, Bhairavnath Temple, and other historic\nlandmarks ad"
+        },
+        {
+          "day": 4,
+          "title": "Departure from Kathmandu\nAfter breakfast at your hotel, you will be transferred ",
+          "description": "Departure from Kathmandu\nAfter breakfast at your hotel, you will be transferred to Tribhuvan International Airport for\nyour departure, carrying unforgettable memories of Nepal’s stunning landscapes, spiritual\nlandmarks, and vibrant culture.\nPlease note: We can arrange tailor-made tours\nInclusions\nAccommodation\nWelcome Drink Non Alcoholic\nBreakfast & Dinner\nAll Transfers, All sightseeing as per Tour Itinerary\nAll long distance Travels\nDriver Allowance, Toll Taxes, Parkings, Fuel\nState Taxes, Gree"
+        }
+      ]
+    },
+    {
+      "label": "3N/4D",
+      "nights": 3,
+      "days": 4,
+      "duration_text": "3N/4D",
+      "old_html_file": "nepal-tour-package-three-nights-four-days.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Drive to trailhead Bijaypur and trek to Kalikasthan (1370m)",
+          "description": "Drive to trailhead Bijaypur and trek to Kalikasthan (1370m)"
+        },
+        {
+          "day": 2,
+          "title": "Kalikasthan to Shaklung (1730m)",
+          "description": "Kalikasthan to Shaklung (1730m)"
+        },
+        {
+          "day": 3,
+          "title": "Shaklung to Chisopani",
+          "description": "Shaklung to Chisopani"
+        },
+        {
+          "day": 4,
+          "title": "Chisopani to Begnas Lake & drive back to Pokhara\nPlease note: We can arrange tai",
+          "description": "Chisopani to Begnas Lake & drive back to Pokhara\nPlease note: We can arrange tailor-made tours\nInclusions\nAccommodation\nWelcome Drink Non Alcoholic\nBreakfast & Dinner\nAll Transfers, All sightseeing as per Tour Itinerary\nAll long distance Travels\nDriver Allowance, Toll Taxes, Parkings, Fuel\nState Taxes, Green Taxes, Road Taxes\nComfortable vehicles AC\nAC NOT OPERATE ON HILLY AREA\nChauffeur\nGuide Service\nExclusions\nMeals other than those specified above\nPersonal expenses like portages, tips, laundr"
+        }
+      ]
+    },
+    {
+      "label": "4N/5D",
+      "nights": 4,
+      "days": 5,
+      "duration_text": "4N/5D",
+      "old_html_file": "nepal-tour-package-four-nights-five-days.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrival at TIA airport Kathmandu, Received and transfer to Hotel, short briefing",
+          "description": "Arrival at TIA airport Kathmandu, Received and transfer to Hotel, short briefing about the program, O/N at Hotel."
+        },
+        {
+          "day": 2,
+          "title": "AM: wake up, Breakfast and drive to Kathmandu Durbar square and Swyambhunath stu",
+          "description": "AM: wake up, Breakfast and drive to Kathmandu Durbar square and Swyambhunath stupa for half day guided sightseeing tour, PM: visiting Bouddhanath and Pashupatinath temple, O/N Hotel"
+        },
+        {
+          "day": 3,
+          "title": "Transfer to Nagarkot for Himalayan panorama tour, visit historical Newari town B",
+          "description": "Transfer to Nagarkot for Himalayan panorama tour, visit historical Newari town Bhaktapur on the way, which is as typical as early days O/N Resort."
+        },
+        {
+          "day": 4,
+          "title": "After the magnificent trip to Nagarkot, drive back to Kathmandu, rest of the day",
+          "description": "After the magnificent trip to Nagarkot, drive back to Kathmandu, rest of the day free for shopping and personal activities, O/N Hotel."
+        },
+        {
+          "day": 5,
+          "title": "Everest Mountain flight (optional) in the morning and transfer to airport for yo",
+          "description": "Everest Mountain flight (optional) in the morning and transfer to airport for your final departure or join our other program.\nPlease note: We can arrange tailor-made tours\nInclusions\nAccommodation\nWelcome Drink Non Alcoholic\nBreakfast & Dinner\nAll Transfers, All sightseeing as per Tour Itinerary\nAll long distance Travels\nDriver Allowance, Toll Taxes, Parkings, Fuel\nState Taxes, Green Taxes, Road Taxes\nComfortable vehicles AC\nAC NOT OPERATE ON HILLY AREA\nChauffeur\nGuide Service\nExclusions\nMeals o"
+        }
+      ]
+    }
+  ],
+  "tags": ["international-tour-packages", "kathmandu", "pokhara"],
+  "seo": {
+    "title": "Nepal Tour | Mother India Tour Travels",
+    "description": "Book Nepal Tour with Mother India Tour Travels. Best deals on Kathmandu, Pokhara tour packages. Includes hotels, transport & guide.",
+    "keywords": [
+      "Nepal Tour",
+      "Kathmandu",
+      "Pokhara",
+      "tour package",
+      "India travel",
+      "Mother India Tour"
+    ]
+  }
+}

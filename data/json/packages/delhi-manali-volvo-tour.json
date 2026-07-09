@@ -1,0 +1,98 @@
+{
+  "id": "delhi-manali-volvo-tour",
+  "slug": "delhi-manali-volvo-tour",
+  "name": "Delhi Manali Tour by Volvo",
+  "is_popular": false,
+  "destinations": ["Delhi", "Manali"],
+  "destination_ids": ["delhi", "manali"],
+  "primary_destination": "Delhi",
+  "category_ids": ["domestic-tour-packages", "north-india-tour-packages", "budget-tour-packages"],
+  "state_id": "himachal-pradesh",
+  "country_id": "india",
+  "is_domestic": true,
+  "hero_image": "",
+  "overview": "Explore the best of Delhi, Manali with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
+  "highlights": ["Visit Delhi", "Visit Manali"],
+  "inclusions": [
+    "Accommodation in listed or similar hotels",
+    "Welcome Drink (Non-Alcoholic)",
+    "Meals as per itinerary (Breakfast & Dinner)",
+    "All transfers and sightseeing by private AC vehicle",
+    "All long distance travel as per itinerary",
+    "Chauffeur, Toll Taxes, Parking, Fuel charges",
+    "State Taxes, Green Taxes, Road Taxes",
+    "Comfortable AC vehicles",
+    "Licensed Tour Guide Services"
+  ],
+  "exclusions": [
+    "Meals other than those specified",
+    "Personal expenses (porterage, tips, laundry, mineral water)",
+    "Monument entrance fees and camera charges",
+    "Any activity not mentioned in inclusions",
+    "Travel Insurance",
+    "Additional cost due to flight cancellation, roadblocks, political unrest",
+    "Driver and Guide tips",
+    "Air/train fare unless specified",
+    "GST (5% on tour cost)"
+  ],
+  "notes": [
+    "Taj Mahal is closed every Friday",
+    "Tailor-made tours available on request",
+    "Prices are per person on twin sharing basis"
+  ],
+  "variants": [
+    {
+      "label": "Main",
+      "nights": 4,
+      "days": 5,
+      "duration_text": "4N/5D",
+      "old_html_file": "Volvo Tour Packages Delhi Manali Delhi .html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": ": Delhi to Manali  by A/C Volvo Bus, Overnight journey",
+          "description": ": Delhi to Manali  by A/C Volvo Bus, Overnight journey"
+        },
+        {
+          "day": 2,
+          "title": ": Pick up from Manali Bus stand & proceed to hotel after refreshments proceed to",
+          "description": ": Pick up from Manali Bus stand & proceed to hotel after refreshments proceed to a half day city tour visiting Hadimba Temple, Manu Temple, Vashisht Temple and Tibetan Monastery.  Overnight stay at the hotel."
+        },
+        {
+          "day": 3,
+          "title": ": Solang Valley day trip:  After breakfast go for a full day excursion to Solang",
+          "description": ": Solang Valley day trip:  After breakfast go for a full day excursion to Solang valley visit Solang Valley with its rolling meadows, ski slopes and paragliding activities ( Own cost), Overnight stay at the hotel. * Optional Tour with extra paid: Atul tunel, Sissu, Rohtang pas"
+        },
+        {
+          "day": 4,
+          "title": ": Kullu – Manikaran day trip: After early breakfast, a full day excursion visiti",
+          "description": ": Kullu – Manikaran day trip: After early breakfast, a full day excursion visiting Manikaran ( Hot water springs) en-route Kas0l and Kullu – Shamshi (A Famous industry for Kullu Shawl), boat ride (own cost). Overnight stay at the hotel."
+        },
+        {
+          "day": 5,
+          "title": "Return to Delhi by A/C Volvo Bus: Check out from hotel and overnight journey to ",
+          "description": "Return to Delhi by A/C Volvo Bus: Check out from hotel and overnight journey to Delhi by AC deluxe Volvo.\nPlease note: We can arrange tailor-made tours\n(Honeymoon Tour available on demand)\nInclusions\nAccommodation\nWelcome Drink Non Alcoholic.\nBreakfast & Dinner\nAll Transfers, All sightseeing as per Tour Itinerary\nAll long distance Travels\nToll Taxes, Parkings, Fuel\nState Taxes, Green Taxes, Road Taxes\nVolvo tickets up & down Local transport in Manali\nExclusions\nMeals other than those specified a"
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "domestic-tour-packages",
+    "north-india-tour-packages",
+    "budget-tour-packages",
+    "delhi",
+    "manali"
+  ],
+  "seo": {
+    "title": "Delhi Manali Tour by Volvo | Mother India Tour Travels",
+    "description": "Book Delhi Manali Tour by Volvo with Mother India Tour Travels. Best deals on Delhi, Manali tour packages. Includes hotels, transport & guide.",
+    "keywords": [
+      "Delhi Manali Tour by Volvo",
+      "Delhi",
+      "Manali",
+      "tour package",
+      "India travel",
+      "Mother India Tour"
+    ]
+  }
+}

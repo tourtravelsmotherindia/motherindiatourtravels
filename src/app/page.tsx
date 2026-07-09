@@ -9,45 +9,45 @@ import RegionsGrid from "@/components/RegionsGrid";
 import TestimonialsSection from "@/components/TravelerMoments";
 import TripCards from "@/components/TripCards";
 import WhyChooseUs from "@/components/WhyChooseUs";
+import { getCompanyData } from "@/lib/db/repositories/companyRepo";
+import { getDestinations } from "@/lib/db/repositories/destinationRepo";
+import { getFAQData } from "@/lib/db/repositories/faqRepo";
+import { getHeroSlides } from "@/lib/db/repositories/heroRepo";
+import { getPackagesIndex } from "@/lib/db/repositories/packageRepo";
 
-export default function Home() {
+export default async function Home() {
+  // Fetch all data server-side from SQLite
+  const [heroData, packagesData, faqData, companyData, destinationsData] = await Promise.all([
+    getHeroSlides(),
+    getPackagesIndex(),
+    getFAQData(),
+    getCompanyData(),
+    getDestinations(),
+  ]);
+
+  const destinationsWrapped = { destinations: destinationsData, total: destinationsData.length };
+  const packagesWrapped = { total: packagesData.total, packages: packagesData.packages };
+
   return (
     <div className="relative min-h-screen bg-white flex flex-col pt-24">
-      {/* Navigation Header */}
       <Navbar />
 
-      {/* Main Layout Content */}
       <main className="flex-1">
-        {/* Hero Banner and Search Bar */}
-        <Hero />
-
-        {/* Why Choose Us trust section */}
+        <Hero heroData={heroData} packagesData={packagesWrapped} />
         <WhyChooseUs />
-
-        {/* Selected Trip Cards / Packages */}
-        <TripCards />
-
-        {/* Popular Destinations Slider */}
-        <PopularDestinations />
-
-        {/* Gallery */}
+        <TripCards packagesData={packagesWrapped} />
+        <PopularDestinations
+          destinationsData={destinationsWrapped}
+          packagesData={packagesWrapped}
+        />
         <Gallery />
-
-        {/* Traveler Moments / Testimonials */}
         <TestimonialsSection />
-
-        {/* Search Top Airlines Grid */}
         <PartnerAirlines />
-
-        {/* Destinations By Sub-Continent Regions */}
         <RegionsGrid />
-
-        {/* FAQ Section */}
-        <FAQ />
+        <FAQ faqData={faqData} companyData={companyData} />
       </main>
 
-      {/* Footer Branding & Links */}
-      <Footer />
+      <Footer companyData={companyData} />
     </div>
   );
 }

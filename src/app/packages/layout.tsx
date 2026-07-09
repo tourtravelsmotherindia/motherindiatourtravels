@@ -6,10 +6,6 @@ export const metadata: Metadata = {
     "Explore our wide range of domestic and international tour packages. Custom itineraries for Kerala, Kashmir, Rajasthan, Goa, Andaman, Dubai, and more.",
 };
 
-export default function PackagesLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function PackagesLayout({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }

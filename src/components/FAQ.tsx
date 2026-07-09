@@ -5,23 +5,38 @@ import { ArrowDown } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
-import companyData from "@/data/company.json";
-import faqData from "@/data/faq.json";
-
 interface FAQItem {
   question: string;
   answer: string;
 }
 
-export default function FAQ() {
+interface FAQData {
+  tagline: string;
+  faqs: FAQItem[];
+}
+
+interface CompanyData {
+  phone: string[];
+  email: string;
+}
+
+export default function FAQ({
+  faqData,
+  companyData,
+}: {
+  faqData?: FAQData;
+  companyData?: CompanyData | null;
+}) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
-  const faqs: FAQItem[] = faqData.faqs.map((faq) => ({
+  const faqs: FAQItem[] = (faqData?.faqs || []).map((faq) => ({
     question: faq.question,
     answer: faq.answer
-      .replace("{phone}", companyData.phone[0])
-      .replace("{email}", companyData.email),
+      .replace("{phone}", companyData?.phone?.[0] || "")
+      .replace("{email}", companyData?.email || ""),
   }));
+
+  const tagline = faqData?.tagline || "";
 
   const toggleAccordion = (index: number) => {
     setActiveIndex(activeIndex === index ? null : index);
@@ -35,7 +50,7 @@ export default function FAQ() {
         <div className="lg:col-span-2 text-left">
           <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">FAQ</div>
           <h2 className="text-3xl md:text-5xl font-extrabold text-foreground tracking-tight leading-[1.1] max-w-2xl">
-            {faqData.tagline}
+            {tagline}
           </h2>
         </div>
         {/* Right/Muted Text Column */}

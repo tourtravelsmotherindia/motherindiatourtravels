@@ -1,0 +1,111 @@
+{
+  "id": "golden-triangle-tour-mathura",
+  "slug": "golden-triangle-tour-mathura",
+  "name": "Golden Triangle Tour with Mathura",
+  "is_popular": false,
+  "destinations": ["Delhi", "Agra", "Jaipur", "Mathura"],
+  "destination_ids": ["delhi", "agra", "jaipur", "mathura"],
+  "primary_destination": "Delhi",
+  "category_ids": [
+    "domestic-tour-packages",
+    "north-india-tour-packages",
+    "spiritual-tour-packages"
+  ],
+  "state_id": "uttar-pradesh",
+  "country_id": "india",
+  "is_domestic": true,
+  "hero_image": "",
+  "overview": "Explore the best of Delhi, Agra, Jaipur, Mathura with our expertly crafted tour package. Mother India Tour Travels provides comfortable AC vehicles, experienced guides, and hand-picked accommodations to make your journey unforgettable.",
+  "highlights": ["Visit Delhi", "Visit Agra", "Visit Jaipur", "Visit Mathura"],
+  "inclusions": [
+    "Accommodation in listed or similar hotels",
+    "Welcome Drink (Non-Alcoholic)",
+    "Meals as per itinerary (Breakfast & Dinner)",
+    "All transfers and sightseeing by private AC vehicle",
+    "All long distance travel as per itinerary",
+    "Chauffeur, Toll Taxes, Parking, Fuel charges",
+    "State Taxes, Green Taxes, Road Taxes",
+    "Comfortable AC vehicles",
+    "Licensed Tour Guide Services"
+  ],
+  "exclusions": [
+    "Meals other than those specified",
+    "Personal expenses (porterage, tips, laundry, mineral water)",
+    "Monument entrance fees and camera charges",
+    "Any activity not mentioned in inclusions",
+    "Travel Insurance",
+    "Additional cost due to flight cancellation, roadblocks, political unrest",
+    "Driver and Guide tips",
+    "Air/train fare unless specified",
+    "GST (5% on tour cost)"
+  ],
+  "notes": [
+    "Taj Mahal is closed every Friday",
+    "Tailor-made tours available on request",
+    "Prices are per person on twin sharing basis"
+  ],
+  "variants": [
+    {
+      "label": "5N/6D",
+      "nights": 5,
+      "days": 6,
+      "duration_text": "5N/6D",
+      "old_html_file": "Delhi-Agra-Jaipur-with-Mathura-Tour-five-nights-six-days.html",
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrival at Delhi Airport company representative assist you and transfer to the h",
+          "description": "Arrival at Delhi Airport company representative assist you and transfer to the hotel. Overnight stay at the hotel."
+        },
+        {
+          "day": 2,
+          "title": "Delhi sightseeing: Today, after breakfast, we took a guided tour to visit Jama M",
+          "description": "Delhi sightseeing: Today, after breakfast, we took a guided tour to visit Jama Masjid, Red Fort, India Gate, President House, Parliament, Qutub Minar, Lotus Temple, . Overnight stay at the hotel."
+        },
+        {
+          "day": 3,
+          "title": "Delhi to Agra (250 KM",
+          "description": "Delhi to Agra (250 KM. Approx. 3-4 Hrs. approx.): Today after breakfast, proceed to Agra and En-Route visit Krishna Janmabhoomi Temple Mathura & Iskcon Temple, Prem mandir . Overnight stay at the hotel."
+        },
+        {
+          "day": 4,
+          "title": "Agra to Jaipur (260 Kms",
+          "description": "Agra to Jaipur (260 Kms. approx. 6 Hrs.): Today early morning a guided tour to visit Taj Mahal on Sun Rise, and back to the hotel. After breakfast, proceed to visit Agra Fort and drive to Jaipur on the way to visit Fatehpur Sikri . Overnight stay at the hotel."
+        },
+        {
+          "day": 5,
+          "title": "Jaipur Sightseeing; Today after breakfast, a guided to the ancient capital of Am",
+          "description": "Jaipur Sightseeing; Today after breakfast, a guided to the ancient capital of Amber, visiting beautiful Amber Fort, Water Palace, Hawa Mahal (Window Palace), City Place and Observatory (Jantar Mantar) and famous block printing & Rajasthani handicraft work being done for centuries in Jaipur. Overnight stay at the hotel"
+        },
+        {
+          "day": 6,
+          "title": "Jaipur – Delhi (280 KM",
+          "description": "Jaipur – Delhi (280 KM. Approx. 5-6 Hrs.): Today after breakfast, proceed to Delhi and drop you at the Airport/Railway station with sweet memories.\nPlease note: Taj Mahal Closed on every Friday\nPlease note: We can arrange tailor-made tours\nInclusions\nAccommodation\nWelcome Drink Non Alcoholic.\nMeals\nWelcome Drink Non Alcoholic.\nAll Transfers, All sightseeing as per Tour Itinerary\nAll long distance Travels\nToll Taxes, Parkings, Fuel, State Taxes, Road Taxes, Permit\nComfortable vehicles\nGuide Servi"
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "domestic-tour-packages",
+    "north-india-tour-packages",
+    "spiritual-tour-packages",
+    "delhi",
+    "agra",
+    "jaipur",
+    "mathura"
+  ],
+  "seo": {
+    "title": "Golden Triangle Tour with Mathura | Mother India Tour Travels",
+    "description": "Book Golden Triangle Tour with Mathura with Mother India Tour Travels. Best deals on Delhi, Agra, Jaipur, Mathura tour packages. Includes hotels, transport & guide.",
+    "keywords": [
+      "Golden Triangle Tour with Mathura",
+      "Delhi",
+      "Agra",
+      "Jaipur",
+      "Mathura",
+      "tour package",
+      "India travel",
+      "Mother India Tour"
+    ]
+  }
+}
