@@ -7,11 +7,20 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import Dropdown from "@/components/Dropdown";
+
 export default function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const [lang] = useState("EN");
+  const [lang, setLang] = useState("EN");
   const [scrolled, setScrolled] = useState(false);
+
+  const languageOptions = [
+    { value: "EN", label: "EN", icon: Globe },
+    { value: "HI", label: "HI", icon: Globe },
+    { value: "ES", label: "ES", icon: Globe },
+    { value: "FR", label: "FR", icon: Globe },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -89,13 +98,15 @@ export default function Navbar() {
 
         {/* Right Side: Language & Mobile Toggle */}
         <div className="flex items-center gap-4">
-          <button
-            type="button"
-            className="flex items-center gap-1.5 px-4 py-2 border border-border-light rounded-full text-foreground hover:bg-brand-light hover:text-brand hover:border-brand/30 transition-all duration-200 text-xs font-semibold"
-          >
-            <Globe className="w-3.5 h-3.5" />
-            <span>{lang}</span>
-          </button>
+          <Dropdown
+            options={languageOptions}
+            value={lang}
+            onChange={(val) => setLang(val)}
+            align="right"
+            triggerClassName="px-4 py-2 border border-border-light rounded-full text-foreground hover:bg-brand-light hover:text-brand hover:border-brand/30 transition-all duration-200 text-xs font-semibold w-auto shadow-none bg-transparent"
+            menuClassName="w-28 rounded-2xl p-1"
+            icon={Globe}
+          />
 
           <button
             type="button"
