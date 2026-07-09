@@ -32,6 +32,7 @@ jobs:
   build-and-deploy:
     name: Build static site & upload to cPanel
     runs-on: ubuntu-latest
+    environment: Production
 
     steps:
       - name: Checkout source
