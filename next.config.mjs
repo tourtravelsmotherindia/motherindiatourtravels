@@ -5,13 +5,12 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  outputFileTracingIncludes: {
-    "/**/*": ["./data/travel.db"],
-  },
-  turbopack: {
-    root: __dirname,
-  },
+  // Static export — outputs an out/ folder you can drop into any static file server
+  // (cPanel, Apache, nginx, etc.). Pages are pre-rendered at build time.
+  output: "export",
+  trailingSlash: true,
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
@@ -30,6 +29,8 @@ const nextConfig = {
       },
     ],
   },
+  // Skip server-only features not needed for static export
+  skipTrailingSlashRedirect: true,
 };
 
 export default nextConfig;

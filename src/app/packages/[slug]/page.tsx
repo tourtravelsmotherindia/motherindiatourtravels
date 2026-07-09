@@ -10,6 +10,12 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
+/** Pre-render all package detail pages for static export. */
+export async function generateStaticParams() {
+  const allPackages = await getAllPackages();
+  return allPackages.map((pkg) => ({ slug: pkg.slug }));
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const pkg = await getPackageBySlug(slug);
