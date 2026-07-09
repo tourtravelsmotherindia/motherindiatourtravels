@@ -31,6 +31,7 @@ export default function PopupModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [isCountryOpen, setIsCountryOpen] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [selectedPackage, setSelectedPackage] = useState<string | null>(null);
 
   // Form State
   const [fullName, setFullName] = useState("");
@@ -102,6 +103,23 @@ export default function PopupModal() {
     }, 4000);
 
     return () => clearTimeout(timer);
+  }, []);
+
+  // Handle manual/programmatic triggers to open the modal
+  useEffect(() => {
+    const handleOpen = (e: Event) => {
+      const customEvent = e as CustomEvent<{ packageName?: string }>;
+      if (customEvent.detail && customEvent.detail.packageName) {
+        setSelectedPackage(customEvent.detail.packageName);
+      } else {
+        setSelectedPackage(null);
+      }
+      setIsOpen(true);
+    };
+    window.addEventListener("open-inquiry-modal", handleOpen);
+    return () => {
+      window.removeEventListener("open-inquiry-modal", handleOpen);
+    };
   }, []);
 
   // Handle clicking outside country or calendar dropdowns to close them
@@ -180,6 +198,7 @@ export default function PopupModal() {
 
   const handleClose = () => {
     setIsOpen(false);
+    setSelectedPackage(null);
     sessionStorage.setItem("hasSeenPopup", "true");
   };
 
@@ -200,6 +219,7 @@ export default function PopupModal() {
 
     // Set session storage and close popup
     setIsOpen(false);
+    setSelectedPackage(null);
     sessionStorage.setItem("hasSeenPopup", "true");
   };
 
@@ -251,11 +271,12 @@ export default function PopupModal() {
               {/* Title & Subtitle */}
               <div className="text-center mt-2">
                 <h2 className="font-display text-xl sm:text-2.5xl font-bold text-neutral-900 leading-tight">
-                  Planning a Trip?
+                  {selectedPackage ? `Book ${selectedPackage}` : "Planning a Trip?"}
                 </h2>
                 <p className="font-sans text-neutral-500 text-[11px] sm:text-xs mt-1.5 max-w-[320px] mx-auto leading-relaxed">
-                  Tell us your preferences and we&apos;ll do the rest – it&apos;s fast, free, and
-                  personalized!.
+                  {selectedPackage
+                    ? `Tell us your travel dates and preferences for your custom ${selectedPackage} itinerary!`
+                    : "Tell us your preferences and we'll do the rest – it's fast, free, and personalized!."}
                 </p>
               </div>
 
