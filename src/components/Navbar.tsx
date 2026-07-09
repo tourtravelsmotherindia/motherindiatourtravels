@@ -64,8 +64,8 @@ export default function Navbar() {
       <nav
         className={`rounded-full px-6 transition-all duration-300 flex items-center justify-between border ${
           scrolled
-             ? "bg-white/80 backdrop-blur-md py-2.5 shadow-premium border-border-light/60"
-             : "bg-white py-3.5 shadow-premium border-border-light"
+            ? "bg-white/80 backdrop-blur-md py-2.5 shadow-premium border-border-light/60"
+            : "bg-white py-3.5 shadow-premium border-border-light"
         }`}
       >
         {/* Logo + Brand Name */}

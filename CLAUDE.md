@@ -41,6 +41,7 @@ This is a **single-page landing site** for a tour & travel agency plus a **packa
 The site is **data-driven** — content is stored in a local SQLite database (`data/travel.db`) accessed through Prisma. The original JSON source files live in `data/json/` and are ingested by the seed script (`prisma/seed.ts`).
 
 **Database setup:**
+
 - Database path: `data/travel.db` (WAL mode + FK enforcement, configured in `src/lib/db/prisma.ts`)
 - Prisma client is generated to `src/generated/prisma/` (non-standard output path)
 - WAL mode produces 3 files: `travel.db`, `travel.db-shm`, `travel.db-wal` — all must be present
@@ -48,17 +49,17 @@ The site is **data-driven** — content is stored in a local SQLite database (`d
 
 **Schema** (`prisma/schema.prisma` — 14 models):
 
-| Model | Purpose |
-|---|---|
-| `Country`, `State`, `Destination` | Geographic hierarchy with slugs, featured flags, SEO metadata |
-| `Category` | Trip categories with icons |
-| `Package`, `PackageVariant`, `ItineraryDay` | Tour packages with variants (e.g., 3N/4D, 4N/5D) and day-by-day itineraries |
-| `HeroSlide` | Hero carousel slides (image, tag, title, description) |
-| `FAQ`, `FAQTagline` | FAQ items with sort order + singleton tagline |
-| `Company` | Singleton: phones, email, address, schedule, social media, WhatsApp, analytics IDs |
-| `Testimonial` | Customer reviews with ratings |
-| `BlogPost` | Blog posts with slug, tags, destinations |
-| `SiteConfig` | Singleton: navigation, URL structure, SEO rules, cross-linking logic |
+| Model                                       | Purpose                                                                            |
+| ------------------------------------------- | ---------------------------------------------------------------------------------- |
+| `Country`, `State`, `Destination`           | Geographic hierarchy with slugs, featured flags, SEO metadata                      |
+| `Category`                                  | Trip categories with icons                                                         |
+| `Package`, `PackageVariant`, `ItineraryDay` | Tour packages with variants (e.g., 3N/4D, 4N/5D) and day-by-day itineraries        |
+| `HeroSlide`                                 | Hero carousel slides (image, tag, title, description)                              |
+| `FAQ`, `FAQTagline`                         | FAQ items with sort order + singleton tagline                                      |
+| `Company`                                   | Singleton: phones, email, address, schedule, social media, WhatsApp, analytics IDs |
+| `Testimonial`                               | Customer reviews with ratings                                                      |
+| `BlogPost`                                  | Blog posts with slug, tags, destinations                                           |
+| `SiteConfig`                                | Singleton: navigation, URL structure, SEO rules, cross-linking logic               |
 
 **Repository layer** (`src/lib/db/repositories/` — 11 files):
 

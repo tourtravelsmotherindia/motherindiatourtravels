@@ -26,7 +26,6 @@ function getEmojiFlag(countryCode: string) {
   return String.fromCodePoint(...codePoints);
 }
 
-
 export default function PopupModal() {
   const { showToast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
@@ -86,7 +85,10 @@ export default function PopupModal() {
     if (!searchQuery.trim()) return countryList;
     const q = searchQuery.toLowerCase();
     return countryList.filter(
-      (c) => c.name.toLowerCase().includes(q) || c.dialCode.includes(q) || c.code.toLowerCase().includes(q)
+      (c) =>
+        c.name.toLowerCase().includes(q) ||
+        c.dialCode.includes(q) ||
+        c.code.toLowerCase().includes(q),
     );
   }, [countryList, searchQuery]);
 
@@ -108,7 +110,11 @@ export default function PopupModal() {
       if (isCountryOpen && countryRef.current && !countryRef.current.contains(e.target as Node)) {
         setIsCountryOpen(false);
       }
-      if (isCalendarOpen && calendarRef.current && !calendarRef.current.contains(e.target as Node)) {
+      if (
+        isCalendarOpen &&
+        calendarRef.current &&
+        !calendarRef.current.contains(e.target as Node)
+      ) {
         setIsCalendarOpen(false);
       }
     };
@@ -189,17 +195,27 @@ export default function PopupModal() {
     showToast(
       "success",
       "Trip Inquiry Received!",
-      "Thank you for sharing your preferences. We will connect shortly!"
+      "Thank you for sharing your preferences. We will connect shortly!",
     );
-    
+
     // Set session storage and close popup
     setIsOpen(false);
     sessionStorage.setItem("hasSeenPopup", "true");
   };
 
   const MONTHS = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
   const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -238,276 +254,290 @@ export default function PopupModal() {
                   Planning a Trip?
                 </h2>
                 <p className="font-sans text-neutral-500 text-[11px] sm:text-xs mt-1.5 max-w-[320px] mx-auto leading-relaxed">
-                  Tell us your preferences and we&apos;ll do the rest – it&apos;s fast, free, and personalized!.
+                  Tell us your preferences and we&apos;ll do the rest – it&apos;s fast, free, and
+                  personalized!.
                 </p>
               </div>
 
               {/* Booking Inquiry Form */}
-            <form onSubmit={handleSubmit} className="flex flex-col gap-3.5 sm:gap-4 text-left">
-              {/* Full Name */}
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-neutral-500 ml-1">Full Name*</label>
-                <div className="relative flex items-center">
-                  <User className="absolute left-4.5 w-4 h-4 text-neutral-400" />
-                  <input
-                    type="text"
-                    required
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                    placeholder="Type your name"
-                    className="w-full bg-white border border-neutral-200 rounded-full pl-11 pr-5 py-3 text-sm focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200"
-                  />
+              <form onSubmit={handleSubmit} className="flex flex-col gap-3.5 sm:gap-4 text-left">
+                {/* Full Name */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-semibold text-neutral-500 ml-1">Full Name*</label>
+                  <div className="relative flex items-center">
+                    <User className="absolute left-4.5 w-4 h-4 text-neutral-400" />
+                    <input
+                      type="text"
+                      required
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
+                      placeholder="Type your name"
+                      className="w-full bg-white border border-neutral-200 rounded-full pl-11 pr-5 py-3 text-sm focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200"
+                    />
+                  </div>
                 </div>
-              </div>
 
-              {/* Email Address */}
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-neutral-500 ml-1">Email Address*</label>
-                <div className="relative flex items-center">
-                  <Mail className="absolute left-4.5 w-4 h-4 text-neutral-400" />
-                  <input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Type your email address"
-                    className="w-full bg-white border border-neutral-200 rounded-full pl-11 pr-5 py-3 text-sm focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200"
-                  />
+                {/* Email Address */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-semibold text-neutral-500 ml-1">
+                    Email Address*
+                  </label>
+                  <div className="relative flex items-center">
+                    <Mail className="absolute left-4.5 w-4 h-4 text-neutral-400" />
+                    <input
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Type your email address"
+                      className="w-full bg-white border border-neutral-200 rounded-full pl-11 pr-5 py-3 text-sm focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200"
+                    />
+                  </div>
                 </div>
-              </div>
 
-              {/* Phone Number */}
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-neutral-500 ml-1">Phone Number*</label>
-                <div className="flex gap-2">
-                  {/* Custom Country Dropdown */}
-                  <div className="relative" ref={countryRef}>
+                {/* Phone Number */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-semibold text-neutral-500 ml-1">
+                    Phone Number*
+                  </label>
+                  <div className="flex gap-2">
+                    {/* Custom Country Dropdown */}
+                    <div className="relative" ref={countryRef}>
+                      <button
+                        type="button"
+                        onClick={() => setIsCountryOpen(!isCountryOpen)}
+                        className="flex items-center justify-between gap-1 w-26 bg-white border border-neutral-200 rounded-full px-3.5 py-3 text-sm font-semibold text-neutral-700 hover:border-neutral-300 hover:bg-neutral-50/50 cursor-pointer transition-all duration-200"
+                      >
+                        <span className="text-base leading-none select-none">{selectedFlag}</span>
+                        <span className="text-xs">{selectedDialCode}</span>
+                      </button>
+
+                      <AnimatePresence>
+                        {isCountryOpen && (
+                          <motion.div
+                            initial={{ opacity: 0, scale: 0.95, y: 5 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95, y: 5 }}
+                            transition={{ duration: 0.15 }}
+                            className="absolute top-full left-0 mt-2 w-64 bg-white border border-neutral-200 rounded-2xl shadow-2xl p-2 z-50"
+                          >
+                            <input
+                              type="text"
+                              value={searchQuery}
+                              onChange={(e) => setSearchQuery(e.target.value)}
+                              placeholder="Search country/code..."
+                              className="w-full border border-neutral-100 bg-neutral-50/50 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-brand/35 mb-2 placeholder-neutral-400 font-sans"
+                            />
+                            <div className="max-h-48 overflow-y-auto flex flex-col gap-0.5 pr-1 dropdown-scrollbar select-none">
+                              {filteredCountries.length > 0 ? (
+                                filteredCountries.map((c) => (
+                                  <button
+                                    key={c.code}
+                                    type="button"
+                                    onClick={() => {
+                                      setCountryVal(`${c.code}:${c.dialCode}`);
+                                      setIsCountryOpen(false);
+                                      setSearchQuery("");
+                                    }}
+                                    className={`flex items-center justify-between w-full px-2.5 py-2 text-xs font-semibold rounded-lg cursor-pointer transition-colors text-left ${
+                                      selectedCode === c.code
+                                        ? "bg-brand-light text-brand"
+                                        : "text-neutral-700 hover:bg-neutral-50"
+                                    }`}
+                                  >
+                                    <span className="flex items-center gap-2 truncate">
+                                      <span className="text-sm select-none shrink-0">{c.flag}</span>
+                                      <span className="truncate">{c.name}</span>
+                                    </span>
+                                    <span className="text-neutral-400 font-medium shrink-0 ml-1">
+                                      {c.dialCode}
+                                    </span>
+                                  </button>
+                                ))
+                              ) : (
+                                <div className="text-center text-[10px] text-neutral-400 py-3">
+                                  No countries found
+                                </div>
+                              )}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+
+                    {/* Phone Number Input */}
+                    <div className="relative flex items-center flex-1">
+                      <Phone className="absolute left-4.5 w-4 h-4 text-neutral-400" />
+                      <input
+                        type="tel"
+                        required
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        placeholder="Phone Number"
+                        className="w-full bg-white border border-neutral-200 rounded-full pl-11 pr-5 py-3 text-sm focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Date & Travellers Row */}
+                <div className="grid grid-cols-2 gap-4">
+                  {/* Travel Date */}
+                  <div className="flex flex-col gap-1.5 relative" ref={calendarRef}>
+                    <label className="text-xs font-semibold text-neutral-500 ml-1">
+                      Travel Date*
+                    </label>
                     <button
                       type="button"
-                      onClick={() => setIsCountryOpen(!isCountryOpen)}
-                      className="flex items-center justify-between gap-1 w-26 bg-white border border-neutral-200 rounded-full px-3.5 py-3 text-sm font-semibold text-neutral-700 hover:border-neutral-300 hover:bg-neutral-50/50 cursor-pointer transition-all duration-200"
+                      onClick={() => setIsCalendarOpen(!isCalendarOpen)}
+                      className="w-full flex items-center justify-start gap-2.5 bg-white border border-neutral-200 rounded-full px-4 py-3 text-sm text-left focus:outline-none focus:border-brand/50 hover:border-neutral-300 cursor-pointer transition-all duration-200"
                     >
-                      <span className="text-base leading-none select-none">{selectedFlag}</span>
-                      <span className="text-xs">{selectedDialCode}</span>
+                      <CalendarIcon className="w-4 h-4 text-neutral-400 shrink-0" />
+                      <span
+                        className={`truncate text-sm ${selectedDate ? "text-neutral-700 font-medium" : "text-neutral-400"}`}
+                      >
+                        {formatDateLabel(selectedDate)}
+                      </span>
                     </button>
 
                     <AnimatePresence>
-                      {isCountryOpen && (
+                      {isCalendarOpen && (
                         <motion.div
                           initial={{ opacity: 0, scale: 0.95, y: 5 }}
                           animate={{ opacity: 1, scale: 1, y: 0 }}
                           exit={{ opacity: 0, scale: 0.95, y: 5 }}
                           transition={{ duration: 0.15 }}
-                          className="absolute top-full left-0 mt-2 w-64 bg-white border border-neutral-200 rounded-2xl shadow-2xl p-2 z-50"
+                          className="absolute top-full left-0 mt-2 w-68 bg-white border border-neutral-200 rounded-2xl shadow-2xl p-3 z-50 cursor-default"
+                          onClick={(e) => e.stopPropagation()}
                         >
-                          <input
-                            type="text"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            placeholder="Search country/code..."
-                            className="w-full border border-neutral-100 bg-neutral-50/50 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-brand/35 mb-2 placeholder-neutral-400 font-sans"
-                          />
-                          <div className="max-h-48 overflow-y-auto flex flex-col gap-0.5 pr-1 dropdown-scrollbar select-none">
-                            {filteredCountries.length > 0 ? (
-                              filteredCountries.map((c) => (
+                          {/* Calendar Month Header */}
+                          <div className="flex items-center justify-between mb-3 px-1">
+                            <span className="text-xs font-bold text-neutral-800 font-sans select-none">
+                              {MONTHS[calendarMonth.getMonth()]} {calendarMonth.getFullYear()}
+                            </span>
+                            <div className="flex gap-1">
+                              <button
+                                type="button"
+                                onClick={handlePrevMonth}
+                                className="w-6 h-6 rounded-full border border-neutral-100 flex items-center justify-center text-neutral-500 hover:text-brand hover:bg-neutral-50 cursor-pointer"
+                              >
+                                <ChevronLeft className="w-3.5 h-3.5" />
+                              </button>
+                              <button
+                                type="button"
+                                onClick={handleNextMonth}
+                                className="w-6 h-6 rounded-full border border-neutral-100 flex items-center justify-center text-neutral-500 hover:text-brand hover:bg-neutral-50 cursor-pointer"
+                              >
+                                <ChevronRight className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Calendar Weekdays */}
+                          <div className="grid grid-cols-7 gap-0.5 text-center text-[9px] font-bold text-neutral-400 mb-1.5 uppercase select-none">
+                            {WEEKDAYS.map((day) => (
+                              <span key={day}>{day}</span>
+                            ))}
+                          </div>
+
+                          {/* Calendar Days Grid */}
+                          <div className="grid grid-cols-7 gap-y-0.5 gap-x-0.5 text-center select-none">
+                            {calendarDays.map((day, idx) => {
+                              if (!day) {
+                                return <div key={`empty-${idx}`} className="h-6 w-6" />;
+                              }
+
+                              const disabled = isDateDisabled(day);
+                              const isSelected = isSameDay(day, selectedDate);
+
+                              let dayClass =
+                                "h-6.5 w-6.5 flex items-center justify-center rounded-full text-[10.5px] font-bold transition-all duration-150 cursor-pointer mx-auto ";
+
+                              if (disabled) {
+                                dayClass +=
+                                  "text-neutral-200 cursor-not-allowed pointer-events-none";
+                              } else if (isSelected) {
+                                dayClass += "bg-brand text-white shadow-sm shadow-brand/20";
+                              } else {
+                                dayClass += "text-neutral-700 hover:bg-neutral-50 hover:text-brand";
+                              }
+
+                              return (
                                 <button
-                                  key={c.code}
+                                  key={day.toISOString()}
                                   type="button"
+                                  disabled={disabled}
                                   onClick={() => {
-                                    setCountryVal(`${c.code}:${c.dialCode}`);
-                                    setIsCountryOpen(false);
-                                    setSearchQuery("");
+                                    setSelectedDate(day);
+                                    setIsCalendarOpen(false);
                                   }}
-                                  className={`flex items-center justify-between w-full px-2.5 py-2 text-xs font-semibold rounded-lg cursor-pointer transition-colors text-left ${
-                                    selectedCode === c.code
-                                      ? "bg-brand-light text-brand"
-                                      : "text-neutral-700 hover:bg-neutral-50"
-                                  }`}
+                                  className={dayClass}
                                 >
-                                  <span className="flex items-center gap-2 truncate">
-                                    <span className="text-sm select-none shrink-0">{c.flag}</span>
-                                    <span className="truncate">{c.name}</span>
-                                  </span>
-                                  <span className="text-neutral-400 font-medium shrink-0 ml-1">
-                                    {c.dialCode}
-                                  </span>
+                                  {day.getDate()}
                                 </button>
-                              ))
-                            ) : (
-                              <div className="text-center text-[10px] text-neutral-400 py-3">
-                                No countries found
-                              </div>
-                            )}
+                              );
+                            })}
                           </div>
                         </motion.div>
                       )}
                     </AnimatePresence>
                   </div>
 
-                  {/* Phone Number Input */}
-                  <div className="relative flex items-center flex-1">
-                    <Phone className="absolute left-4.5 w-4 h-4 text-neutral-400" />
-                    <input
-                      type="tel"
-                      required
-                      value={phoneNumber}
-                      onChange={(e) => setPhoneNumber(e.target.value)}
-                      placeholder="Phone Number"
-                      className="w-full bg-white border border-neutral-200 rounded-full pl-11 pr-5 py-3 text-sm focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200"
+                  {/* Travellers */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-semibold text-neutral-500 ml-1">
+                      Travellers*
+                    </label>
+                    <div className="relative flex items-center">
+                      <Users className="absolute left-4.5 w-4 h-4 text-neutral-400" />
+                      <input
+                        type="number"
+                        required
+                        min={1}
+                        max={99}
+                        value={travellers}
+                        onChange={(e) => setTravellers(e.target.value)}
+                        placeholder="1"
+                        className="w-full bg-white border border-neutral-200 rounded-full pl-11 pr-5 py-3 text-sm focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Additional Message */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-semibold text-neutral-500 ml-1">
+                    Additional Message
+                  </label>
+                  <div className="relative flex items-start">
+                    <MessageSquare className="absolute left-4.5 top-3.5 w-4 h-4 text-neutral-400" />
+                    <textarea
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      placeholder="Describe any special preferences..."
+                      className="w-full bg-white border border-neutral-200 rounded-2xl pl-11 pr-5 py-3 text-sm focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200 h-20 resize-none"
                     />
                   </div>
                 </div>
-              </div>
 
-              {/* Date & Travellers Row */}
-              <div className="grid grid-cols-2 gap-4">
-                {/* Travel Date */}
-                <div className="flex flex-col gap-1.5 relative" ref={calendarRef}>
-                  <label className="text-xs font-semibold text-neutral-500 ml-1">Travel Date*</label>
+                {/* Action Buttons (Fixed at bottom) */}
+                <div className="flex flex-col gap-2 mt-1 sm:mt-2 shrink-0">
+                  <button
+                    type="submit"
+                    className="w-full bg-brand hover:bg-brand-hover text-white font-bold py-3 sm:py-3.5 rounded-full text-sm cursor-pointer shadow-premium hover:shadow-lg transition-all duration-300 border-none focus:outline-none"
+                  >
+                    Book Now
+                  </button>
                   <button
                     type="button"
-                    onClick={() => setIsCalendarOpen(!isCalendarOpen)}
-                    className="w-full flex items-center justify-start gap-2.5 bg-white border border-neutral-200 rounded-full px-4 py-3 text-sm text-left focus:outline-none focus:border-brand/50 hover:border-neutral-300 cursor-pointer transition-all duration-200"
+                    onClick={handleClose}
+                    className="w-full text-center text-neutral-400 hover:text-neutral-600 font-semibold text-xs py-1.5 cursor-pointer transition-colors block border-none bg-transparent outline-none focus:outline-none"
                   >
-                    <CalendarIcon className="w-4 h-4 text-neutral-400 shrink-0" />
-                    <span className={`truncate text-sm ${selectedDate ? "text-neutral-700 font-medium" : "text-neutral-400"}`}>
-                      {formatDateLabel(selectedDate)}
-                    </span>
+                    I&apos;ll do it later
                   </button>
-
-                  <AnimatePresence>
-                    {isCalendarOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.95, y: 5 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.95, y: 5 }}
-                        transition={{ duration: 0.15 }}
-                        className="absolute top-full left-0 mt-2 w-68 bg-white border border-neutral-200 rounded-2xl shadow-2xl p-3 z-50 cursor-default"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        {/* Calendar Month Header */}
-                        <div className="flex items-center justify-between mb-3 px-1">
-                          <span className="text-xs font-bold text-neutral-800 font-sans select-none">
-                            {MONTHS[calendarMonth.getMonth()]} {calendarMonth.getFullYear()}
-                          </span>
-                          <div className="flex gap-1">
-                            <button
-                              type="button"
-                              onClick={handlePrevMonth}
-                              className="w-6 h-6 rounded-full border border-neutral-100 flex items-center justify-center text-neutral-500 hover:text-brand hover:bg-neutral-50 cursor-pointer"
-                            >
-                              <ChevronLeft className="w-3.5 h-3.5" />
-                            </button>
-                            <button
-                              type="button"
-                              onClick={handleNextMonth}
-                              className="w-6 h-6 rounded-full border border-neutral-100 flex items-center justify-center text-neutral-500 hover:text-brand hover:bg-neutral-50 cursor-pointer"
-                            >
-                              <ChevronRight className="w-3.5 h-3.5" />
-                            </button>
-                          </div>
-                        </div>
-
-                        {/* Calendar Weekdays */}
-                        <div className="grid grid-cols-7 gap-0.5 text-center text-[9px] font-bold text-neutral-400 mb-1.5 uppercase select-none">
-                          {WEEKDAYS.map((day) => (
-                            <span key={day}>{day}</span>
-                          ))}
-                        </div>
-
-                        {/* Calendar Days Grid */}
-                        <div className="grid grid-cols-7 gap-y-0.5 gap-x-0.5 text-center select-none">
-                          {calendarDays.map((day, idx) => {
-                            if (!day) {
-                              return <div key={`empty-${idx}`} className="h-6 w-6" />;
-                            }
-
-                            const disabled = isDateDisabled(day);
-                            const isSelected = isSameDay(day, selectedDate);
-
-                            let dayClass =
-                              "h-6.5 w-6.5 flex items-center justify-center rounded-full text-[10.5px] font-bold transition-all duration-150 cursor-pointer mx-auto ";
-
-                            if (disabled) {
-                              dayClass += "text-neutral-200 cursor-not-allowed pointer-events-none";
-                            } else if (isSelected) {
-                              dayClass += "bg-brand text-white shadow-sm shadow-brand/20";
-                            } else {
-                              dayClass += "text-neutral-700 hover:bg-neutral-50 hover:text-brand";
-                            }
-
-                            return (
-                              <button
-                                key={day.toISOString()}
-                                type="button"
-                                disabled={disabled}
-                                onClick={() => {
-                                  setSelectedDate(day);
-                                  setIsCalendarOpen(false);
-                                }}
-                                className={dayClass}
-                              >
-                                {day.getDate()}
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
                 </div>
-
-                {/* Travellers */}
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-neutral-500 ml-1">Travellers*</label>
-                  <div className="relative flex items-center">
-                    <Users className="absolute left-4.5 w-4 h-4 text-neutral-400" />
-                    <input
-                      type="number"
-                      required
-                      min={1}
-                      max={99}
-                      value={travellers}
-                      onChange={(e) => setTravellers(e.target.value)}
-                      placeholder="1"
-                      className="w-full bg-white border border-neutral-200 rounded-full pl-11 pr-5 py-3 text-sm focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Additional Message */}
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-neutral-500 ml-1">Additional Message</label>
-                <div className="relative flex items-start">
-                  <MessageSquare className="absolute left-4.5 top-3.5 w-4 h-4 text-neutral-400" />
-                  <textarea
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Describe any special preferences..."
-                    className="w-full bg-white border border-neutral-200 rounded-2xl pl-11 pr-5 py-3 text-sm focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200 h-20 resize-none"
-                  />
-                </div>
-              </div>
-
-              {/* Action Buttons (Fixed at bottom) */}
-              <div className="flex flex-col gap-2 mt-1 sm:mt-2 shrink-0">
-                <button
-                  type="submit"
-                  className="w-full bg-brand hover:bg-brand-hover text-white font-bold py-3 sm:py-3.5 rounded-full text-sm cursor-pointer shadow-premium hover:shadow-lg transition-all duration-300 border-none focus:outline-none"
-                >
-                  Book Now
-                </button>
-                <button
-                  type="button"
-                  onClick={handleClose}
-                  className="w-full text-center text-neutral-400 hover:text-neutral-600 font-semibold text-xs py-1.5 cursor-pointer transition-colors block border-none bg-transparent outline-none focus:outline-none"
-                >
-                  I&apos;ll do it later
-                </button>
-              </div>
-            </form>
-          </motion.div>
+              </form>
+            </motion.div>
           </div>
         </div>
       )}

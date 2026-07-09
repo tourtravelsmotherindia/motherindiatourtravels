@@ -54,7 +54,8 @@ h6,
 }
 
 /* Custom Scrollbar for a premium look */
-html, body {
+html,
+body {
   scrollbar-width: thin;
   scrollbar-color: #e5e5e5 transparent;
 }

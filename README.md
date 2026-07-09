@@ -6,15 +6,15 @@ A modern, data-driven landing site and tour package catalog for a travel agency 
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Framework | Next.js 16 (App Router, Turbopack) |
-| UI Library | React 19 |
-| Styling | Tailwind CSS v4 |
-| Database | SQLite via Prisma v7 + better-sqlite3 |
-| Animations | framer-motion |
-| Icons | lucide-react |
-| Fonts | Trip Sans (headings), Poppins (body) |
+| Layer      | Technology                            |
+| ---------- | ------------------------------------- |
+| Framework  | Next.js 16 (App Router, Turbopack)    |
+| UI Library | React 19                              |
+| Styling    | Tailwind CSS v4                       |
+| Database   | SQLite via Prisma v7 + better-sqlite3 |
+| Animations | framer-motion                         |
+| Icons      | lucide-react                          |
+| Fonts      | Trip Sans (headings), Poppins (body)  |
 
 ## Getting Started
 
@@ -111,18 +111,18 @@ mother-india/
 
 ## Available Scripts
 
-| Command | Description |
-|---|---|
-| `npm run dev` | Start development server with Turbopack |
-| `npm run build` | Production build (Prisma generate → migrate → seed → Next build) |
-| `npm run start` | Start production server |
-| `npm run lint` | Run ESLint |
-| `npm run lint:fix` | Run ESLint with auto-fix |
-| `npm run format` | Format code with Prettier |
-| `npm run format:check` | Check formatting (CI) |
-| `npm run db:seed` | Seed the database from `data/json/` |
-| `npm run db:verify` | Verify database content matches JSON sources |
-| `npm run db:reset` | Wipe and recreate database from scratch |
+| Command                | Description                                                      |
+| ---------------------- | ---------------------------------------------------------------- |
+| `npm run dev`          | Start development server with Turbopack                          |
+| `npm run build`        | Production build (Prisma generate → migrate → seed → Next build) |
+| `npm run start`        | Start production server                                          |
+| `npm run lint`         | Run ESLint                                                       |
+| `npm run lint:fix`     | Run ESLint with auto-fix                                         |
+| `npm run format`       | Format code with Prettier                                        |
+| `npm run format:check` | Check formatting (CI)                                            |
+| `npm run db:seed`      | Seed the database from `data/json/`                              |
+| `npm run db:verify`    | Verify database content matches JSON sources                     |
+| `npm run db:reset`     | Wipe and recreate database from scratch                          |
 
 ## Data Layer
 
