@@ -57,7 +57,7 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed left-0 right-0 z-50 px-4 md:px-8 max-w-[1440px] mx-auto transition-all duration-300 ${
+      className={`fixed left-0 right-0 z-50 layout-container transition-all duration-300 ${
         scrolled ? "top-3" : "top-6"
       }`}
     >

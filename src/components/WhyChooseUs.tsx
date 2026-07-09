@@ -22,7 +22,7 @@ export default function WhyChooseUs() {
   ];
 
   return (
-    <section className="py-20 px-4 md:px-8 max-w-[1440px] mx-auto scroll-mt-24 bg-white">
+    <section className="py-20 scroll-mt-24 bg-white layout-container">
       {/* Section Header */}
       <div className="text-center mb-16">
         <h2 className="text-3xl md:text-5xl font-extrabold text-foreground tracking-tight leading-[1.1] mb-4">

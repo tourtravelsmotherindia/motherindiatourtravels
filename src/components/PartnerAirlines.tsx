@@ -67,7 +67,7 @@ export default function PartnerAirlines() {
 
   return (
     <section className="py-16 bg-brand-light/35 border-b border-border-light">
-      <div className="max-w-[1440px] mx-auto px-4 md:px-8">
+      <div className="layout-container">
         {/* Section Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-extrabold text-foreground tracking-tight">

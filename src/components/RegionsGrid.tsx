@@ -73,7 +73,7 @@ export default function RegionsGrid() {
   ];
 
   return (
-    <section id="about" className="py-16 px-4 md:px-8 max-w-[1440px] mx-auto">
+    <section id="about" className="py-16 layout-container">
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
         <div>
@@ -104,10 +104,10 @@ export default function RegionsGrid() {
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.5, delay: idx * 0.08 }}
             key={region.id}
-            className="group rounded-[2.5rem] overflow-hidden border border-border-light shadow-card hover:shadow-premium transition-all duration-300 flex flex-col h-[340px] relative bg-white"
+            className="group rounded-[2.5rem] overflow-hidden border border-border-light shadow-card hover:shadow-premium transition-all duration-300 flex flex-col h-[340px] lg:h-[370px] xl:h-[400px] 2xl:h-[420px] relative bg-white"
           >
             {/* Top Half: Image and Floating Badges */}
-            <div className="relative h-56 w-full overflow-hidden">
+            <div className="relative h-56 lg:h-64 xl:h-72 2xl:h-80 w-full overflow-hidden">
               <Image
                 src={region.image}
                 alt={region.name}

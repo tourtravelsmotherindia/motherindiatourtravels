@@ -58,7 +58,7 @@ export default function Gallery() {
   ];
 
   return (
-    <section id="gallery" className="py-20 px-4 md:px-8 max-w-360 mx-auto scroll-mt-24">
+    <section id="gallery" className="py-20 scroll-mt-24 layout-container">
       {/* Section Header */}
       <div className="flex items-center justify-between mb-12 gap-4">
         <div>
@@ -81,7 +81,7 @@ export default function Gallery() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: idx * 0.08 }}
             key={item.id}
-            className="group relative h-[300px] rounded-[2rem] overflow-hidden shadow-card border border-border-light cursor-pointer"
+            className="group relative h-[300px] lg:h-[340px] xl:h-[370px] 2xl:h-[400px] rounded-[2rem] overflow-hidden shadow-card border border-border-light cursor-pointer"
           >
             {/* Image */}
             <Image

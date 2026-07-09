@@ -486,7 +486,7 @@ export default function Hero({
   return (
     <section
       id="home"
-      className="relative w-full px-4 md:px-8 pt-4 pb-20 max-w-[1440px] mx-auto"
+      className="relative w-full pt-4 pb-20 layout-container"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       aria-label="Hero slider"

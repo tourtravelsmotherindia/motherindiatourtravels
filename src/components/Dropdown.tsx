@@ -74,7 +74,7 @@ export default function Dropdown({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={`flex items-center justify-between gap-2.5 w-full bg-white border border-neutral-200 rounded-full px-5 py-3 text-sm font-bold text-neutral-700 cursor-pointer shadow-sm hover:border-brand/35 hover:bg-neutral-50/50 transition-all duration-300 focus:outline-none focus:border-brand/40 ${triggerClassName}`}
+        className={`flex items-center justify-between gap-2.5 w-full bg-white border border-neutral-200 rounded-full px-5 py-3 lg:py-3.5 xl:py-4 text-sm font-bold text-neutral-700 cursor-pointer hover:border-brand/35 hover:bg-neutral-50/50 transition-all duration-300 focus:outline-none focus:border-brand/40 ${triggerClassName}`}
         aria-haspopup="true"
         aria-expanded={isOpen}
       >
@@ -107,7 +107,7 @@ export default function Dropdown({
               damping: 26,
             }}
             style={{ originY: 0 }}
-            className={`absolute z-50 mt-2 bg-white border border-neutral-100 rounded-[28px] p-2 shadow-[0_12px_45px_rgba(0,0,0,0.09)] focus:outline-none font-sans ${
+            className={`absolute z-50 mt-2 bg-white border border-neutral-200 rounded-[28px] p-2 focus:outline-none font-sans ${
               align === "right" ? "right-0" : "left-0"
             } ${menuClassName.includes("w-") ? "" : "w-72"} ${menuClassName}`}
           >

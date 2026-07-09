@@ -185,7 +185,7 @@ export default function Footer({
       id="contact"
       className="bg-[#F9F9F9] border-t border-neutral-200 text-neutral-600 pt-16 pb-12 relative overflow-hidden font-sans"
     >
-      <div className="max-w-[1440px] mx-auto px-4 md:px-8">
+      <div className="layout-container">
         {/* Top Section: Newsletter and Socials */}
         <div className="flex flex-col md:flex-row items-stretch gap-8 md:gap-0 pb-12 border-b border-neutral-200">
           {/* Left: Heading and Social Icons */}

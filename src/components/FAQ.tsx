@@ -43,7 +43,7 @@ export default function FAQ({
   };
 
   return (
-    <section id="faq" className="w-full py-20 px-4 md:px-8 max-w-[1440px] mx-auto scroll-mt-24">
+    <section id="faq" className="py-20 scroll-mt-24 layout-container">
       {/* Section Header */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-16 items-end">
         {/* Left/Heading Column */}

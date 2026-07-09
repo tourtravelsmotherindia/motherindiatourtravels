@@ -246,7 +246,7 @@ export default function PopularDestinations({
 
   return (
     <section className="py-16 bg-white border-y border-border-light">
-      <div className="max-w-[1440px] mx-auto px-4 md:px-8">
+      <div className="layout-container">
         {/* Section Header */}
         <div className="flex items-center justify-between mb-12 gap-4">
           <div>
@@ -321,13 +321,13 @@ export default function PopularDestinations({
               className="flex flex-col gap-8"
             >
               {/* Row 1: Wide Left, Narrow Right */}
-              <div className="grid grid-cols-[5.8fr_4.2fr] gap-8 items-stretch h-[280px] lg:h-[330px]">
+              <div className="grid grid-cols-[5.8fr_4.2fr] gap-8 items-stretch h-[280px] lg:h-[330px] xl:h-[360px] 2xl:h-[390px]">
                 <DestinationCard dest={cardA} priority />
                 <DestinationCard dest={cardB} />
               </div>
 
               {/* Row 2: Narrow Left, Wide Right */}
-              <div className="grid grid-cols-[4.2fr_5.8fr] gap-8 items-stretch h-[280px] lg:h-[330px]">
+              <div className="grid grid-cols-[4.2fr_5.8fr] gap-8 items-stretch h-[280px] lg:h-[330px] xl:h-[360px] 2xl:h-[390px]">
                 <DestinationCard dest={cardC} />
                 <DestinationCard dest={cardD} />
               </div>

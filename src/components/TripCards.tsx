@@ -47,7 +47,7 @@ export default function TripCards({ packagesData }: { packagesData?: PackagesDat
   };
 
   return (
-    <section id="packages" className="py-20 px-4 md:px-8 max-w-[1440px] mx-auto overflow-hidden">
+    <section id="packages" className="py-20 overflow-hidden layout-container">
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
         <div>
@@ -125,7 +125,7 @@ export default function TripCards({ packagesData }: { packagesData?: PackagesDat
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.4, delay: idx * 0.05 }}
               key={pkg.id}
-              className="group relative w-full h-[420px] rounded-[2rem] overflow-hidden shadow-card hover:shadow-premium transition-all duration-500 bg-gray-50 flex flex-col"
+              className="group relative w-full h-[420px] xl:h-[450px] 2xl:h-[480px] rounded-[2rem] overflow-hidden shadow-card hover:shadow-premium transition-all duration-500 bg-gray-50 flex flex-col"
             >
               {/* Background Image */}
               <div className="absolute inset-0 z-0">

@@ -87,7 +87,7 @@ export default function TravelerMoments() {
   const reviewB = reviews[(currentIndex + 1) % reviews.length];
 
   return (
-    <section id="blog" className="py-16 px-4 md:px-8 max-w-[1440px] mx-auto overflow-hidden">
+    <section id="blog" className="py-16 overflow-hidden layout-container">
       {/* Section Header */}
       <div className="flex items-center justify-between mb-12 gap-4">
         <div>
