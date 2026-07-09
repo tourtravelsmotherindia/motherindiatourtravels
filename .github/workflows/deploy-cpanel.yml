@@ -1,0 +1,83 @@
+# Deploy static site to cPanel via FTP
+#
+# Built with Next.js static export (output: "export") and uploaded to cPanel.
+# Runs on every push to the main branch.
+#
+# Setup
+# Before this workflow will work, add these secrets to your GitHub repo:
+#   Settings → Secrets and variables → Actions → New repository secret
+#
+#   FTP_HOST         — Your cPanel FTP hostname (e.g. ftp.example.com or the server IP)
+#   FTP_USERNAME     — Your cPanel FTP username
+#   FTP_PASSWORD     — Your cPanel FTP password
+#   FTP_SERVER_DIR   — Remote directory to deploy into
+#                      Usually "/public_html" or "/public_html/motherindia"
+#                      (without trailing slash)
+#
+# Example:
+#   FTP_HOST:     ftp.motherindiatourtravels.com
+#   FTP_USERNAME: motherind
+#   FTP_PASSWORD: ••••••••••
+#   FTP_SERVER_DIR: /public_html
+
+name: Build & Deploy to cPanel
+
+on:
+  push:
+    branches: [main]
+  # Allow manual trigger from GitHub Actions tab
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    name: Build static site & upload to cPanel
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Build static site
+      # Next.js fetches all data from the SQLite DB at build time
+      # to pre-render every page (home, packages listing, 55+ detail pages).
+      - name: Create .env for Prisma
+        run: echo "DATABASE_URL=file:./data/travel.db" > .env
+
+      - name: Generate Prisma client
+        run: npx prisma generate
+
+      - name: Apply DB migrations
+        run: npx prisma migrate deploy
+
+      - name: Seed the database
+        run: npx prisma db seed
+
+      - name: Build static site
+        run: npx next build
+
+      # Deploy to cPanel via FTP
+      # Uploads the entire out/ directory. The FTP server dir is expected
+      # to be empty or a fresh deployment target.
+      - name: Upload to cPanel
+        uses: SamKirkland/FTP-Deploy-Action@8e83cea8672e3fbcbb9fdafff34debf6ae4c5f65 # v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./out/
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}/
+          # Only delete files in the root level of server-dir to keep
+          # cPanel system files intact (.htaccess, etc.)
+          exclude: |
+            **/.htaccess
+            **/.htpasswd
+            **/cgi-bin/**
