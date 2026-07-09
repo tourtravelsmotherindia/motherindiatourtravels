@@ -95,11 +95,10 @@ export default function PackageMap({ destinations }: PackageMapProps) {
     const initialCenter = coordinatesList.length > 0 ? coordinatesList[0].coord : defaultCenter;
     const initialZoom = coordinatesList.length > 0 ? 8 : defaultZoom;
 
-    // Initialize MapLibre Map using Stadia Maps tile server
-    const apiKey = "e856ac81-af78-492d-88de-e541f713b831";
+    // Initialize MapLibre Map
     const map = new maplibregl.Map({
       container: mapContainerRef.current,
-      style: `https://tiles.stadiamaps.com/styles/osm_bright.json?api_key=${apiKey}`,
+      style: `https://tiles.stadiamaps.com/styles/osm_bright.json`,
       center: initialCenter,
       zoom: initialZoom,
       attributionControl: false,
