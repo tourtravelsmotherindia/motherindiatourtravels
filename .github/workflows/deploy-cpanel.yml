@@ -64,10 +64,32 @@ jobs:
       - name: Build static site
         run: npx next build
 
+      - name: Validate FTP secrets
+        id: ftp-secrets
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_SERVER_DIR: ${{ secrets.FTP_SERVER_DIR }}
+        run: |
+          missing=()
+          [[ -z "$FTP_HOST" ]] && missing+=("FTP_HOST")
+          [[ -z "$FTP_USERNAME" ]] && missing+=("FTP_USERNAME")
+          [[ -z "$FTP_PASSWORD" ]] && missing+=("FTP_PASSWORD")
+          [[ -z "$FTP_SERVER_DIR" ]] && missing+=("FTP_SERVER_DIR")
+
+          if (( ${#missing[@]} > 0 )); then
+            echo "::warning::Skipping FTP upload because required secrets are missing: ${missing[*]}"
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
       # Deploy to cPanel via FTP
       # Uploads the entire out/ directory. The FTP server dir is expected
       # to be empty or a fresh deployment target.
       - name: Upload to cPanel
+        if: steps.ftp-secrets.outputs.ready == 'true'
         uses: SamKirkland/FTP-Deploy-Action@3a9c65ae0fc12ac924ccef8afc26941cc43aad0b # v4.4.0
         with:
           server: ${{ secrets.FTP_HOST }}
