@@ -1,10 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, Clock, Heart, MapPin, Search, SlidersHorizontal } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Clock,
+  Heart,
+  MapPin,
+  Search,
+  SlidersHorizontal,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import Footer, { type FooterCompanyData } from "@/components/Footer";
 import Navbar from "@/components/Navbar";
@@ -47,6 +55,17 @@ export default function PackagesClient({
       return [];
     }
   });
+
+  const resultsContainerRef = useRef<HTMLDivElement>(null);
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    resultsContainerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [currentPage]);
 
   const itemsPerPage = 9;
 
@@ -144,15 +163,34 @@ export default function PackagesClient({
       return Array.from({ length: totalPages }, (_, i) => i + 1);
     }
 
-    if (currentPage <= 4) {
-      return [1, 2, 3, 4, 5, "...", totalPages];
+    let startPage = Math.max(2, currentPage - 2);
+    let endPage = Math.min(totalPages - 1, currentPage + 2);
+
+    if (currentPage <= 3) {
+      startPage = 2;
+      endPage = 5;
+    } else if (currentPage >= totalPages - 2) {
+      startPage = totalPages - 4;
+      endPage = totalPages - 1;
     }
 
-    if (currentPage >= totalPages - 3) {
-      return [1, "...", totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
+    const pages: (number | string)[] = [1];
+
+    if (startPage > 2) {
+      pages.push("...");
     }
 
-    return [1, "...", currentPage - 1, currentPage, currentPage + 1, "...", totalPages];
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+
+    if (endPage < totalPages - 1) {
+      pages.push("...");
+    }
+
+    pages.push(totalPages);
+
+    return pages;
   }, [currentPage, totalPages]);
 
   return (
@@ -232,165 +270,174 @@ export default function PackagesClient({
           </div>
         </div>
 
-        <div className="flex items-center justify-between mb-8 px-1">
-          <p className="text-xs md:text-sm font-bold text-neutral-500 uppercase tracking-wider">
-            Showing {filteredPackages.length > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0}–
-            {Math.min(currentPage * itemsPerPage, filteredPackages.length)} of{" "}
-            {filteredPackages.length} packages
-          </p>
-        </div>
-
-        {filteredPackages.length === 0 ? (
-          <div className="text-center py-20 bg-neutral-50 border border-neutral-100 rounded-[2.5rem] mt-4">
-            <div className="w-16 h-16 bg-neutral-200/50 rounded-full flex items-center justify-center mx-auto mb-5 text-neutral-400">
-              <Search className="w-7 h-7" />
-            </div>
-            <h3 className="text-lg md:text-xl font-bold text-neutral-800">No packages found</h3>
-            <p className="text-neutral-500 text-sm mt-2 max-w-sm mx-auto px-4 font-medium">
-              We couldn&apos;t find any tour packages matching your search terms or filters. Try
-              adjusting your settings.
+        <div ref={resultsContainerRef} className="scroll-mt-28">
+          <div className="flex items-center justify-between mb-8 px-1">
+            <p className="text-xs md:text-sm font-bold text-neutral-500 uppercase tracking-wider">
+              Showing {filteredPackages.length > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0}–
+              {Math.min(currentPage * itemsPerPage, filteredPackages.length)} of{" "}
+              {filteredPackages.length} packages
             </p>
-            <button
-              onClick={() => {
-                setSearchQuery("");
-                setSelectedType("all");
-                setSelectedCategory("all");
-                setCurrentPage(1);
-              }}
-              className="mt-6 bg-brand hover:bg-brand-hover text-white font-bold text-xs uppercase tracking-wider px-6 py-3 rounded-full transition-all duration-300 cursor-pointer shadow-md select-none"
-            >
-              Reset Filters
-            </button>
           </div>
-        ) : (
-          <div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {paginatedPackages.map((pkg) => {
-                const isFavorite = favorites.includes(pkg.slug);
-                return (
-                  <div
-                    key={pkg.id}
-                    className="group relative bg-white border border-neutral-100 rounded-[2rem] p-4 shadow-card hover:shadow-premium transition-all duration-500 flex flex-col h-full justify-between"
-                  >
-                    <div>
-                      <div className="relative w-full h-[220px] rounded-[1.5rem] overflow-hidden bg-neutral-100 z-0">
-                        <Image
-                          src={pkg.hero_image || "/images/placeholder-landscape.png"}
-                          alt={pkg.name}
-                          fill
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                          className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                          priority={pkg.is_popular}
-                        />
-                      </div>
 
-                      <div className="flex items-center justify-between mt-5 mb-3 px-1">
-                        <div className="flex items-center gap-1.5 text-neutral-600 font-medium">
-                          <Clock className="w-4 h-4 text-neutral-400 shrink-0" />
-                          <span className="text-sm">
-                            {pkg.duration_range || `${pkg.min_days} Days`}
-                          </span>
+          {filteredPackages.length === 0 ? (
+            <div className="text-center py-20 bg-neutral-50 border border-neutral-100 rounded-[2.5rem] mt-4">
+              <div className="w-16 h-16 bg-neutral-200/50 rounded-full flex items-center justify-center mx-auto mb-5 text-neutral-400">
+                <Search className="w-7 h-7" />
+              </div>
+              <h3 className="text-lg md:text-xl font-bold text-neutral-800">No packages found</h3>
+              <p className="text-neutral-500 text-sm mt-2 max-w-sm mx-auto px-4 font-medium">
+                We couldn&apos;t find any tour packages matching your search terms or filters. Try
+                adjusting your settings.
+              </p>
+              <button
+                onClick={() => {
+                  setSearchQuery("");
+                  setSelectedType("all");
+                  setSelectedCategory("all");
+                  setCurrentPage(1);
+                }}
+                className="mt-6 bg-brand hover:bg-brand-hover text-white font-bold text-xs uppercase tracking-wider px-6 py-3 rounded-full transition-all duration-300 cursor-pointer shadow-md select-none"
+              >
+                Reset Filters
+              </button>
+            </div>
+          ) : (
+            <div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {paginatedPackages.map((pkg) => {
+                  const isFavorite = favorites.includes(pkg.slug);
+                  return (
+                    <div
+                      key={pkg.id}
+                      className="group relative bg-white border border-neutral-100 rounded-[2rem] p-4 shadow-card hover:shadow-premium transition-all duration-500 flex flex-col h-full justify-between"
+                    >
+                      <div>
+                        <div className="relative w-full h-[220px] rounded-[1.5rem] overflow-hidden bg-neutral-100 z-0">
+                          <Image
+                            src={pkg.hero_image || "/images/placeholder-landscape.png"}
+                            alt={pkg.name}
+                            fill
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                            priority={pkg.is_popular}
+                          />
                         </div>
 
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            toggleFavorite(pkg.slug);
-                          }}
-                          className="w-9 h-9 rounded-full bg-white hover:bg-neutral-50 border border-neutral-200/60 flex items-center justify-center text-neutral-600 hover:text-red-500 transition-all duration-300 active:scale-90 group/heart cursor-pointer shadow-sm"
-                          aria-label={isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+                        <div className="flex items-center justify-between mt-5 mb-3 px-1">
+                          <div className="flex items-center gap-1.5 text-neutral-600 font-medium">
+                            <Clock className="w-4 h-4 text-neutral-400 shrink-0" />
+                            <span className="text-sm">
+                              {pkg.duration_range || `${pkg.min_days} Days`}
+                            </span>
+                          </div>
+
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              toggleFavorite(pkg.slug);
+                            }}
+                            className="w-9 h-9 rounded-full bg-white hover:bg-neutral-50 border border-neutral-200/60 flex items-center justify-center text-neutral-600 hover:text-red-500 transition-all duration-300 active:scale-90 group/heart cursor-pointer shadow-sm"
+                            aria-label={isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+                          >
+                            <Heart
+                              className={`w-4 h-4 transition-transform duration-300 group-hover/heart:scale-110 ${
+                                isFavorite
+                                  ? "fill-red-500 text-red-500 stroke-red-500"
+                                  : "text-neutral-500 stroke-neutral-500"
+                              }`}
+                            />
+                          </button>
+                        </div>
+
+                        <h3 className="font-bold text-lg text-foreground leading-snug px-1 line-clamp-1 mb-2">
+                          {pkg.name}
+                        </h3>
+
+                        <div className="flex items-center gap-1.5 text-neutral-500 text-xs px-1 mb-6 font-normal">
+                          <MapPin className="w-3.5 h-3.5 text-brand shrink-0" />
+                          <span className="truncate">{pkg.destinations.join(", ")}</span>
+                        </div>
+                      </div>
+
+                      <div className="px-1 pb-1">
+                        <Link
+                          href={`/packages/${pkg.slug}`}
+                          className="block w-full border border-neutral-900 text-neutral-900 hover:bg-brand hover:border-brand hover:text-white font-bold text-xs uppercase tracking-wider py-3.5 rounded-full transition-all duration-300 text-center select-none"
                         >
-                          <Heart
-                            className={`w-4 h-4 transition-transform duration-300 group-hover/heart:scale-110 ${
-                              isFavorite
-                                ? "fill-red-500 text-red-500 stroke-red-500"
-                                : "text-neutral-500 stroke-neutral-500"
-                            }`}
-                          />
-                        </button>
-                      </div>
-
-                      <h3 className="font-bold text-lg text-foreground leading-snug px-1 line-clamp-1 mb-2">
-                        {pkg.name}
-                      </h3>
-
-                      <div className="flex items-center gap-1.5 text-neutral-500 text-xs px-1 mb-6 font-normal">
-                        <MapPin className="w-3.5 h-3.5 text-brand shrink-0" />
-                        <span className="truncate">{pkg.destinations.join(", ")}</span>
+                          View Details
+                        </Link>
                       </div>
                     </div>
-
-                    <div className="px-1 pb-1">
-                      <Link
-                        href={`/packages/${pkg.slug}`}
-                        className="block w-full border border-neutral-900 text-neutral-900 hover:bg-brand hover:border-brand hover:text-white font-bold text-xs uppercase tracking-wider py-3.5 rounded-full transition-all duration-300 text-center select-none"
-                      >
-                        View Details
-                      </Link>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {totalPages > 1 && (
-              <div className="flex items-center justify-center gap-1.5 bg-neutral-100/90 backdrop-blur-md p-1.5 rounded-full max-w-fit mx-auto mt-16 shadow-sm border border-neutral-200/30">
-                <button
-                  onClick={() => {
-                    setCurrentPage((prev) => Math.max(prev - 1, 1));
-                  }}
-                  disabled={currentPage === 1}
-                  className="w-9 h-9 rounded-full flex items-center justify-center text-neutral-700 hover:bg-neutral-200/50 disabled:opacity-30 disabled:hover:bg-transparent transition-all duration-200 cursor-pointer disabled:cursor-not-allowed select-none"
-                  aria-label="Previous Page"
-                >
-                  <ChevronLeft className="w-4 h-4 stroke-[2.5]" />
-                </button>
-
-                {paginationPages.map((page, idx) => {
-                  if (page === "...") {
-                    return (
-                      <span
-                        key={`ellipsis-${idx}`}
-                        className="w-9 h-9 flex items-center justify-center text-neutral-400 font-bold text-sm select-none"
-                      >
-                        ...
-                      </span>
-                    );
-                  }
-
-                  const isPageActive = page === currentPage;
-
-                  return (
-                    <button
-                      key={`page-${page}`}
-                      onClick={() => {
-                        setCurrentPage(Number(page));
-                      }}
-                      className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-200 select-none cursor-pointer ${
-                        isPageActive
-                          ? "bg-neutral-900 text-white shadow-md scale-105"
-                          : "text-neutral-700 hover:bg-neutral-200/50"
-                      }`}
-                    >
-                      {page}
-                    </button>
                   );
                 })}
-
-                <button
-                  onClick={() => {
-                    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-                  }}
-                  disabled={currentPage === totalPages}
-                  className="w-9 h-9 rounded-full flex items-center justify-center text-neutral-700 hover:bg-neutral-200/50 disabled:opacity-30 disabled:hover:bg-transparent transition-all duration-200 cursor-pointer disabled:cursor-not-allowed select-none"
-                  aria-label="Next Page"
-                >
-                  <ChevronRight className="w-4 h-4 stroke-[2.5]" />
-                </button>
               </div>
-            )}
-          </div>
-        )}
+
+              {totalPages > 1 && (
+                <div
+                  role="navigation"
+                  aria-label="Pagination Navigation"
+                  className="flex items-center justify-center gap-1.5 bg-neutral-100/90 backdrop-blur-md p-1.5 rounded-full max-w-fit mx-auto mt-16 shadow-sm border border-neutral-200/30"
+                >
+                  <button
+                    onClick={() => {
+                      setCurrentPage((prev) => Math.max(prev - 1, 1));
+                    }}
+                    disabled={currentPage === 1}
+                    className="w-9 h-9 rounded-full flex items-center justify-center text-neutral-700 hover:bg-neutral-200/50 disabled:opacity-30 disabled:hover:bg-transparent transition-all duration-200 cursor-pointer disabled:cursor-not-allowed select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+                    aria-label="Go to previous page"
+                  >
+                    <ChevronLeft className="w-4 h-4 stroke-[2.5]" />
+                  </button>
+
+                  {paginationPages.map((page, idx) => {
+                    if (page === "...") {
+                      return (
+                        <span
+                          key={`ellipsis-${idx}`}
+                          className="w-9 h-9 flex items-center justify-center text-neutral-400 font-bold text-sm select-none"
+                          aria-hidden="true"
+                        >
+                          ...
+                        </span>
+                      );
+                    }
+
+                    const isPageActive = page === currentPage;
+
+                    return (
+                      <button
+                        key={`page-${page}`}
+                        onClick={() => {
+                          setCurrentPage(Number(page));
+                        }}
+                        aria-label={`Go to page ${page}`}
+                        aria-current={isPageActive ? "page" : undefined}
+                        className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-200 select-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 ${
+                          isPageActive
+                            ? "bg-neutral-900 text-white shadow-md scale-105"
+                            : "text-neutral-700 hover:bg-neutral-200/50"
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    );
+                  })}
+
+                  <button
+                    onClick={() => {
+                      setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+                    }}
+                    disabled={currentPage === totalPages}
+                    className="w-9 h-9 rounded-full flex items-center justify-center text-neutral-700 hover:bg-neutral-200/50 disabled:opacity-30 disabled:hover:bg-transparent transition-all duration-200 cursor-pointer disabled:cursor-not-allowed select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+                    aria-label="Go to next page"
+                  >
+                    <ChevronRight className="w-4 h-4 stroke-[2.5]" />
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </main>
 
       <Footer companyData={companyData} />
