@@ -2,7 +2,7 @@
 
 A modern, data-driven landing site and tour package catalog for a travel agency specializing in domestic and international trips from India.
 
-**Live site:** [motherindiatravels.com](https://motherindiatravels.com)
+**Live site:** [motherindiatourtravels.com](https://motherindiatourtravels.com)
 
 ## Tech Stack
 
