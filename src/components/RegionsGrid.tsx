@@ -73,20 +73,20 @@ export default function RegionsGrid() {
   ];
 
   return (
-    <section id="about" className="py-16 layout-container">
+    <section id="about" className="py-24 layout-container">
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
         <div>
-          <h2 className="text-3xl md:text-5xl font-extrabold text-foreground tracking-tight leading-[1.1]">
-            Destination By <span className="text-brand">Region</span>
+          <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight leading-[1.1]">
+            Destination By Region
           </h2>
-          <p className="text-muted font-medium mt-2">
+          <p className="text-muted font-normal mt-2">
             Explore adventures across every corner of the incredible Indian subcontinent
           </p>
         </div>
         <Link
           href="#"
-          className="flex items-center gap-2 text-brand hover:text-brand-hover font-bold text-sm group shrink-0"
+          className="flex items-center gap-2 text-brand hover:text-brand-hover font-semibold text-sm group shrink-0"
         >
           <span>See All Destinations</span>
           <span className="w-8 h-8 rounded-full border border-brand/20 flex items-center justify-center group-hover:border-brand transition-all duration-300">
@@ -104,7 +104,7 @@ export default function RegionsGrid() {
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.5, delay: idx * 0.08 }}
             key={region.id}
-            className="group rounded-[2.5rem] overflow-hidden border border-border-light shadow-card hover:shadow-premium transition-all duration-300 flex flex-col h-[340px] lg:h-[370px] xl:h-[400px] 2xl:h-[420px] relative bg-white"
+            className="group rounded-2xl overflow-hidden border border-border-light shadow-card hover:shadow-premium transition-all duration-300 flex flex-col h-[340px] lg:h-[370px] xl:h-[400px] 2xl:h-[420px] relative bg-white"
           >
             {/* Top Half: Image and Floating Badges */}
             <div className="relative h-56 lg:h-64 xl:h-72 2xl:h-80 w-full overflow-hidden">
@@ -121,7 +121,7 @@ export default function RegionsGrid() {
                 {region.badges.map((badge, bIdx) => (
                   <span
                     key={bIdx}
-                    className="bg-black/35 backdrop-blur-md border border-white/10 text-white rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider"
+                    className="bg-black/35 backdrop-blur-md border border-white/10 text-white rounded-xl px-3 py-1 text-[10px] font-semibold uppercase tracking-wider"
                   >
                     {badge}
                   </span>
@@ -132,13 +132,13 @@ export default function RegionsGrid() {
             {/* Bottom Half: Info Box */}
             <div className="p-6 flex items-center justify-between gap-4 flex-grow bg-white z-10">
               <div className="min-w-0 flex-1">
-                <h3 className="text-xl font-extrabold text-foreground group-hover:text-brand transition-colors duration-200">
+                <h3 className="text-xl font-bold text-foreground group-hover:text-brand transition-colors duration-200">
                   {region.name}
                 </h3>
-                <p className="text-xs text-muted font-semibold truncate mt-1">{region.states}</p>
+                <p className="text-xs text-muted font-normal truncate mt-1">{region.states}</p>
               </div>
               <div className="shrink-0 text-right">
-                <span className="text-[11px] text-brand font-extrabold tracking-tight bg-brand-light px-3 py-1.5 rounded-full border border-brand/10 group-hover:bg-brand group-hover:text-white transition-all duration-300">
+                <span className="text-[11px] text-neutral-600 font-semibold tracking-tight bg-neutral-50 px-3 py-1.5 rounded-xl border border-neutral-200/50 group-hover:bg-neutral-100 transition-all duration-300">
                   {region.moreCount}
                 </span>
               </div>

@@ -43,13 +43,13 @@ export default function FAQ({
   };
 
   return (
-    <section id="faq" className="py-20 scroll-mt-24 layout-container">
+    <section id="faq" className="py-24 scroll-mt-24 layout-container">
       {/* Section Header */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-16 items-end">
         {/* Left/Heading Column */}
         <div className="lg:col-span-2 text-left">
           <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">FAQ</div>
-          <h2 className="text-3xl md:text-5xl font-extrabold text-foreground tracking-tight leading-[1.1] max-w-2xl">
+          <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight leading-[1.1] max-w-2xl">
             {tagline}
           </h2>
         </div>
@@ -58,7 +58,7 @@ export default function FAQ({
           <h4 className="text-base font-bold text-foreground mb-1">
             Didn&apos;t see your question?
           </h4>
-          <p className="text-sm text-gray-500 leading-relaxed font-medium">
+          <p className="text-sm text-gray-500 leading-relaxed font-normal">
             Our team is here to help &mdash; just reach out and we&apos;ll reply shortly.
           </p>
         </div>

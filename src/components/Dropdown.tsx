@@ -74,7 +74,7 @@ export default function Dropdown({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={`flex items-center justify-between gap-2.5 w-full bg-white border border-neutral-200 rounded-full px-5 py-3 lg:py-3.5 xl:py-4 text-sm font-bold text-neutral-700 cursor-pointer hover:border-brand/35 hover:bg-neutral-50/50 transition-all duration-300 focus:outline-none focus:border-brand/40 ${triggerClassName}`}
+        className={`flex items-center justify-between gap-2.5 w-full bg-white border border-neutral-200 rounded-full px-5 py-2.5 lg:py-3 text-sm font-semibold text-neutral-700 cursor-pointer hover:border-brand/35 hover:bg-neutral-50/50 transition-all duration-300 focus:outline-none focus:border-brand/40 ${triggerClassName}`}
         aria-haspopup="true"
         aria-expanded={isOpen}
       >
@@ -107,7 +107,7 @@ export default function Dropdown({
               damping: 26,
             }}
             style={{ originY: 0 }}
-            className={`absolute z-50 mt-2 bg-white border border-neutral-200 rounded-[28px] p-2 focus:outline-none font-sans ${
+            className={`absolute z-50 mt-2 bg-white border border-neutral-200 rounded-[28px] p-2 shadow-premium focus:outline-none font-sans ${
               align === "right" ? "right-0" : "left-0"
             } ${menuClassName.includes("w-") ? "" : "w-72"} ${menuClassName}`}
           >
@@ -125,7 +125,7 @@ export default function Dropdown({
                     <button
                       type="button"
                       onClick={() => handleOptionClick(option)}
-                      className={`flex items-center justify-between w-full px-4 py-3.5 text-sm font-semibold rounded-2xl cursor-pointer text-left transition-all duration-200 select-none outline-none ${
+                      className={`flex items-center justify-between w-full px-4 py-3 text-sm font-semibold rounded-2xl cursor-pointer text-left transition-all duration-200 select-none outline-none ${
                         isSelected
                           ? "bg-neutral-100/90 text-foreground"
                           : "text-foreground hover:bg-neutral-50/90 hover:text-foreground"

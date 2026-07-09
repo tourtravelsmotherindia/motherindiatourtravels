@@ -47,14 +47,14 @@ export default function TripCards({ packagesData }: { packagesData?: PackagesDat
   };
 
   return (
-    <section id="packages" className="py-20 overflow-hidden layout-container">
+    <section id="packages" className="py-24 overflow-hidden layout-container">
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
         <div>
-          <h2 className="text-3xl md:text-5xl font-extrabold text-foreground tracking-tight leading-[1.1]">
-            Explore <span className="text-brand">Trips</span>
+          <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight leading-[1.1]">
+            Explore Trips
           </h2>
-          <p className="text-muted font-medium mt-2">
+          <p className="text-muted font-normal mt-2">
             Handpicked adventures designed to inspire your next journey
           </p>
         </div>
@@ -64,7 +64,7 @@ export default function TripCards({ packagesData }: { packagesData?: PackagesDat
           <div className="bg-neutral-100 p-1 rounded-full flex gap-1 border border-neutral-200/50 relative">
             <button
               onClick={() => setIsDomestic(true)}
-              className={`relative px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-colors duration-200 z-10 cursor-pointer select-none ${
+              className={`relative px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors duration-200 z-10 cursor-pointer select-none ${
                 isDomestic ? "text-foreground" : "text-muted hover:text-foreground"
               }`}
             >
@@ -79,7 +79,7 @@ export default function TripCards({ packagesData }: { packagesData?: PackagesDat
             </button>
             <button
               onClick={() => setIsDomestic(false)}
-              className={`relative px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-colors duration-200 z-10 cursor-pointer select-none ${
+              className={`relative px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors duration-200 z-10 cursor-pointer select-none ${
                 !isDomestic ? "text-foreground" : "text-muted hover:text-foreground"
               }`}
             >
@@ -96,7 +96,7 @@ export default function TripCards({ packagesData }: { packagesData?: PackagesDat
 
           <Link
             href="/packages"
-            className="hidden sm:flex items-center gap-2 text-brand hover:text-brand-hover font-bold text-sm group shrink-0"
+            className="hidden sm:flex items-center gap-2 text-brand hover:text-brand-hover font-semibold text-sm group shrink-0"
           >
             <span>See All Trips</span>
             <span className="w-8 h-8 rounded-full border border-brand/20 flex items-center justify-center group-hover:border-brand transition-all duration-300">
@@ -142,7 +142,7 @@ export default function TripCards({ packagesData }: { packagesData?: PackagesDat
               </div>
 
               {/* Glassmorphic Duration Badge */}
-              <div className="absolute top-4 left-4 z-20 bg-white/20 backdrop-blur-md border border-white/25 text-white text-[10px] font-extrabold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-1.5 select-none">
+              <div className="absolute top-4 left-4 z-20 bg-white/20 backdrop-blur-md border border-white/25 text-white text-[10px] font-semibold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-1.5 select-none">
                 <Clock className="w-3.5 h-3.5" />
                 <span>{pkg.duration_range || `${pkg.min_days} Days`}</span>
               </div>
@@ -165,13 +165,13 @@ export default function TripCards({ packagesData }: { packagesData?: PackagesDat
 
               {/* Bottom Card Content overlay */}
               <div className="mt-auto p-6 z-20 flex flex-col justify-end">
-                <h3 className="text-xl font-extrabold text-white leading-snug tracking-tight mb-2 group-hover:text-brand transition-colors duration-300 drop-shadow-sm">
+                <h3 className="text-xl font-bold text-white leading-snug tracking-tight mb-2 group-hover:text-brand transition-colors duration-300 drop-shadow-sm">
                   {pkg.name}
                 </h3>
                 <div className="flex items-center justify-between mt-1 gap-2">
                   {/* Destinations with pin icon */}
-                  <div className="flex items-center gap-1.5 text-white/80 text-xs font-semibold">
-                    <MapPin className="w-3.5 h-3.5 text-brand shrink-0" />
+                  <div className="flex items-center gap-1.5 text-white/80 text-xs font-normal">
+                    <MapPin className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
                     <span className="truncate max-w-[130px] sm:max-w-[160px] drop-shadow-sm">
                       {pkg.destinations.slice(0, 2).join(", ")}
                       {pkg.destinations.length > 2 && "..."}

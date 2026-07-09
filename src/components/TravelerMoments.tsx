@@ -87,14 +87,14 @@ export default function TravelerMoments() {
   const reviewB = reviews[(currentIndex + 1) % reviews.length];
 
   return (
-    <section id="blog" className="py-16 overflow-hidden layout-container">
+    <section id="blog" className="py-24 overflow-hidden layout-container">
       {/* Section Header */}
       <div className="flex items-center justify-between mb-12 gap-4">
         <div>
-          <h2 className="text-3xl md:text-5xl font-extrabold text-foreground tracking-tight leading-[1.1]">
-            What Our <span className="text-brand">Customers</span> Say
+          <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight leading-[1.1]">
+            What Our Customers Say
           </h2>
-          <p className="text-muted font-medium mt-2 text-sm md:text-base">
+          <p className="text-muted font-normal mt-2 text-sm md:text-base">
             Hear from our adventurers about their recent travel experiences
           </p>
         </div>
@@ -138,7 +138,7 @@ export default function TravelerMoments() {
               }`}
             >
               {/* Image Container with Play Overlay if Video review */}
-              <div className="relative h-60 w-full rounded-2xl overflow-hidden mb-5">
+              <div className="relative h-60 w-full rounded-[1.5rem] overflow-hidden mb-5">
                 <Image
                   src={review.image}
                   alt={`${review.name} travel moment`}
@@ -178,12 +178,12 @@ export default function TravelerMoments() {
                   />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-sm font-extrabold text-foreground truncate">{review.name}</h4>
+                  <h4 className="text-sm font-bold text-foreground truncate">{review.name}</h4>
                   <div className="flex items-center gap-1.5 mt-0.5">
-                    <span className="text-[10px] text-brand font-bold uppercase tracking-wider">
+                    <span className="text-[10px] text-zinc-500 font-semibold uppercase tracking-wider">
                       {review.role}
                     </span>
-                    <span className="w-1 h-1 rounded-full bg-brand" />
+                    <span className="w-1 h-1 rounded-full bg-zinc-300" />
                     <div className="flex items-center">
                       {[...Array(review.rating)].map((_, i) => (
                         <Star key={i} className="w-2.5 h-2.5 fill-amber-400 text-amber-400" />
@@ -240,7 +240,7 @@ export default function TravelerMoments() {
 
                 <div className="flex items-center justify-between pt-4 border-t border-zinc-100">
                   <div className="flex items-center gap-4">
-                    <div className="relative w-12 h-12 rounded-xl overflow-hidden shrink-0">
+                    <div className="relative w-12 h-12 rounded-full overflow-hidden shrink-0">
                       <Image
                         src={reviewA.avatar}
                         alt={reviewA.name}
@@ -250,17 +250,17 @@ export default function TravelerMoments() {
                       />
                     </div>
                     <div>
-                      <h4 className="text-base font-extrabold text-foreground leading-snug">
+                      <h4 className="text-base font-bold text-foreground leading-snug">
                         {reviewA.name}
                       </h4>
-                      <p className="text-xs text-zinc-500 font-medium mt-0.5">{reviewA.role}</p>
+                      <p className="text-xs text-zinc-500 font-normal mt-0.5">{reviewA.role}</p>
                     </div>
                   </div>
 
                   {/* Stars */}
                   <div className="flex items-center gap-0.5">
                     {[...Array(reviewA.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-brand text-brand" />
+                      <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
                     ))}
                   </div>
                 </div>
@@ -277,7 +277,7 @@ export default function TravelerMoments() {
 
                 <div className="flex items-center justify-between pt-4 border-t border-zinc-100">
                   <div className="flex items-center gap-4">
-                    <div className="relative w-12 h-12 rounded-xl overflow-hidden shrink-0">
+                    <div className="relative w-12 h-12 rounded-full overflow-hidden shrink-0">
                       <Image
                         src={reviewB.avatar}
                         alt={reviewB.name}
@@ -287,17 +287,17 @@ export default function TravelerMoments() {
                       />
                     </div>
                     <div>
-                      <h4 className="text-base font-extrabold text-foreground leading-snug">
+                      <h4 className="text-base font-bold text-foreground leading-snug">
                         {reviewB.name}
                       </h4>
-                      <p className="text-xs text-zinc-500 font-medium mt-0.5">{reviewB.role}</p>
+                      <p className="text-xs text-zinc-500 font-normal mt-0.5">{reviewB.role}</p>
                     </div>
                   </div>
 
                   {/* Stars */}
                   <div className="flex items-center gap-0.5">
                     {[...Array(reviewB.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-brand text-brand" />
+                      <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
                     ))}
                   </div>
                 </div>

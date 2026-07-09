@@ -141,7 +141,7 @@ function DestinationCard({
       {/* Content Overlay */}
       <div className="absolute inset-0 p-6 flex flex-col justify-end text-white z-10">
         <div className="flex flex-col">
-          <h3 className="text-xl lg:text-2xl font-extrabold tracking-tight leading-tight mb-1">
+          <h3 className="text-xl lg:text-2xl font-bold tracking-tight leading-tight mb-1">
             {dest.name},{" "}
             <span className="text-white/80 font-semibold text-lg lg:text-xl">{dest.location}</span>
           </h3>
@@ -168,7 +168,7 @@ function DestinationCard({
         >
           <Link
             href={`/destinations/${dest.slug}`}
-            className="bg-brand hover:bg-brand-hover text-white text-xs lg:text-sm font-bold py-2 px-6 rounded-full transition-colors cursor-pointer shadow-sm inline-block"
+            className="bg-brand hover:bg-brand-hover text-white text-xs lg:text-sm font-semibold py-2 px-6 rounded-full transition-colors cursor-pointer shadow-sm inline-block"
           >
             View
           </Link>
@@ -245,15 +245,15 @@ export default function PopularDestinations({
   const cardD = destinations[wrap(currentIndex + 3)];
 
   return (
-    <section className="py-16 bg-white border-y border-border-light">
+    <section className="py-24 bg-white border-y border-border-light">
       <div className="layout-container">
         {/* Section Header */}
-        <div className="flex items-center justify-between mb-12 gap-4">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
           <div>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-foreground tracking-tight leading-[1.1]">
-              Explore Top <span className="text-brand">Destination</span>
+            <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight leading-[1.1]">
+              Explore Top Destinations
             </h2>
-            <p className="text-muted font-medium mt-2 text-sm md:text-base">
+            <p className="text-muted font-normal mt-2 text-sm md:text-base">
               Explore the world&apos;s most sought-after travel experiences
             </p>
           </div>

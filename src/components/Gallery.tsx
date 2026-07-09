@@ -58,14 +58,14 @@ export default function Gallery() {
   ];
 
   return (
-    <section id="gallery" className="py-20 scroll-mt-24 layout-container">
+    <section id="gallery" className="py-24 scroll-mt-24 layout-container">
       {/* Section Header */}
       <div className="flex items-center justify-between mb-12 gap-4">
         <div>
-          <h2 className="text-3xl md:text-5xl font-extrabold text-foreground tracking-tight leading-[1.1]">
-            Our Travel <span className="text-brand">Gallery</span>
+          <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight leading-[1.1]">
+            Our Travel Gallery
           </h2>
-          <p className="text-muted font-medium mt-2 text-sm md:text-base">
+          <p className="text-muted font-normal mt-2 text-sm md:text-base">
             Catch a glimpse of the mesmerizing landscapes, historical monuments, and soulful
             cultures captured during our curated trips.
           </p>
@@ -108,7 +108,7 @@ export default function Gallery() {
               <span className="text-xs font-semibold text-brand-light/95 uppercase tracking-widest">
                 {item.location}
               </span>
-              <h3 className="text-lg md:text-xl font-extrabold tracking-tight">{item.title}</h3>
+              <h3 className="text-lg md:text-xl font-bold tracking-tight">{item.title}</h3>
             </div>
           </motion.div>
         ))}

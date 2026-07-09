@@ -22,13 +22,13 @@ export default function WhyChooseUs() {
   ];
 
   return (
-    <section className="py-20 scroll-mt-24 bg-white layout-container">
+    <section className="py-24 scroll-mt-24 bg-white layout-container">
       {/* Section Header */}
       <div className="text-center mb-16">
-        <h2 className="text-3xl md:text-5xl font-extrabold text-foreground tracking-tight leading-[1.1] mb-4">
-          Why Choose <span className="text-brand">Mother India</span> Tour Travels?
+        <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight leading-[1.1] mb-4">
+          Why Choose Us?
         </h2>
-        <p className="text-muted font-medium text-sm md:text-base max-w-2xl mx-auto">
+        <p className="text-muted font-normal text-sm md:text-base max-w-2xl mx-auto">
           We provide exceptional travel experiences with attention to every detail
         </p>
       </div>
@@ -42,11 +42,11 @@ export default function WhyChooseUs() {
               {feature.icon}
             </div>
             {/* Title */}
-            <h3 className="text-xl md:text-2xl font-extrabold text-foreground tracking-tight mb-2.5">
+            <h3 className="text-xl md:text-2xl font-bold text-foreground tracking-tight mb-2.5">
               {feature.title}
             </h3>
             {/* Description */}
-            <p className="text-muted text-xs md:text-sm font-medium leading-relaxed max-w-[280px]">
+            <p className="text-muted text-xs md:text-sm font-normal leading-relaxed max-w-[280px]">
               {feature.description}
             </p>
           </div>

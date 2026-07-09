@@ -486,7 +486,7 @@ export default function Hero({
   return (
     <section
       id="home"
-      className="relative w-full pt-4 pb-20 layout-container"
+      className="relative w-full pt-4 pb-24 layout-container"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       aria-label="Hero slider"
@@ -903,7 +903,7 @@ export default function Hero({
                         <button
                           type="button"
                           onClick={() => setDateMode("calendar")}
-                          className={`relative px-6 py-2 rounded-full text-xs font-bold transition-colors duration-200 z-10 cursor-pointer ${
+                          className={`relative px-6 py-2 rounded-full text-xs font-semibold transition-colors duration-200 z-10 cursor-pointer ${
                             dateMode === "calendar"
                               ? "text-foreground"
                               : "text-muted hover:text-foreground"
@@ -921,7 +921,7 @@ export default function Hero({
                         <button
                           type="button"
                           onClick={() => setDateMode("flexible")}
-                          className={`relative px-6 py-2 rounded-full text-xs font-bold transition-colors duration-200 z-10 cursor-pointer ${
+                          className={`relative px-6 py-2 rounded-full text-xs font-semibold transition-colors duration-200 z-10 cursor-pointer ${
                             dateMode === "flexible"
                               ? "text-foreground"
                               : "text-muted hover:text-foreground"
@@ -1122,7 +1122,7 @@ export default function Hero({
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               type="submit"
-              className="px-10 py-4 bg-brand hover:bg-brand-hover text-white rounded-full font-bold text-sm shadow-premium transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2 cursor-pointer tracking-wider mt-4"
+              className="px-10 py-4 bg-brand hover:bg-brand-hover text-white rounded-full font-semibold text-sm shadow-premium transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2 cursor-pointer tracking-wider mt-4"
             >
               <Search className="w-4 h-4 text-white" />
               Find Packages

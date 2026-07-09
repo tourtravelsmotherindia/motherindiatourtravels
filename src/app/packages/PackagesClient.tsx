@@ -254,12 +254,12 @@ export default function PackagesClient({
     <div className="relative min-h-screen bg-white flex flex-col pt-24">
       <Navbar />
 
-      <main className="flex-1 layout-container py-12">
+      <main className="flex-1 layout-container py-24">
         <div className="mb-12 text-center md:text-left">
-          <h1 className="text-4xl md:text-6xl font-extrabold text-foreground tracking-tight font-display">
-            All <span className="text-brand">Tour Packages</span>
+          <h1 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight font-display">
+            All Tour Packages
           </h1>
-          <p className="text-neutral-500 font-medium mt-3 text-sm md:text-base max-w-2xl">
+          <p className="text-muted font-normal mt-3 text-sm md:text-base max-w-2xl">
             Embark on unforgettable journeys with our premium, custom-designed itineraries. Explore
             majestic sights across India and handpicked international destinations.
           </p>
@@ -277,7 +277,7 @@ export default function PackagesClient({
                 setSearchQuery(e.target.value);
                 setCurrentPage(1);
               }}
-              className="w-full bg-white border border-neutral-200 rounded-full pl-11 pr-5 py-3 lg:py-3.5 xl:py-4 text-sm focus:outline-none focus:border-brand/40 focus:ring-1 focus:ring-brand/40 transition-all duration-300 font-semibold text-neutral-700 placeholder:text-neutral-400"
+              className="w-full bg-white border border-neutral-200 rounded-full pl-11 pr-5 py-2.5 lg:py-3 text-sm focus:outline-none focus:border-brand/40 focus:ring-1 focus:ring-brand/40 transition-all duration-300 font-semibold text-neutral-600 placeholder:text-neutral-400"
             />
           </div>
 
@@ -290,7 +290,7 @@ export default function PackagesClient({
                     setSelectedType(type);
                     setCurrentPage(1);
                   }}
-                  className={`relative px-4 lg:px-5 py-2 lg:py-2.5 xl:py-3 rounded-full text-xs font-bold uppercase tracking-wider transition-colors duration-200 z-10 cursor-pointer select-none ${
+                  className={`relative px-4 lg:px-5 py-2 lg:py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors duration-200 z-10 cursor-pointer select-none ${
                     selectedType === type ? "text-foreground" : "text-muted hover:text-foreground"
                   }`}
                 >
@@ -363,7 +363,7 @@ export default function PackagesClient({
                       className="group relative bg-white border border-neutral-100 rounded-[2rem] p-4 shadow-card hover:shadow-premium transition-all duration-500 flex flex-col h-full justify-between"
                     >
                       <div>
-                        <div className="relative w-full h-[220px] md:h-[260px] lg:h-[280px] xl:h-[320px] rounded-[1.5rem] overflow-hidden bg-neutral-100 z-0">
+                        <div className="relative w-full h-[220px] md:h-[260px] lg:h-[280px] z-0 xl:h-[320px] rounded-[1.5rem] overflow-hidden bg-neutral-100 z-0">
                           <Image
                             src={pkg.hero_image || "/images/placeholder-landscape.png"}
                             alt={pkg.name}
@@ -375,7 +375,7 @@ export default function PackagesClient({
                         </div>
 
                         <div className="flex items-center justify-between mt-5 mb-3 px-1">
-                          <div className="flex items-center gap-1.5 text-neutral-600 font-medium">
+                          <div className="flex items-center gap-1.5 text-neutral-600 font-normal">
                             <Clock className="w-4 h-4 text-neutral-400 shrink-0" />
                             <span className="text-sm">
                               {pkg.duration_range || `${pkg.min_days} Days`}
@@ -405,7 +405,7 @@ export default function PackagesClient({
                         </h3>
 
                         <div className="flex items-center gap-1.5 text-neutral-500 text-xs px-1 mb-6 font-normal">
-                          <MapPin className="w-3.5 h-3.5 text-brand shrink-0" />
+                          <MapPin className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
                           <span className="truncate">{pkg.destinations.join(", ")}</span>
                         </div>
                       </div>
@@ -413,7 +413,7 @@ export default function PackagesClient({
                       <div className="px-1 pb-1">
                         <Link
                           href={`/packages/${pkg.slug}`}
-                          className="block w-full border border-neutral-900 text-neutral-900 hover:bg-brand hover:border-brand hover:text-white font-bold text-xs uppercase tracking-wider py-3.5 rounded-full transition-all duration-300 text-center select-none"
+                          className="block w-full border border-neutral-900 text-neutral-900 hover:bg-brand hover:border-brand hover:text-white font-semibold text-xs uppercase tracking-wider py-3.5 rounded-full transition-all duration-300 text-center select-none"
                         >
                           View Details
                         </Link>
@@ -445,7 +445,7 @@ export default function PackagesClient({
                       return (
                         <span
                           key={`ellipsis-${idx}`}
-                          className="w-9 h-9 flex items-center justify-center text-neutral-400 font-bold text-sm select-none"
+                          className="w-9 h-9 flex items-center justify-center text-neutral-400 font-semibold text-sm select-none"
                           aria-hidden="true"
                         >
                           ...
@@ -463,7 +463,7 @@ export default function PackagesClient({
                         }}
                         aria-label={`Go to page ${page}`}
                         aria-current={isPageActive ? "page" : undefined}
-                        className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-200 select-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 ${
+                        className={`w-9 h-9 rounded-full flex items-center justify-center font-semibold text-sm transition-all duration-200 select-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 ${
                           isPageActive
                             ? "bg-neutral-900 text-white shadow-md scale-105"
                             : "text-neutral-700 hover:bg-neutral-200/50"

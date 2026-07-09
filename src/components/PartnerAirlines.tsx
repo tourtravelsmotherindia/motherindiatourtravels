@@ -66,14 +66,14 @@ export default function PartnerAirlines() {
   ];
 
   return (
-    <section className="py-16 bg-brand-light/35 border-b border-border-light">
+    <section className="py-24 bg-brand-light/35 border-b border-border-light">
       <div className="layout-container">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-foreground tracking-tight">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight">
             Search Top Airlines
           </h2>
-          <p className="text-muted font-medium mt-2">
+          <p className="text-muted font-normal mt-2">
             Our trusted partners to fly you to your dream destinations
           </p>
         </div>
@@ -98,7 +98,7 @@ export default function PartnerAirlines() {
                 >
                   {airline.logoLetter}
                 </div>
-                <span className="text-sm font-bold text-foreground group-hover:text-brand transition-colors duration-200">
+                <span className="text-sm font-semibold text-foreground group-hover:text-brand transition-colors duration-200">
                   {airline.name}
                 </span>
               </div>

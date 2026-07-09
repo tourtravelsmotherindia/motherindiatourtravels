@@ -215,7 +215,7 @@ export default function Footer({
 
           {/* Right: Newsletter Join */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 flex-1 pl-0 md:pl-12">
-            <h3 className="text-2xl font-extrabold text-neutral-900 tracking-tight leading-tight">
+            <h3 className="text-2xl font-bold text-neutral-900 tracking-tight leading-tight">
               Join our
               <br className="hidden sm:inline" /> Newsletter
             </h3>
@@ -228,7 +228,7 @@ export default function Footer({
               ) : (
                 <form
                   onSubmit={handleSubscribe}
-                  className="flex items-center bg-white border border-neutral-200 rounded-full p-1 pl-4 w-full shadow-[0_2px_8px_rgba(0,0,0,0.02)]"
+                  className="flex items-center bg-white border border-neutral-200 rounded-full p-1 pl-4 w-full shadow-sm"
                 >
                   <input
                     type="email"
@@ -255,19 +255,26 @@ export default function Footer({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pt-16 mb-12">
           {/* Column 1: Logo & About (spans 5 cols on lg) */}
           <div className="lg:col-span-5 flex flex-col gap-5">
-            <Link href="/" className="flex items-center gap-3 group w-max">
-              <Image
-                src="/logo.png?v=234567"
-                alt="Mother India Tour Travels Logo"
-                width={48}
-                height={48}
-                className="h-12 w-12 object-contain transition-transform group-hover:scale-105 duration-300"
-              />
-              <span className="font-display text-lg lg:text-xl font-extrabold text-neutral-900 tracking-tight leading-none whitespace-nowrap">
-                Mother India Tour Travels
-              </span>
+            <Link href="/" className="flex items-center gap-3 group w-max select-none">
+              <div className="relative transition-transform group-hover:scale-105 duration-300 shrink-0">
+                <Image
+                  src="/logo.png?v=234567"
+                  alt="Mother India Tour Travels Logo"
+                  width={38}
+                  height={38}
+                  className="h-9.5 w-9.5 object-contain"
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="font-display text-xs lg:text-sm font-bold text-neutral-900 tracking-[0.18em] uppercase leading-none">
+                  Mother India
+                </span>
+                <span className="font-sans text-[8px] lg:text-[9px] font-semibold text-muted tracking-[0.25em] uppercase leading-none mt-1">
+                  Tour Travels
+                </span>
+              </div>
             </Link>
-            <p className="text-sm text-neutral-500 font-medium leading-relaxed max-w-md">
+            <p className="text-sm text-neutral-500 font-normal leading-relaxed max-w-md">
               {companyData.about}
             </p>
           </div>
