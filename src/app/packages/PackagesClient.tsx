@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, Heart, MapPin, Search, SlidersHorizontal } from "lucide-react";
+import { ChevronLeft, ChevronRight, Clock, Heart, MapPin, Search, SlidersHorizontal } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
@@ -279,12 +279,10 @@ export default function PackagesClient({ packagesData }: { packagesData: Package
                       </div>
 
                       <div className="flex items-center justify-between mt-5 mb-3 px-1">
-                        <div className="flex items-baseline">
-                          <span className="text-xl font-extrabold text-neutral-900 tracking-tight">
+                        <div className="flex items-center gap-1.5 text-neutral-600 font-medium">
+                          <Clock className="w-4 h-4 text-neutral-400 shrink-0" />
+                          <span className="text-sm">
                             {pkg.duration_range || `${pkg.min_days} Days`}
-                          </span>
-                          <span className="text-xs text-neutral-400 font-bold ml-1 uppercase tracking-wider">
-                            /Duration
                           </span>
                         </div>
 
@@ -306,11 +304,11 @@ export default function PackagesClient({ packagesData }: { packagesData: Package
                         </button>
                       </div>
 
-                      <h3 className="font-extrabold text-lg text-neutral-900 leading-snug px-1 line-clamp-1 mb-1">
+                      <h3 className="font-bold text-lg text-foreground leading-snug px-1 line-clamp-1 mb-2">
                         {pkg.name}
                       </h3>
 
-                      <div className="flex items-center gap-1.5 text-neutral-500 text-xs px-1 mb-5 font-semibold">
+                      <div className="flex items-center gap-1.5 text-neutral-500 text-xs px-1 mb-6 font-normal">
                         <MapPin className="w-3.5 h-3.5 text-brand shrink-0" />
                         <span className="truncate">{pkg.destinations.join(", ")}</span>
                       </div>
