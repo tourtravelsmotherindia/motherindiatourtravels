@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
-import Footer from "@/components/Footer";
+import Footer, { type FooterCompanyData } from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 
 interface PackageItem {
@@ -26,7 +26,13 @@ interface PackagesData {
   packages: PackageItem[];
 }
 
-export default function PackagesClient({ packagesData }: { packagesData: PackagesData }) {
+export default function PackagesClient({
+  packagesData,
+  companyData,
+}: {
+  packagesData: PackagesData;
+  companyData: FooterCompanyData | null;
+}) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedType, setSelectedType] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -387,7 +393,7 @@ export default function PackagesClient({ packagesData }: { packagesData: Package
         )}
       </main>
 
-      <Footer />
+      <Footer companyData={companyData} />
     </div>
   );
 }

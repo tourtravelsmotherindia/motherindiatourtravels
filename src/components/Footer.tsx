@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import type React from "react";
 import { useState } from "react";
 
-interface FooterCompanyData {
+export interface FooterCompanyData {
   name: string;
   tagline: string;
   website: string;
