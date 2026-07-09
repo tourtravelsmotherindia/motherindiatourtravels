@@ -2,18 +2,27 @@
 
 import { motion } from "framer-motion";
 import {
+  Calendar,
   ChevronLeft,
   ChevronRight,
   Clock,
+  Compass,
+  Grid,
   Heart,
   MapPin,
   Search,
   SlidersHorizontal,
+  Sparkles,
+  Sun,
+  Trees,
+  Users,
+  Wallet,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 
+import Dropdown from "@/components/Dropdown";
 import Footer, { type FooterCompanyData } from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 
@@ -126,6 +135,50 @@ export default function PackagesClient({
     });
     return Array.from(categoriesSet).sort();
   }, [allPackages]);
+
+  // Map categories to icons
+  const getCategoryIcon = (id: string) => {
+    switch (id) {
+      case "all":
+        return Grid;
+      case "beach-tour-packages":
+        return Sun;
+      case "honeymoon-tour-packages":
+        return Heart;
+      case "luxury-tour-packages":
+        return Sparkles;
+      case "family-tour-packages":
+        return Users;
+      case "spiritual-tour-packages":
+        return Sun;
+      case "wildlife-tour-packages":
+        return Trees;
+      case "budget-tour-packages":
+        return Wallet;
+      case "weekend-tour-packages":
+        return Calendar;
+      default:
+        return Compass;
+    }
+  };
+
+  const categoryOptions = useMemo(() => {
+    const opts = [
+      {
+        value: "all",
+        label: "All Categories",
+        icon: Grid,
+      },
+    ];
+    availableCategories.forEach((catId) => {
+      opts.push({
+        value: catId,
+        label: getCategoryLabel(catId),
+        icon: getCategoryIcon(catId),
+      });
+    });
+    return opts;
+  }, [availableCategories]);
 
   // Apply filters
   const filteredPackages = useMemo(() => {
@@ -249,23 +302,17 @@ export default function PackagesClient({
               ))}
             </div>
 
-            <div className="relative shrink-0 w-full sm:w-52 select-none">
-              <select
+            <div className="shrink-0 w-full sm:w-60 select-none">
+              <Dropdown
+                options={categoryOptions}
                 value={selectedCategory}
-                onChange={(e) => {
-                  setSelectedCategory(e.target.value);
+                onChange={(val) => {
+                  setSelectedCategory(val);
                   setCurrentPage(1);
                 }}
-                className="w-full bg-white border border-neutral-200 rounded-full px-5 py-3 pr-10 text-sm focus:outline-none focus:border-brand/40 transition-all duration-300 font-bold text-neutral-700 cursor-pointer appearance-none shadow-sm"
-              >
-                <option value="all">All Categories</option>
-                {availableCategories.map((catId) => (
-                  <option key={catId} value={catId}>
-                    {getCategoryLabel(catId)}
-                  </option>
-                ))}
-              </select>
-              <SlidersHorizontal className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400 pointer-events-none" />
+                align="right"
+                icon={SlidersHorizontal}
+              />
             </div>
           </div>
         </div>
