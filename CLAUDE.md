@@ -12,15 +12,14 @@ This project uses Next.js 16 with breaking changes from earlier versions. Read `
 
 ```bash
 npm run dev         # Development server (Turbopack)
-npm run build       # Production build (runs prisma generate → migrate deploy → db seed → next build)
+npm run build       # Production build (runs prisma generate → migrate deploy → next build)
+npm run build:static# Static production build
 npm run start       # Start production server
 npm run lint        # ESLint (Next.js core-web-vitals + typescript configs)
 npm run lint:fix    # ESLint with auto-fix
 npm run format      # Prettier write
 npm run format:check# Prettier check (CI)
-npm run db:seed     # Re-seed the database from data/json/
-npm run db:verify   # Verify DB content matches JSON source files
-npm run db:reset    # Wipe and recreate the database (dev only)
+npm run db:reset    # Wipe and recreate the database using migrations (dev only)
 ```
 
 ## Tech stack
@@ -38,7 +37,12 @@ This is a **single-page landing site** for a tour & travel agency plus a **packa
 
 ## Data Layer (Prisma + SQLite)
 
-The site is **data-driven** — content is stored in a local SQLite database (`data/travel.db`) accessed through Prisma. The original JSON source files live in `data/json/` and are ingested by the seed script (`prisma/seed.ts`).
+The site is **data-driven** — content is stored in a local SQLite database (`data/travel.db`) accessed through Prisma. The database schema and all initial seed data are managed entirely through SQL migrations.
+
+**Database Backup Rule:**
+- **CRITICAL**: Before running any commands that can modify, mutate, reset, or apply migrations to the database (including `npm run build`, `npm run build:static`, `npm run db:reset`, `npx prisma migrate dev`), you **must** first create a SQL backup of the current database inside `data/backups/`.
+- File naming convention for backup: `data/backups/travel_backup_TIMESTAMP.sql` (where `TIMESTAMP` is in format `YYYYMMDD_HHMMSS`).
+- Ensure the `data/backups/` directory exists before writing the backup.
 
 **Database setup:**
 
