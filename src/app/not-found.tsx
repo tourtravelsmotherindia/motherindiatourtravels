@@ -59,18 +59,18 @@ export default async function NotFound() {
           </p>
 
           {/* Action CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 w-full max-w-md">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 w-full max-w-lg">
             <Link
               href="/"
-              className="w-full sm:w-auto bg-brand hover:bg-brand-hover text-white font-semibold text-sm md:text-base px-10 py-4 rounded-full transition-all duration-300 shadow-premium hover:scale-105 active:scale-95 text-center cursor-pointer select-none"
+              className="w-full sm:w-auto bg-brand hover:bg-brand-hover text-white font-semibold text-sm md:text-base px-8 py-3.5 rounded-full transition-all duration-300 shadow-premium hover:scale-105 active:scale-95 text-center cursor-pointer select-none whitespace-nowrap"
             >
               Return to home
             </Link>
             <Link
               href="/packages"
-              className="w-full sm:w-auto border-2 border-white/80 text-white hover:bg-white hover:text-foreground font-semibold text-sm md:text-base px-10 py-4 rounded-full transition-all duration-300 hover:scale-105 active:scale-95 text-center cursor-pointer select-none"
+              className="w-full sm:w-auto border-2 border-white/80 text-white hover:bg-white hover:text-foreground font-semibold text-sm md:text-base px-8 py-3.5 rounded-full transition-all duration-300 hover:scale-105 active:scale-95 text-center cursor-pointer select-none whitespace-nowrap"
             >
-              Renowned Places
+              Explore Packages
             </Link>
           </div>
         </div>
