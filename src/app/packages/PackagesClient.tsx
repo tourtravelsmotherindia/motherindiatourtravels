@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import Dropdown from "@/components/Dropdown";
@@ -50,10 +51,49 @@ export default function PackagesClient({
   packagesData: PackagesData;
   companyData: FooterCompanyData | null;
 }) {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedType, setSelectedType] = useState("all");
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const searchParams = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState(() => searchParams.get("search") ?? "");
+  const [selectedType, setSelectedType] = useState(() => searchParams.get("type") ?? "all");
+  const [selectedCategory, setSelectedCategory] = useState(
+    () => searchParams.get("category") ?? "all",
+  );
   const [currentPage, setCurrentPage] = useState(1);
+
+  // 1. Sync search parameters from URL (e.g. when user clicks a Link in Navbar) to React state
+  useEffect(() => {
+    const searchVal = searchParams.get("search") ?? "";
+    const typeVal = searchParams.get("type") ?? "all";
+    const categoryVal = searchParams.get("category") ?? "all";
+
+    setSearchQuery(searchVal);
+    setSelectedType(typeVal);
+    setSelectedCategory(categoryVal);
+    setCurrentPage(1);
+  }, [searchParams]);
+
+  // 2. Sync local filter states to URL search parameters (without causing full-page navigation)
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (searchQuery.trim()) {
+      params.set("search", searchQuery);
+    }
+    if (selectedType !== "all") {
+      params.set("type", selectedType);
+    }
+    if (selectedCategory !== "all") {
+      params.set("category", selectedCategory);
+    }
+
+    const newQuery = params.toString();
+    const currentQuery = window.location.search.replace(/^\?/, "");
+
+    // Only update if the URL search query has actually changed
+    if (newQuery !== currentQuery) {
+      const newUrl = `${window.location.pathname}${newQuery ? "?" + newQuery : ""}`;
+      window.history.replaceState(null, "", newUrl);
+    }
+  }, [searchQuery, selectedType, selectedCategory]);
+
   const [favorites, setFavorites] = useState<string[]>(() => {
     if (typeof window === "undefined") return [];
     try {

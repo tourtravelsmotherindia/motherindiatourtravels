@@ -253,8 +253,8 @@ export default function Footer({
 
         {/* Bottom Section: Grid Columns */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pt-16 mb-12">
-          {/* Column 1: Logo & About (spans 5 cols on lg) */}
-          <div className="lg:col-span-5 flex flex-col gap-5">
+          {/* Column 1: Logo & About (spans 4 cols on lg) */}
+          <div className="lg:col-span-4 flex flex-col gap-5">
             <Link href="/" className="flex items-center gap-3 group w-max select-none">
               <div className="relative transition-transform group-hover:scale-105 duration-300 shrink-0">
                 <Image
@@ -339,8 +339,6 @@ export default function Footer({
                 { name: "FAQs", href: "#faq" },
                 { name: "Gallery", href: "#gallery" },
                 { name: "Contact Us", href: "#contact" },
-                { name: "Privacy Policy", href: "#" },
-                { name: "Terms of Use", href: "#" },
               ].map((link) => (
                 <li key={link.name}>
                   <Link
@@ -354,24 +352,27 @@ export default function Footer({
             </ul>
           </div>
 
-          {/* Column 4: Popular Trips (spans 2 cols on lg) */}
-          <div className="lg:col-span-2 flex flex-col gap-4">
+          {/* Column 4: Destinations & Themes (spans 3 cols on lg) */}
+          <div className="lg:col-span-3 flex flex-col gap-4">
             <h4 className="text-xs font-bold uppercase tracking-widest text-neutral-900">
-              Popular Trips
+              Popular Highlights
             </h4>
             <ul className="flex flex-col gap-2.5 text-sm text-neutral-500 font-medium">
               {[
-                { name: "Himalayan Heights", href: "#" },
-                { name: "Kerala Backwaters", href: "#" },
-                { name: "Rajasthan Desert Safari", href: "#" },
-                { name: "Taj Mahal & Golden Triangle", href: "#" },
-              ].map((trip) => (
-                <li key={trip.name}>
+                { name: "Kerala Backwaters", href: "/packages?search=Kerala" },
+                { name: "Kashmir Valley Escape", href: "/packages?search=Srinagar" },
+                { name: "Rajasthan Heritage Tour", href: "/packages?search=Jaipur" },
+                { name: "Honeymoon Specials", href: "/packages?category=honeymoon-tour-packages" },
+                { name: "Beach Getaways", href: "/packages?category=beach-tour-packages" },
+                { name: "Spiritual Journeys", href: "/packages?category=spiritual-tour-packages" },
+                { name: "International Escapes", href: "/packages?type=international" },
+              ].map((item) => (
+                <li key={item.name}>
                   <Link
-                    href={trip.href}
+                    href={item.href}
                     className="hover:text-neutral-950 hover:translate-x-1 transition-all duration-200 inline-block"
                   >
-                    {trip.name}
+                    {item.name}
                   </Link>
                 </li>
               ))}

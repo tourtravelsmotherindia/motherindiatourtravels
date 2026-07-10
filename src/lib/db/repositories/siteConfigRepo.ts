@@ -19,4 +19,3 @@ export async function getSiteConfig() {
     custom_404_image_url: config.custom404ImageUrl,
   };
 }
-

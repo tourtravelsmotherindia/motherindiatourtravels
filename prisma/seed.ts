@@ -11,8 +11,8 @@
  *   npx tsx prisma/seed.ts      (direct)
  */
 
-import { config } from "dotenv";
 import { PrismaPg } from "@prisma/adapter-pg";
+import { config } from "dotenv";
 import fs from "fs";
 import path from "path";
 
@@ -58,9 +58,7 @@ async function main() {
 
   if (!fs.existsSync(SEED_SQL)) {
     console.error(`❌ Seed SQL file not found: ${SEED_SQL}`);
-    console.error(
-      "   Run: npx tsx prisma/transform-seed.ts  (converts seed-from-git-history.sql)"
-    );
+    console.error("   Run: npx tsx prisma/transform-seed.ts  (converts seed-from-git-history.sql)");
     process.exit(1);
   }
 
@@ -83,10 +81,7 @@ async function main() {
         executed++;
       } catch (err) {
         failed++;
-        const preview =
-          stmt.length > 120
-            ? stmt.substring(0, 120) + "..."
-            : stmt;
+        const preview = stmt.length > 120 ? stmt.substring(0, 120) + "..." : stmt;
         console.error(`   ✗ Failed [${preview}]:`, (err as Error).message);
 
         // Abort transaction on first failure
@@ -113,7 +108,7 @@ async function main() {
   // inserted via the dashboard don't collide with seeded IDs.
   try {
     await prisma.$executeRawUnsafe(
-      `SELECT setval(pg_get_serial_sequence('"FAQ"', 'id'), COALESCE((SELECT MAX(id) FROM "FAQ"), 1))`
+      `SELECT setval(pg_get_serial_sequence('"FAQ"', 'id'), COALESCE((SELECT MAX(id) FROM "FAQ"), 1))`,
     );
     console.log("   ✓ Synced FAQ autoincrement sequence");
   } catch (err) {
