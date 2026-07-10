@@ -47,22 +47,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # Build static site
+      # Build static site (generate Prisma client → apply migrations → static export)
       # Next.js fetches all data from Supabase PostgreSQL at build time
       # to pre-render every page (home, packages listing, 55+ detail pages).
-      - name: Generate Prisma client
-        run: npx prisma generate
-        env:
-          DIRECT_URL: ${{ secrets.DIRECT_URL }}
-
-      - name: Apply DB migrations
-        run: npx prisma migrate deploy
-        env:
-          DIRECT_URL: ${{ secrets.DIRECT_URL }}
-
       - name: Build static site
-        run: npx next build
+        run: npm run build:static
         env:
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Validate FTP secrets
