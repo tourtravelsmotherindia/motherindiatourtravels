@@ -1,13 +1,13 @@
 // Prisma schema for Mother India Tour Travels
-// SQLite database generated from data/json/ seed files
+// PostgreSQL database hosted on Supabase
 
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../src/generated/prisma"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
 }
 
 //  Country 

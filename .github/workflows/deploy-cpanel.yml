@@ -48,22 +48,22 @@ jobs:
         run: npm ci
 
       # Build static site
-      # Next.js fetches all data from the SQLite DB at build time
+      # Next.js fetches all data from Supabase PostgreSQL at build time
       # to pre-render every page (home, packages listing, 55+ detail pages).
-      - name: Create .env for Prisma
-        run: echo "DATABASE_URL=file:./data/travel.db" > .env
-
       - name: Generate Prisma client
         run: npx prisma generate
+        env:
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
 
       - name: Apply DB migrations
         run: npx prisma migrate deploy
-
-      - name: Seed the database
-        run: npx prisma db seed
+        env:
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
 
       - name: Build static site
         run: npx next build
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Validate FTP secrets
         id: ftp-secrets

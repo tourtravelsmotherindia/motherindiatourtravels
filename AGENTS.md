@@ -180,7 +180,7 @@ Brand logo images (Navbar and Footer) must **never** have a surrounding frame, b
 - Currency is always `₹` (Indian Rupee), never `$`
 - Prisma client must be regenerated after schema changes: `npx prisma generate`
 - The `prisma/` directory is excluded from TypeScript compilation — do not import from it directly; use `@/generated/prisma/client` and `@/lib/db/repositories/*`
-- The `data/` directory at project root contains the live SQLite database and JSON source files; never delete or modify `travel.db*` files manually
+- The `data/` directory at project root contains the live database and JSON source files; never delete or modify database files manually
 
 ## Image Rules
 

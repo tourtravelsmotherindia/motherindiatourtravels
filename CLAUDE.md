@@ -26,7 +26,7 @@ npm run db:reset    # Wipe and recreate the database using migrations (dev only)
 
 - **Next.js 16** (App Router) with React 19, Turbopack enabled
 - **Tailwind CSS v4** (`@tailwindcss/postcss` plugin)
-- **Prisma v7** with `@prisma/adapter-better-sqlite3` — ORM for local SQLite database
+- **Prisma v7** with PostgreSQL — ORM for Supabase-hosted database
 - **framer-motion** for all animations
 - **lucide-react** for icons
 - All UI components are **client components** (`"use client"`); `page.tsx` files are **async server components** that fetch data and pass as props
@@ -35,21 +35,16 @@ npm run db:reset    # Wipe and recreate the database using migrations (dev only)
 
 This is a **single-page landing site** for a tour & travel agency plus a **packages listing page**. The homepage renders on `src/app/page.tsx` (async server component) with sections in order: Navbar → Hero → WhyChooseUs → TripCards → PopularDestinations → Gallery → TravelerMoments → PartnerAirlines → RegionsGrid → FAQ → Footer. The packages page (`src/app/packages/page.tsx`) follows a **server + client split**: the server component fetches data, the client component (`PackagesClient.tsx`) renders the interactive UI.
 
-## Data Layer (Prisma + SQLite)
+## Data Layer (Prisma + PostgreSQL on Supabase)
 
-The site is **data-driven** — content is stored in a local SQLite database (`data/travel.db`) accessed through Prisma. The database schema and all initial seed data are managed entirely through SQL migrations.
-
-**Database Backup Rule:**
-- **CRITICAL**: Before running any commands that can modify, mutate, reset, or apply migrations to the database (including `npm run build`, `npm run build:static`, `npm run db:reset`, `npx prisma migrate dev`), you **must** first create a SQL backup of the current database inside `data/backups/`.
-- File naming convention for backup: `data/backups/travel_backup_TIMESTAMP.sql` (where `TIMESTAMP` is in format `YYYYMMDD_HHMMSS`).
-- Ensure the `data/backups/` directory exists before writing the backup.
+The site is **data-driven** — content is stored in a remote Supabase PostgreSQL database accessed through Prisma. The database schema is managed through Prisma migrations.
 
 **Database setup:**
 
-- Database path: `data/travel.db` (WAL mode + FK enforcement, configured in `src/lib/db/prisma.ts`)
+- Database is hosted on Supabase (PostgreSQL)
 - Prisma client is generated to `src/generated/prisma/` (non-standard output path)
-- WAL mode produces 3 files: `travel.db`, `travel.db-shm`, `travel.db-wal` — all must be present
-- `.env` must have `DATABASE_URL="file:./data/travel.db"` (path relative to `prisma/` directory)
+- `.env` must have `DATABASE_URL` set to the Supabase PostgreSQL connection string
+- Migrations are applied via `npx prisma migrate deploy` (production) or `npx prisma migrate dev` (development)
 
 **Schema** (`prisma/schema.prisma` — 14 models):
 
@@ -67,7 +62,7 @@ The site is **data-driven** — content is stored in a local SQLite database (`d
 
 **Repository layer** (`src/lib/db/repositories/` — 11 files):
 
-Each model has a dedicated repository exporting async query functions. JSON fields (arrays/objects stored as strings in SQLite) are parsed in the repository before returning — consumers receive typed objects, never raw DB rows. Every repository uses a `safeParse()` helper that wraps `JSON.parse` with a fallback to `[]`.
+Each model has a dedicated repository exporting async query functions. JSON fields (arrays/objects stored as strings in PostgreSQL) are parsed in the repository before returning — consumers receive typed objects, never raw DB rows. Every repository uses a `safeParse()` helper that wraps `JSON.parse` with a fallback to `[]`.
 
 ## Images
 
