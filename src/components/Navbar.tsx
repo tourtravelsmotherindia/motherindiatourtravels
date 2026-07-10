@@ -81,7 +81,7 @@ export default function Navbar() {
 
   const navLinks: NavLink[] = [
     { name: "Home", href: "#home" },
-    { name: "About", href: "#about" },
+    { name: "About", href: "/about" },
     {
       name: "Destinations",
       href: "/packages",
@@ -159,10 +159,10 @@ export default function Navbar() {
             />
           </div>
           <div className="flex flex-col">
-            <span className="hidden sm:block font-display text-xs lg:text-sm font-bold text-foreground tracking-[0.18em] uppercase leading-none">
+            <span className="block font-display text-[10px] sm:text-xs lg:text-sm font-bold text-foreground tracking-[0.18em] uppercase leading-none">
               Mother India
             </span>
-            <span className="hidden sm:block font-sans text-[8px] lg:text-[9px] font-semibold text-muted tracking-[0.25em] uppercase leading-none mt-1">
+            <span className="block font-sans text-[7px] sm:text-[8px] lg:text-[9px] font-semibold text-muted tracking-[0.25em] uppercase leading-none mt-1">
               Tour Travels
             </span>
           </div>
@@ -240,15 +240,17 @@ export default function Navbar() {
 
         {/* Right Side: Language & Mobile Toggle */}
         <div className="flex items-center gap-4">
-          <Dropdown
-            options={languageOptions}
-            value={lang}
-            onChange={(val) => setLang(val)}
-            align="right"
-            triggerClassName="px-4 py-2 border border-border-light rounded-full text-foreground hover:bg-brand-light hover:text-brand hover:border-brand/30 transition-all duration-200 text-xs font-semibold w-auto shadow-none bg-transparent"
-            menuClassName="w-28 rounded-2xl p-1"
-            icon={Globe}
-          />
+          <div className="hidden md:block">
+            <Dropdown
+              options={languageOptions}
+              value={lang}
+              onChange={(val) => setLang(val)}
+              align="right"
+              triggerClassName="px-4 py-2 border border-border-light rounded-full text-foreground hover:bg-brand-light hover:text-brand hover:border-brand/30 transition-all duration-200 text-xs font-semibold w-auto shadow-none bg-transparent"
+              menuClassName="w-28 rounded-2xl p-1"
+              icon={Globe}
+            />
+          </div>
 
           <button
             type="button"
@@ -351,6 +353,22 @@ export default function Navbar() {
                   </Link>
                 );
               })}
+
+              {/* Language Dropdown in Mobile Drawer Menu */}
+              <div className="border-t border-border-light pt-4 mt-2 px-3 flex flex-col gap-2">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-muted mb-1">
+                  Select Language
+                </span>
+                <Dropdown
+                  options={languageOptions}
+                  value={lang}
+                  onChange={(val) => setLang(val)}
+                  align="left"
+                  triggerClassName="px-4 py-2.5 border border-border-light rounded-full text-foreground hover:bg-brand-light hover:text-brand hover:border-brand/30 transition-all duration-200 text-xs font-semibold w-full shadow-none bg-transparent flex items-center justify-between"
+                  menuClassName="w-full rounded-2xl p-1"
+                  icon={Globe}
+                />
+              </div>
             </div>
           </motion.div>
         )}

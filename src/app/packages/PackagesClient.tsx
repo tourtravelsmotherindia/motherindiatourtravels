@@ -59,17 +59,18 @@ export default function PackagesClient({
   );
   const [currentPage, setCurrentPage] = useState(1);
 
-  // 1. Sync search parameters from URL (e.g. when user clicks a Link in Navbar) to React state
-  useEffect(() => {
-    const searchVal = searchParams.get("search") ?? "";
-    const typeVal = searchParams.get("type") ?? "all";
-    const categoryVal = searchParams.get("category") ?? "all";
-
-    setSearchQuery(searchVal);
-    setSelectedType(typeVal);
-    setSelectedCategory(categoryVal);
+  // 1. Sync search parameters from URL (e.g. when user clicks a Link in Navbar) to React state.
+  //    Comparison during render is the idiomatic pattern for syncing external mutable state;
+  //    React batches all setState calls here into a single re-render.
+  const [prevParamsStr, setPrevParamsStr] = useState(() => searchParams.toString());
+  const currentParams = searchParams.toString();
+  if (currentParams !== prevParamsStr) {
+    setPrevParamsStr(currentParams);
+    setSearchQuery(searchParams.get("search") ?? "");
+    setSelectedType(searchParams.get("type") ?? "all");
+    setSelectedCategory(searchParams.get("category") ?? "all");
     setCurrentPage(1);
-  }, [searchParams]);
+  }
 
   // 2. Sync local filter states to URL search parameters (without causing full-page navigation)
   useEffect(() => {

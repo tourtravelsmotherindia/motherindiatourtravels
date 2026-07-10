@@ -37,6 +37,7 @@ This project uses a **two-font system** loaded in `src/app/layout.tsx`:
 | ---------------------------------------------------- | ------ | --------------- | --------------------------------------------------- |
 | Section headings (`h1`–`h3`)                         | 700    | `font-bold`     | Strong visual anchors for content hierarchy         |
 | Card titles, package names (`h4`–`h6`)               | 700    | `font-bold`     | Consistent with heading scale                       |
+| Taglines, mid-page callouts                          | 500    | `font-medium`   | Subtle and distinct from standard page headings    |
 | Body text, paragraphs, descriptions                  | 400    | `font-normal`   | Maximum readability for running text                |
 | CTA buttons, "View Details", "Find Packages"         | 600    | `font-semibold` | Prominent but not shouting — signals interactivity  |
 | Secondary UI (nav links, dates, filter labels, tags) | 500    | `font-medium`   | Subtle emphasis without competing with headings     |
@@ -199,3 +200,26 @@ This project uses **Next.js static export** (`output: "export"` in `next.config.
 - Use `priority` on the first 1–2 visible cards/images for LCP optimization
 - Local images live in `/public/images/`; the logo is `/public/logo.png`
 - Remote images allowed from `images.unsplash.com` and `img.freepik.com`
+
+---
+
+## SEO & Semantic HTML Rules
+
+Follow these guidelines for all pages to ensure the website is highly search-engine friendly and follows web standards:
+
+1. **Title & Meta Description**:
+   - Each page must have descriptive title tags and meta descriptions via Next.js metadata API.
+   - Summarize the page content concisely while incorporating target keywords naturally.
+2. **Heading Hierarchy (H1-H6)**:
+   - Ensure a single, unique `<h1>` element exists per page, serving as the main title.
+   - Use headings sequentially (`<h1>` → `<h2>` → `<h3>`) without skipping levels to maintain clear semantic hierarchy.
+3. **Semantic HTML5 Elements**:
+   - Use correct structural tags (`<header>`, `<main>`, `<section>`, `<article>`, `<aside>`, `<footer>`) instead of generic nested `<div>` blocks.
+   - Wrap main page content in a `<main>` container for accessibility crawlers.
+4. **Alt Attributes for Images**:
+   - Every `Image` or `<img>` element must include a descriptive `alt` attribute that explains the image content. Do not leave `alt` empty or generic (e.g. "image").
+5. **Interactive Element Identifiers**:
+   - Ensure all form fields, inputs, drop-downs, and buttons have unique, descriptive `id` and `name` attributes. This aids in browser automation, accessibility readers, and SEO crawling.
+6. **Internal Navigation**:
+   - Use standard Next.js `<Link>` elements for internal routing to ensure search engine crawlers can follow and index page pathways.
+

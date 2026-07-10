@@ -73,7 +73,7 @@ export default function RegionsGrid() {
   ];
 
   return (
-    <section id="about" className="py-24 layout-container">
+    <section id="regions" className="py-24 layout-container">
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
         <div>

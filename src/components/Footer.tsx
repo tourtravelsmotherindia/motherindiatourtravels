@@ -24,7 +24,7 @@ export interface FooterCompanyData {
   };
   social_media: Record<string, string>;
   certifications: string[];
-  about: string;
+  about: string | { footer?: string };
   whatsapp_number: string;
   google_analytics: string;
   google_tag_manager: string;
@@ -275,7 +275,9 @@ export default function Footer({
               </div>
             </Link>
             <p className="text-sm text-neutral-500 font-normal leading-relaxed max-w-md">
-              {companyData.about}
+              {typeof companyData.about === "string"
+                ? companyData.about
+                : companyData.about?.footer}
             </p>
           </div>
 
@@ -325,58 +327,61 @@ export default function Footer({
             </ul>
           </div>
 
-          {/* Column 3: Quick Links (spans 2 cols on lg) */}
-          <div className="lg:col-span-2 flex flex-col gap-4">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-neutral-900">
-              Quick Links
-            </h4>
-            <ul className="flex flex-col gap-2.5 text-sm text-neutral-500 font-medium">
-              {[
-                { name: "Home", href: "#home" },
-                { name: "About Us", href: "#about" },
-                { name: "Tour Packages", href: "/packages" },
-                { name: "Travel Blog", href: "#blog" },
-                { name: "FAQs", href: "#faq" },
-                { name: "Gallery", href: "#gallery" },
-                { name: "Contact Us", href: "#contact" },
-              ].map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={getHref(link.href)}
-                    className="hover:text-neutral-950 hover:translate-x-1 transition-all duration-200 inline-block"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* Column 3 & 4 Wrapper for mobile 2-column layout */}
+          <div className="grid grid-cols-2 gap-8 md:col-span-2 lg:col-span-5 lg:grid-cols-5">
+            {/* Column 3: Quick Links (spans 2 cols on lg) */}
+            <div className="lg:col-span-2 flex flex-col gap-4">
+              <h4 className="text-xs font-bold uppercase tracking-widest text-neutral-900">
+                Quick Links
+              </h4>
+              <ul className="flex flex-col gap-2.5 text-sm text-neutral-500 font-medium">
+                {[
+                  { name: "Home", href: "#home" },
+                  { name: "About Us", href: "/about" },
+                  { name: "Tour Packages", href: "/packages" },
+                  { name: "Travel Blog", href: "#blog" },
+                  { name: "FAQs", href: "#faq" },
+                  { name: "Gallery", href: "#gallery" },
+                  { name: "Contact Us", href: "#contact" },
+                ].map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      href={getHref(link.href)}
+                      className="hover:text-neutral-950 hover:translate-x-1 transition-all duration-200 inline-block"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          {/* Column 4: Destinations & Themes (spans 3 cols on lg) */}
-          <div className="lg:col-span-3 flex flex-col gap-4">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-neutral-900">
-              Popular Highlights
-            </h4>
-            <ul className="flex flex-col gap-2.5 text-sm text-neutral-500 font-medium">
-              {[
-                { name: "Kerala Backwaters", href: "/packages?search=Kerala" },
-                { name: "Kashmir Valley Escape", href: "/packages?search=Srinagar" },
-                { name: "Rajasthan Heritage Tour", href: "/packages?search=Jaipur" },
-                { name: "Honeymoon Specials", href: "/packages?category=honeymoon-tour-packages" },
-                { name: "Beach Getaways", href: "/packages?category=beach-tour-packages" },
-                { name: "Spiritual Journeys", href: "/packages?category=spiritual-tour-packages" },
-                { name: "International Escapes", href: "/packages?type=international" },
-              ].map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="hover:text-neutral-950 hover:translate-x-1 transition-all duration-200 inline-block"
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            {/* Column 4: Popular Highlights (spans 3 cols on lg) */}
+            <div className="lg:col-span-3 flex flex-col gap-4">
+              <h4 className="text-xs font-bold uppercase tracking-widest text-neutral-900">
+                Popular Highlights
+              </h4>
+              <ul className="flex flex-col gap-2.5 text-sm text-neutral-500 font-medium">
+                {[
+                  { name: "Kerala Backwaters", href: "/packages?search=Kerala" },
+                  { name: "Kashmir Valley Escape", href: "/packages?search=Srinagar" },
+                  { name: "Rajasthan Heritage Tour", href: "/packages?search=Jaipur" },
+                  { name: "Honeymoon Specials", href: "/packages?category=honeymoon-tour-packages" },
+                  { name: "Beach Getaways", href: "/packages?category=beach-tour-packages" },
+                  { name: "Spiritual Journeys", href: "/packages?category=spiritual-tour-packages" },
+                  { name: "International Escapes", href: "/packages?type=international" },
+                ].map((item) => (
+                  <li key={item.name}>
+                    <Link
+                      href={item.href}
+                      className="hover:text-neutral-950 hover:translate-x-1 transition-all duration-200 inline-block"
+                    >
+                      {item.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
 
