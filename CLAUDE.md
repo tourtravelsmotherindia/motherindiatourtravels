@@ -13,7 +13,7 @@ This project uses Next.js 16 with breaking changes from earlier versions. Read `
 ```bash
 npm run dev         # Development server (Turbopack)
 npm run build       # Production build (runs prisma generate → migrate deploy → next build)
-npm run build:static# Static production build
+npm run build:static# Static export (see AGENTS.md → Static Export Rules)
 npm run start       # Start production server
 npm run lint        # ESLint (Next.js core-web-vitals + typescript configs)
 npm run lint:fix    # ESLint with auto-fix

@@ -182,6 +182,17 @@ Brand logo images (Navbar and Footer) must **never** have a surrounding frame, b
 - The `prisma/` directory is excluded from TypeScript compilation — do not import from it directly; use `@/generated/prisma/client` and `@/lib/db/repositories/*`
 - The `data/` directory at project root contains the live database and JSON source files; never delete or modify database files manually
 
+## Static Export Rules
+
+This project uses **Next.js static export** (`output: "export"` in `next.config.mjs`). All pages must work with `npm run build:static`. Follow these rules when creating or modifying pages:
+
+- **Dynamic routes** (`[slug]/page.tsx`) **must** export `generateStaticParams()` that returns all possible param combinations. Without it, the page is skipped during static export. — [Reference](src/app/packages/%5Bslug%5D/page.tsx)
+- **No server-only APIs**: Do not use `headers()`, `cookies()`, `noStore()`, `force-dynamic`, `revalidate`, or any API that depends on a running Node.js server. These cause build errors with `output: "export"`.
+- **Data fetching at build time**: All data is fetched from the database via repositories inside `generateStaticParams()` or the page component itself. Every page tree is fully pre-rendered into HTML during the build — there is no server at runtime.
+- **`notFound()` is safe**: Calling `notFound()` inside a statically exported page works correctly (Next.js generates a fallback page). Use it for 404s on invalid slugs.
+- **No ISR / `revalidate`**: Pages are built once at deploy time. Do not export `revalidate` or use `fetch()` with `next: { revalidate }` options — these are no-ops or errors in static export mode.
+- **No `generateStaticParams` for static routes**: Pages without dynamic params (`[slug]`) do not need `generateStaticParams` — the single route is pre-rendered automatically.
+
 ## Image Rules
 
 - `fill` images **must** have a `sizes` prop (Next.js 16 requirement enforced at build time)
