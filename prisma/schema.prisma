@@ -264,4 +264,6 @@ model SiteConfig {
   crossLinkingRules String // JSON object
   urlStructure      String // JSON object
   seoPrinciples     String // JSON array
+  custom404ImageUrl String @default("")
 }
+

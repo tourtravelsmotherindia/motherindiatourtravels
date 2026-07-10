@@ -51,3 +51,6 @@ migration_lock.toml
 *.db-journal
 *.db-wal
 *.db-shm
+
+# Backups
+/data/backups

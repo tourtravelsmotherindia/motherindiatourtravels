@@ -16,5 +16,7 @@ export async function getSiteConfig() {
     cross_linking_rules: JSON.parse(config.crossLinkingRules),
     url_structure: JSON.parse(config.urlStructure),
     seo_principles: JSON.parse(config.seoPrinciples),
+    custom_404_image_url: config.custom404ImageUrl,
   };
 }
+
