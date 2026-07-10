@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import React, { useState } from "react";
 
 import { useToast } from "@/context/ToastContext";
@@ -120,6 +121,16 @@ export default function ContactClient({ companyData }: ContactClientProps) {
       <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-20 items-start">
         {/* Left Side: Contact Information */}
         <div className="flex flex-col">
+          {/* Breadcrumb */}
+          <div className="text-xs font-semibold text-neutral-400 mb-6 tracking-wider">
+            [
+            <Link href="/" className="hover:text-brand transition-colors duration-200">
+              Home
+            </Link>
+            <span className="mx-1 text-neutral-300">/</span>
+            <span className="text-brand">Contact</span>]
+          </div>
+
           <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-[1.1] tracking-tight">
             Get in —
             <br />
