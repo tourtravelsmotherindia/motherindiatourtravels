@@ -76,6 +76,9 @@ model Destination {
   image              String  @default("")
   packageCount       Int     @default(0)
 
+  latitude           Float?
+  longitude          Float?
+
   country Country @relation(fields: [countryId], references: [id])
   state   State?  @relation(fields: [stateId], references: [id])
 
@@ -121,6 +124,13 @@ model Package {
   heroImage          String  @default("")
   tags               String  // JSON array of strings
 
+  galleryImages      String            @default("[]") // JSON array of image URLs
+  tourStyle          String            @default("Classic") // e.g. Heritage, Beach, Wildlife, Pilgrimage
+  groupSizeMax       Int               @default(12)
+  groupSizeAvg       Int               @default(10)
+  stayType           String            @default("Premium Hotels")
+  marketingPitch     String            @default("") // Short marketing intro
+
   // Detail fields (from individual package JSON files)
   overview       String @default("")
   highlights     String @default("[]")
@@ -165,6 +175,8 @@ model ItineraryDay {
   day         Int
   title       String
   description String
+
+  images      String         @default("[]") // JSON array of specific images for this day
 
   variant PackageVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
 

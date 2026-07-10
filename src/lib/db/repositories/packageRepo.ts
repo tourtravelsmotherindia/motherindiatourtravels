@@ -21,6 +21,12 @@ interface PackageRow {
   variantCount: number;
   heroImage: string;
   tags: string;
+  galleryImages: string;
+  tourStyle: string;
+  groupSizeMax: number;
+  groupSizeAvg: number;
+  stayType: string;
+  marketingPitch: string;
 }
 
 interface PackageDetailRow extends PackageRow {
@@ -48,6 +54,7 @@ interface ItineraryDayRow {
   day: number;
   title: string;
   description: string;
+  images: string;
 }
 
 export async function getAllPackages() {
@@ -111,6 +118,12 @@ export async function getPackagesIndex() {
       variantCount: true,
       heroImage: true,
       tags: true,
+      galleryImages: true,
+      tourStyle: true,
+      groupSizeMax: true,
+      groupSizeAvg: true,
+      stayType: true,
+      marketingPitch: true,
     },
   });
   return {
@@ -141,6 +154,12 @@ function mapPackage(pkg: PackageRow) {
     variant_count: pkg.variantCount,
     hero_image: pkg.heroImage,
     tags: safeParse(pkg.tags),
+    gallery_images: safeParse(pkg.galleryImages),
+    tour_style: pkg.tourStyle,
+    group_size_max: pkg.groupSizeMax,
+    group_size_avg: pkg.groupSizeAvg,
+    stay_type: pkg.stayType,
+    marketing_pitch: pkg.marketingPitch,
   };
 }
 
@@ -164,6 +183,7 @@ function mapPackageDetail(pkg: PackageDetailRow) {
             day: d.day,
             title: d.title,
             description: d.description,
+            images: safeParse(d.images),
           })) || [],
       })) || [],
     seo: {

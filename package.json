@@ -4,16 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npx prisma generate && npx prisma migrate deploy && npx prisma db seed && next build",
-    "build:static": "npx prisma generate && npx prisma migrate deploy && npx prisma db seed && next build",
+    "build": "npx prisma generate && npx prisma migrate deploy && next build",
+    "build:static": "npx prisma generate && npx prisma migrate deploy && next build",
     "start": "next start",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "db:seed": "npx prisma db seed",
-    "db:verify": "npx tsx prisma/verify.ts",
-    "db:reset": "rm -f data/travel.db && npx prisma migrate dev --name init && npx prisma db seed"
+    "db:reset": "rm -f data/travel.db* && npx prisma migrate dev"
   },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.8.0",
@@ -27,9 +25,6 @@
     "prisma": "^7.8.0",
     "react": "19.2.4",
     "react-dom": "19.2.4"
-  },
-  "prisma": {
-    "seed": "npx tsx prisma/seed.ts"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

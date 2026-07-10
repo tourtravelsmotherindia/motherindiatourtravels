@@ -19,6 +19,8 @@ export async function getDestinations() {
     seo_description: d.seoDescription,
     image: d.image,
     package_count: d.packageCount,
+    latitude: d.latitude,
+    longitude: d.longitude,
   }));
 }
 
@@ -43,6 +45,8 @@ export async function getFeaturedDestinations() {
     seo_description: d.seoDescription,
     image: d.image,
     package_count: d.packageCount,
+    latitude: d.latitude,
+    longitude: d.longitude,
   }));
 }
 
@@ -66,5 +70,7 @@ export async function getDestinationBySlug(slug: string) {
     seo_description: d.seoDescription,
     image: d.image,
     package_count: d.packageCount,
+    latitude: d.latitude,
+    longitude: d.longitude,
   };
 }
