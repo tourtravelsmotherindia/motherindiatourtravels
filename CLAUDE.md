@@ -37,10 +37,18 @@ This is a **single-page landing site** for a tour & travel agency plus a **packa
 
 ## Reusable Components & Types
 
-- **`src/components/ui/`**: Low-level UI primitives (e.g. `FavoriteButton`, `FormField`, `AccordionItem`, `PrevNextNav`, `DotIndicator`, `SeeAllLink`).
-- **`src/components/shared/`**: Composite components (e.g. `PackageCard` supporting `white`/`overlay` variants, `SectionHeader`, `Pagination`).
-- **`src/components/layout/`**: Structural containers (e.g. `PageShell`, `Breadcrumbs`).
+- **`src/components/home/`**: Homepage-specific section components (`Hero`, `WhyChooseUs`, `FAQ`, etc.).
+- **`src/components/layout/`**: Global site containers and navigation (`Navbar`, `Footer`, `PopupModal`, `PageShell`, `Breadcrumbs`).
+- **`src/components/ui/`**: Low-level UI primitives and inputs (`Dropdown`, `FavoriteButton`, `FormField`, `AccordionItem`, `PrevNextNav`, `DotIndicator`, `SeeAllLink`).
+- **`src/components/shared/`**: Shared domain composite components (`PackageCard`, `SectionHeader`, `Pagination`).
+- **`src/components/contact/`**: Contact page-specific elements (`ContactMap`).
+- **`src/components/packages/`**: Packages page-specific elements (`PackageMap`).
 - **`src/types/`**: All domain type/interface declarations (e.g., `company.ts`, `package.ts`, `destination.ts`, `faq.ts`, `hero.ts`, `review.ts`). Do not define model interfaces locally.
+
+**Strict rules:**
+- **No local interfaces**: All database-backed model types must be imported from `src/types/`. Do not define/duplicate them locally.
+- **No root components**: React components must reside in their respective structured subdirectories, never in the root of `src/components/`.
+- **No `lib/types/`**: Keep all types consolidated in `src/types/`.
 
 ## Data Layer (Prisma + PostgreSQL on Supabase)
 

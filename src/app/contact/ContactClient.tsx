@@ -10,7 +10,7 @@ import { formatWorkingHours } from "@/lib/utils/formatWorkingHours";
 import { type CompanyData } from "@/types/company";
 
 // Dynamically import the map component to avoid SSR errors
-const ContactMap = dynamic(() => import("@/components/ContactMap"), {
+const ContactMap = dynamic(() => import("@/components/contact/ContactMap"), {
   ssr: false,
   loading: () => (
     <div className="w-full h-[450px] bg-neutral-100 flex items-center justify-center text-neutral-400 font-medium rounded-[2.5rem]">

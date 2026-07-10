@@ -17,7 +17,7 @@ import {
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import Dropdown from "@/components/Dropdown";
+import Dropdown from "@/components/ui/Dropdown";
 import PageShell from "@/components/layout/PageShell";
 import PackageCard from "@/components/shared/PackageCard";
 import Pagination from "@/components/shared/Pagination";

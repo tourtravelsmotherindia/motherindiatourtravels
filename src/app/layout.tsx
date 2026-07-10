@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import localFont from "next/font/local";
 
-import PopupModal from "@/components/PopupModal";
+import PopupModal from "@/components/layout/PopupModal";
 import { ToastProvider } from "@/context/ToastContext";
 
 const poppins = Poppins({

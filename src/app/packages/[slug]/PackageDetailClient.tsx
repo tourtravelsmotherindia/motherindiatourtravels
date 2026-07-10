@@ -32,7 +32,7 @@ import {
 } from "@/types/package";
 
 // Dynamically import map component to avoid SSR errors
-const PackageMap = dynamic(() => import("@/components/PackageMap"), {
+const PackageMap = dynamic(() => import("@/components/packages/PackageMap"), {
   ssr: false,
   loading: () => (
     <div className="w-full h-full min-h-[350px] bg-neutral-50 border border-neutral-100 rounded-[2rem] flex items-center justify-center animate-pulse">

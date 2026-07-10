@@ -7,21 +7,7 @@ import PackageCard from "@/components/shared/PackageCard";
 import SectionHeader from "@/components/shared/SectionHeader";
 import SeeAllLink from "@/components/ui/SeeAllLink";
 
-interface PackageItem {
-  id: string;
-  slug: string;
-  name: string;
-  is_popular: boolean;
-  is_domestic: boolean;
-  destinations: string[];
-  duration_range: string;
-  hero_image: string;
-  min_days: number;
-}
-
-interface PackagesData {
-  packages: PackageItem[];
-}
+import { type PackagesData, type PackageItem } from "@/types/package";
 
 export default function TripCards({ packagesData }: { packagesData?: PackagesData }) {
   const [isDomestic, setIsDomestic] = useState(true);

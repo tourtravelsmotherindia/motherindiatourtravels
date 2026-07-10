@@ -7,7 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import Dropdown from "@/components/Dropdown";
+import Dropdown from "@/components/ui/Dropdown";
 
 interface SubmenuItem {
   name: string;

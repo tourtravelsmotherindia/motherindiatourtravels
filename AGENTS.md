@@ -229,11 +229,14 @@ Follow these guidelines for all pages to ensure the website is highly search-eng
 
 ### Folder Structure
 
-All reusable/shared UI elements are organized inside `src/components/` under:
+All components are organized inside `src/components/` under structured subdirectories:
 
-- **`components/ui/`**: Low-level presentational primitives (e.g., [FavoriteButton](file:///home/sandipansingh/Projects/clients/mother-india/src/components/ui/FavoriteButton.tsx), [FormField](file:///home/sandipansingh/Projects/clients/mother-india/src/components/ui/FormField.tsx), [AccordionItem](file:///home/sandipansingh/Projects/clients/mother-india/src/components/ui/Accordion.tsx), [PrevNextNav](file:///home/sandipansingh/Projects/clients/mother-india/src/components/ui/PrevNextNav.tsx), [DotIndicator](file:///home/sandipansingh/Projects/clients/mother-india/src/components/ui/DotIndicator.tsx), [SeeAllLink](file:///home/sandipansingh/Projects/clients/mother-india/src/components/ui/SeeAllLink.tsx)).
+- **`components/home/`**: Homepage-specific sections (e.g., `Hero`, `WhyChooseUs`, `TripCards`, `PopularDestinations`, `Gallery`, `TravelerMoments`, `PartnerAirlines`, `RegionsGrid`, `FAQ`).
+- **`components/layout/`**: Global layout elements and shells (e.g., `Navbar`, `Footer`, `PopupModal`, [PageShell](file:///home/sandipansingh/Projects/clients/mother-india/src/components/layout/PageShell.tsx), [Breadcrumbs](file:///home/sandipansingh/Projects/clients/mother-india/src/components/layout/Breadcrumbs.tsx)).
+- **`components/ui/`**: Low-level presentational primitives & inputs (e.g., `Dropdown`, [FavoriteButton](file:///home/sandipansingh/Projects/clients/mother-india/src/components/ui/FavoriteButton.tsx), [FormField](file:///home/sandipansingh/Projects/clients/mother-india/src/components/ui/FormField.tsx), [AccordionItem](file:///home/sandipansingh/Projects/clients/mother-india/src/components/ui/Accordion.tsx), [PrevNextNav](file:///home/sandipansingh/Projects/clients/mother-india/src/components/ui/PrevNextNav.tsx), [DotIndicator](file:///home/sandipansingh/Projects/clients/mother-india/src/components/ui/DotIndicator.tsx), [SeeAllLink](file:///home/sandipansingh/Projects/clients/mother-india/src/components/ui/SeeAllLink.tsx)).
 - **`components/shared/`**: Mid-level domain composites (e.g., [PackageCard](file:///home/sandipansingh/Projects/clients/mother-india/src/components/shared/PackageCard.tsx) supporting `white`/`overlay` variants, [SectionHeader](file:///home/sandipansingh/Projects/clients/mother-india/src/components/shared/SectionHeader.tsx), [Pagination](file:///home/sandipansingh/Projects/clients/mother-india/src/components/shared/Pagination.tsx)).
-- **`components/layout/`**: Page layout wrappers and navigation blocks (e.g., [PageShell](file:///home/sandipansingh/Projects/clients/mother-india/src/components/layout/PageShell.tsx), [Breadcrumbs](file:///home/sandipansingh/Projects/clients/mother-india/src/components/layout/Breadcrumbs.tsx)).
+- **`components/contact/`**: Contact page-specific components (e.g., `ContactMap`).
+- **`components/packages/`**: Packages page-specific components (e.g., `PackageMap`).
 
 ### Type Declarations (`src/types/`)
 
@@ -245,3 +248,11 @@ All domain entity types and common structures must live in `src/types/` (never l
 - [faq.ts](file:///home/sandipansingh/Projects/clients/mother-india/src/types/faq.ts): `FAQItem`, `FAQData`.
 - [hero.ts](file:///home/sandipansingh/Projects/clients/mother-india/src/types/hero.ts): `Slide`, `HeroData`.
 - [review.ts](file:///home/sandipansingh/Projects/clients/mother-india/src/types/review.ts): `Review` testimonial.
+
+### Strict Rules
+
+> [!IMPORTANT]
+> 1. **No local interface declarations**: Never declare or duplicate type/interface structures for domain models (e.g., `PackageItem`, `CompanyData`, `DestinationItem`, `FAQItem`, `Review`) inside components or pages. Always import them from `src/types/`.
+> 2. **Types location constraint**: All domain-wide types must be declared in `src/types/`. Never use `src/lib/types/` or define model types inside `src/lib/db/`.
+> 3. **No root component files**: Never place React components directly in the root of `src/components/`. All files must reside in their respective structured subdirectories (`home`, `layout`, `ui`, `shared`, `contact`, `packages`).
+> 4. **Import alias usage**: Always use the `@/types/...` path alias when importing shared types in client/server components.
