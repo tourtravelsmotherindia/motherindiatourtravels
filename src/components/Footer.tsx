@@ -342,7 +342,7 @@ export default function Footer({
                   { name: "Travel Blog", href: "#blog" },
                   { name: "FAQs", href: "#faq" },
                   { name: "Gallery", href: "#gallery" },
-                  { name: "Contact Us", href: "#contact" },
+                  { name: "Contact Us", href: "/contact" },
                 ].map((link) => (
                   <li key={link.name}>
                     <Link
@@ -366,9 +366,15 @@ export default function Footer({
                   { name: "Kerala Backwaters", href: "/packages?search=Kerala" },
                   { name: "Kashmir Valley Escape", href: "/packages?search=Srinagar" },
                   { name: "Rajasthan Heritage Tour", href: "/packages?search=Jaipur" },
-                  { name: "Honeymoon Specials", href: "/packages?category=honeymoon-tour-packages" },
+                  {
+                    name: "Honeymoon Specials",
+                    href: "/packages?category=honeymoon-tour-packages",
+                  },
                   { name: "Beach Getaways", href: "/packages?category=beach-tour-packages" },
-                  { name: "Spiritual Journeys", href: "/packages?category=spiritual-tour-packages" },
+                  {
+                    name: "Spiritual Journeys",
+                    href: "/packages?category=spiritual-tour-packages",
+                  },
                   { name: "International Escapes", href: "/packages?type=international" },
                 ].map((item) => (
                   <li key={item.name}>

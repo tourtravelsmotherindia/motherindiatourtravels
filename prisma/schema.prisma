@@ -226,6 +226,8 @@ model Company {
   whatsappNumber   String
   googleAnalytics  String @default("")
   googleTagManager String @default("")
+  latitude         Float?
+  longitude        Float?
 }
 
 //  BlogPost 

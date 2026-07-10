@@ -130,7 +130,7 @@ export default function Navbar() {
     { name: "Packages", href: "/packages" },
     { name: "Blog", href: "#blog" },
     { name: "Gallery", href: "#gallery" },
-    { name: "Contact", href: "#contact" },
+    { name: "Contact", href: "/contact" },
   ];
 
   return (

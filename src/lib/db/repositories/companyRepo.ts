@@ -62,5 +62,7 @@ export async function getCompanyData() {
     whatsapp_number: c.whatsappNumber,
     google_analytics: c.googleAnalytics,
     google_tag_manager: c.googleTagManager,
+    latitude: c.latitude,
+    longitude: c.longitude,
   };
 }

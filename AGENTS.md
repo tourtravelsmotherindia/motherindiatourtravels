@@ -37,7 +37,7 @@ This project uses a **two-font system** loaded in `src/app/layout.tsx`:
 | ---------------------------------------------------- | ------ | --------------- | --------------------------------------------------- |
 | Section headings (`h1`–`h3`)                         | 700    | `font-bold`     | Strong visual anchors for content hierarchy         |
 | Card titles, package names (`h4`–`h6`)               | 700    | `font-bold`     | Consistent with heading scale                       |
-| Taglines, mid-page callouts                          | 500    | `font-medium`   | Subtle and distinct from standard page headings    |
+| Taglines, mid-page callouts                          | 500    | `font-medium`   | Subtle and distinct from standard page headings     |
 | Body text, paragraphs, descriptions                  | 400    | `font-normal`   | Maximum readability for running text                |
 | CTA buttons, "View Details", "Find Packages"         | 600    | `font-semibold` | Prominent but not shouting — signals interactivity  |
 | Secondary UI (nav links, dates, filter labels, tags) | 500    | `font-medium`   | Subtle emphasis without competing with headings     |
@@ -222,4 +222,3 @@ Follow these guidelines for all pages to ensure the website is highly search-eng
    - Ensure all form fields, inputs, drop-downs, and buttons have unique, descriptive `id` and `name` attributes. This aids in browser automation, accessibility readers, and SEO crawling.
 6. **Internal Navigation**:
    - Use standard Next.js `<Link>` elements for internal routing to ensure search engine crawlers can follow and index page pathways.
-

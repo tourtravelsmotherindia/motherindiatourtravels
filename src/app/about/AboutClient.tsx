@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowUpRight, Check, Play } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+
 import type { AboutData } from "@/lib/db/repositories/companyRepo";
 
 interface AboutClientProps {
@@ -25,58 +26,80 @@ export default function AboutClient({ companyData }: AboutClientProps) {
   const header = about?.header || {
     badge: "MOTHER INDIA • DISCOVER • EXPLORE • EXPERIENCE",
     title: "Crafting Unforgettable Journeys Together",
-    description: "At Mother India Tour Travels, we believe in the magic of exploration and the power of personalized travel. With a dedicated team of tourism experts and a deep commitment to excellence, we work hand-in-hand with our clients to bring their travel ideas to life. Together, we create journeys and memories that stand the test of time.",
+    description:
+      "At Mother India Tour Travels, we believe in the magic of exploration and the power of personalized travel. With a dedicated team of tourism experts and a deep commitment to excellence, we work hand-in-hand with our clients to bring their travel ideas to life. Together, we create journeys and memories that stand the test of time.",
     image: "https://motherindiatourtravels.com/assests/about.jpeg",
-    introText: "We have vast experience in the Tour and Travel Industry. With a corporate vision and mission reflected in our goals, we have developed a respected position by delivering customized solutions for the specific travel needs of our clients. We successfully serve individuals, families, schools, colleges, educational institutes, and corporate groups, ensuring unforgettable experiences across the country and the world.",
+    introText:
+      "We have vast experience in the Tour and Travel Industry. With a corporate vision and mission reflected in our goals, we have developed a respected position by delivering customized solutions for the specific travel needs of our clients. We successfully serve individuals, families, schools, colleges, educational institutes, and corporate groups, ensuring unforgettable experiences across the country and the world.",
     stats: [
       { value: "20+", label: "Years Experience" },
       { value: "10k+", label: "Happy Travelers" },
       { value: "500+", label: "Corporate Groups" },
-      { value: "50+", label: "Destinations" }
-    ]
+      { value: "50+", label: "Destinations" },
+    ],
   };
 
   const mission = about?.mission || {
     title: "Our Mission",
-    description: "We are committed to establishing a brand quality that is trusted. We provide reliable and quality travel solutions to meet all implied needs of our clients and achieve client satisfaction through highly motivated workforce involvement and a quality management system. We strive to provide services that not only satisfy our clients but also encourage them to repeat their tours and travels in India. We also strive to provide authentic experiences for visitors by developing and expanding the diversity and quality of our services.",
-    items: ["Trusted Brand Quality", "Exceeding Client Expectations", "Authentic Experiences", "Workforce Welfare"],
+    description:
+      "We are committed to establishing a brand quality that is trusted. We provide reliable and quality travel solutions to meet all implied needs of our clients and achieve client satisfaction through highly motivated workforce involvement and a quality management system. We strive to provide services that not only satisfy our clients but also encourage them to repeat their tours and travels in India. We also strive to provide authentic experiences for visitors by developing and expanding the diversity and quality of our services.",
+    items: [
+      "Trusted Brand Quality",
+      "Exceeding Client Expectations",
+      "Authentic Experiences",
+      "Workforce Welfare",
+    ],
     images: [
       "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=600&q=80"
-    ]
+      "https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=600&q=80",
+    ],
   };
 
   const vision = about?.vision || {
     title: "Our Vision",
-    description: "We seek a client-oriented organization that demonstrates care, anticipation of client needs, attention to detail, distinctive excellence, and client support with care and clarity. We aim to design and deliver services that enable us to exceed client expectations, providing enriching holidays of the highest standard. We strive for sustainable tourism that enhances the quality of life of local communities in India.",
-    items: ["Anticipating Traveler Needs", "Eco-friendly Tourism", "Empowering Local Communities", "Modern Travel Tech"],
+    description:
+      "We seek a client-oriented organization that demonstrates care, anticipation of client needs, attention to detail, distinctive excellence, and client support with care and clarity. We aim to design and deliver services that enable us to exceed client expectations, providing enriching holidays of the highest standard. We strive for sustainable tourism that enhances the quality of life of local communities in India.",
+    items: [
+      "Anticipating Traveler Needs",
+      "Eco-friendly Tourism",
+      "Empowering Local Communities",
+      "Modern Travel Tech",
+    ],
     images: [
       "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=600&q=80"
-    ]
+      "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=600&q=80",
+    ],
   };
 
   const history = about?.history || {
     title: "Our Strength & Team",
-    description: "Supported by a dedicated team of experts—including tourism experts, quality controllers, R&D personnel, tour planners, ticketing agents, travel guides, and drivers—we maintain excellent services. We strive hard to maintain friendly relations by providing an unforgettable and happy experience. We offer a wide choice of customized packages with competitive prices and absolutely no hidden charges.",
-    items: ["Competitive Prices", "No Hidden Charges", "Experienced Planners", "24/7 Dedicated Care"],
+    description:
+      "Supported by a dedicated team of experts—including tourism experts, quality controllers, R&D personnel, tour planners, ticketing agents, travel guides, and drivers—we maintain excellent services. We strive hard to maintain friendly relations by providing an unforgettable and happy experience. We offer a wide choice of customized packages with competitive prices and absolutely no hidden charges.",
+    items: [
+      "Competitive Prices",
+      "No Hidden Charges",
+      "Experienced Planners",
+      "24/7 Dedicated Care",
+    ],
     images: [
       "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1506461883276-594a12b11db3?auto=format&fit=crop&w=600&q=80"
-    ]
+      "https://images.unsplash.com/photo-1506461883276-594a12b11db3?auto=format&fit=crop&w=600&q=80",
+    ],
   };
 
   const howWeWork = about?.howWeWork || {
     title: "How We Do Work",
-    subtitle: "Being a quality-oriented organization, we provide a wide array of high-standard services following the guidelines of the travel industry. Excellence, quality, and comfort are our topmost priorities.",
-    videoImage: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
-    videoUrl: "https://www.youtube.com/watch?v=BbrdQLqGUp0"
+    subtitle:
+      "Being a quality-oriented organization, we provide a wide array of high-standard services following the guidelines of the travel industry. Excellence, quality, and comfort are our topmost priorities.",
+    videoImage:
+      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
+    videoUrl: "https://www.youtube.com/watch?v=BbrdQLqGUp0",
   };
 
   // Animation variants
   const fadeIn = {
     hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } }
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
   };
 
   return (
@@ -85,7 +108,7 @@ export default function AboutClient({ companyData }: AboutClientProps) {
       <section className="pt-8 pb-16 md:pb-24 layout-container bg-white">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center mb-12 md:mb-16">
           {/* Left Column: Breadcrumb, Title, Description */}
-          <motion.div 
+          <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -94,7 +117,10 @@ export default function AboutClient({ companyData }: AboutClientProps) {
           >
             {/* Breadcrumb */}
             <div className="text-xs font-semibold text-neutral-400 mb-6 tracking-wider">
-              [<Link href="/" className="hover:text-brand transition-colors duration-200">Home</Link>
+              [
+              <Link href="/" className="hover:text-brand transition-colors duration-200">
+                Home
+              </Link>
               <span className="mx-1 text-neutral-300">/</span>
               <span className="text-brand">About</span>]
             </div>
@@ -102,14 +128,14 @@ export default function AboutClient({ companyData }: AboutClientProps) {
             <h1 className="text-4xl md:text-6xl font-bold font-display text-foreground tracking-tight leading-[1.08] mb-8">
               {header.title}
             </h1>
-            
+
             <p className="text-sm md:text-base text-muted font-normal leading-relaxed max-w-xl">
               {header.description}
             </p>
           </motion.div>
 
           {/* Right Column: Main Image & Rotating Badge */}
-          <motion.div 
+          <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -132,7 +158,7 @@ export default function AboutClient({ companyData }: AboutClientProps) {
             <div className="absolute -bottom-8 -left-4 w-28 h-28 md:-bottom-16 md:-left-12 md:w-40 md:h-40 z-10 block">
               {/* Circular Notch Mask (same background as page, rounded corners) */}
               <div className="absolute inset-0 bg-white rounded-full" />
-              
+
               {/* Rotating Badge Content (inset to create a perfect even gap) */}
               <div className="absolute inset-2.5 md:inset-3.5 bg-white rounded-full shadow-premium flex items-center justify-center border border-neutral-100/60">
                 {/* Rotating Circle Text */}
@@ -172,7 +198,9 @@ export default function AboutClient({ companyData }: AboutClientProps) {
           className="pt-12 md:pt-16 pb-8 md:pb-12 mt-8 md:mt-12 text-center"
         >
           <p className="text-lg md:text-2xl lg:text-3xl max-w-5xl mx-auto leading-relaxed font-semibold font-sans tracking-tight text-neutral-900">
-            At {companyData.name} we are committed to delivering reliable, high-quality travel solutions. With over two decades of experience, we combine local expertise, premium stays,{" "}
+            At {companyData.name} we are committed to delivering reliable, high-quality travel
+            solutions. With over two decades of experience, we combine local expertise, premium
+            stays,{" "}
             <span className="text-neutral-400 font-normal">
               and customer-centric planning to bring your travel dreams to life.
             </span>
@@ -180,7 +208,7 @@ export default function AboutClient({ companyData }: AboutClientProps) {
         </motion.div>
 
         {/* Stats Grid */}
-        <motion.div 
+        <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -219,7 +247,7 @@ export default function AboutClient({ companyData }: AboutClientProps) {
             <div className="absolute bottom-0 right-0 w-[52%] h-[60%] z-10 block">
               {/* Circular Notch Mask (same background as page, rounded corners) */}
               <div className="absolute inset-0 bg-white rounded-[1.75rem] md:rounded-[2.5rem]" />
-              
+
               {/* Foreground Image Container (inset to create a perfect even gap) */}
               <div className="absolute inset-2 md:inset-3 rounded-[1.25rem] md:rounded-[2rem] overflow-hidden border-4 border-white shadow-premium hover:scale-102 transition-transform duration-300">
                 <Image
@@ -234,7 +262,7 @@ export default function AboutClient({ companyData }: AboutClientProps) {
           </div>
 
           {/* Text Content (Right) */}
-          <motion.div 
+          <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -252,7 +280,9 @@ export default function AboutClient({ companyData }: AboutClientProps) {
               {mission.items.map((item, idx) => (
                 <li key={idx} className="flex items-center gap-3">
                   <Check className="w-4 h-4 text-emerald-500 stroke-[3] shrink-0" />
-                  <span className="text-sm md:text-base text-foreground font-semibold tracking-tight">{item}</span>
+                  <span className="text-sm md:text-base text-foreground font-semibold tracking-tight">
+                    {item}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -264,7 +294,7 @@ export default function AboutClient({ companyData }: AboutClientProps) {
       <section className="py-16 md:py-24 bg-white">
         <div className="layout-container grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-center">
           {/* Text Content (Left) */}
-          <motion.div 
+          <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -282,7 +312,9 @@ export default function AboutClient({ companyData }: AboutClientProps) {
               {vision.items.map((item, idx) => (
                 <li key={idx} className="flex items-center gap-3">
                   <Check className="w-4 h-4 text-emerald-500 stroke-[3] shrink-0" />
-                  <span className="text-sm md:text-base text-foreground font-semibold tracking-tight">{item}</span>
+                  <span className="text-sm md:text-base text-foreground font-semibold tracking-tight">
+                    {item}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -304,7 +336,7 @@ export default function AboutClient({ companyData }: AboutClientProps) {
             <div className="absolute bottom-0 left-0 w-[52%] h-[60%] z-10 block">
               {/* Circular Notch Mask (same background as page, rounded corners) */}
               <div className="absolute inset-0 bg-white rounded-[1.75rem] md:rounded-[2.5rem]" />
-              
+
               {/* Foreground Image Container (inset to create a perfect even gap) */}
               <div className="absolute inset-2 md:inset-3 rounded-[1.25rem] md:rounded-[2rem] overflow-hidden border-4 border-white shadow-premium hover:scale-102 transition-transform duration-300">
                 <Image
@@ -339,7 +371,7 @@ export default function AboutClient({ companyData }: AboutClientProps) {
             <div className="absolute bottom-0 right-0 w-[52%] h-[60%] z-10 block">
               {/* Circular Notch Mask (same background as page, rounded corners) */}
               <div className="absolute inset-0 bg-white rounded-[1.75rem] md:rounded-[2.5rem]" />
-              
+
               {/* Foreground Image Container (inset to create a perfect even gap) */}
               <div className="absolute inset-2 md:inset-3 rounded-[1.25rem] md:rounded-[2rem] overflow-hidden border-4 border-white shadow-premium hover:scale-102 transition-transform duration-300">
                 <Image
@@ -354,7 +386,7 @@ export default function AboutClient({ companyData }: AboutClientProps) {
           </div>
 
           {/* Text Content (Right) */}
-          <motion.div 
+          <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -372,7 +404,9 @@ export default function AboutClient({ companyData }: AboutClientProps) {
               {history.items.map((item, idx) => (
                 <li key={idx} className="flex items-center gap-3">
                   <Check className="w-4 h-4 text-emerald-500 stroke-[3] shrink-0" />
-                  <span className="text-sm md:text-base text-foreground font-semibold tracking-tight">{item}</span>
+                  <span className="text-sm md:text-base text-foreground font-semibold tracking-tight">
+                    {item}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -382,7 +416,7 @@ export default function AboutClient({ companyData }: AboutClientProps) {
 
       {/* 5. How We Do Work Section */}
       <section className="py-16 md:py-24 bg-white layout-container">
-        <motion.div 
+        <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
