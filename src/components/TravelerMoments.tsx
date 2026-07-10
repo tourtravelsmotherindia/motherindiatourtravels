@@ -1,20 +1,13 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, Play, Star } from "lucide-react";
+import { Play, Star } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
-interface Review {
-  id: number;
-  name: string;
-  role: string;
-  avatar: string;
-  image: string;
-  quote: string;
-  hasVideo: boolean;
-  rating: number;
-}
+import SectionHeader from "@/components/shared/SectionHeader";
+import PrevNextNav from "@/components/ui/PrevNextNav";
+import { type Review } from "@/types/review";
 
 export default function TravelerMoments() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -86,38 +79,23 @@ export default function TravelerMoments() {
   const reviewA = reviews[currentIndex];
   const reviewB = reviews[(currentIndex + 1) % reviews.length];
 
+  const rightSlot = (
+    <PrevNextNav
+      onPrev={handlePrev}
+      onNext={handleNext}
+      prevAriaLabel="Previous testimonial"
+      nextAriaLabel="Next testimonial"
+    />
+  );
+
   return (
     <section id="blog" className="py-24 overflow-hidden layout-container">
       {/* Section Header */}
-      <div className="flex items-center justify-between mb-12 gap-4">
-        <div>
-          <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight leading-[1.1]">
-            What Our Customers Say
-          </h2>
-          <p className="text-muted font-normal mt-2 text-sm md:text-base">
-            Hear from our adventurers about their recent travel experiences
-          </p>
-        </div>
-        {/* Navigation Buttons */}
-        <div className="flex items-center gap-3 shrink-0">
-          <button
-            type="button"
-            onClick={handlePrev}
-            className="w-12 h-12 rounded-full border border-zinc-200 bg-white flex items-center justify-center text-zinc-700 hover:bg-zinc-50 hover:border-zinc-300 transition-all duration-200 cursor-pointer shadow-sm"
-            aria-label="Previous testimonial"
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </button>
-          <button
-            type="button"
-            onClick={handleNext}
-            className="w-12 h-12 rounded-full bg-brand flex items-center justify-center text-white hover:bg-brand-hover transition-all duration-200 cursor-pointer shadow-sm"
-            aria-label="Next testimonial"
-          >
-            <ArrowRight className="w-5 h-5" />
-          </button>
-        </div>
-      </div>
+      <SectionHeader
+        title="What Our Customers Say"
+        subtitle="Hear from our adventurers about their recent travel experiences"
+        rightSlot={rightSlot}
+      />
 
       {/* MOBILE VIEW: Keeps the original layout design */}
       <div className="grid grid-cols-1 md:hidden gap-8">

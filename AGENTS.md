@@ -222,3 +222,26 @@ Follow these guidelines for all pages to ensure the website is highly search-eng
    - Ensure all form fields, inputs, drop-downs, and buttons have unique, descriptive `id` and `name` attributes. This aids in browser automation, accessibility readers, and SEO crawling.
 6. **Internal Navigation**:
    - Use standard Next.js `<Link>` elements for internal routing to ensure search engine crawlers can follow and index page pathways.
+
+---
+
+## Reusable Components & Type Organization
+
+### Folder Structure
+
+All reusable/shared UI elements are organized inside `src/components/` under:
+
+- **`components/ui/`**: Low-level presentational primitives (e.g., [FavoriteButton](file:///home/sandipansingh/Projects/clients/mother-india/src/components/ui/FavoriteButton.tsx), [FormField](file:///home/sandipansingh/Projects/clients/mother-india/src/components/ui/FormField.tsx), [AccordionItem](file:///home/sandipansingh/Projects/clients/mother-india/src/components/ui/Accordion.tsx), [PrevNextNav](file:///home/sandipansingh/Projects/clients/mother-india/src/components/ui/PrevNextNav.tsx), [DotIndicator](file:///home/sandipansingh/Projects/clients/mother-india/src/components/ui/DotIndicator.tsx), [SeeAllLink](file:///home/sandipansingh/Projects/clients/mother-india/src/components/ui/SeeAllLink.tsx)).
+- **`components/shared/`**: Mid-level domain composites (e.g., [PackageCard](file:///home/sandipansingh/Projects/clients/mother-india/src/components/shared/PackageCard.tsx) supporting `white`/`overlay` variants, [SectionHeader](file:///home/sandipansingh/Projects/clients/mother-india/src/components/shared/SectionHeader.tsx), [Pagination](file:///home/sandipansingh/Projects/clients/mother-india/src/components/shared/Pagination.tsx)).
+- **`components/layout/`**: Page layout wrappers and navigation blocks (e.g., [PageShell](file:///home/sandipansingh/Projects/clients/mother-india/src/components/layout/PageShell.tsx), [Breadcrumbs](file:///home/sandipansingh/Projects/clients/mother-india/src/components/layout/Breadcrumbs.tsx)).
+
+### Type Declarations (`src/types/`)
+
+All domain entity types and common structures must live in `src/types/` (never local interface definitions or `src/lib/types/`):
+
+- [company.ts](file:///home/sandipansingh/Projects/clients/mother-india/src/types/company.ts): Canonical `CompanyData` and `WorkingHours`.
+- [package.ts](file:///home/sandipansingh/Projects/clients/mother-india/src/types/package.ts): `PackageItem`, `PackageDetailItem`, `PackageVariant`, `ItineraryDay`, `PackagesData`.
+- [destination.ts](file:///home/sandipansingh/Projects/clients/mother-india/src/types/destination.ts): `DestinationItem`, `DestinationDisplay`, `DestinationsData`.
+- [faq.ts](file:///home/sandipansingh/Projects/clients/mother-india/src/types/faq.ts): `FAQItem`, `FAQData`.
+- [hero.ts](file:///home/sandipansingh/Projects/clients/mother-india/src/types/hero.ts): `Slide`, `HeroData`.
+- [review.ts](file:///home/sandipansingh/Projects/clients/mother-india/src/types/review.ts): `Review` testimonial.

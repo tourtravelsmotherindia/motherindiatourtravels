@@ -35,6 +35,13 @@ npm run db:reset    # Wipe and recreate the database using migrations (dev only)
 
 This is a **single-page landing site** for a tour & travel agency plus a **packages listing page**. The homepage renders on `src/app/page.tsx` (async server component) with sections in order: Navbar → Hero → WhyChooseUs → TripCards → PopularDestinations → Gallery → TravelerMoments → PartnerAirlines → RegionsGrid → FAQ → Footer. The packages page (`src/app/packages/page.tsx`) follows a **server + client split**: the server component fetches data, the client component (`PackagesClient.tsx`) renders the interactive UI.
 
+## Reusable Components & Types
+
+- **`src/components/ui/`**: Low-level UI primitives (e.g. `FavoriteButton`, `FormField`, `AccordionItem`, `PrevNextNav`, `DotIndicator`, `SeeAllLink`).
+- **`src/components/shared/`**: Composite components (e.g. `PackageCard` supporting `white`/`overlay` variants, `SectionHeader`, `Pagination`).
+- **`src/components/layout/`**: Structural containers (e.g. `PageShell`, `Breadcrumbs`).
+- **`src/types/`**: All domain type/interface declarations (e.g., `company.ts`, `package.ts`, `destination.ts`, `faq.ts`, `hero.ts`, `review.ts`). Do not define model interfaces locally.
+
 ## Data Layer (Prisma + PostgreSQL on Supabase)
 
 The site is **data-driven** — content is stored in a remote Supabase PostgreSQL database accessed through Prisma. The database schema is managed through Prisma migrations.

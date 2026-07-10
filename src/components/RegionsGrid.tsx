@@ -1,9 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+import React from "react";
+
+import SectionHeader from "@/components/shared/SectionHeader";
+import SeeAllLink from "@/components/ui/SeeAllLink";
 
 interface Region {
   id: number;
@@ -72,28 +74,16 @@ export default function RegionsGrid() {
     },
   ];
 
+  const rightSlot = <SeeAllLink href="#" label="See All Destinations" />;
+
   return (
     <section id="regions" className="py-24 layout-container">
       {/* Section Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-        <div>
-          <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight leading-[1.1]">
-            Destination By Region
-          </h2>
-          <p className="text-muted font-normal mt-2">
-            Explore adventures across every corner of the incredible Indian subcontinent
-          </p>
-        </div>
-        <Link
-          href="#"
-          className="flex items-center gap-2 text-brand hover:text-brand-hover font-semibold text-sm group shrink-0"
-        >
-          <span>See All Destinations</span>
-          <span className="w-8 h-8 rounded-full border border-brand/20 flex items-center justify-center group-hover:border-brand transition-all duration-300">
-            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 duration-300" />
-          </span>
-        </Link>
-      </div>
+      <SectionHeader
+        title="Destination By Region"
+        subtitle="Explore adventures across every corner of the incredible Indian subcontinent"
+        rightSlot={rightSlot}
+      />
 
       {/* Grid of Regions */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

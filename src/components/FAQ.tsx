@@ -1,24 +1,12 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
-interface FAQItem {
-  question: string;
-  answer: string;
-}
-
-interface FAQData {
-  tagline: string;
-  faqs: FAQItem[];
-}
-
-interface CompanyData {
-  phone: string[];
-  email: string;
-}
+import AccordionItem from "@/components/ui/Accordion";
+import { type CompanyData } from "@/types/company";
+import { type FAQData, type FAQItem } from "@/types/faq";
 
 export default function FAQ({
   faqData,
@@ -82,49 +70,38 @@ export default function FAQ({
         <div className="lg:col-span-7 flex flex-col gap-4">
           {faqs.map((faq, index) => {
             const isOpen = activeIndex === index;
+            const trigger = (
+              <div className="w-full px-6 py-5 flex items-center justify-between text-left group">
+                <span className="text-sm md:text-base font-semibold text-gray-800 tracking-tight transition-colors duration-200 group-hover:text-brand">
+                  {faq.question}
+                </span>
+                <span
+                  className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 shrink-0 ml-4 ${
+                    isOpen
+                      ? "bg-brand text-white"
+                      : "bg-gray-50 text-gray-800 group-hover:bg-gray-100"
+                  }`}
+                >
+                  <ArrowDown
+                    className={`w-4 h-4 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+                  />
+                </span>
+              </div>
+            );
+
             return (
-              <div
+              <AccordionItem
                 key={index}
+                isOpen={isOpen}
+                onToggle={() => toggleAccordion(index)}
+                trigger={trigger}
+                duration={0.25}
                 className="bg-white border border-border-light rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.01)] transition-all duration-300 overflow-hidden"
               >
-                <button
-                  type="button"
-                  onClick={() => toggleAccordion(index)}
-                  className="w-full px-6 py-5 flex items-center justify-between text-left cursor-pointer group"
-                  aria-expanded={isOpen}
-                >
-                  <span className="text-sm md:text-base font-semibold text-gray-800 tracking-tight transition-colors duration-200 group-hover:text-brand">
-                    {faq.question}
-                  </span>
-                  <span
-                    className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 shrink-0 ml-4 ${
-                      isOpen
-                        ? "bg-brand text-white"
-                        : "bg-gray-50 text-gray-800 group-hover:bg-gray-100"
-                    }`}
-                  >
-                    <ArrowDown
-                      className={`w-4 h-4 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
-                    />
-                  </span>
-                </button>
-
-                <AnimatePresence initial={false}>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.25, ease: "easeInOut" }}
-                      className="overflow-hidden"
-                    >
-                      <div className="px-6 pb-6 text-sm text-gray-500 leading-relaxed pt-2 border-t border-border-light/60">
-                        {faq.answer}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+                <div className="px-6 pb-6 text-sm text-gray-500 leading-relaxed pt-2 border-t border-border-light/60">
+                  {faq.answer}
+                </div>
+              </AccordionItem>
             );
           })}
         </div>

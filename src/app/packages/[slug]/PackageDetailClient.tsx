@@ -1,15 +1,11 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import {
-  Building2,
-  Calendar,
   Check,
   ChevronDown,
   ChevronRight,
   Clock,
-  Compass,
-  Heart,
   HelpCircle,
   MapPin,
   Sparkles,
@@ -21,8 +17,19 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useMemo, useState } from "react";
 
-import Footer, { type FooterCompanyData } from "@/components/Footer";
-import Navbar from "@/components/Navbar";
+import Breadcrumbs from "@/components/layout/Breadcrumbs";
+import PageShell from "@/components/layout/PageShell";
+import PackageCard from "@/components/shared/PackageCard";
+import SectionHeader from "@/components/shared/SectionHeader";
+import AccordionItem from "@/components/ui/Accordion";
+import { useFavorites } from "@/lib/hooks/useFavorites";
+import { type CompanyData } from "@/types/company";
+import {
+  type ItineraryDay,
+  type PackageDetailItem,
+  type PackageItem,
+  type PackageVariant,
+} from "@/types/package";
 
 // Dynamically import map component to avoid SSR errors
 const PackageMap = dynamic(() => import("@/components/PackageMap"), {
@@ -38,128 +45,6 @@ const PackageMap = dynamic(() => import("@/components/PackageMap"), {
     </div>
   ),
 });
-
-// TypeScript interfaces
-interface ItineraryDay {
-  day: number;
-  title: string;
-  description: string;
-}
-
-interface PackageVariant {
-  label: string;
-  nights: number;
-  days: number;
-  duration_text: string;
-  old_html_file: string;
-  itinerary: ItineraryDay[];
-}
-
-interface PackageItem {
-  id: string;
-  slug: string;
-  name: string;
-  is_popular: boolean;
-  is_domestic: boolean;
-  destinations: string[];
-  destination_ids: string[];
-  primary_destination: string;
-  category_ids: string[];
-  state_id: string | null;
-  country_id: string;
-  min_nights: number;
-  max_nights: number;
-  min_days: number;
-  max_days: number;
-  duration_range: string;
-  variant_count: number;
-  hero_image: string;
-  tags: string[];
-}
-
-interface PackageDetailItem extends PackageItem {
-  overview: string;
-  highlights: string[];
-  inclusions: string[];
-  exclusions: string[];
-  notes: string[];
-  variants: PackageVariant[];
-  seo: {
-    title: string;
-    description: string;
-    keywords: string[];
-  };
-}
-
-// Recommended Package Card component (defined at module scope)
-interface RecommendedCardProps {
-  pkg: PackageItem;
-  isFavorite: boolean;
-  onToggleFavorite: (slug: string) => void;
-}
-
-const RecommendedCard = React.memo(
-  ({ pkg, isFavorite, onToggleFavorite }: RecommendedCardProps) => {
-    return (
-      <div className="group relative bg-white border border-neutral-100 rounded-[2rem] p-4 shadow-card hover:shadow-premium transition-all duration-500 flex flex-col h-full justify-between">
-        <div>
-          <div className="relative w-full h-[220px] md:h-[260px] rounded-[1.5rem] overflow-hidden bg-neutral-100 z-0">
-            <Image
-              src={pkg.hero_image || "/images/placeholder-landscape.png"}
-              alt={pkg.name}
-              fill
-              sizes="(max-width: 768px) 100vw, 33vw"
-              className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-            />
-          </div>
-
-          <div className="flex items-center justify-between mt-5 mb-3 px-1">
-            <div className="flex items-center gap-1.5 text-neutral-600 font-normal">
-              <Clock className="w-4 h-4 text-neutral-400 shrink-0" />
-              <span className="text-sm">{pkg.duration_range || `${pkg.min_days} Days`}</span>
-            </div>
-
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                onToggleFavorite(pkg.slug);
-              }}
-              className="w-9 h-9 rounded-full bg-white hover:bg-neutral-50 border border-neutral-200/60 flex items-center justify-center text-neutral-600 hover:text-red-500 transition-all duration-300 active:scale-90 group/heart cursor-pointer shadow-sm z-10"
-              aria-label={isFavorite ? "Remove from Favorites" : "Add to Favorites"}
-            >
-              <Heart
-                className={`w-4 h-4 transition-transform duration-300 group-hover/heart:scale-110 ${
-                  isFavorite
-                    ? "fill-red-500 text-red-500 stroke-red-500"
-                    : "text-neutral-500 stroke-neutral-500"
-                }`}
-              />
-            </button>
-          </div>
-
-          <h3 className="font-bold text-lg text-foreground leading-snug px-1 line-clamp-1 mb-2">
-            {pkg.name}
-          </h3>
-
-          <div className="flex items-center gap-1.5 text-neutral-500 text-xs px-1 mb-6 font-normal">
-            <MapPin className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
-            <span className="truncate">{pkg.destinations.join(", ")}</span>
-          </div>
-        </div>
-
-        <div className="px-1 pb-1">
-          <Link
-            href={`/packages/${pkg.slug}`}
-            className="block w-full border border-neutral-900 text-neutral-900 hover:bg-brand hover:border-brand hover:text-white font-semibold text-xs uppercase tracking-wider py-3.5 rounded-full transition-all duration-300 text-center select-none cursor-pointer"
-          >
-            View Details
-          </Link>
-        </div>
-      </div>
-    );
-  },
-);
-RecommendedCard.displayName = "RecommendedCard";
 
 // Gallery image resolver helper
 function getGalleryImages(pkgName: string, heroImage: string): string[] {
@@ -269,7 +154,7 @@ const DEFAULT_EXCLUSIONS = [
 interface PackageDetailClientProps {
   packageData: PackageDetailItem;
   allPackages: PackageItem[];
-  companyData: FooterCompanyData | null;
+  companyData: CompanyData | null;
 }
 
 export default function PackageDetailClient({
@@ -279,24 +164,7 @@ export default function PackageDetailClient({
 }: PackageDetailClientProps) {
   const [selectedVariantIdx, setSelectedVariantIdx] = useState(0);
 
-  // Sync favorites from LocalStorage (using pure lazy state initializer)
-  const [favorites, setFavorites] = useState<string[]>(() => {
-    if (typeof window === "undefined") return [];
-    try {
-      const saved = localStorage.getItem("mother_india_favorites");
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
-    }
-  });
-
-  const toggleFavorite = (slug: string) => {
-    setFavorites((prev) => {
-      const next = prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug];
-      localStorage.setItem("mother_india_favorites", JSON.stringify(next));
-      return next;
-    });
-  };
+  const { isFavorite, toggleFavorite } = useFavorites();
 
   // Derive static details with fallbacks
   const pkgName = packageData.name || "Tour Package";
@@ -465,476 +333,456 @@ export default function PackageDetailClient({
   ];
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Navbar />
+    <PageShell companyData={companyData} ptClass="pt-28" bgClass="bg-white">
+      <div className="layout-container py-24">
+        {/* Breadcrumbs */}
+        <Breadcrumbs
+          items={[
+            { label: "Home", href: "/" },
+            { label: "Packages", href: "/packages" },
+            { label: pkgName },
+          ]}
+        />
 
-      {/* Main Container */}
-      <main className="flex-1 bg-white pt-28 pb-24">
-        <div className="layout-container">
-          {/* Breadcrumbs */}
-          <nav className="flex items-center gap-2 text-xs md:text-sm font-medium text-neutral-400 mb-8 font-sans">
-            <Link href="/" className="hover:text-brand transition-colors">
-              Home
-            </Link>
-            <ChevronRight className="w-3 h-3 text-neutral-300" />
-            <Link href="/packages" className="hover:text-brand transition-colors">
-              Packages
-            </Link>
-            <ChevronRight className="w-3 h-3 text-neutral-300" />
-            <span className="text-neutral-500 font-semibold truncate max-w-[200px] md:max-w-none">
-              {pkgName}
-            </span>
-          </nav>
-
-          {/* ASYMMETRIC MASONRY GALLERY */}
-          <section className="mb-12 animate-fade-in">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 h-[300px] md:h-[450px] lg:h-[550px]">
-              {/* Left Column - 2 stacked images (60% / 40% height ratios) */}
-              <div className="hidden lg:flex flex-col gap-4 col-span-3 h-full">
-                <div className="relative flex-[3] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100">
-                  <Image
-                    src={galleryImages[0]}
-                    alt={`${pkgName} Gallery 1`}
-                    fill
-                    sizes="(max-width: 1024px) 25vw, 15vw"
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
-                </div>
-                <div className="relative flex-[2] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100">
-                  <Image
-                    src={galleryImages[1]}
-                    alt={`${pkgName} Gallery 2`}
-                    fill
-                    sizes="(max-width: 1024px) 25vw, 15vw"
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
-                </div>
-              </div>
-
-              {/* Center Column - 1 huge main image (100% height) */}
-              <div className="relative col-span-12 lg:col-span-6 h-[250px] md:h-full overflow-hidden rounded-[2rem] lg:rounded-[2.5rem] bg-neutral-100 group shadow-sm border border-neutral-100">
+        {/* ASYMMETRIC MASONRY GALLERY */}
+        <section className="mb-12 animate-fade-in">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 h-[300px] md:h-[450px] lg:h-[550px]">
+            {/* Left Column - 2 stacked images (60% / 40% height ratios) */}
+            <div className="hidden lg:flex flex-col gap-4 col-span-3 h-full">
+              <div className="relative flex-[3] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100">
                 <Image
-                  src={galleryImages[2]}
-                  alt={`${pkgName} Main Gallery`}
+                  src={galleryImages[0]}
+                  alt={`${pkgName} Gallery 1`}
                   fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  sizes="(max-width: 1024px) 25vw, 15vw"
                   className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   priority
                 />
               </div>
+              <div className="relative flex-[2] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100">
+                <Image
+                  src={galleryImages[1]}
+                  alt={`${pkgName} Gallery 2`}
+                  fill
+                  sizes="(max-width: 1024px) 25vw, 15vw"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+              </div>
+            </div>
 
-              {/* Right Column - 2 stacked images (40% / 60% height ratios) */}
-              <div className="hidden lg:flex flex-col gap-4 col-span-3 h-full">
-                <div className="relative flex-[2] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100">
-                  <Image
-                    src={galleryImages[3]}
-                    alt={`${pkgName} Gallery 3`}
-                    fill
-                    sizes="(max-width: 1024px) 25vw, 15vw"
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
+            {/* Middle Column - Wide Hero Central Image */}
+            <div className="relative col-span-12 lg:col-span-6 h-full overflow-hidden rounded-[2rem] lg:rounded-[2.5rem] bg-neutral-100 group border border-neutral-100 shadow-md">
+              <Image
+                src={galleryImages[2]}
+                alt={`${pkgName} Central Feature`}
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-103"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+              {/* Overlay Badges */}
+              <div className="absolute bottom-6 left-6 z-10 flex flex-wrap gap-2.5">
+                <span className="bg-brand text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm">
+                  {tourStyle}
+                </span>
+                <span className="bg-black/35 backdrop-blur-md border border-white/10 text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm">
+                  {activeVariant.days} Days / {activeVariant.nights} Nights
+                </span>
+              </div>
+            </div>
+
+            {/* Right Column - 2 stacked images (40% / 60% height ratios) */}
+            <div className="hidden lg:flex flex-col gap-4 col-span-3 h-full">
+              <div className="relative flex-[2] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100">
+                <Image
+                  src={galleryImages[3]}
+                  alt={`${pkgName} Gallery 3`}
+                  fill
+                  sizes="(max-width: 1024px) 25vw, 15vw"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+              </div>
+              <div className="relative flex-[3] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100">
+                <Image
+                  src={galleryImages[4]}
+                  alt={`${pkgName} Gallery 4`}
+                  fill
+                  sizes="(max-width: 1024px) 25vw, 15vw"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* TWO-COLUMN DETAILS GRID */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start mt-12">
+          {/* LEFT COLUMN: Main info, highlights, variants tabs, itinerary */}
+          <div className="lg:col-span-8 flex flex-col">
+            {/* Header info */}
+            <div className="border-b border-border-light pb-8 mb-8">
+              <span className="text-xs font-bold text-neutral-400 uppercase tracking-widest block mb-2 font-sans">
+                {packageData.is_domestic ? "Domestic Getaway" : "International Voyage"}
+              </span>
+              <h1 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight font-display leading-[1.1] mb-5">
+                {pkgName}
+              </h1>
+
+              {/* Badges strip */}
+              <div className="flex flex-wrap items-center gap-y-3 gap-x-5 text-xs md:text-sm font-semibold text-neutral-600 font-sans">
+                <div className="flex items-center gap-1.5">
+                  <Clock className="w-4.5 h-4.5 text-neutral-400" />
+                  <span>{activeVariant.duration_text}</span>
                 </div>
-                <div className="relative flex-[3] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100">
-                  <Image
-                    src={galleryImages[4]}
-                    alt={`${pkgName} Gallery 4`}
-                    fill
-                    sizes="(max-width: 1024px) 25vw, 15vw"
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
+                <span className="w-1.5 h-1.5 rounded-full bg-neutral-300 hidden md:block" />
+                <div className="flex items-center gap-1.5">
+                  <MapPin className="w-4.5 h-4.5 text-neutral-400" />
+                  <span>{packageData.primary_destination}</span>
+                </div>
+                <span className="w-1.5 h-1.5 rounded-full bg-neutral-300 hidden md:block" />
+                <div className="flex items-center gap-1.5">
+                  <Users className="w-4.5 h-4.5 text-neutral-400" />
+                  <span>Max Group Size: 12</span>
                 </div>
               </div>
             </div>
 
-            {/* Mobile horizontal gallery scrollbar */}
-            <div className="flex lg:hidden gap-3 overflow-x-auto no-scrollbar py-2 mt-4 px-1">
-              {galleryImages.map((img, idx) => (
-                <div
-                  key={idx}
-                  className="relative w-52 h-36 shrink-0 overflow-hidden rounded-[1.5rem] bg-neutral-100 shadow-sm border border-neutral-100"
-                >
-                  <Image
-                    src={img}
-                    alt={`${pkgName} Mobile Gallery ${idx + 1}`}
-                    fill
-                    sizes="208px"
-                    className="object-cover"
-                  />
-                </div>
-              ))}
+            {/* Overview Section */}
+            <div className="mb-12 border-b border-border-light pb-10">
+              <p className="text-base md:text-lg font-semibold font-display text-neutral-800 leading-relaxed mb-6">
+                {overviewParagraphs.pitch}
+              </p>
+              <p className="text-neutral-500 text-sm md:text-base font-normal leading-relaxed whitespace-pre-line">
+                {overviewParagraphs.detailed}
+              </p>
             </div>
-          </section>
 
-          {/* TWO COLUMN GRID CONTENT */}
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-12 lg:gap-16 items-start">
-            {/* LEFT COLUMN: Main Package Info */}
-            <div className="flex flex-col">
-              {/* Header Title */}
-              <div className="mb-6">
-                <div className="flex items-center gap-2.5 mb-3 font-sans text-xs md:text-sm font-medium">
-                  <span className="inline-block bg-white border border-neutral-200 text-neutral-700 font-semibold px-2.5 py-1 rounded-[8px] uppercase tracking-wider text-[10px]">
-                    {packageData.is_domestic ? "Domestic" : "International"}
-                  </span>
-                  <span className="text-neutral-400 font-medium select-none">
-                    • Trip Code: MI-{packageData.id.toUpperCase().replace(/-/g, "")}
-                  </span>
-                </div>
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight tracking-tight">
-                  {pkgName}
-                </h1>
-              </div>
-
-              {/* Hero Description (Marketing Pitch) */}
-              {overviewParagraphs.pitch && (
-                <div className="text-neutral-500 font-medium text-sm md:text-base leading-relaxed space-y-4 mb-8">
-                  <p className="whitespace-pre-line">{overviewParagraphs.pitch}</p>
-                </div>
-              )}
-
-              {/* Summary Metadata Bar (Divided by lines as in reference design) */}
-              <div className="border-y border-neutral-200 py-6 mb-10 flex flex-wrap items-center justify-between gap-6 md:gap-8 font-sans">
-                {/* Duration */}
-                <div className="flex items-center gap-3">
-                  <Calendar className="w-5 h-5 text-neutral-800 shrink-0" />
-                  <div className="flex flex-col">
-                    <span className="text-[10px] md:text-[11px] font-medium text-neutral-400 uppercase tracking-wider leading-none mb-1">
-                      Duration
+            {/* Highlights Section */}
+            <div className="mb-12 border-b border-border-light pb-10">
+              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6 font-display">
+                Tour Highlights
+              </h2>
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {highlights.map((hl: string, idx: number) => (
+                  <li key={idx} className="flex items-start gap-3">
+                    <span className="w-5 h-5 rounded-full bg-brand-light flex items-center justify-center shrink-0 mt-0.5">
+                      <Check className="w-3 h-3 text-brand stroke-[3]" />
                     </span>
-                    <span className="text-xs md:text-sm font-bold text-neutral-800 leading-snug">
-                      {activeVariant.duration_text || `${activeVariant.days} Days`}
+                    <span className="text-neutral-600 text-sm font-medium leading-normal">
+                      {hl}
                     </span>
-                  </div>
-                </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-                {/* Group Size */}
-                <div className="flex items-center gap-3">
-                  <Users className="w-5 h-5 text-neutral-800 shrink-0" />
-                  <div className="flex flex-col">
-                    <span className="text-[10px] md:text-[11px] font-medium text-neutral-400 uppercase tracking-wider leading-none mb-1">
-                      Group Size
-                    </span>
-                    <span className="text-xs md:text-sm font-bold text-neutral-800 leading-snug">
-                      Max 12, Avg 10
-                    </span>
-                  </div>
-                </div>
-
-                {/* Tour Style */}
-                <div className="flex items-center gap-3">
-                  <Compass className="w-5 h-5 text-neutral-800 shrink-0" />
-                  <div className="flex flex-col">
-                    <span className="text-[10px] md:text-[11px] font-medium text-neutral-400 uppercase tracking-wider leading-none mb-1">
-                      Tour Style
-                    </span>
-                    <span className="text-xs md:text-sm font-bold text-neutral-800 leading-snug">
-                      {tourStyle}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Accommodation */}
-                <div className="flex items-center gap-3">
-                  <Building2 className="w-5 h-5 text-neutral-800 shrink-0" />
-                  <div className="flex flex-col">
-                    <span className="text-[10px] md:text-[11px] font-medium text-neutral-400 uppercase tracking-wider leading-none mb-1">
-                      Accommodation
-                    </span>
-                    <span className="text-xs md:text-sm font-bold text-neutral-800 leading-snug">
-                      Hotels ({activeVariant.nights} nts)
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Trip Overview (Detailed Explanation) */}
-              <div className="mb-12 border-b border-border-light pb-10">
-                <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4">
-                  Trip Overview
-                </h2>
-                <div className="text-neutral-500 font-medium text-sm md:text-base leading-relaxed space-y-4">
-                  <p className="whitespace-pre-line">{overviewParagraphs.detailed}</p>
-                </div>
-              </div>
-
-              {/* Highlights */}
-              <div className="mb-12 border-b border-border-light pb-10">
-                <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4">
-                  Tour Highlights
-                </h2>
-                <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3.5 list-disc pl-5 text-neutral-500 font-medium text-sm md:text-base">
-                  {highlights.map((highlight: string, idx: number) => (
-                    <li key={idx} className="leading-relaxed">
-                      {highlight}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* What's Included */}
-              <div className="mb-12 border-b border-border-light pb-10">
-                <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">
-                  What&apos;s Included
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {inclusions.map((inc: string, idx: number) => (
-                    <div key={idx} className="flex gap-3">
-                      <div className="w-5 h-5 rounded-full bg-neutral-100 flex items-center justify-center shrink-0 mt-0.5">
-                        <Check className="w-3.5 h-3.5 text-neutral-500" />
-                      </div>
-                      <span className="text-neutral-600 font-medium text-sm leading-snug">
-                        {inc}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* What's Excluded */}
-              <div className="mb-12 border-b border-border-light pb-10">
-                <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">Exclusions</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {exclusions.map((exc: string, idx: number) => (
-                    <div key={idx} className="flex gap-3">
-                      <div className="w-5 h-5 rounded-full bg-neutral-100/50 flex items-center justify-center shrink-0 mt-0.5">
-                        <X className="w-3.5 h-3.5 text-neutral-400" />
-                      </div>
-                      <span className="text-neutral-500 font-normal text-sm leading-snug">
-                        {exc}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Duration Switcher (if multiple variants) */}
-              {variants.length > 1 && (
-                <div className="mb-8 p-6 bg-neutral-50/50 border border-border-light rounded-[2rem]">
-                  <h3 className="text-sm font-bold text-neutral-500 uppercase tracking-wider mb-4">
-                    Choose Duration
-                  </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {variants.map((v: PackageVariant, idx: number) => (
+            {/* Duration Variants Switch Tabs */}
+            {variants.length > 1 && (
+              <div className="mb-10 border-b border-border-light pb-8">
+                <span className="text-xs font-bold text-neutral-400 uppercase tracking-widest block mb-4 font-sans">
+                  Available Durations
+                </span>
+                <div className="bg-neutral-100 p-1.5 rounded-2xl flex flex-wrap gap-1.5 border border-neutral-200/50 max-w-max">
+                  {variants.map((v: PackageVariant, idx: number) => {
+                    const isSelected = selectedVariantIdx === idx;
+                    return (
                       <button
                         key={idx}
                         onClick={() => {
                           setSelectedVariantIdx(idx);
-                          const nextVariant = variants[idx];
-                          if (
-                            nextVariant &&
-                            nextVariant.itinerary &&
-                            nextVariant.itinerary.length > 0
-                          ) {
-                            setActiveItineraryDay(nextVariant.itinerary[0].day);
-                          } else {
-                            setActiveItineraryDay(null);
+                          if (v.itinerary && v.itinerary.length > 0) {
+                            setActiveItineraryDay(v.itinerary[0].day);
                           }
                         }}
-                        className={`px-5 py-2.5 rounded-full font-semibold text-xs tracking-wider uppercase transition-all duration-300 cursor-pointer ${
-                          selectedVariantIdx === idx
-                            ? "bg-brand text-white shadow-premium"
-                            : "bg-white border border-border-light text-neutral-600 hover:bg-neutral-50"
+                        className={`relative px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors duration-200 z-10 cursor-pointer select-none ${
+                          isSelected ? "text-foreground" : "text-muted hover:text-foreground"
                         }`}
                       >
-                        {v.label} ({v.days} Days)
+                        {isSelected && (
+                          <motion.span
+                            layoutId="activeDetailTab"
+                            className="absolute inset-0 bg-white rounded-xl shadow-sm -z-10"
+                            transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                          />
+                        )}
+                        {v.label}
                       </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Itinerary Section */}
-              <div className="mb-12 border-b border-border-light pb-10">
-                <div className="flex items-center justify-between mb-8">
-                  <h2 className="text-xl md:text-2xl font-bold text-foreground">Itinerary</h2>
-                  <span className="text-xs md:text-sm font-bold text-neutral-400 uppercase tracking-wider">
-                    {activeVariant.days} Days / {activeVariant.nights} Nights
-                  </span>
-                </div>
-
-                <div className="relative pl-8 border-l border-neutral-200/80 ml-4 space-y-12 py-2">
-                  {itinerary.map((day: ItineraryDay, idx: number) => {
-                    const isExpanded = activeItineraryDay === day.day;
-
-                    // Select 3 deterministic images for the expanded day's photo row
-                    const dayImages = [
-                      itineraryDayImagesPool[(day.day * 1) % itineraryDayImagesPool.length],
-                      itineraryDayImagesPool[(day.day * 2) % itineraryDayImagesPool.length],
-                      itineraryDayImagesPool[(day.day * 3) % itineraryDayImagesPool.length],
-                    ];
-
-                    return (
-                      <div key={idx} className="relative group">
-                        {/* Timeline dot (aligned center with left border) */}
-                        <div className="absolute -left-[38px] top-1.5 w-3 h-3 rounded-full border-2 border-neutral-400 bg-white z-10 group-hover:border-brand transition-colors duration-300" />
-
-                        {/* Accordion Header */}
-                        <div
-                          onClick={() => setActiveItineraryDay(isExpanded ? null : day.day)}
-                          className="flex items-start justify-between gap-4 cursor-pointer select-none"
-                        >
-                          <div className="flex flex-col items-start gap-1">
-                            {/* Day Pill */}
-                            <span className="inline-block bg-neutral-100 text-neutral-600 font-semibold text-[11px] uppercase tracking-wider px-2.5 py-1 rounded-[10px]">
-                              Day {day.day}
-                            </span>
-                            {/* Title */}
-                            <h3 className="font-bold text-lg md:text-xl text-foreground font-display mt-1.5 leading-snug">
-                              {day.title}
-                            </h3>
-                          </div>
-
-                          <div className="w-8 h-8 rounded-full border border-neutral-200 flex items-center justify-center text-neutral-400 group-hover:text-brand group-hover:border-brand/40 transition-colors shrink-0 mt-1">
-                            <ChevronDown
-                              className={`w-4 h-4 transition-transform duration-300 ${
-                                isExpanded ? "rotate-180" : ""
-                              }`}
-                            />
-                          </div>
-                        </div>
-
-                        {/* Description (Truncated when collapsed, full when expanded) */}
-                        <p
-                          className={`text-neutral-500 font-medium text-sm md:text-[14px] leading-relaxed mt-3.5 whitespace-pre-line pr-4 transition-all duration-300 ${
-                            isExpanded ? "" : "line-clamp-3"
-                          }`}
-                        >
-                          {day.description}
-                        </p>
-
-                        {/* Images (Only visible when expanded) */}
-                        <AnimatePresence initial={false}>
-                          {isExpanded && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: "auto", opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              transition={{ duration: 0.3, ease: "easeInOut" }}
-                              className="overflow-hidden"
-                            >
-                              <div className="grid grid-cols-3 gap-3 mt-6 pt-2">
-                                {dayImages.map((img, i) => (
-                                  <div
-                                    key={i}
-                                    className="relative aspect-[4/3] rounded-[1.5rem] overflow-hidden bg-neutral-100 shadow-sm border border-neutral-100 group/img"
-                                  >
-                                    <Image
-                                      src={img}
-                                      alt={`Itinerary Day ${day.day} Image ${i + 1}`}
-                                      fill
-                                      sizes="(max-width: 768px) 33vw, 20vw"
-                                      className="object-cover transition-transform duration-500 group-hover/img:scale-105"
-                                    />
-                                  </div>
-                                ))}
-                              </div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </div>
                     );
                   })}
                 </div>
               </div>
+            )}
 
-              {/* Where you'll be Section */}
-              <div className="mb-12">
-                <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4 font-display">
-                  Where you&apos;ll be
-                </h2>
-                <div className="w-full h-[350px] md:h-[450px] rounded-[2rem] overflow-hidden border border-border-light shadow-sm bg-neutral-50">
-                  <PackageMap destinations={packageData.destinations} />
-                </div>
+            {/* Itinerary Section */}
+            <div className="mb-12 border-b border-border-light pb-10">
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-xl md:text-2xl font-bold text-foreground">Itinerary</h2>
+                <span className="text-xs md:text-sm font-bold text-neutral-400 uppercase tracking-wider">
+                  {activeVariant.days} Days / {activeVariant.nights} Nights
+                </span>
+              </div>
+
+              <div className="relative pl-8 border-l border-neutral-200/80 ml-4 space-y-12 py-2">
+                {itinerary.map((day: ItineraryDay, idx: number) => {
+                  const isExpanded = activeItineraryDay === day.day;
+
+                  // Select 3 deterministic images for the expanded day's photo row
+                  const dayImages = [
+                    itineraryDayImagesPool[(day.day * 1) % itineraryDayImagesPool.length],
+                    itineraryDayImagesPool[(day.day * 2) % itineraryDayImagesPool.length],
+                    itineraryDayImagesPool[(day.day * 3) % itineraryDayImagesPool.length],
+                  ];
+
+                  return (
+                    <div key={idx} className="relative group">
+                      {/* Timeline dot */}
+                      <div className="absolute -left-[38px] top-1.5 w-3 h-3 rounded-full border-2 border-neutral-400 bg-white z-10 group-hover:border-brand transition-colors duration-300" />
+
+                      {/* Header */}
+                      <div
+                        onClick={() => setActiveItineraryDay(isExpanded ? null : day.day)}
+                        className="flex items-start justify-between gap-4 cursor-pointer select-none"
+                      >
+                        <div className="flex flex-col items-start gap-1">
+                          {/* Day Pill */}
+                          <span className="inline-block bg-neutral-100 text-neutral-600 font-semibold text-[11px] uppercase tracking-wider px-2.5 py-1 rounded-[10px]">
+                            Day {day.day}
+                          </span>
+                          {/* Title */}
+                          <h3 className="font-bold text-lg md:text-xl text-foreground font-display mt-1.5 leading-snug">
+                            {day.title}
+                          </h3>
+                        </div>
+
+                        <div className="w-8 h-8 rounded-full border border-neutral-200 flex items-center justify-center text-neutral-400 group-hover:text-brand group-hover:border-brand/40 transition-colors shrink-0 mt-1">
+                          <ChevronDown
+                            className={`w-4 h-4 transition-transform duration-300 ${
+                              isExpanded ? "rotate-180" : ""
+                            }`}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Description */}
+                      <p
+                        className={`text-neutral-500 font-medium text-sm md:text-[14px] leading-relaxed mt-3.5 whitespace-pre-line pr-4 transition-all duration-300 ${
+                          isExpanded ? "" : "line-clamp-3"
+                        }`}
+                      >
+                        {day.description}
+                      </p>
+
+                      {/* Images Accordion (using shared AccordionItem with empty trigger wrapper) */}
+                      <AccordionItem
+                        isOpen={isExpanded}
+                        onToggle={() => {}}
+                        trigger={<></>}
+                        duration={0.3}
+                      >
+                        <div className="grid grid-cols-3 gap-3 mt-6 pt-2">
+                          {dayImages.map((img, i) => (
+                            <div
+                              key={i}
+                              className="relative aspect-[4/3] rounded-[1.5rem] overflow-hidden bg-neutral-100 shadow-sm border border-neutral-100 group/img"
+                            >
+                              <Image
+                                src={img}
+                                alt={`Itinerary Day ${day.day} Image ${i + 1}`}
+                                fill
+                                sizes="(max-width: 768px) 33vw, 20vw"
+                                className="object-cover transition-transform duration-500 group-hover/img:scale-105"
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </AccordionItem>
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
-            {/* RIGHT COLUMN: Sticky booking form */}
-            <aside className="lg:sticky lg:top-28 z-10 flex flex-col gap-6">
-              {/* Floating Booking Card */}
-              <div className="bg-white border border-border-light rounded-[2rem] p-6 shadow-premium">
-                {/* Header route summary */}
-                <div className="mb-6">
-                  <div className="flex items-center gap-1.5 text-neutral-400 text-xs font-bold uppercase tracking-wider mb-2">
-                    <Clock className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
-                    <span>{activeVariant.duration_text || `${activeVariant.days} Days`}</span>
-                  </div>
-                  <div className="font-bold text-foreground text-sm flex flex-wrap items-center gap-1.5 leading-snug">
-                    {packageData.destinations.map((dest: string, idx: number) => (
-                      <React.Fragment key={idx}>
-                        {idx > 0 && <ChevronRight className="w-3 h-3 text-neutral-300 shrink-0" />}
-                        <span className="text-foreground">{dest}</span>
-                      </React.Fragment>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Feature Inclusions Summary */}
-                <div className="border-t border-b border-border-light py-5 mb-6 space-y-3.5">
-                  <div className="flex items-center gap-3">
-                    <Check className="w-4 h-4 text-neutral-400 shrink-0" />
-                    <span className="text-xs font-medium text-neutral-500">
-                      Handpicked Premium Hotels Included
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <MapPin className="w-4 h-4 text-neutral-400 shrink-0" />
-                    <span className="text-xs font-medium text-neutral-500">
-                      Sightseeing in Private AC Vehicle
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Users className="w-4 h-4 text-neutral-400 shrink-0" />
-                    <span className="text-xs font-medium text-neutral-500">
-                      24/7 Dedicated Chauffeur & Support
-                    </span>
-                  </div>
-                </div>
-
-                {/* Booking Button */}
-                <button
-                  onClick={handleInquireClick}
-                  className="w-full bg-brand hover:bg-brand-hover text-white font-semibold text-xs tracking-wider uppercase py-4 rounded-full transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer text-center select-none"
-                >
-                  Book Now
-                </button>
-
-                <p className="text-[10px] text-neutral-400 text-center font-medium mt-3">
-                  No instant charges. Connect directly with our tour experts.
-                </p>
+            {/* Where you'll be Section */}
+            <div className="mb-12">
+              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4 font-display">
+                Where you&apos;ll be
+              </h2>
+              <div className="w-full h-[350px] md:h-[450px] rounded-[2rem] overflow-hidden border border-border-light shadow-sm bg-neutral-50">
+                <PackageMap destinations={packageData.destinations} />
               </div>
-
-              {/* Help & Support Card */}
-              <div className="bg-neutral-50/50 border border-border-light rounded-[2rem] p-6 text-center">
-                <HelpCircle className="w-6 h-6 text-neutral-400 mx-auto mb-3" />
-                <h4 className="font-bold text-foreground text-base mb-2">Need Help Planning?</h4>
-                <p className="text-xs text-neutral-500 font-medium leading-relaxed mb-4">
-                  Talk to our travel specialists for custom itineraries, group discounts, or special
-                  requirements.
-                </p>
-                {companyData && companyData.whatsapp_number && (
-                  <a
-                    href={`https://wa.me/${companyData.whatsapp_number}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white font-semibold text-xs uppercase tracking-wider px-6 py-3 rounded-full transition-all duration-300 cursor-pointer select-none"
-                  >
-                    WhatsApp Experts
-                  </a>
-                )}
-              </div>
-            </aside>
+            </div>
           </div>
 
-          {/* RECOMMENDED PACKAGES SECTION */}
-          <section className="mt-24 border-t border-border-light pt-24">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
-              <div>
-                <span className="block text-brand text-xs font-semibold uppercase tracking-wider mb-2">
-                  Explore More
-                </span>
-                <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground tracking-tight">
-                  Recommended for you
-                </h2>
+          {/* RIGHT COLUMN: Book/Inquire card, policy info, trust badges */}
+          <div className="lg:col-span-4 lg:sticky lg:top-28 flex flex-col gap-6">
+            {/* Inquiry/Booking Sticky Card */}
+            <div className="bg-white border border-border-light rounded-[2rem] p-6 shadow-premium">
+              <div className="flex flex-col gap-4">
+                <div className="bg-neutral-50 rounded-2xl p-4 flex flex-col border border-neutral-100">
+                  <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider font-sans mb-1">
+                    Customized Package
+                  </span>
+                  <div className="flex items-end justify-between gap-1.5 font-display">
+                    <span className="text-2xl md:text-3xl font-extrabold text-brand leading-none">
+                      Price On Request
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-2.5 font-sans mt-2">
+                  <div className="flex items-center justify-between text-xs font-semibold text-neutral-500 border-b border-neutral-100 pb-2">
+                    <span>Tour Style</span>
+                    <span className="text-neutral-800 font-bold uppercase">{tourStyle}</span>
+                  </div>
+                  <div className="flex items-center justify-between text-xs font-semibold text-neutral-500 border-b border-neutral-100 pb-2">
+                    <span>Duration</span>
+                    <span className="text-neutral-800 font-bold">
+                      {activeVariant.days} Days / {activeVariant.nights} Nights
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between text-xs font-semibold text-neutral-500 pb-1">
+                    <span>Stops</span>
+                    <span className="text-neutral-800 font-bold max-w-[200px] truncate">
+                      {packageData.destinations.join(" → ")}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Primary Orange Call To Action Button */}
+                <button
+                  onClick={handleInquireClick}
+                  className="w-full bg-brand hover:bg-brand-hover text-white font-bold py-4 rounded-full text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer text-center select-none border-none outline-none mt-2 active:scale-98"
+                >
+                  Book / Inquire Now
+                </button>
               </div>
+            </div>
+
+            {/* Travel details / trust card */}
+            <div className="bg-neutral-50 border border-neutral-100 rounded-[2rem] p-6 flex flex-col gap-4 font-sans text-xs md:text-sm">
+              <h4 className="font-bold text-neutral-800 font-display text-sm md:text-base">
+                Why book with us?
+              </h4>
+              <ul className="flex flex-col gap-3 font-semibold text-neutral-600">
+                <li className="flex items-center gap-2">
+                  <Check className="w-4.5 h-4.5 text-brand shrink-0 stroke-[2.5]" />
+                  <span>100% Tailored itineraries</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4.5 h-4.5 text-brand shrink-0 stroke-[2.5]" />
+                  <span>Zero hidden costs guaranteed</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4.5 h-4.5 text-brand shrink-0 stroke-[2.5]" />
+                  <span>Premium private AC vehicles</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4.5 h-4.5 text-brand shrink-0 stroke-[2.5]" />
+                  <span>24/7 Live customer care</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* DETAILS ACCORDION SECTION (Inclusions, Exclusions, Terms, etc.) */}
+        <section className="mt-16 border-t border-border-light pt-12">
+          <div className="flex flex-col gap-5 max-w-4xl">
+            {/* 1. Inclusions Panel */}
+            <div className="bg-white border border-border-light rounded-2xl overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.01)] transition-all duration-300">
+              <AccordionItem
+                isOpen={true} // Default open
+                onToggle={() => {}}
+                trigger={
+                  <div className="w-full px-6 py-5 flex items-center justify-between text-left">
+                    <span className="text-base md:text-lg font-bold text-foreground font-display flex items-center gap-2">
+                      <Check className="w-5 h-5 text-emerald-500 stroke-[3]" /> Inclusions
+                    </span>
+                  </div>
+                }
+                className="w-full"
+              >
+                <div className="px-6 pb-6 text-neutral-500 text-sm leading-relaxed pt-2 border-t border-border-light/60">
+                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 list-none">
+                    {inclusions.map((item, i) => (
+                      <li key={i} className="flex items-start gap-2.5 font-medium text-neutral-600">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0 mt-2" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </AccordionItem>
+            </div>
+
+            {/* 2. Exclusions Panel */}
+            <div className="bg-white border border-border-light rounded-2xl overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.01)] transition-all duration-300">
+              <AccordionItem
+                isOpen={true} // Default open
+                onToggle={() => {}}
+                trigger={
+                  <div className="w-full px-6 py-5 flex items-center justify-between text-left">
+                    <span className="text-base md:text-lg font-bold text-foreground font-display flex items-center gap-2">
+                      <X className="w-5 h-5 text-red-500 stroke-[3]" /> Exclusions
+                    </span>
+                  </div>
+                }
+                className="w-full"
+              >
+                <div className="px-6 pb-6 text-neutral-500 text-sm leading-relaxed pt-2 border-t border-border-light/60">
+                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 list-none">
+                    {exclusions.map((item, i) => (
+                      <li key={i} className="flex items-start gap-2.5 font-medium text-neutral-600">
+                        <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 mt-2" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </AccordionItem>
+            </div>
+
+            {/* 3. Important Notes Panel */}
+            {packageData.notes && packageData.notes.length > 0 && (
+              <div className="bg-white border border-border-light rounded-2xl overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.01)] transition-all duration-300">
+                <AccordionItem
+                  isOpen={true} // Default open
+                  onToggle={() => {}}
+                  trigger={
+                    <div className="w-full px-6 py-5 flex items-center justify-between text-left">
+                      <span className="text-base md:text-lg font-bold text-foreground font-display flex items-center gap-2">
+                        <HelpCircle className="w-5 h-5 text-brand stroke-[2]" /> Important Notes
+                      </span>
+                    </div>
+                  }
+                  className="w-full"
+                >
+                  <div className="px-6 pb-6 text-neutral-500 text-sm leading-relaxed pt-2 border-t border-border-light/60">
+                    <ul className="flex flex-col gap-3 list-none">
+                      {packageData.notes.map((item, i) => (
+                        <li
+                          key={i}
+                          className="flex items-start gap-2.5 font-medium text-neutral-600"
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full bg-brand shrink-0 mt-2" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </AccordionItem>
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* RECOMMENDED PACKAGES SECTION */}
+        <section className="mt-24 border-t border-border-light pt-24">
+          <SectionHeader
+            title="Recommended for you"
+            badge="Explore More"
+            rightSlot={
               <Link
                 href="/packages"
                 className="group inline-flex items-center gap-1.5 text-neutral-900 hover:text-brand font-semibold text-sm transition-colors mt-4 md:mt-0 cursor-pointer"
@@ -942,26 +790,28 @@ export default function PackageDetailClient({
                 View all tours
                 <ChevronRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
-            </div>
+            }
+          />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {recommendedPackages.map((pkg) => {
-                const isFavorite = favorites.includes(pkg.slug);
-                return (
-                  <RecommendedCard
-                    key={pkg.id}
-                    pkg={pkg}
-                    isFavorite={isFavorite}
-                    onToggleFavorite={toggleFavorite}
-                  />
-                );
-              })}
-            </div>
-          </section>
-        </div>
-      </main>
-
-      <Footer companyData={companyData} />
-    </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {recommendedPackages.map((pkg) => (
+              <PackageCard
+                key={pkg.id}
+                id={pkg.id}
+                slug={pkg.slug}
+                name={pkg.name}
+                hero_image={pkg.hero_image}
+                duration_range={pkg.duration_range}
+                min_days={pkg.min_days}
+                destinations={pkg.destinations}
+                variant="white"
+                isFavorite={isFavorite(pkg.slug)}
+                onToggleFavorite={toggleFavorite}
+              />
+            ))}
+          </div>
+        </section>
+      </div>
+    </PageShell>
   );
 }

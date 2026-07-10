@@ -1,6 +1,9 @@
 "use client";
 
 import { Coins, Compass, Headphones } from "lucide-react";
+import React from "react";
+
+import SectionHeader from "@/components/shared/SectionHeader";
 
 export default function WhyChooseUs() {
   const features = [
@@ -24,14 +27,12 @@ export default function WhyChooseUs() {
   return (
     <section className="py-24 scroll-mt-24 bg-white layout-container">
       {/* Section Header */}
-      <div className="text-center mb-16">
-        <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight leading-[1.1] mb-4">
-          Why Choose Us?
-        </h2>
-        <p className="text-muted font-normal text-sm md:text-base max-w-2xl mx-auto">
-          We provide exceptional travel experiences with attention to every detail
-        </p>
-      </div>
+      <SectionHeader
+        title="Why Choose Us?"
+        subtitle="We provide exceptional travel experiences with attention to every detail"
+        align="center"
+        className="mb-16"
+      />
 
       {/* Features Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 max-w-[1100px] mx-auto">

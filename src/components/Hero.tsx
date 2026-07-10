@@ -21,27 +21,8 @@ import type React from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { useToast } from "@/context/ToastContext";
-
-interface Slide {
-  id: number;
-  image: string;
-  tag: string;
-  title: string;
-  description: string;
-}
-
-interface HeroData {
-  slides: Slide[];
-}
-
-interface PackageItem {
-  primary_destination: string;
-  destinations?: string[];
-}
-
-interface PackagesData {
-  packages: PackageItem[];
-}
+import { type HeroData, type Slide } from "@/types/hero";
+import { type PackageItem, type PackagesData } from "@/types/package";
 
 const AUTO_ROTATE_INTERVAL = 5000;
 

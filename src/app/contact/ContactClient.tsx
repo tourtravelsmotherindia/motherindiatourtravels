@@ -1,10 +1,13 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import Link from "next/link";
 import React, { useState } from "react";
 
+import Breadcrumbs from "@/components/layout/Breadcrumbs";
+import FormField from "@/components/ui/FormField";
 import { useToast } from "@/context/ToastContext";
+import { formatWorkingHours } from "@/lib/utils/formatWorkingHours";
+import { type CompanyData } from "@/types/company";
 
 // Dynamically import the map component to avoid SSR errors
 const ContactMap = dynamic(() => import("@/components/ContactMap"), {
@@ -15,24 +18,6 @@ const ContactMap = dynamic(() => import("@/components/ContactMap"), {
     </div>
   ),
 });
-
-interface CompanyData {
-  name: string;
-  tagline: string;
-  website: string;
-  phone: string[];
-  email: string;
-  address: string;
-  working_hours: {
-    timezone: string;
-    schedule: {
-      days: string[];
-      hours: { open: string; close: string }[];
-    }[];
-  };
-  latitude?: number | null;
-  longitude?: number | null;
-}
 
 interface ContactClientProps {
   companyData: CompanyData;
@@ -48,47 +33,7 @@ export default function ContactClient({ companyData }: ContactClientProps) {
   const [submitting, setSubmitting] = useState(false);
 
   const getFormattedWorkingHours = () => {
-    const schedule = companyData.working_hours?.schedule;
-    if (!schedule || !Array.isArray(schedule)) return "";
-
-    const formatTime = (timeStr: string) => {
-      const [hourStr, minStr] = timeStr.split(":");
-      const hour = parseInt(hourStr, 10);
-      const ampm = hour >= 12 ? "PM" : "AM";
-      const hour12 = hour % 12 || 12;
-      return `${hour12}:${minStr} ${ampm}`;
-    };
-
-    const firstSlot = schedule[0];
-    const firstHours = firstSlot?.hours?.[0];
-    if (!firstHours) return "";
-
-    const allSameTime = schedule.every(
-      (slot) =>
-        slot.hours?.[0]?.open === firstHours.open && slot.hours?.[0]?.close === firstHours.close,
-    );
-
-    const formattedTime = `${formatTime(firstHours.open)} - ${formatTime(firstHours.close)}`;
-
-    if (allSameTime) {
-      const allDays = schedule.flatMap((slot) => slot.days);
-      const hasMon = allDays.includes("mon");
-      const hasSun = allDays.includes("sun");
-      if (allDays.length >= 7 || (hasMon && hasSun)) {
-        return `Monday - Sunday, ${formattedTime}`;
-      }
-      return `Everyday, ${formattedTime}`;
-    }
-
-    return schedule
-      .map((slot) => {
-        const daysStr = slot.days.map((d) => d.charAt(0).toUpperCase() + d.slice(1)).join(", ");
-        const slotHours = slot.hours?.[0];
-        if (!slotHours) return "";
-        return `${daysStr}: ${formatTime(slotHours.open)} - ${formatTime(slotHours.close)}`;
-      })
-      .filter(Boolean)
-      .join(" | ");
+    return formatWorkingHours(companyData.working_hours, ", ");
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -121,15 +66,11 @@ export default function ContactClient({ companyData }: ContactClientProps) {
       <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-20 items-start">
         {/* Left Side: Contact Information */}
         <div className="flex flex-col">
-          {/* Breadcrumb */}
-          <div className="text-xs font-semibold text-neutral-400 mb-6 tracking-wider">
-            [
-            <Link href="/" className="hover:text-brand transition-colors duration-200">
-              Home
-            </Link>
-            <span className="mx-1 text-neutral-300">/</span>
-            <span className="text-brand">Contact</span>]
-          </div>
+          {/* Breadcrumbs */}
+          <Breadcrumbs
+            items={[{ label: "Home", href: "/" }, { label: "Contact" }]}
+            variant="brackets"
+          />
 
           <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-[1.1] tracking-tight">
             Get in —
@@ -194,67 +135,48 @@ export default function ContactClient({ companyData }: ContactClientProps) {
         <div className="bg-white border border-border-light rounded-[2.5rem] p-6 sm:p-10 shadow-premium">
           <form onSubmit={handleSubmit} className="flex flex-col gap-5 sm:gap-6">
             {/* Full Name */}
-            <div className="flex flex-col gap-2">
-              <label htmlFor="fullName" className="text-xs font-semibold text-neutral-500 ml-1">
-                Full Name
-              </label>
-              <input
-                id="fullName"
-                type="text"
-                required
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                placeholder="Enter your full name..."
-                className="w-full bg-white border border-neutral-200 rounded-full px-5 py-3 text-sm focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/35 hover:border-neutral-300 font-sans transition-all duration-200 text-foreground"
-              />
-            </div>
+            <FormField
+              id="fullName"
+              label="Full Name"
+              type="text"
+              required
+              value={fullName}
+              onChange={setFullName}
+              placeholder="Enter your full name..."
+            />
 
             {/* Email Address */}
-            <div className="flex flex-col gap-2">
-              <label htmlFor="emailAddress" className="text-xs font-semibold text-neutral-500 ml-1">
-                Email Address
-              </label>
-              <input
-                id="emailAddress"
-                type="email"
-                required
-                value={emailAddress}
-                onChange={(e) => setEmailAddress(e.target.value)}
-                placeholder="Enter your email address..."
-                className="w-full bg-white border border-neutral-200 rounded-full px-5 py-3 text-sm focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/35 hover:border-neutral-300 font-sans transition-all duration-200 text-foreground"
-              />
-            </div>
+            <FormField
+              id="emailAddress"
+              label="Email Address"
+              type="email"
+              required
+              value={emailAddress}
+              onChange={setEmailAddress}
+              placeholder="Enter your email address..."
+            />
 
             {/* Phone Number */}
-            <div className="flex flex-col gap-2">
-              <label htmlFor="phoneNumber" className="text-xs font-semibold text-neutral-500 ml-1">
-                Phone Number
-              </label>
-              <input
-                id="phoneNumber"
-                type="tel"
-                required
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                placeholder="Enter your phone number..."
-                className="w-full bg-white border border-neutral-200 rounded-full px-5 py-3 text-sm focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/35 hover:border-neutral-300 font-sans transition-all duration-200 text-foreground"
-              />
-            </div>
+            <FormField
+              id="phoneNumber"
+              label="Phone Number"
+              type="tel"
+              required
+              value={phoneNumber}
+              onChange={setPhoneNumber}
+              placeholder="Enter your phone number..."
+            />
 
             {/* Message */}
-            <div className="flex flex-col gap-2">
-              <label htmlFor="message" className="text-xs font-semibold text-neutral-500 ml-1">
-                Message
-              </label>
-              <textarea
-                id="message"
-                required
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder="Enter your message..."
-                className="w-full bg-white border border-neutral-200 rounded-[1.5rem] px-5 py-4.5 text-sm focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/35 hover:border-neutral-300 font-sans transition-all duration-200 min-h-[140px] resize-none text-foreground"
-              />
-            </div>
+            <FormField
+              id="message"
+              label="Message"
+              type="textarea"
+              required
+              value={message}
+              onChange={setMessage}
+              placeholder="Enter your message..."
+            />
 
             {/* Submit Button */}
             <button

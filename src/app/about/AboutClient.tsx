@@ -3,24 +3,17 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight, Check, Play } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 
-import type { AboutData } from "@/lib/db/repositories/companyRepo";
+import Breadcrumbs from "@/components/layout/Breadcrumbs";
+import SectionHeader from "@/components/shared/SectionHeader";
+import { type AboutData, type CompanyData } from "@/types/company";
 
 interface AboutClientProps {
-  companyData: {
-    name: string;
-    tagline: string;
-    website: string;
-    phone: string[];
-    email: string;
-    address: string;
-    about: AboutData;
-  };
+  companyData: CompanyData;
 }
 
 export default function AboutClient({ companyData }: AboutClientProps) {
-  const { about } = companyData;
+  const about = companyData.about as AboutData;
 
   // Fallback checks just in case the JSON data is structured differently or empty
   const header = about?.header || {
@@ -115,15 +108,11 @@ export default function AboutClient({ companyData }: AboutClientProps) {
             variants={fadeIn}
             className="lg:col-span-7 flex flex-col items-start text-left"
           >
-            {/* Breadcrumb */}
-            <div className="text-xs font-semibold text-neutral-400 mb-6 tracking-wider">
-              [
-              <Link href="/" className="hover:text-brand transition-colors duration-200">
-                Home
-              </Link>
-              <span className="mx-1 text-neutral-300">/</span>
-              <span className="text-brand">About</span>]
-            </div>
+            {/* Breadcrumbs */}
+            <Breadcrumbs
+              items={[{ label: "Home", href: "/" }, { label: "About" }]}
+              variant="brackets"
+            />
 
             <h1 className="text-4xl md:text-6xl font-bold font-display text-foreground tracking-tight leading-[1.08] mb-8">
               {header.title}
@@ -421,14 +410,9 @@ export default function AboutClient({ companyData }: AboutClientProps) {
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeIn}
-          className="flex flex-col items-center text-center max-w-3xl mx-auto mb-12 md:mb-16 gap-4"
+          className="mb-12 md:mb-16"
         >
-          <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight leading-[1.1] font-display">
-            {howWeWork.title}
-          </h2>
-          <p className="text-sm md:text-base text-muted font-normal leading-relaxed max-w-xl">
-            {howWeWork.subtitle}
-          </p>
+          <SectionHeader title={howWeWork.title} subtitle={howWeWork.subtitle} align="center" />
         </motion.div>
 
         {/* Video Player Image Container */}

@@ -1,46 +1,17 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, Heart, Star } from "lucide-react";
+import { Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useRef, useState } from "react";
 
-interface DestinationItem {
-  id: string;
-  slug: string;
-  name: string;
-  state_id?: string | null;
-  country_id: string;
-  is_featured: boolean;
-  description: string;
-  best_time_to_visit: string;
-  top_attractions: string[] | string; // JSON string or parsed array
-  image: string;
-  package_ids?: string[];
-  package_count: number;
-}
-
-interface PackageItem {
-  id: string;
-  slug: string;
-  name: string;
-  hero_image: string;
-  duration_range: string;
-  destinations: string[] | string; // JSON string or parsed array
-  destination_ids?: string[] | string; // JSON string or parsed array
-  is_domestic: boolean;
-}
-
-interface DestinationDisplay {
-  slug: string;
-  name: string;
-  location: string;
-  duration: string;
-  rating: number;
-  ratingCount: string;
-  image: string;
-}
+import SectionHeader from "@/components/shared/SectionHeader";
+import DotIndicator from "@/components/ui/DotIndicator";
+import FavoriteButton from "@/components/ui/FavoriteButton";
+import PrevNextNav from "@/components/ui/PrevNextNav";
+import { type DestinationDisplay, type DestinationItem } from "@/types/destination";
+import { type PackageItem } from "@/types/package";
 
 /** Turn a state/country id like "uttar-pradesh" into "Uttar Pradesh" */
 function formatLocation(countryId: string, stateId?: string | null): string {
@@ -119,21 +90,18 @@ function DestinationCard({
       />
 
       {/* Favorite Button (Heart Icon) */}
-      <button
-        type="button"
-        onClick={(e) => {
-          e.stopPropagation();
-          setIsFavorite(!isFavorite);
-        }}
-        className="absolute top-6 right-6 z-20 w-11 h-11 rounded-full bg-white flex items-center justify-center shadow-md cursor-pointer hover:scale-110 active:scale-95 transition-all duration-200"
-        aria-label="Add to favorites"
-      >
-        <Heart
-          className={`w-5 h-5 transition-colors ${
-            isFavorite ? "fill-red-500 text-red-500" : "text-zinc-400 group-hover:text-red-500"
-          }`}
+      <div className="absolute top-6 right-6 z-20">
+        <FavoriteButton
+          isFavorite={isFavorite}
+          onToggle={(e) => {
+            e.stopPropagation();
+            setIsFavorite(!isFavorite);
+          }}
+          variant="solid"
+          size="md"
+          ariaLabel="Add to favorites"
         />
-      </button>
+      </div>
 
       {/* Bottom dark gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent transition-opacity duration-300 group-hover:via-black/55 group-hover:from-black/95 z-0" />
@@ -244,39 +212,24 @@ export default function PopularDestinations({
   const cardC = destinations[wrap(currentIndex + 2)];
   const cardD = destinations[wrap(currentIndex + 3)];
 
+  const rightSlot = (
+    <PrevNextNav
+      onPrev={handlePrev}
+      onNext={handleNext}
+      prevAriaLabel="Previous destination"
+      nextAriaLabel="Next destination"
+    />
+  );
+
   return (
     <section className="py-24 bg-white border-y border-border-light">
       <div className="layout-container">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-          <div>
-            <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight leading-[1.1]">
-              Explore Top Destinations
-            </h2>
-            <p className="text-muted font-normal mt-2 text-sm md:text-base">
-              Explore the world&apos;s most sought-after travel experiences
-            </p>
-          </div>
-          {/* Navigation Buttons */}
-          <div className="flex items-center gap-3 shrink-0">
-            <button
-              type="button"
-              onClick={handlePrev}
-              className="w-12 h-12 rounded-full border border-zinc-200 bg-white flex items-center justify-center text-zinc-700 hover:bg-zinc-50 hover:border-zinc-300 transition-all duration-200 cursor-pointer shadow-sm"
-              aria-label="Previous destination"
-            >
-              <ArrowLeft className="w-5 h-5" />
-            </button>
-            <button
-              type="button"
-              onClick={handleNext}
-              className="w-12 h-12 rounded-full bg-brand flex items-center justify-center text-white hover:bg-brand-hover transition-all duration-200 cursor-pointer shadow-sm"
-              aria-label="Next destination"
-            >
-              <ArrowRight className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
+        <SectionHeader
+          title="Explore Top Destinations"
+          subtitle="Explore the world's most sought-after travel experiences"
+          rightSlot={rightSlot}
+        />
 
         {/* MOBILE VIEW: Horizontal scroll layout */}
         <div className="md:hidden">
@@ -294,19 +247,12 @@ export default function PopularDestinations({
           </div>
 
           {/* Navigation Dot Indicators */}
-          <div className="flex items-center justify-center gap-2 mt-2">
-            {destinations.map((_, idx) => (
-              <button
-                type="button"
-                key={idx}
-                onClick={() => scrollToCard(idx)}
-                className={`h-2.5 rounded-full transition-all duration-300 ${
-                  activeIndex === idx ? "w-8 bg-brand" : "w-2.5 bg-muted/30 hover:bg-muted/50"
-                }`}
-                aria-label={`Go to slide ${idx + 1}`}
-              />
-            ))}
-          </div>
+          <DotIndicator
+            count={destinations.length}
+            activeIndex={activeIndex}
+            onChange={scrollToCard}
+            className="mt-2"
+          />
         </div>
 
         {/* DESKTOP VIEW: Alternating asymmetric grid layout */}

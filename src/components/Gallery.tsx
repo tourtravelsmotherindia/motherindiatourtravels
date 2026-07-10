@@ -3,6 +3,9 @@
 import { motion } from "framer-motion";
 import { Eye } from "lucide-react";
 import Image from "next/image";
+import React from "react";
+
+import SectionHeader from "@/components/shared/SectionHeader";
 
 interface GalleryItem {
   id: number;
@@ -60,17 +63,10 @@ export default function Gallery() {
   return (
     <section id="gallery" className="py-24 scroll-mt-24 layout-container">
       {/* Section Header */}
-      <div className="flex items-center justify-between mb-12 gap-4">
-        <div>
-          <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight leading-[1.1]">
-            Our Travel Gallery
-          </h2>
-          <p className="text-muted font-normal mt-2 text-sm md:text-base">
-            Catch a glimpse of the mesmerizing landscapes, historical monuments, and soulful
-            cultures captured during our curated trips.
-          </p>
-        </div>
-      </div>
+      <SectionHeader
+        title="Our Travel Gallery"
+        subtitle="Catch a glimpse of the mesmerizing landscapes, historical monuments, and soulful cultures captured during our curated trips."
+      />
 
       {/* Grid Layout */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -81,7 +77,7 @@ export default function Gallery() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: idx * 0.08 }}
             key={item.id}
-            className="group relative h-[300px] lg:h-[340px] xl:h-[370px] 2xl:h-[400px] rounded-[2rem] overflow-hidden shadow-card border border-border-light cursor-pointer"
+            className="group relative h-[300px] lg:h-[340px] xl:h-[370px] 2xl:h-[400px] rounded-[2rem] overflow-hidden shadow-card hover:shadow-premium transition-all duration-300 border border-border-light cursor-pointer"
           >
             {/* Image */}
             <Image

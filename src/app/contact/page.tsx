@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
+import PageShell from "@/components/layout/PageShell";
 import { getCompanyData } from "@/lib/db/repositories/companyRepo";
 
 import ContactClient from "./ContactClient";
@@ -20,12 +19,8 @@ export default async function ContactPage() {
   }
 
   return (
-    <div className="relative min-h-screen bg-white flex flex-col pt-24">
-      <Navbar />
-      <main className="flex-1">
-        <ContactClient companyData={companyData} />
-      </main>
-      <Footer companyData={companyData} />
-    </div>
+    <PageShell companyData={companyData}>
+      <ContactClient companyData={companyData} />
+    </PageShell>
   );
 }
