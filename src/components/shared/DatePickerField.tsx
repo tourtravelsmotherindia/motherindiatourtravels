@@ -239,7 +239,7 @@ export default function DatePickerField({
     const monthLabel = `${MONTHS_LONG[monthDate.getMonth()]} ${monthDate.getFullYear()}`;
 
     return (
-      <div className="flex-1 min-w-[200px] sm:min-w-[220px]">
+      <div className="flex-1 min-w-[200px] sm:min-w-[220px] w-full">
         <div className="text-center font-bold text-foreground mb-3 font-sans text-xs sm:text-sm">
           {monthLabel}
         </div>
@@ -555,7 +555,7 @@ export default function DatePickerField({
                   </div>
 
                   {/* Side-by-side Monthly Calendars */}
-                  <div className="flex flex-col sm:flex-row gap-5 items-start justify-center">
+                  <div className="flex flex-col sm:flex-row gap-5 items-center sm:items-start justify-center">
                     {renderCalendarMonth(calendarMonth)}
                     <div className="hidden sm:block border-l border-border-light h-[230px] self-stretch" />
                     <div className="hidden sm:block">{renderCalendarMonth(rightMonthDate)}</div>
@@ -605,7 +605,7 @@ export default function DatePickerField({
           onClick={() => setActiveDropdown(active ? null : "dates")}
         >
           <label className="text-xs font-semibold text-neutral-500 ml-1">
-            {dateMode === "calendar" ? "Departure Date" : "Duration"}
+            {dateMode === "calendar" ? "Arrival Date" : "Duration"}
           </label>
           <div className="w-full bg-white border border-neutral-200 rounded-full px-5 py-3 text-sm font-semibold text-foreground hover:border-brand/40 focus-within:border-brand transition-all duration-200 flex items-center gap-2.5 min-h-[46px]">
             {dateMode === "calendar" ? (
@@ -634,7 +634,7 @@ export default function DatePickerField({
           onClick={() => setActiveDropdown(active ? null : "dates")}
         >
           <label className="text-xs font-semibold text-neutral-500 ml-1">
-            {dateMode === "calendar" ? "Return Date" : "Travel Month"}
+            {dateMode === "calendar" ? "Departure Date" : "Travel Month"}
           </label>
           <div className="w-full bg-white border border-neutral-200 rounded-full px-5 py-3 text-sm font-semibold text-foreground hover:border-brand/40 focus-within:border-brand transition-all duration-200 flex items-center gap-2.5 min-h-[46px]">
             {dateMode === "calendar" ? (
@@ -728,7 +728,7 @@ export default function DatePickerField({
                 </div>
 
                 {/* Side-by-side Monthly Calendars */}
-                <div className="flex flex-col sm:flex-row gap-5 items-start justify-center">
+                <div className="flex flex-col sm:flex-row gap-5 items-center sm:items-start justify-center">
                   {renderCalendarMonth(calendarMonth)}
                   <div className="hidden sm:block border-l border-border-light h-[210px] self-stretch" />
                   <div className="hidden sm:block">{renderCalendarMonth(rightMonthDate)}</div>
@@ -743,9 +743,9 @@ export default function DatePickerField({
                         {getDurationDays() ? ` (${getDurationDays()} Days)` : ""}
                       </span>
                     ) : selectedCheckIn ? (
-                      <span>Select return date</span>
-                    ) : (
                       <span>Select departure date</span>
+                    ) : (
+                      <span>Select arrival date</span>
                     )}
                   </div>
                   <button

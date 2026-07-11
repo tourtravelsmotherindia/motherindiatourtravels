@@ -34,7 +34,7 @@ export default async function Home() {
       <PopularDestinations destinationsData={destinationsWrapped} packagesData={packagesWrapped} />
       <Gallery />
       <TestimonialsSection />
-      <PartnerAirlines />
+      {/*<PartnerAirlines />*/}
       <RegionsGrid />
       <FAQ faqData={faqData} companyData={companyData} />
     </PageShell>

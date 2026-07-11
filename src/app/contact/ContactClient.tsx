@@ -5,6 +5,7 @@ import React, { useState } from "react";
 
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import FormField from "@/components/ui/FormField";
+import PhoneInput from "@/components/ui/PhoneInput";
 import { useToast } from "@/context/ToastContext";
 import { formatWorkingHours } from "@/lib/utils/formatWorkingHours";
 import { type CompanyData } from "@/types/company";
@@ -28,6 +29,7 @@ export default function ContactClient({ companyData }: ContactClientProps) {
 
   const [fullName, setFullName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
+  const [countryCodeVal, setCountryCodeVal] = useState("IN:+91");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -53,6 +55,7 @@ export default function ContactClient({ companyData }: ContactClientProps) {
       );
       setFullName("");
       setEmailAddress("");
+      setCountryCodeVal("IN:+91");
       setPhoneNumber("");
       setMessage("");
       setSubmitting(false);
@@ -146,14 +149,15 @@ export default function ContactClient({ companyData }: ContactClientProps) {
               placeholder="Enter your email address..."
             />
 
-            <FormField
+            <PhoneInput
               id="phoneNumber"
               label="Phone Number"
-              type="tel"
-              required
-              value={phoneNumber}
+              phoneNumber={phoneNumber}
               onChange={setPhoneNumber}
+              countryCodeVal={countryCodeVal}
+              onChangeCountryCode={setCountryCodeVal}
               placeholder="Enter your phone number..."
+              required
             />
 
             <FormField

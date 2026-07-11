@@ -11,6 +11,7 @@ import PackageCard from "@/components/shared/PackageCard";
 import SectionHeader from "@/components/shared/SectionHeader";
 import TravelersField from "@/components/shared/TravelersField";
 import FormField from "@/components/ui/FormField";
+import PhoneInput from "@/components/ui/PhoneInput";
 import { useToast } from "@/context/ToastContext";
 import { useFavorites } from "@/lib/hooks/useFavorites";
 import { type CompanyData } from "@/types/company";
@@ -28,7 +29,10 @@ export default function BookClient({ packageData, allPackages, companyData }: Bo
 
   const [fullName, setFullName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
+  const [countryCodeVal, setCountryCodeVal] = useState("IN:+91");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [pickupLocation, setPickupLocation] = useState("");
+  const [dropLocation, setDropLocation] = useState("");
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -106,7 +110,7 @@ export default function BookClient({ packageData, allPackages, companyData }: Bo
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!fullName || !emailAddress || !phoneNumber || !selectedCheckIn) {
+    if (!fullName || !emailAddress || !phoneNumber || !selectedCheckIn || !pickupLocation || !dropLocation) {
       showToast("error", "Validation Failed", "Please fill in all required fields.");
       return;
     }
@@ -121,7 +125,10 @@ export default function BookClient({ packageData, allPackages, companyData }: Bo
       );
       setFullName("");
       setEmailAddress("");
+      setCountryCodeVal("IN:+91");
       setPhoneNumber("");
+      setPickupLocation("");
+      setDropLocation("");
       setMessage("");
       setSelectedCheckIn(null);
       setSelectedCheckOut(null);
@@ -134,7 +141,7 @@ export default function BookClient({ packageData, allPackages, companyData }: Bo
   };
 
   return (
-    <PageShell companyData={companyData} ptClass="pt-24" bgClass="bg-white" className="pb-24">
+    <PageShell companyData={companyData} ptClass="pt-28" bgClass="bg-white" className="pb-24">
       <div className="layout-container font-sans">
         {/* Breadcrumbs */}
         <Breadcrumbs
@@ -185,14 +192,15 @@ export default function BookClient({ packageData, allPackages, companyData }: Bo
                   placeholder="Enter your email..."
                 />
 
-                <FormField
+                <PhoneInput
                   id="phoneNumber"
                   label="Phone Number"
-                  type="tel"
-                  required
-                  value={phoneNumber}
+                  phoneNumber={phoneNumber}
                   onChange={setPhoneNumber}
+                  countryCodeVal={countryCodeVal}
+                  onChangeCountryCode={setCountryCodeVal}
                   placeholder="Enter your phone..."
+                  required
                 />
               </div>
 
@@ -225,6 +233,27 @@ export default function BookClient({ packageData, allPackages, companyData }: Bo
                 activeDropdown={activeDropdown}
                 setActiveDropdown={setActiveDropdown}
               />
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <FormField
+                  id="pickupLocation"
+                  label="Pickup Location"
+                  type="text"
+                  required
+                  value={pickupLocation}
+                  onChange={setPickupLocation}
+                  placeholder="Enter pickup location..."
+                />
+                <FormField
+                  id="dropLocation"
+                  label="Drop Location"
+                  type="text"
+                  required
+                  value={dropLocation}
+                  onChange={setDropLocation}
+                  placeholder="Enter drop location..."
+                />
+              </div>
 
               <FormField
                 id="message"

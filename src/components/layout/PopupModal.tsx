@@ -1,6 +1,5 @@
 "use client";
 
-import { countries } from "countries-list";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Calendar as CalendarIcon,
@@ -8,28 +7,18 @@ import {
   ChevronRight,
   Mail,
   MessageSquare,
-  Phone,
   User,
   Users,
   X,
 } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 
+import PhoneInput from "@/components/ui/PhoneInput";
 import { useToast } from "@/context/ToastContext";
-
-// Generate flag emoji dynamically from 2-letter ISO code
-function getEmojiFlag(countryCode: string) {
-  const codePoints = countryCode
-    .toUpperCase()
-    .split("")
-    .map((char) => 127397 + char.charCodeAt(0));
-  return String.fromCodePoint(...codePoints);
-}
 
 export default function PopupModal() {
   const { showToast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
-  const [isCountryOpen, setIsCountryOpen] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState<string | null>(null);
 
@@ -42,53 +31,11 @@ export default function PopupModal() {
   const [travellers, setTravellers] = useState("1");
   const [message, setMessage] = useState("");
 
-  // Country search query
-  const [searchQuery, setSearchQuery] = useState("");
-
   // Calendar display state
   const [calendarMonth, setCalendarMonth] = useState(new Date());
 
   // Refs for outside click handling
-  const countryRef = useRef<HTMLDivElement>(null);
   const calendarRef = useRef<HTMLDivElement>(null);
-
-  // "CODE:DIAL" — e.g. "IN:+91". Splitting is faster than storing two fields.
-  const [selectedCode, selectedDialCode] = countryVal.split(":");
-  const selectedFlag = getEmojiFlag(selectedCode);
-
-  const countryList = React.useMemo(() => {
-    const raw = Object.entries(countries).map(([code, data]) => {
-      const phoneVal = data.phone;
-      const dial = Array.isArray(phoneVal) ? phoneVal[0] : phoneVal;
-      return {
-        code,
-        name: data.name,
-        dialCode: `+${dial}`,
-        flag: getEmojiFlag(code),
-      };
-    });
-
-    raw.sort((a, b) => a.name.localeCompare(b.name));
-
-    // India is the primary market, so pin it to the top regardless of sort order.
-    const indiaIndex = raw.findIndex((c) => c.code === "IN");
-    if (indiaIndex > -1) {
-      const [india] = raw.splice(indiaIndex, 1);
-      raw.unshift(india);
-    }
-    return raw;
-  }, []);
-
-  const filteredCountries = React.useMemo(() => {
-    if (!searchQuery.trim()) return countryList;
-    const q = searchQuery.toLowerCase();
-    return countryList.filter(
-      (c) =>
-        c.name.toLowerCase().includes(q) ||
-        c.dialCode.includes(q) ||
-        c.code.toLowerCase().includes(q),
-    );
-  }, [countryList, searchQuery]);
 
   useEffect(() => {
     const hasSeen = sessionStorage.getItem("hasSeenPopup");
@@ -121,9 +68,6 @@ export default function PopupModal() {
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (isCountryOpen && countryRef.current && !countryRef.current.contains(e.target as Node)) {
-        setIsCountryOpen(false);
-      }
       if (
         isCalendarOpen &&
         calendarRef.current &&
@@ -135,7 +79,7 @@ export default function PopupModal() {
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [isCountryOpen, isCalendarOpen]);
+  }, [isCalendarOpen]);
 
   const getDaysInMonth = (year: number, month: number) => {
     return new Date(year, month + 1, 0).getDate();
@@ -301,87 +245,16 @@ export default function PopupModal() {
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-neutral-500 ml-1">
-                    Phone Number*
-                  </label>
-                  <div className="flex gap-2">
-                    <div className="relative" ref={countryRef}>
-                      <button
-                        type="button"
-                        onClick={() => setIsCountryOpen(!isCountryOpen)}
-                        className="flex items-center justify-between gap-1 w-26 bg-white border border-neutral-200 rounded-full px-3.5 py-3 text-sm font-semibold text-neutral-700 hover:border-neutral-300 hover:bg-neutral-50/50 cursor-pointer transition-all duration-200"
-                      >
-                        <span className="text-base leading-none select-none">{selectedFlag}</span>
-                        <span className="text-xs">{selectedDialCode}</span>
-                      </button>
-
-                      <AnimatePresence>
-                        {isCountryOpen && (
-                          <motion.div
-                            initial={{ opacity: 0, scale: 0.95, y: 5 }}
-                            animate={{ opacity: 1, scale: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.95, y: 5 }}
-                            transition={{ duration: 0.15 }}
-                            className="absolute top-full left-0 mt-2 w-64 bg-white border border-neutral-200 rounded-2xl shadow-2xl p-2 z-50"
-                          >
-                            <input
-                              type="text"
-                              value={searchQuery}
-                              onChange={(e) => setSearchQuery(e.target.value)}
-                              placeholder="Search country/code..."
-                              className="w-full border border-neutral-100 bg-neutral-50/50 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-brand/35 mb-2 placeholder-neutral-400 font-sans"
-                            />
-                            <div className="max-h-48 overflow-y-auto flex flex-col gap-0.5 pr-1 dropdown-scrollbar select-none">
-                              {filteredCountries.length > 0 ? (
-                                filteredCountries.map((c) => (
-                                  <button
-                                    key={c.code}
-                                    type="button"
-                                    onClick={() => {
-                                      setCountryVal(`${c.code}:${c.dialCode}`);
-                                      setIsCountryOpen(false);
-                                      setSearchQuery("");
-                                    }}
-                                    className={`flex items-center justify-between w-full px-2.5 py-2 text-xs font-semibold rounded-lg cursor-pointer transition-colors text-left ${
-                                      selectedCode === c.code
-                                        ? "bg-brand-light text-brand"
-                                        : "text-neutral-700 hover:bg-neutral-50"
-                                    }`}
-                                  >
-                                    <span className="flex items-center gap-2 truncate">
-                                      <span className="text-sm select-none shrink-0">{c.flag}</span>
-                                      <span className="truncate">{c.name}</span>
-                                    </span>
-                                    <span className="text-neutral-400 font-medium shrink-0 ml-1">
-                                      {c.dialCode}
-                                    </span>
-                                  </button>
-                                ))
-                              ) : (
-                                <div className="text-center text-[10px] text-neutral-400 py-3">
-                                  No countries found
-                                </div>
-                              )}
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-
-                    <div className="relative flex items-center flex-1">
-                      <Phone className="absolute left-4.5 w-4 h-4 text-neutral-400" />
-                      <input
-                        type="tel"
-                        required
-                        value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value)}
-                        placeholder="Phone Number"
-                        className="w-full bg-white border border-neutral-200 rounded-full pl-11 pr-5 py-3 text-sm focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200"
-                      />
-                    </div>
-                  </div>
-                </div>
+                <PhoneInput
+                  id="phoneNumber"
+                  label="Phone Number*"
+                  phoneNumber={phoneNumber}
+                  onChange={setPhoneNumber}
+                  countryCodeVal={countryVal}
+                  onChangeCountryCode={setCountryVal}
+                  placeholder="Phone Number"
+                  required
+                />
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="flex flex-col gap-1.5 relative" ref={calendarRef}>
