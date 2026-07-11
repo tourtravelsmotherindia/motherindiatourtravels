@@ -26,6 +26,9 @@ const nextConfig = {
   },
   // Skip server-only features not needed for static export
   skipTrailingSlashRedirect: true,
+  generateBuildId: async () => {
+    return "mother-india-static";
+  },
 };
 
 export default nextConfig;
