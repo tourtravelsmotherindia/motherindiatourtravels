@@ -52,11 +52,10 @@ export default function PopupModal() {
   const countryRef = useRef<HTMLDivElement>(null);
   const calendarRef = useRef<HTMLDivElement>(null);
 
-  // Parse country selection
+  // "CODE:DIAL" — e.g. "IN:+91". Splitting is faster than storing two fields.
   const [selectedCode, selectedDialCode] = countryVal.split(":");
   const selectedFlag = getEmojiFlag(selectedCode);
 
-  // Prepare & sort country data
   const countryList = React.useMemo(() => {
     const raw = Object.entries(countries).map(([code, data]) => {
       const phoneVal = data.phone;
@@ -69,10 +68,9 @@ export default function PopupModal() {
       };
     });
 
-    // Sort alphabetically by country name
     raw.sort((a, b) => a.name.localeCompare(b.name));
 
-    // Pin India (+91) at the top
+    // India is the primary market, so pin it to the top regardless of sort order.
     const indiaIndex = raw.findIndex((c) => c.code === "IN");
     if (indiaIndex > -1) {
       const [india] = raw.splice(indiaIndex, 1);
@@ -81,7 +79,6 @@ export default function PopupModal() {
     return raw;
   }, []);
 
-  // Filter countries by search query
   const filteredCountries = React.useMemo(() => {
     if (!searchQuery.trim()) return countryList;
     const q = searchQuery.toLowerCase();
@@ -93,7 +90,6 @@ export default function PopupModal() {
     );
   }, [countryList, searchQuery]);
 
-  // Handle popup appearance delay (4 seconds)
   useEffect(() => {
     const hasSeen = sessionStorage.getItem("hasSeenPopup");
     if (hasSeen === "true") return;
@@ -105,7 +101,8 @@ export default function PopupModal() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Handle manual/programmatic triggers to open the modal
+  // The modal can also be triggered programmatically by dispatching
+  // a custom "open-inquiry-modal" event with an optional packageName payload.
   useEffect(() => {
     const handleOpen = (e: Event) => {
       const customEvent = e as CustomEvent<{ packageName?: string }>;
@@ -122,7 +119,6 @@ export default function PopupModal() {
     };
   }, []);
 
-  // Handle clicking outside country or calendar dropdowns to close them
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (isCountryOpen && countryRef.current && !countryRef.current.contains(e.target as Node)) {
@@ -141,7 +137,6 @@ export default function PopupModal() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isCountryOpen, isCalendarOpen]);
 
-  // Calendar calculation functions
   const getDaysInMonth = (year: number, month: number) => {
     return new Date(year, month + 1, 0).getDate();
   };
@@ -210,14 +205,12 @@ export default function PopupModal() {
       return;
     }
 
-    // Call Book trigger - currently prevents actual submission as requested
     showToast(
       "success",
       "Trip Inquiry Received!",
       "Thank you for sharing your preferences. We will connect shortly!",
     );
 
-    // Set session storage and close popup
     setIsOpen(false);
     setSelectedPackage(null);
     sessionStorage.setItem("hasSeenPopup", "true");
@@ -245,12 +238,9 @@ export default function PopupModal() {
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-50 overflow-y-auto bg-black/50 backdrop-blur-[3px]">
-          {/* Modal Backdrop (Close on click backdrop) */}
           <div className="fixed inset-0 cursor-default" onClick={handleClose} />
 
-          {/* Centering wrapper */}
           <div className="flex min-h-full items-center justify-center p-4 sm:p-6 text-center">
-            {/* Modal Card container */}
             <motion.div
               initial={{ opacity: 0, scale: 0.93, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -258,7 +248,6 @@ export default function PopupModal() {
               transition={{ type: "spring", duration: 0.4, bounce: 0.15 }}
               className="relative w-full max-w-[420px] bg-white rounded-[2rem] p-5 sm:p-6 md:p-7 shadow-[0_20px_50px_rgba(0,0,0,0.12)] border border-neutral-100 flex flex-col gap-3.5 sm:gap-4 text-foreground font-sans z-10 text-left"
             >
-              {/* Close Button X */}
               <button
                 type="button"
                 onClick={handleClose}
@@ -268,7 +257,6 @@ export default function PopupModal() {
                 <X className="w-5 h-5" />
               </button>
 
-              {/* Title & Subtitle */}
               <div className="text-center mt-2">
                 <h2 className="font-display text-xl sm:text-2.5xl font-bold text-neutral-900 leading-tight">
                   {selectedPackage ? `Book ${selectedPackage}` : "Planning a Trip?"}
@@ -280,9 +268,7 @@ export default function PopupModal() {
                 </p>
               </div>
 
-              {/* Booking Inquiry Form */}
               <form onSubmit={handleSubmit} className="flex flex-col gap-3.5 sm:gap-4 text-left">
-                {/* Full Name */}
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-semibold text-neutral-500 ml-1">Full Name*</label>
                   <div className="relative flex items-center">
@@ -298,7 +284,6 @@ export default function PopupModal() {
                   </div>
                 </div>
 
-                {/* Email Address */}
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-semibold text-neutral-500 ml-1">
                     Email Address*
@@ -316,13 +301,11 @@ export default function PopupModal() {
                   </div>
                 </div>
 
-                {/* Phone Number */}
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-semibold text-neutral-500 ml-1">
                     Phone Number*
                   </label>
                   <div className="flex gap-2">
-                    {/* Custom Country Dropdown */}
                     <div className="relative" ref={countryRef}>
                       <button
                         type="button"
@@ -386,7 +369,6 @@ export default function PopupModal() {
                       </AnimatePresence>
                     </div>
 
-                    {/* Phone Number Input */}
                     <div className="relative flex items-center flex-1">
                       <Phone className="absolute left-4.5 w-4 h-4 text-neutral-400" />
                       <input
@@ -401,9 +383,7 @@ export default function PopupModal() {
                   </div>
                 </div>
 
-                {/* Date & Travellers Row */}
                 <div className="grid grid-cols-2 gap-4">
-                  {/* Travel Date */}
                   <div className="flex flex-col gap-1.5 relative" ref={calendarRef}>
                     <label className="text-xs font-semibold text-neutral-500 ml-1">
                       Travel Date*
@@ -431,7 +411,6 @@ export default function PopupModal() {
                           className="absolute top-full left-0 mt-2 w-68 bg-white border border-neutral-200 rounded-2xl shadow-2xl p-3 z-50 cursor-default"
                           onClick={(e) => e.stopPropagation()}
                         >
-                          {/* Calendar Month Header */}
                           <div className="flex items-center justify-between mb-3 px-1">
                             <span className="text-xs font-bold text-neutral-800 font-sans select-none">
                               {MONTHS[calendarMonth.getMonth()]} {calendarMonth.getFullYear()}
@@ -454,14 +433,12 @@ export default function PopupModal() {
                             </div>
                           </div>
 
-                          {/* Calendar Weekdays */}
                           <div className="grid grid-cols-7 gap-0.5 text-center text-[9px] font-bold text-neutral-400 mb-1.5 uppercase select-none">
                             {WEEKDAYS.map((day) => (
                               <span key={day}>{day}</span>
                             ))}
                           </div>
 
-                          {/* Calendar Days Grid */}
                           <div className="grid grid-cols-7 gap-y-0.5 gap-x-0.5 text-center select-none">
                             {calendarDays.map((day, idx) => {
                               if (!day) {
@@ -504,7 +481,6 @@ export default function PopupModal() {
                     </AnimatePresence>
                   </div>
 
-                  {/* Travellers */}
                   <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-semibold text-neutral-500 ml-1">
                       Travellers*
@@ -525,7 +501,6 @@ export default function PopupModal() {
                   </div>
                 </div>
 
-                {/* Additional Message */}
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-semibold text-neutral-500 ml-1">
                     Additional Message
@@ -541,7 +516,6 @@ export default function PopupModal() {
                   </div>
                 </div>
 
-                {/* Action Buttons (Fixed at bottom) */}
                 <div className="flex flex-col gap-2 mt-1 sm:mt-2 shrink-0">
                   <button
                     type="submit"

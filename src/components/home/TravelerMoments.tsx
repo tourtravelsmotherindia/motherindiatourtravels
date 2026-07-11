@@ -75,7 +75,6 @@ export default function TravelerMoments() {
     setCurrentIndex((prev) => (prev === reviews.length - 1 ? 0 : prev + 1));
   };
 
-  // Get active pair of reviews for desktop alternating grid
   const reviewA = reviews[currentIndex];
   const reviewB = reviews[(currentIndex + 1) % reviews.length];
 
@@ -90,7 +89,6 @@ export default function TravelerMoments() {
 
   return (
     <section id="blog" className="py-24 overflow-hidden layout-container">
-      {/* Section Header */}
       <SectionHeader
         title="What Our Customers Say"
         subtitle="Hear from our adventurers about their recent travel experiences"

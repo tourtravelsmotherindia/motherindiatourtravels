@@ -66,7 +66,6 @@ export default function PackageCard({
         transition={transition}
         className="group relative w-full h-[340px] sm:h-[380px] md:h-[400px] lg:h-[350px] xl:h-[380px] 2xl:h-[420px] rounded-[2rem] overflow-hidden shadow-card hover:shadow-premium transition-all duration-500 bg-gray-50 flex flex-col"
       >
-        {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <Image
             src={imageSrc}
@@ -76,18 +75,15 @@ export default function PackageCard({
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
             priority={priority}
           />
-          {/* Gradient overlays for readability */}
           <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/40 to-transparent z-10" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent z-10" />
         </div>
 
-        {/* Glassmorphic Duration Badge */}
         <div className="absolute top-4 left-4 z-20 bg-white/20 backdrop-blur-md border border-white/25 text-white text-[10px] font-semibold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-1.5 select-none">
           <Clock className="w-3.5 h-3.5" />
           <span>{durationText}</span>
         </div>
 
-        {/* Glassmorphic Favorite Button */}
         {onToggleFavorite && (
           <div className="absolute top-4 right-4 z-20">
             <FavoriteButton
@@ -99,13 +95,11 @@ export default function PackageCard({
           </div>
         )}
 
-        {/* Bottom Card Content overlay */}
         <div className="mt-auto p-5 xl:p-6 z-20 flex flex-col justify-end">
           <h3 className="text-lg xl:text-xl font-bold text-white leading-snug tracking-tight mb-2 group-hover:text-brand transition-colors duration-300 drop-shadow-sm">
             {name}
           </h3>
           <div className="flex items-center justify-between mt-1 gap-2">
-            {/* Destinations with pin icon */}
             <div className="flex items-center gap-1.5 text-white/80 text-xs font-normal min-w-0 flex-1">
               <MapPin className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
               <span className="truncate drop-shadow-sm">
@@ -114,7 +108,6 @@ export default function PackageCard({
               </span>
             </div>
 
-            {/* Rating & Action Button */}
             <div className="flex items-center gap-2 shrink-0">
               {showRating && (
                 <div className="flex items-center gap-1 bg-black/45 backdrop-blur-md border border-white/10 px-2 py-1 rounded-lg text-yellow-400 text-[10px] font-extrabold shadow-sm select-none">
@@ -129,7 +122,6 @@ export default function PackageCard({
           </div>
         </div>
 
-        {/* Card Link overlay to wrap the entire card visually */}
         <Link
           href={`/packages/${slug}`}
           className="absolute inset-0 z-10 cursor-pointer"
@@ -139,7 +131,7 @@ export default function PackageCard({
     );
   }
 
-  // White Card Variant
+  // "white" variant
   return (
     <motion.div
       initial={initial}

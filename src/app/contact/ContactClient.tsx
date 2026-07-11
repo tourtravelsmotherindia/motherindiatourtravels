@@ -45,7 +45,6 @@ export default function ContactClient({ companyData }: ContactClientProps) {
 
     setSubmitting(true);
 
-    // Simulate backend submission
     setTimeout(() => {
       showToast(
         "success",
@@ -62,11 +61,8 @@ export default function ContactClient({ companyData }: ContactClientProps) {
 
   return (
     <div className="layout-container py-16 sm:py-24">
-      {/* Top Grid: Info and Form */}
       <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-20 items-start">
-        {/* Left Side: Contact Information */}
         <div className="flex flex-col">
-          {/* Breadcrumbs */}
           <Breadcrumbs
             items={[{ label: "Home", href: "/" }, { label: "Contact" }]}
             variant="brackets"
@@ -84,7 +80,6 @@ export default function ContactClient({ companyData }: ContactClientProps) {
           </p>
 
           <div className="mt-10 sm:mt-12 flex flex-col gap-8">
-            {/* Email Address */}
             <div className="flex flex-col gap-1.5">
               <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest font-sans">
                 Email
@@ -97,7 +92,6 @@ export default function ContactClient({ companyData }: ContactClientProps) {
               </a>
             </div>
 
-            {/* Phone Numbers */}
             <div className="flex flex-col gap-1.5">
               <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest font-sans">
                 Phone
@@ -119,7 +113,6 @@ export default function ContactClient({ companyData }: ContactClientProps) {
               </div>
             </div>
 
-            {/* Working Hours */}
             <div className="flex flex-col gap-1.5">
               <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest font-sans">
                 Working Hours
@@ -131,10 +124,8 @@ export default function ContactClient({ companyData }: ContactClientProps) {
           </div>
         </div>
 
-        {/* Right Side: Form Card */}
         <div className="bg-white border border-border-light rounded-[2.5rem] p-6 sm:p-10 shadow-premium">
           <form onSubmit={handleSubmit} className="flex flex-col gap-5 sm:gap-6">
-            {/* Full Name */}
             <FormField
               id="fullName"
               label="Full Name"
@@ -145,7 +136,6 @@ export default function ContactClient({ companyData }: ContactClientProps) {
               placeholder="Enter your full name..."
             />
 
-            {/* Email Address */}
             <FormField
               id="emailAddress"
               label="Email Address"
@@ -156,7 +146,6 @@ export default function ContactClient({ companyData }: ContactClientProps) {
               placeholder="Enter your email address..."
             />
 
-            {/* Phone Number */}
             <FormField
               id="phoneNumber"
               label="Phone Number"
@@ -167,7 +156,6 @@ export default function ContactClient({ companyData }: ContactClientProps) {
               placeholder="Enter your phone number..."
             />
 
-            {/* Message */}
             <FormField
               id="message"
               label="Message"
@@ -178,7 +166,6 @@ export default function ContactClient({ companyData }: ContactClientProps) {
               placeholder="Enter your message..."
             />
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={submitting}
@@ -203,7 +190,6 @@ export default function ContactClient({ companyData }: ContactClientProps) {
         </div>
       </div>
 
-      {/* Bottom Row: Full Width Map */}
       <div className="mt-16 sm:mt-24">
         <ContactMap
           address={companyData.address}

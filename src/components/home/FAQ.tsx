@@ -32,16 +32,13 @@ export default function FAQ({
 
   return (
     <section id="faq" className="py-24 scroll-mt-24 layout-container">
-      {/* Section Header */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-16 items-end">
-        {/* Left/Heading Column */}
         <div className="lg:col-span-2 text-left">
           <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">FAQ</div>
           <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight leading-[1.1] max-w-2xl">
             {tagline}
           </h2>
         </div>
-        {/* Right/Muted Text Column */}
         <div className="text-left lg:pl-8 border-l-0 lg:border-l lg:border-border-light">
           <h4 className="text-base font-bold text-foreground mb-1">
             Didn&apos;t see your question?
@@ -52,9 +49,7 @@ export default function FAQ({
         </div>
       </div>
 
-      {/* Main Grid: Image + Accordion */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left Column: Image (Fixed Aspect/Height, does not stretch) */}
         <div className="lg:col-span-5 relative w-full h-[320px] sm:h-[400px] lg:h-[500px]">
           <Image
             src="/images/trip_ladakh.png"
@@ -66,7 +61,6 @@ export default function FAQ({
           />
         </div>
 
-        {/* Right Column: Accordion */}
         <div className="lg:col-span-7 flex flex-col gap-4">
           {faqs.map((faq, index) => {
             const isOpen = activeIndex === index;

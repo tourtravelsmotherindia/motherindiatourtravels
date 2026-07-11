@@ -15,7 +15,6 @@ import { getHeroSlides } from "@/lib/db/repositories/heroRepo";
 import { getPackagesIndex } from "@/lib/db/repositories/packageRepo";
 
 export default async function Home() {
-  // Fetch all data server-side
   const [heroData, packagesData, faqData, companyData, destinationsData] = await Promise.all([
     getHeroSlides(),
     getPackagesIndex(),

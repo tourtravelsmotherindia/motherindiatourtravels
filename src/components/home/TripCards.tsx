@@ -13,20 +13,15 @@ export default function TripCards({ packagesData }: { packagesData?: PackagesDat
   const [isDomestic, setIsDomestic] = useState(true);
   const [favorites, setFavorites] = useState<string[]>([]);
 
-  // Cast packages index data
   const allPackages = (packagesData?.packages || []) as PackageItem[];
 
-  // Filter packages: show popular only
   const popularPackages = allPackages.filter((pkg) => pkg.is_popular);
 
-  // Filter domestic and international packages and get first 4
   const domesticPackages = popularPackages.filter((pkg) => pkg.is_domestic).slice(0, 4);
   const internationalPackages = popularPackages.filter((pkg) => !pkg.is_domestic).slice(0, 4);
 
-  // Determine current display list
   const currentTrips = isDomestic ? domesticPackages : internationalPackages;
 
-  // Toggle favorite
   const toggleFavorite = (slug: string) => {
     setFavorites((prev) =>
       prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug],
@@ -74,14 +69,12 @@ export default function TripCards({ packagesData }: { packagesData?: PackagesDat
 
   return (
     <section id="packages" className="py-24 overflow-hidden layout-container">
-      {/* Section Header */}
       <SectionHeader
         title="Explore Trips"
         subtitle="Handpicked adventures designed to inspire your next journey"
         rightSlot={rightSlot}
       />
 
-      {/* Grid of Trip Cards */}
       <motion.div
         key={isDomestic ? "domestic" : "international"}
         initial={{ opacity: 0 }}
@@ -115,7 +108,6 @@ export default function TripCards({ packagesData }: { packagesData?: PackagesDat
         })}
       </motion.div>
 
-      {/* Mobile-only See All Button */}
       <div className="mt-10 flex justify-center sm:hidden">
         <SeeAllLink href="/packages" label="See All Trips" />
       </div>

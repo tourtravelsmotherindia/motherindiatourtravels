@@ -22,7 +22,6 @@ export default function ContactMap({ address, latitude, longitude }: ContactMapP
   useEffect(() => {
     if (!mapContainerRef.current) return;
 
-    // Initialize MapLibre Map centered on office
     const map = new maplibregl.Map({
       container: mapContainerRef.current,
       style: `https://tiles.stadiamaps.com/styles/osm_bright.json`,
@@ -33,15 +32,12 @@ export default function ContactMap({ address, latitude, longitude }: ContactMapP
 
     mapRef.current = map;
 
-    // Add navigation controls
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
 
     map.on("load", () => {
-      // Create custom HTML element for marker
       const el = document.createElement("div");
       el.className = "group relative cursor-pointer";
 
-      // Inner markup with custom pulsing dot
       el.innerHTML = `
         <div class="w-8 h-8 rounded-full bg-brand/20 border-2 border-brand flex items-center justify-center shadow-lg transition-transform duration-300 hover:scale-125">
           <div class="w-3.5 h-3.5 rounded-full bg-brand animate-ping absolute opacity-75"></div>
@@ -52,7 +48,6 @@ export default function ContactMap({ address, latitude, longitude }: ContactMapP
       new maplibregl.Marker({ element: el }).setLngLat([lng, lat]).addTo(map);
     });
 
-    // Cleanup map instance on unmount
     return () => {
       if (mapRef.current) {
         mapRef.current.remove();
@@ -65,10 +60,8 @@ export default function ContactMap({ address, latitude, longitude }: ContactMapP
 
   return (
     <div className="relative w-full h-[350px] sm:h-[450px] rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden border border-border-light shadow-card group">
-      {/* Map Container */}
       <div ref={mapContainerRef} className="w-full h-full" />
 
-      {/* Office Detail Card Overlay */}
       <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-auto z-10 bg-white p-5 sm:p-6 rounded-[1.5rem] sm:rounded-[2rem] border border-border-light shadow-premium max-w-sm transition-transform duration-300 group-hover:translate-y-[-4px]">
         <h4 className="font-display text-base sm:text-lg font-bold text-foreground">
           Visit Our Office

@@ -89,7 +89,6 @@ export default function AboutClient({ companyData }: AboutClientProps) {
     videoUrl: "https://www.youtube.com/watch?v=BbrdQLqGUp0",
   };
 
-  // Animation variants
   const fadeIn = {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
@@ -97,10 +96,8 @@ export default function AboutClient({ companyData }: AboutClientProps) {
 
   return (
     <div className="bg-white">
-      {/* 1. Header Section */}
       <section className="pt-8 pb-16 md:pb-24 layout-container bg-white">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center mb-12 md:mb-16">
-          {/* Left Column: Breadcrumb, Title, Description */}
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -108,7 +105,6 @@ export default function AboutClient({ companyData }: AboutClientProps) {
             variants={fadeIn}
             className="lg:col-span-7 flex flex-col items-start text-left"
           >
-            {/* Breadcrumbs */}
             <Breadcrumbs
               items={[{ label: "Home", href: "/" }, { label: "About" }]}
               variant="brackets"
@@ -123,7 +119,6 @@ export default function AboutClient({ companyData }: AboutClientProps) {
             </p>
           </motion.div>
 
-          {/* Right Column: Main Image & Rotating Badge */}
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -131,7 +126,6 @@ export default function AboutClient({ companyData }: AboutClientProps) {
             variants={fadeIn}
             className="lg:col-span-5 relative flex items-center justify-center w-full pb-8 lg:pb-0"
           >
-            {/* Main Image Container */}
             <div className="relative w-full aspect-[4/5] md:aspect-[3/4] lg:h-[480px] rounded-[1.75rem] md:rounded-[2.5rem] overflow-hidden shadow-card hover:shadow-premium transition-all duration-300">
               <Image
                 src={header.image}
@@ -143,14 +137,10 @@ export default function AboutClient({ companyData }: AboutClientProps) {
               />
             </div>
 
-            {/* Overlapping Rotating Badge Wrapper */}
             <div className="absolute -bottom-8 -left-4 w-28 h-28 md:-bottom-16 md:-left-12 md:w-40 md:h-40 z-10 block">
-              {/* Circular Notch Mask (same background as page, rounded corners) */}
               <div className="absolute inset-0 bg-white rounded-full" />
 
-              {/* Rotating Badge Content (inset to create a perfect even gap) */}
               <div className="absolute inset-2.5 md:inset-3.5 bg-white rounded-full shadow-premium flex items-center justify-center border border-neutral-100/60">
-                {/* Rotating Circle Text */}
                 <motion.div
                   animate={{ rotate: 360 }}
                   transition={{ repeat: Infinity, duration: 22, ease: "linear" }}
@@ -169,7 +159,6 @@ export default function AboutClient({ companyData }: AboutClientProps) {
                     </text>
                   </svg>
                 </motion.div>
-                {/* Center Circle using Website Orange bg-brand CTA color with white arrow */}
                 <div className="w-10 h-10 md:w-12 md:h-12 bg-brand rounded-full flex items-center justify-center shadow-md select-none">
                   <ArrowUpRight className="w-5.5 h-5.5 text-white stroke-[2.5]" />
                 </div>
@@ -178,7 +167,6 @@ export default function AboutClient({ companyData }: AboutClientProps) {
           </motion.div>
         </div>
 
-        {/* Center Tagline */}
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -196,7 +184,6 @@ export default function AboutClient({ companyData }: AboutClientProps) {
           </p>
         </motion.div>
 
-        {/* Stats Grid */}
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -217,12 +204,9 @@ export default function AboutClient({ companyData }: AboutClientProps) {
         </motion.div>
       </section>
 
-      {/* 2. Our Mission Section */}
       <section className="py-16 md:py-24 bg-white">
         <div className="layout-container grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-center">
-          {/* Collage Images (Left) */}
           <div className="lg:col-span-6 relative h-[320px] sm:h-[420px] md:h-[500px] w-full flex items-center">
-            {/* Main Background Image */}
             <div className="relative w-[78%] h-[88%] rounded-[1.75rem] md:rounded-[2.5rem] overflow-hidden shadow-card hover:shadow-premium transition-all duration-300">
               <Image
                 src={mission.images[0]}
@@ -232,12 +216,9 @@ export default function AboutClient({ companyData }: AboutClientProps) {
                 className="object-cover rounded-[1.75rem] md:rounded-[2.5rem]"
               />
             </div>
-            {/* Overlapping Overlay Image with Notch Mask Wrapper */}
             <div className="absolute bottom-0 right-0 w-[52%] h-[60%] z-10 block">
-              {/* Circular Notch Mask (same background as page, rounded corners) */}
               <div className="absolute inset-0 bg-white rounded-[1.75rem] md:rounded-[2.5rem]" />
 
-              {/* Foreground Image Container (inset to create a perfect even gap) */}
               <div className="absolute inset-2 md:inset-3 rounded-[1.25rem] md:rounded-[2rem] overflow-hidden border-4 border-white shadow-premium hover:scale-102 transition-transform duration-300">
                 <Image
                   src={mission.images[1]}
@@ -250,7 +231,6 @@ export default function AboutClient({ companyData }: AboutClientProps) {
             </div>
           </div>
 
-          {/* Text Content (Right) */}
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -279,10 +259,8 @@ export default function AboutClient({ companyData }: AboutClientProps) {
         </div>
       </section>
 
-      {/* 3. Our Vision Section */}
       <section className="py-16 md:py-24 bg-white">
         <div className="layout-container grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-center">
-          {/* Text Content (Left) */}
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -309,9 +287,7 @@ export default function AboutClient({ companyData }: AboutClientProps) {
             </ul>
           </motion.div>
 
-          {/* Collage Images (Right) */}
           <div className="lg:col-span-6 lg:order-2 relative h-[320px] sm:h-[420px] md:h-[500px] w-full flex items-center justify-end">
-            {/* Main Background Image */}
             <div className="relative w-[78%] h-[88%] rounded-[1.75rem] md:rounded-[2.5rem] overflow-hidden shadow-card hover:shadow-premium transition-all duration-300">
               <Image
                 src={vision.images[0]}
@@ -321,12 +297,9 @@ export default function AboutClient({ companyData }: AboutClientProps) {
                 className="object-cover rounded-[1.75rem] md:rounded-[2.5rem]"
               />
             </div>
-            {/* Overlapping Overlay Image with Notch Mask Wrapper */}
             <div className="absolute bottom-0 left-0 w-[52%] h-[60%] z-10 block">
-              {/* Circular Notch Mask (same background as page, rounded corners) */}
               <div className="absolute inset-0 bg-white rounded-[1.75rem] md:rounded-[2.5rem]" />
 
-              {/* Foreground Image Container (inset to create a perfect even gap) */}
               <div className="absolute inset-2 md:inset-3 rounded-[1.25rem] md:rounded-[2rem] overflow-hidden border-4 border-white shadow-premium hover:scale-102 transition-transform duration-300">
                 <Image
                   src={vision.images[1]}
@@ -341,12 +314,9 @@ export default function AboutClient({ companyData }: AboutClientProps) {
         </div>
       </section>
 
-      {/* 4. Our Strength & History Section */}
       <section className="py-16 md:py-24 bg-white">
         <div className="layout-container grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-center">
-          {/* Collage Images (Left) */}
           <div className="lg:col-span-6 relative h-[320px] sm:h-[420px] md:h-[500px] w-full flex items-center">
-            {/* Main Background Image */}
             <div className="relative w-[78%] h-[88%] rounded-[1.75rem] md:rounded-[2.5rem] overflow-hidden shadow-card hover:shadow-premium transition-all duration-300">
               <Image
                 src={history.images[0]}
@@ -356,12 +326,9 @@ export default function AboutClient({ companyData }: AboutClientProps) {
                 className="object-cover rounded-[1.75rem] md:rounded-[2.5rem]"
               />
             </div>
-            {/* Overlapping Overlay Image with Notch Mask Wrapper */}
             <div className="absolute bottom-0 right-0 w-[52%] h-[60%] z-10 block">
-              {/* Circular Notch Mask (same background as page, rounded corners) */}
               <div className="absolute inset-0 bg-white rounded-[1.75rem] md:rounded-[2.5rem]" />
 
-              {/* Foreground Image Container (inset to create a perfect even gap) */}
               <div className="absolute inset-2 md:inset-3 rounded-[1.25rem] md:rounded-[2rem] overflow-hidden border-4 border-white shadow-premium hover:scale-102 transition-transform duration-300">
                 <Image
                   src={history.images[1]}
@@ -374,7 +341,6 @@ export default function AboutClient({ companyData }: AboutClientProps) {
             </div>
           </div>
 
-          {/* Text Content (Right) */}
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -403,7 +369,6 @@ export default function AboutClient({ companyData }: AboutClientProps) {
         </div>
       </section>
 
-      {/* 5. How We Do Work Section */}
       <section className="py-16 md:py-24 bg-white layout-container">
         <motion.div
           initial="hidden"
@@ -415,7 +380,6 @@ export default function AboutClient({ companyData }: AboutClientProps) {
           <SectionHeader title={howWeWork.title} subtitle={howWeWork.subtitle} align="center" />
         </motion.div>
 
-        {/* Video Player Image Container */}
         <div className="relative w-full h-[240px] sm:h-[400px] md:h-[500px] lg:h-[580px] rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-premium group">
           <Image
             src={howWeWork.videoImage}
@@ -424,10 +388,8 @@ export default function AboutClient({ companyData }: AboutClientProps) {
             sizes="100vw"
             className="object-cover transition-transform duration-700 group-hover:scale-101"
           />
-          {/* Overlay gradient */}
           <div className="absolute inset-0 bg-black/20 transition-opacity duration-300 group-hover:bg-black/25" />
 
-          {/* Interactive Play Button (Matched to Brand Orange CTA UI with hover state) */}
           <a
             href={howWeWork.videoUrl}
             target="_blank"

@@ -43,10 +43,8 @@ export default function Dropdown({
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Find the selected option to display its label
   const selectedOption = options.find((opt) => opt.value === value);
 
-  // Handle clicking outside the dropdown to close it
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -70,7 +68,6 @@ export default function Dropdown({
 
   return (
     <div className="relative inline-block text-left w-full sm:w-auto" ref={dropdownRef}>
-      {/* Trigger Button */}
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
@@ -93,7 +90,6 @@ export default function Dropdown({
         />
       </button>
 
-      {/* Floating Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -123,7 +119,6 @@ export default function Dropdown({
 
                 return (
                   <React.Fragment key={option.value || index}>
-                    {/* Optional divider line before item */}
                     {option.divider && <div className="h-[1px] bg-neutral-100 my-1.5 mx-2" />}
 
                     <button
@@ -147,7 +142,6 @@ export default function Dropdown({
                         <span className="truncate">{option.label}</span>
                       </div>
 
-                      {/* Right Badge if present */}
                       {option.badge && (
                         <span
                           className={`flex items-center gap-1 px-2.5 py-1 rounded-[10px] text-[10px] font-bold tracking-wide uppercase select-none ${

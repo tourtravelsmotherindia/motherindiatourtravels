@@ -47,7 +47,6 @@ export default function Hero({
   const [destination, setDestination] = useState("");
   const [isPaused, setIsPaused] = useState(false);
 
-  // Derive slides and destinations from props
   const slides: Slide[] = heroData?.slides || [];
   const allDestinations = Array.from(
     new Set(
@@ -60,12 +59,10 @@ export default function Hero({
     .filter(Boolean)
     .sort();
 
-  // Dropdown UI states
   const [activeDropdown, setActiveDropdown] = useState<"destination" | "dates" | "guests" | null>(
     null,
   );
 
-  // Date selection states
   const [dateMode, setDateMode] = useState<"calendar" | "flexible">("calendar");
   const [selectedCheckIn, setSelectedCheckIn] = useState<Date | null>(null);
   const [selectedCheckOut, setSelectedCheckOut] = useState<Date | null>(null);
@@ -75,7 +72,6 @@ export default function Hero({
     return new Date(today.getFullYear(), today.getMonth(), 1);
   });
 
-  // Flexible date selection states
   const [flexibleDurationDays, setFlexibleDurationDays] = useState<
     "any" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "8-10"
   >("7");
@@ -84,12 +80,10 @@ export default function Hero({
     return new Date(today.getFullYear(), today.getMonth(), 1);
   });
 
-  // Guest count states
   const [adults, setAdults] = useState(1);
   const [childrenCount, setChildrenCount] = useState(0);
   const [kids, setKids] = useState(0);
 
-  // Refs for outside click detection
   const destinationRef = useRef<HTMLDivElement>(null);
   const datesRef = useRef<HTMLDivElement>(null);
   const checkoutRef = useRef<HTMLDivElement>(null);
@@ -106,7 +100,6 @@ export default function Hero({
   const nextSlide = useCallback(() => goToSlide(currentSlide + 1), [currentSlide, goToSlide]);
   const prevSlide = useCallback(() => goToSlide(currentSlide - 1), [currentSlide, goToSlide]);
 
-  // Auto-rotate slides
   useEffect(() => {
     if (isPaused) return;
     const timer = setInterval(nextSlide, AUTO_ROTATE_INTERVAL);
@@ -149,13 +142,11 @@ export default function Hero({
     };
   }, [activeDropdown]);
 
-  // Destination filtering
   const filteredDestinations = useMemo(() => {
     if (!destination) return [];
     return allDestinations.filter((dest) => dest.toLowerCase().includes(destination.toLowerCase()));
   }, [destination, allDestinations]);
 
-  // Calendar Helpers
   const getDaysInMonth = (year: number, month: number) => {
     return new Date(year, month + 1, 0).getDate();
   };
@@ -323,7 +314,8 @@ export default function Hero({
     "December",
   ];
 
-  // Date Formatting for Display — deterministic, no toLocaleDateString (avoids hydration mismatches)
+  // Uses a manual formatter instead of toLocaleDateString to avoid
+  // hydration mismatches between server and client rendering.
   const formatDate = (date: Date | null) => {
     if (!date) return "";
     return `${MONTHS_SHORT[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
@@ -472,9 +464,7 @@ export default function Hero({
       onMouseLeave={() => setIsPaused(false)}
       aria-label="Hero slider"
     >
-      {/* Hero Banner Container */}
       <div className="relative h-[550px] md:h-[650px] w-full rounded-[2.5rem] overflow-hidden bg-black">
-        {/* Slides — simultaneous enter/exit for smooth crossfade, no black flash */}
         <AnimatePresence>
           <motion.div
             key={slides[currentSlide].id}
@@ -495,7 +485,6 @@ export default function Hero({
           </motion.div>
         </AnimatePresence>
 
-        {/* Subtle gradient behind text only — keeps light images readable */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/15 to-transparent pointer-events-none" />
 
         {/* Slide Text Content */}
@@ -524,7 +513,6 @@ export default function Hero({
           </motion.div>
         </AnimatePresence>
 
-        {/* Navigation Arrows */}
         <button
           type="button"
           onClick={prevSlide}
@@ -542,7 +530,6 @@ export default function Hero({
           <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
         </button>
 
-        {/* Navigation Dots */}
         <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20 flex gap-2.5">
           {slides.map((_, index) => (
             <button
@@ -560,7 +547,6 @@ export default function Hero({
         </div>
       </div>
 
-      {/* Floating Search Panel */}
       <div className="relative -mt-16 z-20 max-w-5xl mx-auto px-4 w-full">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -572,9 +558,7 @@ export default function Hero({
             onSubmit={handleSearch}
             className="w-full flex flex-col items-center gap-6 relative"
           >
-            {/* Grid of Inputs */}
             <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-center divide-y sm:divide-y-0 lg:divide-x divide-border-light relative">
-              {/* Destination Column */}
               <div
                 ref={destinationRef}
                 className="relative flex items-center gap-3.5 pb-4 sm:pb-0 lg:px-4 w-full"
@@ -684,7 +668,6 @@ export default function Hero({
                 </AnimatePresence>
               </div>
 
-              {/* Column 2: Departure / Duration */}
               <div
                 ref={datesRef}
                 className="flex items-center gap-3.5 pt-4 sm:pt-0 sm:pb-4 lg:pb-0 lg:px-4 cursor-pointer relative w-full"
@@ -713,7 +696,6 @@ export default function Hero({
                 </div>
               </div>
 
-              {/* Column 3: Return / Travel Month */}
               <div
                 ref={checkoutRef}
                 className="flex items-center gap-3.5 pt-4 sm:pt-0 sm:pb-4 lg:pb-0 lg:px-4 cursor-pointer relative w-full"
@@ -738,7 +720,6 @@ export default function Hero({
                 </div>
               </div>
 
-              {/* Travelers Column */}
               <div
                 ref={guestsRef}
                 className="relative flex items-center gap-3.5 pt-4 sm:pt-0 lg:px-4 cursor-pointer w-full"
@@ -766,7 +747,6 @@ export default function Hero({
                       className="absolute top-full right-0 mt-3 w-full sm:w-[320px] bg-white rounded-2xl border border-border-light shadow-2xl p-5 z-40 cursor-default"
                     >
                       <div className="space-y-6">
-                        {/* Adults */}
                         <div className="flex items-center justify-between">
                           <div>
                             <div className="text-sm font-bold text-foreground">Adults</div>
@@ -794,7 +774,6 @@ export default function Hero({
                           </div>
                         </div>
 
-                        {/* Children */}
                         <div className="flex items-center justify-between">
                           <div>
                             <div className="text-sm font-bold text-foreground">Children</div>
@@ -822,7 +801,6 @@ export default function Hero({
                           </div>
                         </div>
 
-                        {/* Kids */}
                         <div className="flex items-center justify-between">
                           <div>
                             <div className="text-sm font-bold text-foreground">Kids</div>

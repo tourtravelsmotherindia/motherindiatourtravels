@@ -63,7 +63,9 @@ export default function Navbar() {
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
-    setMobileSubmenuOpen(null); // Reset submenus when toggle main menu
+    // Collapsing mobile submenus when the top-level drawer is toggled prevents
+    // stale open submenus appearing the next time the drawer opens.
+    setMobileSubmenuOpen(null);
   };
 
   const toggleMobileSubmenu = (name: string) => {
@@ -146,7 +148,6 @@ export default function Navbar() {
             : "bg-white py-3.5 shadow-premium border-border-light"
         }`}
       >
-        {/* Logo + Brand Name */}
         <Link href="/" className="flex items-center gap-3 group shrink-0 select-none">
           <div className="relative transition-transform group-hover:scale-105 duration-300 shrink-0">
             <Image
@@ -168,7 +169,6 @@ export default function Navbar() {
           </div>
         </Link>
 
-        {/* Desktop Nav Links */}
         <div className="hidden md:flex items-center gap-6 lg:gap-8">
           {navLinks.map((link) => {
             if (link.submenu) {
@@ -178,7 +178,6 @@ export default function Navbar() {
                     <span>{link.name}</span>
                     <ChevronDown className="w-3.5 h-3.5 text-neutral-400 group-hover:text-brand transition-transform duration-200 group-hover:rotate-180" />
                   </button>
-                  {/* Dropdown Menu Card */}
                   <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 pointer-events-none group-hover:pointer-events-auto z-50">
                     <div className="bg-white border border-border-light rounded-[2rem] p-6 shadow-premium">
                       {link.submenu.type === "destinations" ? (
@@ -238,7 +237,6 @@ export default function Navbar() {
           })}
         </div>
 
-        {/* Right Side: Language & Mobile Toggle */}
         <div className="flex items-center gap-4">
           <div className="hidden md:block">
             <Dropdown
@@ -263,7 +261,6 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile Nav Overlay */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -354,7 +351,6 @@ export default function Navbar() {
                 );
               })}
 
-              {/* Language Dropdown in Mobile Drawer Menu */}
               <div className="border-t border-border-light pt-4 mt-2 px-3 flex flex-col gap-2">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-muted mb-1">
                   Select Language

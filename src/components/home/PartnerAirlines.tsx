@@ -68,7 +68,6 @@ export default function PartnerAirlines() {
   return (
     <section className="py-24 bg-brand-light/35 border-b border-border-light">
       <div className="layout-container">
-        {/* Section Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight">
             Search Top Airlines
@@ -78,7 +77,6 @@ export default function PartnerAirlines() {
           </p>
         </div>
 
-        {/* Airlines Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {airlines.map((airline, idx) => (
             <motion.div
@@ -90,9 +88,7 @@ export default function PartnerAirlines() {
               whileHover={{ scale: 1.02 }}
               className="bg-white rounded-full p-4 border border-border-light shadow-card hover:shadow-premium flex items-center justify-between hover:border-brand/20 transition-all duration-300 group cursor-pointer"
             >
-              {/* Airline Branding */}
               <div className="flex items-center gap-3.5">
-                {/* Custom Logo Badge */}
                 <div
                   className={`w-9 h-9 rounded-full ${airline.logoColor} flex items-center justify-center font-extrabold text-xs tracking-wider shrink-0 ${airline.textColor}`}
                 >
@@ -103,7 +99,6 @@ export default function PartnerAirlines() {
                 </span>
               </div>
 
-              {/* Action Indicator */}
               <div className="w-8 h-8 rounded-full border border-border-light group-hover:border-brand/20 flex items-center justify-center text-muted group-hover:text-brand group-hover:bg-brand-light transition-all duration-300 shrink-0">
                 <ArrowUpRight className="w-4 h-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 duration-300" />
               </div>

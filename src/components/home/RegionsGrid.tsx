@@ -78,14 +78,12 @@ export default function RegionsGrid() {
 
   return (
     <section id="regions" className="py-24 layout-container">
-      {/* Section Header */}
       <SectionHeader
         title="Destination By Region"
         subtitle="Explore adventures across every corner of the incredible Indian subcontinent"
         rightSlot={rightSlot}
       />
 
-      {/* Grid of Regions */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {regions.map((region, idx) => (
           <motion.div
@@ -96,7 +94,6 @@ export default function RegionsGrid() {
             key={region.id}
             className="group rounded-2xl overflow-hidden border border-border-light shadow-card hover:shadow-premium transition-all duration-300 flex flex-col h-[340px] lg:h-[370px] xl:h-[400px] 2xl:h-[420px] relative bg-white"
           >
-            {/* Top Half: Image and Floating Badges */}
             <div className="relative h-56 lg:h-64 xl:h-72 2xl:h-80 w-full overflow-hidden">
               <Image
                 src={region.image}
@@ -106,7 +103,6 @@ export default function RegionsGrid() {
                 className="object-cover transition-transform duration-500 group-hover:scale-103"
                 priority={idx < 2}
               />
-              {/* Floating Badges */}
               <div className="absolute top-5 left-5 flex items-center gap-2">
                 {region.badges.map((badge, bIdx) => (
                   <span
@@ -119,7 +115,6 @@ export default function RegionsGrid() {
               </div>
             </div>
 
-            {/* Bottom Half: Info Box */}
             <div className="p-6 flex items-center justify-between gap-4 flex-grow bg-white z-10">
               <div className="min-w-0 flex-1">
                 <h3 className="text-xl font-bold text-foreground group-hover:text-brand transition-colors duration-200">

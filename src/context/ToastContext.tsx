@@ -73,7 +73,6 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
     <ToastContext.Provider value={{ showToast }}>
       {children}
 
-      {/* Toast Notification Container */}
       <AnimatePresence>
         {toast && (
           <motion.div

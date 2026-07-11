@@ -93,7 +93,6 @@ export default function PackagesClient({
 
   const itemsPerPage = 9;
 
-  // Human-readable labels for categories
   const getCategoryLabel = (id: string) => {
     const customMapping: Record<string, string> = {
       "domestic-tour-packages": "Domestic Tours",
@@ -122,12 +121,10 @@ export default function PackagesClient({
     );
   };
 
-  // Cast packages data
   const allPackages = useMemo(() => {
     return (packagesData.packages || []) as PackageItem[];
   }, [packagesData]);
 
-  // Extract all categories dynamically
   const availableCategories = useMemo(() => {
     const categoriesSet = new Set<string>();
     allPackages.forEach((pkg) => {
@@ -142,7 +139,6 @@ export default function PackagesClient({
     return Array.from(categoriesSet).sort();
   }, [allPackages]);
 
-  // Map categories to icons
   const getCategoryIcon = (id: string) => {
     switch (id) {
       case "all":
@@ -186,7 +182,6 @@ export default function PackagesClient({
     return opts;
   }, [availableCategories]);
 
-  // Apply filters
   const filteredPackages = useMemo(() => {
     return allPackages.filter((pkg) => {
       if (selectedType === "domestic" && !pkg.is_domestic) return false;
@@ -220,14 +215,12 @@ export default function PackagesClient({
   return (
     <PageShell companyData={companyData} ptClass="pt-24" bgClass="bg-white">
       <div className="layout-container py-24">
-        {/* Section Header */}
         <SectionHeader
           title="All Tour Packages"
           subtitle="Embark on unforgettable journeys with our premium, custom-designed itineraries. Explore majestic sights across India and handpicked international destinations."
           align="left"
         />
 
-        {/* Filter Controls Bar */}
         <div className="bg-neutral-50/70 border border-neutral-200/50 rounded-3xl p-5 md:p-6 mb-10 flex flex-col lg:flex-row lg:items-center gap-4">
           <div className="relative flex-1">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-neutral-400" />

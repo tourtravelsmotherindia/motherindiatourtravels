@@ -58,7 +58,6 @@ export default function Footer({
     return formatWorkingHours(companyData.working_hours, ": ");
   };
 
-  // We can render social media links dynamically
   const socialIcons = [
     {
       name: "Facebook",
@@ -128,9 +127,7 @@ export default function Footer({
       className="bg-[#F9F9F9] border-t border-neutral-200 text-neutral-600 pt-16 pb-12 relative overflow-hidden font-sans"
     >
       <div className="layout-container">
-        {/* Top Section: Newsletter and Socials */}
         <div className="flex flex-col md:flex-row items-stretch gap-8 md:gap-0 pb-12 border-b border-neutral-200">
-          {/* Left: Heading and Social Icons */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 flex-1 pr-0 md:pr-12">
             <h3 className="text-2xl font-extrabold text-neutral-900 tracking-tight leading-tight max-w-[200px]">
               Leading the way in adventure
@@ -151,11 +148,9 @@ export default function Footer({
             </div>
           </div>
 
-          {/* Separator line */}
           <div className="hidden md:block w-px bg-neutral-200 self-stretch my-2"></div>
           <div className="block md:hidden h-px bg-neutral-200 w-full"></div>
 
-          {/* Right: Newsletter Join */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 flex-1 pl-0 md:pl-12">
             <h3 className="text-2xl font-bold text-neutral-900 tracking-tight leading-tight">
               Join our
@@ -193,9 +188,7 @@ export default function Footer({
           </div>
         </div>
 
-        {/* Bottom Section: Grid Columns */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pt-16 mb-12">
-          {/* Column 1: Logo & About (spans 4 cols on lg) */}
           <div className="lg:col-span-4 flex flex-col gap-5">
             <Link href="/" className="flex items-center gap-3 group w-max select-none">
               <div className="relative transition-transform group-hover:scale-105 duration-300 shrink-0">
@@ -223,7 +216,6 @@ export default function Footer({
             </p>
           </div>
 
-          {/* Column 2: Contact (spans 3 cols on lg) */}
           <div className="lg:col-span-3 flex flex-col gap-4">
             <h4 className="text-xs font-bold uppercase tracking-widest text-neutral-900">
               Contact
@@ -269,9 +261,7 @@ export default function Footer({
             </ul>
           </div>
 
-          {/* Column 3 & 4 Wrapper for mobile 2-column layout */}
           <div className="grid grid-cols-2 gap-8 md:col-span-2 lg:col-span-5 lg:grid-cols-5">
-            {/* Column 3: Quick Links (spans 2 cols on lg) */}
             <div className="lg:col-span-2 flex flex-col gap-4">
               <h4 className="text-xs font-bold uppercase tracking-widest text-neutral-900">
                 Quick Links
@@ -298,7 +288,6 @@ export default function Footer({
               </ul>
             </div>
 
-            {/* Column 4: Popular Highlights (spans 3 cols on lg) */}
             <div className="lg:col-span-3 flex flex-col gap-4">
               <h4 className="text-xs font-bold uppercase tracking-widest text-neutral-900">
                 Popular Highlights
@@ -333,7 +322,6 @@ export default function Footer({
           </div>
         </div>
 
-        {/* Footer Copyright */}
         <div className="pt-8 border-t border-neutral-200 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p
             className="text-xs font-medium text-neutral-400 text-center sm:text-left"

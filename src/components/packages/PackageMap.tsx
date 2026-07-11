@@ -71,7 +71,6 @@ export default function PackageMap({ destinations }: PackageMapProps) {
   useEffect(() => {
     if (!mapContainerRef.current) return;
 
-    // Resolve destinations to coordinates
     const coordinatesList: { name: string; coord: [number, number] }[] = [];
     destinations.forEach((dest) => {
       const normalized = dest.toLowerCase().trim();
@@ -95,7 +94,6 @@ export default function PackageMap({ destinations }: PackageMapProps) {
     const initialCenter = coordinatesList.length > 0 ? coordinatesList[0].coord : defaultCenter;
     const initialZoom = coordinatesList.length > 0 ? 8 : defaultZoom;
 
-    // Initialize MapLibre Map
     const map = new maplibregl.Map({
       container: mapContainerRef.current,
       style: `https://tiles.stadiamaps.com/styles/osm_bright.json`,
@@ -106,19 +104,15 @@ export default function PackageMap({ destinations }: PackageMapProps) {
 
     mapRef.current = map;
 
-    // Add navigation controls
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
 
     map.on("load", () => {
       if (coordinatesList.length === 0) return;
 
-      // Add markers for each destination
       coordinatesList.forEach(({ name, coord }, idx) => {
-        // Create custom HTML element for marker
         const el = document.createElement("div");
         el.className = "group relative cursor-pointer";
 
-        // Inner markup with custom pulsing dot
         el.innerHTML = `
           <div class="w-7 h-7 rounded-full bg-brand/20 border-2 border-brand flex items-center justify-center shadow-lg transition-transform duration-300 hover:scale-125">
             <div class="w-2.5 h-2.5 rounded-full bg-brand"></div>
@@ -138,7 +132,6 @@ export default function PackageMap({ destinations }: PackageMapProps) {
           .addTo(map);
       });
 
-      // Fit bounds to cover all coordinates
       if (coordinatesList.length > 1) {
         const bounds = new maplibregl.LngLatBounds();
         coordinatesList.forEach(({ coord }) => bounds.extend(coord));
@@ -172,7 +165,7 @@ export default function PackageMap({ destinations }: PackageMapProps) {
             "line-cap": "round",
           },
           paint: {
-            "line-color": "#E05423", // brand orange
+            "line-color": "#E05423",
             "line-width": 3,
             "line-dasharray": [2, 2],
           },
@@ -180,7 +173,6 @@ export default function PackageMap({ destinations }: PackageMapProps) {
       }
     });
 
-    // Cleanup map instance on unmount
     return () => {
       if (mapRef.current) {
         mapRef.current.remove();

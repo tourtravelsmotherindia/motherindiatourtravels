@@ -122,7 +122,6 @@ function getGalleryImages(pkgName: string, heroImage: string): string[] {
   return images;
 }
 
-// Default Fallback Contents
 const DEFAULT_OVERVIEW =
   "Discover the beauty and charm of this incredible destination with our carefully curated tour package. Mother India Tour Travels provides premium AC vehicles, professional local guides, and hand-picked accommodations to make your holiday seamless, comfortable, and unforgettable. From breathtaking views to rich cultural experiences, this tour covers the absolute highlights of the region.";
 
@@ -166,7 +165,6 @@ export default function PackageDetailClient({
 
   const { isFavorite, toggleFavorite } = useFavorites();
 
-  // Derive static details with fallbacks
   const pkgName = packageData.name || "Tour Package";
   const overviewText = packageData.overview || DEFAULT_OVERVIEW;
   const highlights =
@@ -201,7 +199,6 @@ export default function PackageDetailClient({
     };
   }, [overviewText]);
 
-  // Derive tour style from category slugs or tags
   const tourStyle = useMemo(() => {
     const stylesMap: Record<string, string> = {
       "domestic-tour-packages": "Classic",
@@ -227,20 +224,17 @@ export default function PackageDetailClient({
       if (lowTag.includes("adventure") || lowTag.includes("trek")) return "Adventure";
       if (lowTag.includes("wildlife") || lowTag.includes("safari")) return "Wildlife";
     }
-    return "Classic"; // Fallback style
+    return "Classic";
   }, [packageData.category_ids, packageData.tags]);
 
-  // Resolve gallery images
   const galleryImages = useMemo(() => {
     return getGalleryImages(pkgName, packageData.hero_image);
   }, [pkgName, packageData.hero_image]);
 
-  // Handle variants and itineraries
   const variants = useMemo(() => {
     if (packageData.variants && packageData.variants.length > 0) {
       return packageData.variants;
     }
-    // Fallback single variant based on min/max days
     const fallbackDays = packageData.min_days || 5;
     const fallbackNights = packageData.min_nights || 4;
 
@@ -283,11 +277,9 @@ export default function PackageDetailClient({
     ];
   }, [packageData]);
 
-  // Selected Variant
   const activeVariant = variants[selectedVariantIdx] || variants[0];
   const itinerary = activeVariant.itinerary || [];
 
-  // Active Day - Initialize to first day of first variant
   const [activeItineraryDay, setActiveItineraryDay] = useState<number | null>(() => {
     const firstVariant = variants[0];
     return firstVariant && firstVariant.itinerary && firstVariant.itinerary.length > 0
@@ -299,7 +291,6 @@ export default function PackageDetailClient({
   const recommendedPackages = useMemo(() => {
     const others = allPackages.filter((p) => p.slug !== packageData.slug);
 
-    // Match domestic vs international first
     const matchType = others.filter((p) => p.is_domestic === packageData.is_domestic);
     const pool = matchType.length >= 3 ? matchType : others;
 
@@ -313,7 +304,6 @@ export default function PackageDetailClient({
     return result;
   }, [allPackages, packageData]);
 
-  // Trigger inquiry popup modal with personalized package name
   const handleInquireClick = () => {
     window.dispatchEvent(
       new CustomEvent("open-inquiry-modal", {
@@ -322,7 +312,6 @@ export default function PackageDetailClient({
     );
   };
 
-  // Itinerary day images (static pool of beautiful sightseeing images)
   const itineraryDayImagesPool = [
     "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=400&q=80",
     "https://images.unsplash.com/photo-1480796927426-f609979314bd?auto=format&fit=crop&w=400&q=80",
@@ -527,7 +516,6 @@ export default function PackageDetailClient({
                 {itinerary.map((day: ItineraryDay, idx: number) => {
                   const isExpanded = activeItineraryDay === day.day;
 
-                  // Select 3 deterministic images for the expanded day's photo row
                   const dayImages = [
                     itineraryDayImagesPool[(day.day * 1) % itineraryDayImagesPool.length],
                     itineraryDayImagesPool[(day.day * 2) % itineraryDayImagesPool.length],
@@ -692,7 +680,7 @@ export default function PackageDetailClient({
             {/* 1. Inclusions Panel */}
             <div className="bg-white border border-border-light rounded-2xl overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.01)] transition-all duration-300">
               <AccordionItem
-                isOpen={true} // Default open
+                isOpen={true}
                 onToggle={() => {}}
                 trigger={
                   <div className="w-full px-6 py-5 flex items-center justify-between text-left">
@@ -719,7 +707,7 @@ export default function PackageDetailClient({
             {/* 2. Exclusions Panel */}
             <div className="bg-white border border-border-light rounded-2xl overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.01)] transition-all duration-300">
               <AccordionItem
-                isOpen={true} // Default open
+                isOpen={true}
                 onToggle={() => {}}
                 trigger={
                   <div className="w-full px-6 py-5 flex items-center justify-between text-left">
@@ -747,7 +735,7 @@ export default function PackageDetailClient({
             {packageData.notes && packageData.notes.length > 0 && (
               <div className="bg-white border border-border-light rounded-2xl overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.01)] transition-all duration-300">
                 <AccordionItem
-                  isOpen={true} // Default open
+                  isOpen={true}
                   onToggle={() => {}}
                   trigger={
                     <div className="w-full px-6 py-5 flex items-center justify-between text-left">
