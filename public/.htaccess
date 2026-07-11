@@ -1,0 +1,5 @@
+# Set custom 404 page for Next.js static export
+ErrorDocument 404 /404.html
+
+# Prevent directory listings
+Options -Indexes

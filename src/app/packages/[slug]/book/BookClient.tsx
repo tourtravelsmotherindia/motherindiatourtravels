@@ -134,7 +134,7 @@ export default function BookClient({ packageData, allPackages, companyData }: Bo
   };
 
   return (
-    <PageShell companyData={companyData} ptClass="pt-28" bgClass="bg-white" className="pb-24">
+    <PageShell companyData={companyData} ptClass="pt-24" bgClass="bg-white" className="pb-24">
       <div className="layout-container font-sans">
         {/* Breadcrumbs */}
         <Breadcrumbs

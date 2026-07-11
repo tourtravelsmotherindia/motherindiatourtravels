@@ -16,8 +16,8 @@ export default async function NotFound() {
   return (
     <PageShell
       companyData={companyData}
-      ptClass="pt-24"
-      className="relative flex items-center justify-center min-h-[calc(100vh-6rem)] z-10"
+      ptClass="pt-0"
+      className="relative flex items-center justify-center min-h-screen z-10"
     >
       {/* Background Image Container */}
       <div className="absolute inset-0 z-0 select-none">
@@ -34,7 +34,7 @@ export default async function NotFound() {
       </div>
 
       {/* Content Container */}
-      <div className="relative z-10 layout-container flex flex-col items-center justify-center text-center text-white pt-36 pb-24 px-6">
+      <div className="relative z-10 layout-container flex flex-col items-center justify-center text-center text-white pt-32 pb-16 px-6">
         {/* Large Outline 404 Heading */}
         <h1
           className="font-display text-[9rem] sm:text-[13rem] md:text-[17rem] lg:text-[21rem] font-light leading-none tracking-widest select-none drop-shadow-lg"
