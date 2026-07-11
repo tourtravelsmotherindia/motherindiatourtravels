@@ -17,11 +17,11 @@ import {
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import Dropdown from "@/components/ui/Dropdown";
 import PageShell from "@/components/layout/PageShell";
 import PackageCard from "@/components/shared/PackageCard";
 import Pagination from "@/components/shared/Pagination";
 import SectionHeader from "@/components/shared/SectionHeader";
+import Dropdown from "@/components/ui/Dropdown";
 import { useFavorites } from "@/lib/hooks/useFavorites";
 import { type CompanyData } from "@/types/company";
 import { type PackageItem, type PackagesData } from "@/types/package";

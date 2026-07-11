@@ -23,10 +23,10 @@ interface PackageCardProps {
   onToggleFavorite?: (slug: string) => void;
   showRating?: boolean; // overlay-variant only
   // Framer-motion props
-  initial?: any;
-  whileInView?: any;
-  viewport?: any;
-  transition?: any;
+  initial?: React.ComponentPropsWithoutRef<typeof motion.div>["initial"];
+  whileInView?: React.ComponentPropsWithoutRef<typeof motion.div>["whileInView"];
+  viewport?: React.ComponentPropsWithoutRef<typeof motion.div>["viewport"];
+  transition?: React.ComponentPropsWithoutRef<typeof motion.div>["transition"];
 }
 
 export default function PackageCard({

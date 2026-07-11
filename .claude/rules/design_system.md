@@ -62,6 +62,7 @@ This project uses a **two-font system** loaded in `src/app/layout.tsx`:
 The brand orange (`#E05423` / `--brand`) is **only for interactive, action-oriented elements**.
 
 **Allowed:**
+
 - Solid CTA button backgrounds (`bg-brand`)
 - Active segmented tab/pill/filter backgrounds
 - Price numbers (`text-brand`)
@@ -70,6 +71,7 @@ The brand orange (`#E05423` / `--brand`) is **only for interactive, action-orien
 - "View Details" button hover backgrounds
 
 **Forbidden:**
+
 - Coloring individual words inside headings orange
 - Non-interactive icons (MapPin, Calendar, Clock, Chevron) — use `text-neutral-400` or `text-muted`
 - Static labels, badges, or tags (use `bg-brand-light` for backgrounds, never orange text)

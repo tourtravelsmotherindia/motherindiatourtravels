@@ -2,9 +2,10 @@
 
 import React from "react";
 
+import { type CompanyData } from "@/types/company";
+
 import Footer from "./Footer";
 import Navbar from "./Navbar";
-import { type CompanyData } from "@/types/company";
 
 interface PageShellProps {
   children: React.ReactNode;

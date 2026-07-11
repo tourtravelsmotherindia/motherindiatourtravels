@@ -6,8 +6,7 @@ import { useState } from "react";
 import PackageCard from "@/components/shared/PackageCard";
 import SectionHeader from "@/components/shared/SectionHeader";
 import SeeAllLink from "@/components/ui/SeeAllLink";
-
-import { type PackagesData, type PackageItem } from "@/types/package";
+import { type PackageItem, type PackagesData } from "@/types/package";
 
 export default function TripCards({ packagesData }: { packagesData?: PackagesData }) {
   const [isDomestic, setIsDomestic] = useState(true);

@@ -4,6 +4,7 @@ This is the **single source of truth** for how to write code in this repository.
 
 > [!NOTE]
 > Detailed guidelines are organized into specific topic files under `.claude/rules/`:
+>
 > - [Design System](file://./.claude/rules/design_system.md) — typography, colors, spacing, radius, shadows, logo rules.
 > - [Component Patterns](file://./.claude/rules/components.md) — server/client split, data fetching, animations, card patterns, component descriptions.
 > - [Build, Image & SEO Rules](file://./.claude/rules/build_seo.md) — static export, image rules, SEO constraints.
@@ -26,6 +27,7 @@ This project uses Next.js 16 with breaking changes from earlier versions. Read t
 ## Verified Commands
 
 All commands are run using `npm`:
+
 - `npm run dev` — Start the development server (with Turbopack)
 - `npm run build` — Build project (runs prisma generate → migrate deploy → next build)
 - `npm run start` — Start production server

@@ -1,11 +1,14 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
+  Building2,
+  Calendar,
   Check,
   ChevronDown,
   ChevronRight,
   Clock,
+  Compass,
   HelpCircle,
   MapPin,
   Sparkles,
@@ -21,7 +24,6 @@ import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import PageShell from "@/components/layout/PageShell";
 import PackageCard from "@/components/shared/PackageCard";
 import SectionHeader from "@/components/shared/SectionHeader";
-import AccordionItem from "@/components/ui/Accordion";
 import { useFavorites } from "@/lib/hooks/useFavorites";
 import { type CompanyData } from "@/types/company";
 import {
@@ -304,14 +306,6 @@ export default function PackageDetailClient({
     return result;
   }, [allPackages, packageData]);
 
-  const handleInquireClick = () => {
-    window.dispatchEvent(
-      new CustomEvent("open-inquiry-modal", {
-        detail: { packageName: pkgName },
-      }),
-    );
-  };
-
   const itineraryDayImagesPool = [
     "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=400&q=80",
     "https://images.unsplash.com/photo-1480796927426-f609979314bd?auto=format&fit=crop&w=400&q=80",
@@ -322,8 +316,8 @@ export default function PackageDetailClient({
   ];
 
   return (
-    <PageShell companyData={companyData} ptClass="pt-28" bgClass="bg-white">
-      <div className="layout-container py-24">
+    <PageShell companyData={companyData} ptClass="pt-28" bgClass="bg-white" className="pb-24">
+      <div className="layout-container">
         {/* Breadcrumbs */}
         <Breadcrumbs
           items={[
@@ -345,7 +339,6 @@ export default function PackageDetailClient({
                   fill
                   sizes="(max-width: 1024px) 25vw, 15vw"
                   className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                  priority
                 />
               </div>
               <div className="relative flex-[2] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100">
@@ -359,26 +352,16 @@ export default function PackageDetailClient({
               </div>
             </div>
 
-            {/* Middle Column - Wide Hero Central Image */}
-            <div className="relative col-span-12 lg:col-span-6 h-full overflow-hidden rounded-[2rem] lg:rounded-[2.5rem] bg-neutral-100 group border border-neutral-100 shadow-md">
+            {/* Center Column - 1 huge main image (100% height) */}
+            <div className="relative col-span-12 lg:col-span-6 h-[250px] md:h-full overflow-hidden rounded-[2rem] lg:rounded-[2.5rem] bg-neutral-100 group shadow-sm border border-neutral-100">
               <Image
                 src={galleryImages[2]}
-                alt={`${pkgName} Central Feature`}
+                alt={`${pkgName} Main Gallery`}
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover transition-transform duration-700 ease-out group-hover:scale-103"
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-              {/* Overlay Badges */}
-              <div className="absolute bottom-6 left-6 z-10 flex flex-wrap gap-2.5">
-                <span className="bg-brand text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm">
-                  {tourStyle}
-                </span>
-                <span className="bg-black/35 backdrop-blur-md border border-white/10 text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm">
-                  {activeVariant.days} Days / {activeVariant.nights} Nights
-                </span>
-              </div>
             </div>
 
             {/* Right Column - 2 stacked images (40% / 60% height ratios) */}
@@ -403,70 +386,178 @@ export default function PackageDetailClient({
               </div>
             </div>
           </div>
+
+          {/* Mobile horizontal gallery scrollbar */}
+          <div className="flex lg:hidden gap-3 overflow-x-auto no-scrollbar py-2 mt-4 px-1">
+            {galleryImages.map((img, idx) => (
+              <div
+                key={idx}
+                className="relative w-52 h-36 shrink-0 overflow-hidden rounded-[1.5rem] bg-neutral-100 shadow-sm border border-neutral-100"
+              >
+                <Image
+                  src={img}
+                  alt={`${pkgName} Mobile Gallery ${idx + 1}`}
+                  fill
+                  sizes="208px"
+                  className="object-cover"
+                />
+              </div>
+            ))}
+          </div>
         </section>
 
-        {/* TWO-COLUMN DETAILS GRID */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start mt-12">
-          {/* LEFT COLUMN: Main info, highlights, variants tabs, itinerary */}
-          <div className="lg:col-span-8 flex flex-col">
-            {/* Header info */}
-            <div className="border-b border-border-light pb-8 mb-8">
-              <span className="text-xs font-bold text-neutral-400 uppercase tracking-widest block mb-2 font-sans">
-                {packageData.is_domestic ? "Domestic Getaway" : "International Voyage"}
-              </span>
-              <h1 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight font-display leading-[1.1] mb-5">
+        {/* TWO COLUMN GRID CONTENT */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-12 lg:gap-16 items-start">
+          {/* LEFT COLUMN: Main Package Info */}
+          <div className="flex flex-col">
+            {/* Header Title */}
+            <div className="mb-6">
+              <div className="flex items-center gap-2.5 mb-3 font-sans text-xs md:text-sm font-medium">
+                <span className="inline-block bg-white border border-neutral-200 text-neutral-700 font-semibold px-2.5 py-1 rounded-[8px] uppercase tracking-wider text-[10px]">
+                  {packageData.is_domestic ? "Domestic" : "International"}
+                </span>
+                <span className="text-neutral-400 font-medium select-none">
+                  • Trip Code: MI-{packageData.id.toUpperCase().replace(/-/g, "")}
+                </span>
+              </div>
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight tracking-tight">
                 {pkgName}
               </h1>
+            </div>
 
-              {/* Badges strip */}
-              <div className="flex flex-wrap items-center gap-y-3 gap-x-5 text-xs md:text-sm font-semibold text-neutral-600 font-sans">
-                <div className="flex items-center gap-1.5">
-                  <Clock className="w-4.5 h-4.5 text-neutral-400" />
-                  <span>{activeVariant.duration_text}</span>
+            {/* Hero Description (Marketing Pitch) */}
+            {overviewParagraphs.pitch && (
+              <div className="text-neutral-500 font-medium text-sm md:text-base leading-relaxed space-y-4 mb-8">
+                <p className="whitespace-pre-line">{overviewParagraphs.pitch}</p>
+              </div>
+            )}
+
+            {/* Summary Metadata Bar (Divided by lines as in reference design) */}
+            <div className="border-y border-neutral-200 py-6 mb-10 flex flex-wrap items-center justify-between gap-6 md:gap-8 font-sans">
+              {/* Duration */}
+              <div className="flex items-center gap-3">
+                <Calendar className="w-5 h-5 text-neutral-800 shrink-0" />
+                <div className="flex flex-col">
+                  <span className="text-[10px] md:text-[11px] font-medium text-neutral-400 uppercase tracking-wider leading-none mb-1">
+                    Duration
+                  </span>
+                  <span className="text-xs md:text-sm font-bold text-neutral-800 leading-snug">
+                    {activeVariant.duration_text || `${activeVariant.days} Days`}
+                  </span>
                 </div>
-                <span className="w-1.5 h-1.5 rounded-full bg-neutral-300 hidden md:block" />
-                <div className="flex items-center gap-1.5">
-                  <MapPin className="w-4.5 h-4.5 text-neutral-400" />
-                  <span>{packageData.primary_destination}</span>
+              </div>
+
+              {/* Group Size */}
+              <div className="flex items-center gap-3">
+                <Users className="w-5 h-5 text-neutral-800 shrink-0" />
+                <div className="flex flex-col">
+                  <span className="text-[10px] md:text-[11px] font-medium text-neutral-400 uppercase tracking-wider leading-none mb-1">
+                    Group Size
+                  </span>
+                  <span className="text-xs md:text-sm font-bold text-neutral-800 leading-snug">
+                    Max 12, Avg 10
+                  </span>
                 </div>
-                <span className="w-1.5 h-1.5 rounded-full bg-neutral-300 hidden md:block" />
-                <div className="flex items-center gap-1.5">
-                  <Users className="w-4.5 h-4.5 text-neutral-400" />
-                  <span>Max Group Size: 12</span>
+              </div>
+
+              {/* Tour Style */}
+              <div className="flex items-center gap-3">
+                <Compass className="w-5 h-5 text-neutral-800 shrink-0" />
+                <div className="flex flex-col">
+                  <span className="text-[10px] md:text-[11px] font-medium text-neutral-400 uppercase tracking-wider leading-none mb-1">
+                    Tour Style
+                  </span>
+                  <span className="text-xs md:text-sm font-bold text-neutral-800 leading-snug">
+                    {tourStyle}
+                  </span>
+                </div>
+              </div>
+
+              {/* Accommodation */}
+              <div className="flex items-center gap-3">
+                <Building2 className="w-5 h-5 text-neutral-800 shrink-0" />
+                <div className="flex flex-col">
+                  <span className="text-[10px] md:text-[11px] font-medium text-neutral-400 uppercase tracking-wider leading-none mb-1">
+                    Accommodation
+                  </span>
+                  <span className="text-xs md:text-sm font-bold text-neutral-800 leading-snug">
+                    Hotels ({activeVariant.nights} nts)
+                  </span>
                 </div>
               </div>
             </div>
 
-            {/* Overview Section */}
+            {/* Trip Overview (Detailed Explanation) */}
             <div className="mb-12 border-b border-border-light pb-10">
-              <p className="text-base md:text-lg font-semibold font-display text-neutral-800 leading-relaxed mb-6">
-                {overviewParagraphs.pitch}
-              </p>
-              <p className="text-neutral-500 text-sm md:text-base font-normal leading-relaxed whitespace-pre-line">
-                {overviewParagraphs.detailed}
-              </p>
+              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4">Trip Overview</h2>
+              <div className="text-neutral-500 font-medium text-sm md:text-base leading-relaxed space-y-4">
+                <p className="whitespace-pre-line">{overviewParagraphs.detailed}</p>
+              </div>
             </div>
 
-            {/* Highlights Section */}
+            {/* Highlights */}
             <div className="mb-12 border-b border-border-light pb-10">
-              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6 font-display">
+              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4">
                 Tour Highlights
               </h2>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {highlights.map((hl: string, idx: number) => (
-                  <li key={idx} className="flex items-start gap-3">
-                    <span className="w-5 h-5 rounded-full bg-brand-light flex items-center justify-center shrink-0 mt-0.5">
-                      <Check className="w-3 h-3 text-brand stroke-[3]" />
-                    </span>
-                    <span className="text-neutral-600 text-sm font-medium leading-normal">
-                      {hl}
-                    </span>
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3.5 list-disc pl-5 text-neutral-500 font-medium text-sm md:text-base">
+                {highlights.map((highlight: string, idx: number) => (
+                  <li key={idx} className="leading-relaxed">
+                    {highlight}
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* Duration Variants Switch Tabs */}
+            {/* What's Included */}
+            <div className="mb-12 border-b border-border-light pb-10">
+              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">
+                What&apos;s Included
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {inclusions.map((inc: string, idx: number) => (
+                  <div key={idx} className="flex gap-3">
+                    <div className="w-5 h-5 rounded-full bg-neutral-100 flex items-center justify-center shrink-0 mt-0.5">
+                      <Check className="w-3.5 h-3.5 text-neutral-500" />
+                    </div>
+                    <span className="text-neutral-600 font-medium text-sm leading-snug">{inc}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* What's Excluded */}
+            <div className="mb-12 border-b border-border-light pb-10">
+              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">Exclusions</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {exclusions.map((exc: string, idx: number) => (
+                  <div key={idx} className="flex gap-3">
+                    <div className="w-5 h-5 rounded-full bg-neutral-100/50 flex items-center justify-center shrink-0 mt-0.5">
+                      <X className="w-3.5 h-3.5 text-neutral-400" />
+                    </div>
+                    <span className="text-neutral-500 font-normal text-sm leading-snug">{exc}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Important Notes */}
+            {packageData.notes && packageData.notes.length > 0 && (
+              <div className="mb-12 border-b border-border-light pb-10">
+                <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">
+                  Important Notes
+                </h2>
+                <ul className="flex flex-col gap-3.5 pl-5 list-disc text-neutral-500 font-medium text-sm md:text-base">
+                  {packageData.notes.map((item: string, idx: number) => (
+                    <li key={idx} className="leading-relaxed">
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Duration Switcher (using modern capsule sliding tab style) */}
             {variants.length > 1 && (
               <div className="mb-10 border-b border-border-light pb-8">
                 <span className="text-xs font-bold text-neutral-400 uppercase tracking-widest block mb-4 font-sans">
@@ -516,6 +607,7 @@ export default function PackageDetailClient({
                 {itinerary.map((day: ItineraryDay, idx: number) => {
                   const isExpanded = activeItineraryDay === day.day;
 
+                  // Select 3 deterministic images for the expanded day's photo row
                   const dayImages = [
                     itineraryDayImagesPool[(day.day * 1) % itineraryDayImagesPool.length],
                     itineraryDayImagesPool[(day.day * 2) % itineraryDayImagesPool.length],
@@ -524,10 +616,10 @@ export default function PackageDetailClient({
 
                   return (
                     <div key={idx} className="relative group">
-                      {/* Timeline dot */}
+                      {/* Timeline dot (aligned center with left border) */}
                       <div className="absolute -left-[38px] top-1.5 w-3 h-3 rounded-full border-2 border-neutral-400 bg-white z-10 group-hover:border-brand transition-colors duration-300" />
 
-                      {/* Header */}
+                      {/* Accordion Header */}
                       <div
                         onClick={() => setActiveItineraryDay(isExpanded ? null : day.day)}
                         className="flex items-start justify-between gap-4 cursor-pointer select-none"
@@ -552,7 +644,7 @@ export default function PackageDetailClient({
                         </div>
                       </div>
 
-                      {/* Description */}
+                      {/* Description (Truncated when collapsed, full when expanded) */}
                       <p
                         className={`text-neutral-500 font-medium text-sm md:text-[14px] leading-relaxed mt-3.5 whitespace-pre-line pr-4 transition-all duration-300 ${
                           isExpanded ? "" : "line-clamp-3"
@@ -561,30 +653,35 @@ export default function PackageDetailClient({
                         {day.description}
                       </p>
 
-                      {/* Images Accordion (using shared AccordionItem with empty trigger wrapper) */}
-                      <AccordionItem
-                        isOpen={isExpanded}
-                        onToggle={() => {}}
-                        trigger={<></>}
-                        duration={0.3}
-                      >
-                        <div className="grid grid-cols-3 gap-3 mt-6 pt-2">
-                          {dayImages.map((img, i) => (
-                            <div
-                              key={i}
-                              className="relative aspect-[4/3] rounded-[1.5rem] overflow-hidden bg-neutral-100 shadow-sm border border-neutral-100 group/img"
-                            >
-                              <Image
-                                src={img}
-                                alt={`Itinerary Day ${day.day} Image ${i + 1}`}
-                                fill
-                                sizes="(max-width: 768px) 33vw, 20vw"
-                                className="object-cover transition-transform duration-500 group-hover/img:scale-105"
-                              />
+                      {/* Images (Only visible when expanded) */}
+                      <AnimatePresence initial={false}>
+                        {isExpanded && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="grid grid-cols-3 gap-3 mt-6 pt-2">
+                              {dayImages.map((img, i) => (
+                                <div
+                                  key={i}
+                                  className="relative aspect-[4/3] rounded-[1.5rem] overflow-hidden bg-neutral-100 shadow-sm border border-neutral-100 group/img"
+                                >
+                                  <Image
+                                    src={img}
+                                    alt={`Itinerary Day ${day.day} Image ${i + 1}`}
+                                    fill
+                                    sizes="(max-width: 768px) 33vw, 20vw"
+                                    className="object-cover transition-transform duration-500 group-hover/img:scale-105"
+                                  />
+                                </div>
+                              ))}
                             </div>
-                          ))}
-                        </div>
-                      </AccordionItem>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
                   );
                 })}
@@ -602,168 +699,82 @@ export default function PackageDetailClient({
             </div>
           </div>
 
-          {/* RIGHT COLUMN: Book/Inquire card, policy info, trust badges */}
-          <div className="lg:col-span-4 lg:sticky lg:top-28 flex flex-col gap-6">
-            {/* Inquiry/Booking Sticky Card */}
+          {/* RIGHT COLUMN: Sticky booking form */}
+          <aside className="lg:sticky lg:top-28 z-10 flex flex-col gap-6">
+            {/* Floating Booking Card */}
             <div className="bg-white border border-border-light rounded-[2rem] p-6 shadow-premium">
-              <div className="flex flex-col gap-4">
-                <div className="bg-neutral-50 rounded-2xl p-4 flex flex-col border border-neutral-100">
-                  <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider font-sans mb-1">
-                    Customized Package
+              {/* Header route summary */}
+              <div className="mb-6">
+                <div className="flex items-center gap-1.5 text-neutral-400 text-xs font-bold uppercase tracking-wider mb-2">
+                  <Clock className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
+                  <span>{activeVariant.duration_text || `${activeVariant.days} Days`}</span>
+                </div>
+                <div className="font-bold text-foreground text-sm flex flex-wrap items-center gap-1.5 leading-snug">
+                  {packageData.destinations.map((dest: string, idx: number) => (
+                    <React.Fragment key={idx}>
+                      {idx > 0 && <ChevronRight className="w-3 h-3 text-neutral-300 shrink-0" />}
+                      <span className="text-foreground">{dest}</span>
+                    </React.Fragment>
+                  ))}
+                </div>
+              </div>
+
+              {/* Feature Inclusions Summary */}
+              <div className="border-t border-b border-border-light py-5 mb-6 space-y-3.5">
+                <div className="flex items-center gap-3">
+                  <Check className="w-4 h-4 text-neutral-400 shrink-0" />
+                  <span className="text-xs font-medium text-neutral-500">
+                    Handpicked Premium Hotels Included
                   </span>
-                  <div className="flex items-end justify-between gap-1.5 font-display">
-                    <span className="text-2xl md:text-3xl font-extrabold text-brand leading-none">
-                      Price On Request
-                    </span>
-                  </div>
                 </div>
-
-                <div className="flex flex-col gap-2.5 font-sans mt-2">
-                  <div className="flex items-center justify-between text-xs font-semibold text-neutral-500 border-b border-neutral-100 pb-2">
-                    <span>Tour Style</span>
-                    <span className="text-neutral-800 font-bold uppercase">{tourStyle}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-xs font-semibold text-neutral-500 border-b border-neutral-100 pb-2">
-                    <span>Duration</span>
-                    <span className="text-neutral-800 font-bold">
-                      {activeVariant.days} Days / {activeVariant.nights} Nights
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between text-xs font-semibold text-neutral-500 pb-1">
-                    <span>Stops</span>
-                    <span className="text-neutral-800 font-bold max-w-[200px] truncate">
-                      {packageData.destinations.join(" → ")}
-                    </span>
-                  </div>
+                <div className="flex items-center gap-3">
+                  <MapPin className="w-4 h-4 text-neutral-400 shrink-0" />
+                  <span className="text-xs font-medium text-neutral-500">
+                    Sightseeing in Private AC Vehicle
+                  </span>
                 </div>
-
-                {/* Primary Orange Call To Action Button */}
-                <button
-                  onClick={handleInquireClick}
-                  className="w-full bg-brand hover:bg-brand-hover text-white font-bold py-4 rounded-full text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer text-center select-none border-none outline-none mt-2 active:scale-98"
-                >
-                  Book / Inquire Now
-                </button>
+                <div className="flex items-center gap-3">
+                  <Users className="w-4 h-4 text-neutral-400 shrink-0" />
+                  <span className="text-xs font-medium text-neutral-500">
+                    24/7 Dedicated Chauffeur & Support
+                  </span>
+                </div>
               </div>
+
+              {/* Booking Button */}
+              <Link
+                href={`/packages/${packageData.slug}/book`}
+                className="block w-full bg-brand hover:bg-brand-hover text-white font-semibold text-xs tracking-wider uppercase py-4 rounded-full transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer text-center select-none border-none outline-none mt-2 active:scale-98"
+              >
+                Book Now
+              </Link>
+
+              <p className="text-[10px] text-neutral-400 text-center font-medium mt-3">
+                No instant charges. Connect directly with our tour experts.
+              </p>
             </div>
 
-            {/* Travel details / trust card */}
-            <div className="bg-neutral-50 border border-neutral-100 rounded-[2rem] p-6 flex flex-col gap-4 font-sans text-xs md:text-sm">
-              <h4 className="font-bold text-neutral-800 font-display text-sm md:text-base">
-                Why book with us?
-              </h4>
-              <ul className="flex flex-col gap-3 font-semibold text-neutral-600">
-                <li className="flex items-center gap-2">
-                  <Check className="w-4.5 h-4.5 text-brand shrink-0 stroke-[2.5]" />
-                  <span>100% Tailored itineraries</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="w-4.5 h-4.5 text-brand shrink-0 stroke-[2.5]" />
-                  <span>Zero hidden costs guaranteed</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="w-4.5 h-4.5 text-brand shrink-0 stroke-[2.5]" />
-                  <span>Premium private AC vehicles</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="w-4.5 h-4.5 text-brand shrink-0 stroke-[2.5]" />
-                  <span>24/7 Live customer care</span>
-                </li>
-              </ul>
+            {/* Help & Support Card */}
+            <div className="bg-neutral-50/50 border border-border-light rounded-[2rem] p-6 text-center">
+              <HelpCircle className="w-6 h-6 text-neutral-400 mx-auto mb-3" />
+              <h4 className="font-bold text-foreground text-base mb-2">Need Help Planning?</h4>
+              <p className="text-xs text-neutral-500 font-medium leading-relaxed mb-4">
+                Talk to our travel specialists for custom itineraries, group discounts, or special
+                requirements.
+              </p>
+              {companyData && companyData.whatsapp_number && (
+                <a
+                  href={`https://wa.me/${companyData.whatsapp_number}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white font-semibold text-xs uppercase tracking-wider px-6 py-3 rounded-full transition-all duration-300 cursor-pointer select-none"
+                >
+                  WhatsApp Experts
+                </a>
+              )}
             </div>
-          </div>
+          </aside>
         </div>
-
-        {/* DETAILS ACCORDION SECTION (Inclusions, Exclusions, Terms, etc.) */}
-        <section className="mt-16 border-t border-border-light pt-12">
-          <div className="flex flex-col gap-5 max-w-4xl">
-            {/* 1. Inclusions Panel */}
-            <div className="bg-white border border-border-light rounded-2xl overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.01)] transition-all duration-300">
-              <AccordionItem
-                isOpen={true}
-                onToggle={() => {}}
-                trigger={
-                  <div className="w-full px-6 py-5 flex items-center justify-between text-left">
-                    <span className="text-base md:text-lg font-bold text-foreground font-display flex items-center gap-2">
-                      <Check className="w-5 h-5 text-emerald-500 stroke-[3]" /> Inclusions
-                    </span>
-                  </div>
-                }
-                className="w-full"
-              >
-                <div className="px-6 pb-6 text-neutral-500 text-sm leading-relaxed pt-2 border-t border-border-light/60">
-                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 list-none">
-                    {inclusions.map((item, i) => (
-                      <li key={i} className="flex items-start gap-2.5 font-medium text-neutral-600">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0 mt-2" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </AccordionItem>
-            </div>
-
-            {/* 2. Exclusions Panel */}
-            <div className="bg-white border border-border-light rounded-2xl overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.01)] transition-all duration-300">
-              <AccordionItem
-                isOpen={true}
-                onToggle={() => {}}
-                trigger={
-                  <div className="w-full px-6 py-5 flex items-center justify-between text-left">
-                    <span className="text-base md:text-lg font-bold text-foreground font-display flex items-center gap-2">
-                      <X className="w-5 h-5 text-red-500 stroke-[3]" /> Exclusions
-                    </span>
-                  </div>
-                }
-                className="w-full"
-              >
-                <div className="px-6 pb-6 text-neutral-500 text-sm leading-relaxed pt-2 border-t border-border-light/60">
-                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 list-none">
-                    {exclusions.map((item, i) => (
-                      <li key={i} className="flex items-start gap-2.5 font-medium text-neutral-600">
-                        <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 mt-2" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </AccordionItem>
-            </div>
-
-            {/* 3. Important Notes Panel */}
-            {packageData.notes && packageData.notes.length > 0 && (
-              <div className="bg-white border border-border-light rounded-2xl overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.01)] transition-all duration-300">
-                <AccordionItem
-                  isOpen={true}
-                  onToggle={() => {}}
-                  trigger={
-                    <div className="w-full px-6 py-5 flex items-center justify-between text-left">
-                      <span className="text-base md:text-lg font-bold text-foreground font-display flex items-center gap-2">
-                        <HelpCircle className="w-5 h-5 text-brand stroke-[2]" /> Important Notes
-                      </span>
-                    </div>
-                  }
-                  className="w-full"
-                >
-                  <div className="px-6 pb-6 text-neutral-500 text-sm leading-relaxed pt-2 border-t border-border-light/60">
-                    <ul className="flex flex-col gap-3 list-none">
-                      {packageData.notes.map((item, i) => (
-                        <li
-                          key={i}
-                          className="flex items-start gap-2.5 font-medium text-neutral-600"
-                        >
-                          <span className="w-1.5 h-1.5 rounded-full bg-brand shrink-0 mt-2" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </AccordionItem>
-              </div>
-            )}
-          </div>
-        </section>
 
         {/* RECOMMENDED PACKAGES SECTION */}
         <section className="mt-24 border-t border-border-light pt-24">
