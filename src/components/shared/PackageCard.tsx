@@ -12,10 +12,12 @@ interface PackageCardProps {
   id: string;
   slug: string;
   name: string;
-  hero_image: string;
-  duration_range: string;
-  min_days: number;
-  destinations: string[];
+  heroImage?: string;
+  hero_image?: string;
+  durationText?: string;
+  duration_range?: string;
+  min_days?: number;
+  destinations: string[] | { destinationName: string }[] | unknown[];
   is_popular?: boolean;
   variant?: "white" | "overlay"; // default "white"
   priority?: boolean;
@@ -32,7 +34,9 @@ interface PackageCardProps {
 export default function PackageCard({
   slug,
   name,
+  heroImage,
   hero_image,
+  durationText,
   duration_range,
   min_days,
   destinations,
@@ -46,8 +50,30 @@ export default function PackageCard({
   viewport,
   transition,
 }: PackageCardProps) {
-  const imageSrc = hero_image || "/images/placeholder-landscape.png";
-  const durationText = duration_range || `${min_days} Days`;
+  const imageSrc = heroImage || hero_image || "/images/placeholder-landscape.png";
+
+  // Extract duration string
+  let duration = durationText || duration_range;
+  if (!duration && min_days) {
+    duration = `${min_days} Days`;
+  }
+  if (!duration) {
+    duration = "Classic Tour";
+  }
+
+  // Map destinations properly (either string list or object list)
+  const mappedDestinations = React.useMemo(() => {
+    if (!destinations || !Array.isArray(destinations)) return [];
+    return destinations
+      .map((d) => {
+        if (typeof d === "string") return d;
+        if (d && typeof d === "object" && "destinationName" in d) {
+          return d.destinationName;
+        }
+        return "";
+      })
+      .filter(Boolean);
+  }, [destinations]);
 
   const handleFavoriteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -81,7 +107,7 @@ export default function PackageCard({
 
         <div className="absolute top-4 left-4 z-20 bg-white/20 backdrop-blur-md border border-white/25 text-white text-[10px] font-semibold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-1.5 select-none">
           <Clock className="w-3.5 h-3.5" />
-          <span>{durationText}</span>
+          <span>{duration}</span>
         </div>
 
         {onToggleFavorite && (
@@ -103,8 +129,8 @@ export default function PackageCard({
             <div className="flex items-center gap-1.5 text-white/80 text-xs font-normal min-w-0 flex-1">
               <MapPin className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
               <span className="truncate drop-shadow-sm">
-                {destinations.slice(0, 2).join(", ")}
-                {destinations.length > 2 && "..."}
+                {mappedDestinations.slice(0, 2).join(", ")}
+                {mappedDestinations.length > 2 && "..."}
               </span>
             </div>
 
@@ -155,7 +181,7 @@ export default function PackageCard({
         <div className="flex items-center justify-between mt-5 mb-3 px-1">
           <div className="flex items-center gap-1.5 text-neutral-600 font-normal">
             <Clock className="w-4 h-4 text-neutral-400 shrink-0" />
-            <span className="text-sm">{durationText}</span>
+            <span className="text-sm">{duration}</span>
           </div>
 
           {onToggleFavorite && (
@@ -174,7 +200,7 @@ export default function PackageCard({
 
         <div className="flex items-center gap-1.5 text-neutral-500 text-xs px-1 mb-6 font-normal">
           <MapPin className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
-          <span className="truncate">{destinations.join(", ")}</span>
+          <span className="truncate">{mappedDestinations.join(", ")}</span>
         </div>
       </div>
 

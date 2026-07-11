@@ -6,18 +6,16 @@ import { useState } from "react";
 import PackageCard from "@/components/shared/PackageCard";
 import SectionHeader from "@/components/shared/SectionHeader";
 import SeeAllLink from "@/components/ui/SeeAllLink";
-import { type PackageItem, type PackagesData } from "@/types/package";
+import { type PackageItem } from "@/types/package";
 
-export default function TripCards({ packagesData }: { packagesData?: PackagesData }) {
+export default function TripCards({ packages }: { packages: PackageItem[] }) {
   const [isDomestic, setIsDomestic] = useState(true);
   const [favorites, setFavorites] = useState<string[]>([]);
 
-  const allPackages = (packagesData?.packages || []) as PackageItem[];
+  const popularPackages = packages.filter((pkg) => pkg.isPopular);
 
-  const popularPackages = allPackages.filter((pkg) => pkg.is_popular);
-
-  const domesticPackages = popularPackages.filter((pkg) => pkg.is_domestic).slice(0, 4);
-  const internationalPackages = popularPackages.filter((pkg) => !pkg.is_domestic).slice(0, 4);
+  const domesticPackages = popularPackages.filter((pkg) => pkg.isDomestic).slice(0, 4);
+  const internationalPackages = popularPackages.filter((pkg) => !pkg.isDomestic).slice(0, 4);
 
   const currentTrips = isDomestic ? domesticPackages : internationalPackages;
 
@@ -83,6 +81,7 @@ export default function TripCards({ packagesData }: { packagesData?: PackagesDat
       >
         {currentTrips.map((pkg, idx) => {
           const isFavorite = favorites.includes(pkg.slug);
+          const defaultVariant = pkg.variants.find((v) => v.isDefault) || pkg.variants[0];
 
           return (
             <PackageCard
@@ -90,9 +89,8 @@ export default function TripCards({ packagesData }: { packagesData?: PackagesDat
               id={pkg.id}
               slug={pkg.slug}
               name={pkg.name}
-              hero_image={pkg.hero_image}
-              duration_range={pkg.duration_range}
-              min_days={pkg.min_days}
+              heroImage={pkg.heroImage}
+              durationText={defaultVariant ? defaultVariant.label : undefined}
               destinations={pkg.destinations}
               variant="overlay"
               isFavorite={isFavorite}

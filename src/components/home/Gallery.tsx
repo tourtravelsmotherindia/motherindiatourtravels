@@ -6,69 +6,19 @@ import Image from "next/image";
 import React from "react";
 
 import SectionHeader from "@/components/shared/SectionHeader";
+import type { GallerySectionData } from "@/types/gallery";
 
-interface GalleryItem {
-  id: number;
-  title: string;
-  location: string;
-  image: string;
+interface GalleryProps {
+  galleryData: GallerySectionData;
 }
 
-export default function Gallery() {
-  const galleryItems: GalleryItem[] = [
-    {
-      id: 1,
-      title: "Agra (Taj Mahal)",
-      location: "Uttar Pradesh",
-      image:
-        "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      id: 2,
-      title: "Houseboat Cruise",
-      location: "Alleppey, Kerala",
-      image:
-        "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      id: 3,
-      title: "Pangong Lake",
-      location: "Leh Ladakh",
-      image:
-        "https://images.unsplash.com/photo-1596176530529-78163a4f7af2?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      id: 4,
-      title: "Thar Desert Safari",
-      location: "Jaisalmer, Rajasthan",
-      image:
-        "https://images.unsplash.com/photo-1542856391-010fb87dcfed?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      id: 5,
-      title: "Ganges Aarti",
-      location: "Varanasi, Uttar Pradesh",
-      image:
-        "https://images.unsplash.com/photo-1561361058-c24cecae35ca?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      id: 6,
-      title: "Hawa Mahal",
-      location: "Jaipur, Rajasthan",
-      image:
-        "https://images.unsplash.com/photo-1603262110263-fb0112e7cc33?auto=format&fit=crop&w=800&q=80",
-    },
-  ];
-
+export default function Gallery({ galleryData }: GalleryProps) {
   return (
     <section id="gallery" className="py-24 scroll-mt-24 layout-container">
-      <SectionHeader
-        title="Our Travel Gallery"
-        subtitle="Catch a glimpse of the mesmerizing landscapes, historical monuments, and soulful cultures captured during our curated trips."
-      />
+      <SectionHeader title={galleryData.tagline} subtitle={galleryData.subtitle} />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {galleryItems.map((item, idx) => (
+        {galleryData.images.map((item, idx) => (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -79,7 +29,7 @@ export default function Gallery() {
           >
             <Image
               src={item.image}
-              alt={item.title}
+              alt={item.altText || item.title}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"

@@ -8,30 +8,31 @@ import TripCards from "@/components/home/TripCards";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import PageShell from "@/components/layout/PageShell";
 import { getCompanyData } from "@/lib/db/repositories/companyRepo";
-import { getDestinations } from "@/lib/db/repositories/destinationRepo";
-import { getFAQData } from "@/lib/db/repositories/faqRepo";
-import { getHeroSlides } from "@/lib/db/repositories/heroRepo";
-import { getPackagesIndex } from "@/lib/db/repositories/packageRepo";
+import { getFeaturedDestinations } from "@/lib/db/repositories/destinationRepo";
+import { getFAQSectionData } from "@/lib/db/repositories/faqRepo";
+import { getGallerySectionData } from "@/lib/db/repositories/galleryRepo";
+import { getHeroConfig } from "@/lib/db/repositories/heroRepo";
+import { getAllPackages } from "@/lib/db/repositories/packageRepo";
 
 export default async function Home() {
-  const [heroData, packagesData, faqData, companyData, destinationsData] = await Promise.all([
-    getHeroSlides(),
-    getPackagesIndex(),
-    getFAQData(),
-    getCompanyData(),
-    getDestinations(),
-  ]);
-
-  const destinationsWrapped = { destinations: destinationsData, total: destinationsData.length };
-  const packagesWrapped = { total: packagesData.total, packages: packagesData.packages };
+  const [heroConfig, packages, faqData, companyData, destinations, galleryData] = await Promise.all(
+    [
+      getHeroConfig(),
+      getAllPackages(),
+      getFAQSectionData(),
+      getCompanyData(),
+      getFeaturedDestinations(),
+      getGallerySectionData(),
+    ],
+  );
 
   return (
     <PageShell companyData={companyData} ptClass="pt-0">
-      <Hero heroData={heroData} />
+      <Hero heroConfig={heroConfig} />
       <WhyChooseUs />
-      <TripCards packagesData={packagesWrapped} />
-      <PopularDestinations destinationsData={destinationsWrapped} packagesData={packagesWrapped} />
-      <Gallery />
+      <TripCards packages={packages} />
+      <PopularDestinations destinations={destinations} />
+      <Gallery galleryData={galleryData} />
       <TestimonialsSection />
       {/*<PartnerAirlines />*/}
       <RegionsGrid />

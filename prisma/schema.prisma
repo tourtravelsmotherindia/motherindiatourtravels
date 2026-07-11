@@ -1,5 +1,6 @@
 // Prisma schema for Mother India Tour Travels
 // PostgreSQL database hosted on Supabase
+// Modern relational schema — v2.0
 
 generator client {
   provider = "prisma-client-js"
@@ -10,45 +11,54 @@ datasource db {
   provider = "postgresql"
 }
 
-//  Country 
-model Country {
-  id                     String        @id
-  name                   String
-  slug                   String        @unique
-  continent              String
-  isDomestic             Boolean
-  isFeatured             Boolean       @default(false)
-  capital                String
-  currency               String
-  languages              String        // JSON array of strings
-  visaRequiredForIndians Boolean
-  visaOnArrival          Boolean       @default(false)
-  description            String
-  popularDestinations    String        // JSON array of destination slugs
-  seoTitle               String
-  seoDescription         String
-  image                  String        @default("")
-  packageCount           Int           @default(0)
+// ─────────────────────────────────────────────
+// GEOGRAPHY GROUP
+// Country → State → Destination → Attraction
+// ─────────────────────────────────────────────
 
-  states        State[]
-  destinations  Destination[]
-  packages      Package[]
+model Country {
+  id                     String  @id @default(cuid())
+  name                   String
+  slug                   String  @unique
+  continent              String
+  isDomestic             Boolean @default(false)
+  isFeatured             Boolean @default(false)
+  capital                String  @default("")
+  currency               String  @default("")
+  languages              String[] // PostgreSQL native array
+  visaRequiredForIndians Boolean @default(true)
+  visaOnArrival          Boolean @default(false)
+  description            String  @default("")
+  seoTitle               String  @default("")
+  seoDescription         String  @default("")
+  image                  String  @default("")
+  latitude               Float?
+  longitude              Float?
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  states       State[]
+  destinations Destination[]
+  packages     Package[]
 
   @@index([slug])
   @@index([isFeatured])
+  @@index([isDomestic])
 }
 
-//  State 
 model State {
-  id           String  @id
-  name         String
-  slug         String  @unique
-  countryId    String
-  capital      String
-  isFeatured   Boolean @default(false)
-  packageCount Int     @default(0)
+  id          String  @id @default(cuid())
+  name        String
+  slug        String  @unique
+  countryId   String
+  capital     String  @default("")
+  isFeatured  Boolean @default(false)
+  description String  @default("")
+  image       String  @default("")
+  latitude    Float?
+  longitude   Float?
 
-  country      Country        @relation(fields: [countryId], references: [id])
+  country      Country       @relation(fields: [countryId], references: [id])
   destinations Destination[]
   packages     Package[]
 
@@ -57,30 +67,48 @@ model State {
   @@index([isFeatured])
 }
 
-//  Destination 
+enum DestinationType {
+  CITY
+  REGION
+  BEACH
+  HILL_STATION
+  WILDLIFE
+  PILGRIMAGE
+  ISLAND
+  HERITAGE
+  ADVENTURE
+}
+
 model Destination {
-  id                 String  @id
-  name               String
-  slug               String  @unique
-  stateId            String?
-  countryId          String
-  type               String  @default("city")
-  isFeatured         Boolean @default(false)
-  description        String
-  bestTimeToVisit    String
-  climate            String  @default("")
-  topAttractions     String  // JSON array of strings
-  nearbyDestinations String  // JSON array of destination slugs
-  seoTitle           String
-  seoDescription     String
-  image              String  @default("")
-  packageCount       Int     @default(0)
+  id              String          @id @default(cuid())
+  name            String
+  slug            String          @unique
+  stateId         String?
+  countryId       String
+  type            DestinationType @default(CITY)
+  isFeatured      Boolean         @default(false)
+  description     String          @default("")
+  bestTimeToVisit String          @default("")
+  climate         String          @default("")
+  latitude        Float?
+  longitude       Float?
+  image           String          @default("")
+  seoTitle        String          @default("")
+  seoDescription  String          @default("")
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
 
-  latitude           Float?
-  longitude          Float?
+  country  Country  @relation(fields: [countryId], references: [id])
+  state    State?   @relation(fields: [stateId], references: [id])
 
-  country Country @relation(fields: [countryId], references: [id])
-  state   State?  @relation(fields: [stateId], references: [id])
+  attractions          Attraction[]
+  packageDestinations  PackageDestination[]
+  galleryImages        GalleryImage[]
+  blogPosts            BlogPost[]
+
+  // Self-join for nearby destinations
+  asSource    DestinationNeighbour[] @relation("SourceDestination")
+  asNeighbour DestinationNeighbour[] @relation("NeighbourDestination")
 
   @@index([countryId])
   @@index([stateId])
@@ -88,62 +116,92 @@ model Destination {
   @@index([isFeatured])
 }
 
-//  Category 
+// Self-join table for nearby destinations
+model DestinationNeighbour {
+  destinationId String
+  neighbourId   String
+
+  destination Destination @relation("SourceDestination", fields: [destinationId], references: [id], onDelete: Cascade)
+  neighbour   Destination @relation("NeighbourDestination", fields: [neighbourId], references: [id], onDelete: Cascade)
+
+  @@id([destinationId, neighbourId])
+}
+
+// A real entity with coordinates — replaces JSON topAttractions string
+model Attraction {
+  id            String  @id @default(cuid())
+  name          String
+  slug          String  @unique
+  destinationId String
+  description   String  @default("")
+  image         String  @default("")
+  latitude      Float?
+  longitude     Float?
+  sortOrder     Int     @default(0)
+
+  destination        Destination          @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+  packageAttractions PackageAttraction[]
+
+  @@index([destinationId])
+  @@index([slug])
+}
+
+// ─────────────────────────────────────────────
+// PACKAGE GROUP
+// ─────────────────────────────────────────────
+
 model Category {
-  id             String @id
+  id             String @id @default(cuid())
   name           String
   slug           String @unique
-  description    String
-  icon           String
-  seoTitle       String
-  seoDescription String
-  packageCount   Int    @default(0)
+  description    String @default("")
+  icon           String @default("")
+  sortOrder      Int    @default(0)
+  seoTitle       String @default("")
+  seoDescription String @default("")
+
+  packageCategories PackageCategory[]
 
   @@index([slug])
 }
 
-//  Package 
 model Package {
-  id                 String  @id
-  slug               String  @unique
-  name               String
-  isPopular          Boolean @default(false)
-  isDomestic         Boolean @default(true)
-  destinations       String  // JSON array of display names
-  destinationIds     String  // JSON array of destination slugs
-  primaryDestination String
-  categoryIds        String  // JSON array of category slugs
-  stateId            String?
-  countryId          String
-  minNights          Int
-  maxNights          Int
-  minDays            Int
-  maxDays            Int
-  durationRange      String
-  variantCount       Int     @default(1)
-  heroImage          String  @default("")
-  tags               String  // JSON array of strings
+  id             String   @id @default(cuid())
+  slug           String   @unique
+  name           String
+  overview       String   @default("")
+  highlights     String[] // PostgreSQL native array
+  inclusions     String[]
+  exclusions     String[]
+  notes          String[]
+  heroImage      String   @default("")
+  galleryImages  String[]
+  tourStyle      String   @default("Classic") // Heritage, Beach, Wildlife, Pilgrimage, Adventure
+  groupSizeMax   Int      @default(12)
+  groupSizeAvg   Int      @default(10)
+  stayType       String   @default("Premium Hotels")
+  marketingPitch String   @default("")
+  isPopular      Boolean  @default(false)
+  isDomestic     Boolean  @default(true)
+  tags           String[]
+  countryId      String
+  stateId        String?
+  seoTitle       String   @default("")
+  seoDescription String   @default("")
+  seoKeywords    String[]
+  publishedAt    DateTime?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
-  galleryImages      String            @default("[]") // JSON array of image URLs
-  tourStyle          String            @default("Classic") // e.g. Heritage, Beach, Wildlife, Pilgrimage
-  groupSizeMax       Int               @default(12)
-  groupSizeAvg       Int               @default(10)
-  stayType           String            @default("Premium Hotels")
-  marketingPitch     String            @default("") // Short marketing intro
+  country Country @relation(fields: [countryId], references: [id])
+  state   State?  @relation(fields: [stateId], references: [id])
 
-  // Detail fields (from individual package JSON files)
-  overview       String @default("")
-  highlights     String @default("[]")
-  inclusions     String @default("[]")
-  exclusions     String @default("[]")
-  notes          String @default("[]")
-  seoTitle       String @default("")
-  seoDescription String @default("")
-  seoKeywords    String @default("[]")
-
-  country  Country           @relation(fields: [countryId], references: [id])
-  state    State?            @relation(fields: [stateId], references: [id])
-  variants PackageVariant[]
+  // Proper relational many-to-many (no JSON arrays)
+  destinations      PackageDestination[]
+  categories        PackageCategory[]
+  attractions       PackageAttraction[]
+  variants          PackageVariant[]
+  bookingInquiries  BookingInquiry[]
 
   @@index([slug])
   @@index([isPopular])
@@ -152,120 +210,297 @@ model Package {
   @@index([stateId])
 }
 
-//  PackageVariant 
-model PackageVariant {
-  id           String @id
-  packageId    String
-  label        String
-  nights       Int
-  days         Int
-  durationText String
-  oldHtmlFile  String @default("")
+// Join table: Package ↔ Destination (with sort order for tour route order)
+model PackageDestination {
+  packageId     String
+  destinationId String
+  sortOrder     Int    @default(0)
 
-  package   Package         @relation(fields: [packageId], references: [id], onDelete: Cascade)
-  itinerary ItineraryDay[]
+  package     Package     @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  destination Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
 
+  @@id([packageId, destinationId])
   @@index([packageId])
+  @@index([destinationId])
 }
 
-//  ItineraryDay 
+// Join table: Package ↔ Category
+model PackageCategory {
+  packageId  String
+  categoryId String
+
+  package  Package  @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([packageId, categoryId])
+}
+
+// Join table: Package ↔ Attraction (for the "Where You'll Be" map)
+model PackageAttraction {
+  packageId    String
+  attractionId String
+
+  package    Package    @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  attraction Attraction @relation(fields: [attractionId], references: [id], onDelete: Cascade)
+
+  @@id([packageId, attractionId])
+}
+
+// Variant slug is auto-generated: e.g. "3n-4d" from nights=3, days=4
+model PackageVariant {
+  id           String   @id @default(cuid())
+  packageId    String
+  slug         String   // Auto-generated: "${nights}n-${days}d"
+  label        String   // Display: "3 Nights / 4 Days"
+  nights       Int
+  days         Int
+  durationText String   @default("") // Free-form override text
+  basePrice    Float?   // INR
+  discountedPrice Float?
+  sortOrder    Int      @default(0)
+  isDefault    Boolean  @default(false) // First/featured variant
+
+  package  Package        @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  itinerary ItineraryDay[]
+  bookingInquiries BookingInquiry[]
+
+  @@unique([packageId, slug])
+  @@index([packageId])
+  @@index([slug])
+}
+
 model ItineraryDay {
-  id          String @id
+  id          String   @id @default(cuid())
   variantId   String
   day         Int
   title       String
   description String
-
-  images      String         @default("[]") // JSON array of specific images for this day
+  images      String[]
 
   variant PackageVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
 
   @@index([variantId])
 }
 
-//  HeroSlide 
-model HeroSlide {
-  id          Int    @id
-  image       String
-  tag         String
-  title       String
-  description String
+// ─────────────────────────────────────────────
+// CONTENT GROUP
+// ─────────────────────────────────────────────
+
+enum HeroMode {
+  SLIDES
+  VIDEO
 }
 
-//  FAQ 
+// Singleton (id = 1): controls the homepage hero
+model HeroConfig {
+  id       Int      @id @default(1)
+  mode     HeroMode @default(SLIDES)
+  videoUrl String   @default("") // Only used when mode = VIDEO
+  updatedAt DateTime @updatedAt
+
+  slides HeroSlide[]
+}
+
+model HeroSlide {
+  id           String @id @default(cuid())
+  heroConfigId Int    @default(1)
+  image        String
+  tag          String @default("")
+  title        String
+  description  String @default("")
+  sortOrder    Int    @default(0)
+
+  heroConfig HeroConfig @relation(fields: [heroConfigId], references: [id], onDelete: Cascade)
+
+  @@index([heroConfigId])
+}
+
+// Generic per-section CMS text (replaces FAQTagline singleton and SiteConfig anti-pattern)
+// key examples: "faq", "gallery", "why-choose-us", "testimonials"
+model SiteSection {
+  id       String  @id @default(cuid())
+  key      String  @unique // e.g. "faq", "gallery"
+  tagline  String  @default("")
+  subtitle String  @default("")
+  metaJson Json?   // Any additional section-specific config
+
+  @@index([key])
+}
+
 model FAQ {
-  id        Int    @id @default(autoincrement())
+  id        String @id @default(cuid())
   question  String
   answer    String
-  sortOrder Int   @default(0)
+  sortOrder Int    @default(0)
 
   @@index([sortOrder])
 }
 
-//  FAQTagline (singleton) 
-model FAQTagline {
-  id      Int    @id @default(1)
-  tagline String
+model GalleryImage {
+  id            String  @id @default(cuid())
+  title         String
+  location      String  @default("")
+  image         String
+  altText       String  @default("")
+  sortOrder     Int     @default(0)
+  destinationId String?
+
+  destination Destination? @relation(fields: [destinationId], references: [id], onDelete: SetNull)
+
+  @@index([destinationId])
+  @@index([sortOrder])
 }
 
-//  Company (singleton) 
-model Company {
-  id               Int    @id @default(1)
-  name             String
-  tagline          String
-  website          String
-  phones           String // JSON array
-  email            String
-  address          String
-  timezone         String
-  schedule         String // JSON array
-  exceptions       String @default("[]")
-  socialMedia      String // JSON object
-  certifications   String // JSON array
-  about            Json
-  whatsappNumber   String
-  googleAnalytics  String @default("")
-  googleTagManager String @default("")
-  latitude         Float?
-  longitude        Float?
-}
+model BlogPostCategory {
+  id   String @id @default(cuid())
+  name String
+  slug String @unique
 
-//  BlogPost 
-model BlogPost {
-  id           String @id
-  slug         String @unique
-  title        String
-  category     String
-  destinations String // JSON array
-  excerpt      String
-  author       String
-  tags         String // JSON array
+  posts BlogPost[]
 
   @@index([slug])
 }
 
-//  Testimonial 
+model BlogPost {
+  id                 String    @id @default(cuid())
+  slug               String    @unique
+  title              String
+  excerpt            String    @default("")
+  content            String    @default("") // Markdown
+  coverImage         String    @default("")
+  authorName         String    @default("")
+  authorImage        String    @default("")
+  readingTimeMinutes Int       @default(5)
+  publishedAt        DateTime?
+  isPublished        Boolean   @default(false)
+  isFeatured         Boolean   @default(false)
+  tags               String[]
+  destinationId      String?
+  categoryId         String?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  destination Destination?      @relation(fields: [destinationId], references: [id], onDelete: SetNull)
+  category    BlogPostCategory?  @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  @@index([slug])
+  @@index([isPublished])
+  @@index([isFeatured])
+  @@index([destinationId])
+}
+
+// ─────────────────────────────────────────────
+// LEAD CAPTURE GROUP
+// ─────────────────────────────────────────────
+
+enum InquiryStatus {
+  NEW
+  READ
+  CONTACTED
+  CLOSED
+}
+
+enum InquirySource {
+  BOOKING_FORM
+  POPUP
+  WHATSAPP
+  PHONE
+}
+
+model BookingInquiry {
+  id              String        @id @default(cuid())
+  packageId       String?
+  variantId       String?
+  name            String
+  email           String
+  phone           String
+  travelDate      DateTime?
+  numberOfPeople  Int           @default(1)
+  message         String        @default("")
+  status          InquiryStatus @default(NEW)
+  source          InquirySource @default(BOOKING_FORM)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  package Package?        @relation(fields: [packageId], references: [id], onDelete: SetNull)
+  variant PackageVariant? @relation(fields: [variantId], references: [id], onDelete: SetNull)
+
+  @@index([status])
+  @@index([packageId])
+  @@index([createdAt])
+}
+
+enum ContactStatus {
+  NEW
+  READ
+  REPLIED
+}
+
+model ContactSubmission {
+  id        String        @id @default(cuid())
+  name      String
+  email     String
+  phone     String        @default("")
+  subject   String        @default("")
+  message   String
+  status    ContactStatus @default(NEW)
+  createdAt DateTime      @default(now())
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+model NewsletterSubscriber {
+  id              String    @id @default(cuid())
+  email           String    @unique
+  name            String    @default("")
+  isVerified      Boolean   @default(false)
+  subscribedAt    DateTime  @default(now())
+  unsubscribedAt  DateTime?
+
+  @@index([email])
+  @@index([isVerified])
+}
+
+// ─────────────────────────────────────────────
+// COMPANY GROUP
+// ─────────────────────────────────────────────
+
+// Singleton record (id = 1)
+model Company {
+  id               Int      @id @default(1)
+  name             String
+  tagline          String   @default("")
+  website          String   @default("")
+  phones           String[] // PostgreSQL native array
+  email            String   @default("")
+  address          String   @default("")
+  whatsappNumber   String   @default("")
+  timezone         String   @default("Asia/Kolkata")
+  schedule         Json     // Array of working hours objects
+  exceptions       Json     @default("[]")
+  socialMedia      Json     // { facebook, instagram, twitter, ... }
+  certifications   String[]
+  about            Json     // Rich about section JSON
+  googleAnalytics  String   @default("")
+  googleTagManager String   @default("")
+  latitude         Float?
+  longitude        Float?
+  updatedAt        DateTime @updatedAt
+}
+
+// Loose-string reviews (sourced from Google/TripAdvisor externally)
 model Testimonial {
-  id       Int    @id
-  reviewer String
-  review   String
-  rating   Int
-  package  String
-  source   String
-}
+  id         String   @id @default(cuid())
+  reviewer   String
+  review     String
+  rating     Int      // 1–5
+  packageName String  @default("") // Loose string — not a FK
+  source     String   @default("Google") // e.g. Google, TripAdvisor
+  isApproved Boolean  @default(true)
+  isFeatured Boolean  @default(false)
+  createdAt  DateTime @default(now())
 
-//  SiteConfig (singleton) 
-model SiteConfig {
-  id                Int    @id @default(1)
-  siteName          String
-  domain            String
-  navigation        String // JSON object
-  homeTitle         String
-  homeDescription   String
-  ogImage           String
-  crossLinkingRules String // JSON object
-  urlStructure      String // JSON object
-  seoPrinciples     String // JSON array
-  custom404ImageUrl String @default("")
+  @@index([isApproved])
+  @@index([isFeatured])
 }
-

@@ -44,16 +44,20 @@ export interface CompanyData {
   name: string;
   tagline: string;
   website: string;
-  phone: string[];
+  phones: string[];
+  phone: string[]; // legacy fallback
   email: string;
   address: string;
-  working_hours: WorkingHours;
-  social_media: Record<string, string>;
+  workingHours: WorkingHours;
+  working_hours: WorkingHours; // legacy fallback
+  socialMedia: Record<string, string>;
+  social_media: Record<string, string>; // legacy fallback
   certifications: string[];
-  about: AboutData | string | { footer?: string };
-  whatsapp_number: string;
-  google_analytics: string;
-  google_tag_manager: string;
+  about: AboutData;
+  whatsappNumber: string;
+  whatsapp_number: string; // legacy fallback
+  googleAnalytics: string;
+  googleTagManager: string;
   latitude?: number | null;
   longitude?: number | null;
 }

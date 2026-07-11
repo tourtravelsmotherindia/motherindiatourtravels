@@ -24,13 +24,13 @@ import SectionHeader from "@/components/shared/SectionHeader";
 import Dropdown from "@/components/ui/Dropdown";
 import { useFavorites } from "@/lib/hooks/useFavorites";
 import { type CompanyData } from "@/types/company";
-import { type PackageItem, type PackagesData } from "@/types/package";
+import { type PackageItem } from "@/types/package";
 
 export default function PackagesClient({
   packagesData,
   companyData,
 }: {
-  packagesData: PackagesData;
+  packagesData: PackageItem[];
   companyData: CompanyData | null;
 }) {
   const searchParams = useSearchParams();
@@ -93,50 +93,25 @@ export default function PackagesClient({
 
   const itemsPerPage = 9;
 
-  const getCategoryLabel = (id: string) => {
-    const customMapping: Record<string, string> = {
-      "domestic-tour-packages": "Domestic Tours",
-      "international-tour-packages": "International Tours",
-      "beach-tour-packages": "Beach Tours",
-      "honeymoon-tour-packages": "Honeymoon Tours",
-      "north-india-tour-packages": "North India Tours",
-      "south-india-tour-packages": "South India Tours",
-      "luxury-tour-packages": "Luxury Tours",
-      "family-tour-packages": "Family Tours",
-      "spiritual-tour-packages": "Spiritual Tours",
-      "wildlife-tour-packages": "Wildlife Tours",
-      "budget-tour-packages": "Budget Tours",
-      "weekend-tour-packages": "Weekend Tours",
-    };
-
-    if (customMapping[id]) return customMapping[id];
-
-    return (
-      id
-        .replace("-packages", "")
-        .replace("-tour", "")
-        .split("-")
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(" ") + " Tours"
-    );
-  };
-
   const allPackages = useMemo(() => {
-    return (packagesData.packages || []) as PackageItem[];
+    return packagesData || [];
   }, [packagesData]);
 
   const availableCategories = useMemo(() => {
-    const categoriesSet = new Set<string>();
+    const categoriesMap = new Map<string, string>();
     allPackages.forEach((pkg) => {
-      if (pkg.category_ids && Array.isArray(pkg.category_ids)) {
-        pkg.category_ids.forEach((id) => {
-          if (id !== "domestic-tour-packages" && id !== "international-tour-packages") {
-            categoriesSet.add(id);
+      if (pkg.categories && Array.isArray(pkg.categories)) {
+        pkg.categories.forEach((cat) => {
+          if (
+            cat.categorySlug !== "domestic-tour-packages" &&
+            cat.categorySlug !== "international-tour-packages"
+          ) {
+            categoriesMap.set(cat.categorySlug, cat.categoryName);
           }
         });
       }
     });
-    return Array.from(categoriesSet).sort();
+    return Array.from(categoriesMap.entries()).map(([slug, name]) => ({ slug, name }));
   }, [allPackages]);
 
   const getCategoryIcon = (id: string) => {
@@ -172,11 +147,11 @@ export default function PackagesClient({
         icon: Grid,
       },
     ];
-    availableCategories.forEach((catId) => {
+    availableCategories.forEach((cat) => {
       opts.push({
-        value: catId,
-        label: getCategoryLabel(catId),
-        icon: getCategoryIcon(catId),
+        value: cat.slug,
+        label: cat.name,
+        icon: getCategoryIcon(cat.slug),
       });
     });
     return opts;
@@ -184,11 +159,11 @@ export default function PackagesClient({
 
   const filteredPackages = useMemo(() => {
     return allPackages.filter((pkg) => {
-      if (selectedType === "domestic" && !pkg.is_domestic) return false;
-      if (selectedType === "international" && pkg.is_domestic) return false;
+      if (selectedType === "domestic" && !pkg.isDomestic) return false;
+      if (selectedType === "international" && pkg.isDomestic) return false;
 
       if (selectedCategory !== "all") {
-        if (!pkg.category_ids || !pkg.category_ids.includes(selectedCategory)) {
+        if (!pkg.categories || !pkg.categories.some((c) => c.categorySlug === selectedCategory)) {
           return false;
         }
       }
@@ -196,9 +171,13 @@ export default function PackagesClient({
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase();
         const matchName = pkg.name?.toLowerCase().includes(q);
-        const matchDestinations = pkg.destinations?.some((d) => d.toLowerCase().includes(q));
-        const matchTags = pkg.category_ids?.some((c) => c.toLowerCase().includes(q));
-        return matchName || matchDestinations || matchTags;
+        const matchDestinations = pkg.destinations?.some((d) =>
+          d.destinationName.toLowerCase().includes(q),
+        );
+        const matchCategories = pkg.categories?.some((c) =>
+          c.categoryName.toLowerCase().includes(q),
+        );
+        return matchName || matchDestinations || matchCategories;
       }
 
       return true;
@@ -310,22 +289,24 @@ export default function PackagesClient({
           ) : (
             <div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {paginatedPackages.map((pkg) => (
-                  <PackageCard
-                    key={pkg.id}
-                    id={pkg.id}
-                    slug={pkg.slug}
-                    name={pkg.name}
-                    hero_image={pkg.hero_image}
-                    duration_range={pkg.duration_range}
-                    min_days={pkg.min_days}
-                    destinations={pkg.destinations}
-                    variant="white"
-                    isFavorite={isFavorite(pkg.slug)}
-                    onToggleFavorite={toggleFavorite}
-                    priority={pkg.is_popular}
-                  />
-                ))}
+                {paginatedPackages.map((pkg) => {
+                  const defaultVariant = pkg.variants.find((v) => v.isDefault) || pkg.variants[0];
+                  return (
+                    <PackageCard
+                      key={pkg.id}
+                      id={pkg.id}
+                      slug={pkg.slug}
+                      name={pkg.name}
+                      heroImage={pkg.heroImage}
+                      durationText={defaultVariant ? defaultVariant.label : undefined}
+                      destinations={pkg.destinations}
+                      variant="white"
+                      isFavorite={isFavorite(pkg.slug)}
+                      onToggleFavorite={toggleFavorite}
+                      priority={pkg.isPopular}
+                    />
+                  );
+                })}
               </div>
 
               <Pagination

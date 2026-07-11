@@ -1,9 +1,14 @@
+// FAQ domain types — v2.0
+
 export interface FAQItem {
+  id: string;
   question: string;
   answer: string;
+  sortOrder: number;
 }
 
-export interface FAQData {
+export interface FAQSectionData {
   tagline: string;
-  faqs: FAQItem[];
+  subtitle: string;
+  items: FAQItem[];
 }

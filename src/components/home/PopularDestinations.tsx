@@ -4,67 +4,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import SectionHeader from "@/components/shared/SectionHeader";
 import DotIndicator from "@/components/ui/DotIndicator";
 import FavoriteButton from "@/components/ui/FavoriteButton";
 import PrevNextNav from "@/components/ui/PrevNextNav";
-import { type DestinationDisplay, type DestinationItem } from "@/types/destination";
-import { type PackageItem } from "@/types/package";
-
-/** Turn a state/country id like "uttar-pradesh" into "Uttar Pradesh" */
-function formatLocation(countryId: string, stateId?: string | null): string {
-  const countryNames: Record<string, string> = {
-    india: "India",
-    nepal: "Nepal",
-    thailand: "Thailand",
-    uae: "UAE",
-    malaysia: "Malaysia",
-  };
-
-  if (countryId === "india" && stateId) {
-    return stateId
-      .split("-")
-      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-      .join(" ");
-  }
-
-  return countryNames[countryId] || countryId.toUpperCase();
-}
-
-/** Build the display list from data — featured destinations enriched with package info */
-function buildFeaturedDestinationsFrom(
-  allDestinations: DestinationItem[],
-  allPackages: PackageItem[],
-): DestinationDisplay[] {
-  const featured = allDestinations.filter((d) => d.is_featured);
-
-  return featured.map((dest) => {
-    // Prefer destination image; fall back to a related package's hero_image
-    let image = dest.image;
-    if (!image) {
-      const relatedPkg = allPackages.find(
-        (pkg) => pkg.destination_ids?.includes(dest.slug) && pkg.hero_image,
-      );
-      image = relatedPkg?.hero_image || "/images/placeholder-landscape.png";
-    }
-
-    // Count label
-    const count = dest.package_count;
-    const ratingCount = count > 1 ? `(${count} packages)` : `(${count} package)`;
-
-    return {
-      slug: dest.slug,
-      name: dest.name,
-      location: formatLocation(dest.country_id, dest.state_id),
-      duration: dest.best_time_to_visit,
-      rating: 4.9,
-      ratingCount,
-      image,
-    };
-  });
-}
+import { type DestinationDisplay } from "@/types/destination";
 
 function DestinationCard({
   dest,
@@ -77,11 +23,14 @@ function DestinationCard({
 }) {
   const [isFavorite, setIsFavorite] = useState(false);
 
+  const imageSrc = dest.image || "/images/placeholder-landscape.png";
+  const locationText = dest.stateName ? `${dest.stateName}, ${dest.countryName}` : dest.countryName;
+
   return (
     <div className="relative h-full w-full rounded-[2.5rem] overflow-hidden group shadow-card border border-border-light cursor-pointer">
       {/* Full Background Image */}
       <Image
-        src={dest.image}
+        src={imageSrc}
         alt={dest.name}
         fill
         sizes={isMobile ? "(max-width: 768px) 100vw, 290px" : "(max-width: 1024px) 50vw, 600px"}
@@ -111,17 +60,17 @@ function DestinationCard({
         <div className="flex flex-col">
           <h3 className="text-xl lg:text-2xl font-bold tracking-tight leading-tight mb-1">
             {dest.name},{" "}
-            <span className="text-white/80 font-semibold text-lg lg:text-xl">{dest.location}</span>
+            <span className="text-white/80 font-semibold text-lg lg:text-xl">{locationText}</span>
           </h3>
 
           {/* Duration & Rating Row */}
           <div className="flex items-center gap-3 mt-1.5 text-xs lg:text-sm font-medium text-white/90">
-            <span>{dest.duration}</span>
+            <span>{dest.type || "Explore"}</span>
             <span className="w-1.5 h-1.5 rounded-full bg-white/50" />
             <div className="flex items-center gap-1">
               <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-              <span>{dest.rating}</span>
-              <span className="text-white/70">{dest.ratingCount}</span>
+              <span>4.9</span>
+              <span className="text-white/70">(Featured)</span>
             </div>
           </div>
         </div>
@@ -154,22 +103,13 @@ function DestinationCard({
 }
 
 export default function PopularDestinations({
-  destinationsData,
-  packagesData,
+  destinations,
 }: {
-  destinationsData?: { destinations: DestinationItem[] };
-  packagesData?: { packages: PackageItem[] };
+  destinations: DestinationDisplay[];
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0); // for mobile dots
   const [currentIndex, setCurrentIndex] = useState(0); // for desktop pagination
-
-  // Build data from props
-  const destinations = useMemo(() => {
-    const allDestinations = destinationsData?.destinations || [];
-    const allPackages = packagesData?.packages || [];
-    return buildFeaturedDestinationsFrom(allDestinations, allPackages);
-  }, [destinationsData, packagesData]);
 
   // Mobile scroll handlers
   const handleScroll = () => {

@@ -5,14 +5,12 @@ import React from "react";
 import PageShell from "@/components/layout/PageShell";
 import HideScrollbar from "@/components/shared/HideScrollbar";
 import { getCompanyData } from "@/lib/db/repositories/companyRepo";
-import { getSiteConfig } from "@/lib/db/repositories/siteConfigRepo";
 
 export default async function NotFound() {
-  const [companyData, siteConfig] = await Promise.all([getCompanyData(), getSiteConfig()]);
+  const companyData = await getCompanyData();
 
-  const defaultBg =
+  const bgImage =
     "https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=1920&q=80";
-  const bgImage = siteConfig?.custom_404_image_url || defaultBg;
 
   return (
     <PageShell

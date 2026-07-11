@@ -1,61 +1,86 @@
+// Package-related domain types — v2.0 (relational schema)
+
+export interface PackageDestination {
+  destinationId: string;
+  destinationName: string;
+  destinationSlug: string;
+  sortOrder: number;
+  latitude?: number | null;
+  longitude?: number | null;
+}
+
+export interface PackageCategory {
+  categoryId: string;
+  categoryName: string;
+  categorySlug: string;
+}
+
+export interface PackageAttraction {
+  attractionId: string;
+  attractionName: string;
+  attractionSlug: string;
+  latitude?: number | null;
+  longitude?: number | null;
+}
+
 export interface ItineraryDay {
+  id: string;
   day: number;
   title: string;
   description: string;
-  images?: string[];
+  images: string[];
 }
 
-export interface PackageVariant {
-  label: string;
+export interface PackageVariantItem {
+  id: string;
+  packageId: string;
+  slug: string; // e.g. "3n-4d" — used in nested URL
+  label: string; // e.g. "3 Nights / 4 Days"
   nights: number;
   days: number;
-  duration_text: string;
-  old_html_file: string;
+  durationText: string;
+  basePrice: number | null;
+  discountedPrice: number | null;
+  sortOrder: number;
+  isDefault: boolean;
+}
+
+export interface PackageVariantDetail extends PackageVariantItem {
   itinerary: ItineraryDay[];
 }
 
+/** Lightweight package card data for listings */
 export interface PackageItem {
   id: string;
   slug: string;
   name: string;
-  is_popular: boolean;
-  is_domestic: boolean;
-  destinations: string[];
-  destination_ids: string[];
-  primary_destination: string;
-  category_ids: string[];
-  state_id: string | null;
-  country_id: string;
-  min_nights: number;
-  max_nights: number;
-  min_days: number;
-  max_days: number;
-  duration_range: string;
-  variant_count: number;
-  hero_image: string;
+  overview: string;
+  heroImage: string;
+  galleryImages: string[];
+  tourStyle: string;
+  groupSizeMax: number;
+  groupSizeAvg: number;
+  stayType: string;
+  marketingPitch: string;
+  isPopular: boolean;
+  isDomestic: boolean;
   tags: string[];
-  gallery_images?: string[];
-  tour_style?: string;
-  group_size_max?: number;
-  group_size_avg?: number;
-  stay_type?: string;
-  marketing_pitch?: string;
+  countryId: string;
+  stateId: string | null;
+  destinations: PackageDestination[];
+  categories: PackageCategory[];
+  attractions: PackageAttraction[];
+  variants: PackageVariantItem[];
 }
 
+/** Full package detail including all variants with itinerary */
 export interface PackageDetailItem extends PackageItem {
-  overview: string;
   highlights: string[];
   inclusions: string[];
   exclusions: string[];
   notes: string[];
-  variants: PackageVariant[];
-  seo: {
-    title: string;
-    description: string;
-    keywords: string[];
-  };
-}
-
-export interface PackagesData {
-  packages: PackageItem[];
+  seoTitle: string;
+  seoDescription: string;
+  seoKeywords: string[];
+  variants: PackageVariantDetail[];
 }

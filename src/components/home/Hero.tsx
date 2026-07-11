@@ -6,15 +6,16 @@ import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 
 import HideScrollbar from "@/components/shared/HideScrollbar";
-import { type HeroData, type Slide } from "@/types/hero";
+import { type HeroConfigData } from "@/types/hero";
 
 const AUTO_ROTATE_INTERVAL = 5000;
 
-export default function Hero({ heroData }: { heroData?: HeroData }) {
+export default function Hero({ heroConfig }: { heroConfig?: HeroConfigData | null }) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
-  const slides: Slide[] = heroData?.slides || [];
+  const isVideoMode = heroConfig?.mode === "VIDEO" && heroConfig.videoUrl;
+  const slides = heroConfig?.slides ?? [];
   const totalSlides = slides.length;
 
   const goToSlide = useCallback(
@@ -30,6 +31,28 @@ export default function Hero({ heroData }: { heroData?: HeroData }) {
     const timer = setInterval(nextSlide, AUTO_ROTATE_INTERVAL);
     return () => clearInterval(timer);
   }, [nextSlide, isPaused, totalSlides]);
+
+  if (!heroConfig) return null;
+  if (isVideoMode) {
+    return (
+      <section
+        id="home"
+        className="relative w-full h-[100dvh] overflow-hidden bg-black"
+        aria-label="Hero video"
+      >
+        <HideScrollbar />
+        <video
+          src={heroConfig.videoUrl}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/30 pointer-events-none" />
+      </section>
+    );
+  }
 
   if (totalSlides === 0) return null;
 

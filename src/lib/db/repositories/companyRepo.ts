@@ -1,38 +1,10 @@
 import { prisma } from "@/lib/db/prisma";
+import type { CompanyData, AboutData, WorkingHoursSchedule } from "@/types/company";
 
-export interface AboutSectionImageCollage {
-  title: string;
-  description: string;
-  items: string[];
-  images: string[];
-}
-
-export interface AboutData {
-  footer: string;
-  header: {
-    badge: string;
-    title: string;
-    description: string;
-    image: string;
-    introText: string;
-    stats: {
-      value: string;
-      label: string;
-    }[];
-  };
-  mission: AboutSectionImageCollage;
-  vision: AboutSectionImageCollage;
-  history: AboutSectionImageCollage;
-  howWeWork: {
-    title: string;
-    subtitle: string;
-    videoImage: string;
-    videoUrl: string;
-  };
-}
-
-export async function getCompanyData() {
-  const c = await prisma.company.findFirst();
+export async function getCompanyData(): Promise<CompanyData | null> {
+  const c = await prisma.company.findFirst({
+    where: { id: 1 },
+  });
   if (!c) return null;
 
   let aboutData: AboutData;
@@ -44,24 +16,61 @@ export async function getCompanyData() {
     aboutData = {} as AboutData;
   }
 
+  // Parse schedule & exceptions from JSON properties
+  let scheduleParsed: WorkingHoursSchedule[] = [];
+  try {
+    scheduleParsed =
+      typeof c.schedule === "string"
+        ? JSON.parse(c.schedule)
+        : (c.schedule as unknown as WorkingHoursSchedule[]);
+  } catch (e) {
+    console.error("Failed to parse schedule field:", e);
+  }
+
+  let exceptionsParsed: unknown[] = [];
+  try {
+    exceptionsParsed =
+      typeof c.exceptions === "string"
+        ? JSON.parse(c.exceptions)
+        : (c.exceptions as unknown as unknown[]);
+  } catch (e) {
+    console.error("Failed to parse exceptions field:", e);
+  }
+
+  let socialMediaParsed: Record<string, string> = {};
+  try {
+    socialMediaParsed =
+      typeof c.socialMedia === "string"
+        ? JSON.parse(c.socialMedia)
+        : (c.socialMedia as unknown as Record<string, string>);
+  } catch (e) {
+    console.error("Failed to parse socialMedia field:", e);
+  }
+
+  const workingHoursObj = {
+    timezone: c.timezone,
+    schedule: scheduleParsed,
+    exceptions: exceptionsParsed,
+  };
+
   return {
     name: c.name,
     tagline: c.tagline,
     website: c.website,
-    phone: JSON.parse(c.phones) as string[],
+    phones: c.phones, // Native PostgreSQL string array
+    phone: c.phones, // Legacy fallback
     email: c.email,
     address: c.address,
-    working_hours: {
-      timezone: c.timezone,
-      schedule: JSON.parse(c.schedule),
-      exceptions: JSON.parse(c.exceptions || "[]"),
-    },
-    social_media: JSON.parse(c.socialMedia),
-    certifications: JSON.parse(c.certifications) as string[],
+    workingHours: workingHoursObj,
+    working_hours: workingHoursObj, // Legacy fallback
+    socialMedia: socialMediaParsed,
+    social_media: socialMediaParsed, // Legacy fallback
+    certifications: c.certifications, // Native PostgreSQL string array
     about: aboutData,
-    whatsapp_number: c.whatsappNumber,
-    google_analytics: c.googleAnalytics,
-    google_tag_manager: c.googleTagManager,
+    whatsappNumber: c.whatsappNumber,
+    whatsapp_number: c.whatsappNumber, // Legacy fallback
+    googleAnalytics: c.googleAnalytics,
+    googleTagManager: c.googleTagManager,
     latitude: c.latitude,
     longitude: c.longitude,
   };

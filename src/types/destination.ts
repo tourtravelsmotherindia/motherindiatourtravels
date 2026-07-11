@@ -1,28 +1,49 @@
+// Destination and Attraction domain types — v2.0
+
+export interface AttractionItem {
+  id: string;
+  name: string;
+  slug: string;
+  destinationId: string;
+  description: string;
+  image: string;
+  latitude: number | null;
+  longitude: number | null;
+  sortOrder: number;
+}
+
 export interface DestinationItem {
   id: string;
-  slug: string;
   name: string;
-  state_id?: string | null;
-  country_id: string;
-  is_featured: boolean;
+  slug: string;
+  stateId: string | null;
+  stateName: string | null;
+  stateSlug: string | null;
+  countryId: string;
+  countryName: string;
+  countrySlug: string;
+  type: string; // DestinationType enum string
+  isFeatured: boolean;
   description: string;
-  best_time_to_visit: string;
-  top_attractions: string[] | string;
+  bestTimeToVisit: string;
+  climate: string;
+  latitude: number | null;
+  longitude: number | null;
   image: string;
-  package_ids?: string[];
-  package_count: number;
+  seoTitle: string;
+  seoDescription: string;
+  attractions: AttractionItem[];
 }
 
 export interface DestinationDisplay {
-  slug: string;
+  id: string;
   name: string;
-  location: string;
-  duration: string;
-  rating: number;
-  ratingCount: string;
+  slug: string;
+  stateName: string | null;
+  countryName: string;
+  type: string;
+  isFeatured: boolean;
   image: string;
-}
-
-export interface DestinationsData {
-  destinations: DestinationItem[];
+  latitude: number | null;
+  longitude: number | null;
 }

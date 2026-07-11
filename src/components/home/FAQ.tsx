@@ -6,25 +6,25 @@ import { useState } from "react";
 
 import AccordionItem from "@/components/ui/Accordion";
 import { type CompanyData } from "@/types/company";
-import { type FAQData, type FAQItem } from "@/types/faq";
+import { type FAQSectionData } from "@/types/faq";
 
 export default function FAQ({
   faqData,
   companyData,
 }: {
-  faqData?: FAQData;
+  faqData: FAQSectionData;
   companyData?: CompanyData | null;
 }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
-  const faqs: FAQItem[] = (faqData?.faqs || []).map((faq) => ({
+  const faqs = (faqData?.items || []).map((faq) => ({
     question: faq.question,
     answer: faq.answer
-      .replace("{phone}", companyData?.phone?.[0] || "")
+      .replace("{phone}", companyData?.phones?.[0] || "")
       .replace("{email}", companyData?.email || ""),
   }));
 
-  const tagline = faqData?.tagline || "";
+  const tagline = faqData?.tagline || "Have Questions?";
 
   const toggleAccordion = (index: number) => {
     setActiveIndex(activeIndex === index ? null : index);
@@ -56,7 +56,7 @@ export default function FAQ({
             alt="Majestic mountain lake in Ladakh"
             fill
             className="object-cover rounded-[32px]"
-            sizes="(max-w: 1024px) 100vw, 40vw"
+            sizes="(max-width: 1024px) 100vw, 40vw"
             priority
           />
         </div>

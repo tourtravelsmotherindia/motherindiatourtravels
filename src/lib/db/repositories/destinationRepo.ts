@@ -1,76 +1,97 @@
 import { prisma } from "@/lib/db/prisma";
+import type { DestinationDisplay, DestinationItem } from "@/types/destination";
 
-export async function getDestinations() {
-  const destinations = await prisma.destination.findMany();
-  return destinations.map((d) => ({
-    id: d.id,
-    name: d.name,
-    slug: d.slug,
-    state_id: d.stateId,
-    country_id: d.countryId,
-    type: d.type,
-    is_featured: d.isFeatured,
-    description: d.description,
-    best_time_to_visit: d.bestTimeToVisit,
-    climate: d.climate,
-    top_attractions: JSON.parse(d.topAttractions),
-    nearby_destinations: JSON.parse(d.nearbyDestinations),
-    seo_title: d.seoTitle,
-    seo_description: d.seoDescription,
-    image: d.image,
-    package_count: d.packageCount,
-    latitude: d.latitude,
-    longitude: d.longitude,
-  }));
-}
+const destinationInclude = {
+  country: { select: { id: true, name: true, slug: true } },
+  state: { select: { id: true, name: true, slug: true } },
+  attractions: { orderBy: { sortOrder: "asc" as const } },
+} as const;
 
-export async function getFeaturedDestinations() {
-  const destinations = await prisma.destination.findMany({
-    where: { isFeatured: true },
-  });
-  return destinations.map((d) => ({
-    id: d.id,
-    name: d.name,
-    slug: d.slug,
-    state_id: d.stateId,
-    country_id: d.countryId,
-    type: d.type,
-    is_featured: d.isFeatured,
-    description: d.description,
-    best_time_to_visit: d.bestTimeToVisit,
-    climate: d.climate,
-    top_attractions: JSON.parse(d.topAttractions),
-    nearby_destinations: JSON.parse(d.nearbyDestinations),
-    seo_title: d.seoTitle,
-    seo_description: d.seoDescription,
-    image: d.image,
-    package_count: d.packageCount,
-    latitude: d.latitude,
-    longitude: d.longitude,
-  }));
-}
-
-export async function getDestinationBySlug(slug: string) {
-  const d = await prisma.destination.findUnique({ where: { slug } });
-  if (!d) return null;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function mapDestination(d: any): DestinationItem {
   return {
     id: d.id,
     name: d.name,
     slug: d.slug,
-    state_id: d.stateId,
-    country_id: d.countryId,
+    stateId: d.stateId,
+    stateName: d.state?.name ?? null,
+    stateSlug: d.state?.slug ?? null,
+    countryId: d.countryId,
+    countryName: d.country.name,
+    countrySlug: d.country.slug,
     type: d.type,
-    is_featured: d.isFeatured,
+    isFeatured: d.isFeatured,
     description: d.description,
-    best_time_to_visit: d.bestTimeToVisit,
+    bestTimeToVisit: d.bestTimeToVisit,
     climate: d.climate,
-    top_attractions: JSON.parse(d.topAttractions),
-    nearby_destinations: JSON.parse(d.nearbyDestinations),
-    seo_title: d.seoTitle,
-    seo_description: d.seoDescription,
-    image: d.image,
-    package_count: d.packageCount,
     latitude: d.latitude,
     longitude: d.longitude,
+    image: d.image,
+    seoTitle: d.seoTitle,
+    seoDescription: d.seoDescription,
+    attractions: d.attractions.map(
+      (a: {
+        id: string;
+        name: string;
+        slug: string;
+        description: string;
+        image: string;
+        latitude: number | null;
+        longitude: number | null;
+        sortOrder: number;
+        destinationId: string;
+      }) => ({
+        id: a.id,
+        name: a.name,
+        slug: a.slug,
+        destinationId: a.destinationId,
+        description: a.description,
+        image: a.image,
+        latitude: a.latitude,
+        longitude: a.longitude,
+        sortOrder: a.sortOrder,
+      }),
+    ),
   };
+}
+
+export async function getAllDestinations(): Promise<DestinationItem[]> {
+  const destinations = await prisma.destination.findMany({
+    include: destinationInclude,
+    orderBy: { name: "asc" },
+  });
+  return destinations.map(mapDestination);
+}
+
+export async function getFeaturedDestinations(): Promise<DestinationDisplay[]> {
+  const destinations = await prisma.destination.findMany({
+    where: { isFeatured: true },
+    include: {
+      country: { select: { name: true, slug: true } },
+      state: { select: { name: true } },
+    },
+    orderBy: { name: "asc" },
+  });
+
+  return destinations.map((d) => ({
+    id: d.id,
+    name: d.name,
+    slug: d.slug,
+    stateName: d.state?.name ?? null,
+    countryName: d.country.name,
+    type: d.type,
+    isFeatured: d.isFeatured,
+    image: d.image,
+    latitude: d.latitude,
+    longitude: d.longitude,
+  }));
+}
+
+export async function getDestinationBySlug(slug: string): Promise<DestinationItem | null> {
+  const d = await prisma.destination.findUnique({
+    where: { slug },
+    include: destinationInclude,
+  });
+  if (!d) return null;
+  return mapDestination(d);
 }
