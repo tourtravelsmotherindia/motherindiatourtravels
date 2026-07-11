@@ -1,6 +1,15 @@
 "use client";
 
-import { Check, ChevronRight, HelpCircle } from "lucide-react";
+import {
+  Check,
+  ChevronRight,
+  HelpCircle,
+  Hotel,
+  Mail,
+  MapPin,
+  Navigation,
+  User,
+} from "lucide-react";
 import Link from "next/link";
 import React, { useMemo, useState } from "react";
 
@@ -10,6 +19,7 @@ import DatePickerField from "@/components/shared/DatePickerField";
 import PackageCard from "@/components/shared/PackageCard";
 import SectionHeader from "@/components/shared/SectionHeader";
 import TravelersField from "@/components/shared/TravelersField";
+import Dropdown from "@/components/ui/Dropdown";
 import FormField from "@/components/ui/FormField";
 import PhoneInput from "@/components/ui/PhoneInput";
 import { useToast } from "@/context/ToastContext";
@@ -59,6 +69,15 @@ export default function BookClient({ packageData, allPackages, companyData }: Bo
   const [adults, setAdults] = useState(1);
   const [childrenCount, setChildrenCount] = useState(0);
   const [kids, setKids] = useState(0);
+
+  // Hotel Category States
+  const [hotelCategory, setHotelCategory] = useState("4star");
+
+  const hotelCategoryOptions = [
+    { value: "3star", label: "3 Star (Standard)" },
+    { value: "4star", label: "4 Star (Premium)" },
+    { value: "5star", label: "5 Star (Luxury)" },
+  ];
 
   // Derived style info
   const tourStyle = useMemo(() => {
@@ -142,6 +161,7 @@ export default function BookClient({ packageData, allPackages, companyData }: Bo
       setAdults(1);
       setChildrenCount(0);
       setKids(0);
+      setHotelCategory("4star");
       setSubmitting(false);
       setActiveDropdown(null);
     }, 1200);
@@ -186,6 +206,7 @@ export default function BookClient({ packageData, allPackages, companyData }: Bo
                 value={fullName}
                 onChange={setFullName}
                 placeholder="Enter your full name..."
+                icon={User}
               />
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -197,6 +218,7 @@ export default function BookClient({ packageData, allPackages, companyData }: Bo
                   value={emailAddress}
                   onChange={setEmailAddress}
                   placeholder="Enter your email..."
+                  icon={Mail}
                 />
 
                 <PhoneInput
@@ -228,18 +250,35 @@ export default function BookClient({ packageData, allPackages, companyData }: Bo
                 setActiveDropdown={setActiveDropdown}
               />
 
-              {/* Shared Travelers Component */}
-              <TravelersField
-                variant="form"
-                adults={adults}
-                setAdults={setAdults}
-                childrenCount={childrenCount}
-                setChildrenCount={setChildrenCount}
-                kids={kids}
-                setKids={setKids}
-                activeDropdown={activeDropdown}
-                setActiveDropdown={setActiveDropdown}
-              />
+              {/* Shared Travelers & Hotel Category Component */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <TravelersField
+                  variant="form"
+                  adults={adults}
+                  setAdults={setAdults}
+                  childrenCount={childrenCount}
+                  setChildrenCount={setChildrenCount}
+                  kids={kids}
+                  setKids={setKids}
+                  activeDropdown={activeDropdown}
+                  setActiveDropdown={setActiveDropdown}
+                />
+
+                <div className="relative flex flex-col gap-2">
+                  <span className="text-xs font-semibold text-neutral-500 ml-1">
+                    Hotel Type / Category
+                  </span>
+                  <Dropdown
+                    options={hotelCategoryOptions}
+                    value={hotelCategory}
+                    onChange={(val) => setHotelCategory(val)}
+                    align="left"
+                    triggerClassName="w-full border border-neutral-200 hover:border-brand/40 transition-all duration-200 py-3 lg:py-3 text-sm font-semibold text-foreground bg-white"
+                    menuClassName="w-full rounded-2xl p-1"
+                    icon={Hotel}
+                  />
+                </div>
+              </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <FormField
@@ -250,6 +289,7 @@ export default function BookClient({ packageData, allPackages, companyData }: Bo
                   value={pickupLocation}
                   onChange={setPickupLocation}
                   placeholder="Enter pickup location..."
+                  icon={MapPin}
                 />
                 <FormField
                   id="dropLocation"
@@ -259,6 +299,7 @@ export default function BookClient({ packageData, allPackages, companyData }: Bo
                   value={dropLocation}
                   onChange={setDropLocation}
                   placeholder="Enter drop location..."
+                  icon={Navigation}
                 />
               </div>
 

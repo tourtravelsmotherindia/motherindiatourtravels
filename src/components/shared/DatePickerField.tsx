@@ -608,11 +608,7 @@ export default function DatePickerField({
             {dateMode === "calendar" ? "Arrival Date" : "Duration"}
           </label>
           <div className="w-full bg-white border border-neutral-200 rounded-full px-5 py-3 text-sm font-semibold text-foreground hover:border-brand/40 focus-within:border-brand transition-all duration-200 flex items-center gap-2.5 min-h-[46px]">
-            {dateMode === "calendar" ? (
-              <Calendar className="w-4 h-4 text-brand shrink-0" />
-            ) : (
-              <Timer className="w-4 h-4 text-brand shrink-0" />
-            )}
+            <Calendar className="w-4 h-4 text-neutral-400 shrink-0" />
             <span className="truncate">
               {dateMode === "calendar"
                 ? selectedCheckIn
@@ -637,11 +633,7 @@ export default function DatePickerField({
             {dateMode === "calendar" ? "Departure Date" : "Travel Month"}
           </label>
           <div className="w-full bg-white border border-neutral-200 rounded-full px-5 py-3 text-sm font-semibold text-foreground hover:border-brand/40 focus-within:border-brand transition-all duration-200 flex items-center gap-2.5 min-h-[46px]">
-            {dateMode === "calendar" ? (
-              <CalendarRange className="w-4 h-4 text-brand shrink-0" />
-            ) : (
-              <CalendarDays className="w-4 h-4 text-brand shrink-0" />
-            )}
+            <Calendar className="w-4 h-4 text-neutral-400 shrink-0" />
             <span className="truncate">
               {dateMode === "calendar"
                 ? selectedCheckOut
