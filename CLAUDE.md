@@ -10,8 +10,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Verification & Quality Assurance
 
+- **Auto-format after code changes**: After writing or modifying any code, you must automatically run both `npm run lint:fix` and `npm run format` before completing the task.
 - **Verification Command**: Before completing a task, you must run the build command (`npm run build`) to ensure there are no compilation or typescript errors.
-- **Linting**: Run `npm run lint` to verify that linting passes cleanly before finishing.
 
 ### Subagents & Permissions
 

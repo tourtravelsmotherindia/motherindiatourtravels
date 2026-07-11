@@ -38,6 +38,16 @@ All commands are run using `npm`:
 - `npm run db:reset` — Reset database using migrations
 - `npm run db:seed` — Seed the database (runs `npx tsx prisma/seed.ts`)
 
+### Post-Write Quality Gate
+
+After writing or modifying any code, you **must** run the following commands (in this order) before marking any task as complete or creating a commit:
+
+1. `npm run lint:fix` — Auto-fix ESLint errors
+2. `npm run format` — Format all files with Prettier
+3. `npm run build` — Verify the project still compiles cleanly
+
+This ensures no lint errors, consistent formatting, and no broken builds.
+
 ## Core Conventions & Architecture
 
 - **Landing Page + Listings**: Single-page landing site (`src/app/page.tsx`) and package listings (`src/app/packages/page.tsx`).
