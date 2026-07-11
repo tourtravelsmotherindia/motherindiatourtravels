@@ -2,7 +2,7 @@
 const nextConfig = {
   // Static export — outputs an out/ folder you can drop into any static file server
   // (cPanel, Apache, nginx, etc.). Pages are pre-rendered at build time.
-  output: "export",
+  output: process.env.NODE_ENV === "production" ? "export" : undefined,
   trailingSlash: true,
   images: {
     unoptimized: true,
