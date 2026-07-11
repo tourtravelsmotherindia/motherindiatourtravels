@@ -1,10 +1,10 @@
-# Mother India Tour Travels Database Schema (v2.0)
+# Mother India Tour Travels Database Schema (v3.0)
 
-This document describes the modern relational database schema v2.0 for the Mother India Tour Travels platform. The schema is defined in [schema.prisma](file://./schema.prisma) and deployed on a PostgreSQL instance hosted by Supabase.
+This document describes the modern relational database schema v3.0 for the Mother India Tour Travels platform. The schema is defined in [schema.prisma](file://./schema.prisma) and deployed on a PostgreSQL instance hosted by Supabase.
 
 ## Overview & Design Decisions
 
-The v2.0 schema shifts from flat arrays, JSON strings, and singleton anti-patterns to a relational structure. This design enables clean queries, referential integrity, dynamic map routing, and granular package configurations.
+The v3.0 schema shifts destinations, attractions, hero images, and gallery images to the variant-level. This structure allows different durations or options of the same package (e.g. 3 Days vs 7 Days) to cover completely different routes, sightseeing, and custom galleries, while still sharing general package info.
 
 ```mermaid
 erDiagram
@@ -15,17 +15,16 @@ erDiagram
 
     Package ||--|| Country : "belongs to"
     Package ||--o| State : "belongs to"
-
-    Package ||--o{ PackageDestination : "many-to-many"
     Package ||--o{ PackageCategory : "many-to-many"
-    Package ||--o{ PackageAttraction : "many-to-many"
-
-    PackageDestination }|--|| Destination : ""
     PackageCategory }|--|| Category : ""
-    PackageAttraction }|--|| Attraction : ""
 
     Package ||--o{ PackageVariant : "has variants"
     PackageVariant ||--o{ ItineraryDay : "has schedule"
+    PackageVariant ||--o{ PackageDestination : "many-to-many"
+    PackageVariant ||--o{ PackageAttraction : "many-to-many"
+
+    PackageDestination }|--|| Destination : ""
+    PackageAttraction }|--|| Attraction : ""
 
     HeroConfig ||--o{ HeroSlide : "controls"
 ```
@@ -33,6 +32,8 @@ erDiagram
 ---
 
 ## 1. Geography Group
+
+Represents countries, states, destinations, and attractions with coordinates.
 
 ### `Country`
 
@@ -62,7 +63,7 @@ Represents cities or key tourist areas (e.g. Agra, Munnar, Dubai).
 
 ### `Attraction`
 
-Specific points of interest with exact coordinates (e.g. Taj Mahal, Red Fort). Replaces hardcoded map coordinates.
+Specific points of interest with exact coordinates (e.g. Taj Mahal, Red Fort).
 
 - **Primary Key**: `id` (String CUID)
 - **Keys**: `slug` (Unique)
@@ -73,6 +74,8 @@ Specific points of interest with exact coordinates (e.g. Taj Mahal, Red Fort). R
 
 ## 2. Package Group
 
+Represents tours, duration variants, itinerary days, and variant-level maps/images.
+
 ### `Package`
 
 The parent tour itinerary metadata.
@@ -81,18 +84,19 @@ The parent tour itinerary metadata.
 - **Keys**: `slug` (Unique)
 - **Foreign Keys**: `countryId` -> `Country(id)`, `stateId` -> `State(id)` (Nullable)
 - **Relational Joins**:
-  - `destinations`: Join table `PackageDestination` (with `sortOrder` for routing)
   - `categories`: Join table `PackageCategory`
-  - `attractions`: Join table `PackageAttraction` (drawn on route maps)
+  - `variants`: Has many `PackageVariant`
 
 ### `PackageVariant`
 
-Duration/nights variants for a package (e.g. "3n-4d", "4n-5d"). Slugs are auto-generated.
+Duration/nights variants for a package (e.g. "3n-4d", "5n-6d").
 
 - **Primary Key**: `id` (String CUID)
-- **Keys**: `slug` (Unique)
 - **Foreign Keys**: `packageId` -> `Package(id)`
-- **Fields**: `nights` (Int), `days` (Int), `basePrice` (Float, Nullable), `discountedPrice` (Float, Nullable), `isDefault` (Boolean)
+- **Fields**: `slug` (String), `label` (String), `nights` (Int), `days` (Int), `basePrice` (Float, Nullable), `discountedPrice` (Float, Nullable), `heroImage` (String, Nullable), `galleryImages` (String[]), `isDefault` (Boolean)
+- **Relational Joins**:
+  - `destinations`: Join table `PackageDestination` (with `sortOrder` for routing)
+  - `attractions`: Join table `PackageAttraction` (drawn on route maps)
 
 ### `ItineraryDay`
 

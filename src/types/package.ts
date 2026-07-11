@@ -43,6 +43,10 @@ export interface PackageVariantItem {
   discountedPrice: number | null;
   sortOrder: number;
   isDefault: boolean;
+  heroImage: string | null;
+  galleryImages: string[];
+  destinations: PackageDestination[];
+  attractions: PackageAttraction[];
 }
 
 export interface PackageVariantDetail extends PackageVariantItem {
@@ -67,14 +71,13 @@ export interface PackageItem {
   tags: string[];
   countryId: string;
   stateId: string | null;
-  destinations: PackageDestination[];
+  destinations: PackageDestination[]; // Derived from default/first variant for listing cards
   categories: PackageCategory[];
-  attractions: PackageAttraction[];
   variants: PackageVariantItem[];
 }
 
 /** Full package detail including all variants with itinerary */
-export interface PackageDetailItem extends PackageItem {
+export interface PackageDetailItem extends Omit<PackageItem, "variants"> {
   highlights: string[];
   inclusions: string[];
   exclusions: string[];

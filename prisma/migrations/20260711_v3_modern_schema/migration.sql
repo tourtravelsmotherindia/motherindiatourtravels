@@ -151,11 +151,11 @@ CREATE TABLE "Package" (
 
 -- CreateTable
 CREATE TABLE "PackageDestination" (
-    "packageId" TEXT NOT NULL,
+    "variantId" TEXT NOT NULL,
     "destinationId" TEXT NOT NULL,
     "sortOrder" INTEGER NOT NULL DEFAULT 0,
 
-    CONSTRAINT "PackageDestination_pkey" PRIMARY KEY ("packageId","destinationId")
+    CONSTRAINT "PackageDestination_pkey" PRIMARY KEY ("variantId","destinationId")
 );
 
 -- CreateTable
@@ -168,10 +168,10 @@ CREATE TABLE "PackageCategory" (
 
 -- CreateTable
 CREATE TABLE "PackageAttraction" (
-    "packageId" TEXT NOT NULL,
+    "variantId" TEXT NOT NULL,
     "attractionId" TEXT NOT NULL,
 
-    CONSTRAINT "PackageAttraction_pkey" PRIMARY KEY ("packageId","attractionId")
+    CONSTRAINT "PackageAttraction_pkey" PRIMARY KEY ("variantId","attractionId")
 );
 
 -- CreateTable
@@ -187,6 +187,8 @@ CREATE TABLE "PackageVariant" (
     "discountedPrice" DOUBLE PRECISION,
     "sortOrder" INTEGER NOT NULL DEFAULT 0,
     "isDefault" BOOLEAN NOT NULL DEFAULT false,
+    "heroImage" TEXT,
+    "galleryImages" TEXT[],
 
     CONSTRAINT "PackageVariant_pkey" PRIMARY KEY ("id")
 );
@@ -450,7 +452,7 @@ CREATE INDEX "Package_countryId_idx" ON "Package"("countryId");
 CREATE INDEX "Package_stateId_idx" ON "Package"("stateId");
 
 -- CreateIndex
-CREATE INDEX "PackageDestination_packageId_idx" ON "PackageDestination"("packageId");
+CREATE INDEX "PackageDestination_variantId_idx" ON "PackageDestination"("variantId");
 
 -- CreateIndex
 CREATE INDEX "PackageDestination_destinationId_idx" ON "PackageDestination"("destinationId");
@@ -561,7 +563,7 @@ ALTER TABLE "Package" ADD CONSTRAINT "Package_countryId_fkey" FOREIGN KEY ("coun
 ALTER TABLE "Package" ADD CONSTRAINT "Package_stateId_fkey" FOREIGN KEY ("stateId") REFERENCES "State"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "PackageDestination" ADD CONSTRAINT "PackageDestination_packageId_fkey" FOREIGN KEY ("packageId") REFERENCES "Package"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "PackageDestination" ADD CONSTRAINT "PackageDestination_variantId_fkey" FOREIGN KEY ("variantId") REFERENCES "PackageVariant"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "PackageDestination" ADD CONSTRAINT "PackageDestination_destinationId_fkey" FOREIGN KEY ("destinationId") REFERENCES "Destination"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -573,7 +575,7 @@ ALTER TABLE "PackageCategory" ADD CONSTRAINT "PackageCategory_packageId_fkey" FO
 ALTER TABLE "PackageCategory" ADD CONSTRAINT "PackageCategory_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "PackageAttraction" ADD CONSTRAINT "PackageAttraction_packageId_fkey" FOREIGN KEY ("packageId") REFERENCES "Package"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "PackageAttraction" ADD CONSTRAINT "PackageAttraction_variantId_fkey" FOREIGN KEY ("variantId") REFERENCES "PackageVariant"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "PackageAttraction" ADD CONSTRAINT "PackageAttraction_attractionId_fkey" FOREIGN KEY ("attractionId") REFERENCES "Attraction"("id") ON DELETE CASCADE ON UPDATE CASCADE;

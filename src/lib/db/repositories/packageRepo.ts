@@ -72,6 +72,27 @@ function mapVariant(v: {
   discountedPrice: number | null;
   sortOrder: number;
   isDefault: boolean;
+  heroImage: string | null;
+  galleryImages: string[];
+  destinations: {
+    sortOrder: number;
+    destination: {
+      id: string;
+      name: string;
+      slug: string;
+      latitude: number | null;
+      longitude: number | null;
+    };
+  }[];
+  attractions: {
+    attraction: {
+      id: string;
+      name: string;
+      slug: string;
+      latitude: number | null;
+      longitude: number | null;
+    };
+  }[];
 }): PackageVariantItem {
   return {
     id: v.id,
@@ -85,6 +106,10 @@ function mapVariant(v: {
     discountedPrice: v.discountedPrice,
     sortOrder: v.sortOrder,
     isDefault: v.isDefault,
+    heroImage: v.heroImage,
+    galleryImages: v.galleryImages || [],
+    destinations: (v.destinations || []).map(mapDestination),
+    attractions: (v.attractions || []).map(mapAttraction),
   };
 }
 
@@ -100,6 +125,27 @@ function mapVariantDetail(v: {
   discountedPrice: number | null;
   sortOrder: number;
   isDefault: boolean;
+  heroImage: string | null;
+  galleryImages: string[];
+  destinations: {
+    sortOrder: number;
+    destination: {
+      id: string;
+      name: string;
+      slug: string;
+      latitude: number | null;
+      longitude: number | null;
+    };
+  }[];
+  attractions: {
+    attraction: {
+      id: string;
+      name: string;
+      slug: string;
+      latitude: number | null;
+      longitude: number | null;
+    };
+  }[];
   itinerary: {
     id: string;
     day: number;
@@ -110,7 +156,7 @@ function mapVariantDetail(v: {
 }): PackageVariantDetail {
   return {
     ...mapVariant(v),
-    itinerary: v.itinerary.map((d): ItineraryDay => ({
+    itinerary: (v.itinerary || []).map((d): ItineraryDay => ({
       id: d.id,
       day: d.day,
       title: d.title,
@@ -122,34 +168,41 @@ function mapVariantDetail(v: {
 
 // The common include for listing queries (no itinerary for performance)
 const packageListInclude = {
-  destinations: {
-    orderBy: { sortOrder: "asc" as const },
-    include: {
-      destination: {
-        select: { id: true, name: true, slug: true, latitude: true, longitude: true },
-      },
-    },
-  },
   categories: {
     include: {
       category: { select: { id: true, name: true, slug: true } },
     },
   },
-  attractions: {
-    include: {
-      attraction: {
-        select: { id: true, name: true, slug: true, latitude: true, longitude: true },
-      },
-    },
-  },
   variants: {
     orderBy: { sortOrder: "asc" as const },
+    include: {
+      destinations: {
+        orderBy: { sortOrder: "asc" as const },
+        include: {
+          destination: {
+            select: { id: true, name: true, slug: true, latitude: true, longitude: true },
+          },
+        },
+      },
+      attractions: {
+        include: {
+          attraction: {
+            select: { id: true, name: true, slug: true, latitude: true, longitude: true },
+          },
+        },
+      },
+    },
   },
 } as const;
 
 // Maps a raw Prisma package row (with includes) to PackageItem
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function mapPackage(pkg: any): PackageItem {
+  const mappedVariants = (pkg.variants || []).map(mapVariant);
+  const defaultVar =
+    mappedVariants.find((v: PackageVariantItem) => v.isDefault) || mappedVariants[0];
+  const destinations = defaultVar ? defaultVar.destinations : [];
+
   return {
     id: pkg.id,
     slug: pkg.slug,
@@ -167,17 +220,38 @@ function mapPackage(pkg: any): PackageItem {
     tags: pkg.tags,
     countryId: pkg.countryId,
     stateId: pkg.stateId,
-    destinations: pkg.destinations.map(mapDestination),
-    categories: pkg.categories.map(mapCategory),
-    attractions: pkg.attractions.map(mapAttraction),
-    variants: pkg.variants.map(mapVariant),
+    destinations,
+    categories: (pkg.categories || []).map(mapCategory),
+    variants: mappedVariants,
   };
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function mapPackageDetail(pkg: any): PackageDetailItem {
+  const mappedVariants = (pkg.variants || []).map(mapVariantDetail);
+  const defaultVar =
+    mappedVariants.find((v: PackageVariantDetail) => v.isDefault) || mappedVariants[0];
+  const destinations = defaultVar ? defaultVar.destinations : [];
+
   return {
-    ...mapPackage(pkg),
+    id: pkg.id,
+    slug: pkg.slug,
+    name: pkg.name,
+    overview: pkg.overview,
+    heroImage: pkg.heroImage,
+    galleryImages: pkg.galleryImages,
+    tourStyle: pkg.tourStyle,
+    groupSizeMax: pkg.groupSizeMax,
+    groupSizeAvg: pkg.groupSizeAvg,
+    stayType: pkg.stayType,
+    marketingPitch: pkg.marketingPitch,
+    isPopular: pkg.isPopular,
+    isDomestic: pkg.isDomestic,
+    tags: pkg.tags,
+    countryId: pkg.countryId,
+    stateId: pkg.stateId,
+    destinations,
+    categories: (pkg.categories || []).map(mapCategory),
     highlights: pkg.highlights,
     inclusions: pkg.inclusions,
     exclusions: pkg.exclusions,
@@ -185,9 +259,38 @@ function mapPackageDetail(pkg: any): PackageDetailItem {
     seoTitle: pkg.seoTitle,
     seoDescription: pkg.seoDescription,
     seoKeywords: pkg.seoKeywords,
-    variants: pkg.variants.map(mapVariantDetail),
+    variants: mappedVariants,
   };
 }
+
+const packageDetailInclude = {
+  categories: {
+    include: {
+      category: { select: { id: true, name: true, slug: true } },
+    },
+  },
+  variants: {
+    orderBy: { sortOrder: "asc" as const },
+    include: {
+      destinations: {
+        orderBy: { sortOrder: "asc" as const },
+        include: {
+          destination: {
+            select: { id: true, name: true, slug: true, latitude: true, longitude: true },
+          },
+        },
+      },
+      attractions: {
+        include: {
+          attraction: {
+            select: { id: true, name: true, slug: true, latitude: true, longitude: true },
+          },
+        },
+      },
+      itinerary: { orderBy: { day: "asc" as const } },
+    },
+  },
+} as const;
 
 // ─── Public API ───────────────────────────────────────────────────────────────
 
@@ -228,15 +331,7 @@ export async function getInternationalPackages(): Promise<PackageItem[]> {
 export async function getPackageBySlug(slug: string): Promise<PackageDetailItem | null> {
   const pkg = await prisma.package.findUnique({
     where: { slug },
-    include: {
-      ...packageListInclude,
-      variants: {
-        orderBy: { sortOrder: "asc" as const },
-        include: {
-          itinerary: { orderBy: { day: "asc" } },
-        },
-      },
-    },
+    include: packageDetailInclude,
   });
   if (!pkg) return null;
   return mapPackageDetail(pkg);
@@ -249,15 +344,7 @@ export async function getVariantBySlug(
 ): Promise<{ package: PackageDetailItem; variant: PackageVariantDetail } | null> {
   const pkg = await prisma.package.findUnique({
     where: { slug: packageSlug },
-    include: {
-      ...packageListInclude,
-      variants: {
-        orderBy: { sortOrder: "asc" as const },
-        include: {
-          itinerary: { orderBy: { day: "asc" } },
-        },
-      },
-    },
+    include: packageDetailInclude,
   });
 
   if (!pkg) return null;

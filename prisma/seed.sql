@@ -545,7 +545,7 @@ BEGIN
     ARRAY['Airfare/Train tickets', 'Lunch and Dinner unless specified', 'Monument entrance tickets', 'Tips to driver/guides'],
     ARRAY['Taj Mahal is closed on Fridays.', 'Customizations available on request.'],
     'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=800&q=80',
-    ARRAY['https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1585135497273-1a86b09fe707?auto=format&fit=crop&w=800&q=80'],
+    ARRAY['https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1585135497273-1a86b09fe707?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1598977123418-45f04b615e52?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1545224933-7305bbb7ea24?auto=format&fit=crop&w=800&q=80'],
     'Heritage', 12, 10, 'Premium 4-Star Hotels',
     'India''s classic introduction: history, culture and breathtaking monuments.',
     TRUE, TRUE, ARRAY['delhi', 'agra', 'jaipur', 'golden-triangle'], india_id, delhi_state,
@@ -555,13 +555,6 @@ BEGIN
     NOW(), NOW(), NOW()
   ) ON CONFLICT ("id") DO UPDATE SET "name" = EXCLUDED."name";
 
-  -- Joins for Golden Triangle
-  INSERT INTO "PackageDestination" ("packageId", "destinationId", "sortOrder") VALUES
-    (gt_pkg_id, delhi_dest, 1),
-    (gt_pkg_id, agra_dest, 2),
-    (gt_pkg_id, jaipur_dest, 3)
-    ON CONFLICT DO NOTHING;
-
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES
     (gt_pkg_id, dom_cat),
     (gt_pkg_id, north_cat),
@@ -569,10 +562,24 @@ BEGIN
     ON CONFLICT DO NOTHING;
 
   -- Variants for Golden Triangle
-  INSERT INTO "PackageVariant" ("id", "packageId", "slug", "label", "nights", "days", "durationText", "basePrice", "discountedPrice", "sortOrder", "isDefault") VALUES
-    (gt_v1, gt_pkg_id, '3n-4d', '3 Nights / 4 Days Classic', 3, 4, '3 Nights / 4 Days', 14999, 12999, 1, TRUE),
-    (gt_v2, gt_pkg_id, '5n-6d', '5 Nights / 6 Days Extended', 5, 6, '5 Nights / 6 Days', 19999, 17999, 2, FALSE)
+  INSERT INTO "PackageVariant" ("id", "packageId", "slug", "label", "nights", "days", "durationText", "basePrice", "discountedPrice", "sortOrder", "isDefault", "heroImage", "galleryImages") VALUES
+    (gt_v1, gt_pkg_id, '3n-4d', '3 Nights / 4 Days Classic', 3, 4, '3 Nights / 4 Days', NULL, NULL, 1, TRUE, 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=800&q=80', ARRAY['https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1585135497273-1a86b09fe707?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1598977123418-45f04b615e52?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1545224933-7305bbb7ea24?auto=format&fit=crop&w=800&q=80']),
+    (gt_v2, gt_pkg_id, '5n-6d', '5 Nights / 6 Days Extended', 5, 6, '5 Nights / 6 Days', NULL, NULL, 2, FALSE, NULL, ARRAY[]::text[])
     ON CONFLICT ("packageId", "slug") DO UPDATE SET "basePrice" = EXCLUDED."basePrice";
+
+  -- Joins for Golden Triangle Variant 1
+  INSERT INTO "PackageDestination" ("variantId", "destinationId", "sortOrder") VALUES
+    (gt_v1, delhi_dest, 1),
+    (gt_v1, agra_dest, 2),
+    (gt_v1, jaipur_dest, 3)
+    ON CONFLICT DO NOTHING;
+
+  -- Joins for Golden Triangle Variant 2
+  INSERT INTO "PackageDestination" ("variantId", "destinationId", "sortOrder") VALUES
+    (gt_v2, delhi_dest, 1),
+    (gt_v2, agra_dest, 2),
+    (gt_v2, jaipur_dest, 3)
+    ON CONFLICT DO NOTHING;
 
   -- Itinerary Days for Golden Triangle v1 (3N/4D)
   INSERT INTO "ItineraryDay" ("id", "variantId", "day", "title", "description", "images") VALUES
@@ -597,7 +604,7 @@ BEGIN
     ARRAY['Gulmarg Gondola tickets (pre-booking advised)', 'Pony rides or local union cabs in Pahalgam/Gulmarg', 'Flights or train tickets'],
     ARRAY['Carry warm clothes even in summer.', 'Pre-book Gondola online.'],
     'https://images.unsplash.com/photo-1585136917119-2b25c1f6e0d3?auto=format&fit=crop&w=800&q=80',
-    ARRAY['https://images.unsplash.com/photo-1585136917119-2b25c1f6e0d3?auto=format&fit=crop&w=800&q=80'],
+    ARRAY['https://images.unsplash.com/photo-1585136917119-2b25c1f6e0d3?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1472791108050-e82fc522cfcc?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1486873249359-2731bd6dafc7?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80'],
     'Classic', 10, 8, 'Houseboat & Stays',
     'Experience the magical valleys, lakes and snow peak vistas of Kashmir.',
     TRUE, TRUE, ARRAY['kashmir', 'srinagar', 'gulmarg', 'pahalgam'], india_id, jk_state,
@@ -607,13 +614,6 @@ BEGIN
     NOW(), NOW(), NOW()
   ) ON CONFLICT ("id") DO UPDATE SET "name" = EXCLUDED."name";
 
-  -- Joins for Kashmir
-  INSERT INTO "PackageDestination" ("packageId", "destinationId", "sortOrder") VALUES
-    (kash_pkg_id, srinagar_dest, 1),
-    (kash_pkg_id, gulmarg_dest, 2),
-    (kash_pkg_id, pahalgam_dest, 3)
-    ON CONFLICT DO NOTHING;
-
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES
     (kash_pkg_id, dom_cat),
     (kash_pkg_id, honey_cat),
@@ -621,9 +621,17 @@ BEGIN
     ON CONFLICT DO NOTHING;
 
   -- Variants for Kashmir
-  INSERT INTO "PackageVariant" ("id", "packageId", "slug", "label", "nights", "days", "durationText", "basePrice", "discountedPrice", "sortOrder", "isDefault") VALUES
-    (kash_v1, kash_pkg_id, '5n-6d', '5 Nights / 6 Days Paradise', 5, 6, '5 Nights / 6 Days', 22999, 19999, 1, TRUE)
+  INSERT INTO "PackageVariant" ("id", "packageId", "slug", "label", "nights", "days", "durationText", "basePrice", "discountedPrice", "sortOrder", "isDefault", "heroImage", "galleryImages") VALUES
+    (kash_v1, kash_pkg_id, '5n-6d', '5 Nights / 6 Days Paradise', 5, 6, '5 Nights / 6 Days', NULL, NULL, 1, TRUE, 'https://images.unsplash.com/photo-1585136917119-2b25c1f6e0d3?auto=format&fit=crop&w=800&q=80', ARRAY['https://images.unsplash.com/photo-1585136917119-2b25c1f6e0d3?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1472791108050-e82fc522cfcc?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1486873249359-2731bd6dafc7?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80']),
+    (gen_random_uuid(), kash_pkg_id, '7n-8d', '7 Nights / 8 Days Extended Kashmir', 7, 8, '7 Nights / 8 Days', NULL, NULL, 2, FALSE, NULL, ARRAY[]::text[])
     ON CONFLICT ("packageId", "slug") DO UPDATE SET "basePrice" = EXCLUDED."basePrice";
+
+  -- Joins for Kashmir Variant 1
+  INSERT INTO "PackageDestination" ("variantId", "destinationId", "sortOrder") VALUES
+    (kash_v1, srinagar_dest, 1),
+    (kash_v1, gulmarg_dest, 2),
+    (kash_v1, pahalgam_dest, 3)
+    ON CONFLICT DO NOTHING;
 
   -- Itinerary for Kashmir v1
   INSERT INTO "ItineraryDay" ("id", "variantId", "day", "title", "description", "images") VALUES
@@ -650,7 +658,7 @@ BEGIN
     ARRAY['National park entrance fees', 'Ayurvedic massage charges', 'Tips and personal expenditures'],
     ARRAY['Carry light cotton clothes.', 'Houseboats check-in at 12 PM, checkout at 9 AM.'],
     'https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=800&q=80',
-    ARRAY['https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=800&q=80'],
+    ARRAY['https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1540206351-d6465b3ac5c1?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?auto=format&fit=crop&w=800&q=80'],
     'Beach', 12, 10, 'Tea Resorts & Houseboat',
     'A lush tropical getaway through mist-covered hills and placid canals.',
     TRUE, TRUE, ARRAY['kerala', 'munnar', 'alleppey', 'cochin'], india_id, kerala_state,
@@ -660,13 +668,6 @@ BEGIN
     NOW(), NOW(), NOW()
   ) ON CONFLICT ("id") DO UPDATE SET "name" = EXCLUDED."name";
 
-  -- Joins for Kerala
-  INSERT INTO "PackageDestination" ("packageId", "destinationId", "sortOrder") VALUES
-    (ker_pkg_id, cochin_dest, 1),
-    (ker_pkg_id, munnar_dest, 2),
-    (ker_pkg_id, alleppey_dest, 3)
-    ON CONFLICT DO NOTHING;
-
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES
     (ker_pkg_id, dom_cat),
     (ker_pkg_id, south_cat),
@@ -674,9 +675,17 @@ BEGIN
     ON CONFLICT DO NOTHING;
 
   -- Variants for Kerala
-  INSERT INTO "PackageVariant" ("id", "packageId", "slug", "label", "nights", "days", "durationText", "basePrice", "discountedPrice", "sortOrder", "isDefault") VALUES
-    (ker_v1, ker_pkg_id, '5n-6d', '5 Nights / 6 Days Kerala', 5, 6, '5 Nights / 6 Days', 20999, 18499, 1, TRUE)
+  INSERT INTO "PackageVariant" ("id", "packageId", "slug", "label", "nights", "days", "durationText", "basePrice", "discountedPrice", "sortOrder", "isDefault", "heroImage", "galleryImages") VALUES
+    (ker_v1, ker_pkg_id, '5n-6d', '5 Nights / 6 Days Kerala', 5, 6, '5 Nights / 6 Days', NULL, NULL, 1, TRUE, 'https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=800&q=80', ARRAY['https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1540206351-d6465b3ac5c1?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?auto=format&fit=crop&w=800&q=80']),
+    (gen_random_uuid(), ker_pkg_id, '7n-8d', '7 Nights / 8 Days Extended Kerala', 7, 8, '7 Nights / 8 Days', NULL, NULL, 2, FALSE, NULL, ARRAY[]::text[])
     ON CONFLICT ("packageId", "slug") DO UPDATE SET "basePrice" = EXCLUDED."basePrice";
+
+  -- Joins for Kerala Variant 1
+  INSERT INTO "PackageDestination" ("variantId", "destinationId", "sortOrder") VALUES
+    (ker_v1, cochin_dest, 1),
+    (ker_v1, munnar_dest, 2),
+    (ker_v1, alleppey_dest, 3)
+    ON CONFLICT DO NOTHING;
 
   -- Itinerary for Kerala
   INSERT INTO "ItineraryDay" ("id", "variantId", "day", "title", "description", "images") VALUES
@@ -702,7 +711,7 @@ BEGIN
     ARRAY['Nepal Visa fee (Free/Arrival for Indians, passport required)', 'Adventure sports charges', 'Lunch and dinners'],
     ARRAY['Valid Passport or Voter Card required for Indians.', 'Carry light winter wear.'],
     'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80',
-    ARRAY['https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80'],
+    ARRAY['https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=800&q=80'],
     'Adventure', 10, 8, 'Himalayan View Stays',
     'Explore ancient shrines and towering mountain panoramas in the land of Everest.',
     TRUE, FALSE, ARRAY['nepal', 'kathmandu', 'pokhara', 'himalaya'], nepal_id, NULL,
@@ -712,12 +721,6 @@ BEGIN
     NOW(), NOW(), NOW()
   ) ON CONFLICT ("id") DO UPDATE SET "name" = EXCLUDED."name";
 
-  -- Joins for Nepal
-  INSERT INTO "PackageDestination" ("packageId", "destinationId", "sortOrder") VALUES
-    (nep_pkg_id, kathmandu_dest, 1),
-    (nep_pkg_id, pokhara_dest, 2)
-    ON CONFLICT DO NOTHING;
-
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES
     (nep_pkg_id, int_cat),
     (nep_pkg_id, spirit_cat),
@@ -725,9 +728,16 @@ BEGIN
     ON CONFLICT DO NOTHING;
 
   -- Variants for Nepal
-  INSERT INTO "PackageVariant" ("id", "packageId", "slug", "label", "nights", "days", "durationText", "basePrice", "discountedPrice", "sortOrder", "isDefault") VALUES
-    (nep_v1, nep_pkg_id, '4n-5d', '4 Nights / 5 Days Highlights', 4, 5, '4 Nights / 5 Days', 24999, 21999, 1, TRUE)
+  INSERT INTO "PackageVariant" ("id", "packageId", "slug", "label", "nights", "days", "durationText", "basePrice", "discountedPrice", "sortOrder", "isDefault", "heroImage", "galleryImages") VALUES
+    (nep_v1, nep_pkg_id, '4n-5d', '4 Nights / 5 Days Highlights', 4, 5, '4 Nights / 5 Days', NULL, NULL, 1, TRUE, 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80', ARRAY['https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=800&q=80']),
+    (gen_random_uuid(), nep_pkg_id, '6n-7d', '6 Nights / 7 Days Extended Nepal', 6, 7, '6 Nights / 7 Days', NULL, NULL, 2, FALSE, NULL, ARRAY[]::text[])
     ON CONFLICT ("packageId", "slug") DO UPDATE SET "basePrice" = EXCLUDED."basePrice";
+
+  -- Joins for Nepal Variant 1
+  INSERT INTO "PackageDestination" ("variantId", "destinationId", "sortOrder") VALUES
+    (nep_v1, kathmandu_dest, 1),
+    (nep_v1, pokhara_dest, 2)
+    ON CONFLICT DO NOTHING;
 
   -- Itinerary for Nepal
   INSERT INTO "ItineraryDay" ("id", "variantId", "day", "title", "description", "images") VALUES
@@ -753,7 +763,7 @@ BEGIN
     ARRAY['Dubai tourist visa fee (assistance provided)', 'Tourism Dirham fee (payable directly at hotel)', 'Lunch and personal shopping'],
     ARRAY['Visa process takes 3-4 working days.', 'Dune bashing not advised for pregnant women/infants.'],
     'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80',
-    ARRAY['https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80'],
+    ARRAY['https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=800&q=80'],
     'Classic', 12, 10, 'Luxury City Hotels',
     'Dazzling malls, modern architecture, and desert adventures in the Middle East.',
     TRUE, FALSE, ARRAY['dubai', 'uae', 'desert-safari', 'burj-khalifa'], uae_id, NULL,
@@ -763,20 +773,21 @@ BEGIN
     NOW(), NOW(), NOW()
   ) ON CONFLICT ("id") DO UPDATE SET "name" = EXCLUDED."name";
 
-  -- Joins for Dubai
-  INSERT INTO "PackageDestination" ("packageId", "destinationId", "sortOrder") VALUES
-    (dxb_pkg_id, dubai_dest, 1)
-    ON CONFLICT DO NOTHING;
-
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES
     (dxb_pkg_id, int_cat),
     (dxb_pkg_id, fam_cat)
     ON CONFLICT DO NOTHING;
 
   -- Variants for Dubai
-  INSERT INTO "PackageVariant" ("id", "packageId", "slug", "label", "nights", "days", "durationText", "basePrice", "discountedPrice", "sortOrder", "isDefault") VALUES
-    (dxb_v1, dxb_pkg_id, '4n-5d', '4 Nights / 5 Days City Wonders', 4, 5, '4 Nights / 5 Days', 45999, 41999, 1, TRUE)
+  INSERT INTO "PackageVariant" ("id", "packageId", "slug", "label", "nights", "days", "durationText", "basePrice", "discountedPrice", "sortOrder", "isDefault", "heroImage", "galleryImages") VALUES
+    (dxb_v1, dxb_pkg_id, '4n-5d', '4 Nights / 5 Days City Wonders', 4, 5, '4 Nights / 5 Days', NULL, NULL, 1, TRUE, 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80', ARRAY['https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=800&q=80']),
+    (gen_random_uuid(), dxb_pkg_id, '6n-7d', '6 Nights / 7 Days Dubai Deluxe', 6, 7, '6 Nights / 7 Days', NULL, NULL, 2, FALSE, NULL, ARRAY[]::text[])
     ON CONFLICT ("packageId", "slug") DO UPDATE SET "basePrice" = EXCLUDED."basePrice";
+
+  -- Joins for Dubai Variant 1
+  INSERT INTO "PackageDestination" ("variantId", "destinationId", "sortOrder") VALUES
+    (dxb_v1, dubai_dest, 1)
+    ON CONFLICT DO NOTHING;
 
   -- Itinerary for Dubai
   INSERT INTO "ItineraryDay" ("id", "variantId", "day", "title", "description", "images") VALUES

@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Building2,
+  Calendar,
   Check,
   ChevronDown,
   ChevronRight,
@@ -16,6 +17,7 @@ import {
 } from "lucide-react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useMemo, useState } from "react";
 
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
@@ -39,7 +41,7 @@ const PackageMap = dynamic(() => import("@/components/packages/PackageMap"), {
 });
 
 const DEFAULT_OVERVIEW =
-  "Discover the beauty and charm of this incredible destination with our carefully curated tour package. Mother India Tour Travels provides premium AC vehicles, professional local guides, and hand-picked accommodations to make your holiday seamless, comfortable, and unforgettable. From breathtaking views to rich cultural experiences, this tour covers the absolute highlights of the region.";
+  "Discover the beauty and charm of this incredible destination with our carefully curated tour package. Mother India Tour Travels provides premium AC vehicles, professional local guides, and hand-picked accommodations to make your holiday seamless, comfortable, and unforgettable.";
 
 const DEFAULT_HIGHLIGHTS = [
   "Comprehensive sightseeing in comfortable AC vehicles",
@@ -98,18 +100,26 @@ export default function PackageDetailClient({
     return itinerary.length > 0 ? itinerary[0].day : null;
   });
 
+  // Images fallback logic: variant level takes priority independently per field
+  const heroImage = activeVariant.heroImage || packageData.heroImage;
+  const galleryImages = useMemo(() => {
+    if (activeVariant.galleryImages && activeVariant.galleryImages.length > 0) {
+      return activeVariant.galleryImages;
+    }
+    return packageData.galleryImages;
+  }, [packageData.galleryImages, activeVariant.galleryImages]);
+
   const mapMarkers = useMemo(() => {
-    // Collect coordinates from package attractions or destinations
     const list =
-      (packageData.attractions || []).length > 0
-        ? packageData.attractions
+      (activeVariant.attractions || []).length > 0
+        ? activeVariant.attractions
             .filter((attr) => attr.latitude && attr.longitude)
             .map((attr) => ({
               name: attr.attractionName,
               latitude: attr.latitude!,
               longitude: attr.longitude!,
             }))
-        : packageData.destinations
+        : activeVariant.destinations
             .filter((dest) => dest.latitude && dest.longitude)
             .map((dest) => ({
               name: dest.destinationName,
@@ -117,188 +127,356 @@ export default function PackageDetailClient({
               longitude: dest.longitude!,
             }));
     return list;
-  }, [packageData]);
+  }, [activeVariant]);
 
   const breadcrumbItems = [
     { label: "Home", href: "/" },
     { label: "Packages", href: "/packages" },
     { label: pkgName, href: `/packages/${packageData.slug}` },
-    { label: activeVariant.label, href: `/packages/${packageData.slug}/${activeVariant.slug}` },
+    { label: activeVariant.label },
   ];
 
+  // Split overview into marketing pitch (first paragraph) and detailed overview (the rest)
+  const overviewParagraphs = useMemo(() => {
+    if (!overviewText) return { pitch: "", detailed: "" };
+    const parts = overviewText
+      .split(/\n\n+/)
+      .map((p) => p.trim())
+      .filter(Boolean);
+    if (parts.length > 1) {
+      return {
+        pitch: parts[0],
+        detailed: parts.slice(1).join("\n\n"),
+      };
+    }
+    return {
+      pitch: parts[0] || "",
+      detailed: DEFAULT_OVERVIEW,
+    };
+  }, [overviewText]);
+
+  // Derived style info
+  const tourStyle = packageData.tourStyle || "Classic";
+
   return (
-    <PageShell companyData={companyData} ptClass="pt-24" bgClass="bg-white">
-      {/* Hero Banner Section */}
-      <section className="relative w-full h-[40dvh] md:h-[50dvh] min-h-[300px] overflow-hidden bg-neutral-900">
-        <Image
-          src={packageData.heroImage || "/images/placeholder-landscape.png"}
-          alt={pkgName}
-          fill
-          priority
-          className="object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/20 pointer-events-none" />
-        <div className="absolute inset-0 flex items-end pb-12 layout-container">
-          <div className="max-w-4xl text-left text-white z-10">
-            <span className="inline-block text-brand-light font-bold tracking-[0.25em] text-[10px] uppercase bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/15 mb-4">
-              {packageData.tourStyle} Tour
-            </span>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight font-display">
-              {pkgName}
-            </h1>
-            <p className="text-white/80 mt-3 text-sm sm:text-base font-medium max-w-xl">
-              {activeVariant.label} Choice
-            </p>
-          </div>
-        </div>
-      </section>
+    <PageShell companyData={companyData} ptClass="pt-28" bgClass="bg-white" className="pb-24">
+      <div className="layout-container">
+        {/* Breadcrumbs */}
+        <Breadcrumbs items={breadcrumbItems} />
 
-      {/* Main Content Layout */}
-      <div className="layout-container py-12">
-        <Breadcrumbs items={breadcrumbItems} className="mb-10" />
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
-          {/* LEFT 2 COLUMNS: Info & Itinerary */}
-          <div className="lg:col-span-2">
-            {/* Key details strip */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 bg-neutral-50 border border-neutral-100 rounded-[2rem] p-6 mb-10 shadow-sm">
-              <div className="flex items-center gap-3">
-                <Clock className="w-5 h-5 text-neutral-400 shrink-0" />
-                <div>
-                  <p className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">
-                    Duration
-                  </p>
-                  <p className="text-sm font-bold text-foreground">{activeVariant.days} Days</p>
-                </div>
+        {/* ASYMMETRIC MASONRY GALLERY */}
+        <section className="mb-12 animate-fade-in">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 h-[300px] md:h-[450px] lg:h-[550px]">
+            {/* Left Column - 2 stacked images */}
+            <div className="hidden lg:flex flex-col gap-4 col-span-3 h-full">
+              <div className="relative flex-[3] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100">
+                <Image
+                  src={galleryImages[0] || heroImage}
+                  alt={`${pkgName} Gallery 1`}
+                  fill
+                  sizes="(max-width: 1024px) 25vw, 15vw"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
               </div>
-              <div className="flex items-center gap-3">
-                <Building2 className="w-5 h-5 text-neutral-400 shrink-0" />
-                <div>
-                  <p className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">
-                    Stays
-                  </p>
-                  <p className="text-sm font-bold text-foreground truncate max-w-[120px]">
-                    {packageData.stayType}
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <Users className="w-5 h-5 text-neutral-400 shrink-0" />
-                <div>
-                  <p className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">
-                    Group Size
-                  </p>
-                  <p className="text-sm font-bold text-foreground">
-                    Max {packageData.groupSizeMax}
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <Compass className="w-5 h-5 text-neutral-400 shrink-0" />
-                <div>
-                  <p className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">
-                    Style
-                  </p>
-                  <p className="text-sm font-bold text-foreground">{packageData.tourStyle}</p>
-                </div>
+              <div className="relative flex-[2] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100">
+                <Image
+                  src={galleryImages[1] || heroImage}
+                  alt={`${pkgName} Gallery 2`}
+                  fill
+                  sizes="(max-width: 1024px) 25vw, 15vw"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
               </div>
             </div>
 
-            {/* Overview */}
-            <div className="mb-12">
-              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4 font-display">
-                About the Journey
-              </h2>
-              <p className="text-neutral-600 text-sm md:text-base leading-relaxed font-medium whitespace-pre-line">
-                {overviewText}
+            {/* Center Column - 1 huge main image */}
+            <div className="relative col-span-12 lg:col-span-6 h-full overflow-hidden rounded-[2rem] lg:rounded-[2.5rem] bg-neutral-100 group shadow-sm border border-neutral-100">
+              <Image
+                src={heroImage}
+                alt={`${pkgName} Main Gallery`}
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                priority
+              />
+            </div>
+
+            {/* Right Column - 2 stacked images */}
+            <div className="hidden lg:flex flex-col gap-4 col-span-3 h-full">
+              <div className="relative flex-[2] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100">
+                <Image
+                  src={galleryImages[3] || galleryImages[2] || heroImage}
+                  alt={`${pkgName} Gallery 3`}
+                  fill
+                  sizes="(max-width: 1024px) 25vw, 15vw"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+              </div>
+              <div className="relative flex-[3] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100">
+                <Image
+                  src={galleryImages[4] || galleryImages[2] || heroImage}
+                  alt={`${pkgName} Gallery 4`}
+                  fill
+                  sizes="(max-width: 1024px) 25vw, 15vw"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile horizontal gallery scrollbar */}
+          <div className="flex lg:hidden gap-3 overflow-x-auto no-scrollbar py-2 mt-4 px-1">
+            {galleryImages.map((img, idx) => (
+              <div
+                key={idx}
+                className="relative w-52 h-36 shrink-0 overflow-hidden rounded-[1.5rem] bg-neutral-100 shadow-sm border border-neutral-100"
+              >
+                <Image
+                  src={img}
+                  alt={`${pkgName} Mobile Gallery ${idx + 1}`}
+                  fill
+                  sizes="208px"
+                  className="object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* TWO COLUMN GRID CONTENT */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-12 lg:gap-16 items-start">
+          {/* LEFT COLUMN: Info & Itinerary */}
+          <div className="flex flex-col">
+            {/* Header Title */}
+            <div className="mb-6">
+              <div className="flex items-center gap-2.5 mb-3 font-sans text-xs md:text-sm font-medium">
+                <span className="inline-block bg-white border border-neutral-200 text-neutral-700 font-semibold px-2.5 py-1 rounded-[8px] uppercase tracking-wider text-[10px]">
+                  {packageData.isDomestic ? "Domestic" : "International"}
+                </span>
+                <span className="text-neutral-400 font-medium select-none">
+                  • Trip Code: MI-{packageData.id.toUpperCase().replace(/-/g, "")}
+                </span>
+              </div>
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight tracking-tight font-display">
+                {pkgName}
+              </h1>
+              <p className="text-neutral-500 font-sans text-xs md:text-sm font-semibold tracking-wide uppercase mt-1.5 leading-none">
+                {activeVariant.label}
               </p>
             </div>
 
-            {/* Highlights */}
-            <div className="mb-12">
-              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-5 font-display">
+            {/* Hero Description (Marketing Pitch) */}
+            {overviewParagraphs.pitch && (
+              <div className="text-neutral-500 font-medium text-sm md:text-base leading-relaxed space-y-4 mb-8">
+                <p className="whitespace-pre-line">{overviewParagraphs.pitch}</p>
+              </div>
+            )}
+
+            {/* Summary Metadata Bar */}
+            <div className="border-y border-neutral-200 py-6 mb-10 flex flex-wrap items-center justify-between gap-6 md:gap-8 font-sans">
+              <div className="flex items-center gap-3">
+                <Calendar className="w-5 h-5 text-neutral-800 shrink-0" />
+                <div className="flex flex-col">
+                  <span className="text-[10px] md:text-[11px] font-medium text-neutral-400 uppercase tracking-wider leading-none mb-1">
+                    Duration
+                  </span>
+                  <span className="text-xs md:text-sm font-bold text-neutral-800 leading-snug">
+                    {activeVariant.days} Days / {activeVariant.nights} Nights
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <Users className="w-5 h-5 text-neutral-800 shrink-0" />
+                <div className="flex flex-col">
+                  <span className="text-[10px] md:text-[11px] font-medium text-neutral-400 uppercase tracking-wider leading-none mb-1">
+                    Group Size
+                  </span>
+                  <span className="text-xs md:text-sm font-bold text-neutral-800 leading-snug">
+                    Max {packageData.groupSizeMax || 12}, Avg {packageData.groupSizeAvg || 10}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <Compass className="w-5 h-5 text-neutral-800 shrink-0" />
+                <div className="flex flex-col">
+                  <span className="text-[10px] md:text-[11px] font-medium text-neutral-400 uppercase tracking-wider leading-none mb-1">
+                    Tour Style
+                  </span>
+                  <span className="text-xs md:text-sm font-bold text-neutral-800 leading-snug">
+                    {tourStyle}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <Building2 className="w-5 h-5 text-neutral-800 shrink-0" />
+                <div className="flex flex-col">
+                  <span className="text-[10px] md:text-[11px] font-medium text-neutral-400 uppercase tracking-wider leading-none mb-1">
+                    Accommodation
+                  </span>
+                  <span className="text-xs md:text-sm font-bold text-neutral-800 leading-snug">
+                    Hotels ({activeVariant.nights} nts)
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Trip Overview */}
+            <div className="mb-12 border-b border-border-light pb-10">
+              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4 font-display">
+                Trip Overview
+              </h2>
+              <div className="text-neutral-500 font-medium text-sm md:text-base leading-relaxed space-y-4">
+                <p className="whitespace-pre-line">{overviewParagraphs.detailed}</p>
+              </div>
+            </div>
+
+            {/* Tour Highlights (Restored original bullet style list) */}
+            <div className="mb-12 border-b border-border-light pb-10">
+              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4">
                 Tour Highlights
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {highlights.map((h, i) => (
-                  <div key={i} className="flex items-start gap-3">
-                    <span className="w-5 h-5 rounded-full bg-brand/10 text-brand flex items-center justify-center shrink-0 mt-0.5">
-                      <Check className="w-3 h-3 stroke-[3px]" />
-                    </span>
-                    <p className="text-sm font-medium text-neutral-600 leading-relaxed">{h}</p>
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3.5 list-disc pl-5 text-neutral-500 font-medium text-sm md:text-base">
+                {highlights.map((highlight, idx) => (
+                  <li key={idx} className="leading-relaxed">
+                    {highlight}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* What's Included (Restored original rounded check style) */}
+            <div className="mb-12 border-b border-border-light pb-10">
+              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">
+                What&apos;s Included
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {inclusions.map((inc, idx) => (
+                  <div key={idx} className="flex gap-3">
+                    <div className="w-5 h-5 rounded-full bg-neutral-100 flex items-center justify-center shrink-0 mt-0.5">
+                      <Check className="w-3.5 h-3.5 text-neutral-500" />
+                    </div>
+                    <span className="text-neutral-600 font-medium text-sm leading-snug">{inc}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Daily Itinerary Accordions */}
-            <div className="mb-12">
-              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6 font-display">
-                Day-by-Day Itinerary
-              </h2>
+            {/* What's Excluded (Restored original rounded X style) */}
+            <div className="mb-12 border-b border-border-light pb-10">
+              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">Exclusions</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {exclusions.map((exc, idx) => (
+                  <div key={idx} className="flex gap-3">
+                    <div className="w-5 h-5 rounded-full bg-neutral-100/50 flex items-center justify-center shrink-0 mt-0.5">
+                      <X className="w-3.5 h-3.5 text-neutral-400" />
+                    </div>
+                    <span className="text-neutral-500 font-normal text-sm leading-snug">{exc}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-              <div className="flex flex-col gap-4">
-                {itinerary.map((day) => {
-                  const isOpen = activeItineraryDay === day.day;
+            {/* Important Notes (Restored original bullet style list) */}
+            {packageData.notes && packageData.notes.length > 0 && (
+              <div className="mb-12 border-b border-border-light pb-10">
+                <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">
+                  Important Notes
+                </h2>
+                <ul className="flex flex-col gap-3.5 pl-5 list-disc text-neutral-500 font-medium text-sm md:text-base">
+                  {packageData.notes.map((item, idx) => (
+                    <li key={idx} className="leading-relaxed">
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Daily Itinerary Section (Restored original vertical timeline style) */}
+            <div className="mb-12 border-b border-border-light pb-10">
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-xl md:text-2xl font-bold text-foreground">Itinerary</h2>
+                <span className="text-xs md:text-sm font-bold text-neutral-400 uppercase tracking-wider font-sans">
+                  {activeVariant.days} Days / {activeVariant.nights} Nights
+                </span>
+              </div>
+
+              <div className="relative pl-8 border-l border-neutral-200/80 ml-4 space-y-12 py-2">
+                {itinerary.map((day, idx) => {
+                  const isExpanded = activeItineraryDay === day.day;
+                  // Deterministic timeline fallback images if day images list is empty
+                  const dayImages =
+                    day.images && day.images.length > 0
+                      ? day.images
+                      : [
+                          "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=400&q=80",
+                          "https://images.unsplash.com/photo-1480796927426-f609979314bd?auto=format&fit=crop&w=400&q=80",
+                          "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=400&q=80",
+                        ];
+
                   return (
-                    <div
-                      key={day.id}
-                      className="bg-white border border-neutral-100 rounded-[2rem] shadow-sm overflow-hidden"
-                    >
-                      <button
-                        onClick={() => setActiveItineraryDay(isOpen ? null : day.day)}
-                        className="w-full px-6 py-5 flex items-center justify-between text-left cursor-pointer group"
-                      >
-                        <div className="flex items-center gap-4">
-                          <span
-                            className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 ${
-                              isOpen ? "bg-brand text-white" : "bg-neutral-50 text-neutral-600"
-                            }`}
-                          >
-                            {day.day}
-                          </span>
-                          <span className="font-bold text-sm md:text-base text-neutral-800 group-hover:text-brand transition-colors">
-                            {day.title}
-                          </span>
-                        </div>
-                        <span className="text-neutral-400 shrink-0">
-                          <ChevronDown
-                            className={`w-5 h-5 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
-                          />
-                        </span>
-                      </button>
+                    <div key={idx} className="relative group">
+                      {/* Timeline dot */}
+                      <div className="absolute -left-[38px] top-1.5 w-3 h-3 rounded-full border-2 border-neutral-400 bg-white z-10 group-hover:border-brand transition-colors duration-300" />
 
+                      {/* Accordion Header */}
+                      <div
+                        onClick={() => setActiveItineraryDay(isExpanded ? null : day.day)}
+                        className="flex items-start justify-between gap-4 cursor-pointer select-none"
+                      >
+                        <div className="flex flex-col items-start gap-1">
+                          <span className="inline-block bg-neutral-100 text-neutral-600 font-semibold text-[11px] uppercase tracking-wider px-2.5 py-1 rounded-[10px]">
+                            Day {day.day}
+                          </span>
+                          <h3 className="font-bold text-lg md:text-xl text-foreground font-display mt-1.5 leading-snug">
+                            {day.title}
+                          </h3>
+                        </div>
+
+                        <div className="w-8 h-8 rounded-full border border-neutral-200 flex items-center justify-center text-neutral-400 group-hover:text-brand group-hover:border-brand/40 transition-colors shrink-0 mt-1">
+                          <ChevronDown
+                            className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Description */}
+                      <p
+                        className={`text-neutral-500 font-medium text-sm md:text-[14px] leading-relaxed mt-3.5 whitespace-pre-line pr-4 transition-all duration-300 ${
+                          isExpanded ? "" : "line-clamp-3"
+                        }`}
+                      >
+                        {day.description}
+                      </p>
+
+                      {/* Expanded day images */}
                       <AnimatePresence initial={false}>
-                        {isOpen && (
+                        {isExpanded && (
                           <motion.div
-                            initial={{ height: 0 }}
-                            animate={{ height: "auto" }}
-                            exit={{ height: 0 }}
-                            transition={{ duration: 0.25, ease: "easeInOut" }}
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3, ease: "easeInOut" }}
                             className="overflow-hidden"
                           >
-                            <div className="px-6 pb-6 pt-2 border-t border-neutral-50 text-sm text-neutral-500 leading-relaxed font-medium">
-                              <p className="mb-6 whitespace-pre-line">{day.description}</p>
-
-                              {/* Daily images */}
-                              {day.images && day.images.length > 0 && (
-                                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                                  {day.images.map((img, i) => (
-                                    <div
-                                      key={i}
-                                      className="relative aspect-[4/3] rounded-[1.5rem] overflow-hidden bg-neutral-50 border border-neutral-100 group/img"
-                                    >
-                                      <Image
-                                        src={img}
-                                        alt={`Day ${day.day} Image ${i + 1}`}
-                                        fill
-                                        sizes="(max-width: 768px) 33vw, 20vw"
-                                        className="object-cover transition-transform duration-500 group-hover/img:scale-105"
-                                      />
-                                    </div>
-                                  ))}
+                            <div className="grid grid-cols-3 gap-3 mt-6 pt-2">
+                              {dayImages.slice(0, 3).map((img, i) => (
+                                <div
+                                  key={i}
+                                  className="relative aspect-[4/3] rounded-[1.5rem] overflow-hidden bg-neutral-100 shadow-sm border border-neutral-100 group/img"
+                                >
+                                  <Image
+                                    src={img}
+                                    alt={`Itinerary Day ${day.day} Image ${i + 1}`}
+                                    fill
+                                    sizes="(max-width: 768px) 33vw, 20vw"
+                                    className="object-cover transition-transform duration-500 group-hover/img:scale-105"
+                                  />
                                 </div>
-                              )}
+                              ))}
                             </div>
                           </motion.div>
                         )}
@@ -320,42 +498,6 @@ export default function PackageDetailClient({
                 </div>
               </div>
             )}
-
-            {/* Inclusions / Exclusions */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-              <div className="bg-neutral-50 border border-neutral-100 rounded-[2rem] p-6 shadow-sm">
-                <h3 className="font-bold text-base text-foreground mb-4 font-display">
-                  Inclusions
-                </h3>
-                <ul className="space-y-3">
-                  {inclusions.map((inc, i) => (
-                    <li
-                      key={i}
-                      className="flex items-start gap-2.5 text-xs text-neutral-600 font-medium leading-relaxed"
-                    >
-                      <Check className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                      <span>{inc}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="bg-neutral-50 border border-neutral-100 rounded-[2rem] p-6 shadow-sm">
-                <h3 className="font-bold text-base text-foreground mb-4 font-display">
-                  Exclusions
-                </h3>
-                <ul className="space-y-3">
-                  {exclusions.map((exc, i) => (
-                    <li
-                      key={i}
-                      className="flex items-start gap-2.5 text-xs text-neutral-600 font-medium leading-relaxed"
-                    >
-                      <X className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
-                      <span>{exc}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
           </div>
 
           {/* RIGHT COLUMN: Sticky booking trigger */}
@@ -367,7 +509,7 @@ export default function PackageDetailClient({
                   <span>{activeVariant.label}</span>
                 </div>
                 <div className="font-bold text-foreground text-sm flex flex-wrap items-center gap-1.5 leading-snug">
-                  {packageData.destinations.map((dest, idx) => (
+                  {activeVariant.destinations.map((dest, idx) => (
                     <React.Fragment key={dest.destinationId}>
                       {idx > 0 && <ChevronRight className="w-3 h-3 text-neutral-300 shrink-0" />}
                       <span className="text-foreground">{dest.destinationName}</span>
@@ -376,23 +518,14 @@ export default function PackageDetailClient({
                 </div>
               </div>
 
-              {activeVariant.discountedPrice || activeVariant.basePrice ? (
-                <div className="mb-6 flex items-baseline gap-2">
-                  <span className="text-3xl font-black text-foreground">
-                    ₹{activeVariant.discountedPrice || activeVariant.basePrice}
-                  </span>
-                  {activeVariant.discountedPrice && (
-                    <span className="text-sm text-neutral-400 line-through">
-                      ₹{activeVariant.basePrice}
-                    </span>
-                  )}
-                  <span className="text-[10px] text-neutral-500 font-bold tracking-wider uppercase ml-1">
-                    Per Person
-                  </span>
-                </div>
-              ) : null}
+              {/* Pricing hidden - shown as Price On Request */}
+              <div className="mb-6 flex items-baseline gap-2">
+                <span className="text-3xl font-black text-foreground font-display leading-none">
+                  Price On Request
+                </span>
+              </div>
 
-              <div className="border-t border-border-light py-5 mb-6 space-y-3.5">
+              <div className="border-t border-b border-border-light py-5 mb-6 space-y-3.5">
                 <div className="flex items-center gap-3">
                   <Check className="w-4 h-4 text-neutral-400 shrink-0" />
                   <span className="text-xs font-medium text-neutral-500">
@@ -413,18 +546,13 @@ export default function PackageDetailClient({
                 </div>
               </div>
 
-              <button
-                onClick={() => {
-                  window.dispatchEvent(
-                    new CustomEvent("open-inquiry-modal", {
-                      detail: { packageName: `${packageData.name} (${activeVariant.label})` },
-                    }),
-                  );
-                }}
-                className="block w-full bg-brand hover:bg-brand-hover text-white font-semibold text-xs tracking-wider uppercase py-4 rounded-full transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer text-center select-none border-none outline-none mt-2"
+              {/* Book Now button routing directly to nested booking page */}
+              <Link
+                href={`/packages/${packageData.slug}/${activeVariant.slug}/book`}
+                className="block w-full bg-brand hover:bg-brand-hover text-white font-semibold text-xs tracking-wider uppercase py-4 rounded-full transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer text-center select-none border-none outline-none mt-2 active:scale-98"
               >
-                Inquire & Book
-              </button>
+                Book Now
+              </Link>
             </div>
 
             <div className="bg-neutral-50/50 border border-border-light rounded-[2rem] p-6 text-center">

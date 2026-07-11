@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/db/prisma";
-import type { CompanyData, AboutData, WorkingHoursSchedule } from "@/types/company";
+import type { AboutData, CompanyData, WorkingHoursSchedule } from "@/types/company";
 
 export async function getCompanyData(): Promise<CompanyData | null> {
   const c = await prisma.company.findFirst({

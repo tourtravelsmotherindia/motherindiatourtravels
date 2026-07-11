@@ -197,9 +197,7 @@ model Package {
   state   State?  @relation(fields: [stateId], references: [id])
 
   // Proper relational many-to-many (no JSON arrays)
-  destinations      PackageDestination[]
   categories        PackageCategory[]
-  attractions       PackageAttraction[]
   variants          PackageVariant[]
   bookingInquiries  BookingInquiry[]
 
@@ -210,17 +208,17 @@ model Package {
   @@index([stateId])
 }
 
-// Join table: Package ↔ Destination (with sort order for tour route order)
+// Join table: Variant ↔ Destination (with sort order for tour route order)
 model PackageDestination {
-  packageId     String
+  variantId     String
   destinationId String
   sortOrder     Int    @default(0)
 
-  package     Package     @relation(fields: [packageId], references: [id], onDelete: Cascade)
-  destination Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+  variant     PackageVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  destination Destination    @relation(fields: [destinationId], references: [id], onDelete: Cascade)
 
-  @@id([packageId, destinationId])
-  @@index([packageId])
+  @@id([variantId, destinationId])
+  @@index([variantId])
   @@index([destinationId])
 }
 
@@ -235,34 +233,38 @@ model PackageCategory {
   @@id([packageId, categoryId])
 }
 
-// Join table: Package ↔ Attraction (for the "Where You'll Be" map)
+// Join table: Variant ↔ Attraction (for the "Where You'll Be" map)
 model PackageAttraction {
-  packageId    String
+  variantId    String
   attractionId String
 
-  package    Package    @relation(fields: [packageId], references: [id], onDelete: Cascade)
-  attraction Attraction @relation(fields: [attractionId], references: [id], onDelete: Cascade)
+  variant    PackageVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  attraction Attraction     @relation(fields: [attractionId], references: [id], onDelete: Cascade)
 
-  @@id([packageId, attractionId])
+  @@id([variantId, attractionId])
 }
 
 // Variant slug is auto-generated: e.g. "3n-4d" from nights=3, days=4
 model PackageVariant {
-  id           String   @id @default(cuid())
-  packageId    String
-  slug         String   // Auto-generated: "${nights}n-${days}d"
-  label        String   // Display: "3 Nights / 4 Days"
-  nights       Int
-  days         Int
-  durationText String   @default("") // Free-form override text
-  basePrice    Float?   // INR
+  id              String   @id @default(cuid())
+  packageId       String
+  slug            String   // Auto-generated: "${nights}n-${days}d"
+  label           String   // Display: "3 Nights / 4 Days"
+  nights          Int
+  days            Int
+  durationText    String   @default("") // Free-form override text
+  basePrice       Float?   // INR
   discountedPrice Float?
-  sortOrder    Int      @default(0)
-  isDefault    Boolean  @default(false) // First/featured variant
+  sortOrder       Int      @default(0)
+  isDefault       Boolean  @default(false) // First/featured variant
+  heroImage       String?
+  galleryImages   String[]
 
-  package  Package        @relation(fields: [packageId], references: [id], onDelete: Cascade)
-  itinerary ItineraryDay[]
+  package          Package            @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  itinerary        ItineraryDay[]
   bookingInquiries BookingInquiry[]
+  destinations     PackageDestination[]
+  attractions      PackageAttraction[]
 
   @@unique([packageId, slug])
   @@index([packageId])
