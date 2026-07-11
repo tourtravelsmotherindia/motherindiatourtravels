@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Bed,
   Check,
   ChevronRight,
   HelpCircle,
@@ -57,9 +58,7 @@ export default function BookClient({ packageData, allPackages, companyData }: Bo
   const [selectedCheckIn, setSelectedCheckIn] = useState<Date | null>(null);
   const [selectedCheckOut, setSelectedCheckOut] = useState<Date | null>(null);
 
-  const [flexibleDurationDays, setFlexibleDurationDays] = useState<
-    "any" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "8-10"
-  >("7");
+  const [flexibleDurationDays, setFlexibleDurationDays] = useState<string>("7");
   const [selectedFlexibleMonth, setSelectedFlexibleMonth] = useState<Date>(() => {
     const today = new Date();
     return new Date(today.getFullYear(), today.getMonth(), 1);
@@ -69,6 +68,7 @@ export default function BookClient({ packageData, allPackages, companyData }: Bo
   const [adults, setAdults] = useState(1);
   const [childrenCount, setChildrenCount] = useState(0);
   const [kids, setKids] = useState(0);
+  const [rooms, setRooms] = useState(1);
 
   // Hotel Category States
   const [hotelCategory, setHotelCategory] = useState("4star");
@@ -161,6 +161,7 @@ export default function BookClient({ packageData, allPackages, companyData }: Bo
       setAdults(1);
       setChildrenCount(0);
       setKids(0);
+      setRooms(1);
       setHotelCategory("4star");
       setSubmitting(false);
       setActiveDropdown(null);
@@ -196,7 +197,7 @@ export default function BookClient({ packageData, allPackages, companyData }: Bo
         {/* TWO-COLUMN DETAILS GRID */}
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-12 lg:gap-16 items-start">
           {/* LEFT COLUMN: Booking form */}
-          <div className="bg-white border border-border-light rounded-[2.5rem] p-6 sm:p-10 shadow-premium relative">
+          <div className="bg-white border border-border-light rounded-[2.5rem] p-6 sm:p-10 shadow-premium relative overflow-visible">
             <form onSubmit={handleSubmit} className="flex flex-col gap-5 sm:gap-6">
               <FormField
                 id="fullName"
@@ -250,8 +251,8 @@ export default function BookClient({ packageData, allPackages, companyData }: Bo
                 setActiveDropdown={setActiveDropdown}
               />
 
-              {/* Shared Travelers & Hotel Category Component */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              {/* Travelers Row */}
+              <div className="w-full">
                 <TravelersField
                   variant="form"
                   adults={adults}
@@ -263,7 +264,10 @@ export default function BookClient({ packageData, allPackages, companyData }: Bo
                   activeDropdown={activeDropdown}
                   setActiveDropdown={setActiveDropdown}
                 />
+              </div>
 
+              {/* Rooms & Hotel Category Row */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div className="relative flex flex-col gap-2">
                   <span className="text-xs font-semibold text-neutral-500 ml-1">
                     Hotel Type / Category
@@ -276,6 +280,25 @@ export default function BookClient({ packageData, allPackages, companyData }: Bo
                     triggerClassName="w-full border border-neutral-200 hover:border-brand/40 transition-all duration-200 py-3 lg:py-3 text-sm font-semibold text-foreground bg-white"
                     menuClassName="w-full rounded-2xl p-1"
                     icon={Hotel}
+                  />
+                </div>
+
+                <div className="relative flex flex-col gap-2">
+                  <span className="text-xs font-semibold text-neutral-500 ml-1">Rooms</span>
+                  <Dropdown
+                    options={[
+                      { value: "1", label: "1 Room" },
+                      { value: "2", label: "2 Rooms" },
+                      { value: "3", label: "3 Rooms" },
+                      { value: "4", label: "4 Rooms" },
+                      { value: "5", label: "5+ Rooms" },
+                    ]}
+                    value={String(rooms)}
+                    onChange={(val) => setRooms(Number(val))}
+                    align="left"
+                    triggerClassName="w-full border border-neutral-200 hover:border-brand/40 transition-all duration-200 py-3 lg:py-3 text-sm font-semibold text-foreground bg-white"
+                    menuClassName="w-full rounded-2xl p-1"
+                    icon={Bed}
                   />
                 </div>
               </div>

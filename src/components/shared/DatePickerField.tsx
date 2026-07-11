@@ -49,10 +49,8 @@ interface DatePickerFieldProps {
   setSelectedCheckIn: (date: Date | null) => void;
   selectedCheckOut: Date | null;
   setSelectedCheckOut: (date: Date | null) => void;
-  flexibleDurationDays: "any" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "8-10";
-  setFlexibleDurationDays: (
-    duration: "any" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "8-10",
-  ) => void;
+  flexibleDurationDays: string;
+  setFlexibleDurationDays: (duration: string) => void;
   selectedFlexibleMonth: Date;
   setSelectedFlexibleMonth: (date: Date) => void;
   activeDropdown: string | null;
@@ -83,6 +81,17 @@ export default function DatePickerField({
   const datesRef = useRef<HTMLDivElement>(null);
   const checkoutRef = useRef<HTMLDivElement>(null);
   const datesPopoverRef = useRef<HTMLDivElement>(null);
+  const monthScrollRef = useRef<HTMLDivElement>(null);
+
+  const scrollMonths = (direction: "left" | "right") => {
+    if (monthScrollRef.current) {
+      const scrollAmount = 240; // Approx 2.5 month cards
+      monthScrollRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
 
   const active = activeDropdown === "dates";
 
@@ -196,13 +205,13 @@ export default function DatePickerField({
   const flexibleMonths = useMemo(() => {
     const months = [];
     const today = new Date();
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 24; i++) {
       months.push(new Date(today.getFullYear(), today.getMonth() + i, 1));
     }
     return months;
   }, []);
 
-  const handleFlexibleSelection = (durationDays: typeof flexibleDurationDays, month: Date) => {
+  const handleFlexibleSelection = (durationDays: string, month: Date) => {
     setFlexibleDurationDays(durationDays);
     setSelectedFlexibleMonth(month);
 
@@ -214,9 +223,9 @@ export default function DatePickerField({
     if (durationDays === "any") {
       start = new Date(year, m, 1);
       end = new Date(year, m + 1, 0);
-    } else if (durationDays === "8-10") {
+    } else if (durationDays === "30+") {
       start = new Date(year, m, 1);
-      end = new Date(year, m, 10);
+      end = new Date(year, m, 46);
     } else {
       const days = parseInt(durationDays, 10);
       start = new Date(year, m, 1);
@@ -319,13 +328,13 @@ export default function DatePickerField({
   const flexibleTabsContent = (
     <div className="space-y-6">
       {/* How many days */}
-      <div>
-        <div className="text-sm font-bold text-foreground mb-3 text-center sm:text-left font-sans">
+      <div className="space-y-4">
+        <div className="text-sm font-bold text-foreground text-center sm:text-left font-sans">
           How many days?
         </div>
         <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
-          {(["any", "3", "4", "5", "6", "7", "8", "9", "10", "8-10"] as const).map((dur) => {
-            const label = dur === "any" ? "Any" : dur === "8-10" ? "8-10 Days" : `${dur} Days`;
+          {(["any", "3", "7", "14", "30", "30+"] as const).map((dur) => {
+            const label = dur === "any" ? "Any" : dur === "30+" ? "30+ Days" : `${dur} Days`;
             return (
               <button
                 type="button"
@@ -342,61 +351,122 @@ export default function DatePickerField({
             );
           })}
         </div>
+
+        {/* Custom Slider */}
+        <div className="bg-neutral-50/50 border border-border-light rounded-[1.5rem] p-4">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-xs font-semibold text-neutral-500 font-sans">
+              Adjust Custom Duration
+            </span>
+            <span className="text-xs font-bold text-brand font-display">
+              {flexibleDurationDays === "any"
+                ? "1-45+ Days"
+                : flexibleDurationDays === "30+" || parseInt(flexibleDurationDays, 10) >= 45
+                  ? "45+ Days"
+                  : `${flexibleDurationDays} Days`}
+            </span>
+          </div>
+          <input
+            type="range"
+            min="1"
+            max="45"
+            value={
+              flexibleDurationDays === "any"
+                ? 7
+                : flexibleDurationDays === "30+"
+                  ? 45
+                  : parseInt(flexibleDurationDays, 10) || 7
+            }
+            onChange={(e) => handleFlexibleSelection(e.target.value, selectedFlexibleMonth)}
+            className="w-full h-1.5 bg-neutral-200 rounded-lg appearance-none cursor-pointer accent-brand"
+          />
+          <div className="flex justify-between text-[9px] text-neutral-400 font-bold font-sans mt-1.5 uppercase tracking-wider">
+            <span>1 Day</span>
+            <span>22 Days</span>
+            <span>45+ Days</span>
+          </div>
+        </div>
       </div>
 
       {/* Travel Month */}
-      <div>
-        <div className="text-sm font-bold text-foreground mb-3 text-center sm:text-left font-sans">
+      <div className="space-y-3">
+        <div className="text-sm font-bold text-foreground text-center sm:text-left font-sans">
           Travel Month
         </div>
-        <div className="w-full flex gap-3 overflow-x-auto pb-4 snap-x no-scrollbar">
-          {flexibleMonths.map((m) => {
-            const isSelected =
-              selectedFlexibleMonth.getMonth() === m.getMonth() &&
-              selectedFlexibleMonth.getFullYear() === m.getFullYear();
-            return (
-              <button
-                type="button"
-                key={m.toISOString()}
-                onClick={() => handleFlexibleSelection(flexibleDurationDays, m)}
-                className={`flex-shrink-0 snap-start flex flex-col items-center gap-2 p-3.5 rounded-2xl border transition-all duration-200 w-24 cursor-pointer ${
-                  isSelected
-                    ? "border-brand bg-brand-light/35 text-brand font-semibold shadow-premium"
-                    : "border-border-light bg-white hover:border-brand/40 hover:bg-brand-light/10 text-muted"
-                }`}
-              >
-                {/* Calendar sheet icon */}
-                <div
-                  className={`w-8 h-8 rounded-lg flex flex-col overflow-hidden border transition-colors duration-200 ${
+        <div className="relative flex items-center group">
+          {/* Left Arrow Button */}
+          <button
+            type="button"
+            onClick={() => scrollMonths("left")}
+            className="hidden sm:flex absolute left-[-12px] bg-white border border-border-light text-neutral-500 hover:text-brand hover:border-brand/40 shadow-premium w-8 h-8 rounded-full items-center justify-center cursor-pointer transition-all duration-200 z-10 hover:scale-105 animate-all"
+            aria-label="Scroll left"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+
+          {/* Horizontally scrollable container */}
+          <div
+            ref={monthScrollRef}
+            className="w-full flex gap-3 overflow-x-auto pb-4 snap-x no-scrollbar scroll-smooth"
+          >
+            {flexibleMonths.map((m) => {
+              const isSelected =
+                selectedFlexibleMonth.getMonth() === m.getMonth() &&
+                selectedFlexibleMonth.getFullYear() === m.getFullYear();
+              return (
+                <button
+                  type="button"
+                  key={m.toISOString()}
+                  onClick={() => handleFlexibleSelection(flexibleDurationDays, m)}
+                  className={`flex-shrink-0 snap-start flex flex-col items-center gap-2 p-3.5 rounded-2xl border transition-all duration-200 w-24 cursor-pointer ${
                     isSelected
-                      ? "border-brand/30 bg-brand text-white"
-                      : "border-border-light bg-gray-50 text-muted"
+                      ? "border-brand bg-brand-light/35 text-brand font-semibold shadow-premium"
+                      : "border-border-light bg-white hover:border-brand/40 hover:bg-brand-light/10 text-muted"
                   }`}
                 >
+                  {/* Calendar sheet icon */}
                   <div
-                    className={`text-[7px] font-bold uppercase text-center py-0.5 transition-colors duration-200 ${
-                      isSelected ? "bg-brand-hover text-white" : "bg-gray-200 text-muted"
+                    className={`w-8 h-8 rounded-lg flex flex-col overflow-hidden border transition-colors duration-200 ${
+                      isSelected
+                        ? "border-brand/30 bg-brand text-white"
+                        : "border-border-light bg-gray-50 text-muted"
                     }`}
                   >
-                    {MONTHS_SHORT[m.getMonth()]}
+                    <div
+                      className={`text-[7px] font-bold uppercase text-center py-0.5 transition-colors duration-200 ${
+                        isSelected ? "bg-brand-hover text-white" : "bg-gray-200 text-muted"
+                      }`}
+                    >
+                      {MONTHS_SHORT[m.getMonth()]}
+                    </div>
+                    <div className="flex-1 flex items-center justify-center text-[10px] font-bold font-sans">
+                      1
+                    </div>
                   </div>
-                  <div className="flex-1 flex items-center justify-center text-[10px] font-bold font-sans">
-                    1
-                  </div>
-                </div>
 
-                {/* Month Labels */}
-                <div className="text-center">
-                  <div className="text-[10px] font-bold text-foreground truncate font-sans font-semibold">
-                    {MONTHS_LONG[m.getMonth()]}
+                  {/* Month Labels */}
+                  <div className="text-center">
+                    <div className="text-[10px] font-bold text-foreground truncate font-sans font-semibold">
+                      {MONTHS_LONG[m.getMonth()]}
+                    </div>
+                    <div className="text-[8px] text-muted font-sans font-semibold">
+                      {m.getFullYear()}
+                    </div>
                   </div>
-                  <div className="text-[8px] text-muted font-sans font-semibold">
-                    {m.getFullYear()}
-                  </div>
-                </div>
-              </button>
-            );
-          })}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Right Arrow Button */}
+          <button
+            type="button"
+            onClick={() => scrollMonths("right")}
+            className="hidden sm:flex absolute right-[-12px] bg-white border border-border-light text-neutral-500 hover:text-brand hover:border-brand/40 shadow-premium w-8 h-8 rounded-full items-center justify-center cursor-pointer transition-all duration-200 z-10 hover:scale-105 animate-all"
+            aria-label="Scroll right"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
         </div>
       </div>
 
@@ -406,8 +476,8 @@ export default function DatePickerField({
           Selected:{" "}
           {flexibleDurationDays === "any"
             ? "Any Duration"
-            : flexibleDurationDays === "8-10"
-              ? "8-10 Days"
+            : flexibleDurationDays === "30+" || parseInt(flexibleDurationDays, 10) >= 45
+              ? "45+ Days"
               : `${flexibleDurationDays} Days`}{" "}
           •{" "}
           {`${MONTHS_LONG[selectedFlexibleMonth.getMonth()]} ${selectedFlexibleMonth.getFullYear()}`}
@@ -448,8 +518,8 @@ export default function DatePickerField({
                   : "Add date"
                 : flexibleDurationDays === "any"
                   ? "Any Duration"
-                  : flexibleDurationDays === "8-10"
-                    ? "8-10 Days"
+                  : flexibleDurationDays === "30+" || parseInt(flexibleDurationDays, 10) >= 45
+                    ? "45+ Days"
                     : `${flexibleDurationDays} Days`}
             </div>
           </div>
@@ -616,8 +686,8 @@ export default function DatePickerField({
                   : "Select Date"
                 : flexibleDurationDays === "any"
                   ? "Any Duration"
-                  : flexibleDurationDays === "8-10"
-                    ? "8-10 Days"
+                  : flexibleDurationDays === "30+" || parseInt(flexibleDurationDays, 10) >= 45
+                    ? "45+ Days"
                     : `${flexibleDurationDays} Days`}
             </span>
           </div>
@@ -655,7 +725,7 @@ export default function DatePickerField({
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             transition={{ duration: 0.15 }}
             onClick={(e) => e.stopPropagation()}
-            className="absolute top-full left-1/2 -translate-x-1/2 lg:left-0 lg:translate-x-0 mt-2 w-[calc(100vw-32px)] sm:w-auto min-w-[280px] sm:min-w-[560px] bg-white rounded-3xl border border-border-light shadow-2xl p-4 sm:p-5 z-40 cursor-default"
+            className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[calc(100vw-32px)] sm:w-[560px] bg-white rounded-3xl border border-border-light shadow-2xl p-4 sm:p-5 z-40 cursor-default"
           >
             {/* Selector Switcher */}
             <div className="flex justify-center mb-5">
