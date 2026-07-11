@@ -110,7 +110,14 @@ export default function BookClient({ packageData, allPackages, companyData }: Bo
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!fullName || !emailAddress || !phoneNumber || !selectedCheckIn || !pickupLocation || !dropLocation) {
+    if (
+      !fullName ||
+      !emailAddress ||
+      !phoneNumber ||
+      !selectedCheckIn ||
+      !pickupLocation ||
+      !dropLocation
+    ) {
       showToast("error", "Validation Failed", "Please fill in all required fields.");
       return;
     }
