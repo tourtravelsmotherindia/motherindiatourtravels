@@ -13,6 +13,7 @@ interface PageShellProps {
   className?: string; // class applied to <main>
   ptClass?: string; // default "pt-24"
   bgClass?: string; // default "bg-white"
+  transparentNavbar?: boolean;
 }
 
 export default function PageShell({
@@ -21,10 +22,11 @@ export default function PageShell({
   className = "",
   ptClass = "pt-24",
   bgClass = "bg-white",
+  transparentNavbar = false,
 }: PageShellProps) {
   return (
     <div className={`relative min-h-screen flex flex-col ${bgClass} ${ptClass}`}>
-      <Navbar />
+      <Navbar transparent={transparentNavbar} />
       <main className={`flex-1 ${className}`}>{children}</main>
       <Footer companyData={companyData} />
     </div>

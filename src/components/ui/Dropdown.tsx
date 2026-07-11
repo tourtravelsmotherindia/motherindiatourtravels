@@ -45,6 +45,10 @@ export default function Dropdown({
 
   const selectedOption = options.find((opt) => opt.value === value);
 
+  const isTransparent = triggerClassName.includes("bg-transparent");
+  const isWhiteText = triggerClassName.includes("text-white");
+  const isWhiteBorder = triggerClassName.includes("border-white");
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -71,22 +75,34 @@ export default function Dropdown({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={`flex items-center justify-between gap-2.5 w-full bg-white border border-neutral-200 rounded-full px-5 py-2.5 lg:py-3 text-sm font-semibold text-neutral-700 cursor-pointer hover:border-brand/35 hover:bg-neutral-50/50 transition-all duration-300 focus:outline-none focus:border-brand/40 ${triggerClassName}`}
+        className={`flex items-center justify-between gap-2.5 w-full rounded-full px-5 py-2.5 lg:py-3 text-sm font-semibold cursor-pointer transition-all duration-300 focus:outline-none ${
+          isTransparent ? "" : "bg-white hover:bg-neutral-50/50 focus:border-brand/40"
+        } ${isWhiteBorder ? "" : "border border-neutral-200 hover:border-brand/35"} ${
+          isWhiteText ? "" : "text-neutral-700"
+        } ${triggerClassName}`}
         aria-haspopup="true"
         aria-expanded={isOpen}
       >
         <div className="flex items-center gap-2">
-          {TriggerIcon && <TriggerIcon className="w-4 h-4 text-neutral-400 shrink-0" />}
+          {TriggerIcon && (
+            <TriggerIcon
+              className={`w-4 h-4 shrink-0 transition-colors ${
+                isWhiteText ? "text-white/70" : "text-neutral-400"
+              }`}
+            />
+          )}
           {selectedOption ? (
             <span className="truncate">{selectedOption.label}</span>
           ) : (
-            <span className="text-neutral-400 truncate">{placeholder}</span>
+            <span className={`truncate ${isWhiteText ? "text-white/60" : "text-neutral-400"}`}>
+              {placeholder}
+            </span>
           )}
         </div>
         <ChevronDown
-          className={`w-4.5 h-4.5 text-neutral-400 transition-transform duration-300 shrink-0 ${
+          className={`w-4.5 h-4.5 transition-transform duration-300 shrink-0 ${
             isOpen ? "rotate-180" : ""
-          }`}
+          } ${isWhiteText ? "text-white/70" : "text-neutral-400"}`}
         />
       </button>
 

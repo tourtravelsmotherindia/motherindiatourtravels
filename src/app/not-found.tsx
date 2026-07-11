@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 
 import PageShell from "@/components/layout/PageShell";
+import HideScrollbar from "@/components/shared/HideScrollbar";
 import { getCompanyData } from "@/lib/db/repositories/companyRepo";
 import { getSiteConfig } from "@/lib/db/repositories/siteConfigRepo";
 
@@ -17,8 +18,10 @@ export default async function NotFound() {
     <PageShell
       companyData={companyData}
       ptClass="pt-0"
+      transparentNavbar={true}
       className="relative flex items-center justify-center min-h-screen z-10"
     >
+      <HideScrollbar />
       {/* Background Image Container */}
       <div className="absolute inset-0 z-0 select-none">
         <Image

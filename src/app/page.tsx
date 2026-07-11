@@ -1,7 +1,6 @@
 import FAQ from "@/components/home/FAQ";
 import Gallery from "@/components/home/Gallery";
 import Hero from "@/components/home/Hero";
-import PartnerAirlines from "@/components/home/PartnerAirlines";
 import PopularDestinations from "@/components/home/PopularDestinations";
 import RegionsGrid from "@/components/home/RegionsGrid";
 import TestimonialsSection from "@/components/home/TravelerMoments";
@@ -27,8 +26,8 @@ export default async function Home() {
   const packagesWrapped = { total: packagesData.total, packages: packagesData.packages };
 
   return (
-    <PageShell companyData={companyData}>
-      <Hero heroData={heroData} packagesData={packagesWrapped} />
+    <PageShell companyData={companyData} ptClass="pt-0">
+      <Hero heroData={heroData} />
       <WhyChooseUs />
       <TripCards packagesData={packagesWrapped} />
       <PopularDestinations destinationsData={destinationsWrapped} packagesData={packagesWrapped} />

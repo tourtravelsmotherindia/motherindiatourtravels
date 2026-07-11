@@ -25,7 +25,7 @@ export default function WhyChooseUs() {
   ];
 
   return (
-    <section className="py-24 scroll-mt-24 bg-white layout-container">
+    <section id="why-choose-us" className="py-24 scroll-mt-24 bg-white layout-container">
       <SectionHeader
         title="Why Choose Us?"
         subtitle="We provide exceptional travel experiences with attention to every detail"
