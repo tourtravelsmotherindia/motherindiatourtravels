@@ -43,9 +43,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function PackageOverviewPage({ params }: PageProps) {
   const { packageSlug } = await params;
 
-  const [pkg, companyData] = await Promise.all([getPackageBySlug(packageSlug), getCompanyData()]);
+  const [pkg, allPackages, companyData] = await Promise.all([
+    getPackageBySlug(packageSlug),
+    getAllPackages(),
+    getCompanyData(),
+  ]);
 
   if (!pkg) notFound();
 
-  return <PackageOverviewClient packageData={pkg} companyData={companyData} />;
+  return (
+    <PackageOverviewClient packageData={pkg} allPackages={allPackages} companyData={companyData} />
+  );
 }

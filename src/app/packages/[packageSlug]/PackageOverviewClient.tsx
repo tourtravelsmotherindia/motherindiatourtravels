@@ -7,11 +7,15 @@ import React, { useMemo } from "react";
 
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import PageShell from "@/components/layout/PageShell";
+import PackageCard from "@/components/shared/PackageCard";
+import SectionHeader from "@/components/shared/SectionHeader";
+import { useFavorites } from "@/lib/hooks/useFavorites";
 import { type CompanyData } from "@/types/company";
-import { type PackageDetailItem } from "@/types/package";
+import { type PackageDetailItem, type PackageItem } from "@/types/package";
 
 interface PackageOverviewClientProps {
   packageData: PackageDetailItem;
+  allPackages: PackageItem[];
   companyData: CompanyData | null;
 }
 
@@ -103,6 +107,7 @@ const DEFAULT_HIGHLIGHTS = [
 
 export default function PackageOverviewClient({
   packageData,
+  allPackages,
   companyData,
 }: PackageOverviewClientProps) {
   const pkgName = packageData.name || "Tour Package";
@@ -111,6 +116,26 @@ export default function PackageOverviewClient({
     packageData.highlights && packageData.highlights.length > 0
       ? packageData.highlights
       : DEFAULT_HIGHLIGHTS;
+
+  const { isFavorite, toggleFavorite } = useFavorites();
+
+  // Recommended packages selection (ensuring absolute uniqueness of keys)
+  const recommendedPackages = useMemo(() => {
+    const others = allPackages.filter((p) => p.slug !== packageData.slug);
+    const matchType = others.filter((p) => p.isPopular);
+    const pool = matchType.length >= 3 ? matchType : others;
+
+    const unique = Array.from(new Set(pool.map((p) => p.id)))
+      .map((id) => pool.find((p) => p.id === id))
+      .filter((p): p is PackageItem => !!p);
+
+    const offset = packageData.slug.length % unique.length;
+    const result = [];
+    for (let i = 0; i < Math.min(3, unique.length); i++) {
+      result.push(unique[(offset + i) % unique.length]);
+    }
+    return result;
+  }, [allPackages, packageData]);
 
   const breadcrumbItems = [
     { label: "Home", href: "/" },
@@ -428,6 +453,42 @@ export default function PackageOverviewClient({
             </div>
           </aside>
         </div>
+        {/* RECOMMENDED PACKAGES SECTION */}
+        <section className="mt-24 border-t border-border-light pt-24">
+          <SectionHeader
+            title="Recommended for you"
+            badge="Explore More"
+            rightSlot={
+              <Link
+                href="/packages"
+                className="group inline-flex items-center gap-1.5 text-neutral-900 hover:text-brand font-semibold text-sm transition-colors mt-4 md:mt-0 cursor-pointer"
+              >
+                View all tours
+                <ChevronRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+            }
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {recommendedPackages.map((pkg) => {
+              const defaultVariant = pkg.variants.find((v) => v.isDefault) || pkg.variants[0];
+              return (
+                <PackageCard
+                  key={pkg.id}
+                  id={pkg.id}
+                  slug={pkg.slug}
+                  name={pkg.name}
+                  heroImage={pkg.heroImage}
+                  durationText={defaultVariant ? defaultVariant.label : undefined}
+                  destinations={pkg.destinations}
+                  variant="white"
+                  isFavorite={isFavorite(pkg.slug)}
+                  onToggleFavorite={toggleFavorite}
+                />
+              );
+            })}
+          </div>
+        </section>
       </div>
     </PageShell>
   );

@@ -2,7 +2,11 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { getCompanyData } from "@/lib/db/repositories/companyRepo";
-import { getAllPackageVariantPaths, getVariantBySlug } from "@/lib/db/repositories/packageRepo";
+import {
+  getAllPackages,
+  getAllPackageVariantPaths,
+  getVariantBySlug,
+} from "@/lib/db/repositories/packageRepo";
 
 import PackageDetailClient from "./PackageDetailClient";
 
@@ -45,8 +49,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function PackageVariantPage({ params }: PageProps) {
   const { packageSlug, variantSlug } = await params;
 
-  const [result, companyData] = await Promise.all([
+  const [result, allPackages, companyData] = await Promise.all([
     getVariantBySlug(packageSlug, variantSlug),
+    getAllPackages(),
     getCompanyData(),
   ]);
 
@@ -58,6 +63,7 @@ export default async function PackageVariantPage({ params }: PageProps) {
     <PackageDetailClient
       packageData={packageData}
       activeVariant={variant}
+      allPackages={allPackages}
       companyData={companyData}
     />
   );
