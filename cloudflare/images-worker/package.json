@@ -8,8 +8,8 @@
     "cf-typegen": "wrangler types"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20250712.0",
+    "@cloudflare/workers-types": "^5.20260712.1",
     "typescript": "^5.5.3",
-    "wrangler": "^3.75.0"
+    "wrangler": "^4.110.0"
   }
 }
