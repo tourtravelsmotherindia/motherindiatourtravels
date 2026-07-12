@@ -6,12 +6,16 @@ export function createSupabaseClient(supabaseUrl: string, secretKey: string) {
   const base = `${supabaseUrl}/rest/v1`;
   const authUrl = `${supabaseUrl}/auth/v1`;
 
-  const headers = {
+  const headers: Record<string, string> = {
     apikey: secretKey,
-    Authorization: `Bearer ${secretKey}`,
     "Content-Type": "application/json",
     Prefer: "return=representation",
   };
+
+  // Only use Authorization Bearer with legacy JWT keys (starting with 'eyJ')
+  if (secretKey && secretKey.startsWith("eyJ")) {
+    headers.Authorization = `Bearer ${secretKey}`;
+  }
 
   return {
     /**
@@ -128,7 +132,7 @@ export function createSupabaseClient(supabaseUrl: string, secretKey: string) {
       try {
         const res = await fetch(`${authUrl}/user`, {
           headers: {
-            apikey: serviceKey,
+            apikey: secretKey,
             Authorization: `Bearer ${token}`,
           },
         });
@@ -152,7 +156,7 @@ export function createSupabaseClient(supabaseUrl: string, secretKey: string) {
         const res = await fetch(`${authUrl}/token?grant_type=password`, {
           method: "POST",
           headers: {
-            apikey: serviceKey,
+            apikey: secretKey,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ email, password }),

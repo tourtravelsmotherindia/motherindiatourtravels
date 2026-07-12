@@ -11,27 +11,25 @@ datasource db {
   provider = "postgresql"
 }
 
-// ─────────────────────────────────────────────
 // GEOGRAPHY GROUP
 // Country → State → Destination → Attraction
-// ─────────────────────────────────────────────
 
 model Country {
-  id                     String  @id @default(cuid())
+  id                     String   @id @default(cuid())
   name                   String
-  slug                   String  @unique
+  slug                   String   @unique
   continent              String
-  isDomestic             Boolean @default(false)
-  isFeatured             Boolean @default(false)
-  capital                String  @default("")
-  currency               String  @default("")
+  isDomestic             Boolean  @default(false)
+  isFeatured             Boolean  @default(false)
+  capital                String   @default("")
+  currency               String   @default("")
   languages              String[] // PostgreSQL native array
-  visaRequiredForIndians Boolean @default(true)
-  visaOnArrival          Boolean @default(false)
-  description            String  @default("")
-  seoTitle               String  @default("")
-  seoDescription         String  @default("")
-  image                  String  @default("")
+  visaRequiredForIndians Boolean  @default(true)
+  visaOnArrival          Boolean  @default(false)
+  description            String   @default("")
+  seoTitle               String   @default("")
+  seoDescription         String   @default("")
+  image                  String   @default("")
   latitude               Float?
   longitude              Float?
   createdAt              DateTime @default(now())
@@ -98,13 +96,13 @@ model Destination {
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
 
-  country  Country  @relation(fields: [countryId], references: [id])
-  state    State?   @relation(fields: [stateId], references: [id])
+  country Country @relation(fields: [countryId], references: [id])
+  state   State?  @relation(fields: [stateId], references: [id])
 
-  attractions          Attraction[]
-  packageDestinations  PackageDestination[]
-  galleryImages        GalleryImage[]
-  blogPosts            BlogPost[]
+  attractions         Attraction[]
+  packageDestinations PackageDestination[]
+  galleryImages       GalleryImage[]
+  blogPosts           BlogPost[]
 
   // Self-join for nearby destinations
   asSource    DestinationNeighbour[] @relation("SourceDestination")
@@ -129,26 +127,24 @@ model DestinationNeighbour {
 
 // A real entity with coordinates — replaces JSON topAttractions string
 model Attraction {
-  id            String  @id @default(cuid())
+  id            String @id @default(cuid())
   name          String
-  slug          String  @unique
+  slug          String @unique
   destinationId String
-  description   String  @default("")
-  image         String  @default("")
+  description   String @default("")
+  image         String @default("")
   latitude      Float?
   longitude     Float?
-  sortOrder     Int     @default(0)
+  sortOrder     Int    @default(0)
 
-  destination        Destination          @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+  destination        Destination         @relation(fields: [destinationId], references: [id], onDelete: Cascade)
   packageAttractions PackageAttraction[]
 
   @@index([destinationId])
   @@index([slug])
 }
 
-// ─────────────────────────────────────────────
 // PACKAGE GROUP
-// ─────────────────────────────────────────────
 
 model Category {
   id             String @id @default(cuid())
@@ -166,40 +162,40 @@ model Category {
 }
 
 model Package {
-  id             String   @id @default(cuid())
-  slug           String   @unique
+  id             String    @id @default(cuid())
+  slug           String    @unique
   name           String
-  overview       String   @default("")
+  overview       String    @default("")
   highlights     String[] // PostgreSQL native array
   inclusions     String[]
   exclusions     String[]
   notes          String[]
-  heroImage      String   @default("")
+  heroImage      String    @default("")
   galleryImages  String[]
-  tourStyle      String   @default("Classic") // Heritage, Beach, Wildlife, Pilgrimage, Adventure
-  groupSizeMax   Int      @default(12)
-  groupSizeAvg   Int      @default(10)
-  stayType       String   @default("Premium Hotels")
-  marketingPitch String   @default("")
-  isPopular      Boolean  @default(false)
-  isDomestic     Boolean  @default(true)
+  tourStyle      String    @default("Classic") // Heritage, Beach, Wildlife, Pilgrimage, Adventure
+  groupSizeMax   Int       @default(12)
+  groupSizeAvg   Int       @default(10)
+  stayType       String    @default("Premium Hotels")
+  marketingPitch String    @default("")
+  isPopular      Boolean   @default(false)
+  isDomestic     Boolean   @default(true)
   tags           String[]
   countryId      String
   stateId        String?
-  seoTitle       String   @default("")
-  seoDescription String   @default("")
+  seoTitle       String    @default("")
+  seoDescription String    @default("")
   seoKeywords    String[]
   publishedAt    DateTime?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 
   country Country @relation(fields: [countryId], references: [id])
   state   State?  @relation(fields: [stateId], references: [id])
 
   // Proper relational many-to-many (no JSON arrays)
-  categories        PackageCategory[]
-  variants          PackageVariant[]
-  bookingInquiries  BookingInquiry[]
+  categories       PackageCategory[]
+  variants         PackageVariant[]
+  bookingInquiries BookingInquiry[]
 
   @@index([slug])
   @@index([isPopular])
@@ -248,19 +244,19 @@ model PackageAttraction {
 model PackageVariant {
   id              String   @id @default(cuid())
   packageId       String
-  slug            String   // Auto-generated: "${nights}n-${days}d"
-  label           String   // Display: "3 Nights / 4 Days"
+  slug            String // Auto-generated: "${nights}n-${days}d"
+  label           String // Display: "3 Nights / 4 Days"
   nights          Int
   days            Int
   durationText    String   @default("") // Free-form override text
-  basePrice       Float?   // INR
+  basePrice       Float? // INR
   discountedPrice Float?
   sortOrder       Int      @default(0)
   isDefault       Boolean  @default(false) // First/featured variant
   heroImage       String?
   galleryImages   String[]
 
-  package          Package            @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  package          Package              @relation(fields: [packageId], references: [id], onDelete: Cascade)
   itinerary        ItineraryDay[]
   bookingInquiries BookingInquiry[]
   destinations     PackageDestination[]
@@ -284,9 +280,7 @@ model ItineraryDay {
   @@index([variantId])
 }
 
-// ─────────────────────────────────────────────
 // CONTENT GROUP
-// ─────────────────────────────────────────────
 
 enum HeroMode {
   SLIDES
@@ -295,9 +289,9 @@ enum HeroMode {
 
 // Singleton (id = 1): controls the homepage hero
 model HeroConfig {
-  id       Int      @id @default(1)
-  mode     HeroMode @default(SLIDES)
-  videoUrl String   @default("") // Only used when mode = VIDEO
+  id        Int      @id @default(1)
+  mode      HeroMode @default(SLIDES)
+  videoUrl  String   @default("") // Only used when mode = VIDEO
   updatedAt DateTime @updatedAt
 
   slides HeroSlide[]
@@ -325,7 +319,7 @@ model SiteSection {
   tagline  String  @default("")
   subtitle String  @default("")
   image    String? // Image URL/path for the section
-  metaJson Json?   // Any additional section-specific config
+  metaJson Json? // Any additional section-specific config
 
   @@index([key])
 }
@@ -384,7 +378,7 @@ model BlogPost {
   updatedAt          DateTime  @updatedAt
 
   destination Destination?      @relation(fields: [destinationId], references: [id], onDelete: SetNull)
-  category    BlogPostCategory?  @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  category    BlogPostCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 
   @@index([slug])
   @@index([isPublished])
@@ -392,9 +386,7 @@ model BlogPost {
   @@index([destinationId])
 }
 
-// ─────────────────────────────────────────────
 // LEAD CAPTURE GROUP
-// ─────────────────────────────────────────────
 
 enum InquiryStatus {
   NEW
@@ -411,7 +403,7 @@ enum InquirySource {
 }
 
 model BookingInquiry {
-  id              String        @id @default(cuid())
+  id              String        @id @default(dbgenerated("gen_random_uuid()"))
   packageId       String?
   variantId       String?
   packageInterest String        @default("") // loose package name for popup inquiries
@@ -422,8 +414,8 @@ model BookingInquiry {
   travelDate      DateTime?
   travelDateEnd   DateTime?
   dateMode        String        @default("calendar") // "calendar" | "flexible"
-  flexibleMonth   String        @default("")         // e.g. "2025-03" when dateMode=flexible
-  flexibleDays    Int?                               // flexible duration override
+  flexibleMonth   String        @default("") // e.g. "2025-03" when dateMode=flexible
+  flexibleDays    Int? // flexible duration override
   // Traveller breakdown
   adults          Int           @default(1)
   children        Int           @default(0)
@@ -456,7 +448,7 @@ enum ContactStatus {
 }
 
 model ContactSubmission {
-  id        String        @id @default(cuid())
+  id        String        @id @default(dbgenerated("gen_random_uuid()"))
   name      String
   email     String
   phone     String        @default("")
@@ -470,20 +462,18 @@ model ContactSubmission {
 }
 
 model NewsletterSubscriber {
-  id              String    @id @default(cuid())
-  email           String    @unique
-  name            String    @default("")
-  isVerified      Boolean   @default(false)
-  subscribedAt    DateTime  @default(now())
-  unsubscribedAt  DateTime?
+  id             String    @id @default(dbgenerated("gen_random_uuid()"))
+  email          String    @unique
+  name           String    @default("")
+  isVerified     Boolean   @default(false)
+  subscribedAt   DateTime  @default(now())
+  unsubscribedAt DateTime?
 
   @@index([email])
   @@index([isVerified])
 }
 
-// ─────────────────────────────────────────────
 // COMPANY GROUP
-// ─────────────────────────────────────────────
 
 // Singleton record (id = 1)
 model Company {
@@ -496,11 +486,11 @@ model Company {
   address          String   @default("")
   whatsappNumber   String   @default("")
   timezone         String   @default("Asia/Kolkata")
-  schedule         Json     // Array of working hours objects
+  schedule         Json // Array of working hours objects
   exceptions       Json     @default("[]")
-  socialMedia      Json     // { facebook, instagram, twitter, ... }
+  socialMedia      Json // { facebook, instagram, twitter, ... }
   certifications   String[]
-  about            Json     // Rich about section JSON
+  about            Json // Rich about section JSON
   googleAnalytics  String   @default("")
   googleTagManager String   @default("")
   latitude         Float?
@@ -510,16 +500,32 @@ model Company {
 
 // Loose-string reviews (sourced from Google/TripAdvisor externally)
 model Testimonial {
-  id         String   @id @default(cuid())
-  reviewer   String
-  review     String
-  rating     Int      // 1–5
-  packageName String  @default("") // Loose string — not a FK
-  source     String   @default("Google") // e.g. Google, TripAdvisor
-  isApproved Boolean  @default(true)
-  isFeatured Boolean  @default(false)
-  createdAt  DateTime @default(now())
+  id          String   @id @default(cuid())
+  reviewer    String
+  review      String
+  rating      Int // 1–5
+  packageName String   @default("") // Loose string — not a FK
+  source      String   @default("Google") // e.g. Google, TripAdvisor
+  isApproved  Boolean  @default(true)
+  isFeatured  Boolean  @default(false)
+  createdAt   DateTime @default(now())
 
   @@index([isApproved])
   @@index([isFeatured])
 }
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+model User {
+  id        String   @id @default(dbgenerated("gen_random_uuid()"))
+  email     String   @unique
+  role      UserRole @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+}
+
