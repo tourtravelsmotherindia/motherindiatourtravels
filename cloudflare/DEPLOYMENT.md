@@ -1,7 +1,7 @@
 # Cloudflare Workers & R2 Storage — Deployment Guide
 
 Mother India Tour Travels backend infrastructure.  
-Two workers, two subdomains, one private R2 bucket, zero Cloudinary dependencies.
+Two workers, two subdomains, one private R2 bucket.
 
 ---
 
@@ -149,7 +149,7 @@ npx wrangler secret put SMTP_HOST
 npx wrangler secret put SMTP_PORT
 ```
 
-_Note: No Cloudinary secrets are needed anymore since uploads go directly to the bound R2 bucket._
+_Note: All uploads go directly to the bound R2 bucket._
 
 ---
 
@@ -170,27 +170,23 @@ After deploying, Wrangler will outputs workers.dev subdomains:
 - `motherindiatourtravels-api.YOUR-SUBDOMAIN.workers.dev`
 - `motherindiatourtravels-images.YOUR-SUBDOMAIN.workers.dev`
 
----
+## Step 6 — Custom Domain Setup (Correct Way)
 
-## Step 6 — DNS Setup in Cloudflare Dashboard
+Do **not** create manual CNAME records targeting `*.workers.dev` in your DNS tab (doing so results in a **522 Connection Timed Out** error because Cloudflare cannot resolve manual bindings). Instead, let Cloudflare manage the routing automatically:
 
-Go to Cloudflare Dashboard → `motherindiatourtravels.com` → **DNS** → **Records**.
+1. Go to **Cloudflare Dashboard** → **Workers & Pages**.
+2. Click on the API worker (`motherindiatourtravels-api`).
+3. Go to the **Settings** tab → **Domains & Routes** section.
+4. Click **Add Custom Domain** and enter: `api.motherindiatourtravels.com`.
+5. Cloudflare will automatically create and configure the correct DNS entries.
 
-Add two CNAME records:
+Repeat the exact same steps for the images worker:
 
-| Type  | Name   | Target                                                     | Proxy      |
-| ----- | ------ | ---------------------------------------------------------- | ---------- |
-| CNAME | api    | `motherindiatourtravels-api.YOUR-SUBDOMAIN.workers.dev`    | ✅ Proxied |
-| CNAME | images | `motherindiatourtravels-images.YOUR-SUBDOMAIN.workers.dev` | ✅ Proxied |
+1. Click on the images worker (`motherindiatourtravels-images`).
+2. Go to the **Settings** tab → **Domains & Routes** section.
+3. Click **Add Custom Domain** and enter: `images.motherindiatourtravels.com`.
 
----
-
-## Step 7 — Worker Routes (Custom Domains)
-
-In Cloudflare Dashboard → **Workers & Pages** → click your worker → **Settings** → **Domains & Routes**:
-
-For **motherindiatourtravels-api**: Add custom domain `api.motherindiatourtravels.com`  
-For **motherindiatourtravels-images**: Add custom domain `images.motherindiatourtravels.com`
+_(If you previously created manual DNS CNAME entries for `api` or `images`, delete them once Cloudflare prompts you to or instructs you to replace them.)_
 
 ---
 
