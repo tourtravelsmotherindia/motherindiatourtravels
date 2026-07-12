@@ -10,6 +10,10 @@ ALLOWED_ORIGIN = "https://motherindiatourtravels.com"
 binding = "BUCKET"
 bucket_name = "motherindiatourtravels-assets"
 
+[observability.logs]
+enabled = false
+invocation_logs = true
+
 # Secrets — set via: npx wrangler secret put <KEY_NAME>
 # SUPABASE_URL
 # SUPABASE_SECRET_KEY
@@ -19,4 +23,3 @@ bucket_name = "motherindiatourtravels-assets"
 # NOTIFY_SMTP_PASS
 # SMTP_HOST
 # SMTP_PORT
-
