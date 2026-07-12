@@ -324,6 +324,7 @@ model SiteSection {
   key      String  @unique // e.g. "faq", "gallery"
   tagline  String  @default("")
   subtitle String  @default("")
+  image    String? // Image URL/path for the section
   metaJson Json?   // Any additional section-specific config
 
   @@index([key])

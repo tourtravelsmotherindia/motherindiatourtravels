@@ -12,6 +12,7 @@ export async function getFAQSectionData(): Promise<FAQSectionData> {
     subtitle:
       section?.subtitle ??
       "We've got answers to the most common travel questions from our customers.",
+    image: section?.image,
     items: faqs.map((f) => ({
       id: f.id,
       question: f.question,

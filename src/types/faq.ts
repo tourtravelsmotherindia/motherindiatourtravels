@@ -10,5 +10,6 @@ export interface FAQItem {
 export interface FAQSectionData {
   tagline: string;
   subtitle: string;
+  image?: string | null;
   items: FAQItem[];
 }

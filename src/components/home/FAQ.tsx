@@ -52,8 +52,8 @@ export default function FAQ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         <div className="lg:col-span-5 relative w-full h-[320px] sm:h-[400px] lg:h-[500px]">
           <Image
-            src="/images/trip_ladakh.png"
-            alt="Majestic mountain lake in Ladakh"
+            src={faqData?.image || "/images/trip_ladakh.png"}
+            alt="FAQ section illustration"
             fill
             className="object-cover rounded-[32px]"
             sizes="(max-width: 1024px) 100vw, 40vw"

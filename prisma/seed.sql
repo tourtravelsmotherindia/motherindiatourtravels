@@ -411,14 +411,14 @@ ON CONFLICT DO NOTHING;
 -- ─────────────────────────────────────────────
 -- SITE SECTIONS (CMS text for page sections)
 -- ─────────────────────────────────────────────
-INSERT INTO "SiteSection" ("id","key","tagline","subtitle") VALUES
-(gen_random_uuid(), 'faq', 'Have Questions?', 'We''ve got answers to the most common travel questions from our customers.'),
-(gen_random_uuid(), 'gallery', 'Our Travel Gallery', 'Catch a glimpse of the mesmerizing landscapes, historical monuments, and soulful cultures captured during our curated trips.'),
-(gen_random_uuid(), 'why-choose-us', 'Why Choose Us', 'Two decades of trust, expertise, and unforgettable journeys across India and the world.'),
-(gen_random_uuid(), 'testimonials', 'What Our Travelers Say', 'Thousands of happy travelers have explored India with us. Here''s what they say about their experience.'),
-(gen_random_uuid(), 'destinations', 'Explore Destinations', 'From the snow-capped Himalayas to tropical beaches, discover India''s incredible diversity with our handpicked destinations.')
+INSERT INTO "SiteSection" ("id","key","tagline","subtitle","image") VALUES
+(gen_random_uuid(), 'faq', 'Have Questions?', 'We''ve got answers to the most common travel questions from our customers.', 'https://beta.motherindiatourtravels.com/images/trip_ladakh.png'),
+(gen_random_uuid(), 'gallery', 'Our Travel Gallery', 'Catch a glimpse of the mesmerizing landscapes, historical monuments, and soulful cultures captured during our curated trips.', NULL),
+(gen_random_uuid(), 'why-choose-us', 'Why Choose Us', 'Two decades of trust, expertise, and unforgettable journeys across India and the world.', NULL),
+(gen_random_uuid(), 'testimonials', 'What Our Travelers Say', 'Thousands of happy travelers have explored India with us. Here''s what they say about their experience.', NULL),
+(gen_random_uuid(), 'destinations', 'Explore Destinations', 'From the snow-capped Himalayas to tropical beaches, discover India''s incredible diversity with our handpicked destinations.', NULL)
 ON CONFLICT ("key") DO UPDATE SET
-  "tagline" = EXCLUDED."tagline", "subtitle" = EXCLUDED."subtitle";
+  "tagline" = EXCLUDED."tagline", "subtitle" = EXCLUDED."subtitle", "image" = EXCLUDED."image";
 
 -- ─────────────────────────────────────────────
 -- GALLERY IMAGES
