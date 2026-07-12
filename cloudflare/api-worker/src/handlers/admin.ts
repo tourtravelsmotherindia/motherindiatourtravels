@@ -9,7 +9,7 @@ export async function handleAdminBookingsGet(request: Request, env: Env): Promis
   } catch (r) {
     return r as Response;
   }
-  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_KEY);
+  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
   const bookings = await db.from("BookingInquiry").select("*").order("createdAt", false).get();
   return Response.json(bookings);
 }
@@ -31,7 +31,7 @@ export async function handleAdminBookingsUpdateStatus(
   if (!id) return Response.json({ error: "id required" }, { status: 400 });
   const body = (await request.json()) as { status: string };
   if (!body.status) return Response.json({ error: "status required" }, { status: 400 });
-  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_KEY);
+  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
   const booking = await db.from("BookingInquiry").update(id, { status: body.status });
   return Response.json(booking);
 }
@@ -43,7 +43,7 @@ export async function handleAdminContactsGet(request: Request, env: Env): Promis
   } catch (r) {
     return r as Response;
   }
-  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_KEY);
+  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
   const contacts = await db.from("ContactSubmission").select("*").order("createdAt", false).get();
   return Response.json(contacts);
 }
@@ -64,7 +64,7 @@ export async function handleAdminContactsUpdateStatus(
   if (!id) return Response.json({ error: "id required" }, { status: 400 });
   const body = (await request.json()) as { status: string };
   if (!body.status) return Response.json({ error: "status required" }, { status: 400 });
-  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_KEY);
+  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
   const contact = await db.from("ContactSubmission").update(id, { status: body.status });
   return Response.json(contact);
 }

@@ -27,7 +27,7 @@ export async function handleContact(request: Request, env: Env): Promise<Respons
     return Response.json({ error: "name, email, and message are required" }, { status: 400 });
   }
 
-  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_KEY);
+  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
 
   let submission: Record<string, unknown>;
   try {

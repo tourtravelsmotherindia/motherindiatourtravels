@@ -30,7 +30,7 @@ export async function handleBooking(request: Request, env: Env): Promise<Respons
     return Response.json({ error: "name, email, and phone are required" }, { status: 400 });
   }
 
-  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_KEY);
+  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
 
   // Build the record to insert
   const record = {

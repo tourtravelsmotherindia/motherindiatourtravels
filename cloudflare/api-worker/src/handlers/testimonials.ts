@@ -4,7 +4,7 @@ import type { Env } from "../types";
 
 /** GET /testimonials — public list of approved testimonials */
 export async function handleTestimonialsGet(url: URL, env: Env): Promise<Response> {
-  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_KEY);
+  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
   const id = url.pathname.split("/")[2];
   if (id) {
     const testimonial = await db.from("Testimonial").select("*").eq("id", id).getOne();
@@ -28,7 +28,7 @@ export async function handleTestimonialsCreate(request: Request, env: Env): Prom
     return r as Response;
   }
   const body = (await request.json()) as Record<string, unknown>;
-  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_KEY);
+  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
   const testimonial = await db.from("Testimonial").insert(body);
   return Response.json(testimonial, { status: 201 });
 }
@@ -47,7 +47,7 @@ export async function handleTestimonialsUpdate(
   const id = url.pathname.split("/")[2];
   if (!id) return Response.json({ error: "id required" }, { status: 400 });
   const body = (await request.json()) as Record<string, unknown>;
-  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_KEY);
+  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
   const testimonial = await db.from("Testimonial").update(id, body);
   return Response.json(testimonial);
 }
@@ -65,7 +65,7 @@ export async function handleTestimonialsDelete(
   }
   const id = url.pathname.split("/")[2];
   if (!id) return Response.json({ error: "id required" }, { status: 400 });
-  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_KEY);
+  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
   await db.from("Testimonial").delete(id);
   return new Response(null, { status: 204 });
 }

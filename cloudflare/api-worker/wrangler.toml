@@ -12,7 +12,7 @@ bucket_name = "motherindiatourtravels-assets"
 
 # Secrets — set via: npx wrangler secret put <KEY_NAME>
 # SUPABASE_URL
-# SUPABASE_SERVICE_KEY
+# SUPABASE_SECRET_KEY
 # BOOKING_SMTP_USER
 # BOOKING_SMTP_PASS
 # NOTIFY_SMTP_USER

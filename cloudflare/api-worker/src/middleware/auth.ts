@@ -26,7 +26,7 @@ export async function requireAdmin(
     });
   }
 
-  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_KEY);
+  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
   const user = await db.verifyToken(token);
 
   if (!user) {

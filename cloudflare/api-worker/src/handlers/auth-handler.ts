@@ -15,7 +15,7 @@ export async function handleLogin(request: Request, env: Env): Promise<Response>
     return Response.json({ error: "email and password are required" }, { status: 400 });
   }
 
-  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_KEY);
+  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
   const result = await db.signIn(email, password);
 
   if (!result) {

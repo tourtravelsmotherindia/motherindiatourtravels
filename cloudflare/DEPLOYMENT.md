@@ -74,10 +74,10 @@ Since our admin panel uploads files by sending them to our worker API (`api.moth
 
 In your Supabase project:
 
-- **Project URL**: Settings → API → Project URL
-- **Service Role Key**: Settings → API → `service_role` (secret key — bypasses RLS)
+- **Project URL**: Settings → API Keys → Project URL
+- **Secret Key**: Settings → API Keys → Secret Key (`sb_secret_...` format key — bypasses RLS)
 
-> ⚠️ Never expose the service role key in client-side code. It lives only in Worker secrets.
+> ⚠️ Never expose the secret key in client-side code. It lives only in Worker secrets.
 
 ### 3b. Create the admin user
 
@@ -134,7 +134,7 @@ From inside `cloudflare/api-worker/`, run each command and enter the value when 
 ```bash
 # Supabase
 npx wrangler secret put SUPABASE_URL
-npx wrangler secret put SUPABASE_SERVICE_KEY
+npx wrangler secret put SUPABASE_SECRET_KEY
 
 # SMTP — Booking emails (bookings, contact form notifications)
 npx wrangler secret put BOOKING_SMTP_USER
@@ -178,8 +178,8 @@ Go to Cloudflare Dashboard → `motherindiatourtravels.com` → **DNS** → **Re
 
 Add two CNAME records:
 
-| Type  | Name   | Target                                           | Proxy      |
-| ----- | ------ | ------------------------------------------------ | ---------- |
+| Type  | Name   | Target                                                     | Proxy      |
+| ----- | ------ | ---------------------------------------------------------- | ---------- |
 | CNAME | api    | `motherindiatourtravels-api.YOUR-SUBDOMAIN.workers.dev`    | ✅ Proxied |
 | CNAME | images | `motherindiatourtravels-images.YOUR-SUBDOMAIN.workers.dev` | ✅ Proxied |
 
@@ -269,14 +269,14 @@ NEXT_PUBLIC_IMAGES_URL=http://localhost:8788
 
 ## Secrets & Config Summary
 
-| Variable               | Location                   | Description                        |
-| ---------------------- | -------------------------- | ---------------------------------- |
-| `SUPABASE_URL`         | api-worker                 | Supabase REST URL                  |
-| `SUPABASE_SERVICE_KEY` | api-worker                 | Supabase service_role key          |
-| `BUCKET`               | api-worker & images-worker | R2 Bucket wrangler binding         |
-| `BOOKING_SMTP_USER`    | api-worker                 | Mail account for booking emails    |
-| `BOOKING_SMTP_PASS`    | api-worker                 | Password for booking email account |
-| `NOTIFY_SMTP_USER`     | api-worker                 | Mail account for notifications     |
-| `NOTIFY_SMTP_PASS`     | api-worker                 | Password for notification account  |
-| `SMTP_HOST`            | api-worker                 | `mail.motherindiatourtravels.com`  |
-| `SMTP_PORT`            | api-worker                 | `465` (secure port)                |
+| Variable              | Location                   | Description                                  |
+| --------------------- | -------------------------- | -------------------------------------------- |
+| `SUPABASE_URL`        | api-worker                 | Supabase REST URL                            |
+| `SUPABASE_SECRET_KEY` | api-worker                 | Supabase secret key (`sb_secret_...` format) |
+| `BUCKET`              | api-worker & images-worker | R2 Bucket wrangler binding                   |
+| `BOOKING_SMTP_USER`   | api-worker                 | Mail account for booking emails              |
+| `BOOKING_SMTP_PASS`   | api-worker                 | Password for booking email account           |
+| `NOTIFY_SMTP_USER`    | api-worker                 | Mail account for notifications               |
+| `NOTIFY_SMTP_PASS`    | api-worker                 | Password for notification account            |
+| `SMTP_HOST`           | api-worker                 | `mail.motherindiatourtravels.com`            |
+| `SMTP_PORT`           | api-worker                 | `465` (secure port)                          |

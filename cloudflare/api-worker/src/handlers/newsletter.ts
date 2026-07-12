@@ -17,7 +17,7 @@ export async function handleNewsletter(request: Request, env: Env): Promise<Resp
     return Response.json({ error: "A valid email address is required" }, { status: 400 });
   }
 
-  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_KEY);
+  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
 
   try {
     // Upsert to handle duplicate subscriptions gracefully

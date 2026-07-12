@@ -4,7 +4,7 @@ import type { Env } from "../types";
 
 /** GET /company — public fetch of Company profile */
 export async function handleCompanyGet(env: Env): Promise<Response> {
-  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_KEY);
+  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
   const company = await db
     .from("Company")
     .select(
@@ -23,7 +23,7 @@ export async function handleCompanyUpdate(request: Request, env: Env): Promise<R
     return r as Response;
   }
   const body = (await request.json()) as Record<string, unknown>;
-  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_KEY);
+  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
 
   // Fetch the existing company record to get its id
   const existing = await db.from("Company").select("id").getOne<{ id: string }>();

@@ -7,7 +7,7 @@ export interface Env {
 
   // Secrets
   SUPABASE_URL: string;
-  SUPABASE_SERVICE_KEY: string;
+  SUPABASE_SECRET_KEY: string;
   BOOKING_SMTP_USER: string;
   BOOKING_SMTP_PASS: string;
   NOTIFY_SMTP_USER: string;

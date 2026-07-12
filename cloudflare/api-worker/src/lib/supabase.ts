@@ -2,13 +2,13 @@
  * Minimal Supabase REST client for Cloudflare Workers.
  * Uses PostgREST syntax via native fetch — no Node.js SDK required.
  */
-export function createSupabaseClient(supabaseUrl: string, serviceKey: string) {
+export function createSupabaseClient(supabaseUrl: string, secretKey: string) {
   const base = `${supabaseUrl}/rest/v1`;
   const authUrl = `${supabaseUrl}/auth/v1`;
 
   const headers = {
-    apikey: serviceKey,
-    Authorization: `Bearer ${serviceKey}`,
+    apikey: secretKey,
+    Authorization: `Bearer ${secretKey}`,
     "Content-Type": "application/json",
     Prefer: "return=representation",
   };

@@ -4,7 +4,7 @@ import type { Env } from "../types";
 
 /** GET /tours — public list, GET /tours/:id — public detail */
 export async function handleToursGet(url: URL, env: Env): Promise<Response> {
-  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_KEY);
+  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
   const id = url.pathname.split("/")[2]; // /tours/:id
 
   if (id) {
@@ -28,7 +28,7 @@ export async function handleToursCreate(request: Request, env: Env): Promise<Res
     return r as Response;
   }
   const body = (await request.json()) as Record<string, unknown>;
-  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_KEY);
+  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
   const pkg = await db.from("Package").insert(body);
   return Response.json(pkg, { status: 201 });
 }
@@ -43,7 +43,7 @@ export async function handleToursUpdate(request: Request, url: URL, env: Env): P
   const id = url.pathname.split("/")[2];
   if (!id) return Response.json({ error: "id required" }, { status: 400 });
   const body = (await request.json()) as Record<string, unknown>;
-  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_KEY);
+  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
   const pkg = await db.from("Package").update(id, body);
   return Response.json(pkg);
 }
@@ -57,7 +57,7 @@ export async function handleToursDelete(request: Request, url: URL, env: Env): P
   }
   const id = url.pathname.split("/")[2];
   if (!id) return Response.json({ error: "id required" }, { status: 400 });
-  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_KEY);
+  const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
   await db.from("Package").delete(id);
   return new Response(null, { status: 204 });
 }
