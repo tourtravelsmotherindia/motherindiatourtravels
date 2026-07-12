@@ -124,7 +124,7 @@ export async function subscribeNewsletter(payload: NewsletterPayload): Promise<N
  * @param publicId   - R2 object key (e.g. "mother-india/gallery/photo.jpg")
  * @param _transforms - Unused, kept for backwards compatibility with call signatures
  */
-export function buildImageUrl(publicId: string, _transforms?: string): string {
+export function buildImageUrl(publicId: string): string {
   const imagesBase =
     process.env.NEXT_PUBLIC_IMAGES_URL ?? "https://images.motherindiatourtravels.com";
   return `${imagesBase}/${publicId}`;
