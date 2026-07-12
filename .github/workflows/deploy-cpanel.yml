@@ -28,12 +28,16 @@ on:
   # Allow manual trigger from GitHub Actions tab
   workflow_dispatch:
 
+# Prevent overlapping deploys from racing each other on the same FTP target
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-and-deploy:
     name: Build static site & upload to cPanel
     runs-on: ubuntu-latest
     environment: Production
-
     steps:
       - name: Checkout source
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
@@ -79,13 +83,24 @@ jobs:
           [[ -z "$FTP_USERNAME" ]] && missing+=("FTP_USERNAME")
           [[ -z "$FTP_PASSWORD" ]] && missing+=("FTP_PASSWORD")
           [[ -z "$FTP_SERVER_DIR" ]] && missing+=("FTP_SERVER_DIR")
-
           if (( ${#missing[@]} > 0 )); then
             echo "::warning::Skipping FTP upload because required secrets are missing: ${missing[*]}"
             echo "ready=false" >> "$GITHUB_OUTPUT"
           else
             echo "ready=true" >> "$GITHUB_OUTPUT"
           fi
+
+      # Restore the FTP-Deploy-Action state file from the last successful run so it
+      # can diff against a known-good manifest instead of re-stat'ing the whole
+      # remote tree from scratch on a blank runner every time.
+      - name: Restore FTP deploy state
+        if: steps.ftp-secrets.outputs.ready == 'true'
+        uses: actions/cache@v4
+        with:
+          path: .ftp-deploy-sync-state.json
+          key: ftp-state-${{ github.ref }}-${{ github.run_id }}
+          restore-keys: |
+            ftp-state-${{ github.ref }}-
 
       # Deploy to cPanel via FTP
       # Uploads the entire out/ directory. The FTP server dir is expected
@@ -99,9 +114,18 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./out/
           server-dir: ${{ secrets.FTP_SERVER_DIR }}/
+          state-name: .ftp-deploy-sync-state.json
+          log-level: minimal
           # Only delete files in the root level of server-dir to keep
           # cPanel system files intact (.htaccess, etc.)
           exclude: |
             **/.htaccess
             **/.htpasswd
             **/cgi-bin/**
+
+      - name: Save FTP deploy state
+        if: always() && steps.ftp-secrets.outputs.ready == 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: .ftp-deploy-sync-state.json
+          key: ftp-state-${{ github.ref }}-${{ github.run_id }}
