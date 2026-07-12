@@ -7,6 +7,9 @@ compatibility_flags = ["nodejs_compat"]
 ENVIRONMENT = "production"
 ALLOWED_ORIGIN = "https://motherindiatourtravels.com"
 
+[assets]
+directory = "./public"
+
 [[r2_buckets]]
 binding = "BUCKET"
 bucket_name = "motherindiatourtravels-assets"
