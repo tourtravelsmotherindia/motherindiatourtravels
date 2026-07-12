@@ -81,20 +81,20 @@ async function route(request: Request, url: URL, env: Env): Promise<Response> {
   const sub = parts[2]; // e.g. id or sub-resource
   const subsub = parts[3]; // e.g. 'status'
 
-  // ── Auth ───────────────────────────────────
+  // Auth
   if (resource === "auth" && sub === "login" && method === "POST") {
     return handleLogin(request, env);
   }
 
-  // ── Public form endpoints ──────────────────
+  // Public form endpoints
   if (resource === "booking" && method === "POST") return handleBooking(request, env);
   if (resource === "contact" && method === "POST") return handleContact(request, env);
   if (resource === "newsletter" && method === "POST") return handleNewsletter(request, env);
 
-  // ── Upload (admin) ─────────────────────────
+  // Upload (admin)
   if (resource === "upload" && method === "POST") return handleUpload(request, env);
 
-  // ── Tours (Package) ───────────────────────
+  // Tours (Package)
   if (resource === "tours") {
     if (method === "GET") return handleToursGet(url, env);
     if (method === "POST") return handleToursCreate(request, env);
@@ -102,7 +102,7 @@ async function route(request: Request, url: URL, env: Env): Promise<Response> {
     if (method === "DELETE") return handleToursDelete(request, url, env);
   }
 
-  // ── Gallery ───────────────────────────────
+  // Gallery
   if (resource === "gallery") {
     if (method === "GET") return handleGalleryGet(url, env);
     if (method === "POST") return handleGalleryCreate(request, env);
@@ -110,7 +110,7 @@ async function route(request: Request, url: URL, env: Env): Promise<Response> {
     if (method === "DELETE") return handleGalleryDelete(request, url, env);
   }
 
-  // ── Destinations ──────────────────────────
+  // Destinations
   if (resource === "destinations") {
     if (method === "GET") return handleDestinationsGet(url, env);
     if (method === "POST") return handleDestinationsCreate(request, env);
@@ -118,7 +118,7 @@ async function route(request: Request, url: URL, env: Env): Promise<Response> {
     if (method === "DELETE") return handleDestinationsDelete(request, url, env);
   }
 
-  // ── FAQs ──────────────────────────────────
+  // FAQs
   if (resource === "faqs") {
     if (method === "GET") return handleFaqsGet(env);
     if (method === "POST") return handleFaqsCreate(request, env);
@@ -126,7 +126,7 @@ async function route(request: Request, url: URL, env: Env): Promise<Response> {
     if (method === "DELETE") return handleFaqsDelete(request, url, env);
   }
 
-  // ── Blogs ─────────────────────────────────
+  // Blogs
   if (resource === "blogs") {
     if (method === "GET") return handleBlogsGet(url, env);
     if (method === "POST") return handleBlogsCreate(request, env);
@@ -134,33 +134,33 @@ async function route(request: Request, url: URL, env: Env): Promise<Response> {
     if (method === "DELETE") return handleBlogsDelete(request, url, env);
   }
 
-  // ── Testimonials ──────────────────────────
+  // Testimonials
   if (resource === "testimonials") {
-    if (method === "GET") return handleTestimonialsGet(env);
+    if (method === "GET") return handleTestimonialsGet(url, env);
     if (method === "POST") return handleTestimonialsCreate(request, env);
     if (method === "PATCH") return handleTestimonialsUpdate(request, url, env);
     if (method === "DELETE") return handleTestimonialsDelete(request, url, env);
   }
 
-  // ── Site Sections ─────────────────────────
+  // Site Sections
   if (resource === "site-sections") {
     if (method === "GET") return handleSiteSectionsGet(url, env);
     if (method === "PATCH") return handleSiteSectionsUpdate(request, url, env);
   }
 
-  // ── Hero ──────────────────────────────────
+  // Hero
   if (resource === "hero") {
     if (method === "GET") return handleHeroGet(env);
     if (method === "PATCH") return handleHeroUpdate(request, env);
   }
 
-  // ── Company ───────────────────────────────
+  // Company
   if (resource === "company") {
     if (method === "GET") return handleCompanyGet(env);
     if (method === "PATCH") return handleCompanyUpdate(request, env);
   }
 
-  // ── Admin ─────────────────────────────────
+  // Admin
   if (resource === "admin") {
     if (sub === "bookings") {
       if (method === "GET" && !subsub) return handleAdminBookingsGet(request, env);

@@ -10,7 +10,7 @@ import type {
   PackageVariantItem,
 } from "@/types/package";
 
-// ─── Mapping helpers ──────────────────────────────────────────────────────────
+// Mapping helpers
 
 function mapDestination(pd: {
   sortOrder: number;
@@ -292,7 +292,7 @@ const packageDetailInclude = {
   },
 } as const;
 
-// ─── Public API ───────────────────────────────────────────────────────────────
+// Public API
 
 export async function getAllPackages(): Promise<PackageItem[]> {
   const packages = await prisma.package.findMany({

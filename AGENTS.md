@@ -9,6 +9,7 @@ This is the **single source of truth** for how to write code in this repository.
 > - [Component Patterns](file://./.claude/rules/components.md) — server/client split, data fetching, animations, card patterns, component descriptions.
 > - [Build, Image & SEO Rules](file://./.claude/rules/build_seo.md) — static export, image rules, SEO constraints.
 > - [Structure & Types](file://./.claude/rules/structure_types.md) — folder structure, database schema, type definitions.
+> - [Code Style & Comments](file://./.claude/rules/code_style.md) — commenting conventions, plain comment rules.
 
 ---
 
@@ -64,3 +65,4 @@ This ensures no lint errors, consistent formatting, and no broken builds.
 - **No frames/backgrounds on Logo**: Brand logo images must never have a surrounding frame, background box, border, or shadow.
 - **No server-only APIs in pages**: Since Next.js static export is used, do not use `headers()`, `cookies()`, `noStore()`, or dynamic runtime options.
 - **Clean Code Skill**: Always use the `clean-code` skill when writing or modifying any code in this repository.
+- **No decorative comments**: Do not use heavy borders, decorative separators, or visual banners in code comments (e.g., `// ── ...`). Keep them plain (e.g., `// Testimonials`). Refer to the [Code Style](file://./.claude/rules/code_style.md) guidelines.

@@ -7,9 +7,7 @@
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "https://api.motherindiatourtravels.com";
 
-// ─────────────────────────────────────────────────────────────────────────────
 // TYPES
-// ─────────────────────────────────────────────────────────────────────────────
 
 export interface ApiError {
   error: string;
@@ -76,9 +74,7 @@ export interface NewsletterResponse {
   success: boolean;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 // HELPERS
-// ─────────────────────────────────────────────────────────────────────────────
 
 async function post<TResponse>(path: string, body: unknown): Promise<TResponse> {
   const res = await fetch(`${API_BASE}${path}`, {
@@ -96,9 +92,7 @@ async function post<TResponse>(path: string, body: unknown): Promise<TResponse> 
   return data as TResponse;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 // PUBLIC API FUNCTIONS
-// ─────────────────────────────────────────────────────────────────────────────
 
 /**
  * Submit a booking inquiry (from the /book page or popup modal).

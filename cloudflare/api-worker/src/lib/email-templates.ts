@@ -52,9 +52,7 @@ function infoRow(label: string, value: string): string {
   </tr>`;
 }
 
-// ────────────────────────────────────────────
 // BOOKING TEMPLATES
-// ────────────────────────────────────────────
 
 export interface BookingEmailData {
   guestName: string;
@@ -164,9 +162,7 @@ export function bookingCompanyTemplate(data: BookingEmailData): string {
   return baseTemplate(content, `NEW BOOKING: ${data.guestName} — ${data.packageName}`);
 }
 
-// ────────────────────────────────────────────
 // CONTACT TEMPLATES
-// ────────────────────────────────────────────
 
 export interface ContactEmailData {
   name: string;
