@@ -1,8 +1,7 @@
-import { buildImageUrl, signCloudinaryUpload } from "../lib/cloudinary";
 import { requireAdmin } from "../middleware/auth";
 import type { Env } from "../types";
 
-/** POST /upload — admin only, signs and proxies file to Cloudinary */
+/** POST /upload — admin only, puts file to R2 Object Storage */
 export async function handleUpload(request: Request, env: Env): Promise<Response> {
   try {
     await requireAdmin(request, env);
@@ -23,44 +22,29 @@ export async function handleUpload(request: Request, env: Env): Promise<Response
   }
 
   const folder = (formData.get("folder") as string) || "mother-india";
-  const timestamp = Math.floor(Date.now() / 1000).toString();
+  const name = (file as any).name || "upload";
+  const cleanName = name.replace(/[^a-zA-Z0-9.-]/g, "_");
+  const uniqueId = Math.random().toString(36).substring(2, 10);
+  const key = `${folder}/${Date.now()}_${uniqueId}_${cleanName}`;
 
-  const signature = await signCloudinaryUpload({ folder, timestamp }, env.CLOUDINARY_SECRET);
-
-  const uploadForm = new FormData();
-  uploadForm.append("file", file);
-  uploadForm.append("folder", folder);
-  uploadForm.append("timestamp", timestamp);
-  uploadForm.append("api_key", env.CLOUDINARY_KEY);
-  uploadForm.append("signature", signature);
-
-  const res = await fetch(`https://api.cloudinary.com/v1_1/${env.CLOUDINARY_CLOUD}/image/upload`, {
-    method: "POST",
-    body: uploadForm,
-  });
-
-  if (!res.ok) {
-    const err = await res.text();
-    console.error("Cloudinary upload failed:", err);
-    return Response.json({ error: "Upload to Cloudinary failed" }, { status: 502 });
+  try {
+    await env.BUCKET.put(key, file.stream(), {
+      httpMetadata: {
+        contentType: file.type || "application/octet-stream",
+        cacheControl: "public, max-age=2592000", // 30 days cache
+      },
+    });
+  } catch (err) {
+    console.error("R2 upload failed:", err);
+    return Response.json({ error: "Upload to R2 Object Storage failed" }, { status: 500 });
   }
 
-  const data = (await res.json()) as {
-    public_id: string;
-    width: number;
-    height: number;
-    format: string;
-    bytes: number;
-  };
-
-  const publicUrl = buildImageUrl(data.public_id, "f_auto,q_auto");
+  const imagesBase = "https://images.motherindiatourtravels.com";
+  const publicUrl = `${imagesBase}/${key}`;
 
   return Response.json({
-    public_id: data.public_id,
+    public_id: key,
     url: publicUrl,
-    width: data.width,
-    height: data.height,
-    format: data.format,
-    bytes: data.bytes,
+    bytes: file.size,
   });
 }

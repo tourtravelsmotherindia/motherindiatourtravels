@@ -1,20 +1,20 @@
-# Cloudflare Workers — Deployment Guide
+# Cloudflare Workers & R2 Storage — Deployment Guide
 
 Mother India Tour Travels backend infrastructure.  
-Two workers, two subdomains, zero Cloudinary URLs in the browser.
+Two workers, two subdomains, one private R2 bucket, zero Cloudinary dependencies.
 
 ---
 
 ## Prerequisites
 
 - Cloudflare account with `motherindiatourtravels.com` domain added
-- Cloudinary account (free tier is fine to start)
+- Cloudflare R2 storage enabled (free tier: 10GB/month)
 - Supabase project (already set up)
 - SMTP credentials for `mail.motherindiatourtravels.com`
 
 ---
 
-## Step 1 — Install Wrangler (project-scoped, no global)
+## Step 1 — Install Wrangler
 
 Each worker has its own `wrangler` installed locally.
 
@@ -28,7 +28,7 @@ cd ../images-worker
 npm install
 ```
 
-Login to Cloudflare (this is OAuth, happens once per machine):
+Login to Cloudflare:
 
 ```bash
 cd cloudflare/api-worker
@@ -37,16 +37,34 @@ npx wrangler login
 
 ---
 
-## Step 2 — Cloudinary Setup
+## Step 2 — Cloudflare R2 Bucket Setup
 
-1. Go to [cloudinary.com](https://cloudinary.com) → Sign up / Log in
-2. Go to **Settings → Access Keys**
-3. Note down:
-   - `Cloud Name` (e.g. `my-cloud`)
-   - `API Key`
-   - `API Secret`
+1. Go to **Cloudflare Dashboard** → **R2** → **Overview**.
+2. Click **Create bucket**.
+3. Name the bucket: `mother-india-assets`.
+4. Click **Create bucket** to confirm.
+5. Keep public access **Private** (disabled). The `images-worker` acts as the secure caching proxy, keeping your actual bucket URL hidden from the browser.
 
-No special configuration needed — uploads are signed by the Worker.
+### CORS Configuration (Optional)
+
+Since our admin panel uploads files by sending them to our worker API (`api.motherindiatourtravels.com/upload`) rather than R2 directly from the browser, R2 CORS is not strictly required. However, if you want to configure CORS:
+
+1. Go to your bucket page → **Settings** tab.
+2. Scroll to **CORS Policy** and click **Add CORS policy**.
+3. Input this JSON policy:
+
+```json
+[
+  {
+    "AllowedOrigins": ["https://motherindiatourtravels.com", "http://localhost:3000"],
+    "AllowedMethods": ["GET", "PUT", "POST", "HEAD"],
+    "AllowedHeaders": ["Content-Type", "Authorization"],
+    "MaxAgeSeconds": 3600
+  }
+]
+```
+
+4. Save the policy.
 
 ---
 
@@ -63,18 +81,16 @@ In your Supabase project:
 
 ### 3b. Create the admin user
 
-In Supabase dashboard → **Authentication → Users → Add user**:
+In Supabase dashboard → **Authentication** → **Users** → **Add user**:
 
 ```
-Email:    admin@motherindiatourtravels.com  (or any email you choose)
+Email:    admin@motherindiatourtravels.com
 Password: [strong password]
 ```
 
-This is the only account that can authenticate to the admin API.
-
 ### 3c. Run RLS policies
 
-In **Supabase SQL Editor**, run these policies (copy + paste + run):
+In **Supabase SQL Editor**, run these policies:
 
 ```sql
 -- Allow public reads on content tables
@@ -107,9 +123,6 @@ CREATE POLICY "public_read_hero" ON "HeroConfig" FOR SELECT USING (true);
 
 ALTER TABLE "HeroSlide" ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "public_read_slides" ON "HeroSlide" FOR SELECT USING (true);
-
--- Admin write access (service_role bypasses RLS automatically)
--- No additional policies needed for write — Worker uses service_role key
 ```
 
 ---
@@ -123,42 +136,24 @@ From inside `cloudflare/api-worker/`, run each command and enter the value when 
 npx wrangler secret put SUPABASE_URL
 npx wrangler secret put SUPABASE_SERVICE_KEY
 
-# Cloudinary
-npx wrangler secret put CLOUDINARY_CLOUD
-npx wrangler secret put CLOUDINARY_KEY
-npx wrangler secret put CLOUDINARY_SECRET
-
 # SMTP — Booking emails (bookings, contact form notifications)
 npx wrangler secret put BOOKING_SMTP_USER
-# → e.g. booking@motherindiatourtravels.com
 npx wrangler secret put BOOKING_SMTP_PASS
 
 # SMTP — Notification emails (newsletters, general)
 npx wrangler secret put NOTIFY_SMTP_USER
-# → e.g. notifications@motherindiatourtravels.com
 npx wrangler secret put NOTIFY_SMTP_PASS
 
 # SMTP Server
 npx wrangler secret put SMTP_HOST
-# → mail.motherindiatourtravels.com
 npx wrangler secret put SMTP_PORT
-# → 465
 ```
+
+_Note: No Cloudinary secrets are needed anymore since uploads go directly to the bound R2 bucket._
 
 ---
 
-## Step 5 — Configure Worker Secrets (images-worker)
-
-From inside `cloudflare/images-worker/`:
-
-```bash
-npx wrangler secret put CLOUDINARY_CLOUD
-# → same cloud name as above
-```
-
----
-
-## Step 6 — Deploy Both Workers
+## Step 5 — Deploy Both Workers
 
 ```bash
 # api-worker
@@ -170,22 +165,16 @@ cd ../images-worker
 npx wrangler deploy
 ```
 
-After deploy, Cloudflare gives you workers.dev URLs:
+After deploying, Wrangler will outputs workers.dev subdomains:
 
 - `mother-india-api.YOUR-SUBDOMAIN.workers.dev`
 - `mother-india-images.YOUR-SUBDOMAIN.workers.dev`
 
-Test before DNS:
-
-```bash
-curl https://mother-india-api.YOUR-SUBDOMAIN.workers.dev/faqs
-```
-
 ---
 
-## Step 7 — DNS Setup in Cloudflare Dashboard
+## Step 6 — DNS Setup in Cloudflare Dashboard
 
-Go to Cloudflare Dashboard → `motherindiatourtravels.com` → **DNS → Records**.
+Go to Cloudflare Dashboard → `motherindiatourtravels.com` → **DNS** → **Records**.
 
 Add two CNAME records:
 
@@ -196,20 +185,18 @@ Add two CNAME records:
 
 ---
 
-## Step 8 — Worker Routes (Custom Domains)
+## Step 7 — Worker Routes (Custom Domains)
 
-In Cloudflare Dashboard → **Workers & Pages → your worker → Settings → Domains & Routes**:
+In Cloudflare Dashboard → **Workers & Pages** → click your worker → **Settings** → **Domains & Routes**:
 
-For **mother-india-api**: Add route `api.motherindiatourtravels.com/*`  
-For **mother-india-images**: Add route `images.motherindiatourtravels.com/*`
-
-(Or use the **Custom Domains** tab — just enter the subdomain directly.)
+For **mother-india-api**: Add custom domain `api.motherindiatourtravels.com`  
+For **mother-india-images**: Add custom domain `images.motherindiatourtravels.com`
 
 ---
 
-## Step 9 — Update Next.js Environment
+## Step 8 — Update Next.js Environment
 
-Add to your production `.env`:
+Add to your production `.env` file:
 
 ```
 NEXT_PUBLIC_API_URL=https://api.motherindiatourtravels.com
@@ -218,22 +205,17 @@ NEXT_PUBLIC_IMAGES_URL=https://images.motherindiatourtravels.com
 
 ---
 
-## Step 10 — Verify Everything Works
+## Step 9 — Verify Everything Works
 
 ```bash
 # Public endpoints
 curl https://api.motherindiatourtravels.com/faqs
 curl https://api.motherindiatourtravels.com/gallery
-curl https://api.motherindiatourtravels.com/company
 
 # Newsletter form
 curl -X POST https://api.motherindiatourtravels.com/newsletter \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com"}'
-
-# Image serving + cache header check
-curl -I "https://images.motherindiatourtravels.com/f_auto,q_auto,w_800/mother-india/hero.jpg"
-# Should see: Cache-Control: public, max-age=2592000
 
 # Admin login
 curl -X POST https://api.motherindiatourtravels.com/auth/login \
@@ -246,45 +228,33 @@ curl -X POST https://api.motherindiatourtravels.com/upload \
   -H "Authorization: Bearer $TOKEN" \
   -F "file=@/path/to/photo.jpg" \
   -F "folder=mother-india/gallery"
-# Returns: {"public_id":"...","url":"https://images.motherindiatourtravels.com/..."}
+# Returns: {"public_id":"mother-india/gallery/172081..._photo.jpg","url":"https://images.motherindiatourtravels.com/mother-india/gallery/172081..._photo.jpg"}
+
+# Image serving check
+curl -I "https://images.motherindiatourtravels.com/mother-india/gallery/172081..._photo.jpg"
+# Should return HTTP 200 with: Cache-Control: public, max-age=2592000
 ```
 
 ---
 
 ## Admin Image Upload Flow
 
-1. Admin sends `POST /upload` with JWT + file
-2. Worker signs request → POSTs to Cloudinary (URL never exposed to browser)
-3. Response: `{ public_id, url: "https://images.motherindiatourtravels.com/..." }`
-4. Admin saves the `url` to DB (e.g. package `heroImage`, `GalleryImage.image`)
-
-**Display in Next.js:**
-
-```tsx
-import { buildImageUrl } from "@/lib/api";
-
-const url = buildImageUrl("mother-india/gallery/kerala", "f_auto,q_auto,w_800");
-// → https://images.motherindiatourtravels.com/f_auto,q_auto,w_800/mother-india/gallery/kerala
-```
-
----
-
-## Cloudinary Transform Reference
-
-| Transform            | Effect                  |
-| -------------------- | ----------------------- |
-| `f_auto`             | Auto format (WebP/AVIF) |
-| `q_auto`             | Auto quality            |
-| `w_800`              | 800px wide              |
-| `w_400,h_300,c_fill` | Crop + fill             |
-| `w_1200,q_auto:eco`  | 1200px, eco quality     |
+1. Admin submits a file through the admin dashboard via `POST api.motherindiatourtravels.com/upload` using a Supabase JWT.
+2. The worker checks credentials, sanitizes the filename, generates a unique prefix, and streams it to the bound `BUCKET` (R2).
+3. The response returns the public URL: `https://images.motherindiatourtravels.com/mother-india/gallery/unique_id_filename.jpg`.
+4. The admin panel saves this URL directly into the package or gallery image table row.
 
 ---
 
 ## Local Development
 
+Wrangler uses local simulated R2 buckets for development.
+
 ```bash
+# Start local API worker
 cd cloudflare/api-worker && npx wrangler dev   # → localhost:8787
+
+# Start local images worker
 cd cloudflare/images-worker && npx wrangler dev # → localhost:8788
 ```
 
@@ -297,60 +267,16 @@ NEXT_PUBLIC_IMAGES_URL=http://localhost:8788
 
 ---
 
-## Full API Reference
+## Secrets & Config Summary
 
-### Public (no auth required)
-
-| Method | Path                  | Description            |
-| ------ | --------------------- | ---------------------- |
-| POST   | `/booking`            | Submit booking inquiry |
-| POST   | `/contact`            | Contact/popup form     |
-| POST   | `/newsletter`         | Subscribe email        |
-| GET    | `/tours`              | List packages          |
-| GET    | `/tours/:id`          | Get package            |
-| GET    | `/gallery`            | List gallery images    |
-| GET    | `/destinations`       | List destinations      |
-| GET    | `/faqs`               | List FAQs              |
-| GET    | `/blogs`              | List blog posts        |
-| GET    | `/testimonials`       | List testimonials      |
-| GET    | `/site-sections/:key` | Get section by key     |
-| GET    | `/hero`               | Hero config + slides   |
-| GET    | `/company`            | Company info           |
-
-### Admin (Bearer token required)
-
-| Method            | Path                         | Description              |
-| ----------------- | ---------------------------- | ------------------------ |
-| POST              | `/auth/login`                | Admin login → JWT        |
-| POST              | `/upload`                    | Upload to Cloudinary     |
-| POST/PATCH/DELETE | `/tours`                     | CRUD packages            |
-| POST/PATCH/DELETE | `/gallery`                   | CRUD gallery             |
-| POST/PATCH/DELETE | `/destinations`              | CRUD destinations        |
-| POST/PATCH/DELETE | `/faqs`                      | CRUD FAQs                |
-| POST/PATCH/DELETE | `/blogs`                     | CRUD blogs               |
-| POST/PATCH/DELETE | `/testimonials`              | CRUD testimonials        |
-| PATCH             | `/site-sections/:key`        | Update section           |
-| PATCH             | `/hero`                      | Update hero config       |
-| PATCH             | `/company`                   | Update company info      |
-| GET               | `/admin/bookings`            | List booking inquiries   |
-| PATCH             | `/admin/bookings/:id/status` | Update booking status    |
-| GET               | `/admin/contacts`            | List contact submissions |
-| PATCH             | `/admin/contacts/:id/status` | Update contact status    |
-
----
-
-## Secrets Summary
-
-| Variable               | Worker       | Description                       |
-| ---------------------- | ------------ | --------------------------------- |
-| `SUPABASE_URL`         | api          | Project URL                       |
-| `SUPABASE_SERVICE_KEY` | api          | service_role key                  |
-| `CLOUDINARY_CLOUD`     | api + images | Cloud name                        |
-| `CLOUDINARY_KEY`       | api          | API key                           |
-| `CLOUDINARY_SECRET`    | api          | API secret                        |
-| `BOOKING_SMTP_USER`    | api          | Email for booking/contact mails   |
-| `BOOKING_SMTP_PASS`    | api          | Password for booking mailbox      |
-| `NOTIFY_SMTP_USER`     | api          | Email for general notifications   |
-| `NOTIFY_SMTP_PASS`     | api          | Password for notification mailbox |
-| `SMTP_HOST`            | api          | `mail.motherindiatourtravels.com` |
-| `SMTP_PORT`            | api          | `465`                             |
+| Variable               | Location                   | Description                        |
+| ---------------------- | -------------------------- | ---------------------------------- |
+| `SUPABASE_URL`         | api-worker                 | Supabase REST URL                  |
+| `SUPABASE_SERVICE_KEY` | api-worker                 | Supabase service_role key          |
+| `BUCKET`               | api-worker & images-worker | R2 Bucket wrangler binding         |
+| `BOOKING_SMTP_USER`    | api-worker                 | Mail account for booking emails    |
+| `BOOKING_SMTP_PASS`    | api-worker                 | Password for booking email account |
+| `NOTIFY_SMTP_USER`     | api-worker                 | Mail account for notifications     |
+| `NOTIFY_SMTP_PASS`     | api-worker                 | Password for notification account  |
+| `SMTP_HOST`            | api-worker                 | `mail.motherindiatourtravels.com`  |
+| `SMTP_PORT`            | api-worker                 | `465` (secure port)                |

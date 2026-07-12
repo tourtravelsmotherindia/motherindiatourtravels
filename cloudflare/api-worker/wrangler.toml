@@ -6,15 +6,17 @@ compatibility_flags = ["nodejs_compat"]
 [vars]
 ALLOWED_ORIGIN = "https://motherindiatourtravels.com"
 
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "mother-india-assets"
+
 # Secrets — set via: npx wrangler secret put <KEY_NAME>
 # SUPABASE_URL
 # SUPABASE_SERVICE_KEY
-# CLOUDINARY_CLOUD
-# CLOUDINARY_KEY
-# CLOUDINARY_SECRET
 # BOOKING_SMTP_USER
 # BOOKING_SMTP_PASS
 # NOTIFY_SMTP_USER
 # NOTIFY_SMTP_PASS
 # SMTP_HOST
 # SMTP_PORT
+

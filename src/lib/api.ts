@@ -119,14 +119,13 @@ export async function subscribeNewsletter(payload: NewsletterPayload): Promise<N
 }
 
 /**
- * Build a public image URL served via the images worker.
- * Cloudinary's res.cloudinary.com URL is never exposed.
+ * Build a public image URL served via the images worker from R2 storage.
  *
- * @param publicId  - Cloudinary public_id (e.g. "mother-india/gallery/photo")
- * @param transforms - Cloudinary transformation string (default: f_auto,q_auto)
+ * @param publicId   - R2 object key (e.g. "mother-india/gallery/photo.jpg")
+ * @param _transforms - Unused, kept for backwards compatibility with call signatures
  */
-export function buildImageUrl(publicId: string, transforms = "f_auto,q_auto"): string {
+export function buildImageUrl(publicId: string, _transforms?: string): string {
   const imagesBase =
     process.env.NEXT_PUBLIC_IMAGES_URL ?? "https://images.motherindiatourtravels.com";
-  return `${imagesBase}/${transforms}/${publicId}`;
+  return `${imagesBase}/${publicId}`;
 }
