@@ -16,8 +16,12 @@ export default {
     if (cached) return cached;
 
     const { pathname } = new URL(request.url);
-    if (!pathname || pathname === "/") {
-      return new Response("Not Found", { status: 404 });
+    if (!pathname || pathname === "/" || pathname === "/health") {
+      return Response.json({
+        status: "healthy",
+        worker: "images-worker",
+        timestamp: Date.now(),
+      });
     }
 
     const key = decodeURIComponent(pathname.substring(1));

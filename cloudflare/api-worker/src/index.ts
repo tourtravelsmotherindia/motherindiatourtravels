@@ -81,6 +81,15 @@ async function route(request: Request, url: URL, env: Env): Promise<Response> {
   const sub = parts[2]; // e.g. id or sub-resource
   const subsub = parts[3]; // e.g. 'status'
 
+  // Health / Status
+  if ((!resource || resource === "health") && method === "GET") {
+    return Response.json({
+      status: "healthy",
+      worker: "api-worker",
+      timestamp: Date.now(),
+    });
+  }
+
   // Auth
   if (resource === "auth" && sub === "login" && method === "POST") {
     return handleLogin(request, env);
