@@ -57,7 +57,7 @@ export default {
     const origin = request.headers.get("origin");
 
     // Handle CORS preflight
-    const preflight = handleOptions(request, env.ALLOWED_ORIGIN);
+    const preflight = handleOptions(request, env.ALLOWED_ORIGIN, env.ENVIRONMENT);
     if (preflight) return preflight;
 
     let response: Response;
@@ -69,7 +69,7 @@ export default {
       response = Response.json({ error: "Internal server error" }, { status: 500 });
     }
 
-    return withCors(response, env.ALLOWED_ORIGIN, origin);
+    return withCors(response, env.ALLOWED_ORIGIN, origin, env.ENVIRONMENT);
   },
 } satisfies ExportedHandler<Env>;
 
@@ -86,6 +86,7 @@ async function route(request: Request, url: URL, env: Env): Promise<Response> {
     return Response.json({
       status: "healthy",
       worker: "api-worker",
+      environment: env.ENVIRONMENT || "production",
       timestamp: Date.now(),
     });
   }

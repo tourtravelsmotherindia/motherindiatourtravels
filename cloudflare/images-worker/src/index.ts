@@ -1,5 +1,7 @@
 interface Env {
   BUCKET: R2Bucket;
+  ENVIRONMENT: string;
+  ALLOWED_ORIGIN: string;
 }
 
 const CACHE_MAX_AGE = 2_592_000; // 30 days in seconds
@@ -20,6 +22,7 @@ export default {
       return Response.json({
         status: "healthy",
         worker: "images-worker",
+        environment: env.ENVIRONMENT || "production",
         timestamp: Date.now(),
       });
     }
@@ -37,6 +40,14 @@ export default {
         "Cache-Control",
         `public, max-age=${CACHE_MAX_AGE}, stale-while-revalidate=86400`,
       );
+
+      const origin = request.headers.get("origin");
+      if (env.ENVIRONMENT === "development") {
+        headers.set("Access-Control-Allow-Origin", origin || "*");
+      } else {
+        headers.set("Access-Control-Allow-Origin", env.ALLOWED_ORIGIN);
+      }
+
       return new Response(null, { headers });
     }
 
@@ -48,6 +59,13 @@ export default {
     headers.set("etag", object.httpEtag);
     headers.set("Cache-Control", `public, max-age=${CACHE_MAX_AGE}, stale-while-revalidate=86400`);
     headers.set("X-Content-Type-Options", "nosniff");
+
+    const origin = request.headers.get("origin");
+    if (env.ENVIRONMENT === "development") {
+      headers.set("Access-Control-Allow-Origin", origin || "*");
+    } else {
+      headers.set("Access-Control-Allow-Origin", env.ALLOWED_ORIGIN);
+    }
 
     const response = new Response(object.body, { headers });
 

@@ -1,6 +1,7 @@
 export interface Env {
   // Public vars (wrangler.toml [vars])
   ALLOWED_ORIGIN: string;
+  ENVIRONMENT: string;
 
   // Bindings
   BUCKET: R2Bucket;
