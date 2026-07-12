@@ -201,13 +201,18 @@ NEXT_PUBLIC_IMAGES_URL="https://your-images-worker.workers.dev"
 
 ## Scripts Reference
 
-| Command                | Action                                                                |
-| :--------------------- | :-------------------------------------------------------------------- |
-| `npm run dev`          | Starts the development server with Turbopack                          |
-| `npm run build`        | Generates client, runs migrations, and builds Next.js production code |
-| `npm run build:static` | Dedicated static export script used by the CI/CD deployment pipeline  |
-| `npm run start`        | Runs the production-built server                                      |
-| `npm run lint:fix`     | Runs ESLint and automatically fixes style errors                      |
-| `npm run format`       | Standardizes codebase files formatting via Prettier                   |
-| `npm run db:seed`      | Seed database using source files under `data/json/`                   |
-| `npm run db:reset`     | Wipe PostgreSQL tables and rebuild schema migrations                  |
+All scripts are defined in `package.json` and executed using `npm run <script-name>`:
+
+| Script Name    | Exact Command                                                                                                                                                                         | Action / Description                                                                 |
+| :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------------------------------------------- |
+| `dev`          | `next dev`                                                                                                                                                                            | Starts the Next.js development server with Turbopack                                 |
+| `dev-api`      | `concurrently "npm --prefix cloudflare/api-worker run dev -- --port 8787 --inspector-port 9229" "npm --prefix cloudflare/images-worker run dev -- --port 7878 --inspector-port 9230"` | Runs both Cloudflare Workers (API and Images) concurrently in local development mode |
+| `build`        | `npx prisma generate && npx prisma migrate deploy && next build`                                                                                                                      | Generates the Prisma client, deploys migrations, and builds Next.js production code  |
+| `build:static` | `npx prisma generate && npx prisma migrate deploy && next build`                                                                                                                      | Build step designed for the static site compilation in the CI/CD pipeline            |
+| `start`        | `next start`                                                                                                                                                                          | Runs the production-built Next.js server                                             |
+| `lint`         | `eslint .`                                                                                                                                                                            | Runs ESLint static code analysis checks                                              |
+| `lint:fix`     | `eslint . --fix`                                                                                                                                                                      | Runs ESLint and automatically fixes fixable style and syntax issues                  |
+| `format`       | `prettier --write .`                                                                                                                                                                  | Formats all workspace files via Prettier                                             |
+| `format:check` | `prettier --check .`                                                                                                                                                                  | Checks code formatting rules without modifying files                                 |
+| `db:reset`     | `npx prisma migrate reset`                                                                                                                                                            | Wipes PostgreSQL tables, re-runs database migrations, and prepares a fresh state     |
+| `db:seed`      | `npx prisma db seed`                                                                                                                                                                  | Seeds PostgreSQL tables with tour data from `data/json/` source files                |
