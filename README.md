@@ -1,176 +1,213 @@
 # Mother India Tour Travels
 
-A modern, data-driven landing site and tour package catalog for a travel agency specializing in domestic and international trips from India.
+A premium, data-driven tour package catalog and booking platform for a travel agency specializing in domestic and international trips from India.
 
-**Live site:** [motherindiatourtravels.com](https://motherindiatourtravels.com)
+**Live website:** [motherindiatourtravels.com](https://motherindiatourtravels.com)
+
+---
 
 ## Tech Stack
 
-| Layer      | Technology                            |
-| ---------- | ------------------------------------- |
-| Framework  | Next.js 16 (App Router, Turbopack)    |
-| UI Library | React 19                              |
-| Styling    | Tailwind CSS v4                       |
-| Database   | SQLite via Prisma v7 + better-sqlite3 |
-| Animations | framer-motion                         |
-| Icons      | lucide-react                          |
-| Fonts      | Trip Sans (headings), Poppins (body)  |
+The platform is built using the following modern tools and technologies:
+
+[![Tech Stack](https://skillicons.dev/icons?i=nextjs,react,ts,tailwind,postgres,prisma,docker,cloudflare,github,git&perline=10)](https://skillicons.dev)
+
+![Next.js](https://img.shields.io/badge/Next.js_16-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![React 19](https://img.shields.io/badge/React_19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS_v4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Prisma v7](https://img.shields.io/badge/Prisma_v7-2D3748?style=for-the-badge&logo=prisma&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![Cloudflare Workers](https://img.shields.io/badge/Cloudflare_Workers-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Framer Motion](https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge&logo=framer&logoColor=white)
+![Nginx](https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white)
+
+---
+
+## System Architecture
+
+The site runs on a modern, decoupled architecture:
+
+1.  **Frontend**: Built with Next.js 16 (using App Router and Turbopack) compiled to a pure static export (`output: "export"`).
+2.  **Database**: Hosted PostgreSQL on Supabase, managed and queried via Prisma ORM.
+3.  **Cloudflare Workers**:
+    - `api-worker`: Processes booking inquiry submissions, contact requests, and emails.
+    - `images-worker`: Optimizes, resizes, and caches tour media assets at the edge.
+
+```mermaid
+graph TD
+    %% User Interactions
+    User[Client Browser] -->|Fetches Static Pages| Host[Web Host: cPanel/Cloudflare/Netlify/Vercel/Docker]
+    User -->|Loads Map Data| MapTiler[MapTiler API]
+
+    %% Dynamic Data Flow
+    User -->|Submit Bookings / Inquiries| CFWorker[Cloudflare API Worker]
+    User -->|Requests Optimized Images| CFImageWorker[Cloudflare Images Worker]
+
+    %% Backend Services
+    CFWorker -->|Stores Leads| Supabase[Supabase PostgreSQL]
+    CFWorker -->|Sends Confirmation Emails| SMTP[SMTP Mail Server]
+
+    %% Next.js Build Time
+    BuildTime[Next.js Build Process] -.->|Queries Tour Data| Supabase
+    BuildTime -.->|Generates Static HTML/CSS| Host
+```
+
+---
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js ≥ 18
-- npm ≥ 9
+- Node.js ≥ 22.0.0
+- npm ≥ 10.0.0
 
-### Setup
+### Local Development Setup
 
-```bash
-# 1. Clone and install
-git clone <repo-url>
-cd mother-india
-npm install
+1.  **Clone the repository**:
 
-# 2. Configure environment
-cp .env.example .env
-# .env should contain: DATABASE_URL="file:./data/travel.db"
+    ```bash
+    git clone <repo-url>
+    cd mother-india
+    ```
 
-# 3. Seed the database
-npm run db:seed
+2.  **Install dependencies**:
 
-# 4. Start developing
-npm run dev
-```
+    ```bash
+    npm install
+    ```
 
-Open [http://localhost:3000](http://localhost:3000) to see the site.
+3.  **Configure environment variables**:
+    Copy the example template and fill in your Supabase connection strings and API keys:
 
-> **Note:** The database file (`data/travel.db`) is not checked into git. You must run `npm run db:seed` after cloning to populate it from the JSON source files in `data/json/`.
+    ```bash
+    cp .env.example .env
+    ```
 
-## Project Structure
+4.  **Synchronize & Seed the Database**:
+    Prisma compiles engines locally and populates your Supabase PostgreSQL instance:
 
-```
-mother-india/
-├── src/
-│   ├── app/
-│   │   ├── layout.tsx              # Root layout (fonts, metadata, providers)
-│   │   ├── page.tsx                # Homepage (async server component)
-│   │   ├── globals.css             # Design tokens, Tailwind theme, utilities
-│   │   └── packages/
-│   │       ├── page.tsx            # Packages listing (server component)
-│   │       └── PackagesClient.tsx  # Packages UI (client component)
-│   ├── components/
-│   │   ├── Navbar.tsx              # Fixed, scroll-aware navigation
-│   │   ├── Hero.tsx                # Hero slider + search panel
-│   │   ├── WhyChooseUs.tsx         # Value proposition cards
-│   │   ├── TripCards.tsx           # Package cards grid
-│   │   ├── PopularDestinations.tsx  # Destination showcase with pagination
-│   │   ├── Gallery.tsx             # Photo gallery
-│   │   ├── TravelerMoments.tsx     # Testimonials carousel
-│   │   ├── PartnerAirlines.tsx     # Airline partner logos
-│   │   ├── RegionsGrid.tsx         # Geographic regions browser
-│   │   ├── FAQ.tsx                 # Accordion FAQ
-│   │   ├── Footer.tsx              # Site footer + newsletter
-│   │   ├── PopupModal.tsx          # Trip inquiry form modal
-│   │   └── Dropdown.tsx            # Reusable dropdown component
-│   ├── context/
-│   │   └── ToastContext.tsx        # Toast notification system
-│   ├── lib/
-│   │   └── db/
-│   │       ├── prisma.ts           # Prisma client singleton
-│   │       └── repositories/       # Data access layer (11 files)
-│   │           ├── blogRepo.ts
-│   │           ├── categoryRepo.ts
-│   │           ├── companyRepo.ts
-│   │           ├── countryRepo.ts
-│   │           ├── destinationRepo.ts
-│   │           ├── faqRepo.ts
-│   │           ├── heroRepo.ts
-│   │           ├── packageRepo.ts
-│   │           ├── siteConfigRepo.ts
-│   │           ├── stateRepo.ts
-│   │           └── testimonialRepo.ts
-│   └── generated/
-│       └── prisma/                 # Generated Prisma client
-├── prisma/
-│   ├── schema.prisma               # Database schema (14 models)
-│   ├── seed.ts                     # Seeds SQLite from data/json/
-│   ├── verify.ts                   # Validates DB matches JSON sources
-│   └── migrations/                 # Prisma migration history
-├── data/
-│   ├── travel.db                   # SQLite database (WAL mode)
-│   └── json/                       # JSON source files (54+ files)
-├── public/
-│   ├── images/                     # Local images (destinations, banners, etc.)
-│   ├── fonts/                      # Trip Sans WOFF2 font files
-│   ├── logo.png                    # Brand logo
-│   └── favicon.*                   # Favicon assets
-├── AGENTS.md                       # Design system & coding conventions
-├── CLAUDE.md                       # Project reference for AI assistants
-└── package.json
-```
+    ```bash
+    npx prisma generate
+    npm run db:seed
+    ```
 
-## Available Scripts
+5.  **Run the local Next.js dev server**:
+    ```bash
+    npm run dev
+    ```
+    Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-| Command                | Description                                                      |
-| ---------------------- | ---------------------------------------------------------------- |
-| `npm run dev`          | Start development server with Turbopack                          |
-| `npm run build`        | Production build (Prisma generate → migrate → seed → Next build) |
-| `npm run start`        | Start production server                                          |
-| `npm run lint`         | Run ESLint                                                       |
-| `npm run lint:fix`     | Run ESLint with auto-fix                                         |
-| `npm run format`       | Format code with Prettier                                        |
-| `npm run format:check` | Check formatting (CI)                                            |
-| `npm run db:seed`      | Seed the database from `data/json/`                              |
-| `npm run db:verify`    | Verify database content matches JSON sources                     |
-| `npm run db:reset`     | Wipe and recreate database from scratch                          |
+---
 
-## Data Layer
+## Cloudflare Workers
 
-The site is fully **data-driven** — all content lives in a SQLite database, not hardcoded in components. The original source of truth is 54+ JSON files in `data/json/`, which are ingested into the database by the Prisma seed script.
+The platform utilizes Cloudflare Workers to handle serverless operations efficiently:
 
-### How it works
+- **`cloudflare/api-worker`**: Handles CORS, processes contact submissions, newsletter signups, and booking forms, and stores inquiries into PostgreSQL before sending transactional confirmation emails.
+- **`cloudflare/images-worker`**: Serves as a custom edge image resizing proxy, fetching raw assets from Supabase storage and caching optimized WebP equivalents.
 
-1. **Schema** (`prisma/schema.prisma`): 14 models covering geographic hierarchy (Country → State → Destination), tour packages with variants and day-by-day itineraries, hero slides, FAQs, testimonials, blog posts, and singleton config records (Company, SiteConfig).
+### Worker Setup & Local Development
 
-2. **Repository layer** (`src/lib/db/repositories/`): Each model has a dedicated repository exporting typed async query functions. JSON fields stored as strings in SQLite are parsed before returning to consumers.
-
-3. **Server components**: `page.tsx` files fetch data via repositories and pass it as props to client components. Client components never import database code directly.
-
-### Modifying content
-
-- Edit the JSON files in `data/json/`, then run `npm run db:seed` to re-ingest
-- Or modify the database directly via Prisma Studio: `npx prisma studio`
-- After schema changes, regenerate the client: `npx prisma generate`
-
-## Design System
-
-The project follows a strict design system documented in [AGENTS.md](./AGENTS.md). Key highlights:
-
-- **Two-font system**: Trip Sans for headings, Poppins for body
-- **Color palette**: Brand orange (`#E05423`) reserved for interactive elements only; 8 CSS variables mapped to Tailwind tokens
-- **Border radius**: Organic pill-to-40px hierarchy — no sharp corners
-- **Shadows**: Single ultra-subtle token (`0 8px 30px rgba(0,0,0,0.04)`) for floating elements and card hovers
-- **Layout**: `layout-container` utility (max-width 1800px, responsive padding) for all section wrappers
-- **Spacing**: `py-24` (96px) standard section rhythm
-
-See [AGENTS.md](./AGENTS.md) for the complete specification including font weights, color usage rules, orange accent limitations, and component patterns.
-
-## Deployment
-
-The production build command (`npm run build`) handles Prisma client generation, database migrations, and seeding automatically.
+To run both workers locally in dev mode:
 
 ```bash
-npm run build
-npm run start
+npm run dev-api
 ```
 
-The site runs on port 3000 by default. Set `PORT` environment variable to change.
+For deep configuration instructions, secrets setup, and deployment commands, refer to the [Cloudflare Worker Deployment Guide](./cloudflare/DEPLOYMENT.md).
 
-## For AI Assistants
+---
 
-This repository includes two files for AI coding tools:
+## Database Schema
 
-- **[CLAUDE.md](./CLAUDE.md)** — Project structure, commands, tech stack, data architecture, and tooling
-- **[AGENTS.md](./AGENTS.md)** — Design system rules, coding conventions, component patterns, and UI/UX constraints
+The database is built on PostgreSQL (hosted by Supabase) and is managed via Prisma ORM.
 
-Both files are kept current with the codebase and should be consulted before making changes.
+It utilizes an evergreen, modular design divided into:
+
+1.  **Geography**: Countries, States, Destinations, Attractions, and Neighbours.
+2.  **Packages**: Tour packages, night/day variants, categorizations, and detailed daily itineraries.
+3.  **CMS**: Hero slide carousels, customizable site sections, FAQs, and Markdown blog posts.
+4.  **Leads & Company**: Inquiries, contacts, reviews, newsletter subscribers, and business profiles.
+
+- To explore the logical entity relations, view the [Database Schema Documentation](./prisma/SCHEMA.md).
+- To check the schema definition directly, view [schema.prisma](./prisma/schema.prisma).
+
+---
+
+## Deployment & Multi-Hosting Support
+
+This project is built using Next.js static HTML export (`output: "export"`), compiling the entire website into the `./out` directory. This allows it to run on virtually any web hosting provider.
+
+Ready-made configuration files are provided for popular hosting environments:
+
+- **cPanel Hosting**: Configured via GitHub Actions using FTP.
+- **Cloudflare Pages**: Configured via [wrangler.jsonc](./wrangler.jsonc) (points assets to `./out`).
+- **Netlify**: Configured via [netlify.toml](./netlify.toml) (specifies publish folder, redirect fallbacks, and security headers).
+- **Vercel**: Configured via [vercel.json](./vercel.json) (enables trailing slash mapping and clean URL routing).
+- **Firebase Hosting**: Configured via [firebase.json](./firebase.json) and [.firebaserc](./.firebaserc).
+- **Self-Hosted / VPS Docker**: Configured via a multi-stage [Dockerfile](./Dockerfile) and [nginx.conf](./nginx.conf). It builds the static files and serves them via Nginx running as a secure, non-root user on port `8080`.
+
+---
+
+## CI/CD GitHub Actions Workflow
+
+The repository includes an automated pipeline in [.github/workflows/deploy-cpanel.yml](./.github/workflows/deploy-cpanel.yml) that builds and deploys the static files to cPanel whenever code is pushed to the `deploy` branch.
+
+### How the workflow works:
+
+1.  **Checkout & Cache**: Pulls the code and restores the Next.js compilation cache to maximize build speeds.
+2.  **Install dependencies**: Runs `npm ci` (a clean, locked, and fast installation).
+3.  **Build**: Connects to Supabase, runs migrations, generates the Prisma client, and exports the static HTML to `/out`.
+4.  **Sync FTP State**: Pulls and stores deployment state file `.ftp-deploy-sync-state.json` via GitHub Actions caching.
+5.  **Deploy via FTP**: Uploads only modified or new files to the cPanel target directory using `SamKirkland/FTP-Deploy-Action` (while preserving remote system files like `.htaccess`).
+
+### Secrets Required in GitHub Actions:
+
+| Secret Name                | Description                                                                  |
+| :------------------------- | :--------------------------------------------------------------------------- |
+| `DATABASE_URL`             | Transaction pooled PostgreSQL database connection string                     |
+| `DIRECT_URL`               | Direct database connection string (used for schema migrations)               |
+| `NEXT_PUBLIC_MAPTILER_KEY` | MapTiler API Key for vector routing maps                                     |
+| `FTP_HOST`                 | Host address of the cPanel FTP server                                        |
+| `FTP_USERNAME`             | cPanel FTP user account                                                      |
+| `FTP_PASSWORD`             | cPanel FTP account password                                                  |
+| `FTP_SERVER_DIR`           | Target server directory (e.g., `/public_html` or `/public_html/motherindia`) |
+
+---
+
+## Environment Variables Reference
+
+Create a `.env` file at the project root for local development.
+
+```env
+# Database connection pooler (used by the application)
+DATABASE_URL="postgresql://postgres.xxxx:password@aws-1-ap-south-1.pooler.supabase.com:5432/postgres?pgbouncer=true"
+
+# Direct database connection (used for migrations and seeding)
+DIRECT_URL="postgresql://postgres.xxxx:password@aws-1-ap-south-1.pooler.supabase.com:5432/postgres"
+
+# MapTiler API key
+NEXT_PUBLIC_MAPTILER_KEY="your_maptiler_key_here"
+
+# Cloudflare API Worker URL
+NEXT_PUBLIC_API_URL="https://your-api-worker.workers.dev"
+
+# Cloudflare Images Worker URL
+NEXT_PUBLIC_IMAGES_URL="https://your-images-worker.workers.dev"
+```
+
+---
+
+## Scripts Reference
+
+| Command                | Action                                                                |
+| :--------------------- | :-------------------------------------------------------------------- |
+| `npm run dev`          | Starts the development server with Turbopack                          |
+| `npm run build`        | Generates client, runs migrations, and builds Next.js production code |
+| `npm run build:static` | Dedicated static export script used by the CI/CD deployment pipeline  |
+| `npm run start`        | Runs the production-built server                                      |
+| `npm run lint:fix`     | Runs ESLint and automatically fixes style errors                      |
+| `npm run format`       | Standardizes codebase files formatting via Prettier                   |
+| `npm run db:seed`      | Seed database using source files under `data/json/`                   |
+| `npm run db:reset`     | Wipe PostgreSQL tables and rebuild schema migrations                  |

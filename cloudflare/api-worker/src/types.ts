@@ -1,5 +1,5 @@
 export interface Env {
-  // Public vars (wrangler.toml [vars])
+  // Public vars (wrangler.jsonc [vars])
   ALLOWED_ORIGIN: string;
   ENVIRONMENT: string;
 
