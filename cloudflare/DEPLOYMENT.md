@@ -41,7 +41,7 @@ npx wrangler login
 
 1. Go to **Cloudflare Dashboard** → **R2** → **Overview**.
 2. Click **Create bucket**.
-3. Name the bucket: `mother-india-assets`.
+3. Name the bucket: `motherindiatourtravels-assets`.
 4. Click **Create bucket** to confirm.
 5. Keep public access **Private** (disabled). The `images-worker` acts as the secure caching proxy, keeping your actual bucket URL hidden from the browser.
 
@@ -167,8 +167,8 @@ npx wrangler deploy
 
 After deploying, Wrangler will outputs workers.dev subdomains:
 
-- `mother-india-api.YOUR-SUBDOMAIN.workers.dev`
-- `mother-india-images.YOUR-SUBDOMAIN.workers.dev`
+- `motherindiatourtravels-api.YOUR-SUBDOMAIN.workers.dev`
+- `motherindiatourtravels-images.YOUR-SUBDOMAIN.workers.dev`
 
 ---
 
@@ -180,8 +180,8 @@ Add two CNAME records:
 
 | Type  | Name   | Target                                           | Proxy      |
 | ----- | ------ | ------------------------------------------------ | ---------- |
-| CNAME | api    | `mother-india-api.YOUR-SUBDOMAIN.workers.dev`    | ✅ Proxied |
-| CNAME | images | `mother-india-images.YOUR-SUBDOMAIN.workers.dev` | ✅ Proxied |
+| CNAME | api    | `motherindiatourtravels-api.YOUR-SUBDOMAIN.workers.dev`    | ✅ Proxied |
+| CNAME | images | `motherindiatourtravels-images.YOUR-SUBDOMAIN.workers.dev` | ✅ Proxied |
 
 ---
 
@@ -189,8 +189,8 @@ Add two CNAME records:
 
 In Cloudflare Dashboard → **Workers & Pages** → click your worker → **Settings** → **Domains & Routes**:
 
-For **mother-india-api**: Add custom domain `api.motherindiatourtravels.com`  
-For **mother-india-images**: Add custom domain `images.motherindiatourtravels.com`
+For **motherindiatourtravels-api**: Add custom domain `api.motherindiatourtravels.com`  
+For **motherindiatourtravels-images**: Add custom domain `images.motherindiatourtravels.com`
 
 ---
 

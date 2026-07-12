@@ -1,7 +1,7 @@
-name = "mother-india-images"
+name = "motherindiatourtravels-images"
 main = "src/index.ts"
 compatibility_date = "2024-11-01"
 
 [[r2_buckets]]
 binding = "BUCKET"
-bucket_name = "mother-india-assets"
+bucket_name = "motherindiatourtravels-assets"
