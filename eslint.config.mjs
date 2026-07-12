@@ -27,6 +27,7 @@ const eslintConfig = defineConfig([
     ".remember/**",
     "src/generated/**",
     "public/**",
+    "cloudflare/**",
   ]),
 ]);
 

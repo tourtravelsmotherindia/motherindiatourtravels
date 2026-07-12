@@ -46,3 +46,9 @@ graphify-out
 migration_lock.toml
 /src/generated/prisma
 
+# cloudflare workers dependencies and build artifacts
+/cloudflare/*/node_modules
+/cloudflare/*/.wrangler
+/cloudflare/*/.dev.vars
+
+

@@ -38,7 +38,7 @@ export default function ContactClient({ companyData }: ContactClientProps) {
     return formatWorkingHours(companyData.working_hours, ", ");
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!fullName || !emailAddress || !phoneNumber || !message) {
       showToast("error", "Validation Failed", "Please fill in all required fields.");
@@ -47,7 +47,19 @@ export default function ContactClient({ companyData }: ContactClientProps) {
 
     setSubmitting(true);
 
-    setTimeout(() => {
+    try {
+      const dialCode = countryCodeVal.split(":")[1] ?? "";
+      const fullPhone = `${dialCode}${phoneNumber}`.trim();
+
+      const { submitContact } = await import("@/lib/api");
+      await submitContact({
+        name: fullName,
+        email: emailAddress,
+        phone: fullPhone,
+        message,
+        source: "contact_page",
+      });
+
       showToast(
         "success",
         "Message Sent!",
@@ -58,8 +70,12 @@ export default function ContactClient({ companyData }: ContactClientProps) {
       setCountryCodeVal("IN:+91");
       setPhoneNumber("");
       setMessage("");
+    } catch (err) {
+      const errMsg = err instanceof Error ? err.message : "Something went wrong. Please try again.";
+      showToast("error", "Submission Failed", errMsg);
+    } finally {
       setSubmitting(false);
-    }, 1200);
+    }
   };
 
   return (

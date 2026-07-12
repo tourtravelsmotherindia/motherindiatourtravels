@@ -414,11 +414,27 @@ model BookingInquiry {
   id              String        @id @default(cuid())
   packageId       String?
   variantId       String?
+  packageInterest String        @default("") // loose package name for popup inquiries
   name            String
   email           String
   phone           String
+  // Travel dates — supports both calendar (exact) and flexible mode
   travelDate      DateTime?
-  numberOfPeople  Int           @default(1)
+  travelDateEnd   DateTime?
+  dateMode        String        @default("calendar") // "calendar" | "flexible"
+  flexibleMonth   String        @default("")         // e.g. "2025-03" when dateMode=flexible
+  flexibleDays    Int?                               // flexible duration override
+  // Traveller breakdown
+  adults          Int           @default(1)
+  children        Int           @default(0)
+  infants         Int           @default(0)
+  numberOfPeople  Int           @default(1) // legacy total, kept for backward compat
+  // Stay preferences
+  rooms           Int           @default(1)
+  hotelCategory   String        @default("4star") // "3star" | "4star" | "5star"
+  // Logistics
+  pickupLocation  String        @default("")
+  dropLocation    String        @default("")
   message         String        @default("")
   status          InquiryStatus @default(NEW)
   source          InquirySource @default(BOOKING_FORM)

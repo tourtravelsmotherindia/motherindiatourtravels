@@ -45,12 +45,21 @@ export default function Footer({
     return href;
   };
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email.trim()) {
+    if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
+
+    try {
+      const { subscribeNewsletter } = await import("@/lib/api");
+      await subscribeNewsletter({ email: email.trim() });
       setSubscribed(true);
-      setTimeout(() => setSubscribed(false), 5000);
       setEmail("");
+      setTimeout(() => setSubscribed(false), 5000);
+    } catch {
+      // Silently fail — newsletter is non-critical
+      setSubscribed(true);
+      setEmail("");
+      setTimeout(() => setSubscribed(false), 5000);
     }
   };
 

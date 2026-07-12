@@ -1,0 +1,6 @@
+name = "mother-india-images"
+main = "src/index.ts"
+compatibility_date = "2024-11-01"
+
+# Secrets — set via: npx wrangler secret put CLOUDINARY_CLOUD
+# CLOUDINARY_CLOUD   → your Cloudinary cloud name (e.g. "my-cloud")

@@ -1,0 +1,20 @@
+name = "mother-india-api"
+main = "src/index.ts"
+compatibility_date = "2024-11-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+ALLOWED_ORIGIN = "https://motherindiatourtravels.com"
+
+# Secrets — set via: npx wrangler secret put <KEY_NAME>
+# SUPABASE_URL
+# SUPABASE_SERVICE_KEY
+# CLOUDINARY_CLOUD
+# CLOUDINARY_KEY
+# CLOUDINARY_SECRET
+# BOOKING_SMTP_USER
+# BOOKING_SMTP_PASS
+# NOTIFY_SMTP_USER
+# NOTIFY_SMTP_PASS
+# SMTP_HOST
+# SMTP_PORT

@@ -111,7 +111,7 @@ export default function BookClient({
   }, [allPackages, packageData]);
 
   // Submit form handler
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (
@@ -128,12 +128,47 @@ export default function BookClient({
 
     setSubmitting(true);
 
-    setTimeout(() => {
+    try {
+      // Build country-code-prefixed phone string
+      const dialCode = countryCodeVal.split(":")[1] ?? "";
+      const fullPhone = `${dialCode}${phoneNumber}`.trim();
+
+      // Resolve flexible date fields
+      const isFlexible = dateMode === "flexible";
+      const flexMonth = isFlexible
+        ? `${selectedFlexibleMonth.getFullYear()}-${String(selectedFlexibleMonth.getMonth() + 1).padStart(2, "0")}`
+        : "";
+
+      const { submitBooking } = await import("@/lib/api");
+      await submitBooking({
+        name: fullName,
+        email: emailAddress,
+        phone: fullPhone,
+        packageId: packageData.id,
+        variantId: activeVariant.id,
+        travelDate: selectedCheckIn?.toISOString() ?? null,
+        travelDateEnd: selectedCheckOut?.toISOString() ?? null,
+        dateMode: isFlexible ? "flexible" : "calendar",
+        flexibleMonth: flexMonth,
+        flexibleDays: isFlexible ? Number(flexibleDurationDays) : undefined,
+        adults,
+        children: childrenCount,
+        infants: kids,
+        rooms,
+        hotelCategory: hotelCategory as "3star" | "4star" | "5star",
+        pickupLocation,
+        dropLocation,
+        message,
+        source: "BOOKING_FORM",
+      });
+
       showToast(
         "success",
         "Booking Request Received!",
         `We have received your booking request for "${pkgName} - ${activeVariant.label}". Our tour expert will contact you shortly.`,
       );
+
+      // Reset form
       setFullName("");
       setEmailAddress("");
       setCountryCodeVal("IN:+91");
@@ -148,9 +183,14 @@ export default function BookClient({
       setKids(0);
       setRooms(1);
       setHotelCategory("4star");
-      setSubmitting(false);
       setActiveDropdown(null);
-    }, 1200);
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Something went wrong. Please try again.";
+      showToast("error", "Submission Failed", message);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (

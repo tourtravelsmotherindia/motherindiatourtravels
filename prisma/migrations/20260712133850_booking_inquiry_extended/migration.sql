@@ -1,0 +1,13 @@
+-- AlterTable
+ALTER TABLE "BookingInquiry" ADD COLUMN     "adults" INTEGER NOT NULL DEFAULT 1,
+ADD COLUMN     "children" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "dateMode" TEXT NOT NULL DEFAULT 'calendar',
+ADD COLUMN     "dropLocation" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "flexibleDays" INTEGER,
+ADD COLUMN     "flexibleMonth" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "hotelCategory" TEXT NOT NULL DEFAULT '4star',
+ADD COLUMN     "infants" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "packageInterest" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "pickupLocation" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "rooms" INTEGER NOT NULL DEFAULT 1,
+ADD COLUMN     "travelDateEnd" TIMESTAMP(3);

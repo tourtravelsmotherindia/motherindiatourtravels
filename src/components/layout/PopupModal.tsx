@@ -141,7 +141,7 @@ export default function PopupModal() {
     sessionStorage.setItem("hasSeenPopup", "true");
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!fullName.trim() || !email.trim() || !phoneNumber.trim() || !selectedDate) {
@@ -149,15 +149,35 @@ export default function PopupModal() {
       return;
     }
 
-    showToast(
-      "success",
-      "Trip Inquiry Received!",
-      "Thank you for sharing your preferences. We will connect shortly!",
-    );
+    try {
+      const dialCode = countryVal.split(":")[1] ?? "";
+      const fullPhone = `${dialCode}${phoneNumber}`.trim();
 
-    setIsOpen(false);
-    setSelectedPackage(null);
-    sessionStorage.setItem("hasSeenPopup", "true");
+      const { submitBooking } = await import("@/lib/api");
+      await submitBooking({
+        name: fullName.trim(),
+        email: email.trim(),
+        phone: fullPhone,
+        packageInterest: selectedPackage ?? "",
+        travelDate: selectedDate.toISOString(),
+        adults: Number(travellers) || 1,
+        message: message.trim(),
+        source: "POPUP",
+      });
+
+      showToast(
+        "success",
+        "Trip Inquiry Received!",
+        "Thank you for sharing your preferences. We will connect shortly!",
+      );
+    } catch (err) {
+      const errMsg = err instanceof Error ? err.message : "Something went wrong. Please try again.";
+      showToast("error", "Submission Failed", errMsg);
+    } finally {
+      setIsOpen(false);
+      setSelectedPackage(null);
+      sessionStorage.setItem("hasSeenPopup", "true");
+    }
   };
 
   const MONTHS = [
