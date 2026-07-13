@@ -4,20 +4,23 @@ import {
   Activity,
   AlertTriangle,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   ChevronUp,
   Clock,
   Database,
   Globe,
   HardDrive,
   Loader2,
+  MoreVertical,
   Network,
-  RefreshCw,
   TrendingUp,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 import { useToast } from "@/context/ToastContext";
-import { adminPost, getRecords } from "@/lib/adminApi";
+import { getRecords } from "@/lib/adminApi";
+import { formatLocalDateTimeVerbose } from "@/lib/manage/dateUtils";
 import type { SystemStatus } from "@/types/system-status";
 
 interface MetricCardProps {
@@ -25,25 +28,32 @@ interface MetricCardProps {
   value: string | number;
   subtext: string;
   icon: React.ReactNode;
-  bgIconColor: string;
-  textColor: string;
 }
 
-function MetricCard({ title, value, subtext, icon, bgIconColor, textColor }: MetricCardProps) {
+function MetricCard({ title, value, subtext, icon }: MetricCardProps) {
   return (
-    <div className="bg-white rounded-[2rem] border border-border-light p-6">
-      <div className="flex items-start justify-between">
-        <div className="space-y-3">
-          <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">{title}</p>
-          <h3 className="text-2xl md:text-3xl font-display font-bold text-foreground leading-none">
+    <div className="bg-white rounded-[2rem] border border-border-light p-6 hover:shadow-premium transition-all duration-300">
+      {/* Title Row */}
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2 text-neutral-500 text-xs font-bold uppercase tracking-wider">
+          <div className="text-neutral-400 shrink-0">{icon}</div>
+          <span>{title}</span>
+        </div>
+        {/* Three dots option */}
+        <button className="text-neutral-300 hover:text-neutral-600 transition-colors p-1 rounded-full hover:bg-neutral-50 cursor-pointer">
+          <MoreVertical className="w-4 h-4" />
+        </button>
+      </div>
+
+      {/* Value Row */}
+      <div className="flex items-end justify-between">
+        <div className="space-y-1">
+          <h3 className="text-3xl font-display font-extrabold text-foreground leading-none tracking-tight">
             {value}
           </h3>
-          <p className="text-xs text-neutral-400 font-medium">{subtext}</p>
-        </div>
-        <div
-          className={`w-12 h-12 rounded-full ${bgIconColor} ${textColor} flex items-center justify-center border border-current/10 flex-shrink-0`}
-        >
-          {icon}
+          <p className="text-[10px] text-neutral-400 font-semibold uppercase tracking-wider leading-none mt-1.5">
+            {subtext}
+          </p>
         </div>
       </div>
     </div>
@@ -52,15 +62,20 @@ function MetricCard({ title, value, subtext, icon, bgIconColor, textColor }: Met
 
 export default function SystemStatusDashboard() {
   const { showToast } = useToast();
+  const [mounted, setMounted] = useState<boolean>(false);
   const [logs, setLogs] = useState<SystemStatus[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [pinging, setPinging] = useState<boolean>(false);
   const [expandedLogId, setExpandedLogId] = useState<string | null>(null);
 
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const itemsPerPage = 10;
 
   // Fetch status history on load
   useEffect(() => {
+    setTimeout(() => {
+      setMounted(true);
+    }, 0);
     let active = true;
     const fetchLogs = async () => {
       try {
@@ -70,6 +85,7 @@ export default function SystemStatusDashboard() {
         );
         if (active) {
           setLogs(data);
+          setCurrentPage(1);
         }
       } catch (err: unknown) {
         console.error("Failed to load status logs:", err);
@@ -82,34 +98,17 @@ export default function SystemStatusDashboard() {
       }
     };
     fetchLogs();
+
+    const handlePingEvent = () => {
+      setRefreshTrigger((prev) => prev + 1);
+    };
+    window.addEventListener("system-status-pinged", handlePingEvent);
+
     return () => {
       active = false;
+      window.removeEventListener("system-status-pinged", handlePingEvent);
     };
   }, [showToast, refreshTrigger]);
-
-  const handleManualPing = async () => {
-    try {
-      setPinging(true);
-      setLoading(true);
-      const response = await adminPost<{ success: boolean; data: SystemStatus; error?: string }>(
-        "/admin/system-status/ping",
-        {},
-      );
-      if (response && response.success) {
-        showToast("success", "Diagnostic Check", "New system status check executed!");
-        setRefreshTrigger((prev) => prev + 1);
-      } else {
-        throw new Error(response?.error || "Diagnostics failed");
-      }
-    } catch (err: unknown) {
-      console.error("Diagnostic trigger failed:", err);
-      const errMsg = err instanceof Error ? err.message : "Failed to run manual diagnostics.";
-      showToast("error", "Diagnostic Failed", errMsg);
-      setLoading(false);
-    } finally {
-      setPinging(false);
-    }
-  };
 
   // Metrics Calculations
   const totalChecks = logs.length;
@@ -135,6 +134,8 @@ export default function SystemStatusDashboard() {
 
   // SVG Chart data preparation (latest 20 pings in chronological order)
   const chartLogs = [...logs].reverse().slice(-20);
+
+  const totalPages = Math.ceil(logs.length / itemsPerPage);
 
   // Render SVG Chart lines path
   const getChartLinePath = (
@@ -172,22 +173,6 @@ export default function SystemStatusDashboard() {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
-      {/* Top Action Bar */}
-      <div className="flex justify-end">
-        <button
-          onClick={handleManualPing}
-          disabled={pinging || loading}
-          className="flex items-center justify-center gap-2 rounded-full bg-brand hover:bg-brand-hover text-white font-semibold text-xs py-2.5 px-6 shadow-premium transition-all cursor-pointer disabled:opacity-50"
-        >
-          {pinging ? (
-            <Loader2 className="w-3.5 h-3.5 animate-spin" />
-          ) : (
-            <RefreshCw className="w-3.5 h-3.5" />
-          )}
-          <span>Ping Diagnostics Now</span>
-        </button>
-      </div>
-
       {loading ? (
         <div className="py-32 flex flex-col items-center justify-center bg-white rounded-[2rem] border border-border-light">
           <Loader2 className="w-10 h-10 text-brand animate-spin" />
@@ -203,33 +188,25 @@ export default function SystemStatusDashboard() {
               title="System Uptime Score"
               value={`${uptimeScore}%`}
               subtext="Percentage of healthy runs"
-              icon={<TrendingUp className="w-5 h-5" />}
-              bgIconColor="bg-emerald-50"
-              textColor="text-emerald-600"
+              icon={<TrendingUp className="w-4 h-4" />}
             />
             <MetricCard
               title="Active Health Monitors"
               value={currentStatus ? "4 / 4" : "0 / 4"}
               subtext="Monitored web subsystems"
-              icon={<Activity className="w-5 h-5" />}
-              bgIconColor="bg-brand-light"
-              textColor="text-brand"
+              icon={<Activity className="w-4 h-4" />}
             />
             <MetricCard
               title="Avg Database Latency"
               value={`${avgDbLatency} ms`}
               subtext="Avg SQL execution speed"
-              icon={<Database className="w-5 h-5" />}
-              bgIconColor="bg-blue-50"
-              textColor="text-blue-600"
+              icon={<Database className="w-4 h-4" />}
             />
             <MetricCard
               title="Total Outages / Warnings"
               value={totalIncidents}
               subtext="Runs flagged as degraded/down"
-              icon={<AlertTriangle className="w-5 h-5" />}
-              bgIconColor="bg-amber-50"
-              textColor="text-amber-600"
+              icon={<AlertTriangle className="w-4 h-4" />}
             />
           </div>
 
@@ -375,8 +352,8 @@ export default function SystemStatusDashboard() {
                       <span
                         className={`inline-flex px-2.5 py-0.5 rounded-full text-[9px] font-bold border ${
                           currentStatus.dbStatus === "up"
-                            ? "bg-emerald-50 text-emerald-600 border-emerald-100"
-                            : "bg-red-50 text-red-600 border-red-100"
+                            ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
+                            : "bg-rose-500/10 text-rose-500 border-rose-500/20"
                         }`}
                       >
                         {currentStatus.dbStatus === "up" ? "Online" : "Offline"}
@@ -404,8 +381,8 @@ export default function SystemStatusDashboard() {
                       <span
                         className={`inline-flex px-2.5 py-0.5 rounded-full text-[9px] font-bold border ${
                           currentStatus.websiteStatus === "up"
-                            ? "bg-emerald-50 text-emerald-600 border-emerald-100"
-                            : "bg-red-50 text-red-600 border-red-100"
+                            ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
+                            : "bg-rose-500/10 text-rose-500 border-rose-500/20"
                         }`}
                       >
                         {currentStatus.websiteStatus === "up" ? "Online" : "Offline"}
@@ -433,8 +410,8 @@ export default function SystemStatusDashboard() {
                       <span
                         className={`inline-flex px-2.5 py-0.5 rounded-full text-[9px] font-bold border ${
                           currentStatus.apiStatus === "up"
-                            ? "bg-emerald-50 text-emerald-600 border-emerald-100"
-                            : "bg-red-50 text-red-600 border-red-100"
+                            ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
+                            : "bg-rose-500/10 text-rose-500 border-rose-500/20"
                         }`}
                       >
                         {currentStatus.apiStatus === "up" ? "Online" : "Offline"}
@@ -462,8 +439,8 @@ export default function SystemStatusDashboard() {
                       <span
                         className={`inline-flex px-2.5 py-0.5 rounded-full text-[9px] font-bold border ${
                           currentStatus.imagesStatus === "up"
-                            ? "bg-emerald-50 text-emerald-600 border-emerald-100"
-                            : "bg-red-50 text-red-600 border-red-100"
+                            ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
+                            : "bg-rose-500/10 text-rose-500 border-rose-500/20"
                         }`}
                       >
                         {currentStatus.imagesStatus === "up" ? "Online" : "Offline"}
@@ -495,172 +472,222 @@ export default function SystemStatusDashboard() {
                   No diagnostic runs recorded yet.
                 </div>
               ) : (
-                <table className="w-full text-left border-collapse text-xs font-medium">
-                  <thead>
-                    <tr className="border-b border-border-light text-neutral-400 font-semibold uppercase tracking-wider">
-                      <th className="pb-3 pr-4">Diagnostic Timestamp</th>
-                      <th className="pb-3 px-4">Log ID (UUID)</th>
-                      <th className="pb-3 px-4 text-center">Status</th>
-                      <th className="pb-3 px-4 text-center">Website</th>
-                      <th className="pb-3 px-4 text-center">API</th>
-                      <th className="pb-3 px-4 text-center">Images</th>
-                      <th className="pb-3 px-4 text-center">Database</th>
-                      <th className="pb-3 pl-4 text-right">Details</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-border-light text-neutral-700">
-                    {logs.map((log) => {
-                      const isExpanded = expandedLogId === log.id;
-                      return (
-                        <React.Fragment key={log.id}>
-                          <tr className="group hover:bg-neutral-50/50 transition-colors">
-                            <td className="py-3.5 pr-4 text-neutral-800 font-semibold">
-                              <span className="flex items-center gap-1.5">
-                                <Clock className="w-3.5 h-3.5 text-neutral-400" />
-                                {new Date(log.lastPing).toLocaleString("en-IN", {
-                                  day: "numeric",
-                                  month: "short",
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                  second: "2-digit",
-                                })}
-                              </span>
-                            </td>
-                            <td className="py-3.5 px-4 font-mono text-[10px] text-neutral-400">
-                              {log.id}
-                            </td>
-                            <td className="py-3.5 px-4 text-center">
-                              <span
-                                className={`inline-flex px-2 py-0.5 text-[10px] font-bold rounded-full border ${
-                                  log.status === "healthy"
-                                    ? "bg-emerald-50 text-emerald-600 border-emerald-100"
-                                    : log.status === "degraded"
-                                      ? "bg-amber-50 text-amber-600 border-amber-100"
-                                      : "bg-red-50 text-red-600 border-red-100"
-                                }`}
-                              >
-                                {log.status}
-                              </span>
-                            </td>
-                            <td className="py-3.5 px-4 text-center">
-                              <span
-                                className={
-                                  log.websiteStatus === "up"
-                                    ? "text-emerald-600"
-                                    : "text-red-500 font-bold"
-                                }
-                              >
-                                {log.websiteStatus === "up" ? "Online" : "Offline"}
-                              </span>
-                            </td>
-                            <td className="py-3.5 px-4 text-center">
-                              <span
-                                className={
-                                  log.apiStatus === "up"
-                                    ? "text-emerald-600"
-                                    : "text-red-500 font-bold"
-                                }
-                              >
-                                {log.apiStatus === "up" ? "Online" : "Offline"}
-                              </span>
-                            </td>
-                            <td className="py-3.5 px-4 text-center">
-                              <span
-                                className={
-                                  log.imagesStatus === "up"
-                                    ? "text-emerald-600"
-                                    : "text-red-500 font-bold"
-                                }
-                              >
-                                {log.imagesStatus === "up" ? "Online" : "Offline"}
-                              </span>
-                            </td>
-                            <td className="py-3.5 px-4 text-center">
-                              <span
-                                className={
-                                  log.dbStatus === "up"
-                                    ? "text-emerald-600"
-                                    : "text-red-500 font-bold"
-                                }
-                              >
-                                {log.dbStatus === "up" ? "Online" : "Offline"}
-                              </span>
-                            </td>
-                            <td className="py-3.5 pl-4 text-right">
-                              <button
-                                onClick={() => toggleExpandLog(log.id)}
-                                className="p-1.5 rounded-full border border-neutral-100 hover:border-brand hover:bg-brand-light text-neutral-500 hover:text-brand transition-all cursor-pointer"
-                                title="Expand Details"
-                              >
-                                {isExpanded ? (
-                                  <ChevronUp className="w-3.5 h-3.5" />
-                                ) : (
-                                  <ChevronDown className="w-3.5 h-3.5" />
-                                )}
-                              </button>
-                            </td>
-                          </tr>
+                <>
+                  <table className="w-full text-left border-collapse text-xs font-medium">
+                    <thead>
+                      <tr className="border-b border-border-light text-neutral-400 font-semibold uppercase tracking-wider">
+                        <th className="pb-3 pr-4">Diagnostic Timestamp</th>
+                        <th className="pb-3 px-4">Log ID (UUID)</th>
+                        <th className="pb-3 px-4 text-center">Status</th>
+                        <th className="pb-3 px-4 text-center">Website</th>
+                        <th className="pb-3 px-4 text-center">API</th>
+                        <th className="pb-3 px-4 text-center">Images</th>
+                        <th className="pb-3 px-4 text-center">Database</th>
+                        <th className="pb-3 pl-4 text-right">Details</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-border-light text-neutral-700">
+                      {logs
+                        .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+                        .map((log) => {
+                          const isExpanded = expandedLogId === log.id;
+                          return (
+                            <React.Fragment key={log.id}>
+                              <tr className="group hover:bg-neutral-50/50 transition-colors">
+                                <td className="py-3.5 pr-4 text-neutral-800 font-semibold">
+                                  <span
+                                    className="flex items-center gap-1.5"
+                                    suppressHydrationWarning
+                                  >
+                                    <Clock className="w-3.5 h-3.5 text-neutral-400" />
+                                    {mounted ? formatLocalDateTimeVerbose(log.lastPing) : "..."}
+                                  </span>
+                                </td>
+                                <td className="py-3.5 px-4 font-mono text-[10px] text-neutral-400">
+                                  {log.id}
+                                </td>
+                                <td className="py-3.5 px-4 text-center">
+                                  <span
+                                    className={`inline-flex px-2 py-0.5 text-[10px] font-bold rounded-full border ${
+                                      log.status === "healthy"
+                                        ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
+                                        : log.status === "degraded"
+                                          ? "bg-amber-500/10 text-amber-500 border-amber-500/20"
+                                          : "bg-rose-500/10 text-rose-500 border-rose-500/20"
+                                    }`}
+                                  >
+                                    {log.status}
+                                  </span>
+                                </td>
+                                <td className="py-3.5 px-4 text-center">
+                                  <span
+                                    className={`inline-flex px-2 py-0.5 text-[9px] font-bold rounded-full border ${
+                                      log.websiteStatus === "up"
+                                        ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
+                                        : "bg-rose-500/10 text-rose-500 border-rose-500/20"
+                                    }`}
+                                  >
+                                    {log.websiteStatus === "up" ? "Online" : "Offline"}
+                                  </span>
+                                </td>
+                                <td className="py-3.5 px-4 text-center">
+                                  <span
+                                    className={`inline-flex px-2 py-0.5 text-[9px] font-bold rounded-full border ${
+                                      log.apiStatus === "up"
+                                        ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
+                                        : "bg-rose-500/10 text-rose-500 border-rose-500/20"
+                                    }`}
+                                  >
+                                    {log.apiStatus === "up" ? "Online" : "Offline"}
+                                  </span>
+                                </td>
+                                <td className="py-3.5 px-4 text-center">
+                                  <span
+                                    className={`inline-flex px-2 py-0.5 text-[9px] font-bold rounded-full border ${
+                                      log.imagesStatus === "up"
+                                        ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
+                                        : "bg-rose-500/10 text-rose-500 border-rose-500/20"
+                                    }`}
+                                  >
+                                    {log.imagesStatus === "up" ? "Online" : "Offline"}
+                                  </span>
+                                </td>
+                                <td className="py-3.5 px-4 text-center">
+                                  <span
+                                    className={`inline-flex px-2 py-0.5 text-[9px] font-bold rounded-full border ${
+                                      log.dbStatus === "up"
+                                        ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
+                                        : "bg-rose-500/10 text-rose-500 border-rose-500/20"
+                                    }`}
+                                  >
+                                    {log.dbStatus === "up" ? "Online" : "Offline"}
+                                  </span>
+                                </td>
+                                <td className="py-3.5 pl-4 text-right">
+                                  <button
+                                    onClick={() => toggleExpandLog(log.id)}
+                                    className="p-1.5 rounded-full border border-neutral-100 hover:border-brand hover:bg-brand-light text-neutral-500 hover:text-brand transition-all cursor-pointer"
+                                    title="Expand Details"
+                                  >
+                                    {isExpanded ? (
+                                      <ChevronUp className="w-3.5 h-3.5" />
+                                    ) : (
+                                      <ChevronDown className="w-3.5 h-3.5" />
+                                    )}
+                                  </button>
+                                </td>
+                              </tr>
 
-                          {/* Expanded JSON details block */}
-                          {isExpanded && (
-                            <tr>
-                              <td colSpan={8} className="p-4 bg-neutral-50 rounded-lg">
-                                <div className="space-y-3 font-semibold text-neutral-700 text-xs leading-relaxed">
-                                  <p className="font-bold text-neutral-900 border-b border-border-light pb-1.5">
-                                    Diagnostic Metadata Details
-                                  </p>
-                                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 py-1">
-                                    <div>
-                                      <p className="text-[10px] text-neutral-400">
-                                        SYNC AGENT TRIGGER
+                              {/* Expanded JSON details block */}
+                              {isExpanded && (
+                                <tr>
+                                  <td colSpan={8} className="p-4 bg-neutral-50 rounded-lg">
+                                    <div className="space-y-3 font-semibold text-neutral-700 text-xs leading-relaxed">
+                                      <p className="font-bold text-neutral-900 border-b border-border-light pb-1.5">
+                                        Diagnostic Metadata Details
                                       </p>
-                                      <p className="mt-0.5">
-                                        {log.metadata?.updatedBy || "system-cron"}
-                                      </p>
+                                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 py-1">
+                                        <div>
+                                          <p className="text-[10px] text-neutral-400">
+                                            SYNC AGENT TRIGGER
+                                          </p>
+                                          <p className="mt-0.5">
+                                            {log.metadata?.updatedBy || "system-cron"}
+                                          </p>
+                                        </div>
+                                        <div>
+                                          <p className="text-[10px] text-neutral-400">
+                                            DATABASE PROFILE COMPANY
+                                          </p>
+                                          <p className="mt-0.5">
+                                            {log.metadata?.companyName || "N/A"}
+                                          </p>
+                                        </div>
+                                        <div>
+                                          <p className="text-[10px] text-neutral-400">
+                                            DATABASE SCHEMA COUNTS
+                                          </p>
+                                          <p className="mt-0.5 text-neutral-600 font-normal">
+                                            Packages:{" "}
+                                            <span className="font-bold text-neutral-800">
+                                              {log.metadata?.packagesCount ?? 0}
+                                            </span>{" "}
+                                            | Destinations:{" "}
+                                            <span className="font-bold text-neutral-800">
+                                              {log.metadata?.destinationsCount ?? 0}
+                                            </span>{" "}
+                                            | Blogs:{" "}
+                                            <span className="font-bold text-neutral-800">
+                                              {log.metadata?.blogsCount ?? 0}
+                                            </span>
+                                          </p>
+                                        </div>
+                                      </div>
+                                      <div>
+                                        <p className="text-[10px] text-neutral-400">
+                                          RAW LOG JSON METADATA
+                                        </p>
+                                        <pre className="mt-1.5 p-3 bg-neutral-900 text-neutral-100 rounded-xl font-mono text-[10px] overflow-x-auto leading-normal">
+                                          {JSON.stringify(log.metadata, null, 2)}
+                                        </pre>
+                                      </div>
                                     </div>
-                                    <div>
-                                      <p className="text-[10px] text-neutral-400">
-                                        DATABASE PROFILE COMPANY
-                                      </p>
-                                      <p className="mt-0.5">{log.metadata?.companyName || "N/A"}</p>
-                                    </div>
-                                    <div>
-                                      <p className="text-[10px] text-neutral-400">
-                                        DATABASE SCHEMA COUNTS
-                                      </p>
-                                      <p className="mt-0.5 text-neutral-600 font-normal">
-                                        Packages:{" "}
-                                        <span className="font-bold text-neutral-800">
-                                          {log.metadata?.packagesCount ?? 0}
-                                        </span>{" "}
-                                        | Destinations:{" "}
-                                        <span className="font-bold text-neutral-800">
-                                          {log.metadata?.destinationsCount ?? 0}
-                                        </span>{" "}
-                                        | Blogs:{" "}
-                                        <span className="font-bold text-neutral-800">
-                                          {log.metadata?.blogsCount ?? 0}
-                                        </span>
-                                      </p>
-                                    </div>
-                                  </div>
-                                  <div>
-                                    <p className="text-[10px] text-neutral-400">
-                                      RAW LOG JSON METADATA
-                                    </p>
-                                    <pre className="mt-1.5 p-3 bg-neutral-900 text-neutral-100 rounded-xl font-mono text-[10px] overflow-x-auto leading-normal">
-                                      {JSON.stringify(log.metadata, null, 2)}
-                                    </pre>
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-                          )}
-                        </React.Fragment>
-                      );
-                    })}
-                  </tbody>
-                </table>
+                                  </td>
+                                </tr>
+                              )}
+                            </React.Fragment>
+                          );
+                        })}
+                    </tbody>
+                  </table>
+
+                  {/* Pagination Controls */}
+                  {totalPages > 1 && (
+                    <div className="bg-neutral-50/50 border-t border-border-light px-6 py-4 flex items-center justify-between mt-4 rounded-b-[2rem]">
+                      <span className="text-xs text-neutral-500 font-medium">
+                        Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
+                        {Math.min(currentPage * itemsPerPage, logs.length)} of {logs.length} logs
+                      </span>
+
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          disabled={currentPage === 1}
+                          onClick={() => setCurrentPage((p) => p - 1)}
+                          className="p-2 rounded-full border border-border-light bg-white hover:bg-neutral-50 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                        >
+                          <ChevronLeft className="w-4 h-4 text-neutral-600" />
+                        </button>
+
+                        {Array.from({ length: totalPages }).map((_, idx) => {
+                          const pageNum = idx + 1;
+                          const isCurrent = currentPage === pageNum;
+
+                          return (
+                            <button
+                              key={pageNum}
+                              onClick={() => setCurrentPage(pageNum)}
+                              className={`w-8 h-8 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                                isCurrent
+                                  ? "bg-brand text-white shadow-premium"
+                                  : "bg-white border border-border-light hover:bg-neutral-50 text-neutral-600"
+                              }`}
+                            >
+                              {pageNum}
+                            </button>
+                          );
+                        })}
+
+                        <button
+                          disabled={currentPage === totalPages}
+                          onClick={() => setCurrentPage((p) => p + 1)}
+                          className="p-2 rounded-full border border-border-light bg-white hover:bg-neutral-50 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                        >
+                          <ChevronRight className="w-4 h-4 text-neutral-600" />
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </div>

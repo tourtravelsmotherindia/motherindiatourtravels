@@ -8,6 +8,7 @@ import Dropdown from "@/components/ui/Dropdown";
 import { useToast } from "@/context/ToastContext";
 import { createRecord, getRecord, getRecords, updateRecord } from "@/lib/adminApi";
 import { ADMIN_TABLES, FieldConfig, getSingularLabel } from "@/lib/adminSchema";
+import { formatForDatetimeLocalInput } from "@/lib/manage/dateUtils";
 import { type AboutData, type WorkingHoursSchedule } from "@/types/company";
 
 import AboutJsonEditor from "./AboutJsonEditor";
@@ -322,11 +323,9 @@ export default function AdminFormDrawer({
             </label>
             <input
               type="datetime-local"
-              value={
-                formData[field.name]
-                  ? new Date(formData[field.name] as string | number).toISOString().slice(0, 16)
-                  : ""
-              }
+              value={formatForDatetimeLocalInput(
+                formData[field.name] as string | Date | number | null,
+              )}
               onChange={(e) => handleInputChange(field.name, e.target.value)}
               className="w-full rounded-full border border-border-light px-5 py-2.5 text-sm bg-white focus:border-brand focus:outline-none transition-colors"
             />

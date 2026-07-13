@@ -13,6 +13,7 @@ html {
   --brand-dark: #111111;
   --muted: #666666;
   --border-light: #ececec;
+  --admin-bg: #f8f8f8;
 }
 
 @theme {
@@ -24,6 +25,7 @@ html {
   --color-brand-dark: var(--brand-dark);
   --color-muted: var(--muted);
   --color-border-light: var(--border-light);
+  --color-admin-bg: var(--admin-bg);
   --font-sans:
     var(--font-poppins), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Helvetica, Arial, sans-serif;

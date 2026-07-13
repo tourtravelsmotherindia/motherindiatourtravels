@@ -80,7 +80,7 @@ export default function ManageSidebar({ isMobileOpen, onCloseMobile }: ManageSid
   const renderNavItems = () => {
     return ADMIN_SIDEBAR_GROUPS.map((group) => (
       <div key={group.name} className="mb-6">
-        <h3 className="px-4 text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-2">
+        <h3 className="px-4 text-xs font-bold text-neutral-500 uppercase tracking-wider mb-2">
           {group.name}
         </h3>
         <ul className="space-y-1">
@@ -97,14 +97,14 @@ export default function ManageSidebar({ isMobileOpen, onCloseMobile }: ManageSid
                 <Link
                   href={targetPath}
                   onClick={onCloseMobile}
-                  className={`flex items-center gap-3 px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 ${
+                  className={`flex items-center gap-3 px-4 py-2 text-sm font-semibold rounded-full transition-all duration-200 ${
                     isActive
                       ? "bg-brand text-white shadow-premium"
-                      : "text-neutral-600 hover:bg-brand-light hover:text-brand"
+                      : "text-neutral-700 hover:bg-brand-light hover:text-brand"
                   }`}
                 >
                   <Icon
-                    className={`w-4 h-4 ${isActive ? "text-white" : "text-neutral-400 group-hover:text-brand"}`}
+                    className={`w-4 h-4 ${isActive ? "text-white" : "text-neutral-500 group-hover:text-brand"}`}
                   />
                   <span>{table.label}</span>
                 </Link>
@@ -117,15 +117,24 @@ export default function ManageSidebar({ isMobileOpen, onCloseMobile }: ManageSid
   };
 
   const sidebarContent = (
-    <div className="flex flex-col h-full bg-white border-r border-border-light">
+    <div className="flex flex-col h-full bg-white border-r border-neutral-100">
       {/* Brand Header */}
-      <div className="p-6 border-b border-border-light">
-        <Link href="/manage/" className="flex items-center gap-3">
-          <Compass className="w-7 h-7 text-brand" />
-          <span className="font-display font-bold text-lg tracking-tight text-foreground">
-            Mother India
-          </span>
-          <span className="text-[10px] px-2 py-0.5 rounded-full bg-neutral-100 text-neutral-500 font-semibold uppercase">
+      <div className="px-5 py-5 border-b border-neutral-100">
+        <Link href="/manage/" className="flex items-center gap-3 select-none">
+          <img
+            src="/logo.png?v=234567"
+            alt="Mother India Tour Travels Logo"
+            className="w-9 h-9 object-contain shrink-0"
+          />
+          <div className="flex flex-col min-w-0">
+            <span className="block font-display text-xs lg:text-sm font-bold tracking-[0.18em] uppercase leading-none text-foreground">
+              Mother India
+            </span>
+            <span className="block font-sans text-[8px] lg:text-[9px] font-semibold tracking-[0.25em] uppercase leading-none mt-1 text-neutral-400">
+              Tour Travels
+            </span>
+          </div>
+          <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-neutral-100 text-neutral-500 font-bold uppercase shrink-0">
             Admin
           </span>
         </Link>
@@ -157,16 +166,16 @@ export default function ManageSidebar({ isMobileOpen, onCloseMobile }: ManageSid
       </nav>
 
       {/* User Card & Logout */}
-      <div className="p-4 border-t border-border-light bg-neutral-50">
+      <div className="p-4 border-t border-neutral-100">
         <div className="flex items-center gap-3 mb-3 px-2">
-          <div className="w-10 h-10 rounded-full bg-brand-light flex items-center justify-center border border-brand/20">
-            <span className="text-brand font-bold text-sm">{email.slice(0, 2).toUpperCase()}</span>
+          <div className="w-8 h-8 rounded-full bg-brand-light flex items-center justify-center border border-brand/10">
+            <span className="text-brand font-bold text-xs">{email.slice(0, 2).toUpperCase()}</span>
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-xs font-semibold text-neutral-800 truncate" title={email}>
+            <p className="text-xs font-semibold text-neutral-700 truncate" title={email}>
               {email}
             </p>
-            <p className="text-[10px] text-neutral-400 font-medium">Administrator</p>
+            <p className="text-[10px] text-neutral-500 font-semibold">Administrator</p>
           </div>
         </div>
 
@@ -175,7 +184,7 @@ export default function ManageSidebar({ isMobileOpen, onCloseMobile }: ManageSid
             logout();
             onCloseMobile?.();
           }}
-          className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-red-600 hover:text-red-700 border border-red-100 hover:border-red-200 hover:bg-red-50/50 rounded-full transition-all duration-200"
+          className="w-full flex items-center justify-center gap-2 px-4 py-2 text-xs font-semibold text-red-400 hover:text-red-600 border border-red-50 hover:border-red-100 hover:bg-red-50/50 rounded-full transition-all duration-200"
         >
           <LogOut className="w-4 h-4" />
           <span>Sign Out</span>

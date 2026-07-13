@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckCircle2, ChevronRight, CloudLightning, Loader2, Menu, XCircle } from "lucide-react";
+import { ChevronRight, CloudLightning, Loader2, Menu, RefreshCw } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -29,6 +29,29 @@ export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHe
   const [deployState, setDeployState] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [deployStatus, setDeployStatus] = useState<DeployStatus | null>(null);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [pinging, setPinging] = useState(false);
+
+  const handleSystemPing = async () => {
+    try {
+      setPinging(true);
+      const response = await adminPost<{ success: boolean; data: unknown; error?: string }>(
+        "/admin/system-status/ping",
+        {},
+      );
+      if (response && response.success) {
+        showToast("success", "Diagnostic Check", "New system status check executed!");
+        window.dispatchEvent(new CustomEvent("system-status-pinged"));
+      } else {
+        throw new Error(response?.error || "Diagnostics failed");
+      }
+    } catch (err: unknown) {
+      console.error("Diagnostic trigger failed:", err);
+      const errMsg = err instanceof Error ? err.message : "Failed to run manual diagnostics.";
+      showToast("error", "Diagnostic Failed", errMsg);
+    } finally {
+      setPinging(false);
+    }
+  };
 
   useEffect(() => {
     let active = true;
@@ -190,7 +213,7 @@ export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHe
   const { heading, sub } = getHeadings();
 
   return (
-    <header className="sticky top-0 bg-white/80 backdrop-blur-md border-b border-border-light px-6 py-4 flex flex-col gap-3 z-20">
+    <header className="sticky top-0 bg-white border-b border-neutral-100 px-6 py-3.5 flex flex-col gap-3 z-20">
       <div className="flex items-center justify-between">
         {/* Left: Mobile hamburger & Breadcrumbs */}
         <div className="flex items-center gap-3 min-w-0">
@@ -201,71 +224,74 @@ export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHe
             <Menu className="w-5 h-5" />
           </button>
 
-          <div className="flex items-center text-xs font-medium text-neutral-500 min-w-0 overflow-x-auto no-scrollbar">
+          <div className="flex items-center text-xs font-semibold text-neutral-700 min-w-0 overflow-x-auto no-scrollbar">
             {generateBreadcrumbs()}
           </div>
         </div>
 
         {/* Right: Quick Action or Status */}
         <div className="hidden sm:flex items-center gap-3">
-          {deployStatus && (
-            <a
-              href={deployStatus.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`flex items-center gap-1.5 text-[10px] md:text-xs font-semibold px-3 py-1.5 rounded-full border hover:shadow-premium transition-all duration-200 ${
-                deployStatus.status === "queued" || deployStatus.status === "in_progress"
-                  ? "bg-amber-50 text-amber-600 border-amber-200 hover:border-amber-400 animate-pulse"
-                  : deployStatus.conclusion === "success"
-                    ? "bg-emerald-50 text-emerald-600 border-emerald-200 hover:border-emerald-400"
-                    : deployStatus.conclusion === "failure" ||
-                        deployStatus.conclusion === "cancelled"
-                      ? "bg-red-50 text-red-600 border-red-200 hover:border-red-400"
-                      : "bg-neutral-50 text-neutral-500 border-neutral-200 hover:border-neutral-300"
-              }`}
-              title="Click to view run logs on GitHub"
-            >
-              <span
-                className={`w-1.5 h-1.5 rounded-full ${
-                  deployStatus.status === "queued" || deployStatus.status === "in_progress"
-                    ? "bg-amber-500"
-                    : deployStatus.conclusion === "success"
-                      ? "bg-emerald-500"
-                      : "bg-red-500"
-                }`}
-              />
-              <span className="hidden xl:inline text-[10px] text-neutral-400 font-normal">
-                Last Deploy:{" "}
-              </span>
-              <span>
-                {deployStatus.status === "queued" && "Queued"}
-                {deployStatus.status === "in_progress" && "In Progress"}
-                {deployStatus.status === "completed" &&
-                  deployStatus.conclusion === "success" &&
-                  "Success"}
-                {deployStatus.status === "completed" &&
-                  deployStatus.conclusion === "failure" &&
-                  "Failed"}
-                {deployStatus.status === "completed" &&
-                  deployStatus.conclusion === "cancelled" &&
-                  "Cancelled"}
-                {deployStatus.status !== "queued" &&
-                  deployStatus.status !== "in_progress" &&
-                  deployStatus.status !== "completed" &&
-                  "Active"}
-              </span>
-            </a>
-          )}
+          {/* Unified System Health Status Pill */}
+          <div className="flex items-center gap-3 text-[10px] md:text-xs font-semibold px-4 py-1.5 rounded-full border border-neutral-100 bg-white text-neutral-600 shadow-[0_1px_4px_rgba(0,0,0,0.04)] leading-none shrink-0">
+            {/* API Status Indicator */}
+            <div className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+              <span className="text-neutral-500 font-medium">API:</span>
+              <span className="text-emerald-600 font-bold">Online</span>
+            </div>
+
+            {deployStatus && (
+              <>
+                <span className="w-px h-3 bg-neutral-100 shrink-0" />
+                {/* Deploy Status Indicator */}
+                <a
+                  href={deployStatus.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 text-neutral-500 hover:text-brand transition-colors shrink-0"
+                  title="Click to view run logs on GitHub"
+                >
+                  <span className="text-neutral-500 font-medium">Deploy:</span>
+                  <span
+                    className={`font-semibold ${
+                      deployStatus.status === "queued" || deployStatus.status === "in_progress"
+                        ? "text-amber-500 animate-pulse"
+                        : deployStatus.conclusion === "success"
+                          ? "text-emerald-600"
+                          : "text-red-500"
+                    }`}
+                  >
+                    {deployStatus.status === "queued" && "Queued"}
+                    {deployStatus.status === "in_progress" && "In Progress"}
+                    {deployStatus.status === "completed" &&
+                      deployStatus.conclusion === "success" &&
+                      "Success"}
+                    {deployStatus.status === "completed" &&
+                      deployStatus.conclusion === "failure" &&
+                      "Failed"}
+                    {deployStatus.status === "completed" &&
+                      deployStatus.conclusion === "cancelled" &&
+                      "Cancelled"}
+                    {deployStatus.status !== "queued" &&
+                      deployStatus.status !== "in_progress" &&
+                      deployStatus.status !== "completed" &&
+                      "Active"}
+                  </span>
+                </a>
+              </>
+            )}
+          </div>
 
           <button
             onClick={() => setIsConfirmOpen(true)}
             disabled={!!isDeploying}
-            className="flex items-center gap-2 text-xs text-white bg-brand hover:bg-brand-hover disabled:bg-neutral-100 disabled:text-neutral-400 disabled:border-neutral-200 px-4 py-1.5 rounded-full font-semibold border border-brand disabled:border-neutral-200 transition-all duration-200 disabled:cursor-not-allowed cursor-pointer animate-in fade-in zoom-in-95 duration-200"
+            className="flex items-center gap-1.5 text-xs text-neutral-700 bg-white hover:bg-neutral-50 disabled:bg-neutral-50 disabled:text-neutral-300 border border-neutral-100 px-4 py-1.5 rounded-full font-semibold shadow-[0_1px_4px_rgba(0,0,0,0.04)] transition-all duration-200 cursor-pointer disabled:cursor-not-allowed shrink-0"
           >
-            {deployState === "loading" && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
-            {deployState === "idle" && <CloudLightning className="w-3.5 h-3.5" />}
-            {deployState === "success" && <CheckCircle2 className="w-3.5 h-3.5" />}
-            {deployState === "error" && <XCircle className="w-3.5 h-3.5" />}
+            {deployState === "loading" ? (
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-brand" />
+            ) : (
+              <CloudLightning className="w-3.5 h-3.5 text-brand" />
+            )}
             <span>
               {deployState === "idle" && "Deploy Website"}
               {deployState === "loading" && "Triggering..."}
@@ -273,6 +299,21 @@ export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHe
               {deployState === "error" && "Trigger Failed"}
             </span>
           </button>
+
+          {pathname.startsWith("/manage/system-status") && (
+            <button
+              onClick={handleSystemPing}
+              disabled={pinging}
+              className="flex items-center justify-center gap-1.5 rounded-full bg-brand hover:bg-brand-hover text-white font-semibold text-xs py-1.5 px-4 shadow-premium transition-all cursor-pointer disabled:opacity-50 shrink-0"
+            >
+              {pinging ? (
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+              ) : (
+                <RefreshCw className="w-3.5 h-3.5" />
+              )}
+              <span>Ping Diagnostics Now</span>
+            </button>
+          )}
 
           <ConfirmationModal
             isOpen={isConfirmOpen}
@@ -291,21 +332,16 @@ export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHe
               </div>
             }
           />
-
-          <div className="flex items-center gap-2 text-xs text-neutral-500 bg-neutral-100 px-3.5 py-1.5 rounded-full font-medium border border-neutral-200">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>API Server Live</span>
-          </div>
         </div>
       </div>
 
       {/* Main Heading Text */}
       <div className="mt-1">
-        <h1 className="text-xl md:text-2xl font-bold font-display text-foreground leading-tight">
+        <h1 className="text-xl md:text-2xl font-bold font-display text-neutral-800 leading-tight">
           {heading}
         </h1>
         {sub && (
-          <p className="text-xs md:text-sm text-neutral-500 font-normal mt-1 leading-relaxed max-w-3xl">
+          <p className="text-xs md:text-sm text-neutral-600 font-medium mt-1 leading-relaxed max-w-3xl">
             {sub}
           </p>
         )}

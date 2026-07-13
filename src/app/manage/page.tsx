@@ -13,6 +13,7 @@ import {
   HardDrive,
   Loader2,
   Mail,
+  MoreVertical,
   Network,
   Package,
   Receipt,
@@ -37,8 +38,10 @@ interface BookingItem {
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
+import AdminCard from "@/components/manage/AdminCard";
 import { useToast } from "@/context/ToastContext";
 import { adminPost, getRecords } from "@/lib/adminApi";
+import { formatLocalDateTime, formatLocalDateTimeVerbose } from "@/lib/manage/dateUtils";
 import type { SystemStatus } from "@/types/system-status";
 
 interface MetricCardProps {
@@ -46,38 +49,39 @@ interface MetricCardProps {
   value: string | number;
   change?: string;
   icon: React.ReactNode;
-  bgIconColor: string;
-  textColor: string;
 }
 
-function MetricCard({ title, value, change, icon, bgIconColor, textColor }: MetricCardProps) {
+function MetricCard({ title, value, change, icon }: MetricCardProps) {
   return (
-    <div className="bg-white rounded-[2rem] border border-border-light p-6">
-      <div className="flex items-start justify-between">
-        <div className="space-y-3">
-          <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">{title}</p>
-          <h3 className="text-2xl md:text-3xl font-display font-bold text-foreground leading-none">
-            {value}
-          </h3>
-          {change && (
-            <div className="flex items-center gap-1.5 text-xs text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-0.5 rounded-full w-fit">
-              <TrendingUp className="w-3.5 h-3.5" />
-              <span>{change}</span>
-            </div>
-          )}
+    <AdminCard>
+      <div className="flex items-center justify-between mb-5">
+        <div className="flex items-center gap-2 text-neutral-500 text-xs font-semibold uppercase tracking-wider">
+          <div className="shrink-0 text-neutral-500">{icon}</div>
+          <span>{title}</span>
         </div>
-        <div
-          className={`w-12 h-12 rounded-full ${bgIconColor} ${textColor} flex items-center justify-center border border-current/10 flex-shrink-0`}
-        >
-          {icon}
-        </div>
+        <button className="text-neutral-400 hover:text-neutral-600 transition-colors p-1 rounded-lg hover:bg-neutral-50 cursor-pointer">
+          <MoreVertical className="w-3.5 h-3.5" />
+        </button>
       </div>
-    </div>
+
+      <div className="flex items-end justify-between">
+        <h3 className="text-3xl font-display font-extrabold text-foreground leading-none tracking-tight">
+          {value}
+        </h3>
+        {change && (
+          <div className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-600">
+            <TrendingUp className="w-3 h-3" />
+            <span>{change}</span>
+          </div>
+        )}
+      </div>
+    </AdminCard>
   );
 }
 
 export default function DashboardOverview() {
   const { showToast } = useToast();
+  const [mounted, setMounted] = useState<boolean>(false);
   const [metrics, setMetrics] = useState({
     bookingsCount: 0,
     newBookings: 0,
@@ -91,10 +95,12 @@ export default function DashboardOverview() {
   const [pinging, setPinging] = useState<boolean>(false);
 
   useEffect(() => {
+    setTimeout(() => {
+      setMounted(true);
+    }, 0);
     const loadDashboardData = async () => {
       try {
         setLoading(true);
-        // Fetch counts and system status
         const [bookings, packages, blogs, contacts, statusRecords] = await Promise.all([
           getRecords<BookingItem>("bookings"),
           getRecords<unknown>("packages"),
@@ -119,7 +125,6 @@ export default function DashboardOverview() {
         const statusRecord = statusRecords && statusRecords.length > 0 ? statusRecords[0] : null;
         setSystemStatus(statusRecord);
 
-        // Set top 5 recent bookings
         const sorted = [...bookings].sort(
           (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
         );
@@ -170,169 +175,164 @@ export default function DashboardOverview() {
   const quickShortcuts = [
     {
       title: "Add Tour Package",
-      desc: "Create a new travel itinerary package listings",
+      desc: "Create a new travel itinerary package",
       href: "/manage/packages/?action=new",
-      icon: <Package className="w-5 h-5" />,
-      color: "bg-brand text-white",
+      icon: <Package className="w-4 h-4" />,
+      color: "text-brand bg-brand-light/40 group-hover:bg-brand group-hover:text-white",
     },
     {
       title: "Review Booking Inquiries",
-      desc: "Review guest travel requests and change status",
+      desc: "Review and update guest travel requests",
       href: "/manage/bookings/",
-      icon: <Receipt className="w-5 h-5" />,
-      color: "bg-amber-500 text-white",
+      icon: <Receipt className="w-4 h-4" />,
+      color: "text-amber-600 bg-amber-50 group-hover:bg-amber-500 group-hover:text-white",
     },
     {
       title: "Write Blog Article",
       desc: "Publish travel stories, articles and guides",
       href: "/manage/blog-posts/?action=new",
-      icon: <FileText className="w-5 h-5" />,
-      color: "bg-emerald-500 text-white",
+      icon: <FileText className="w-4 h-4" />,
+      color: "text-emerald-600 bg-emerald-50 group-hover:bg-emerald-500 group-hover:text-white",
     },
     {
       title: "Manage Destinations",
-      desc: "Configure featured cities, regions and attractions",
+      desc: "Configure featured cities and attractions",
       href: "/manage/destinations/",
-      icon: <Compass className="w-5 h-5" />,
-      color: "bg-blue-500 text-white",
+      icon: <Compass className="w-4 h-4" />,
+      color: "text-blue-600 bg-blue-50 group-hover:bg-blue-500 group-hover:text-white",
     },
   ];
 
+  const getBookingStatusStyle = (status: string) => {
+    switch (status) {
+      case "NEW":
+        return "bg-brand/8 text-brand border-brand/15";
+      case "READ":
+        return "bg-neutral-100 text-neutral-500 border-neutral-200";
+      case "CONTACTED":
+        return "bg-blue-50 text-blue-600 border-blue-100";
+      default:
+        return "bg-emerald-50 text-emerald-600 border-emerald-100";
+    }
+  };
+
   return (
-    <div className="space-y-8 animate-in fade-in duration-300">
-      {/* Greetings Heading */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div className="space-y-6 animate-in fade-in duration-300">
+      {/* Page Heading */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h2 className="text-xl md:text-2xl font-bold font-display text-foreground">
+          <h2 className="text-xl md:text-2xl font-bold font-display text-neutral-900">
             {getGreeting()}
           </h2>
-          <p className="text-sm text-neutral-500 font-medium mt-1">
+          <p className="text-sm text-neutral-600 font-medium mt-0.5">
             Here&apos;s a snapshot of what&apos;s happening with the travel portal today.
           </p>
         </div>
-        <div className="flex items-center gap-2.5 text-xs text-neutral-500 bg-white border border-border-light rounded-full px-4 py-2 font-medium">
-          <Clock className="w-4 h-4 text-neutral-400" />
+        <div className="flex items-center gap-2 text-xs text-neutral-600 bg-white border border-neutral-100 rounded-full px-4 py-2 font-medium shadow-[0_1px_4px_rgba(0,0,0,0.04)]">
+          <Clock className="w-3.5 h-3.5 text-neutral-500" />
           <span>
-            Last updated:{" "}
-            {new Date().toLocaleDateString("en-IN", {
-              day: "numeric",
-              month: "short",
-              year: "numeric",
-            })}
+            {mounted
+              ? new Date().toLocaleDateString("en-IN", {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                })
+              : "Loading..."}
           </span>
         </div>
       </div>
 
       {/* Metrics Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard
           title="Total Bookings"
           value={loading ? "..." : metrics.bookingsCount}
-          change={metrics.newBookings > 0 ? `${metrics.newBookings} new inquiries` : undefined}
-          icon={<Receipt className="w-5 h-5" />}
-          bgIconColor="bg-brand-light"
-          textColor="text-brand"
+          change={metrics.newBookings > 0 ? `+${metrics.newBookings} new` : undefined}
+          icon={<Receipt className="w-3.5 h-3.5" />}
         />
         <MetricCard
           title="Tour Packages"
           value={loading ? "..." : metrics.packagesCount}
-          icon={<Package className="w-5 h-5" />}
-          bgIconColor="bg-amber-50"
-          textColor="text-amber-600"
+          icon={<Package className="w-3.5 h-3.5" />}
         />
         <MetricCard
           title="Articles & Blogs"
           value={loading ? "..." : metrics.blogsCount}
-          icon={<FileText className="w-5 h-5" />}
-          bgIconColor="bg-emerald-50"
-          textColor="text-emerald-600"
+          icon={<FileText className="w-3.5 h-3.5" />}
         />
         <MetricCard
           title="Contact Forms"
           value={loading ? "..." : metrics.contactsCount}
-          icon={<Mail className="w-5 h-5" />}
-          bgIconColor="bg-blue-50"
-          textColor="text-blue-600"
+          icon={<Mail className="w-3.5 h-3.5" />}
         />
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-        {/* Recent Bookings Table List */}
-        <div className="xl:col-span-2 bg-white rounded-[2rem] border border-border-light p-6 md:p-8">
-          <div className="flex items-center justify-between mb-6">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+        {/* Recent Bookings */}
+        <AdminCard noPadding className="xl:col-span-2 overflow-hidden">
+          <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-neutral-50">
             <div>
-              <h3 className="text-base font-bold font-display text-foreground">Recent Inquiries</h3>
-              <p className="text-xs text-neutral-400 mt-0.5">
-                List of the last 5 booking inquiries received.
-              </p>
+              <h3 className="text-sm font-bold font-display text-neutral-800">Recent Inquiries</h3>
+              <p className="text-xs text-neutral-500 mt-0.5">Last 5 booking inquiries received.</p>
             </div>
             <Link
               href="/manage/bookings/"
-              className="inline-flex items-center gap-1 text-xs font-semibold text-brand hover:text-brand-hover"
+              className="inline-flex items-center gap-1 text-xs font-semibold text-brand hover:text-brand-hover transition-colors"
             >
               <span>View All</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <ArrowRight className="w-3 h-3 text-brand" />
             </Link>
           </div>
 
           <div className="overflow-x-auto no-scrollbar">
             {loading ? (
               <div className="py-12 flex justify-center">
-                <Loader2 className="w-6 h-6 text-brand animate-spin" />
+                <Loader2 className="w-5 h-5 text-brand animate-spin" />
               </div>
             ) : recentBookings.length === 0 ? (
-              <div className="py-12 text-center text-xs text-neutral-400 font-medium italic">
+              <div className="py-12 text-center text-xs text-neutral-500 font-medium italic">
                 No bookings found yet.
               </div>
             ) : (
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
-                  <tr className="border-b border-border-light text-neutral-400 font-semibold">
-                    <th className="pb-3 pr-4 font-semibold uppercase tracking-wider">Guest Name</th>
-                    <th className="pb-3 px-4 font-semibold uppercase tracking-wider">Date</th>
-                    <th className="pb-3 px-4 font-semibold uppercase tracking-wider">People</th>
-                    <th className="pb-3 px-4 font-semibold uppercase tracking-wider">Rooms</th>
-                    <th className="pb-3 px-4 font-semibold uppercase tracking-wider text-center">
-                      Status
-                    </th>
+                  <tr className="text-neutral-800 font-bold uppercase tracking-wider text-[10px]">
+                    <th className="py-3 px-6 font-semibold">Guest</th>
+                    <th className="py-3 px-6 font-semibold">Date</th>
+                    <th className="py-3 px-6 font-semibold">People</th>
+                    <th className="py-3 px-6 font-semibold">Rooms</th>
+                    <th className="py-3 px-6 font-semibold text-center">Status</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-border-light">
+                <tbody className="divide-y divide-neutral-50 text-neutral-700 font-medium">
                   {recentBookings.map((b) => (
-                    <tr key={b.id} className="group hover:bg-neutral-50/50 transition-colors">
-                      <td className="py-3.5 pr-4 font-semibold text-neutral-800">
-                        <div>
-                          <p>{b.name}</p>
-                          <p className="text-[10px] text-neutral-400 font-normal mt-0.5">
-                            {b.email}
-                          </p>
-                        </div>
+                    <tr key={b.id} className="hover:bg-neutral-50/60 transition-colors">
+                      <td className="py-3.5 px-6">
+                        <p className="font-semibold text-neutral-800">{b.name}</p>
+                        <p className="text-[10px] text-neutral-500 font-normal mt-0.5">{b.email}</p>
                       </td>
-                      <td className="py-3.5 px-4 text-neutral-500 font-medium">
-                        {new Date(b.createdAt).toLocaleDateString("en-IN", {
-                          day: "2-digit",
-                          month: "short",
-                          year: "2-digit",
-                        })}
+                      <td className="py-3.5 px-6 text-neutral-600">
+                        {mounted ? formatLocalDateTime(b.createdAt) : "..."}
                       </td>
-                      <td className="py-3.5 px-4 text-neutral-500 font-bold">
+                      <td className="py-3.5 px-6 text-neutral-700 font-semibold">
                         {b.numberOfPeople || b.adults + b.children + b.infants}
                       </td>
-                      <td className="py-3.5 px-4 text-neutral-500 font-medium">
-                        {b.rooms} Room(s)
-                      </td>
-                      <td className="py-3.5 px-4 text-center">
+                      <td className="py-3.5 px-6 text-neutral-600">{b.rooms} room(s)</td>
+                      <td className="py-3.5 px-6 text-center">
                         <span
-                          className={`inline-flex px-3 py-1 text-[10px] font-bold rounded-full ${
-                            b.status === "NEW"
-                              ? "bg-brand-light text-brand border border-brand/10 animate-pulse"
-                              : b.status === "READ"
-                                ? "bg-neutral-100 text-neutral-600 border border-neutral-200"
-                                : b.status === "CONTACTED"
-                                  ? "bg-blue-50 text-blue-600 border border-blue-100"
-                                  : "bg-emerald-50 text-emerald-600 border border-emerald-100"
-                          }`}
+                          className={`inline-flex items-center gap-1 px-2.5 py-1 text-[10px] font-semibold rounded-full border ${getBookingStatusStyle(b.status)}`}
                         >
+                          <span
+                            className={`w-1.5 h-1.5 rounded-full shrink-0 ${
+                              b.status === "NEW"
+                                ? "bg-brand animate-pulse"
+                                : b.status === "READ"
+                                  ? "bg-neutral-400"
+                                  : b.status === "CONTACTED"
+                                    ? "bg-blue-500"
+                                    : "bg-emerald-500"
+                            }`}
+                          />
                           {b.status}
                         </span>
                       </td>
@@ -342,144 +342,157 @@ export default function DashboardOverview() {
               </table>
             )}
           </div>
-        </div>
+        </AdminCard>
 
-        {/* Actions & System Column */}
-        <div className="space-y-8">
-          {/* Quick Shortcuts */}
-          <div className="bg-white rounded-[2rem] border border-border-light p-6 md:p-8">
-            <h3 className="text-base font-bold font-display text-foreground mb-6">Quick Actions</h3>
-            <div className="space-y-4">
+        {/* Right Column */}
+        <div className="space-y-4">
+          {/* Quick Actions */}
+          <AdminCard>
+            <h3 className="text-sm font-bold font-display text-foreground mb-4">Quick Actions</h3>
+            <div className="space-y-2">
               {quickShortcuts.map((sc, idx) => (
                 <Link
                   key={idx}
                   href={sc.href}
-                  className="flex items-center gap-4 p-3 rounded-[1.5rem] border border-border-light hover:border-brand hover:bg-brand-light/30 transition-all duration-200 group"
+                  className="flex items-center gap-3 p-3 rounded-xl border border-neutral-100 hover:border-brand/20 hover:bg-brand-light/20 transition-all duration-200 group"
                 >
                   <div
-                    className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${sc.color}`}
+                    className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors ${sc.color}`}
                   >
                     {sc.icon}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-xs font-bold text-neutral-800 group-hover:text-brand transition-colors">
+                    <h4 className="text-xs font-semibold text-neutral-800 group-hover:text-brand transition-colors">
                       {sc.title}
                     </h4>
-                    <p className="text-[10px] text-neutral-400 mt-0.5 font-medium truncate">
+                    <p className="text-[10px] text-neutral-500 mt-0.5 font-medium truncate">
                       {sc.desc}
                     </p>
                   </div>
-                  <ArrowUpRight className="w-4 h-4 text-neutral-300 group-hover:text-brand transition-colors mr-1" />
+                  <ArrowUpRight className="w-3.5 h-3.5 text-neutral-400 group-hover:text-brand transition-colors shrink-0" />
                 </Link>
               ))}
             </div>
-          </div>
+          </AdminCard>
 
-          {/* System Status & Uptime Monitoring */}
-          <div className="bg-white rounded-[2rem] border border-border-light p-6 md:p-8 space-y-6">
-            <div className="flex items-center justify-between">
+          {/* System Health */}
+          <AdminCard>
+            <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-base font-bold font-display text-foreground">System Health</h3>
-                <p className="text-xs text-neutral-400 mt-0.5 font-medium">Real-time diagnostics</p>
+                <h3 className="text-sm font-bold font-display text-neutral-800">System Health</h3>
+                <p className="text-[10px] text-neutral-500 mt-0.5 font-medium">
+                  Real-time diagnostics
+                </p>
               </div>
               <button
                 onClick={handleManualPing}
                 disabled={pinging || loading}
-                className="p-2 rounded-full border border-border-light text-neutral-500 hover:text-brand hover:border-brand hover:bg-brand-light/30 transition-all duration-200 disabled:opacity-50 cursor-pointer"
+                className="p-2 rounded-lg border border-neutral-100 text-neutral-500 hover:text-brand hover:border-brand/20 hover:bg-brand-light/20 transition-all duration-200 disabled:opacity-50 cursor-pointer"
                 title="Run diagnostic check"
               >
-                <RefreshCw className={`w-4 h-4 ${pinging ? "animate-spin text-brand" : ""}`} />
+                <RefreshCw className={`w-3.5 h-3.5 ${pinging ? "animate-spin text-brand" : ""}`} />
               </button>
             </div>
 
             {loading ? (
               <div className="py-6 flex justify-center">
-                <Loader2 className="w-5 h-5 text-brand animate-spin" />
+                <Loader2 className="w-4 h-4 text-brand animate-spin" />
               </div>
             ) : !systemStatus ? (
-              <div className="py-4 text-center text-xs text-neutral-400 font-medium italic border border-dashed border-border-light rounded-[1.5rem]">
-                No status data available. Click reload to check.
+              <div className="py-4 text-center text-xs text-neutral-500 font-medium italic border border-dashed border-neutral-100 rounded-xl">
+                No status data. Click reload to check.
               </div>
             ) : (
-              <div className="space-y-5">
+              <div className="space-y-3">
                 {/* Overall Banner */}
                 <div
-                  className={`flex items-center gap-3 p-4 rounded-[1.5rem] border ${
+                  className={`flex items-center gap-2.5 p-3 rounded-xl border ${
                     systemStatus.status === "healthy"
-                      ? "bg-emerald-50 text-emerald-800 border-emerald-100/50"
+                      ? "bg-emerald-50/50 border-emerald-100/80 text-emerald-700"
                       : systemStatus.status === "degraded"
-                        ? "bg-amber-50 text-amber-800 border-amber-100/50"
-                        : "bg-red-50 text-red-800 border-red-100/50"
+                        ? "bg-amber-50/50 border-amber-100/80 text-amber-700"
+                        : "bg-red-50/50 border-red-100/80 text-red-700"
                   }`}
                 >
                   {systemStatus.status === "healthy" ? (
-                    <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0" />
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" />
                   ) : systemStatus.status === "degraded" ? (
-                    <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0" />
+                    <AlertTriangle className="w-4 h-4 text-amber-500 flex-shrink-0" />
                   ) : (
-                    <XCircle className="w-5 h-5 text-red-600 flex-shrink-0" />
+                    <XCircle className="w-4 h-4 text-red-500 flex-shrink-0" />
                   )}
-                  <div className="text-xs font-semibold">
-                    <p className="font-bold">
+                  <div>
+                    <p
+                      className={`text-xs font-bold ${
+                        systemStatus.status === "healthy"
+                          ? "text-emerald-700"
+                          : systemStatus.status === "degraded"
+                            ? "text-amber-700"
+                            : "text-red-700"
+                      }`}
+                    >
                       {systemStatus.status === "healthy"
                         ? "All Systems Operational"
                         : systemStatus.status === "degraded"
                           ? "Performance Degraded"
                           : "Service Outage Detected"}
                     </p>
-                    <p className="text-[9px] opacity-80 mt-0.5 font-normal">
-                      Sync agent: {systemStatus.metadata?.updatedBy || "system-cron"}
+                    <p className="text-[9px] text-neutral-500 mt-0.5">
+                      via {systemStatus.metadata?.updatedBy || "system-cron"}
                     </p>
                   </div>
                 </div>
 
                 {/* Individual Services */}
-                <div className="space-y-3">
+                <div className="space-y-1">
                   {[
                     {
-                      name: "Supabase Postgres DB",
+                      name: "Supabase DB",
                       status: systemStatus.dbStatus,
                       latency: systemStatus.metadata?.dbPingTimeMs,
-                      icon: <Database className="w-4 h-4" />,
+                      icon: <Database className="w-3.5 h-3.5" />,
                     },
                     {
-                      name: "Public Static Website",
+                      name: "Static Website",
                       status: systemStatus.websiteStatus,
                       latency: systemStatus.metadata?.websitePingTimeMs,
-                      icon: <Globe className="w-4 h-4" />,
+                      icon: <Globe className="w-3.5 h-3.5" />,
                     },
                     {
-                      name: "Cloudflare API Worker",
+                      name: "API Worker",
                       status: systemStatus.apiStatus,
                       latency: systemStatus.metadata?.apiPingTimeMs,
-                      icon: <Network className="w-4 h-4" />,
+                      icon: <Network className="w-3.5 h-3.5" />,
                     },
                     {
-                      name: "Cloudflare Images Worker",
+                      name: "Images Worker",
                       status: systemStatus.imagesStatus,
                       latency: systemStatus.metadata?.imagesPingTimeMs,
-                      icon: <HardDrive className="w-4 h-4" />,
+                      icon: <HardDrive className="w-3.5 h-3.5" />,
                     },
                   ].map((service, idx) => (
                     <div
                       key={idx}
-                      className="flex items-center justify-between p-3 rounded-[1.2rem] border border-border-light hover:bg-neutral-50/50 transition-all text-xs font-medium"
+                      className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-neutral-50 transition-colors text-xs"
                     >
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2.5">
                         <div className="text-neutral-400">{service.icon}</div>
                         <span className="text-neutral-700 font-semibold">{service.name}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         {service.latency !== undefined && service.status === "up" && (
-                          <span className="text-[10px] text-neutral-400">{service.latency}ms</span>
+                          <span className="text-[10px] text-neutral-500 font-medium">
+                            {service.latency}ms
+                          </span>
                         )}
                         <span
-                          className={`inline-flex px-2 py-0.5 text-[9px] font-bold rounded-full border ${
-                            service.status === "up"
-                              ? "bg-emerald-50 text-emerald-600 border-emerald-100"
-                              : "bg-red-50 text-red-600 border-red-100"
+                          className={`flex items-center gap-1 text-[10px] font-semibold ${
+                            service.status === "up" ? "text-emerald-600" : "text-red-500"
                           }`}
                         >
+                          <span
+                            className={`w-1.5 h-1.5 rounded-full ${service.status === "up" ? "bg-emerald-500" : "bg-red-500"}`}
+                          />
                           {service.status === "up" ? "Online" : "Offline"}
                         </span>
                       </div>
@@ -488,22 +501,20 @@ export default function DashboardOverview() {
                 </div>
 
                 {/* Footer Sync Time */}
-                <div className="flex items-center justify-between text-[9px] text-neutral-400 font-semibold pt-2 border-t border-border-light">
-                  <span className="flex items-center gap-1">
-                    <Clock className="w-3.5 h-3.5" />
+                <div className="flex items-center justify-between text-[9px] text-neutral-500 font-medium pt-2 border-t border-neutral-50">
+                  <span className="flex items-center gap-1 text-neutral-500">
+                    <Clock className="w-3 h-3" />
                     Last diagnostic:
                   </span>
-                  <span>
-                    {new Date(systemStatus.lastPing).toLocaleTimeString("en-IN", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      second: "2-digit",
-                    })}
+                  <span suppressHydrationWarning className="text-neutral-600">
+                    {mounted && systemStatus.lastPing
+                      ? formatLocalDateTimeVerbose(systemStatus.lastPing)
+                      : "..."}
                   </span>
                 </div>
               </div>
             )}
-          </div>
+          </AdminCard>
         </div>
       </div>
     </div>

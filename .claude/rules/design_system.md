@@ -105,6 +105,7 @@ The codebase uses **highly rounded, organic shapes** to prevent a boxy feel. The
   - `shadow-card` — card hover states
 - **Cards at rest**: No shadow. Shadow only appears on `:hover` using the `hover:shadow-card` or `hover:shadow-premium` pattern.
 - **Borders**: Use `border border-border-light` (1px `#ECECEC`) for all card outlines, input fields, and section dividers.
+- **Accent Borders**: Do not use colored accent borders (such as `border-l-[3px]` or custom left-accent lines) on notification banner cards, system health monitors, or status widgets. This reduces visual noise and keeps the dashboard minimal. Use standard subtle borders and soft background colors instead.
 - **Forbidden**: `shadow-lg`, `shadow-xl`, custom dark box-shadows, heavy borders.
 
 ---

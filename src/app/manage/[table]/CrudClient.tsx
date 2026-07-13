@@ -3,7 +3,6 @@
 import { AnimatePresence } from "framer-motion";
 import {
   AlertTriangle,
-  Check,
   ChevronLeft,
   ChevronRight,
   Edit2,
@@ -11,7 +10,6 @@ import {
   Plus,
   Search,
   Trash2,
-  X,
 } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -20,6 +18,7 @@ import AdminFormDrawer from "@/components/manage/AdminFormDrawer";
 import { useToast } from "@/context/ToastContext";
 import { deleteRecord, getRecords } from "@/lib/adminApi";
 import { ADMIN_TABLES, getSingularLabel } from "@/lib/adminSchema";
+import { formatLocalDateTime } from "@/lib/manage/dateUtils";
 
 interface CrudClientProps {
   table: string;
@@ -45,11 +44,16 @@ export default function CrudClient({ table }: CrudClientProps) {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [deleting, setDeleting] = useState<boolean>(false);
 
+  const [mounted, setMounted] = useState<boolean>(false);
+
   // Relationship Cache Map: { [tableSlug]: { [id]: label } }
   const [relationCache, setRelationCache] = useState<Record<string, Record<string, string>>>({});
 
   // 1. Fetch records for the main table
   useEffect(() => {
+    setTimeout(() => {
+      setMounted(true);
+    }, 0);
     if (!tableConfig) return;
 
     const fetchTableRecords = async () => {
@@ -124,10 +128,10 @@ export default function CrudClient({ table }: CrudClientProps) {
 
   if (!tableConfig) {
     return (
-      <div className="bg-white rounded-[2rem] border border-border-light p-12 text-center">
-        <AlertTriangle className="w-12 h-12 text-amber-500 mx-auto mb-4" />
-        <h2 className="text-lg font-bold font-display text-neutral-800">Table Not Supported</h2>
-        <p className="text-sm text-neutral-500 mt-2">
+      <div className="bg-white rounded-2xl border border-neutral-100 p-12 text-center shadow-[0_1px_4px_rgba(0,0,0,0.04)]">
+        <AlertTriangle className="w-10 h-10 text-amber-400 mx-auto mb-4" />
+        <h2 className="text-base font-bold font-display text-neutral-800">Table Not Supported</h2>
+        <p className="text-sm text-neutral-400 mt-2">
           The table &ldquo;{table}&rdquo; is not configured in the schema system.
         </p>
         <button
@@ -219,12 +223,14 @@ export default function CrudClient({ table }: CrudClientProps) {
     // 1. Boolean check
     if (field.type === "boolean") {
       return value ? (
-        <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100">
-          <Check className="w-3.5 h-3.5" />
+        <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-600">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
+          Active
         </span>
       ) : (
-        <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-red-50 text-red-600 border border-red-100">
-          <X className="w-3.5 h-3.5" />
+        <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-red-500">
+          <span className="w-1.5 h-1.5 rounded-full bg-red-400 shrink-0" />
+          Inactive
         </span>
       );
     }
@@ -281,30 +287,28 @@ export default function CrudClient({ table }: CrudClientProps) {
       );
     }
 
-    // 6. Datetime formatter
+    // 6. Datetime formatter (UTC → local timezone)
     if (field.type === "datetime") {
-      return new Date(value as string | number).toLocaleDateString("en-IN", {
-        day: "numeric",
-        month: "short",
-        year: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-      });
+      return (
+        <span suppressHydrationWarning>
+          {mounted ? formatLocalDateTime(value as string | Date | number) : "..."}
+        </span>
+      );
     }
 
     return String(value);
   };
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-300">
+    <div className="space-y-4 animate-in fade-in duration-300">
       {/* Search & Actions Toolbar */}
       {(!tableConfig.disableSearch || !tableConfig.disableCreate) && (
-        <div className="bg-white rounded-[1.5rem] border border-border-light p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          {/* Search Input Box */}
+        <div className="bg-white rounded-2xl border border-neutral-100 shadow-[0_1px_4px_rgba(0,0,0,0.04)] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          {/* Search Input */}
           {!tableConfig.disableSearch ? (
             <div className="relative max-w-sm w-full">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-neutral-400">
-                <Search className="w-4 h-4" />
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-neutral-500">
+                <Search className="w-3.5 h-3.5" />
               </div>
               <input
                 type="text"
@@ -318,41 +322,41 @@ export default function CrudClient({ table }: CrudClientProps) {
                   setSearchTerm(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="w-full rounded-full border border-border-light pl-11 pr-5 py-2.5 text-sm focus:border-brand focus:outline-none transition-colors bg-white"
+                className="w-full rounded-full border border-neutral-100 pl-10 pr-5 py-2 text-xs focus:border-brand/30 focus:outline-none transition-colors bg-neutral-50 placeholder:text-neutral-600 text-neutral-800"
               />
             </div>
           ) : (
             <div />
           )}
 
-          {/* Action Buttons */}
+          {/* Add New Button */}
           {!tableConfig.disableCreate && (
             <button
               onClick={handleAddNew}
-              className="flex items-center justify-center gap-2 rounded-full bg-brand hover:bg-brand-hover text-white font-semibold text-sm py-2.5 px-6 shadow-premium transition-all cursor-pointer"
+              className="flex items-center justify-center gap-1.5 rounded-full bg-brand hover:bg-brand-hover text-white font-semibold text-xs py-2 px-5 shadow-[0_1px_4px_rgba(0,0,0,0.08)] transition-all cursor-pointer"
             >
-              <Plus className="w-4 h-4" />
-              <span>Add New {getSingularLabel(tableConfig.label)}</span>
+              <Plus className="w-3.5 h-3.5" />
+              <span>Add {getSingularLabel(tableConfig.label)}</span>
             </button>
           )}
         </div>
       )}
 
       {/* Main Database Table Browser */}
-      <div className="bg-white rounded-[2rem] border border-border-light overflow-hidden">
+      <div className="bg-white rounded-2xl border border-neutral-100 shadow-[0_1px_4px_rgba(0,0,0,0.04)] overflow-hidden">
         {loading ? (
           <div className="py-24 flex flex-col items-center justify-center">
-            <Loader2 className="w-8 h-8 text-brand animate-spin" />
-            <p className="text-xs text-neutral-500 font-semibold mt-2 animate-pulse">
+            <Loader2 className="w-6 h-6 text-brand animate-spin" />
+            <p className="text-xs text-neutral-600 font-semibold mt-2 animate-pulse">
               Syncing tables with database...
             </p>
           </div>
         ) : filteredRecords.length === 0 ? (
           <div className="py-24 text-center">
-            <AlertTriangle className="w-12 h-12 text-neutral-300 mx-auto mb-4" />
+            <AlertTriangle className="w-10 h-10 text-neutral-300 mx-auto mb-3" />
             <h3 className="text-sm font-bold text-neutral-700">No Records Found</h3>
-            <p className="text-xs text-neutral-400 mt-1">
-              Try adjusting your search criteria or insert a new entry.
+            <p className="text-xs text-neutral-500 mt-1">
+              Try adjusting your search or insert a new entry.
             </p>
           </div>
         ) : (
@@ -360,7 +364,7 @@ export default function CrudClient({ table }: CrudClientProps) {
             <div className="overflow-x-auto no-scrollbar">
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
-                  <tr className="border-b border-border-light bg-neutral-50/50 text-neutral-400 uppercase tracking-wider font-semibold">
+                  <tr className="border-b border-neutral-50 text-neutral-800 uppercase tracking-wider font-bold text-[10px]">
                     {tableConfig.displayColumns.map((col) => {
                       const f = tableConfig.fields.find((field) => field.name === col);
                       return (
@@ -372,7 +376,7 @@ export default function CrudClient({ table }: CrudClientProps) {
                     <th className="py-3 px-6 font-semibold text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-border-light text-neutral-700 font-medium">
+                <tbody className="divide-y divide-neutral-50 text-neutral-700 font-medium">
                   {paginatedRecords.map((rec) => {
                     const rowKey = (
                       tableConfig.compositeKeys
@@ -381,7 +385,7 @@ export default function CrudClient({ table }: CrudClientProps) {
                     ) as string;
 
                     return (
-                      <tr key={rowKey} className="hover:bg-neutral-50/50 transition-colors">
+                      <tr key={rowKey} className="hover:bg-neutral-50/60 transition-colors">
                         {tableConfig.displayColumns.map((col) => (
                           <td key={col} className="py-3.5 px-6 truncate max-w-[220px]">
                             {renderCellContent(col, rec[col])}
@@ -392,22 +396,22 @@ export default function CrudClient({ table }: CrudClientProps) {
                             <button
                               onClick={() => handleEdit((rec.id as string) || rowKey)}
                               title="Edit Record"
-                              className="p-2 rounded-full border border-neutral-100 hover:border-brand hover:bg-brand-light text-neutral-500 hover:text-brand transition-all"
+                              className="p-1.5 rounded-lg border border-neutral-100 hover:border-brand/20 hover:bg-brand-light/30 text-neutral-500 hover:text-brand transition-all"
                             >
-                              <Edit2 className="w-3.5 h-3.5" />
+                              <Edit2 className="w-3 h-3" />
                             </button>
                           )}
                           {!tableConfig.disableDelete && (
                             <button
                               onClick={() => handleDeleteTrigger(rec)}
                               title="Delete Record"
-                              className="p-2 rounded-full border border-neutral-100 hover:border-red-600 hover:bg-red-50 text-neutral-500 hover:text-red-600 transition-all"
+                              className="p-1.5 rounded-lg border border-neutral-100 hover:border-red-200 hover:bg-red-50 text-neutral-500 hover:text-red-500 transition-all"
                             >
-                              <Trash2 className="w-3.5 h-3.5" />
+                              <Trash2 className="w-3 h-3" />
                             </button>
                           )}
                           {tableConfig.disableUpdate && tableConfig.disableDelete && (
-                            <span className="text-[10px] text-neutral-400 font-semibold italic select-none">
+                            <span className="text-[10px] text-neutral-500 font-medium italic select-none">
                               Read-only
                             </span>
                           )}
@@ -421,20 +425,20 @@ export default function CrudClient({ table }: CrudClientProps) {
 
             {/* Pagination Controls */}
             {totalPages > 1 && (
-              <div className="bg-neutral-50/50 border-t border-border-light px-6 py-4 flex items-center justify-between">
-                <span className="text-xs text-neutral-500 font-medium">
+              <div className="border-t border-neutral-50 px-6 py-3.5 flex items-center justify-between">
+                <span className="text-[10px] text-neutral-600 font-medium">
                   Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
                   {Math.min(currentPage * itemsPerPage, filteredRecords.length)} of{" "}
                   {filteredRecords.length} records
                 </span>
 
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-1">
                   <button
                     disabled={currentPage === 1}
                     onClick={() => setCurrentPage((p) => p - 1)}
-                    className="p-2 rounded-full border border-border-light bg-white hover:bg-neutral-50 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="p-1.5 rounded-lg border border-neutral-100 hover:bg-neutral-50 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                   >
-                    <ChevronLeft className="w-4 h-4 text-neutral-600" />
+                    <ChevronLeft className="w-3.5 h-3.5 text-neutral-500" />
                   </button>
 
                   {Array.from({ length: totalPages }).map((_, idx) => {
@@ -445,10 +449,10 @@ export default function CrudClient({ table }: CrudClientProps) {
                       <button
                         key={pageNum}
                         onClick={() => setCurrentPage(pageNum)}
-                        className={`w-8 h-8 rounded-full text-xs font-bold transition-all ${
+                        className={`w-7 h-7 rounded-lg text-[10px] font-bold transition-all ${
                           isCurrent
-                            ? "bg-brand text-white shadow-premium"
-                            : "bg-white border border-border-light hover:bg-neutral-50 text-neutral-600"
+                            ? "bg-brand text-white shadow-[0_1px_4px_rgba(0,0,0,0.1)]"
+                            : "bg-white border border-neutral-100 hover:bg-neutral-50 text-neutral-500"
                         }`}
                       >
                         {pageNum}
@@ -459,9 +463,9 @@ export default function CrudClient({ table }: CrudClientProps) {
                   <button
                     disabled={currentPage === totalPages}
                     onClick={() => setCurrentPage((p) => p + 1)}
-                    className="p-2 rounded-full border border-border-light bg-white hover:bg-neutral-50 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="p-1.5 rounded-lg border border-neutral-100 hover:bg-neutral-50 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                   >
-                    <ChevronRight className="w-4 h-4 text-neutral-600" />
+                    <ChevronRight className="w-3.5 h-3.5 text-neutral-500" />
                   </button>
                 </div>
               </div>
