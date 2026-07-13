@@ -14,7 +14,6 @@ import {
   RefreshCw,
   TrendingUp,
 } from "lucide-react";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 import { useToast } from "@/context/ToastContext";
@@ -173,37 +172,20 @@ export default function SystemStatusDashboard() {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
-      {/* Breadcrumbs & Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2 text-xs font-semibold text-neutral-400">
-            <Link href="/manage/" className="hover:text-brand transition-colors">
-              Manage
-            </Link>
-            <span>&rsaquo;</span>
-            <span className="text-neutral-500">System Status</span>
-          </div>
-          <h2 className="text-xl md:text-2xl font-bold font-display text-neutral-800 mt-2">
-            System Status Dashboard
-          </h2>
-          <p className="text-sm text-neutral-500 mt-1 font-medium">
-            Uptime health monitors, latency trends and diagnostics log history.
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <button
-            onClick={handleManualPing}
-            disabled={pinging || loading}
-            className="flex items-center justify-center gap-2 rounded-full bg-brand hover:bg-brand-hover text-white font-semibold text-xs py-2.5 px-6 shadow-premium transition-all cursor-pointer disabled:opacity-50"
-          >
-            {pinging ? (
-              <Loader2 className="w-3.5 h-3.5 animate-spin" />
-            ) : (
-              <RefreshCw className="w-3.5 h-3.5" />
-            )}
-            <span>Ping Diagnostics Now</span>
-          </button>
-        </div>
+      {/* Top Action Bar */}
+      <div className="flex justify-end">
+        <button
+          onClick={handleManualPing}
+          disabled={pinging || loading}
+          className="flex items-center justify-center gap-2 rounded-full bg-brand hover:bg-brand-hover text-white font-semibold text-xs py-2.5 px-6 shadow-premium transition-all cursor-pointer disabled:opacity-50"
+        >
+          {pinging ? (
+            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+          ) : (
+            <RefreshCw className="w-3.5 h-3.5" />
+          )}
+          <span>Ping Diagnostics Now</span>
+        </button>
       </div>
 
       {loading ? (

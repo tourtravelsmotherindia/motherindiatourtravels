@@ -37,23 +37,24 @@ export async function requireAdmin(
   }
 
   // Verify user role is ADMIN in the User database table
+  let dbUser: { role: string } | null = null;
   try {
-    const dbUser = await db
+    dbUser = await db
       .from("User")
       .select("role")
       .eq("email", user.email)
       .getOne<{ role: string }>();
-
-    if (!dbUser || dbUser.role !== "ADMIN") {
-      throw new Response(JSON.stringify({ error: "Forbidden — admin privileges required" }), {
-        status: 403,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
   } catch (err) {
     console.error("Admin authorization check failed:", err);
     throw new Response(JSON.stringify({ error: "Internal server error authorizing user" }), {
       status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  if (!dbUser || dbUser.role !== "ADMIN") {
+    throw new Response(JSON.stringify({ error: "Forbidden — admin privileges required" }), {
+      status: 403,
       headers: { "Content-Type": "application/json" },
     });
   }

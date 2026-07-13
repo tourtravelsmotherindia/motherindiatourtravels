@@ -166,6 +166,13 @@ export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHe
       };
     }
 
+    if (tableSlug === "system-status") {
+      return {
+        heading: "System Status Dashboard",
+        sub: "Uptime health monitors, latency trends and diagnostics log history.",
+      };
+    }
+
     const tableConfig = ADMIN_TABLES[tableSlug];
     if (tableConfig) {
       return {
