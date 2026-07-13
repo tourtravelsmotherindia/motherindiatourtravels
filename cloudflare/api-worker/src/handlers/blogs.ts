@@ -28,7 +28,11 @@ export async function handleBlogsCreate(request: Request, env: Env): Promise<Res
   }
   const body = (await request.json()) as Record<string, unknown>;
   const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
-  const post = await db.from("BlogPost").insert(body);
+  const post = await db.from("BlogPost").insert({
+    id: body.id || crypto.randomUUID(),
+    ...body,
+    updatedAt: new Date().toISOString(),
+  });
   return Response.json(post, { status: 201 });
 }
 
@@ -42,7 +46,10 @@ export async function handleBlogsUpdate(request: Request, url: URL, env: Env): P
   if (!id) return Response.json({ error: "id required" }, { status: 400 });
   const body = (await request.json()) as Record<string, unknown>;
   const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
-  const post = await db.from("BlogPost").update(id, body);
+  const post = await db.from("BlogPost").update(id, {
+    ...body,
+    updatedAt: new Date().toISOString(),
+  });
   return Response.json(post);
 }
 

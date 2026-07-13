@@ -32,7 +32,10 @@ export async function handleAdminBookingsUpdateStatus(
   const body = (await request.json()) as { status: string };
   if (!body.status) return Response.json({ error: "status required" }, { status: 400 });
   const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
-  const booking = await db.from("BookingInquiry").update(id, { status: body.status });
+  const booking = await db.from("BookingInquiry").update(id, {
+    status: body.status,
+    updatedAt: new Date().toISOString(),
+  });
   return Response.json(booking);
 }
 

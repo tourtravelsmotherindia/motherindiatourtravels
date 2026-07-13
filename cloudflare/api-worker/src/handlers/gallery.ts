@@ -22,7 +22,10 @@ export async function handleGalleryCreate(request: Request, env: Env): Promise<R
   }
   const body = (await request.json()) as Record<string, unknown>;
   const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
-  const img = await db.from("GalleryImage").insert(body);
+  const img = await db.from("GalleryImage").insert({
+    id: body.id || crypto.randomUUID(),
+    ...body,
+  });
   return Response.json(img, { status: 201 });
 }
 

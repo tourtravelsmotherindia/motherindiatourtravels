@@ -18,7 +18,11 @@ export async function handleFaqsCreate(request: Request, env: Env): Promise<Resp
   }
   const body = (await request.json()) as Record<string, unknown>;
   const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
-  const faq = await db.from("FAQ").insert(body);
+  const faq = await db.from("FAQ").insert({
+    id: body.id || crypto.randomUUID(),
+    ...body,
+    updatedAt: new Date().toISOString(),
+  });
   return Response.json(faq, { status: 201 });
 }
 
@@ -33,7 +37,10 @@ export async function handleFaqsUpdate(request: Request, url: URL, env: Env): Pr
   if (!id) return Response.json({ error: "id required" }, { status: 400 });
   const body = (await request.json()) as Record<string, unknown>;
   const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
-  const faq = await db.from("FAQ").update(id, body);
+  const faq = await db.from("FAQ").update(id, {
+    ...body,
+    updatedAt: new Date().toISOString(),
+  });
   return Response.json(faq);
 }
 

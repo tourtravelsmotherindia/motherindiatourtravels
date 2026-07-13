@@ -22,6 +22,9 @@ export async function handleHeroUpdate(request: Request, env: Env): Promise<Resp
   }
   const body = (await request.json()) as Record<string, unknown>;
   const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
-  const config = await db.from("HeroConfig").update("1", body);
+  const config = await db.from("HeroConfig").update("1", {
+    ...body,
+    updatedAt: new Date().toISOString(),
+  });
   return Response.json(config);
 }

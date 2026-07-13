@@ -30,7 +30,14 @@ export async function handleSiteSectionsUpdate(
   if (!key) return Response.json({ error: "key required" }, { status: 400 });
   const body = (await request.json()) as Record<string, unknown>;
   const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
-  // Upsert by key
-  const section = await db.from("SiteSection").upsert({ key, ...body }, "key");
+  const section = await db.from("SiteSection").upsert(
+    {
+      id: body.id || crypto.randomUUID(),
+      key,
+      ...body,
+      updatedAt: new Date().toISOString(),
+    },
+    "key",
+  );
   return Response.json(section);
 }

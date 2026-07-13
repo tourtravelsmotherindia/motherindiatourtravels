@@ -29,7 +29,10 @@ export async function handleTestimonialsCreate(request: Request, env: Env): Prom
   }
   const body = (await request.json()) as Record<string, unknown>;
   const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
-  const testimonial = await db.from("Testimonial").insert(body);
+  const testimonial = await db.from("Testimonial").insert({
+    id: body.id || crypto.randomUUID(),
+    ...body,
+  });
   return Response.json(testimonial, { status: 201 });
 }
 

@@ -61,6 +61,7 @@ export async function handleBooking(
     message: (body.message as string) || "",
     status: "NEW",
     source: source as string,
+    updatedAt: new Date().toISOString(),
   };
 
   let inquiry: Record<string, unknown>;

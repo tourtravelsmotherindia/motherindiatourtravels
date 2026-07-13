@@ -25,7 +25,11 @@ export async function handleDestinationsCreate(request: Request, env: Env): Prom
   }
   const body = (await request.json()) as Record<string, unknown>;
   const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
-  const dest = await db.from("Destination").insert(body);
+  const dest = await db.from("Destination").insert({
+    id: body.id || crypto.randomUUID(),
+    ...body,
+    updatedAt: new Date().toISOString(),
+  });
   return Response.json(dest, { status: 201 });
 }
 
@@ -43,7 +47,10 @@ export async function handleDestinationsUpdate(
   if (!id) return Response.json({ error: "id required" }, { status: 400 });
   const body = (await request.json()) as Record<string, unknown>;
   const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
-  const dest = await db.from("Destination").update(id, body);
+  const dest = await db.from("Destination").update(id, {
+    ...body,
+    updatedAt: new Date().toISOString(),
+  });
   return Response.json(dest);
 }
 

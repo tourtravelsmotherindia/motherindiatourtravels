@@ -29,7 +29,11 @@ export async function handleToursCreate(request: Request, env: Env): Promise<Res
   }
   const body = (await request.json()) as Record<string, unknown>;
   const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
-  const pkg = await db.from("Package").insert(body);
+  const pkg = await db.from("Package").insert({
+    id: body.id || crypto.randomUUID(),
+    ...body,
+    updatedAt: new Date().toISOString(),
+  });
   return Response.json(pkg, { status: 201 });
 }
 
@@ -44,7 +48,10 @@ export async function handleToursUpdate(request: Request, url: URL, env: Env): P
   if (!id) return Response.json({ error: "id required" }, { status: 400 });
   const body = (await request.json()) as Record<string, unknown>;
   const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
-  const pkg = await db.from("Package").update(id, body);
+  const pkg = await db.from("Package").update(id, {
+    ...body,
+    updatedAt: new Date().toISOString(),
+  });
   return Response.json(pkg);
 }
 

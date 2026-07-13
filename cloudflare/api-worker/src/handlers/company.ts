@@ -31,6 +31,9 @@ export async function handleCompanyUpdate(request: Request, env: Env): Promise<R
     return Response.json({ error: "Company profile not found" }, { status: 404 });
   }
 
-  const updated = await db.from("Company").update(existing.id, body);
+  const updated = await db.from("Company").update(existing.id, {
+    ...body,
+    updatedAt: new Date().toISOString(),
+  });
   return Response.json(updated);
 }
