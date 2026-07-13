@@ -1,10 +1,9 @@
 /**
- * Hook that fetches relation options for all select fields in a table config.
+ * Hook that fetches relation labels for all select fields in a table config.
  *
- * Uses plain fetchRecords (not individual useQuery calls) to avoid the
- * rules-of-hooks restriction against calling hooks inside .map() callbacks.
- * Relation label data is cached via React Query's useQuery per relation table
- * using a dedicated QueryKeyFetcher sub-component pattern internally.
+ * Uses parallel fetchRequests to minimize the loading window. Returns an
+ * `isLoading` flag so consumers can show a placeholder instead of raw IDs
+ * while relation data is being resolved.
  */
 
 import { useEffect, useState } from "react";
@@ -17,6 +16,8 @@ export function useTableRelationCache(
   table: string, // dependency trigger — refetches when table changes
 ) {
   const [relationCache, setRelationCache] = useState<Record<string, Record<string, string>>>({});
+  const hasRelations = fields.filter((f) => f.type === "select" && f.relation).length > 0;
+  const [isLoading, setIsLoading] = useState(hasRelations);
 
   useEffect(() => {
     const relationFields = fields.filter((f) => f.type === "select" && f.relation);
@@ -27,11 +28,10 @@ export function useTableRelationCache(
     let cancelled = false;
 
     const fetchAll = async () => {
-      const cache: Record<string, Record<string, string>> = {};
-
-      for (const field of relationFields) {
-        const rel = field.relation!;
-        try {
+      // Fetch all relation tables in parallel (Promise.all instead of sequential for...of)
+      const results = await Promise.allSettled(
+        relationFields.map(async (field) => {
+          const rel = field.relation!;
           const relRecords = await fetchRecords<Record<string, unknown>>(rel.table);
 
           // Special handling: package-variants prefix with package name
@@ -59,15 +59,21 @@ export function useTableRelationCache(
             fieldCache[key] = label;
           });
 
-          cache[field.name] = fieldCache;
-        } catch (err) {
-          console.error(`Failed to fetch relation data for ${field.name}:`, err);
-        }
-      }
+          return { fieldName: field.name, fieldCache };
+        }),
+      );
 
-      if (!cancelled) {
-        setRelationCache((prev) => ({ ...prev, ...cache }));
-      }
+      if (cancelled) return;
+
+      const cache: Record<string, Record<string, string>> = {};
+      results.forEach((result) => {
+        if (result.status === "fulfilled") {
+          cache[result.value.fieldName] = result.value.fieldCache;
+        }
+      });
+
+      setRelationCache((prev) => ({ ...prev, ...cache }));
+      setIsLoading(false);
     };
 
     fetchAll();
@@ -77,5 +83,5 @@ export function useTableRelationCache(
     };
   }, [fields, table]);
 
-  return relationCache;
+  return { relationCache, isLoading };
 }

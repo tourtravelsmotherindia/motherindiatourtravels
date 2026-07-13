@@ -16,10 +16,12 @@ import React, { useEffect, useRef, useState } from "react";
 
 import PhoneInput from "@/components/ui/PhoneInput";
 import { useToast } from "@/context/ToastContext";
+import { useSubmitBooking } from "@/lib/hooks/mutations";
 
 export default function PopupModal() {
   const pathname = usePathname();
   const { showToast } = useToast();
+  const bookingMutation = useSubmitBooking();
   const [isOpen, setIsOpen] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState<string | null>(null);
@@ -159,8 +161,7 @@ export default function PopupModal() {
       const dialCode = countryVal.split(":")[1] ?? "";
       const fullPhone = `${dialCode}${phoneNumber}`.trim();
 
-      const { submitBooking } = await import("@/lib/api");
-      await submitBooking({
+      await bookingMutation.mutateAsync({
         name: fullName.trim(),
         email: email.trim(),
         phone: fullPhone,
@@ -418,9 +419,10 @@ export default function PopupModal() {
                 <div className="flex flex-col gap-2 mt-1 sm:mt-2 shrink-0">
                   <button
                     type="submit"
-                    className="w-full bg-brand hover:bg-brand-hover text-white font-bold py-3 sm:py-3.5 rounded-full text-sm cursor-pointer shadow-premium hover:shadow-lg transition-all duration-300 border-none focus:outline-none"
+                    disabled={bookingMutation.isPending}
+                    className="w-full bg-brand hover:bg-brand-hover text-white font-bold py-3 sm:py-3.5 rounded-full text-sm cursor-pointer shadow-premium hover:shadow-lg transition-all duration-300 border-none focus:outline-none disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    Book Now
+                    {bookingMutation.isPending ? "Submitting..." : "Book Now"}
                   </button>
                   <button
                     type="button"

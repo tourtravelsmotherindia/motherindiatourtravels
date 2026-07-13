@@ -7,6 +7,7 @@ import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import FormField from "@/components/ui/FormField";
 import PhoneInput from "@/components/ui/PhoneInput";
 import { useToast } from "@/context/ToastContext";
+import { useSubmitContact } from "@/lib/hooks/mutations";
 import { formatWorkingHours } from "@/lib/utils/formatWorkingHours";
 import { type CompanyData } from "@/types/company";
 
@@ -26,13 +27,13 @@ interface ContactClientProps {
 
 export default function ContactClient({ companyData }: ContactClientProps) {
   const { showToast } = useToast();
+  const contactMutation = useSubmitContact();
 
   const [fullName, setFullName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
   const [countryCodeVal, setCountryCodeVal] = useState("IN:+91");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [message, setMessage] = useState("");
-  const [submitting, setSubmitting] = useState(false);
 
   const getFormattedWorkingHours = () => {
     return formatWorkingHours(companyData.working_hours, ", ");
@@ -45,14 +46,11 @@ export default function ContactClient({ companyData }: ContactClientProps) {
       return;
     }
 
-    setSubmitting(true);
-
     try {
       const dialCode = countryCodeVal.split(":")[1] ?? "";
       const fullPhone = `${dialCode}${phoneNumber}`.trim();
 
-      const { submitContact } = await import("@/lib/api");
-      await submitContact({
+      await contactMutation.mutateAsync({
         name: fullName,
         email: emailAddress,
         phone: fullPhone,
@@ -73,8 +71,6 @@ export default function ContactClient({ companyData }: ContactClientProps) {
     } catch (err) {
       const errMsg = err instanceof Error ? err.message : "Something went wrong. Please try again.";
       showToast("error", "Submission Failed", errMsg);
-    } finally {
-      setSubmitting(false);
     }
   };
 
@@ -188,10 +184,10 @@ export default function ContactClient({ companyData }: ContactClientProps) {
 
             <button
               type="submit"
-              disabled={submitting}
+              disabled={contactMutation.isPending}
               className="w-full sm:w-auto bg-brand hover:bg-brand-hover text-white font-semibold px-8 py-3.5 rounded-full text-sm cursor-pointer shadow-premium hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 self-end select-none border-none outline-none disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              <span>{submitting ? "Sending..." : "Send Message"}</span>
+              <span>{contactMutation.isPending ? "Sending..." : "Send Message"}</span>
               <svg
                 className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1"
                 fill="none"

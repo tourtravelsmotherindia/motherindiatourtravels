@@ -24,6 +24,7 @@ import Dropdown from "@/components/ui/Dropdown";
 import FormField from "@/components/ui/FormField";
 import PhoneInput from "@/components/ui/PhoneInput";
 import { useToast } from "@/context/ToastContext";
+import { useSubmitBooking } from "@/lib/hooks/mutations";
 import { useFavorites } from "@/lib/hooks/useFavorites";
 import { type CompanyData } from "@/types/company";
 import {
@@ -47,6 +48,7 @@ export default function BookClient({
 }: BookClientProps) {
   const { showToast } = useToast();
   const { isFavorite, toggleFavorite } = useFavorites();
+  const bookingMutation = useSubmitBooking();
 
   const [fullName, setFullName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
@@ -55,7 +57,6 @@ export default function BookClient({
   const [pickupLocation, setPickupLocation] = useState("");
   const [dropLocation, setDropLocation] = useState("");
   const [message, setMessage] = useState("");
-  const [submitting, setSubmitting] = useState(false);
 
   // Spacing helper inputs
   const pkgName = packageData.name || "Tour Package";
@@ -126,8 +127,6 @@ export default function BookClient({
       return;
     }
 
-    setSubmitting(true);
-
     try {
       // Build country-code-prefixed phone string
       const dialCode = countryCodeVal.split(":")[1] ?? "";
@@ -139,8 +138,7 @@ export default function BookClient({
         ? `${selectedFlexibleMonth.getFullYear()}-${String(selectedFlexibleMonth.getMonth() + 1).padStart(2, "0")}`
         : "";
 
-      const { submitBooking } = await import("@/lib/api");
-      await submitBooking({
+      await bookingMutation.mutateAsync({
         name: fullName,
         email: emailAddress,
         phone: fullPhone,
@@ -188,8 +186,6 @@ export default function BookClient({
       const message =
         err instanceof Error ? err.message : "Something went wrong. Please try again.";
       showToast("error", "Submission Failed", message);
-    } finally {
-      setSubmitting(false);
     }
   };
 
@@ -372,10 +368,10 @@ export default function BookClient({
 
               <button
                 type="submit"
-                disabled={submitting}
+                disabled={bookingMutation.isPending}
                 className="w-full bg-brand hover:bg-brand-hover text-white font-bold py-4 rounded-full text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer text-center select-none border-none outline-none mt-2 active:scale-98 disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                {submitting ? "Submitting Booking..." : "Submit Booking Request"}
+                {bookingMutation.isPending ? "Submitting Booking..." : "Submit Booking Request"}
               </button>
             </form>
           </div>

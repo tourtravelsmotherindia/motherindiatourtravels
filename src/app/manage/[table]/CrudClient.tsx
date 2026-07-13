@@ -64,7 +64,10 @@ export default function CrudClient({ table }: CrudClientProps) {
   }, []);
 
   // Fetch relation options for select fields (uses useEffect internally to avoid hook-in-loop)
-  const relationCache = useTableRelationCache(tableConfig?.fields || [], table);
+  const { relationCache, isLoading: relationCacheLoading } = useTableRelationCache(
+    tableConfig?.fields || [],
+    table,
+  );
 
   // Not in schema
   if (!tableConfig) {
@@ -172,6 +175,11 @@ export default function CrudClient({ table }: CrudClientProps) {
     if (field.type === "select" && field.relation) {
       const cache = relationCache[field.name];
       const key = String(value);
+      if (!cache && relationCacheLoading) {
+        return (
+          <span className="text-neutral-300 text-[10px] animate-pulse select-none">&hellip;</span>
+        );
+      }
       return cache ? cache[key] || key : key;
     }
 

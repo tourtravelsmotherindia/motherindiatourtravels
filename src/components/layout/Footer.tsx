@@ -1,12 +1,14 @@
 "use client";
 
-import { ArrowRight, CheckCircle2, Mail, MapPin, Phone } from "lucide-react";
+import { ArrowRight, CheckCircle2, Loader2, Mail, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type React from "react";
 import { useState } from "react";
 
+import { useToast } from "@/context/ToastContext";
+import { useSubscribeNewsletter } from "@/lib/hooks/mutations";
 import { formatWorkingHours } from "@/lib/utils/formatWorkingHours";
 import { type CompanyData } from "@/types/company";
 
@@ -34,6 +36,8 @@ export default function Footer({
     google_analytics: "",
     google_tag_manager: "",
   };
+  const { showToast } = useToast();
+  const newsletterMutation = useSubscribeNewsletter();
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
 
@@ -50,16 +54,17 @@ export default function Footer({
     if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
 
     try {
-      const { subscribeNewsletter } = await import("@/lib/api");
-      await subscribeNewsletter({ email: email.trim() });
+      await newsletterMutation.mutateAsync({ email: email.trim() });
+      showToast(
+        "success",
+        "Subscribed!",
+        "You have been subscribed to our newsletter successfully.",
+      );
       setSubscribed(true);
       setEmail("");
       setTimeout(() => setSubscribed(false), 5000);
     } catch {
-      // Silently fail — newsletter is non-critical
-      setSubscribed(true);
-      setEmail("");
-      setTimeout(() => setSubscribed(false), 5000);
+      showToast("error", "Subscription Failed", "Could not subscribe. Please try again later.");
     }
   };
 
@@ -186,10 +191,15 @@ export default function Footer({
                   />
                   <button
                     type="submit"
-                    className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center hover:bg-brand transition-colors duration-200 shrink-0 cursor-pointer"
+                    disabled={newsletterMutation.isPending}
+                    className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center hover:bg-brand transition-colors duration-200 shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     aria-label="Subscribe"
                   >
-                    <ArrowRight className="w-4 h-4" />
+                    {newsletterMutation.isPending ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <ArrowRight className="w-4 h-4" />
+                    )}
                   </button>
                 </form>
               )}

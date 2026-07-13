@@ -7,3 +7,8 @@ export { useDeleteRecord } from "./useDeleteRecord";
 export { useSystemPing } from "./useSystemPing";
 export { useUpdateRecord } from "./useUpdateRecord";
 export { useUploadImage } from "./useUploadImage";
+
+// Public-facing form mutation hooks
+export { useSubmitBooking } from "./useSubmitBooking";
+export { useSubmitContact } from "./useSubmitContact";
+export { useSubscribeNewsletter } from "./useSubscribeNewsletter";
