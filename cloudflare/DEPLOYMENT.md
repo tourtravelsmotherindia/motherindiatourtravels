@@ -281,7 +281,14 @@ To avoid database read overhead during automated email dispatch, the contact and
      "email": "tourtravelsmotherindia@gmail.com",
      "address": "B63/B63A, New Jankipuri, Uttam Nagar, New Delhi - 110059",
      "phone": "+919810140121",
-     "whatsapp": "+919810140121"
+     "whatsapp": "+919810140121",
+     "socials": {
+       "facebook": "https://www.facebook.com/driverandcarhire",
+       "instagram": "https://www.instagram.com/tour_operator_delhi/",
+       "twitter": "https://x.com/TravelsZ",
+       "linkedin": "https://www.linkedin.com/in/mother-india-tour-travels-b691b122/",
+       "pinterest": "https://in.pinterest.com/Mother_India_Tour_Delhi1/"
+     }
    }
    ```
 3. Save the file and redeploy the API worker:

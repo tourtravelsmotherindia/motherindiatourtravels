@@ -83,6 +83,8 @@ export async function handleBooking(
     address: companyJson.address,
     phone: companyJson.phone,
     whatsapp: companyJson.whatsapp,
+    website: companyJson.website,
+    socials: companyJson.socials,
   };
 
   // Fetch package/variant names and slugs for emails

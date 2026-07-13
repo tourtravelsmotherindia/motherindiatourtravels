@@ -4,6 +4,14 @@ export interface CompanyInfo {
   address: string;
   phone: string;
   whatsapp: string;
+  website: string;
+  socials: {
+    facebook?: string;
+    instagram?: string;
+    twitter?: string;
+    linkedin?: string;
+    pinterest?: string;
+  };
 }
 
 export interface BookingEmailData {
@@ -42,13 +50,16 @@ export interface ContactEmailData {
 }
 
 function baseTemplate(content: string, previewText: string, company: CompanyInfo): string {
+  const cleanPhone = company.phone ? company.phone.trim() : "";
+  const cleanWhatsapp = company.whatsapp ? company.whatsapp.trim() : "";
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Mother India Tour Travels</title>
+  <title>${company.name}</title>
   <!--[if !mso]><!-->
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <!--<![endif]-->
@@ -95,43 +106,148 @@ function baseTemplate(content: string, previewText: string, company: CompanyInfo
       <td align="center" style="padding: 40px 16px;" class="container">
         <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
           
-          <!-- Logo Header -->
-          <tr>
-            <td align="center" style="padding-bottom: 28px;">
-              <img src="https://images.motherindiatourtravels.com/logo.png" alt="Mother India Tour Travels" style="height: 52px; border: 0; display: block;" />
-            </td>
-          </tr>
-          
           <!-- Main White Card -->
           <tr>
             <td style="background-color: #ffffff; border-radius: 12px; border: 1px solid #e8e6e2; box-shadow: 0 4px 12px rgba(0,0,0,0.015); padding: 40px;" class="content-card">
-              ${content}
-            </td>
-          </tr>
-          
-          <!-- Footer -->
-          <tr>
-            <td style="padding: 32px 24px 0; text-align: center;">
-              <p style="margin: 0 0 16px; font-size: 14px; color: #666666; font-weight: 500; font-family: 'Outfit', sans-serif;">
-                Need Help?
-              </p>
-              <p style="margin: 0 0 24px; font-size: 13px; color: #555555; line-height: 1.8;">
-                Our customer support team is available to assist you:<br>
-                Email: <a href="mailto:${company.email}" style="color: #e05423; text-decoration: none; font-weight: 600;">${company.email}</a>
-                ${company.phone ? `<br>Phone: <a href="tel:${company.phone}" style="color: #111111; text-decoration: none; font-weight: 500;">${company.phone}</a>` : ""}
-                ${company.whatsapp ? `<br>WhatsApp: <a href="https://wa.me/${company.whatsapp.replace(/[^0-9]/g, "")}" style="color: #111111; text-decoration: none; font-weight: 500;">${company.whatsapp}</a>` : ""}
-              </p>
               
-              <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-top: 1px solid #e8e6e2; padding-top: 24px;">
+              <!-- Logo (Centered inside the card) -->
+              <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-bottom: 1px solid #e8e6e2; padding-bottom: 24px; margin-bottom: 28px;">
                 <tr>
-                  <td align="center" style="font-size: 12px; color: #999999; line-height: 1.6;">
-                    <strong>${company.name}</strong><br>
-                    ${company.address}<br><br>
-                    © 2026 ${company.name}. All rights reserved.<br>
-                    This is an automated message. Please do not reply directly to this email.
+                  <td align="center">
+                    <img src="https://images.motherindiatourtravels.com/logo.png" alt="${company.name}" style="height: 72px; max-width: 280px; width: auto; border: 0; display: block;" />
                   </td>
                 </tr>
               </table>
+
+              <!-- Content Body -->
+              ${content}
+              
+              <!-- Need Help (Inside the card at the bottom) -->
+              <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-top: 1px solid #e8e6e2; margin-top: 40px;">
+                <tr>
+                  <td style="padding-top: 32px;">
+                    <h3 style="margin: 0 0 12px; font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 600; color: #111111;">Need Help?</h3>
+                    <p style="margin: 0 0 16px; font-size: 14px; color: #555555; line-height: 1.5;">
+                      Our customer support team is available to assist you:
+                    </p>
+                    
+                    <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+                      <!-- Email -->
+                      <tr>
+                        <td style="padding: 6px 0; font-size: 13px; color: #555555; vertical-align: middle;">
+                          <img src="https://img.icons8.com/material-outlined/32/777777/mail.png" width="16" height="16" style="vertical-align: middle; margin-right: 8px; display: inline-block;" />
+                          <a href="mailto:${company.email}" style="color: #555555; text-decoration: none; font-weight: 500;">${company.email}</a>
+                        </td>
+                      </tr>
+                      <!-- Phone -->
+                      ${
+                        cleanPhone
+                          ? `
+                      <tr>
+                        <td style="padding: 6px 0; font-size: 13px; color: #555555; vertical-align: middle;">
+                          <img src="https://img.icons8.com/material-outlined/32/777777/phone.png" width="16" height="16" style="vertical-align: middle; margin-right: 8px; display: inline-block;" />
+                          <a href="tel:${cleanPhone}" style="color: #555555; text-decoration: none; font-weight: 500;">${cleanPhone}</a>
+                        </td>
+                      </tr>
+                      `
+                          : ""
+                      }
+                      <!-- WhatsApp -->
+                      ${
+                        cleanWhatsapp
+                          ? `
+                      <tr>
+                        <td style="padding: 6px 0; font-size: 13px; color: #555555; vertical-align: middle;">
+                          <img src="https://img.icons8.com/material-outlined/32/777777/whatsapp.png" width="16" height="16" style="vertical-align: middle; margin-right: 8px; display: inline-block;" />
+                          <a href="https://wa.me/${cleanWhatsapp.replace(/[^0-9]/g, "")}" style="color: #555555; text-decoration: none; font-weight: 500;">${cleanWhatsapp}</a>
+                        </td>
+                      </tr>
+                      `
+                          : ""
+                      }
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+          
+          <!-- Footer (Outside the card) -->
+          <tr>
+            <td style="padding: 32px 24px 0; text-align: center;">
+              
+              <!-- Social Icons -->
+              <table role="presentation" cellpadding="0" cellspacing="0" align="center" style="margin-bottom: 20px;">
+                <tr>
+                  ${
+                    company.socials.facebook
+                      ? `
+                  <td style="padding: 0 8px;">
+                    <a href="${company.socials.facebook}" target="_blank" style="text-decoration: none;">
+                      <img src="https://img.icons8.com/material-outlined/32/999999/facebook.png" width="18" height="18" style="display: block; border: 0;" />
+                    </a>
+                  </td>`
+                      : ""
+                  }
+                  ${
+                    company.socials.instagram
+                      ? `
+                  <td style="padding: 0 8px;">
+                    <a href="${company.socials.instagram}" target="_blank" style="text-decoration: none;">
+                      <img src="https://img.icons8.com/material-outlined/32/999999/instagram.png" width="18" height="18" style="display: block; border: 0;" />
+                    </a>
+                  </td>`
+                      : ""
+                  }
+                  ${
+                    company.socials.twitter
+                      ? `
+                  <td style="padding: 0 8px;">
+                    <a href="${company.socials.twitter}" target="_blank" style="text-decoration: none;">
+                      <img src="https://img.icons8.com/material-outlined/32/999999/twitter.png" width="18" height="18" style="display: block; border: 0;" />
+                    </a>
+                  </td>`
+                      : ""
+                  }
+                  ${
+                    company.socials.linkedin
+                      ? `
+                  <td style="padding: 0 8px;">
+                    <a href="${company.socials.linkedin}" target="_blank" style="text-decoration: none;">
+                      <img src="https://img.icons8.com/material-outlined/32/999999/linkedin.png" width="18" height="18" style="display: block; border: 0;" />
+                    </a>
+                  </td>`
+                      : ""
+                  }
+                  ${
+                    company.socials.pinterest
+                      ? `
+                  <td style="padding: 0 8px;">
+                    <a href="${company.socials.pinterest}" target="_blank" style="text-decoration: none;">
+                      <img src="https://img.icons8.com/material-outlined/32/999999/pinterest.png" width="18" height="18" style="display: block; border: 0;" />
+                    </a>
+                  </td>`
+                      : ""
+                  }
+                </tr>
+              </table>
+              
+              <!-- Company Info & Copyright -->
+              <p style="margin: 0 0 6px; font-size: 12px; color: #999999; line-height: 1.6; font-weight: 500;">
+                © 2026 ${company.name}. All rights reserved.
+              </p>
+              <p style="margin: 0 0 16px; font-size: 11px; color: #aaaaaa; line-height: 1.6;">
+                ${company.address}
+              </p>
+              
+              <!-- Legal Utility Links -->
+              <p style="margin: 0; font-size: 11px; color: #aaaaaa;">
+                <a href="${company.website}" style="color: #999999; text-decoration: none; margin: 0 6px;">Website</a> | 
+                <a href="${company.website}/privacy" style="color: #999999; text-decoration: none; margin: 0 6px;">Privacy Policy</a> | 
+                <a href="${company.website}/terms" style="color: #999999; text-decoration: none; margin: 0 6px;">Terms of Service</a>
+              </p>
+              
             </td>
           </tr>
           
@@ -236,7 +352,7 @@ export function bookingGuestTemplate(data: BookingEmailData): string {
       <tr>
         <td style="font-size: 13px; color: #666666; line-height: 1.5;">
           <strong style="font-family: 'Outfit', sans-serif; color: #111111; display: block; margin-bottom: 6px; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px;">Your Message</strong>
-          <div style="background-color: #f7f6f4; border-radius: 6px; padding: 16px; font-size: 14px; color: #444444; border-left: 3px solid #e05423;">
+          <div style="background-color: #fbfbfa; border: 1px solid #e8e6e2; border-radius: 6px; padding: 16px; font-size: 14px; color: #444444; line-height: 1.6;">
             ${data.message}
           </div>
         </td>
@@ -349,7 +465,7 @@ export function bookingCompanyTemplate(data: BookingEmailData): string {
       <tr>
         <td style="font-size: 13px; color: #666666; line-height: 1.5;">
           <strong style="font-family: 'Outfit', sans-serif; color: #111111; display: block; margin-bottom: 6px; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px;">Customer Message</strong>
-          <div style="background-color: #f7f6f4; border-radius: 6px; padding: 16px; font-size: 14px; color: #444444; border-left: 3px solid #111111;">
+          <div style="background-color: #fbfbfa; border: 1px solid #e8e6e2; border-radius: 6px; padding: 16px; font-size: 14px; color: #444444; line-height: 1.6;">
             ${data.message}
           </div>
         </td>
@@ -363,7 +479,7 @@ export function bookingCompanyTemplate(data: BookingEmailData): string {
     <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 24px;">
       <tr>
         <td align="left">
-          <a href="${packageUrl}" target="_blank" style="display: inline-block; background-color: #111111; color: #ffffff; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; text-decoration: none; padding: 12px 24px; border-radius: 6px;">
+          <a href="${packageUrl}" target="_blank" style="display: inline-block; background-color: #e05423; color: #ffffff; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; text-decoration: none; padding: 12px 24px; border-radius: 6px; box-shadow: 0 4px 10px rgba(224, 84, 35, 0.15);">
             Open Package Page
           </a>
         </td>
@@ -388,7 +504,7 @@ export function contactGuestTemplate(data: ContactEmailData): string {
       <tr>
         <td style="font-size: 13px; color: #666666; line-height: 1.5;">
           <strong style="font-family: 'Outfit', sans-serif; color: #111111; display: block; margin-bottom: 6px; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px;">Your Message</strong>
-          <div style="background-color: #f7f6f4; border-radius: 6px; padding: 16px; font-size: 14px; color: #444444; border-left: 3px solid #e05423;">
+          <div style="background-color: #fbfbfa; border: 1px solid #e8e6e2; border-radius: 6px; padding: 16px; font-size: 14px; color: #444444; line-height: 1.6;">
             ${data.message}
           </div>
         </td>
@@ -441,7 +557,7 @@ export function contactCompanyTemplate(data: ContactEmailData): string {
       <tr>
         <td style="font-size: 13px; color: #666666; line-height: 1.5;">
           <strong style="font-family: 'Outfit', sans-serif; color: #111111; display: block; margin-bottom: 6px; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px;">Message Details</strong>
-          <div style="background-color: #f7f6f4; border-radius: 6px; padding: 16px; font-size: 14px; color: #444444; border-left: 3px solid #111111;">
+          <div style="background-color: #fbfbfa; border: 1px solid #e8e6e2; border-radius: 6px; padding: 16px; font-size: 14px; color: #444444; line-height: 1.6;">
             ${data.message}
           </div>
         </td>
