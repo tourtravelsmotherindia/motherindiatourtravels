@@ -32,7 +32,7 @@ The site runs on a modern, decoupled architecture:
 2.  **Database**: Hosted PostgreSQL on Supabase, managed and queried via Prisma ORM.
 3.  **Cloudflare Workers**:
     - `api-worker`: Processes booking inquiry submissions, contact requests, and emails.
-    - `images-worker`: Optimizes, resizes, and caches tour media assets at the edge.
+     - `images-worker`: Serves and caches tour media assets at the edge.
 
 ```mermaid
 graph TD
@@ -105,7 +105,7 @@ graph TD
 The platform utilizes Cloudflare Workers to handle serverless operations efficiently:
 
 - **`cloudflare/api-worker`**: Handles CORS, processes contact submissions, newsletter signups, and booking forms, and stores inquiries into PostgreSQL before sending transactional confirmation emails.
-- **`cloudflare/images-worker`**: Serves as a custom edge image resizing proxy, fetching raw assets from Supabase storage and caching optimized WebP equivalents.
+- **`cloudflare/images-worker`**: Serves as a custom edge image proxy, fetching raw assets from Cloudflare R2 and caching them at the edge.
 
 ### Worker Setup & Local Development
 
