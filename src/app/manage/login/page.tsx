@@ -60,14 +60,23 @@ export default function LoginPage() {
         throw new Error(data.error || "Authentication failed");
       }
 
+      if (needsInit) {
+        showToast(
+          "success",
+          "Verification Email Sent",
+          "Admin account created! Please check your email inbox to confirm your address before logging in.",
+        );
+        setNeedsInit(false);
+        setPassword("");
+        return;
+      }
+
       // Store tokens and metadata
       setTokens(data.access_token, data.refresh_token);
       localStorage.setItem("admin_email", email);
 
-      const successTitle = needsInit ? "Admin Initialized" : "Security Gate Unlocked";
-      const successMsg = needsInit
-        ? "Admin account created successfully! Redirecting..."
-        : "Redirecting to admin workspace...";
+      const successTitle = "Security Gate Unlocked";
+      const successMsg = "Redirecting to admin workspace...";
       showToast("success", successTitle, successMsg);
 
       // Redirect to the originally requested page, or base dashboard
