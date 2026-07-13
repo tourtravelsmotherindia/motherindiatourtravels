@@ -1,160 +1,245 @@
-# Mother India Tour Travels — Data Management Guide (MANAGE.md)
+# Mother India Tour Travels — Comprehensive Admin & Data Management Manual
 
-Welcome to the data management guide for the Mother India Tour Travels administration panel. This document is a step-by-step manual to help you set up and configure geographical data, packages, variants, itineraries, categories, hero sliders, and company configurations.
-
----
-
-## 1. Dependency Order: How to Add a New Tour Package
-
-To ensure database relationships remain valid and database joins function properly, follow this exact step-by-step workflow when introducing a new tour package to the website.
-
-### Step 1: Core Geography Setup
-
-Before creating a package, its geographic locations must exist in the database:
-
-1. **Add Country**: Go to **Countries** and create a record (e.g., _India_, _Nepal_).
-2. **Add State**: Go to **States** and link it to the country (e.g., _Rajasthan_ linked to _India_). Required for domestic packages.
-3. **Add Destination**: Go to **Destinations** and link it to the state/country (e.g., _Jaipur_ linked to _Rajasthan_, _India_).
-4. **Add Attraction**: Go to **Attractions** and link it to its parent destination (e.g., _Hawa Mahal_ linked to _Jaipur_).
-
-### Step 2: Create the Base Package
-
-- Go to **Packages** and click **Create Record**.
-- Select the Country and State.
-- Provide general info (Overview, Highlights list, Inclusions/Exclusions list, SEO title, etc.).
-- _Note: This represents the high-level tour topic, but doesn't have a price or duration yet._
-
-### Step 3: Add Package Variants
-
-- Go to **Package Variants** and click **Create Record**.
-- Link it to the parent Package you created in Step 2.
-- Configure specific options (Nights, Days, Base Price, Stay Type, etc.).
-- _Note: Every package needs at least one variant._
-
-### Step 4: Configure Itinerary Days
-
-- Go to **Itinerary Days** and click **Create Record**.
-- Select the Package Variant (shows as `[Package Name] - [Variant Label]`).
-- Configure Day 1, Day 2, etc., detailing the day title and activities.
-
-### Step 5: Connect Relations (Map & Categories)
-
-- **Link Package to Destinations**: Go to **Package Destinations** and add a record connecting the Package Variant to the Destinations it stops in. Set the `sortOrder` (e.g. `1` for first city, `2` for second city) to render the routing line on the map.
-- **Link Package to Categories**: Go to **Package Categories** and associate the Package with theme filters (e.g., _Classic_, _Heritage_, _Adventure_).
-- **Link Package to Attractions**: Go to **Package Attractions** and select the attractions featured on this tour variant.
+Welcome to the data management manual for the Mother India Tour Travels administration system. This document provides clear, step-by-step instructions for adding, editing, and linking database records.
 
 ---
 
-## 2. Key Terms & Concepts
+## 1. Accessing the Admin Panel
 
-### What is a Variant?
-
-A **Package Variant** represents a specific duration and pricing tier for a package. Instead of creating three different packages for the same trip, you create one **Package** (e.g., _"Explore Rajasthan"_) and add multiple **Variants**:
-
-- **3 Nights / 4 Days Classic** (Base price ₹15,000, 3-star stays)
-- **5 Nights / 6 Days Deluxe** (Base price ₹25,000, 4-star stays, includes luxury car)
-
-### What is a Category & How to Use It?
-
-**Categories** represent themes or travel styles (e.g., _Classic_, _Heritage_, _Beach_, _Wildlife_, _Pilgrimage_, _Adventure_, _Honeymoon_).
-
-- Go to **Categories** to manage titles and icons.
-- Go to **Package Categories** to link a package to a theme. This powers the category sliders and tour filters on the public homepage.
+1. **Dashboard URL**: Go to `/manage/` on your browser (or `/manage/login/` if not logged in).
+2. **Authentication**: Enter your admin email and password.
+3. **Sidebar**: Use the left sidebar to navigate between groups:
+   - **Core Geography**: Countries, States, Destinations, Attractions.
+   - **Tour Packages**: Packages, Package Variants, Itinerary Days, Categories, and relation link tables.
+   - **CMS & Content**: Blog Posts, Hero Configurations, Testimonials, FAQs, Company Details.
+   - **Leads & System**: Bookings, Contacts, Newsletter Subscribers.
 
 ---
 
-## 3. How to Find Latitude and Longitude
+## 2. Step-by-Step Guide: Adding a Tour Package (Start to Finish)
 
-Map coordinates are required for Countries, States, Destinations, and Attractions so they show up accurately on the interactive maps.
+You cannot add a package all at once. Because the database relies on structured relationships, you must follow this exact sequence.
 
-### Step-by-Step Instructions
+```mermaid
+graph TD
+  A[1. Add Country] --> B[2. Add State]
+  B --> C[3. Add Destination]
+  C --> D[4. Add Attraction]
+  D --> E[5. Add Package]
+  E --> F[6. Add Package Variant]
+  F --> G[7. Add Itinerary Days]
+  G --> H[8. Link Everything via Join Tables]
+```
 
-1. Open **[Google Maps](https://maps.google.com)** in your web browser.
-2. Search for the city, landmark, or attraction.
-3. Locate the exact spot on the map and **Right-Click** (or long-press on mobile) on the pin.
-4. A context menu will pop up showing the numeric coordinates at the top (e.g., `28.61393, 77.20902`).
-5. **Left-Click** on the coordinates inside the menu to copy them directly to your clipboard.
-6. Paste the values into the admin form:
-   - The first number is the **Latitude** (e.g., `28.61393`).
-   - The second number is the **Longitude** (e.g., `77.20902`).
+### Step 1: Add a Country
 
----
+1. Go to **Core Geography** > **Countries**.
+2. Click **Create Record** in the top right.
+3. Fill in the fields:
+   - **Name**: e.g., `India`
+   - **Slug**: e.g., `india` (lowercase, no spaces, used in URLs).
+   - **Continent**: e.g., `Asia`
+   - **Is Domestic**: Toggle on if it's within India.
+   - **Is Featured**: Toggle on to highlight it on the homepage.
+   - **Capital**: e.g., `New Delhi`
+   - **Currency Code**: e.g., `INR`
+   - **Languages**: Press Enter after typing each language to add multiple.
+   - **Visa Required / Visa On Arrival**: Check as applicable.
+   - **Flag / Cover Image**: Drag & drop or upload a flag or cover banner.
+   - **Latitude & Longitude**: (See Section 3 for finding coordinates).
+4. Click **Save Record**.
 
-## 4. How to Manage Attractions
+### Step 2: Add a State (For Domestic Tours)
 
-### Adding an Attraction
+1. Go to **Core Geography** > **States**.
+2. Click **Create Record**.
+3. Fill in the fields:
+   - **Name**: e.g., `Kashmir`
+   - **Slug**: e.g., `kashmir`
+   - **Country**: Select `India` from the dropdown list.
+   - **Capital**: e.g., `Srinagar`
+   - **Is Featured**: Check if you want to feature this state.
+   - **Cover Image**: Upload a high-quality cover photo.
+   - **Description**: Provide state details.
+4. Click **Save Record**.
 
-1. Go to **Attractions** under _Core Geography_.
+### Step 3: Add a Destination
+
+A Destination is a specific town or region where travelers stay (e.g., Srinagar, Gulmarg, Jaipur).
+
+1. Go to **Core Geography** > **Destinations**.
+2. Click **Create Record**.
+3. Fill in the fields:
+   - **Name**: e.g., `Gulmarg`
+   - **Slug**: e.g., `gulmarg`
+   - **Destination Type**: Select `City`, `Hill Station`, `Beach`, `Wildlife`, `Pilgrimage`, `Heritage`, etc.
+   - **Country & State**: Select from the dropdowns.
+   - **Best Time to Visit**: e.g., `October to March`
+   - **Climate Info**: e.g., `Snowy winters, pleasant summers`
+   - **Cover Image**: Upload a scenic landscape photo.
+   - **Description**: Detail what makes this place special.
+   - **Latitude & Longitude**: Insert coordinates.
+4. Click **Save Record**.
+
+### Step 4: Add Attractions (Sightseeing Landmarks)
+
+1. Go to **Core Geography** > **Attractions**.
+2. Click **Create Record**.
+3. Fill in the fields:
+   - **Name**: e.g., `Gulmarg Gondola`
+   - **Slug**: e.g., `gulmarg-gondola`
+   - **Destination**: Select `Gulmarg` from the dropdown.
+   - **Image**: Upload an attraction photo.
+   - **Description**: Add historic or tourist activity notes.
+   - **Sort Order**: Set `0` (or `1`, `2` to sequence sights).
+   - **Latitude & Longitude**: Insert coordinates of the landmark.
+4. Click **Save Record**.
+
+### Step 5: Add the Base Package
+
+1. Go to **Tour Packages** > **Packages**.
+2. Click **Create Record**.
+3. Fill in the fields:
+   - **Package Name**: e.g., `Magical Kashmir Tour`
+   - **Slug**: e.g., `magical-kashmir-tour`
+   - **Overview Detail**: A rich text overview introducing the package.
+   - **Highlights**: Add key summary points (e.g., _Houseboat Stay_, _Gondola Ride_). Type a point, then press Enter to lock it.
+   - **Inclusions**: Bullet points of what is covered (e.g., _Double room Stays_, _Breakfast & Dinner_, _Airport pickup_).
+   - **Exclusions**: Bullet points of what is NOT covered (e.g., _Flight tickets_, _Lunch_, _Attraction entry tickets_).
+   - **Important Notes**: Add terms, packing guidelines, or advisory notes.
+   - **Hero Banner Image**: Upload the main landing photo.
+   - **Gallery Images**: Add secondary photos showing sightseeing highlights.
+   - **Tour Style**: e.g., `Classic`, `Honeymoon`, `Adventure`.
+   - **Accommodation Style**: e.g., `4-Star Hotels & Luxury Houseboat`.
+   - **Is Popular / Is Domestic**: Set checks.
+   - **Country & State**: Select matching locations.
+4. Click **Save Record**.
+
+### Step 6: Add Package Variants
+
+A variant determines the actual duration and pricing of the package.
+
+1. Go to **Tour Packages** > **Package Variants**.
+2. Click **Create Record**.
+3. Fill in the fields:
+   - **Parent Package**: Select `Magical Kashmir Tour` from the list.
+   - **Slug Variant**: e.g., `5n-6d`
+   - **Display Label**: e.g., `5 Nights / 6 Days Premium`
+   - **Nights / Days**: e.g., `5` nights, `6` days.
+   - **Base Price / Discounted Price**: Set numerical values (e.g., Base: `24999`, Discounted: `19999`). Do not include currency symbols.
+   - **Is Default**: Toggle on if this variant is the main one displayed on package listings.
+4. Click **Save Record**.
+
+### Step 7: Create Itinerary Days
+
+You must create a record for each day of the variant's duration.
+
+1. Go to **Tour Packages** > **Itinerary Days**.
 2. Click **Create Record**.
 3. Fill in:
-   - **Name**: (e.g., _Taj Mahal_)
-   - **Slug**: (e.g., _taj-mahal_)
-   - **Destination**: Select parent destination (e.g., _Agra_)
-   - **Image**: Upload a representative picture.
-   - **Latitude & Longitude**: (e.g., `27.1751, 78.0421`)
-   - **Description**: Add history or sightseeing details.
-   - **Sort Order**: Optional number to sequence attractions.
+   - **Package Variant**: Select the parent variant (e.g., `Magical Kashmir Tour - 5 Nights / 6 Days Premium`).
+   - **Day Number**: e.g., `1` (Must be a number).
+   - **Day Title**: e.g., `Arrival in Srinagar & Shikara Ride`
+   - **Day Activities**: Input a detailed narrative of the day's route, meals, and hotels.
+   - **Sightseeing Images**: Upload photos highlighting the day's sights.
+4. Click **Save Record**.
+5. Repeat this process for Day 2, Day 3, and so on, until all days are populated.
 
-### Linking Attractions to a Package and Destination
+### Step 8: Link Associations (The Join Tables)
 
-- **To a Destination**: This is done automatically when you select the _Destination_ dropdown while creating/editing the Attraction.
-- **To a Package**: Go to **Package Attractions** and create a record linking the **Package Variant** to the **Attraction**. This populates the list of sights you visit during that specific tour option.
+Finally, bind the tables together using these three join-table sections:
+
+1. **Package Destinations** (Crucial for generating the interactive map):
+   - Go to **Package Destinations** > **Create Record**.
+   - Select the **Package Variant** (e.g., `Magical Kashmir Tour - 5n-6d`).
+   - Select the **Destination** (e.g., `Srinagar`).
+   - **Sort Order**: Set `1` (meaning Srinagar is the 1st stop).
+   - Click **Save**.
+   - Create another record for Gulmarg, set **Sort Order** to `2`.
+   - Repeat for all destinations in the route.
+
+2. **Package Categories** (For filtering):
+   - Go to **Package Categories** > **Create Record**.
+   - Select the **Package** (e.g., `Magical Kashmir Tour`).
+   - Select the **Category** (e.g., `Honeymoon`).
+   - Click **Save**.
+
+3. **Package Attractions** (To list sights in the sidebar):
+   - Go to **Package Attractions** > **Create Record**.
+   - Select the **Package Variant** (e.g., `Magical Kashmir Tour - 5n-6d`).
+   - Select the **Attraction** (e.g., `Gulmarg Gondola`).
+   - Click **Save**.
 
 ---
 
-## 5. How to Link Packages to Destinations
+## 3. How to Find Latitude & Longitude Coordinates
 
-To display the route map and list of cities visited on a tour page, you must link the package to its destinations:
+Accurate coordinates are necessary for displaying map markers on the frontend.
 
-1. Go to **Package Destinations** under _Tour Packages_.
+1. Open **[Google Maps](https://maps.google.com)**.
+2. Search for the city or landmark (e.g., _Taj Mahal, Agra_).
+3. Zoom in to locate the exact point.
+4. **Right-Click** directly on the map location.
+5. A context menu will appear. The first item at the top displays the coordinates (e.g., `27.17514, 78.04214`).
+6. **Left-Click** on those numbers to copy them.
+7. Paste them into the admin form:
+   - **Latitude**: `27.17514`
+   - **Longitude**: `78.04214`
+
+---
+
+## 4. Homepage Hero Config (Slides & Videos)
+
+You can toggle the home landing banner between a looping video background and an image slide carousel.
+
+### Configuring the Mode
+
+1. Go to **CMS & Content** > **Hero Configs**.
+2. Click the edit button for the singleton record (ID = 1).
+3. Set **Hero Mode**:
+   - `VIDEO`: Plays a background video. Paste the video file URL in **Video Url**.
+   - `SLIDES`: Loops through background images.
+4. Click **Save**.
+
+### Managing Slides
+
+If mode is set to `SLIDES`:
+
+1. Go to **CMS & Content** > **Hero Slides**.
 2. Click **Create Record**.
-3. Choose:
-   - **Package Variant**: Select the specific tour variant.
-   - **Destination**: Choose the city visited.
-   - **Sort Order**: Set `1` for the first city, `2` for the second, and so on. This orders the timeline route.
+3. Fill in:
+   - **Slide Image**: Upload a high-quality landscape image (1920x1080 recommended).
+   - **Tag**: e.g., `Best Seller` (Shows as a small orange badge).
+   - **Title**: e.g., `Discover Srinagar` (Main heading).
+   - **Description**: Subtext caption.
+   - **Sort Order**: Numeric order.
+4. Click **Save**.
 
 ---
 
-## 6. Itinerary Days Management
+## 5. Company Details (Branding & CMS)
 
-The itinerary details the day-by-day activities for a tour variant.
+Go to **CMS & Content** > **Company** and edit the singleton record (ID = 1) to update global brand details.
 
-1. Go to **Itinerary Days** and click **Create Record**.
-2. **Package Variant**: Choose the variant this day belongs to.
-3. **Day Number**: Input the numeric day (e.g., `1`, `2`).
-4. **Day Title**: Input a short summary (e.g., _"Arrival & Evening Shikara Ride"_).
-5. **Day Activities**: Describe the sightseeing, routes, hotels, or meals included in detail.
-6. **Sightseeing Images**: Upload photos highlighting the day's sights.
+### Business Schedule (Visual Editor)
 
----
+- Instead of raw text, check the boxes for operating days (e.g., Monday through Friday).
+- Set the **Open** and **Close** times for each day block. Click **Add Slot** to configure split shifts if necessary.
 
-## 7. How Hero Slides & Config Work
+### Holiday Exceptions (Visual Calendar Editor)
 
-The homepage hero banner is managed dynamically:
+- Click **Add Holiday Exception**.
+- Pick the **Date** using the calendar input.
+- Type the **Reason** (e.g., _Diwali Holiday_).
+- Check **Closed All Day** to mark the office as unavailable.
 
-- **Hero Config (Singleton, ID = 1)**: Go to **Hero Configs** to edit the settings. Set the mode to:
-  - `SLIDES` to show the image carousel.
-  - `VIDEO` to play a full-screen background video (paste the link in `videoUrl`).
-- **Hero Slides**: If mode is `SLIDES`, go to **Hero Slides** to add/remove slides. Configure:
-  - **Slide Image**: Upload a high-resolution banner.
-  - **Tag**: Small orange badge text (e.g., _Best Seller_).
-  - **Title**: Large heading text.
-  - **Description**: Subtext description.
-  - **Sort Order**: Controls the slide sequence.
+### Social Media Profiles
 
----
+- Enter the profile URLs in the corresponding fields for Facebook, Instagram, Twitter/X, LinkedIn, Pinterest, YouTube, and WhatsApp.
 
-## 8. How Company Data Works
+### About Us Narrative (Multi-Tab Form)
 
-The **Company Details** record (Singleton, ID = 1) controls branding info across the website.
-Instead of raw JSON formatting, the fields are managed using custom visual editors:
-
-- **General Details**: Edit corporate phone numbers, primary email, office address, and WhatsApp contact fields directly.
-- **Business Schedule**: A visual checklist where you select open business days and define time windows (e.g., Monday-Friday `09:00` to `20:00`).
-- **Holiday Exceptions**: Add calendar dates, notes, and a toggle for "Closed All Day" to handle corporate holidays.
-- **Social Media Profiles**: Enter handle links (Facebook, Instagram, LinkedIn, YouTube, WhatsApp, etc.) in dedicated fields.
-- **About Us Narrative**: Multi-tab interface to configure:
-  - _Header_: Brand badge, main title, introduction text, main image, and company statistics (e.g., _20+ Years Experience_).
-  - _Mission & Vision & Strength_: Configure description text, checklist points, and collage accent images for each section.
-  - _How We Work_: Heading, description, YouTube video URL, and overlay thumbnail image.
-  - _Footer Narrative_: The brief description displayed in the website footer links block.
+- **Header & Stats**: Edit badge labels, main title, cover image, and statistics grid (e.g., Value: `20+`, Label: `Years Experience`).
+- **Our Mission, Vision, and Strength & Team**: Write descriptions, add bullet list points (press Enter after each to add), and upload accent images.
+- **How We Work**: Set the section title, description, and link a YouTube video.
+- **Footer Narrative**: Provide the summary text shown in the website footer.
