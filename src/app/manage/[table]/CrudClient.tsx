@@ -276,7 +276,7 @@ export default function CrudClient({ table }: CrudClientProps) {
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
       {/* Search & Actions Toolbar */}
-      <div className="bg-white rounded-[1.5rem] border border-border-light p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
+      <div className="bg-white rounded-[1.5rem] border border-border-light p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         {/* Search Input Box */}
         <div className="relative max-w-sm w-full">
           <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-neutral-400">
@@ -309,7 +309,7 @@ export default function CrudClient({ table }: CrudClientProps) {
       </div>
 
       {/* Main Database Table Browser */}
-      <div className="bg-white rounded-[2rem] border border-border-light shadow-sm overflow-hidden hover:shadow-card transition-shadow duration-300">
+      <div className="bg-white rounded-[2rem] border border-border-light overflow-hidden">
         {loading ? (
           <div className="py-24 flex flex-col items-center justify-center">
             <Loader2 className="w-8 h-8 text-brand animate-spin" />

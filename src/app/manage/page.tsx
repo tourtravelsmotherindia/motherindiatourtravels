@@ -43,7 +43,7 @@ interface MetricCardProps {
 
 function MetricCard({ title, value, change, icon, bgIconColor, textColor }: MetricCardProps) {
   return (
-    <div className="bg-white rounded-[2rem] border border-border-light p-6 shadow-sm hover:shadow-card transition-all duration-300">
+    <div className="bg-white rounded-[2rem] border border-border-light p-6">
       <div className="flex items-start justify-between">
         <div className="space-y-3">
           <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">{title}</p>
@@ -218,7 +218,7 @@ export default function DashboardOverview() {
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
         {/* Recent Bookings Table List */}
-        <div className="xl:col-span-2 bg-white rounded-[2rem] border border-border-light p-6 md:p-8 hover:shadow-card transition-all duration-300">
+        <div className="xl:col-span-2 bg-white rounded-[2rem] border border-border-light p-6 md:p-8">
           <div className="flex items-center justify-between mb-6">
             <div>
               <h3 className="text-base font-bold font-display text-foreground">Recent Inquiries</h3>
@@ -305,7 +305,7 @@ export default function DashboardOverview() {
         </div>
 
         {/* Quick Shortcuts */}
-        <div className="bg-white rounded-[2rem] border border-border-light p-6 md:p-8 hover:shadow-card transition-all duration-300">
+        <div className="bg-white rounded-[2rem] border border-border-light p-6 md:p-8">
           <h3 className="text-base font-bold font-display text-foreground mb-6">Quick Actions</h3>
           <div className="space-y-4">
             {quickShortcuts.map((sc, idx) => (
