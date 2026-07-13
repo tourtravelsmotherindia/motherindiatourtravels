@@ -604,10 +604,7 @@ export default function SystemStatusDashboard() {
                           {/* Expanded JSON details block */}
                           {isExpanded && (
                             <tr>
-                              <td
-                                colSpan={8}
-                                className="p-4 bg-neutral-50 border-l-2 border-brand rounded-lg"
-                              >
+                              <td colSpan={8} className="p-4 bg-neutral-50 rounded-lg">
                                 <div className="space-y-3 font-semibold text-neutral-700 text-xs leading-relaxed">
                                   <p className="font-bold text-neutral-900 border-b border-border-light pb-1.5">
                                     Diagnostic Metadata Details
