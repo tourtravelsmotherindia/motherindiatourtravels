@@ -32,7 +32,7 @@ The site runs on a modern, decoupled architecture:
 2.  **Database**: Hosted PostgreSQL on Supabase, managed and queried via Prisma ORM.
 3.  **Cloudflare Workers**:
     - `api-worker`: Processes booking inquiry submissions, contact requests, and emails.
-     - `images-worker`: Serves and caches tour media assets at the edge.
+    - `images-worker`: Serves and caches tour media assets at the edge.
 
 ```mermaid
 graph TD
