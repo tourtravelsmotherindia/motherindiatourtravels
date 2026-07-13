@@ -1,13 +1,13 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Loader2, Save, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 import Dropdown from "@/components/ui/Dropdown";
 import { useToast } from "@/context/ToastContext";
 import { createRecord, getRecord, getRecords, updateRecord } from "@/lib/adminApi";
-import { ADMIN_TABLES, FieldConfig } from "@/lib/adminSchema";
+import { ADMIN_TABLES, FieldConfig, getSingularLabel } from "@/lib/adminSchema";
 import { type AboutData, type WorkingHoursSchedule } from "@/types/company";
 
 import AboutJsonEditor from "./AboutJsonEditor";
@@ -558,200 +558,196 @@ export default function AdminFormDrawer({
   };
 
   return (
-    <AnimatePresence>
-      <div className="fixed inset-0 z-40 flex justify-end">
-        {/* Backdrop Overlay */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.25 }}
-          className="fixed inset-0 bg-neutral-900/40 backdrop-blur-xs"
-          onClick={onClose}
-        />
+    <motion.div className="fixed inset-0 z-40 flex justify-end">
+      {/* Backdrop Overlay */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.25 }}
+        className="fixed inset-0 bg-neutral-900/40 backdrop-blur-xs"
+        onClick={onClose}
+      />
 
-        {/* Sliding Panel */}
-        <motion.div
-          initial={{ x: "100%" }}
-          animate={{ x: 0 }}
-          exit={{ x: "100%" }}
-          transition={{ type: "tween", duration: 0.3 }}
-          className={`relative h-full bg-neutral-50 shadow-premium flex flex-col z-50 border-l border-border-light ${
-            isLargeForm ? "w-full max-w-4xl" : "w-full max-w-2xl"
-          }`}
-        >
-          {/* Header */}
-          <div className="bg-white px-6 py-4 border-b border-border-light flex items-center justify-between">
-            <div>
-              <h2 className="text-lg font-bold font-display text-foreground flex items-center gap-2">
-                <span>
-                  {recordId ? "Edit" : "Create"} {tableConfig?.label.slice(0, -1) || "Record"}
+      {/* Sliding Panel */}
+      <motion.div
+        initial={{ x: "100%" }}
+        animate={{ x: 0 }}
+        exit={{ x: "100%" }}
+        transition={{ type: "tween", duration: 0.3 }}
+        className={`relative h-full bg-neutral-50 shadow-premium flex flex-col z-50 border-l border-border-light ${
+          isLargeForm ? "w-full max-w-4xl" : "w-full max-w-2xl"
+        }`}
+      >
+        {/* Header */}
+        <div className="bg-white px-6 py-4 border-b border-border-light flex items-center justify-between">
+          <div>
+            <h2 className="text-lg font-bold font-display text-foreground flex items-center gap-2">
+              <span>
+                {recordId ? "Edit" : "Create"} {getSingularLabel(tableConfig?.label) || "Record"}
+              </span>
+              {recordId && (
+                <span className="text-xs px-2 py-0.5 bg-neutral-100 text-neutral-500 rounded-full font-mono">
+                  {recordId.slice(0, 8)}
                 </span>
-                {recordId && (
-                  <span className="text-xs px-2 py-0.5 bg-neutral-100 text-neutral-500 rounded-full font-mono">
-                    {recordId.slice(0, 8)}
-                  </span>
-                )}
-              </h2>
-              <p className="text-xs text-neutral-500 mt-0.5">
-                Fill in fields to persist items in database.
-              </p>
-            </div>
-            <button
-              onClick={onClose}
-              className="w-8 h-8 rounded-full border border-border-light hover:bg-neutral-50 text-neutral-500 hover:text-neutral-800 transition-colors flex items-center justify-center"
-            >
-              <X className="w-4 h-4" />
-            </button>
+              )}
+            </h2>
+            <p className="text-xs text-neutral-500 mt-0.5">
+              Fill in fields to persist items in database.
+            </p>
           </div>
+          <button
+            onClick={onClose}
+            className="w-8 h-8 rounded-full border border-border-light hover:bg-neutral-50 text-neutral-500 hover:text-neutral-800 transition-colors flex items-center justify-center"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
 
-          {/* Loading details State */}
-          {loading ? (
-            <div className="flex-1 flex flex-col items-center justify-center bg-white">
-              <Loader2 className="w-8 h-8 text-brand animate-spin" />
-              <p className="text-xs text-neutral-500 font-semibold mt-2">
-                Loading record details...
-              </p>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="flex-1 flex flex-col overflow-hidden">
-              {/* Form Body - Scrollable content */}
-              <div className="flex-1 overflow-y-auto p-6 space-y-6 dropdown-scrollbar bg-white">
-                {isLargeForm ? (
-                  // Large forms tabbed layout
-                  <div className="space-y-6">
-                    {/* Tabs Segment Control */}
-                    <div className="flex rounded-full bg-neutral-100 p-1 w-fit border border-neutral-200">
+        {/* Loading details State */}
+        {loading ? (
+          <div className="flex-1 flex flex-col items-center justify-center bg-white">
+            <Loader2 className="w-8 h-8 text-brand animate-spin" />
+            <p className="text-xs text-neutral-500 font-semibold mt-2">Loading record details...</p>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="flex-1 flex flex-col overflow-hidden">
+            {/* Form Body - Scrollable content */}
+            <div className="flex-1 overflow-y-auto p-6 space-y-6 dropdown-scrollbar bg-white">
+              {isLargeForm ? (
+                // Large forms tabbed layout
+                <div className="space-y-6">
+                  {/* Tabs Segment Control */}
+                  <div className="flex rounded-full bg-neutral-100 p-1 w-fit border border-neutral-200">
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab("general")}
+                      className={`px-4 py-1.5 text-xs font-semibold rounded-full transition-colors ${
+                        activeTab === "general"
+                          ? "bg-brand text-white shadow-premium"
+                          : "text-neutral-600 hover:text-brand"
+                      }`}
+                    >
+                      General Details
+                    </button>
+                    {contentFields.length > 0 && (
                       <button
                         type="button"
-                        onClick={() => setActiveTab("general")}
+                        onClick={() => setActiveTab("content")}
                         className={`px-4 py-1.5 text-xs font-semibold rounded-full transition-colors ${
-                          activeTab === "general"
+                          activeTab === "content"
                             ? "bg-brand text-white shadow-premium"
                             : "text-neutral-600 hover:text-brand"
                         }`}
                       >
-                        General Details
+                        Long Content
                       </button>
-                      {contentFields.length > 0 && (
-                        <button
-                          type="button"
-                          onClick={() => setActiveTab("content")}
-                          className={`px-4 py-1.5 text-xs font-semibold rounded-full transition-colors ${
-                            activeTab === "content"
-                              ? "bg-brand text-white shadow-premium"
-                              : "text-neutral-600 hover:text-brand"
-                          }`}
-                        >
-                          Long Content
-                        </button>
-                      )}
-                      {mediaFields.length > 0 && (
-                        <button
-                          type="button"
-                          onClick={() => setActiveTab("media")}
-                          className={`px-4 py-1.5 text-xs font-semibold rounded-full transition-colors ${
-                            activeTab === "media"
-                              ? "bg-brand text-white shadow-premium"
-                              : "text-neutral-600 hover:text-brand"
-                          }`}
-                        >
-                          Gallery / Media
-                        </button>
-                      )}
-                      {seoFields.length > 0 && (
-                        <button
-                          type="button"
-                          onClick={() => setActiveTab("seo")}
-                          className={`px-4 py-1.5 text-xs font-semibold rounded-full transition-colors ${
-                            activeTab === "seo"
-                              ? "bg-brand text-white shadow-premium"
-                              : "text-neutral-600 hover:text-brand"
-                          }`}
-                        >
-                          SEO Optimization
-                        </button>
-                      )}
-                    </div>
-
-                    {/* Tab panels */}
-                    <div className="space-y-5 animate-in fade-in duration-200">
-                      {activeTab === "general" && (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                          {generalFields.map((f) => (
-                            <div
-                              key={f.name}
-                              className={
-                                f.type === "textarea" ||
-                                f.type === "image" ||
-                                f.type === "json" ||
-                                f.type === "array-string" ||
-                                f.type === "images-list"
-                                  ? "md:col-span-2"
-                                  : ""
-                              }
-                            >
-                              {renderField(f)}
-                            </div>
-                          ))}
-                        </div>
-                      )}
-
-                      {activeTab === "content" && (
-                        <div className="space-y-5">{contentFields.map((f) => renderField(f))}</div>
-                      )}
-
-                      {activeTab === "media" && (
-                        <div className="space-y-5">{mediaFields.map((f) => renderField(f))}</div>
-                      )}
-
-                      {activeTab === "seo" && (
-                        <div className="space-y-5">{seoFields.map((f) => renderField(f))}</div>
-                      )}
-                    </div>
+                    )}
+                    {mediaFields.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => setActiveTab("media")}
+                        className={`px-4 py-1.5 text-xs font-semibold rounded-full transition-colors ${
+                          activeTab === "media"
+                            ? "bg-brand text-white shadow-premium"
+                            : "text-neutral-600 hover:text-brand"
+                        }`}
+                      >
+                        Gallery / Media
+                      </button>
+                    )}
+                    {seoFields.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => setActiveTab("seo")}
+                        className={`px-4 py-1.5 text-xs font-semibold rounded-full transition-colors ${
+                          activeTab === "seo"
+                            ? "bg-brand text-white shadow-premium"
+                            : "text-neutral-600 hover:text-brand"
+                        }`}
+                      >
+                        SEO Optimization
+                      </button>
+                    )}
                   </div>
+
+                  {/* Tab panels */}
+                  <div className="space-y-5 animate-in fade-in duration-200">
+                    {activeTab === "general" && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        {generalFields.map((f) => (
+                          <div
+                            key={f.name}
+                            className={
+                              f.type === "textarea" ||
+                              f.type === "image" ||
+                              f.type === "json" ||
+                              f.type === "array-string" ||
+                              f.type === "images-list"
+                                ? "md:col-span-2"
+                                : ""
+                            }
+                          >
+                            {renderField(f)}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {activeTab === "content" && (
+                      <div className="space-y-5">{contentFields.map((f) => renderField(f))}</div>
+                    )}
+
+                    {activeTab === "media" && (
+                      <div className="space-y-5">{mediaFields.map((f) => renderField(f))}</div>
+                    )}
+
+                    {activeTab === "seo" && (
+                      <div className="space-y-5">{seoFields.map((f) => renderField(f))}</div>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                // Normal Forms (Single Column Layout)
+                <div className="grid grid-cols-1 gap-5">
+                  {fields.map((f) => (
+                    <div key={f.name}>{renderField(f)}</div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Footer */}
+            <div className="bg-neutral-50 px-6 py-4 border-t border-border-light flex items-center justify-end gap-3.5">
+              <button
+                type="button"
+                onClick={onClose}
+                disabled={saving}
+                className="px-5 py-2.5 rounded-full border border-border-light text-neutral-600 hover:bg-neutral-100 font-semibold text-sm transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={saving}
+                className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-brand hover:bg-brand-hover text-white font-semibold text-sm transition-all shadow-premium disabled:opacity-50"
+              >
+                {saving ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Saving...</span>
+                  </>
                 ) : (
-                  // Normal Forms (Single Column Layout)
-                  <div className="grid grid-cols-1 gap-5">
-                    {fields.map((f) => (
-                      <div key={f.name}>{renderField(f)}</div>
-                    ))}
-                  </div>
+                  <>
+                    <Save className="w-4 h-4" />
+                    <span>Save Record</span>
+                  </>
                 )}
-              </div>
-
-              {/* Footer */}
-              <div className="bg-neutral-50 px-6 py-4 border-t border-border-light flex items-center justify-end gap-3.5">
-                <button
-                  type="button"
-                  onClick={onClose}
-                  disabled={saving}
-                  className="px-5 py-2.5 rounded-full border border-border-light text-neutral-600 hover:bg-neutral-100 font-semibold text-sm transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={saving}
-                  className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-brand hover:bg-brand-hover text-white font-semibold text-sm transition-all shadow-premium disabled:opacity-50"
-                >
-                  {saving ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Saving...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Save className="w-4 h-4" />
-                      <span>Save Record</span>
-                    </>
-                  )}
-                </button>
-              </div>
-            </form>
-          )}
-        </motion.div>
-      </div>
-    </AnimatePresence>
+              </button>
+            </div>
+          </form>
+        )}
+      </motion.div>
+    </motion.div>
   );
 }

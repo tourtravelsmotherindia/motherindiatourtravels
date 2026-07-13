@@ -920,3 +920,17 @@ export const ADMIN_TABLES: Record<string, TableConfig> = {
     ],
   },
 };
+
+/**
+ * Helper to get the singular form of a table label.
+ * Handles exceptions like 'Gallery' or plural endings like 'Categories'.
+ */
+export function getSingularLabel(label: string): string {
+  if (!label) return "";
+  const lower = label.toLowerCase();
+  if (lower === "gallery") return "Gallery";
+  if (lower.endsWith("categories")) {
+    return label.slice(0, -3) + "y";
+  }
+  return label.slice(0, -1);
+}

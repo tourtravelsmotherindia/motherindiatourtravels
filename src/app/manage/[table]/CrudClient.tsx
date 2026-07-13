@@ -1,5 +1,6 @@
 "use client";
 
+import { AnimatePresence } from "framer-motion";
 import {
   AlertTriangle,
   Check,
@@ -18,7 +19,7 @@ import React, { useEffect, useState } from "react";
 import AdminFormDrawer from "@/components/manage/AdminFormDrawer";
 import { useToast } from "@/context/ToastContext";
 import { deleteRecord, getRecords } from "@/lib/adminApi";
-import { ADMIN_TABLES } from "@/lib/adminSchema";
+import { ADMIN_TABLES, getSingularLabel } from "@/lib/adminSchema";
 
 interface CrudClientProps {
   table: string;
@@ -325,7 +326,7 @@ export default function CrudClient({ table }: CrudClientProps) {
           className="flex items-center justify-center gap-2 rounded-full bg-brand hover:bg-brand-hover text-white font-semibold text-sm py-2.5 px-6 shadow-premium transition-all cursor-pointer"
         >
           <Plus className="w-4 h-4" />
-          <span>Add New {tableConfig.label.slice(0, -1)}</span>
+          <span>Add New {getSingularLabel(tableConfig.label)}</span>
         </button>
       </div>
 
@@ -453,18 +454,20 @@ export default function CrudClient({ table }: CrudClientProps) {
       </div>
 
       {/* Slide-over Form Drawer (Create / Edit) */}
-      {(action === "new" || (action === "edit" && editId)) && (
-        <AdminFormDrawer
-          key={table + (editId || "new")}
-          table={table}
-          recordId={action === "edit" ? editId : null}
-          onClose={() => router.push(pathname)}
-          onSaved={() => {
-            setRefreshTrigger((prev) => prev + 1);
-            router.push(pathname);
-          }}
-        />
-      )}
+      <AnimatePresence>
+        {(action === "new" || (action === "edit" && editId)) && (
+          <AdminFormDrawer
+            key={table + (editId || "new")}
+            table={table}
+            recordId={action === "edit" ? editId : null}
+            onClose={() => router.push(pathname)}
+            onSaved={() => {
+              setRefreshTrigger((prev) => prev + 1);
+              router.push(pathname);
+            }}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Delete Confirmation Dialog Modal */}
       {action === "delete" && (
@@ -485,7 +488,8 @@ export default function CrudClient({ table }: CrudClientProps) {
 
             <p className="text-xs text-neutral-500 mt-2 font-medium leading-relaxed">
               Are you sure you want to permanently delete this{" "}
-              {tableConfig.label.slice(0, -1).toLowerCase()} entry? This action is irreversible.
+              {getSingularLabel(tableConfig.label).toLowerCase()} entry? This action is
+              irreversible.
             </p>
 
             <div className="flex items-center gap-3 mt-6">
