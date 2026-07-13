@@ -11,12 +11,14 @@ import {
   Users,
   X,
 } from "lucide-react";
+import { usePathname } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 
 import PhoneInput from "@/components/ui/PhoneInput";
 import { useToast } from "@/context/ToastContext";
 
 export default function PopupModal() {
+  const pathname = usePathname();
   const { showToast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
@@ -80,6 +82,10 @@ export default function PopupModal() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isCalendarOpen]);
+
+  if (pathname?.startsWith("/manage")) {
+    return null;
+  }
 
   const getDaysInMonth = (year: number, month: number) => {
     return new Date(year, month + 1, 0).getDate();
