@@ -63,8 +63,11 @@ export default function CrudClient({ table }: CrudClientProps) {
         setRecords(data);
         setCurrentPage(1); // reset to page 1
       } catch (err: unknown) {
-        const errorMessage = err instanceof Error ? err.message : "Failed to load database records";
-        showToast("error", "Database Sync", errorMessage);
+        const errMsg = err instanceof Error ? err.message : "Failed to load database records";
+        // Don't toast on session expiry — the layout handles redirect smoothly
+        if (!errMsg.includes("Session expired")) {
+          showToast("error", "Database Sync", errMsg);
+        }
       } finally {
         setLoading(false);
       }

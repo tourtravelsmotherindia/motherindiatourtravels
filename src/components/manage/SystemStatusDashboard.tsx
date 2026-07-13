@@ -90,7 +90,10 @@ export default function SystemStatusDashboard() {
       } catch (err: unknown) {
         console.error("Failed to load status logs:", err);
         const errMsg = err instanceof Error ? err.message : "Failed to retrieve diagnostic logs.";
-        showToast("error", "Database Sync", errMsg);
+        // Don't toast on session expiry — the layout handles redirect smoothly
+        if (!errMsg.includes("Session expired")) {
+          showToast("error", "Database Sync", errMsg);
+        }
       } finally {
         if (active) {
           setLoading(false);

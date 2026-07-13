@@ -131,9 +131,11 @@ export default function DashboardOverview() {
         setRecentBookings(sorted.slice(0, 5));
       } catch (err: unknown) {
         console.error("Dashboard metrics load failed:", err);
-        const errorMessage =
-          err instanceof Error ? err.message : "Failed to load dashboard metrics";
-        showToast("error", "Dashboard Metrics", errorMessage);
+        const errMsg = err instanceof Error ? err.message : "";
+        // Don't toast on session expiry — the layout handles redirect smoothly
+        if (!errMsg.includes("Session expired")) {
+          showToast("error", "Dashboard Metrics", errMsg || "Failed to load dashboard metrics");
+        }
       } finally {
         setLoading(false);
       }

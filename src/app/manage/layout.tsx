@@ -21,6 +21,19 @@ export default function ManageLayout({
 
   const isLoginPage = pathname === "/manage/login" || pathname === "/manage/login/";
 
+  // Smooth session-expired redirect — catches 401/403 from background API calls
+  useEffect(() => {
+    const handleSessionExpired = () => {
+      if (!isLoginPage) {
+        const redirectPath = window.location.pathname + window.location.search;
+        const target = `/manage/login/?redirect=${encodeURIComponent(redirectPath)}`;
+        router.push(target);
+      }
+    };
+    window.addEventListener("session-expired", handleSessionExpired);
+    return () => window.removeEventListener("session-expired", handleSessionExpired);
+  }, [isLoginPage, router]);
+
   useEffect(() => {
     // Client-side authentication gate
     const authenticated = isLoggedIn();

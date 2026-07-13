@@ -94,10 +94,17 @@ async function adminRequest<T>(path: string, options: RequestInit = {}): Promise
 
     if (response.status === 401 || response.status === 403) {
       clearTokens();
+      // Dispatch a session-expired event so consuming code can handle redirect smoothly.
+      // Use a flag to fire only once — avoids competing redirects from parallel requests.
       if (typeof window !== "undefined" && !window.location.pathname.startsWith("/manage/login")) {
-        window.location.href = `/manage/login/?redirect=${encodeURIComponent(
-          window.location.pathname + window.location.search,
-        )}`;
+        if (!(window as unknown as Record<string, unknown>)._sessionExpiredDispatched) {
+          (window as unknown as Record<string, unknown>)._sessionExpiredDispatched = true;
+          window.dispatchEvent(new CustomEvent("session-expired"));
+          // Reset the flag after a short while so a future real expiry can fire again
+          setTimeout(() => {
+            delete (window as unknown as Record<string, unknown>)._sessionExpiredDispatched;
+          }, 5000);
+        }
       }
       throw new Error("Session expired. Please log in again.");
     }
