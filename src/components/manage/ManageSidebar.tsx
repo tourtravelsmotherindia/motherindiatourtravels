@@ -134,9 +134,6 @@ export default function ManageSidebar({ isMobileOpen, onCloseMobile }: ManageSid
               Tour Travels
             </span>
           </div>
-          <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-neutral-100 text-neutral-500 font-bold uppercase shrink-0">
-            Admin
-          </span>
         </Link>
       </div>
 

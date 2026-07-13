@@ -350,10 +350,8 @@ export default function SystemStatusDashboard() {
                     </div>
                     <div className="text-right">
                       <span
-                        className={`inline-flex px-2.5 py-0.5 rounded-full text-[9px] font-bold border ${
-                          currentStatus.dbStatus === "up"
-                            ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
-                            : "bg-rose-500/10 text-rose-500 border-rose-500/20"
+                        className={`font-bold text-[10px] ${
+                          currentStatus.dbStatus === "up" ? "text-emerald-700" : "text-red-700"
                         }`}
                       >
                         {currentStatus.dbStatus === "up" ? "Online" : "Offline"}
@@ -379,10 +377,8 @@ export default function SystemStatusDashboard() {
                     </div>
                     <div className="text-right">
                       <span
-                        className={`inline-flex px-2.5 py-0.5 rounded-full text-[9px] font-bold border ${
-                          currentStatus.websiteStatus === "up"
-                            ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
-                            : "bg-rose-500/10 text-rose-500 border-rose-500/20"
+                        className={`font-bold text-[10px] ${
+                          currentStatus.websiteStatus === "up" ? "text-emerald-700" : "text-red-700"
                         }`}
                       >
                         {currentStatus.websiteStatus === "up" ? "Online" : "Offline"}
@@ -408,10 +404,8 @@ export default function SystemStatusDashboard() {
                     </div>
                     <div className="text-right">
                       <span
-                        className={`inline-flex px-2.5 py-0.5 rounded-full text-[9px] font-bold border ${
-                          currentStatus.apiStatus === "up"
-                            ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
-                            : "bg-rose-500/10 text-rose-500 border-rose-500/20"
+                        className={`font-bold text-[10px] ${
+                          currentStatus.apiStatus === "up" ? "text-emerald-700" : "text-red-700"
                         }`}
                       >
                         {currentStatus.apiStatus === "up" ? "Online" : "Offline"}
@@ -437,10 +431,8 @@ export default function SystemStatusDashboard() {
                     </div>
                     <div className="text-right">
                       <span
-                        className={`inline-flex px-2.5 py-0.5 rounded-full text-[9px] font-bold border ${
-                          currentStatus.imagesStatus === "up"
-                            ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
-                            : "bg-rose-500/10 text-rose-500 border-rose-500/20"
+                        className={`font-bold text-[10px] ${
+                          currentStatus.imagesStatus === "up" ? "text-emerald-700" : "text-red-700"
                         }`}
                       >
                         {currentStatus.imagesStatus === "up" ? "Online" : "Offline"}
@@ -475,7 +467,7 @@ export default function SystemStatusDashboard() {
                 <>
                   <table className="w-full text-left border-collapse text-xs font-medium">
                     <thead>
-                      <tr className="border-b border-border-light text-neutral-400 font-semibold uppercase tracking-wider">
+                      <tr className="border-b border-border-light text-neutral-700 font-semibold uppercase tracking-wider">
                         <th className="pb-3 pr-4">Diagnostic Timestamp</th>
                         <th className="pb-3 px-4">Log ID (UUID)</th>
                         <th className="pb-3 px-4 text-center">Status</th>
@@ -503,17 +495,17 @@ export default function SystemStatusDashboard() {
                                     {mounted ? formatLocalDateTimeVerbose(log.lastPing) : "..."}
                                   </span>
                                 </td>
-                                <td className="py-3.5 px-4 font-mono text-[10px] text-neutral-400">
+                                <td className="py-3.5 px-4 font-mono text-[10px] text-neutral-600">
                                   {log.id}
                                 </td>
                                 <td className="py-3.5 px-4 text-center">
                                   <span
-                                    className={`inline-flex px-2 py-0.5 text-[10px] font-bold rounded-full border ${
+                                    className={`font-bold text-[10px] ${
                                       log.status === "healthy"
-                                        ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
+                                        ? "text-emerald-700"
                                         : log.status === "degraded"
-                                          ? "bg-amber-500/10 text-amber-500 border-amber-500/20"
-                                          : "bg-rose-500/10 text-rose-500 border-rose-500/20"
+                                          ? "text-amber-700"
+                                          : "text-red-700"
                                     }`}
                                   >
                                     {log.status}
@@ -521,10 +513,10 @@ export default function SystemStatusDashboard() {
                                 </td>
                                 <td className="py-3.5 px-4 text-center">
                                   <span
-                                    className={`inline-flex px-2 py-0.5 text-[9px] font-bold rounded-full border ${
+                                    className={`font-semibold text-[10px] ${
                                       log.websiteStatus === "up"
-                                        ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
-                                        : "bg-rose-500/10 text-rose-500 border-rose-500/20"
+                                        ? "text-emerald-700"
+                                        : "text-red-700"
                                     }`}
                                   >
                                     {log.websiteStatus === "up" ? "Online" : "Offline"}
@@ -532,10 +524,8 @@ export default function SystemStatusDashboard() {
                                 </td>
                                 <td className="py-3.5 px-4 text-center">
                                   <span
-                                    className={`inline-flex px-2 py-0.5 text-[9px] font-bold rounded-full border ${
-                                      log.apiStatus === "up"
-                                        ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
-                                        : "bg-rose-500/10 text-rose-500 border-rose-500/20"
+                                    className={`font-semibold text-[10px] ${
+                                      log.apiStatus === "up" ? "text-emerald-700" : "text-red-700"
                                     }`}
                                   >
                                     {log.apiStatus === "up" ? "Online" : "Offline"}
@@ -543,10 +533,10 @@ export default function SystemStatusDashboard() {
                                 </td>
                                 <td className="py-3.5 px-4 text-center">
                                   <span
-                                    className={`inline-flex px-2 py-0.5 text-[9px] font-bold rounded-full border ${
+                                    className={`font-semibold text-[10px] ${
                                       log.imagesStatus === "up"
-                                        ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
-                                        : "bg-rose-500/10 text-rose-500 border-rose-500/20"
+                                        ? "text-emerald-700"
+                                        : "text-red-700"
                                     }`}
                                   >
                                     {log.imagesStatus === "up" ? "Online" : "Offline"}
@@ -554,10 +544,8 @@ export default function SystemStatusDashboard() {
                                 </td>
                                 <td className="py-3.5 px-4 text-center">
                                   <span
-                                    className={`inline-flex px-2 py-0.5 text-[9px] font-bold rounded-full border ${
-                                      log.dbStatus === "up"
-                                        ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
-                                        : "bg-rose-500/10 text-rose-500 border-rose-500/20"
+                                    className={`font-semibold text-[10px] ${
+                                      log.dbStatus === "up" ? "text-emerald-700" : "text-red-700"
                                     }`}
                                   >
                                     {log.dbStatus === "up" ? "Online" : "Offline"}

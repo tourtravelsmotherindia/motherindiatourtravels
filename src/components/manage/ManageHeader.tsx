@@ -237,7 +237,7 @@ export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHe
             <div className="flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
               <span className="text-neutral-500 font-medium">API:</span>
-              <span className="text-emerald-600 font-bold">Online</span>
+              <span className="text-emerald-700 font-bold">Online</span>
             </div>
 
             {deployStatus && (
@@ -255,10 +255,10 @@ export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHe
                   <span
                     className={`font-semibold ${
                       deployStatus.status === "queued" || deployStatus.status === "in_progress"
-                        ? "text-amber-500 animate-pulse"
+                        ? "text-amber-700 animate-pulse"
                         : deployStatus.conclusion === "success"
-                          ? "text-emerald-600"
-                          : "text-red-500"
+                          ? "text-emerald-700"
+                          : "text-red-700"
                     }`}
                   >
                     {deployStatus.status === "queued" && "Queued"}

@@ -487,11 +487,11 @@ export default function DashboardOverview() {
                         )}
                         <span
                           className={`flex items-center gap-1 text-[10px] font-semibold ${
-                            service.status === "up" ? "text-emerald-600" : "text-red-500"
+                            service.status === "up" ? "text-emerald-700" : "text-red-700"
                           }`}
                         >
                           <span
-                            className={`w-1.5 h-1.5 rounded-full ${service.status === "up" ? "bg-emerald-500" : "bg-red-500"}`}
+                            className={`w-1.5 h-1.5 rounded-full ${service.status === "up" ? "bg-emerald-600" : "bg-red-600"}`}
                           />
                           {service.status === "up" ? "Online" : "Offline"}
                         </span>
