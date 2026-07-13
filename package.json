@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "dev-api": "concurrently \"npm --prefix cloudflare/api-worker run dev -- --port 8787 --inspector-port 9229\" \"npm --prefix cloudflare/images-worker run dev -- --port 7878 --inspector-port 9230\"",
+    "workers": "concurrently \"npm --prefix cloudflare/api-worker run dev -- --port 8787 --inspector-port 9229\" \"npm --prefix cloudflare/images-worker run dev -- --port 7878 --inspector-port 9230\"",
     "build": "npx prisma generate && npx prisma migrate deploy && next build",
     "build:static": "npx prisma generate && npx prisma migrate deploy && next build",
     "start": "next start",

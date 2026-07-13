@@ -112,7 +112,7 @@ The platform utilizes Cloudflare Workers to handle serverless operations efficie
 To run both workers locally in dev mode:
 
 ```bash
-npm run dev-api
+npm run workers
 ```
 
 For deep configuration instructions, secrets setup, and deployment commands, refer to the [Cloudflare Worker Deployment Guide](./cloudflare/DEPLOYMENT.md).
@@ -206,7 +206,7 @@ All scripts are defined in `package.json` and executed using `npm run <script-na
 | Script Name    | Exact Command                                                                                                                                                                         | Action / Description                                                                 |
 | :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------------------------------------------- |
 | `dev`          | `next dev`                                                                                                                                                                            | Starts the Next.js development server with Turbopack                                 |
-| `dev-api`      | `concurrently "npm --prefix cloudflare/api-worker run dev -- --port 8787 --inspector-port 9229" "npm --prefix cloudflare/images-worker run dev -- --port 7878 --inspector-port 9230"` | Runs both Cloudflare Workers (API and Images) concurrently in local development mode |
+| `workers`      | `concurrently "npm --prefix cloudflare/api-worker run dev -- --port 8787 --inspector-port 9229" "npm --prefix cloudflare/images-worker run dev -- --port 7878 --inspector-port 9230"` | Runs both Cloudflare Workers (API and Images) concurrently in local development mode |
 | `build`        | `npx prisma generate && npx prisma migrate deploy && next build`                                                                                                                      | Generates the Prisma client, deploys migrations, and builds Next.js production code  |
 | `build:static` | `npx prisma generate && npx prisma migrate deploy && next build`                                                                                                                      | Build step designed for the static site compilation in the CI/CD pipeline            |
 | `start`        | `next start`                                                                                                                                                                          | Runs the production-built Next.js server                                             |
