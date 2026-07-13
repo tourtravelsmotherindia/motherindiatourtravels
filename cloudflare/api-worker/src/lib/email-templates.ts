@@ -319,9 +319,9 @@ export function bookingGuestTemplate(data: BookingEmailData): string {
           
           <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
             ${detailsGridRow(
-              data.dateMode === "flexible" ? "Flexible Month" : "Travel Date",
+              data.dateMode === "flexible" ? "Flexible Month" : "Arrival Date",
               data.dateMode === "flexible" ? data.flexibleMonth : data.travelDate,
-              data.dateMode === "flexible" ? "Duration" : "Return Date",
+              data.dateMode === "flexible" ? "Duration" : "Departure Date",
               data.dateMode === "flexible" ? `${data.flexibleDays} Days` : data.travelDateEnd,
             )}
             ${detailsGridRow(
@@ -432,9 +432,9 @@ export function bookingCompanyTemplate(data: BookingEmailData): string {
               data.variantLabel || "Standard",
             )}
             ${detailsGridRow(
-              data.dateMode === "flexible" ? "Flexible Month" : "Travel Date",
+              data.dateMode === "flexible" ? "Flexible Month" : "Arrival Date",
               data.dateMode === "flexible" ? data.flexibleMonth : data.travelDate,
-              data.dateMode === "flexible" ? "Duration" : "Return Date",
+              data.dateMode === "flexible" ? "Duration" : "Departure Date",
               data.dateMode === "flexible" ? `${data.flexibleDays} Days` : data.travelDateEnd,
             )}
             ${detailsGridRow(
