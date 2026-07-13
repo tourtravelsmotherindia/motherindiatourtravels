@@ -28,6 +28,7 @@ interface DropdownProps {
   menuClassName?: string;
   align?: "left" | "right";
   icon?: LucideIcon | React.ComponentType<{ className?: string }>; // Optional starting icon for trigger
+  className?: string;
 }
 
 export default function Dropdown({
@@ -39,8 +40,10 @@ export default function Dropdown({
   menuClassName = "",
   align = "left",
   icon: TriggerIcon,
+  className = "w-full sm:w-auto",
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [openUpwards, setOpenUpwards] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const selectedOption = options.find((opt) => opt.value === value);
@@ -62,6 +65,17 @@ export default function Dropdown({
     };
   }, []);
 
+  const handleToggle = () => {
+    if (!isOpen && dropdownRef.current) {
+      const rect = dropdownRef.current.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const spaceBelow = viewportHeight - rect.bottom;
+      // If there's less than 280px below the dropdown, open it upwards
+      setOpenUpwards(spaceBelow < 280);
+    }
+    setIsOpen(!isOpen);
+  };
+
   const handleOptionClick = (option: DropdownOption) => {
     onChange(option.value);
     if (option.onClick) {
@@ -71,10 +85,10 @@ export default function Dropdown({
   };
 
   return (
-    <div className="relative inline-block text-left w-full sm:w-auto" ref={dropdownRef}>
+    <div className={`relative inline-block text-left ${className}`} ref={dropdownRef}>
       <button
         type="button"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={handleToggle}
         className={`flex items-center justify-between gap-2.5 w-full rounded-full px-5 py-2.5 lg:py-3 text-sm font-semibold cursor-pointer transition-all duration-300 focus:outline-none ${
           isTransparent ? "" : "bg-white hover:bg-neutral-50/50 focus:border-brand/40"
         } ${isWhiteBorder ? "" : "border border-neutral-200 hover:border-brand/35"} ${
@@ -109,17 +123,19 @@ export default function Dropdown({
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.96, y: -8 }}
+            initial={{ opacity: 0, scale: 0.96, y: openUpwards ? 8 : -8 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.96, y: -8 }}
+            exit={{ opacity: 0, scale: 0.96, y: openUpwards ? 8 : -8 }}
             transition={{
               type: "spring",
               duration: 0.22,
               stiffness: 350,
               damping: 26,
             }}
-            style={{ originY: 0 }}
-            className={`absolute z-50 mt-2 bg-white border border-neutral-200 rounded-[28px] p-2 shadow-premium focus:outline-none font-sans ${
+            style={{ originY: openUpwards ? 1 : 0 }}
+            className={`absolute z-50 bg-white border border-neutral-200 rounded-[28px] p-2 shadow-premium focus:outline-none font-sans ${
+              openUpwards ? "bottom-full mb-2" : "top-full mt-2"
+            } ${
               align === "right" ? "right-0" : "left-0"
             } ${menuClassName.includes("w-") ? "" : "w-72"} ${menuClassName}`}
           >

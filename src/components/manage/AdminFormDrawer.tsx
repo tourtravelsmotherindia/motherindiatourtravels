@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Loader2, Save, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
+import Dropdown from "@/components/ui/Dropdown";
 import { useToast } from "@/context/ToastContext";
 import { createRecord, getRecord, getRecords, updateRecord } from "@/lib/adminApi";
 import { ADMIN_TABLES, FieldConfig } from "@/lib/adminSchema";
@@ -57,6 +58,14 @@ export default function AdminFormDrawer({
   const [activeTab, setActiveTab] = useState<string>("general");
 
   // Load record details if editing
+  useEffect(() => {
+    // Lock scroll on background body
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
+
   useEffect(() => {
     if (!recordId || !table) return;
 
@@ -274,21 +283,39 @@ export default function AdminFormDrawer({
         );
 
       case "boolean":
+        const isChecked = !!formData[field.name];
         return (
-          <div key={field.name} className="flex items-center gap-3 py-2">
-            <input
-              type="checkbox"
-              id={field.name}
-              checked={!!formData[field.name]}
-              onChange={(e) => handleInputChange(field.name, e.target.checked)}
-              className="w-5 h-5 rounded border-border-light text-brand focus:ring-brand"
-            />
-            <label
-              htmlFor={field.name}
-              className="text-sm font-semibold text-neutral-700 select-none"
-            >
-              {field.label}
+          <div key={field.name} className="w-full">
+            <label className="block text-xs font-semibold text-neutral-600 uppercase mb-2">
+              &nbsp;
             </label>
+            <div
+              onClick={() => handleInputChange(field.name, !isChecked)}
+              className="flex items-center gap-3.5 w-full rounded-full border border-border-light px-5 py-[11px] bg-white hover:border-brand/45 cursor-pointer transition-colors select-none"
+            >
+              <button
+                type="button"
+                id={field.name}
+                className={`w-5 h-5 rounded-md border flex items-center justify-center transition-all duration-200 cursor-pointer ${
+                  isChecked
+                    ? "bg-brand border-brand text-white"
+                    : "bg-white border-neutral-300 text-transparent"
+                }`}
+              >
+                <svg
+                  className="w-3.5 h-3.5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="3.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </button>
+              <span className="text-sm font-bold text-neutral-700">{field.label}</span>
+            </div>
           </div>
         );
 
@@ -309,24 +336,33 @@ export default function AdminFormDrawer({
         );
 
       case "select":
-        const options = field.relation ? relationOptions[field.name] || [] : field.options || [];
+        const rawOptions = field.relation ? relationOptions[field.name] || [] : field.options || [];
+        const dropdownOptions = rawOptions.map((opt) => ({
+          value: String(opt.value),
+          label: opt.label,
+        }));
+        const selectedValue = String(formData[field.name] ?? "");
+
+        const handleDropdownChange = (val: string) => {
+          const originalOpt = rawOptions.find((opt) => String(opt.value) === val);
+          const finalVal = originalOpt ? originalOpt.value : val;
+          handleInputChange(field.name, finalVal);
+        };
+
         return (
           <div key={field.name} className="w-full">
             <label className="block text-xs font-semibold text-neutral-600 uppercase mb-2">
               {field.label} {field.required && <span className="text-red-500">*</span>}
             </label>
-            <select
-              value={(formData[field.name] as string | number | undefined) ?? ""}
-              onChange={(e) => handleInputChange(field.name, e.target.value)}
-              className="w-full rounded-full border border-border-light px-5 py-2.5 text-sm bg-white focus:border-brand focus:outline-none transition-colors appearance-none cursor-pointer"
-            >
-              <option value="">Select {field.label}</option>
-              {options.map((opt) => (
-                <option key={String(opt.value)} value={String(opt.value)}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
+            <Dropdown
+              options={dropdownOptions}
+              value={selectedValue}
+              onChange={handleDropdownChange}
+              placeholder={`Select ${field.label}`}
+              className="w-full"
+              triggerClassName="w-full text-left font-medium"
+              menuClassName="w-full max-w-full"
+            />
           </div>
         );
 
@@ -570,7 +606,11 @@ export default function AdminFormDrawer({
                             <div
                               key={f.name}
                               className={
-                                f.type === "textarea" || f.type === "image" || f.type === "json"
+                                f.type === "textarea" ||
+                                f.type === "image" ||
+                                f.type === "json" ||
+                                f.type === "array-string" ||
+                                f.type === "images-list"
                                   ? "md:col-span-2"
                                   : ""
                               }
