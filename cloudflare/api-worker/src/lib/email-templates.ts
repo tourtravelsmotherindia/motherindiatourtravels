@@ -296,6 +296,8 @@ function detailsGridRow(
 
 /** Email sent to the guest confirming their booking inquiry */
 export function bookingGuestTemplate(data: BookingEmailData): string {
+  const isPopup = data.source === "POPUP";
+
   const hotelLabel =
     data.hotelCategory === "3star"
       ? "3 Star (Standard)"
@@ -307,14 +309,24 @@ export function bookingGuestTemplate(data: BookingEmailData): string {
 
   const travellersText = `${data.adults} Adult${data.adults !== 1 ? "s" : ""}${data.children > 0 ? `, ${data.children} Child${data.children !== 1 ? "ren" : ""}` : ""}${data.infants > 0 ? `, ${data.infants} Infant${data.infants !== 1 ? "s" : ""}` : ""}`;
 
-  const content = `
-    <h2 class="heading" style="margin: 0 0 12px; font-size: 24px; font-weight: 700; color: #111111; letter-spacing: -0.5px;">Booking Inquiry Received</h2>
-    <p style="margin: 0 0 24px; font-size: 15px; color: #444444; line-height: 1.6;">Hi ${data.guestName}, thank you for choosing Mother India Tour Travels. We have received your booking inquiry and our travel specialists will contact you within 24 hours to discuss your customized itinerary.</p>
+  const headingText = isPopup ? "Trip Inquiry Received" : "Booking Inquiry Received";
+  const introText = isPopup
+    ? `Hi ${data.guestName}, thank you for choosing Mother India Tour Travels. We have received your trip planning inquiry, and our travel specialists will contact you within 24 hours to design your customized itinerary.`
+    : `Hi ${data.guestName}, thank you for choosing Mother India Tour Travels. We have received your booking inquiry and our travel specialists will contact you within 24 hours to discuss your customized itinerary.`;
 
-    <!-- Details Card -->
-    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color: #fbfbfa; border: 1px solid #e8e6e2; border-radius: 8px; margin: 28px 0; overflow: hidden;">
-      <tr>
-        <td style="padding: 24px;">
+  const detailsCardContent = isPopup
+    ? `
+          ${detailsBoxHeader(data.packageName || "Custom Tour Planning", "Trip Details")}
+          <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+            ${detailsGridRow(
+              "Proposed Travel Date",
+              data.travelDate || "—",
+              "Number of Travellers",
+              `${data.adults} Person${data.adults !== 1 ? "s" : ""}`,
+            )}
+          </table>
+    `
+    : `
           ${detailsBoxHeader(data.packageName, data.variantLabel)}
           
           <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
@@ -341,6 +353,17 @@ export function bookingGuestTemplate(data: BookingEmailData): string {
                 : ""
             }
           </table>
+    `;
+
+  const content = `
+    <h2 class="heading" style="margin: 0 0 12px; font-size: 24px; font-weight: 700; color: #111111; letter-spacing: -0.5px;">${headingText}</h2>
+    <p style="margin: 0 0 24px; font-size: 15px; color: #444444; line-height: 1.6;">${introText}</p>
+
+    <!-- Details Card -->
+    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color: #fbfbfa; border: 1px solid #e8e6e2; border-radius: 8px; margin: 28px 0; overflow: hidden;">
+      <tr>
+        <td style="padding: 24px;">
+          ${detailsCardContent}
         </td>
       </tr>
     </table>
@@ -366,8 +389,8 @@ export function bookingGuestTemplate(data: BookingEmailData): string {
     <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin: 32px 0 16px;">
       <tr>
         <td align="left">
-          <a href="${packageUrl}" target="_blank" style="display: inline-block; background-color: #E58E35; color: #ffffff; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; text-decoration: none; padding: 12px 24px; border-radius: 6px; box-shadow: 0 4px 10px rgba(229, 142, 53, 0.15);">
-            View Package Details
+          <a href="${data.packageSlug ? packageUrl : "https://www.motherindiatourtravels.com/packages"}" target="_blank" style="display: inline-block; background-color: #E58E35; color: #ffffff; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; text-decoration: none; padding: 12px 24px; border-radius: 6px; box-shadow: 0 4px 10px rgba(229, 142, 53, 0.15);">
+            ${data.packageSlug ? "View Package Details" : "Explore Tour Packages"}
           </a>
         </td>
       </tr>
@@ -381,13 +404,17 @@ export function bookingGuestTemplate(data: BookingEmailData): string {
 
   return baseTemplate(
     content,
-    `Booking received for ${data.packageName} — we will be in touch soon`,
+    isPopup
+      ? `Trip planning inquiry received — we will be in touch soon`
+      : `Booking received for ${data.packageName} — we will be in touch soon`,
     data.company,
   );
 }
 
 /** Notification email sent to the company with full booking details */
 export function bookingCompanyTemplate(data: BookingEmailData): string {
+  const isPopup = data.source === "POPUP";
+
   const hotelLabel =
     data.hotelCategory === "3star"
       ? "3 Star (Standard)"
@@ -399,31 +426,30 @@ export function bookingCompanyTemplate(data: BookingEmailData): string {
 
   const travellersText = `${data.adults} Adult${data.adults !== 1 ? "s" : ""}${data.children > 0 ? `, ${data.children} Child${data.children !== 1 ? "ren" : ""}` : ""}${data.infants > 0 ? `, ${data.infants} Infant${data.infants !== 1 ? "s" : ""}` : ""}`;
 
-  const content = `
-    <span style="font-size: 11px; font-weight: 600; color: #E58E35; text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 8px;">New Booking Inquiry</span>
-    <h2 class="heading" style="margin: 0 0 20px; font-size: 24px; font-weight: 700; color: #111111; letter-spacing: -0.5px;">${data.packageName}</h2>
+  const headerSpan = isPopup
+    ? `<span style="font-size: 11px; font-weight: 600; color: #E58E35; text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 8px;">New Popup Inquiry</span>`
+    : `<span style="font-size: 11px; font-weight: 600; color: #E58E35; text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 8px;">New Booking Inquiry</span>`;
 
-    <!-- Guest Details -->
-    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color: #fbfbfa; border: 1px solid #e8e6e2; border-radius: 8px; margin-bottom: 20px;">
-      <tr>
-        <td style="padding: 20px 24px;">
+  const packageNameText = data.packageName || "Custom Tour Planning (General Popup)";
+
+  const tourDetailsContent = isPopup
+    ? `
           <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
             ${detailsGridRow(
-              "Guest Name",
-              data.guestName,
-              "Email Address",
-              `<a href="mailto:${data.guestEmail}" style="color: #E58E35; text-decoration: none;">${data.guestEmail}</a>`,
+              "Package Interest",
+              data.packageName || "General Inquiry",
+              "Proposed Travel Date",
+              data.travelDate || "—",
             )}
-            ${detailsGridRow("Phone Number", data.guestPhone, "Submission Source", data.source)}
+            ${detailsGridRow(
+              "Number of Travellers",
+              `${data.adults} Person${data.adults !== 1 ? "s" : ""}`,
+              "",
+              "",
+            )}
           </table>
-        </td>
-      </tr>
-    </table>
-
-    <!-- Tour Details -->
-    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color: #fbfbfa; border: 1px solid #e8e6e2; border-radius: 8px; margin-bottom: 24px;">
-      <tr>
-        <td style="padding: 20px 24px;">
+    `
+    : `
           <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
             ${detailsGridRow(
               "Selected Package",
@@ -454,6 +480,34 @@ export function bookingCompanyTemplate(data: BookingEmailData): string {
                 : ""
             }
           </table>
+    `;
+
+  const content = `
+    ${headerSpan}
+    <h2 class="heading" style="margin: 0 0 20px; font-size: 24px; font-weight: 700; color: #111111; letter-spacing: -0.5px;">${packageNameText}</h2>
+
+    <!-- Guest Details -->
+    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color: #fbfbfa; border: 1px solid #e8e6e2; border-radius: 8px; margin-bottom: 20px;">
+      <tr>
+        <td style="padding: 20px 24px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+            ${detailsGridRow(
+              "Guest Name",
+              data.guestName,
+              "Email Address",
+              `<a href="mailto:${data.guestEmail}" style="color: #E58E35; text-decoration: none;">${data.guestEmail}</a>`,
+            )}
+            ${detailsGridRow("Phone Number", data.guestPhone, "Submission Source", data.source)}
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <!-- Tour Details -->
+    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color: #fbfbfa; border: 1px solid #e8e6e2; border-radius: 8px; margin-bottom: 24px;">
+      <tr>
+        <td style="padding: 20px 24px;">
+          ${tourDetailsContent}
         </td>
       </tr>
     </table>
@@ -475,6 +529,9 @@ export function bookingCompanyTemplate(data: BookingEmailData): string {
         : ""
     }
 
+    ${
+      data.packageSlug
+        ? `
     <!-- CTA Button -->
     <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 24px;">
       <tr>
@@ -485,11 +542,16 @@ export function bookingCompanyTemplate(data: BookingEmailData): string {
         </td>
       </tr>
     </table>
+    `
+        : ""
+    }
   `;
 
   return baseTemplate(
     content,
-    `NEW BOOKING: ${data.guestName} — ${data.packageName}`,
+    isPopup
+      ? `NEW POPUP INQUIRY: ${data.guestName}`
+      : `NEW BOOKING: ${data.guestName} — ${data.packageName}`,
     data.company,
   );
 }
