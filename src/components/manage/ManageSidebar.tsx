@@ -175,7 +175,7 @@ export default function ManageSidebar({ isMobileOpen, onCloseMobile }: ManageSid
             logout();
             onCloseMobile?.();
           }}
-          className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-red-600 hover:text-white border border-red-200 hover:border-red-600 hover:bg-red-600 rounded-full transition-all duration-200"
+          className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-red-600 hover:text-red-700 border border-red-100 hover:border-red-200 hover:bg-red-50/50 rounded-full transition-all duration-200"
         >
           <LogOut className="w-4 h-4" />
           <span>Sign Out</span>
