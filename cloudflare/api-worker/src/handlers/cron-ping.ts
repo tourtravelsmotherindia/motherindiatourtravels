@@ -39,8 +39,10 @@ export async function handleCronPing(
 
   // 1. Uptime check endpoints
   const websiteCheck = await pingUrl(monitoringConfig.websiteUrl);
-  const apiCheck = await pingUrl(`${monitoringConfig.apiUrl}/health`);
   const imagesCheck = await pingUrl(`${monitoringConfig.imagesUrl}/health`);
+
+  // API worker is self — if this code is running, the API is up. No need to fetch its own /health.
+  const apiUp = true;
 
   // 2. Database checks and counts (generates read activity)
   let dbSuccess = false;
@@ -88,7 +90,7 @@ export async function handleCronPing(
   let status = "healthy";
   if (!dbSuccess) {
     status = "down";
-  } else if (!websiteCheck.success || !apiCheck.success || !imagesCheck.success) {
+  } else if (!websiteCheck.success || !imagesCheck.success) {
     status = "degraded";
   }
 
@@ -100,7 +102,7 @@ export async function handleCronPing(
     status,
     lastPing: now,
     websiteStatus: websiteCheck.success ? "up" : "down",
-    apiStatus: apiCheck.success ? "up" : "down",
+    apiStatus: apiUp ? "up" : "down",
     imagesStatus: imagesCheck.success ? "up" : "down",
     dbStatus: dbSuccess ? "up" : "down",
     metadata: {
@@ -111,7 +113,7 @@ export async function handleCronPing(
       recentInquiriesCount,
       updatedBy: triggeredBy,
       websitePingTimeMs: websiteCheck.timeMs,
-      apiPingTimeMs: apiCheck.timeMs,
+      apiPingTimeMs: 0,
       imagesPingTimeMs: imagesCheck.timeMs,
       dbPingTimeMs,
     },
