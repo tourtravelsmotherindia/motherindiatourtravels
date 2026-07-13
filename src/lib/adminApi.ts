@@ -59,17 +59,48 @@ async function adminRequest<T>(path: string, options: RequestInit = {}): Promise
     headers.set("Content-Type", "application/json");
   }
 
-  const response = await fetch(`${API_BASE}${path}`, {
+  let response = await fetch(`${API_BASE}${path}`, {
     ...options,
     headers,
   });
 
   if (response.status === 401 || response.status === 403) {
-    clearTokens();
-    if (typeof window !== "undefined" && !window.location.pathname.startsWith("/manage/login")) {
-      window.location.href = `/manage/login/?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`;
+    const refreshToken = getRefreshToken();
+    if (refreshToken) {
+      try {
+        const refreshResponse = await fetch(`${API_BASE}/auth/refresh`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ refresh_token: refreshToken }),
+        });
+
+        if (refreshResponse.ok) {
+          const newTokens = (await refreshResponse.json()) as LoginResponse;
+          setTokens(newTokens.access_token, newTokens.refresh_token);
+
+          // Retry request with new token
+          headers.set("Authorization", `Bearer ${newTokens.access_token}`);
+          response = await fetch(`${API_BASE}${path}`, {
+            ...options,
+            headers,
+          });
+        }
+      } catch (err) {
+        console.error("Token auto-refresh failed:", err);
+      }
     }
-    throw new Error("Session expired. Please log in again.");
+
+    if (response.status === 401 || response.status === 403) {
+      clearTokens();
+      if (typeof window !== "undefined" && !window.location.pathname.startsWith("/manage/login")) {
+        window.location.href = `/manage/login/?redirect=${encodeURIComponent(
+          window.location.pathname + window.location.search,
+        )}`;
+      }
+      throw new Error("Session expired. Please log in again.");
+    }
   }
 
   if (response.status === 204) {

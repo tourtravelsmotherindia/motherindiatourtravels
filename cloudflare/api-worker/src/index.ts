@@ -10,7 +10,7 @@ import {
   handleAdminCrudGet,
   handleAdminCrudUpdate,
 } from "./handlers/admin-crud";
-import { handleLogin, handleSignup, handleCheckInit } from "./handlers/auth-handler";
+import { handleLogin, handleSignup, handleCheckInit, handleRefresh } from "./handlers/auth-handler";
 import {
   handleBlogsCreate,
   handleBlogsDelete,
@@ -112,6 +112,9 @@ async function route(
     }
     if (sub === "check-init" && method === "GET") {
       return handleCheckInit(request, env);
+    }
+    if (sub === "refresh" && method === "POST") {
+      return handleRefresh(request, env);
     }
   }
 

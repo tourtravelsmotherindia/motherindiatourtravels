@@ -189,6 +189,29 @@ export function createSupabaseClient(supabaseUrl: string, secretKey: string) {
         return null;
       }
     },
+
+    /**
+     * Refresh access token via Supabase Auth using a refresh token.
+     * Returns access_token + refresh_token on success.
+     */
+    async refreshToken(
+      refreshToken: string,
+    ): Promise<{ access_token: string; refresh_token: string } | null> {
+      try {
+        const res = await fetch(`${authUrl}/token?grant_type=refresh_token`, {
+          method: "POST",
+          headers: {
+            apikey: secretKey,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ refresh_token: refreshToken }),
+        });
+        if (!res.ok) return null;
+        return res.json() as Promise<{ access_token: string; refresh_token: string }>;
+      } catch {
+        return null;
+      }
+    },
   };
 }
 
