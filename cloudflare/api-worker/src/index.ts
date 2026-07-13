@@ -4,6 +4,12 @@ import {
   handleAdminContactsGet,
   handleAdminContactsUpdateStatus,
 } from "./handlers/admin";
+import {
+  handleAdminCrudCreate,
+  handleAdminCrudDelete,
+  handleAdminCrudGet,
+  handleAdminCrudUpdate,
+} from "./handlers/admin-crud";
 import { handleLogin } from "./handlers/auth-handler";
 import {
   handleBlogsCreate,
@@ -186,6 +192,12 @@ async function route(
       if (method === "GET" && !subsub) return handleAdminContactsGet(request, env);
       if (method === "PATCH" && subsub === "status")
         return handleAdminContactsUpdateStatus(request, url, env);
+    }
+    if (sub === "crud") {
+      if (method === "GET") return handleAdminCrudGet(request, url, env);
+      if (method === "POST") return handleAdminCrudCreate(request, url, env);
+      if (method === "PATCH") return handleAdminCrudUpdate(request, url, env);
+      if (method === "DELETE") return handleAdminCrudDelete(request, url, env);
     }
   }
 
