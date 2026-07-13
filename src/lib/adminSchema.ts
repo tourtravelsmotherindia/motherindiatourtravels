@@ -22,6 +22,9 @@ export interface FieldConfig {
   defaultValue?: unknown;
   placeholder?: string;
   hideInTable?: boolean;
+  // Custom labels for boolean fields — overrides "Active"/"Inactive" in table view
+  trueLabel?: string;
+  falseLabel?: string;
 }
 
 export interface TableConfig {
@@ -100,8 +103,22 @@ export const ADMIN_TABLES: Record<string, TableConfig> = {
       { name: "name", label: "Name", type: "text", required: true },
       { name: "slug", label: "Slug", type: "text", required: true, placeholder: "e.g. india" },
       { name: "continent", label: "Continent", type: "text", required: true, defaultValue: "Asia" },
-      { name: "isDomestic", label: "Is Domestic", type: "boolean", defaultValue: false },
-      { name: "isFeatured", label: "Is Featured", type: "boolean", defaultValue: false },
+      {
+        name: "isDomestic",
+        label: "Is Domestic",
+        type: "boolean",
+        defaultValue: false,
+        trueLabel: "Domestic",
+        falseLabel: "International",
+      },
+      {
+        name: "isFeatured",
+        label: "Is Featured",
+        type: "boolean",
+        defaultValue: false,
+        trueLabel: "Featured",
+        falseLabel: "Not Featured",
+      },
       { name: "capital", label: "Capital", type: "text", defaultValue: "" },
       { name: "currency", label: "Currency Code", type: "text", defaultValue: "" },
       { name: "languages", label: "Languages", type: "array-string", defaultValue: [] },
@@ -110,8 +127,17 @@ export const ADMIN_TABLES: Record<string, TableConfig> = {
         label: "Visa Required",
         type: "boolean",
         defaultValue: true,
+        trueLabel: "Required",
+        falseLabel: "Not Required",
       },
-      { name: "visaOnArrival", label: "Visa On Arrival", type: "boolean", defaultValue: false },
+      {
+        name: "visaOnArrival",
+        label: "Visa On Arrival",
+        type: "boolean",
+        defaultValue: false,
+        trueLabel: "Available",
+        falseLabel: "N/A",
+      },
       { name: "image", label: "Flag / Cover Image", type: "image", defaultValue: "" },
       {
         name: "description",
@@ -150,7 +176,14 @@ export const ADMIN_TABLES: Record<string, TableConfig> = {
         relation: { table: "countries", labelField: "name", valueField: "id" },
       },
       { name: "capital", label: "Capital", type: "text", defaultValue: "" },
-      { name: "isFeatured", label: "Is Featured", type: "boolean", defaultValue: false },
+      {
+        name: "isFeatured",
+        label: "Is Featured",
+        type: "boolean",
+        defaultValue: false,
+        trueLabel: "Featured",
+        falseLabel: "Not Featured",
+      },
       { name: "image", label: "Cover Image", type: "image", defaultValue: "", hideInTable: true },
       {
         name: "description",
@@ -204,7 +237,14 @@ export const ADMIN_TABLES: Record<string, TableConfig> = {
         type: "select",
         relation: { table: "states", labelField: "name", valueField: "id" },
       },
-      { name: "isFeatured", label: "Is Featured", type: "boolean", defaultValue: false },
+      {
+        name: "isFeatured",
+        label: "Is Featured",
+        type: "boolean",
+        defaultValue: false,
+        trueLabel: "Featured",
+        falseLabel: "Not Featured",
+      },
       { name: "bestTimeToVisit", label: "Best Time to Visit", type: "text", defaultValue: "" },
       { name: "climate", label: "Climate Info", type: "text", defaultValue: "" },
       { name: "image", label: "Cover Image", type: "image", defaultValue: "" },
@@ -354,8 +394,22 @@ export const ADMIN_TABLES: Record<string, TableConfig> = {
         defaultValue: "",
         hideInTable: true,
       },
-      { name: "isPopular", label: "Is Popular", type: "boolean", defaultValue: false },
-      { name: "isDomestic", label: "Is Domestic Package", type: "boolean", defaultValue: true },
+      {
+        name: "isPopular",
+        label: "Is Popular",
+        type: "boolean",
+        defaultValue: false,
+        trueLabel: "Popular",
+        falseLabel: "Standard",
+      },
+      {
+        name: "isDomestic",
+        label: "Is Domestic Package",
+        type: "boolean",
+        defaultValue: true,
+        trueLabel: "Domestic",
+        falseLabel: "International",
+      },
       { name: "tags", label: "Tags / Badges", type: "array-string", defaultValue: [] },
       {
         name: "countryId",
@@ -423,7 +477,14 @@ export const ADMIN_TABLES: Record<string, TableConfig> = {
       { name: "basePrice", label: "Base Price (₹)", type: "number" },
       { name: "discountedPrice", label: "Discounted Price (₹)", type: "number" },
       { name: "sortOrder", label: "Sort Order", type: "number", defaultValue: 0 },
-      { name: "isDefault", label: "Is Default Variant", type: "boolean", defaultValue: false },
+      {
+        name: "isDefault",
+        label: "Is Default Variant",
+        type: "boolean",
+        defaultValue: false,
+        trueLabel: "Default",
+        falseLabel: "Optional",
+      },
       {
         name: "heroImage",
         label: "Variant Image Override",
@@ -594,8 +655,22 @@ export const ADMIN_TABLES: Record<string, TableConfig> = {
         hideInTable: true,
       },
       { name: "readingTimeMinutes", label: "Reading Time (mins)", type: "number", defaultValue: 5 },
-      { name: "isPublished", label: "Is Published", type: "boolean", defaultValue: false },
-      { name: "isFeatured", label: "Is Featured Article", type: "boolean", defaultValue: false },
+      {
+        name: "isPublished",
+        label: "Is Published",
+        type: "boolean",
+        defaultValue: false,
+        trueLabel: "Published",
+        falseLabel: "Draft",
+      },
+      {
+        name: "isFeatured",
+        label: "Is Featured Article",
+        type: "boolean",
+        defaultValue: false,
+        trueLabel: "Featured",
+        falseLabel: "Not Featured",
+      },
       { name: "tags", label: "Tags / Labels", type: "array-string", defaultValue: [] },
       {
         name: "destinationId",
@@ -738,7 +813,14 @@ export const ADMIN_TABLES: Record<string, TableConfig> = {
     fields: [
       { name: "email", label: "Subscriber Email", type: "text", required: true },
       { name: "name", label: "Subscriber Name", type: "text", defaultValue: "" },
-      { name: "isVerified", label: "Verified Subscriber", type: "boolean", defaultValue: false },
+      {
+        name: "isVerified",
+        label: "Verified Subscriber",
+        type: "boolean",
+        defaultValue: false,
+        trueLabel: "Verified",
+        falseLabel: "Unverified",
+      },
     ],
   },
   testimonials: {
@@ -760,12 +842,21 @@ export const ADMIN_TABLES: Record<string, TableConfig> = {
       },
       { name: "packageName", label: "Loose Package Text Label", type: "text", defaultValue: "" },
       { name: "source", label: "Review Platform Source", type: "text", defaultValue: "Google" },
-      { name: "isApproved", label: "Is Approved", type: "boolean", defaultValue: true },
+      {
+        name: "isApproved",
+        label: "Is Approved",
+        type: "boolean",
+        defaultValue: true,
+        trueLabel: "Approved",
+        falseLabel: "Pending",
+      },
       {
         name: "isFeatured",
         label: "Is Featured Testimonial",
         type: "boolean",
         defaultValue: false,
+        trueLabel: "Featured",
+        falseLabel: "Not Featured",
       },
     ],
   },

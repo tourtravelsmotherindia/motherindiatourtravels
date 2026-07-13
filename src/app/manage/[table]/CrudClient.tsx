@@ -223,17 +223,17 @@ export default function CrudClient({ table }: CrudClientProps) {
 
     if (value === null || value === undefined) return "-";
 
-    // 1. Boolean check
+    // 1. Boolean check — uses trueLabel/falseLabel from schema, falls back to "Active"/"Inactive"
     if (field.type === "boolean") {
       return value ? (
         <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-600">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
-          Active
+          {field.trueLabel || "Active"}
         </span>
       ) : (
         <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-red-500">
           <span className="w-1.5 h-1.5 rounded-full bg-red-400 shrink-0" />
-          Inactive
+          {field.falseLabel || "Inactive"}
         </span>
       );
     }
