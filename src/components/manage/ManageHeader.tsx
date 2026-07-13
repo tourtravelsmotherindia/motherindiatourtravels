@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
+import ConfirmationModal from "@/components/ui/ConfirmationModal";
 import { useToast } from "@/context/ToastContext";
 import { adminGet, adminPost } from "@/lib/adminApi";
 import { ADMIN_TABLES } from "@/lib/adminSchema";
@@ -27,6 +28,7 @@ export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHe
   const { showToast } = useToast();
   const [deployState, setDeployState] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [deployStatus, setDeployStatus] = useState<DeployStatus | null>(null);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -249,7 +251,7 @@ export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHe
           )}
 
           <button
-            onClick={handleDeployTrigger}
+            onClick={() => setIsConfirmOpen(true)}
             disabled={!!isDeploying}
             className="flex items-center gap-2 text-xs text-white bg-brand hover:bg-brand-hover disabled:bg-neutral-100 disabled:text-neutral-400 disabled:border-neutral-200 px-4 py-1.5 rounded-full font-semibold border border-brand disabled:border-neutral-200 transition-all duration-200 disabled:cursor-not-allowed cursor-pointer animate-in fade-in zoom-in-95 duration-200"
           >
@@ -264,6 +266,24 @@ export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHe
               {deployState === "error" && "Trigger Failed"}
             </span>
           </button>
+
+          <ConfirmationModal
+            isOpen={isConfirmOpen}
+            title="Deploy Website?"
+            message="Are you sure you want to trigger a manual deployment? This will rebuild the static website and upload all updated assets to the server."
+            confirmLabel="Deploy Now"
+            cancelLabel="Cancel"
+            onConfirm={() => {
+              setIsConfirmOpen(false);
+              handleDeployTrigger();
+            }}
+            onCancel={() => setIsConfirmOpen(false)}
+            icon={
+              <div className="w-12 h-12 rounded-full bg-brand-light text-brand flex items-center justify-center border border-brand/10">
+                <CloudLightning className="w-5 h-5" />
+              </div>
+            }
+          />
 
           <div className="flex items-center gap-2 text-xs text-neutral-500 bg-neutral-100 px-3.5 py-1.5 rounded-full font-medium border border-neutral-200">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
