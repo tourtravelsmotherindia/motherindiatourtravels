@@ -82,10 +82,31 @@ export default function CrudClient({ table }: CrudClientProps) {
 
         try {
           const relRecords = await getRecords<Record<string, unknown>>(rel.table);
+
+          const packagesMap: Record<string, string> = {};
+          if (rel.table === "package-variants") {
+            try {
+              const packages = await getRecords<Record<string, unknown>>("packages");
+              packages.forEach((pkg) => {
+                packagesMap[String(pkg.id)] = String(pkg.name);
+              });
+            } catch (err) {
+              console.error("Failed to fetch packages for variants cache mapping:", err);
+            }
+          }
+
           const cache: Record<string, string> = {};
           relRecords.forEach((rec) => {
-            cache[(rec[rel.valueField] || rec.id) as string] = (rec[rel.labelField] ||
-              rec.id) as string;
+            const variantId = (rec[rel.valueField] || rec.id) as string;
+            let label = (rec[rel.labelField] || rec.id) as string;
+
+            if (rel.table === "package-variants") {
+              const packageId = String(rec.packageId || "");
+              const packageName = packagesMap[packageId] || "Unknown Package";
+              label = `${packageName} - ${label}`;
+            }
+
+            cache[variantId] = label;
           });
           setRelationCache((prev) => ({
             ...prev,

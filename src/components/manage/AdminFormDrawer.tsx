@@ -8,8 +8,14 @@ import Dropdown from "@/components/ui/Dropdown";
 import { useToast } from "@/context/ToastContext";
 import { createRecord, getRecord, getRecords, updateRecord } from "@/lib/adminApi";
 import { ADMIN_TABLES, FieldConfig } from "@/lib/adminSchema";
+import { type AboutData, type WorkingHoursSchedule } from "@/types/company";
 
+import AboutJsonEditor from "./AboutJsonEditor";
+import ExceptionsJsonEditor, { type HolidayException } from "./ExceptionsJsonEditor";
+import GenericJsonEditor from "./GenericJsonEditor";
 import ImageUploadInput from "./ImageUploadInput";
+import ScheduleJsonEditor from "./ScheduleJsonEditor";
+import SocialMediaJsonEditor from "./SocialMediaJsonEditor";
 
 interface AdminFormDrawerProps {
   table: string;
@@ -43,6 +49,14 @@ export default function AdminFormDrawer({
         defaults[f.name] = false;
       } else if (f.type === "array-string" || f.type === "images-list") {
         defaults[f.name] = [];
+      } else if (f.type === "json") {
+        if (f.name === "about") {
+          defaults[f.name] = {};
+        } else if (f.name === "schedule" || f.name === "exceptions") {
+          defaults[f.name] = [];
+        } else {
+          defaults[f.name] = {};
+        }
       } else {
         defaults[f.name] = "";
       }
@@ -77,12 +91,23 @@ export default function AdminFormDrawer({
         // Parse array/json fields if needed (API worker handles it, but let's make sure it fits inputs)
         const parsedData = { ...data };
         fields.forEach((f) => {
-          if (
-            f.type === "json" &&
-            typeof parsedData[f.name] === "object" &&
-            parsedData[f.name] !== null
-          ) {
-            parsedData[f.name] = JSON.stringify(parsedData[f.name], null, 2);
+          if (f.type === "json") {
+            const val = parsedData[f.name];
+            if (typeof val === "string" && val.trim()) {
+              try {
+                parsedData[f.name] = JSON.parse(val);
+              } catch {
+                parsedData[f.name] = null;
+              }
+            } else if (typeof val !== "object" || val === null) {
+              if (f.name === "about") {
+                parsedData[f.name] = {};
+              } else if (f.name === "schedule" || f.name === "exceptions") {
+                parsedData[f.name] = [];
+              } else {
+                parsedData[f.name] = {};
+              }
+            }
           }
         });
 
@@ -108,10 +133,32 @@ export default function AdminFormDrawer({
         if (!field.relation) continue;
         try {
           const records = await getRecords<Record<string, unknown>>(field.relation.table);
-          const options = records.map((rec) => ({
-            label: String(rec[field.relation!.labelField] || rec.id || "Unnamed"),
-            value: (rec[field.relation!.valueField] || rec.id) as string | number | boolean,
-          }));
+
+          const packagesMap: Record<string, string> = {};
+          if (field.relation.table === "package-variants") {
+            try {
+              const packages = await getRecords<Record<string, unknown>>("packages");
+              packages.forEach((pkg) => {
+                packagesMap[String(pkg.id)] = String(pkg.name);
+              });
+            } catch (err) {
+              console.error("Failed to fetch packages for variants mapping:", err);
+            }
+          }
+
+          const options = records.map((rec) => {
+            let label = String(rec[field.relation!.labelField] || rec.id || "Unnamed");
+            if (field.relation!.table === "package-variants") {
+              const packageId = String(rec.packageId || "");
+              const packageName = packagesMap[packageId] || "Unknown Package";
+              label = `${packageName} - ${label}`;
+            }
+            return {
+              label,
+              value: (rec[field.relation!.valueField] || rec.id) as string | number | boolean,
+            };
+          });
+
           setRelationOptions((prev) => ({
             ...prev,
             [field.name]: options,
@@ -180,16 +227,20 @@ export default function AdminFormDrawer({
     const processedData = { ...formData };
     for (const f of fields) {
       if (f.type === "json") {
-        const rawJsonString = formData[f.name];
-        if (typeof rawJsonString === "string" && rawJsonString.trim()) {
-          try {
-            processedData[f.name] = JSON.parse(rawJsonString);
-          } catch {
-            showToast("error", "Syntax Error", `Invalid JSON structure in field "${f.label}".`);
-            return;
+        const val = formData[f.name];
+        if (typeof val === "string") {
+          if (val.trim()) {
+            try {
+              processedData[f.name] = JSON.parse(val);
+            } catch {
+              showToast("error", "Syntax Error", `Invalid JSON structure in field "${f.label}".`);
+              return;
+            }
+          } else {
+            processedData[f.name] = null;
           }
-        } else if (typeof rawJsonString !== "object") {
-          processedData[f.name] = null;
+        } else {
+          processedData[f.name] = val;
         }
       }
 
@@ -461,18 +512,43 @@ export default function AdminFormDrawer({
         );
 
       case "json":
+        const jsonVal = formData[field.name];
         return (
           <div key={field.name} className="w-full">
-            <label className="block text-xs font-semibold text-neutral-600 uppercase mb-2">
-              {field.label} (Must be valid JSON object/array)
-            </label>
-            <textarea
-              rows={6}
-              value={(formData[field.name] as string | undefined) ?? ""}
-              onChange={(e) => handleInputChange(field.name, e.target.value)}
-              placeholder='e.g. { "facebook": "https://..." }'
-              className="w-full rounded-[1.5rem] border border-border-light px-5 py-3 text-sm bg-neutral-50 font-mono focus:border-brand focus:outline-none transition-colors"
-            />
+            {field.name === "about" && (
+              <AboutJsonEditor
+                value={jsonVal as AboutData | null | undefined}
+                onChange={(val) => handleInputChange(field.name, val)}
+              />
+            )}
+            {field.name === "schedule" && (
+              <ScheduleJsonEditor
+                value={jsonVal as WorkingHoursSchedule[] | null | undefined}
+                onChange={(val) => handleInputChange(field.name, val)}
+              />
+            )}
+            {field.name === "exceptions" && (
+              <ExceptionsJsonEditor
+                value={jsonVal as HolidayException[] | null | undefined}
+                onChange={(val) => handleInputChange(field.name, val)}
+              />
+            )}
+            {field.name === "socialMedia" && (
+              <SocialMediaJsonEditor
+                value={jsonVal as Record<string, string> | null | undefined}
+                onChange={(val) => handleInputChange(field.name, val)}
+              />
+            )}
+            {field.name !== "about" &&
+              field.name !== "schedule" &&
+              field.name !== "exceptions" &&
+              field.name !== "socialMedia" && (
+                <GenericJsonEditor
+                  label={field.label}
+                  value={jsonVal as Record<string, unknown> | unknown[] | null | undefined}
+                  onChange={(val) => handleInputChange(field.name, val)}
+                />
+              )}
           </div>
         );
 
