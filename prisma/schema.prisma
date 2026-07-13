@@ -529,3 +529,20 @@ model User {
   @@index([email])
 }
 
+// SYSTEM & MONITORING GROUP
+
+// Singleton record (id = "singleton") for system monitoring, health checks, and dashboard metrics.
+// Updated regularly by background cron/worker tasks to prevent database pausing and track health.
+model SystemStatus {
+  id            String   @id @default("singleton")
+  status        String   @default("healthy") // overall system status
+  lastPing      DateTime @default(now())
+  websiteStatus String   @default("up")
+  apiStatus     String   @default("up")
+  imagesStatus  String   @default("up")
+  dbStatus      String   @default("up")
+  metadata      Json?    // Detailed metrics and health check timestamps
+  updatedAt     DateTime @updatedAt
+}
+
+

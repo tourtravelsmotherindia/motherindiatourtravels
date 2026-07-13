@@ -87,3 +87,11 @@ Captures analytics, customer inquiries, reviews, and office contact information.
 - **NewsletterSubscriber**: Tracks mailing list signups.
 - **Company**: Singleton record mapping corporate contact profiles, WhatsApp contact links, social profiles, and operational hours.
 - **Testimonial**: Customer feedback entries sourced externally (e.g., Google Reviews) and filtered by approval flags.
+
+---
+
+## 5. System & Monitoring Module
+
+Monitors infrastructure health and keeps the Supabase instance active.
+
+- **SystemStatus**: Singleton record (`id = "singleton"`) storing operational health metrics for the website, API worker, images worker, and database. It tracks latency and records the last keep-alive sync execution timestamp.

@@ -299,6 +299,25 @@ To avoid database read overhead during automated email dispatch, the contact and
 
 ---
 
+## Step 11 — System Status Monitoring Configuration
+
+To ensure the Supabase free tier database remains active and monitor overall system health, the API worker runs an hourly cron trigger to query database counts and check endpoint response times. Uptime check endpoints are configured in a static `monitoring.json` file inside the API worker source.
+
+### How to configure monitoring targets:
+
+1. Locate the file: [monitoring.json](file://./api-worker/src/monitoring.json)
+2. Update the target URLs as needed:
+   ```json
+   {
+     "websiteUrl": "https://beta.motherindiatourtravels.com",
+     "apiUrl": "https://api.motherindiatourtravels.com",
+     "imagesUrl": "https://images.motherindiatourtravels.com"
+   }
+   ```
+3. Save the file and redeploy the API worker. The Cloudflare Workers hourly cron trigger will automatically read these targets and run ping tests, writing the results into the `SystemStatus` table.
+
+---
+
 ## Secrets & Config Summary
 
 | Variable              | Location                   | Description                                  |

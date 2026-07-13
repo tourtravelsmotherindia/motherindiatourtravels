@@ -29,6 +29,7 @@ const TABLE_MAP: Record<string, string> = {
   "package-destinations": "PackageDestination",
   "package-categories": "PackageCategory",
   "package-attractions": "PackageAttraction",
+  "system-status": "SystemStatus",
 };
 
 // Check if table has standard ID column
@@ -50,6 +51,7 @@ const TABLES_WITH_UPDATED_AT = [
   "BookingInquiry",
   "Company",
   "User",
+  "SystemStatus",
 ];
 
 // Resolves table name or returns error response

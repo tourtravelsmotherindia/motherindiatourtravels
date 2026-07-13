@@ -1,16 +1,24 @@
 "use client";
 
 import {
+  AlertTriangle,
   ArrowRight,
   ArrowUpRight,
+  CheckCircle2,
   Clock,
   Compass,
+  Database,
   FileText,
+  Globe,
+  HardDrive,
   Loader2,
   Mail,
+  Network,
   Package,
   Receipt,
+  RefreshCw,
   TrendingUp,
+  XCircle,
 } from "lucide-react";
 
 interface BookingItem {
@@ -30,7 +38,8 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 import { useToast } from "@/context/ToastContext";
-import { getRecords } from "@/lib/adminApi";
+import { adminPost, getRecord, getRecords } from "@/lib/adminApi";
+import type { SystemStatus } from "@/types/system-status";
 
 interface MetricCardProps {
   title: string;
@@ -78,17 +87,23 @@ export default function DashboardOverview() {
   });
   const [recentBookings, setRecentBookings] = useState<BookingItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [systemStatus, setSystemStatus] = useState<SystemStatus | null>(null);
+  const [pinging, setPinging] = useState<boolean>(false);
 
   useEffect(() => {
     const loadDashboardData = async () => {
       try {
         setLoading(true);
-        // Fetch counts from CRUD tables
-        const [bookings, packages, blogs, contacts] = await Promise.all([
+        // Fetch counts and system status
+        const [bookings, packages, blogs, contacts, statusRecord] = await Promise.all([
           getRecords<BookingItem>("bookings"),
           getRecords<unknown>("packages"),
           getRecords<unknown>("blog-posts"),
           getRecords<unknown>("contacts"),
+          getRecord<SystemStatus>("system-status", "singleton").catch((e) => {
+            console.error("Failed to fetch system status:", e);
+            return null;
+          }),
         ]);
 
         const newBookingsCount = bookings.filter((b) => b.status === "NEW").length;
@@ -100,6 +115,8 @@ export default function DashboardOverview() {
           blogsCount: blogs.length,
           contactsCount: contacts.length,
         });
+
+        setSystemStatus(statusRecord);
 
         // Set top 5 recent bookings
         const sorted = [...bookings].sort(
@@ -118,6 +135,28 @@ export default function DashboardOverview() {
 
     loadDashboardData();
   }, [showToast]);
+
+  const handleManualPing = async () => {
+    try {
+      setPinging(true);
+      const response = await adminPost<{ success: boolean; data: SystemStatus; error?: string }>(
+        "/admin/system-status/ping",
+        {},
+      );
+      if (response && response.success) {
+        showToast("success", "System Diagnostic", "Uptime status updated successfully!");
+        setSystemStatus(response.data);
+      } else {
+        throw new Error(response?.error || "Diagnostics failed");
+      }
+    } catch (err: unknown) {
+      console.error("Diagnostic check failed:", err);
+      const errMsg = err instanceof Error ? err.message : "Failed to trigger system status check.";
+      showToast("error", "System Diagnostic", errMsg);
+    } finally {
+      setPinging(false);
+    }
+  };
 
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -304,32 +343,165 @@ export default function DashboardOverview() {
           </div>
         </div>
 
-        {/* Quick Shortcuts */}
-        <div className="bg-white rounded-[2rem] border border-border-light p-6 md:p-8">
-          <h3 className="text-base font-bold font-display text-foreground mb-6">Quick Actions</h3>
-          <div className="space-y-4">
-            {quickShortcuts.map((sc, idx) => (
-              <Link
-                key={idx}
-                href={sc.href}
-                className="flex items-center gap-4 p-3 rounded-[1.5rem] border border-border-light hover:border-brand hover:bg-brand-light/30 transition-all duration-200 group"
-              >
-                <div
-                  className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${sc.color}`}
+        {/* Actions & System Column */}
+        <div className="space-y-8">
+          {/* Quick Shortcuts */}
+          <div className="bg-white rounded-[2rem] border border-border-light p-6 md:p-8">
+            <h3 className="text-base font-bold font-display text-foreground mb-6">Quick Actions</h3>
+            <div className="space-y-4">
+              {quickShortcuts.map((sc, idx) => (
+                <Link
+                  key={idx}
+                  href={sc.href}
+                  className="flex items-center gap-4 p-3 rounded-[1.5rem] border border-border-light hover:border-brand hover:bg-brand-light/30 transition-all duration-200 group"
                 >
-                  {sc.icon}
+                  <div
+                    className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${sc.color}`}
+                  >
+                    {sc.icon}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-xs font-bold text-neutral-800 group-hover:text-brand transition-colors">
+                      {sc.title}
+                    </h4>
+                    <p className="text-[10px] text-neutral-400 mt-0.5 font-medium truncate">
+                      {sc.desc}
+                    </p>
+                  </div>
+                  <ArrowUpRight className="w-4 h-4 text-neutral-300 group-hover:text-brand transition-colors mr-1" />
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* System Status & Uptime Monitoring */}
+          <div className="bg-white rounded-[2rem] border border-border-light p-6 md:p-8 space-y-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-base font-bold font-display text-foreground">System Health</h3>
+                <p className="text-xs text-neutral-400 mt-0.5 font-medium">Real-time diagnostics</p>
+              </div>
+              <button
+                onClick={handleManualPing}
+                disabled={pinging || loading}
+                className="p-2 rounded-full border border-border-light text-neutral-500 hover:text-brand hover:border-brand hover:bg-brand-light/30 transition-all duration-200 disabled:opacity-50 cursor-pointer"
+                title="Run diagnostic check"
+              >
+                <RefreshCw className={`w-4 h-4 ${pinging ? "animate-spin text-brand" : ""}`} />
+              </button>
+            </div>
+
+            {loading ? (
+              <div className="py-6 flex justify-center">
+                <Loader2 className="w-5 h-5 text-brand animate-spin" />
+              </div>
+            ) : !systemStatus ? (
+              <div className="py-4 text-center text-xs text-neutral-400 font-medium italic border border-dashed border-border-light rounded-[1.5rem]">
+                No status data available. Click reload to check.
+              </div>
+            ) : (
+              <div className="space-y-5">
+                {/* Overall Banner */}
+                <div
+                  className={`flex items-center gap-3 p-4 rounded-[1.5rem] border ${
+                    systemStatus.status === "healthy"
+                      ? "bg-emerald-50 text-emerald-800 border-emerald-100/50"
+                      : systemStatus.status === "degraded"
+                        ? "bg-amber-50 text-amber-800 border-amber-100/50"
+                        : "bg-red-50 text-red-800 border-red-100/50"
+                  }`}
+                >
+                  {systemStatus.status === "healthy" ? (
+                    <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0" />
+                  ) : systemStatus.status === "degraded" ? (
+                    <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0" />
+                  ) : (
+                    <XCircle className="w-5 h-5 text-red-600 flex-shrink-0" />
+                  )}
+                  <div className="text-xs font-semibold">
+                    <p className="font-bold">
+                      {systemStatus.status === "healthy"
+                        ? "All Systems Operational"
+                        : systemStatus.status === "degraded"
+                          ? "Performance Degraded"
+                          : "Service Outage Detected"}
+                    </p>
+                    <p className="text-[9px] opacity-80 mt-0.5 font-normal">
+                      Sync agent: {systemStatus.metadata?.updatedBy || "system-cron"}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <h4 className="text-xs font-bold text-neutral-800 group-hover:text-brand transition-colors">
-                    {sc.title}
-                  </h4>
-                  <p className="text-[10px] text-neutral-400 mt-0.5 font-medium truncate">
-                    {sc.desc}
-                  </p>
+
+                {/* Individual Services */}
+                <div className="space-y-3">
+                  {[
+                    {
+                      name: "Supabase Postgres DB",
+                      status: systemStatus.dbStatus,
+                      latency: systemStatus.metadata?.dbPingTimeMs,
+                      icon: <Database className="w-4 h-4" />,
+                    },
+                    {
+                      name: "Public Static Website",
+                      status: systemStatus.websiteStatus,
+                      latency: systemStatus.metadata?.websitePingTimeMs,
+                      icon: <Globe className="w-4 h-4" />,
+                    },
+                    {
+                      name: "Cloudflare API Worker",
+                      status: systemStatus.apiStatus,
+                      latency: systemStatus.metadata?.apiPingTimeMs,
+                      icon: <Network className="w-4 h-4" />,
+                    },
+                    {
+                      name: "Cloudflare Images Worker",
+                      status: systemStatus.imagesStatus,
+                      latency: systemStatus.metadata?.imagesPingTimeMs,
+                      icon: <HardDrive className="w-4 h-4" />,
+                    },
+                  ].map((service, idx) => (
+                    <div
+                      key={idx}
+                      className="flex items-center justify-between p-3 rounded-[1.2rem] border border-border-light hover:bg-neutral-50/50 transition-all text-xs font-medium"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="text-neutral-400">{service.icon}</div>
+                        <span className="text-neutral-700 font-semibold">{service.name}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {service.latency !== undefined && service.status === "up" && (
+                          <span className="text-[10px] text-neutral-400">{service.latency}ms</span>
+                        )}
+                        <span
+                          className={`inline-flex px-2 py-0.5 text-[9px] font-bold rounded-full border ${
+                            service.status === "up"
+                              ? "bg-emerald-50 text-emerald-600 border-emerald-100"
+                              : "bg-red-50 text-red-600 border-red-100"
+                          }`}
+                        >
+                          {service.status === "up" ? "Online" : "Offline"}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <ArrowUpRight className="w-4 h-4 text-neutral-300 group-hover:text-brand transition-colors mr-1" />
-              </Link>
-            ))}
+
+                {/* Footer Sync Time */}
+                <div className="flex items-center justify-between text-[9px] text-neutral-400 font-semibold pt-2 border-t border-border-light">
+                  <span className="flex items-center gap-1">
+                    <Clock className="w-3.5 h-3.5" />
+                    Last diagnostic:
+                  </span>
+                  <span>
+                    {new Date(systemStatus.lastPing).toLocaleTimeString("en-IN", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      second: "2-digit",
+                    })}
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

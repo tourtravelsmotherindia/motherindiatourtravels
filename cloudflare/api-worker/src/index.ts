@@ -58,6 +58,11 @@ import {
 import { handleUpload } from "./handlers/upload";
 import { handleOptions, withCors } from "./middleware/cors";
 import type { Env } from "./types";
+import {
+  handleCronPing,
+  handleCronPingRequest,
+  handleAdminSystemStatusPing,
+} from "./handlers/cron-ping";
 
 export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
@@ -78,6 +83,10 @@ export default {
     }
 
     return withCors(response, env.ALLOWED_ORIGIN, origin, env.ENVIRONMENT);
+  },
+
+  async scheduled(controller: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
+    ctx.waitUntil(handleCronPing(env));
   },
 } satisfies ExportedHandler<Env>;
 
@@ -102,6 +111,11 @@ async function route(
       environment: env.ENVIRONMENT || "production",
       timestamp: Date.now(),
     });
+  }
+
+  // Keep Alive / Health Cron
+  if (resource === "cron-ping" && (method === "GET" || method === "POST")) {
+    return handleCronPingRequest(request, env);
   }
 
   // Auth
@@ -217,6 +231,9 @@ async function route(
       if (method === "POST") return handleAdminCrudCreate(request, url, env);
       if (method === "PATCH") return handleAdminCrudUpdate(request, url, env);
       if (method === "DELETE") return handleAdminCrudDelete(request, url, env);
+    }
+    if (sub === "system-status" && subsub === "ping" && method === "POST") {
+      return handleAdminSystemStatusPing(request, env);
     }
   }
 

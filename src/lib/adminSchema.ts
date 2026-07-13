@@ -73,7 +73,14 @@ export const ADMIN_SIDEBAR_GROUPS: SidebarGroup[] = [
   },
   {
     name: "Leads & System",
-    items: ["bookings", "contacts", "subscribers", "users", "destination-neighbours"],
+    items: [
+      "bookings",
+      "contacts",
+      "subscribers",
+      "users",
+      "destination-neighbours",
+      "system-status",
+    ],
   },
 ];
 
@@ -917,6 +924,43 @@ export const ADMIN_TABLES: Record<string, TableConfig> = {
         required: true,
         relation: { table: "attractions", labelField: "name", valueField: "id" },
       },
+    ],
+  },
+  "system-status": {
+    slug: "system-status",
+    label: "System Status",
+    dbName: "SystemStatus",
+    icon: "Network",
+    displayColumns: [
+      "id",
+      "status",
+      "lastPing",
+      "websiteStatus",
+      "apiStatus",
+      "imagesStatus",
+      "dbStatus",
+    ],
+    fields: [
+      {
+        name: "id",
+        label: "ID (singleton)",
+        type: "text",
+        required: true,
+        defaultValue: "singleton",
+      },
+      {
+        name: "status",
+        label: "Overall Status",
+        type: "text",
+        required: true,
+        defaultValue: "healthy",
+      },
+      { name: "lastPing", label: "Last Ping", type: "datetime" },
+      { name: "websiteStatus", label: "Website Status", type: "text", defaultValue: "up" },
+      { name: "apiStatus", label: "API Status", type: "text", defaultValue: "up" },
+      { name: "imagesStatus", label: "Images Status", type: "text", defaultValue: "up" },
+      { name: "dbStatus", label: "Database Status", type: "text", defaultValue: "up" },
+      { name: "metadata", label: "System Metrics Metadata (JSON)", type: "json" },
     ],
   },
 };
