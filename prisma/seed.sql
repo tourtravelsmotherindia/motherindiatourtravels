@@ -694,9 +694,9 @@ BEGIN
     NOW(), NOW(), NOW()
   ) ON CONFLICT ("id") DO UPDATE SET "name" = EXCLUDED."name", "overview" = EXCLUDED."overview", "heroImage" = EXCLUDED."heroImage";
 
+  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, beach_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, north_cat) ON CONFLICT DO NOTHING;
-  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, beach_cat) ON CONFLICT DO NOTHING;
 
   -- Variant 6n-7d
   var_id := gen_random_uuid();
@@ -757,9 +757,9 @@ BEGIN
     NOW(), NOW(), NOW()
   ) ON CONFLICT ("id") DO UPDATE SET "name" = EXCLUDED."name", "overview" = EXCLUDED."overview", "heroImage" = EXCLUDED."heroImage";
 
-  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, beach_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, south_cat) ON CONFLICT DO NOTHING;
+  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
 
   -- Variant 4n-5d
   var_id := gen_random_uuid();
@@ -850,9 +850,9 @@ BEGIN
     NOW(), NOW(), NOW()
   ) ON CONFLICT ("id") DO UPDATE SET "name" = EXCLUDED."name", "overview" = EXCLUDED."overview", "heroImage" = EXCLUDED."heroImage";
 
-  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, beach_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, south_cat) ON CONFLICT DO NOTHING;
+  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
 
   -- Variant 2n-3d
   var_id := gen_random_uuid();
@@ -896,7 +896,7 @@ BEGIN
     FALSE, TRUE,
     ARRAY['srinagar', 'gulmarg', 'pahalgam'],
     india_id,
-    jammu_kashmir_state,
+    jk_state,
     'Charming Kashmir Tour | Mother India Tour Travels',
     'Explore the beautiful sights of Charming Kashmir Tour. This package offers a comprehensive day-wise itinerary, comfortable stays, and private transfer',
     ARRAY['srinagar', 'gulmarg', 'pahalgam'],
@@ -2172,8 +2172,8 @@ BEGIN
   ) ON CONFLICT ("id") DO UPDATE SET "name" = EXCLUDED."name", "overview" = EXCLUDED."overview", "heroImage" = EXCLUDED."heroImage";
 
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
-  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, wild_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, north_cat) ON CONFLICT DO NOTHING;
+  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, wild_cat) ON CONFLICT DO NOTHING;
 
   -- Variant 4n-5d
   var_id := gen_random_uuid();
@@ -2576,7 +2576,7 @@ BEGIN
     FALSE, TRUE,
     ARRAY['jaipur', 'agra', 'khajuraho', 'varanasi', 'delhi', 'shimla', 'kullu', 'manali', 'ayodhya', 'goa'],
     india_id,
-    rajasthan_state,
+    raj_state,
     'Unveiling India''s Rich Heritage | Mother India Tour Travels',
     'Explore the beautiful sights of Unveiling India''s Rich Heritage. This package offers a comprehensive day-wise itinerary, comfortable stays, and privat',
     ARRAY['jaipur', 'agra', 'khajuraho', 'varanasi', 'delhi', 'shimla', 'kullu', 'manali', 'ayodhya', 'goa'],
@@ -2801,8 +2801,8 @@ BEGIN
   ) ON CONFLICT ("id") DO UPDATE SET "name" = EXCLUDED."name", "overview" = EXCLUDED."overview", "heroImage" = EXCLUDED."heroImage";
 
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
-  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, wild_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, north_cat) ON CONFLICT DO NOTHING;
+  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, wild_cat) ON CONFLICT DO NOTHING;
 
   -- Variant 5n-6d
   var_id := gen_random_uuid();
@@ -2854,7 +2854,7 @@ BEGIN
     FALSE, TRUE,
     ARRAY['agra', 'khajuraho', 'varanasi', 'delhi', 'mandawa', 'bikaner', 'jaisalmer', 'jodhpur', 'udaipur', 'pushkar', 'jaipur'],
     india_id,
-    uttar_pradesh_state,
+    up_state,
     'Rajasthan Tour Agra & Khajuraho Varanasi Ex. Delhi | Mother India Tour Travels',
     'Explore the beautiful sights of Rajasthan Tour Agra & Khajuraho Varanasi Ex. Delhi. This package offers a comprehensive day-wise itinerary, comfortabl',
     ARRAY['agra', 'khajuraho', 'varanasi', 'delhi', 'mandawa', 'bikaner', 'jaisalmer', 'jodhpur', 'udaipur', 'pushkar', 'jaipur'],
@@ -3135,7 +3135,7 @@ BEGIN
     FALSE, TRUE,
     ARRAY['khajuraho', 'varanasi', 'delhi', 'jaipur', 'agra'],
     india_id,
-    madhya_pradesh_state,
+    mp_state,
     'Golden Triangle Tour Khajuraho Varanasi | Mother India Tour Travels',
     'Explore the beautiful sights of Delhi | Jaipur | Agra | Khajuraho | Varanasi |. This package offers a comprehensive day-wise itinerary, comfortable st',
     ARRAY['khajuraho', 'varanasi', 'delhi', 'jaipur', 'agra'],
@@ -3379,8 +3379,8 @@ BEGIN
     NOW(), NOW(), NOW()
   ) ON CONFLICT ("id") DO UPDATE SET "name" = EXCLUDED."name", "overview" = EXCLUDED."overview", "heroImage" = EXCLUDED."heroImage";
 
-  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, int_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, beach_cat) ON CONFLICT DO NOTHING;
+  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, int_cat) ON CONFLICT DO NOTHING;
 
   -- Variant 4n-5d
   var_id := gen_random_uuid();
@@ -3573,8 +3573,8 @@ BEGIN
   ) ON CONFLICT ("id") DO UPDATE SET "name" = EXCLUDED."name", "overview" = EXCLUDED."overview", "heroImage" = EXCLUDED."heroImage";
 
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
-  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, wild_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, north_cat) ON CONFLICT DO NOTHING;
+  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, wild_cat) ON CONFLICT DO NOTHING;
 
   -- Variant 5n-6d
   var_id := gen_random_uuid();
@@ -4167,16 +4167,16 @@ BEGIN
     FALSE, TRUE,
     ARRAY['srinagar', 'pahalgam', 'gulmarg'],
     india_id,
-    jammu_kashmir_state,
+    jk_state,
     'Srinagar Pahalgam Gulmarg | Mother India Tour Travels',
     'Explore the beautiful sights of Srinagar Pahalgam Gulmarg. This package offers a comprehensive day-wise itinerary, comfortable stays, and private tran',
     ARRAY['srinagar', 'pahalgam', 'gulmarg'],
     NOW(), NOW(), NOW()
   ) ON CONFLICT ("id") DO UPDATE SET "name" = EXCLUDED."name", "overview" = EXCLUDED."overview", "heroImage" = EXCLUDED."heroImage";
 
+  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, beach_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, north_cat) ON CONFLICT DO NOTHING;
-  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, beach_cat) ON CONFLICT DO NOTHING;
 
   -- Variant 2n-3d
   var_id := gen_random_uuid();
@@ -4228,8 +4228,8 @@ BEGIN
   ) ON CONFLICT ("id") DO UPDATE SET "name" = EXCLUDED."name", "overview" = EXCLUDED."overview", "heroImage" = EXCLUDED."heroImage";
 
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, raj_cat) ON CONFLICT DO NOTHING;
-  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, south_cat) ON CONFLICT DO NOTHING;
+  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
 
   -- Variant 5n-6d
   var_id := gen_random_uuid();
@@ -4297,9 +4297,9 @@ BEGIN
     NOW(), NOW(), NOW()
   ) ON CONFLICT ("id") DO UPDATE SET "name" = EXCLUDED."name", "overview" = EXCLUDED."overview", "heroImage" = EXCLUDED."heroImage";
 
+  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, beach_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, north_cat) ON CONFLICT DO NOTHING;
-  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, beach_cat) ON CONFLICT DO NOTHING;
 
   -- Variant 7n-8d
   var_id := gen_random_uuid();
@@ -4480,7 +4480,7 @@ BEGIN
     FALSE, TRUE,
     ARRAY['port-blair'],
     india_id,
-    andaman_nicobar_state,
+    andaman_state,
     'Port Blair Havelock Island Tour | Mother India Tour Travels',
     'Explore the beautiful sights of Port Blair | Havelock Island. This package offers a comprehensive day-wise itinerary, comfortable stays, and private t',
     ARRAY['port-blair'],
@@ -4488,8 +4488,8 @@ BEGIN
   ) ON CONFLICT ("id") DO UPDATE SET "name" = EXCLUDED."name", "overview" = EXCLUDED."overview", "heroImage" = EXCLUDED."heroImage";
 
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, raj_cat) ON CONFLICT DO NOTHING;
-  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, south_cat) ON CONFLICT DO NOTHING;
+  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
 
   -- Variant 3n-4d
   var_id := gen_random_uuid();
@@ -5040,7 +5040,7 @@ BEGIN
     FALSE, TRUE,
     ARRAY['khajuraho', 'varanasi', 'delhi', 'jaipur', 'agra'],
     india_id,
-    madhya_pradesh_state,
+    mp_state,
     'Rajasthan Tour Khajuraho & Varanasi | Mother India Tour Travels',
     'Explore the beautiful sights of Rajasthan Tour Khajuraho & Varanasi. This package offers a comprehensive day-wise itinerary, comfortable stays, and pr',
     ARRAY['khajuraho', 'varanasi', 'delhi', 'jaipur', 'agra'],
@@ -5123,7 +5123,7 @@ BEGIN
     FALSE, TRUE,
     ARRAY['ranthambore', 'delhi', 'agra', 'jaipur'],
     india_id,
-    rajasthan_state,
+    raj_state,
     'Ranthambore Tour Delhi Agra Jaipur | Mother India Tour Travels',
     'Explore the beautiful sights of Delhi | Agra | Jaipur | Ranthambore | Delhi |. This package offers a comprehensive day-wise itinerary, comfortable sta',
     ARRAY['ranthambore', 'delhi', 'agra', 'jaipur'],
@@ -5196,7 +5196,7 @@ BEGIN
     FALSE, TRUE,
     ARRAY['agra', 'delhi'],
     india_id,
-    uttar_pradesh_state,
+    up_state,
     'Same Day Agra Tour Delhi | Mother India Tour Travels',
     'Explore the beautiful sights of Delhi | Agra | Delhi |. This package offers a comprehensive day-wise itinerary, comfortable stays, and private transfe',
     ARRAY['agra', 'delhi'],
@@ -5244,7 +5244,7 @@ BEGIN
     FALSE, TRUE,
     ARRAY['shimla', 'kullu', 'manali', 'delhi', 'chandigarh'],
     india_id,
-    himachal_pradesh_state,
+    hp_state,
     'Shimla Kullu Manali Tour | Mother India Tour Travels',
     'Explore the beautiful sights of Delhi/Chandigarh | Shimla | Manali | Delhi/Chandigarh !. This package offers a comprehensive day-wise itinerary, comfo',
     ARRAY['shimla', 'kullu', 'manali', 'delhi', 'chandigarh'],
@@ -5311,7 +5311,7 @@ BEGIN
     FALSE, TRUE,
     ARRAY['shimla', 'manali', 'chandigarh', 'delhi', 'kullu'],
     india_id,
-    himachal_pradesh_state,
+    hp_state,
     'Shimla Manali Chandigarh Tour | Mother India Tour Travels',
     'Explore the beautiful sights of Delhi/Chandigarh | Shimla | Manali | Chandigarh |. This package offers a comprehensive day-wise itinerary, comfortable',
     ARRAY['shimla', 'manali', 'chandigarh', 'delhi', 'kullu'],
@@ -5381,7 +5381,7 @@ BEGIN
     FALSE, TRUE,
     ARRAY['shimla', 'manali', 'delhi', 'kullu', 'chandigarh'],
     india_id,
-    himachal_pradesh_state,
+    hp_state,
     'Shimla Manali Tour | Mother India Tour Travels',
     'Explore the beautiful sights of Delhi | Shimla | Manali | Delhi. This package offers a comprehensive day-wise itinerary, comfortable stays, and privat',
     ARRAY['shimla', 'manali', 'delhi', 'kullu', 'chandigarh'],
@@ -5445,7 +5445,7 @@ BEGIN
     FALSE, TRUE,
     ARRAY['darjeeling', 'gangtok'],
     india_id,
-    west_bengal_state,
+    wb_state,
     'Sikkim Darjeeling Gangtok Tour | Mother India Tour Travels',
     'Explore the beautiful sights of Sikkim | Darjeeling | Gangtok. This package offers a comprehensive day-wise itinerary, comfortable stays, and private ',
     ARRAY['darjeeling', 'gangtok'],
@@ -5505,7 +5505,7 @@ BEGIN
     FALSE, TRUE,
     ARRAY['darjeeling'],
     india_id,
-    west_bengal_state,
+    wb_state,
     'Delightful Darjeeling Sikkim Darjeeling | Mother India Tour Travels',
     'Explore the beautiful sights of Darjeeling. This package offers a comprehensive day-wise itinerary, comfortable stays, and private transfers for a mem',
     ARRAY['darjeeling'],
@@ -5560,15 +5560,15 @@ BEGIN
     FALSE, TRUE,
     ARRAY['darjeeling', 'gangtok', 'pelling'],
     india_id,
-    west_bengal_state,
+    wb_state,
     'Sikkim Darjeeling Tour | Mother India Tour Travels',
     'Explore the beautiful sights of Sikkim | Darjeeling. This package offers a comprehensive day-wise itinerary, comfortable stays, and private transfers ',
     ARRAY['darjeeling', 'gangtok', 'pelling'],
     NOW(), NOW(), NOW()
   ) ON CONFLICT ("id") DO UPDATE SET "name" = EXCLUDED."name", "overview" = EXCLUDED."overview", "heroImage" = EXCLUDED."heroImage";
 
-  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, beach_cat) ON CONFLICT DO NOTHING;
+  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
 
   -- Variant 4n-5d
   var_id := gen_random_uuid();
@@ -5618,15 +5618,15 @@ BEGIN
     FALSE, TRUE,
     ARRAY['darjeeling', 'gangtok'],
     india_id,
-    west_bengal_state,
+    wb_state,
     'Sikkim Darjeeling Tour ’s ’s | Mother India Tour Travels',
     'Explore the beautiful sights of Sikkim Darjeeling Tour ’s ’s. This package offers a comprehensive day-wise itinerary, comfortable stays, and private t',
     ARRAY['darjeeling', 'gangtok'],
     NOW(), NOW(), NOW()
   ) ON CONFLICT ("id") DO UPDATE SET "name" = EXCLUDED."name", "overview" = EXCLUDED."overview", "heroImage" = EXCLUDED."heroImage";
 
-  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, beach_cat) ON CONFLICT DO NOTHING;
+  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
 
   -- Variant 8n-9d
   var_id := gen_random_uuid();
@@ -5764,8 +5764,8 @@ BEGIN
   ) ON CONFLICT ("id") DO UPDATE SET "name" = EXCLUDED."name", "overview" = EXCLUDED."overview", "heroImage" = EXCLUDED."heroImage";
 
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
-  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, wild_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, north_cat) ON CONFLICT DO NOTHING;
+  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, wild_cat) ON CONFLICT DO NOTHING;
 
   -- Variant 5n-6d
   var_id := gen_random_uuid();
@@ -6018,7 +6018,7 @@ BEGIN
     FALSE, TRUE,
     ARRAY['varanasi', 'prayagraj', 'ayodhya'],
     india_id,
-    uttar_pradesh_state,
+    up_state,
     '. Tour: Varanasi Prayagraj Ayodhya Tour | Mother India Tour Travels',
     'Explore the beautiful sights of Varanasi | Ayodhya | Prayagraj |. This package offers a comprehensive day-wise itinerary, comfortable stays, and priva',
     ARRAY['varanasi', 'prayagraj', 'ayodhya'],
@@ -6115,7 +6115,7 @@ BEGIN
     FALSE, TRUE,
     ARRAY['varanasi', 'prayagraj'],
     india_id,
-    uttar_pradesh_state,
+    up_state,
     'Varanasi Prayagraj Tour | Mother India Tour Travels',
     'Explore the beautiful sights of Varanasi | Prayagraj |. This package offers a comprehensive day-wise itinerary, comfortable stays, and private transfe',
     ARRAY['varanasi', 'prayagraj'],
@@ -6174,7 +6174,7 @@ BEGIN
     FALSE, TRUE,
     ARRAY['varanasi', 'prayagraj'],
     india_id,
-    uttar_pradesh_state,
+    up_state,
     '. Varanasi Tour | Mother India Tour Travels',
     'Explore the beautiful sights of Varanasi |. This package offers a comprehensive day-wise itinerary, comfortable stays, and private transfers for a mem',
     ARRAY['varanasi', 'prayagraj'],
@@ -6234,9 +6234,9 @@ BEGIN
     NOW(), NOW(), NOW()
   ) ON CONFLICT ("id") DO UPDATE SET "name" = EXCLUDED."name", "overview" = EXCLUDED."overview", "heroImage" = EXCLUDED."heroImage";
 
+  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, beach_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, north_cat) ON CONFLICT DO NOTHING;
-  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, beach_cat) ON CONFLICT DO NOTHING;
 
   -- Variant 4n-5d
   var_id := gen_random_uuid();
@@ -6288,7 +6288,7 @@ BEGIN
     FALSE, TRUE,
     ARRAY['srinagar', 'pahalgam', 'gulmarg'],
     india_id,
-    jammu_kashmir_state,
+    jk_state,
     'Paradise Kashmir Tour | Mother India Tour Travels',
     'Explore the beautiful sights of Paradise Kashmir Tour. This package offers a comprehensive day-wise itinerary, comfortable stays, and private transfer',
     ARRAY['srinagar', 'pahalgam', 'gulmarg'],
@@ -6355,8 +6355,8 @@ BEGIN
   ) ON CONFLICT ("id") DO UPDATE SET "name" = EXCLUDED."name", "overview" = EXCLUDED."overview", "heroImage" = EXCLUDED."heroImage";
 
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, raj_cat) ON CONFLICT DO NOTHING;
-  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, south_cat) ON CONFLICT DO NOTHING;
+  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
 
   -- Variant 4n-5d
   var_id := gen_random_uuid();
@@ -6413,8 +6413,8 @@ BEGIN
   ) ON CONFLICT ("id") DO UPDATE SET "name" = EXCLUDED."name", "overview" = EXCLUDED."overview", "heroImage" = EXCLUDED."heroImage";
 
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, raj_cat) ON CONFLICT DO NOTHING;
-  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, south_cat) ON CONFLICT DO NOTHING;
+  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
 
   -- Variant 3n-4d
   var_id := gen_random_uuid();
@@ -6467,9 +6467,9 @@ BEGIN
     NOW(), NOW(), NOW()
   ) ON CONFLICT ("id") DO UPDATE SET "name" = EXCLUDED."name", "overview" = EXCLUDED."overview", "heroImage" = EXCLUDED."heroImage";
 
-  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, beach_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, south_cat) ON CONFLICT DO NOTHING;
+  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
 
   -- Variant 2n-3d
   var_id := gen_random_uuid();
@@ -6569,9 +6569,9 @@ BEGIN
     NOW(), NOW(), NOW()
   ) ON CONFLICT ("id") DO UPDATE SET "name" = EXCLUDED."name", "overview" = EXCLUDED."overview", "heroImage" = EXCLUDED."heroImage";
 
-  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, beach_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, south_cat) ON CONFLICT DO NOTHING;
+  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
 
   -- Variant 6n-7d
   var_id := gen_random_uuid();
@@ -6635,9 +6635,9 @@ BEGIN
     NOW(), NOW(), NOW()
   ) ON CONFLICT ("id") DO UPDATE SET "name" = EXCLUDED."name", "overview" = EXCLUDED."overview", "heroImage" = EXCLUDED."heroImage";
 
-  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, beach_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, south_cat) ON CONFLICT DO NOTHING;
+  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
 
   -- Variant 3n-4d
   var_id := gen_random_uuid();
@@ -7013,8 +7013,8 @@ BEGIN
   ) ON CONFLICT ("id") DO UPDATE SET "name" = EXCLUDED."name", "overview" = EXCLUDED."overview", "heroImage" = EXCLUDED."heroImage";
 
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, raj_cat) ON CONFLICT DO NOTHING;
-  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, south_cat) ON CONFLICT DO NOTHING;
+  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
 
   -- Variant 13n-14d
   var_id := gen_random_uuid();
@@ -7160,9 +7160,9 @@ BEGIN
     NOW(), NOW(), NOW()
   ) ON CONFLICT ("id") DO UPDATE SET "name" = EXCLUDED."name", "overview" = EXCLUDED."overview", "heroImage" = EXCLUDED."heroImage";
 
+  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, beach_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, dom_cat) ON CONFLICT DO NOTHING;
   INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, north_cat) ON CONFLICT DO NOTHING;
-  INSERT INTO "PackageCategory" ("packageId", "categoryId") VALUES (pkg_id, beach_cat) ON CONFLICT DO NOTHING;
 
   -- Variant 2n-3d
   var_id := gen_random_uuid();
@@ -7204,7 +7204,7 @@ BEGIN
     FALSE, TRUE,
     ARRAY['srinagar', 'leh', 'gulmarg', 'pahalgam'],
     india_id,
-    jammu_kashmir_state,
+    jk_state,
     'Sweet Kashmir Tour | Mother India Tour Travels',
     'Explore the beautiful sights of Sweet Kashmir Tour. This package offers a comprehensive day-wise itinerary, comfortable stays, and private transfers f',
     ARRAY['srinagar', 'leh', 'gulmarg', 'pahalgam'],
