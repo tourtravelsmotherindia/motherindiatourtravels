@@ -15,4 +15,11 @@ export interface Env {
   NOTIFY_SMTP_PASS: string;
   SMTP_HOST: string;
   SMTP_PORT: string;
+
+  // GitHub Deployment Settings
+  GITHUB_TOKEN: string;
+  GITHUB_OWNER: string;
+  GITHUB_REPO: string;
+  GITHUB_WORKFLOW?: string;
+  GITHUB_REF?: string;
 }

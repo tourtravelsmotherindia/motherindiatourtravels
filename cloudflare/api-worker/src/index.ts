@@ -3,6 +3,8 @@ import {
   handleAdminBookingsUpdateStatus,
   handleAdminContactsGet,
   handleAdminContactsUpdateStatus,
+  handleDeploy,
+  handleDeployStatus,
 } from "./handlers/admin";
 import {
   handleAdminCrudCreate,
@@ -125,6 +127,12 @@ async function route(
 
   // Upload (admin)
   if (resource === "upload" && method === "POST") return handleUpload(request, env);
+
+  // Deploy (admin)
+  if (resource === "deploy") {
+    if (method === "POST") return handleDeploy(request, env);
+    if (method === "GET") return handleDeployStatus(request, env);
+  }
 
   // Tours (Package)
   if (resource === "tours") {

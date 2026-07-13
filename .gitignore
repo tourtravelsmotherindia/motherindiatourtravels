@@ -50,5 +50,6 @@ migration_lock.toml
 /cloudflare/*/node_modules
 /cloudflare/*/.wrangler
 /cloudflare/*/.dev.vars
+/cloudflare/*/worker-configuration.d.ts
 
 

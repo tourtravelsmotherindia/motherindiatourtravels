@@ -1,10 +1,12 @@
 "use client";
 
-import { ChevronRight, Menu } from "lucide-react";
+import { CheckCircle2, ChevronRight, CloudLightning, Loader2, Menu, XCircle } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
+import { useToast } from "@/context/ToastContext";
+import { adminGet, adminPost } from "@/lib/adminApi";
 import { ADMIN_TABLES } from "@/lib/adminSchema";
 
 interface ManageHeaderProps {
@@ -13,8 +15,101 @@ interface ManageHeaderProps {
   subtitle?: string;
 }
 
+interface DeployStatus {
+  status: string;
+  conclusion: string | null;
+  url: string;
+  createdAt: string;
+}
+
 export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHeaderProps) {
   const pathname = usePathname();
+  const { showToast } = useToast();
+  const [deployState, setDeployState] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [deployStatus, setDeployStatus] = useState<DeployStatus | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    let intervalId: NodeJS.Timeout;
+
+    const startPolling = (ms: number) => {
+      if (intervalId) clearInterval(intervalId);
+      intervalId = setInterval(async () => {
+        try {
+          const data = await adminGet<DeployStatus>("/deploy");
+          if (active && data && data.status) {
+            setDeployStatus(data);
+            if (data.status === "completed") {
+              startPolling(30000);
+            }
+          }
+        } catch (err) {
+          console.error("Failed to fetch deployment status:", err);
+        }
+      }, ms);
+    };
+
+    const load = async () => {
+      try {
+        const data = await adminGet<DeployStatus>("/deploy");
+        if (active && data && data.status) {
+          setDeployStatus(data);
+          if (data.status === "queued" || data.status === "in_progress") {
+            startPolling(8000);
+          } else {
+            startPolling(30000);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch deployment status:", err);
+      }
+    };
+
+    load();
+
+    return () => {
+      active = false;
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [deployState]);
+
+  const handleDeployTrigger = async () => {
+    if (deployState === "loading") return;
+    setDeployState("loading");
+
+    try {
+      await adminPost("/deploy", {});
+      setDeployState("success");
+      showToast(
+        "success",
+        "Deployment Triggered",
+        "The build and deploy process has been started on GitHub.",
+      );
+      setTimeout(() => setDeployState("idle"), 3000);
+
+      // Instantly refresh status after triggering
+      setTimeout(async () => {
+        try {
+          const data = await adminGet<DeployStatus>("/deploy");
+          if (data && data.status) {
+            setDeployStatus(data);
+          }
+        } catch (err) {
+          console.error("Failed to fetch deployment status:", err);
+        }
+      }, 1000);
+    } catch (err) {
+      console.error("Failed to trigger deploy:", err);
+      const errMsg = err instanceof Error ? err.message : String(err);
+      showToast("error", "Deployment Failed", errMsg || "Failed to trigger deployment.");
+      setDeployState("error");
+      setTimeout(() => setDeployState("idle"), 5000);
+    }
+  };
+
+  const isDeploying =
+    deployState === "loading" ||
+    (deployStatus && (deployStatus.status === "queued" || deployStatus.status === "in_progress"));
 
   // Generate breadcrumbs from pathname
   const generateBreadcrumbs = () => {
@@ -103,7 +198,73 @@ export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHe
         </div>
 
         {/* Right: Quick Action or Status */}
-        <div className="hidden sm:flex items-center gap-4">
+        <div className="hidden sm:flex items-center gap-3">
+          {deployStatus && (
+            <a
+              href={deployStatus.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`flex items-center gap-1.5 text-[10px] md:text-xs font-semibold px-3 py-1.5 rounded-full border hover:shadow-premium transition-all duration-200 ${
+                deployStatus.status === "queued" || deployStatus.status === "in_progress"
+                  ? "bg-amber-50 text-amber-600 border-amber-200 hover:border-amber-400 animate-pulse"
+                  : deployStatus.conclusion === "success"
+                    ? "bg-emerald-50 text-emerald-600 border-emerald-200 hover:border-emerald-400"
+                    : deployStatus.conclusion === "failure" ||
+                        deployStatus.conclusion === "cancelled"
+                      ? "bg-red-50 text-red-600 border-red-200 hover:border-red-400"
+                      : "bg-neutral-50 text-neutral-500 border-neutral-200 hover:border-neutral-300"
+              }`}
+              title="Click to view run logs on GitHub"
+            >
+              <span
+                className={`w-1.5 h-1.5 rounded-full ${
+                  deployStatus.status === "queued" || deployStatus.status === "in_progress"
+                    ? "bg-amber-500"
+                    : deployStatus.conclusion === "success"
+                      ? "bg-emerald-500"
+                      : "bg-red-500"
+                }`}
+              />
+              <span className="hidden xl:inline text-[10px] text-neutral-400 font-normal">
+                Last Deploy:{" "}
+              </span>
+              <span>
+                {deployStatus.status === "queued" && "Queued"}
+                {deployStatus.status === "in_progress" && "In Progress"}
+                {deployStatus.status === "completed" &&
+                  deployStatus.conclusion === "success" &&
+                  "Success"}
+                {deployStatus.status === "completed" &&
+                  deployStatus.conclusion === "failure" &&
+                  "Failed"}
+                {deployStatus.status === "completed" &&
+                  deployStatus.conclusion === "cancelled" &&
+                  "Cancelled"}
+                {deployStatus.status !== "queued" &&
+                  deployStatus.status !== "in_progress" &&
+                  deployStatus.status !== "completed" &&
+                  "Active"}
+              </span>
+            </a>
+          )}
+
+          <button
+            onClick={handleDeployTrigger}
+            disabled={!!isDeploying}
+            className="flex items-center gap-2 text-xs text-white bg-brand hover:bg-brand-hover disabled:bg-neutral-100 disabled:text-neutral-400 disabled:border-neutral-200 px-4 py-1.5 rounded-full font-semibold border border-brand disabled:border-neutral-200 transition-all duration-200 disabled:cursor-not-allowed cursor-pointer animate-in fade-in zoom-in-95 duration-200"
+          >
+            {deployState === "loading" && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+            {deployState === "idle" && <CloudLightning className="w-3.5 h-3.5" />}
+            {deployState === "success" && <CheckCircle2 className="w-3.5 h-3.5" />}
+            {deployState === "error" && <XCircle className="w-3.5 h-3.5" />}
+            <span>
+              {deployState === "idle" && "Deploy Website"}
+              {deployState === "loading" && "Triggering..."}
+              {deployState === "success" && "Triggered!"}
+              {deployState === "error" && "Trigger Failed"}
+            </span>
+          </button>
+
           <div className="flex items-center gap-2 text-xs text-neutral-500 bg-neutral-100 px-3.5 py-1.5 rounded-full font-medium border border-neutral-200">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
             <span>API Server Live</span>
