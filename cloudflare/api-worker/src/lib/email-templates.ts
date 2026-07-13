@@ -366,7 +366,7 @@ export function bookingGuestTemplate(data: BookingEmailData): string {
     <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin: 32px 0 16px;">
       <tr>
         <td align="left">
-          <a href="${packageUrl}" target="_blank" style="display: inline-block; background-color: #e05423; color: #ffffff; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; text-decoration: none; padding: 12px 24px; border-radius: 6px; box-shadow: 0 4px 10px rgba(224, 84, 35, 0.15);">
+          <a href="${packageUrl}" target="_blank" style="display: inline-block; background-color: #E58E35; color: #ffffff; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; text-decoration: none; padding: 12px 24px; border-radius: 6px; box-shadow: 0 4px 10px rgba(229, 142, 53, 0.15);">
             View Package Details
           </a>
         </td>
@@ -400,7 +400,7 @@ export function bookingCompanyTemplate(data: BookingEmailData): string {
   const travellersText = `${data.adults} Adult${data.adults !== 1 ? "s" : ""}${data.children > 0 ? `, ${data.children} Child${data.children !== 1 ? "ren" : ""}` : ""}${data.infants > 0 ? `, ${data.infants} Infant${data.infants !== 1 ? "s" : ""}` : ""}`;
 
   const content = `
-    <span style="font-size: 11px; font-weight: 600; color: #e05423; text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 8px;">New Booking Inquiry</span>
+    <span style="font-size: 11px; font-weight: 600; color: #E58E35; text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 8px;">New Booking Inquiry</span>
     <h2 class="heading" style="margin: 0 0 20px; font-size: 24px; font-weight: 700; color: #111111; letter-spacing: -0.5px;">${data.packageName}</h2>
 
     <!-- Guest Details -->
@@ -412,7 +412,7 @@ export function bookingCompanyTemplate(data: BookingEmailData): string {
               "Guest Name",
               data.guestName,
               "Email Address",
-              `<a href="mailto:${data.guestEmail}" style="color: #e05423; text-decoration: none;">${data.guestEmail}</a>`,
+              `<a href="mailto:${data.guestEmail}" style="color: #E58E35; text-decoration: none;">${data.guestEmail}</a>`,
             )}
             ${detailsGridRow("Phone Number", data.guestPhone, "Submission Source", data.source)}
           </table>
@@ -479,7 +479,7 @@ export function bookingCompanyTemplate(data: BookingEmailData): string {
     <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 24px;">
       <tr>
         <td align="left">
-          <a href="${packageUrl}" target="_blank" style="display: inline-block; background-color: #e05423; color: #ffffff; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; text-decoration: none; padding: 12px 24px; border-radius: 6px; box-shadow: 0 4px 10px rgba(224, 84, 35, 0.15);">
+          <a href="${packageUrl}" target="_blank" style="display: inline-block; background-color: #E58E35; color: #ffffff; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; text-decoration: none; padding: 12px 24px; border-radius: 6px; box-shadow: 0 4px 10px rgba(229, 142, 53, 0.15);">
             Open Package Page
           </a>
         </td>
@@ -527,7 +527,7 @@ export function contactGuestTemplate(data: ContactEmailData): string {
 /** Notification sent to the company about a new contact/popup submission */
 export function contactCompanyTemplate(data: ContactEmailData): string {
   const content = `
-    <span style="font-size: 11px; font-weight: 600; color: #e05423; text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 8px;">New Contact Message</span>
+    <span style="font-size: 11px; font-weight: 600; color: #E58E35; text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 8px;">New Contact Message</span>
     <h2 class="heading" style="margin: 0 0 20px; font-size: 24px; font-weight: 700; color: #111111; letter-spacing: -0.5px;">From: ${data.name}</h2>
 
     <!-- Contact Info -->
@@ -539,7 +539,7 @@ export function contactCompanyTemplate(data: ContactEmailData): string {
               "Contact Name",
               data.name,
               "Email Address",
-              `<a href="mailto:${data.email}" style="color: #e05423; text-decoration: none;">${data.email}</a>`,
+              `<a href="mailto:${data.email}" style="color: #E58E35; text-decoration: none;">${data.email}</a>`,
             )}
             ${detailsGridRow(
               "Phone Number",

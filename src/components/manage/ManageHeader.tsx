@@ -86,7 +86,7 @@ export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHe
   const { heading, sub } = getHeadings();
 
   return (
-    <header className="sticky top-0 bg-white/80 backdrop-blur-md border-b border-border-light px-6 py-4 flex flex-col gap-3 z-10 lg:z-0">
+    <header className="sticky top-0 bg-white/80 backdrop-blur-md border-b border-border-light px-6 py-4 flex flex-col gap-3 z-20">
       <div className="flex items-center justify-between">
         {/* Left: Mobile hamburger & Breadcrumbs */}
         <div className="flex items-center gap-3 min-w-0">

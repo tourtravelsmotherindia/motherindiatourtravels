@@ -119,6 +119,14 @@ export default function DashboardOverview() {
     loadDashboardData();
   }, [showToast]);
 
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Good Morning!";
+    if (hour < 17) return "Good Afternoon!";
+    if (hour < 22) return "Good Evening!";
+    return "Good Night!";
+  };
+
   const quickShortcuts = [
     {
       title: "Add Tour Package",
@@ -156,7 +164,7 @@ export default function DashboardOverview() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h2 className="text-xl md:text-2xl font-bold font-display text-foreground">
-            Good Morning, Jonathan!
+            {getGreeting()}
           </h2>
           <p className="text-sm text-neutral-500 font-medium mt-1">
             Here&apos;s a snapshot of what&apos;s happening with the travel portal today.

@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 
@@ -62,7 +62,7 @@ export default function LoginPage() {
     <div className="h-screen max-h-screen min-h-screen w-full flex flex-col justify-between items-center bg-[#FAF8F5] relative overflow-hidden font-sans p-6 select-none">
       {/* Background Dotted Pillar (Left) */}
       <div
-        className="absolute left-[5%] bottom-[12%] w-24 h-48 rounded-t-[2rem] bg-[#FCD19C] opacity-80 hidden xl:block border border-neutral-200/30"
+        className="absolute left-[5%] bottom-[12%] w-24 h-48 rounded-t-[2rem] bg-[#E58E35] opacity-80 hidden xl:block border border-neutral-200/30"
         style={{
           backgroundImage: "radial-gradient(#262626 15%, transparent 15%)",
           backgroundSize: "16px 16px",
@@ -107,13 +107,13 @@ export default function LoginPage() {
             {/* Email Field */}
             <div className="relative">
               <input
-                type="text"
+                type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter Email / Phone No"
+                placeholder="Enter Email Address"
                 disabled={loading}
                 required
-                className="w-full rounded-[1.25rem] border border-neutral-200 px-5 py-3.5 text-sm focus:border-[#FCD19C] focus:outline-none transition-colors disabled:opacity-50 font-medium placeholder:text-neutral-400"
+                className="w-full rounded-[1.25rem] border border-neutral-200 px-5 py-3.5 text-sm focus:border-[#E58E35] focus:outline-none transition-colors disabled:opacity-50 font-medium placeholder:text-neutral-400"
               />
               <div className="absolute right-5 inset-y-0 flex items-center pointer-events-none">
                 <div className="w-4 h-4 rounded-full border border-neutral-300"></div>
@@ -126,47 +126,29 @@ export default function LoginPage() {
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Passcode"
+                placeholder="Password"
                 disabled={loading}
                 required
-                className="w-full rounded-[1.25rem] border border-neutral-200 pl-5 pr-14 py-3.5 text-sm focus:border-[#FCD19C] focus:outline-none transition-colors disabled:opacity-50 font-medium placeholder:text-neutral-400"
+                className="w-full rounded-[1.25rem] border border-neutral-200 pl-5 pr-14 py-3.5 text-sm focus:border-[#E58E35] focus:outline-none transition-colors disabled:opacity-50 font-medium placeholder:text-neutral-400"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-5 inset-y-0 text-xs font-bold text-neutral-500 hover:text-neutral-800 transition-colors uppercase tracking-wider"
+                className="absolute right-5 inset-y-0 flex items-center text-neutral-400 hover:text-neutral-700 transition-colors cursor-pointer"
               >
-                {showPassword ? "Hide" : "Show"}
+                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
-            </div>
-
-            {/* Having trouble link */}
-            <div className="text-left">
-              <a
-                href="#trouble"
-                onClick={(e) => {
-                  e.preventDefault();
-                  showToast(
-                    "info",
-                    "Help Desk",
-                    "Contact primary administrator to reset credentials.",
-                  );
-                }}
-                className="text-xs font-bold text-neutral-800 hover:underline inline-block mt-1"
-              >
-                Having trouble in sign in?
-              </a>
             </div>
 
             {/* Submit button */}
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-4 px-6 rounded-[1.25rem] bg-[#FCD19C] hover:bg-[#fbc37e] text-neutral-800 font-extrabold text-sm transition-all shadow-sm hover:shadow-md disabled:opacity-50 mt-4 cursor-pointer flex items-center justify-center gap-2"
+              className="w-full py-4 px-6 rounded-[1.25rem] bg-[#E58E35] hover:bg-[#C77625] text-white font-extrabold text-sm transition-all shadow-sm hover:shadow-md disabled:opacity-50 mt-4 cursor-pointer flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin text-neutral-800" />
+                  <Loader2 className="w-4 h-4 animate-spin text-white" />
                   <span>Signing in...</span>
                 </>
               ) : (
@@ -177,166 +159,154 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Background Character Sitting Illustration (Right) - High Fidelity Vector Art matching crop */}
+      {/* Background Illustration (Right) - Premium Hot Air Balloon Sunset Scene */}
       <svg
-        className="absolute right-[5%] bottom-[8%] w-[360px] h-[360px] hidden xl:block z-0"
-        viewBox="0 0 300 300"
+        className="absolute right-[5%] bottom-[10%] w-[420px] h-[380px] hidden xl:block z-0 animate-in fade-in slide-in-from-right-10 duration-700"
+        viewBox="0 0 400 400"
+        fill="none"
       >
-        {/* Cube Sitting Block */}
-        <rect
-          x="100"
-          y="160"
-          width="95"
-          height="110"
+        {/* Sky Circle with Sunset Radial Gradient */}
+        <circle cx="200" cy="200" r="160" fill="url(#sky-grad)" />
+
+        {/* Sunset Sun */}
+        <circle cx="200" cy="260" r="60" fill="url(#sun-grad)" />
+
+        {/* Mountain Layer 1 (Back) */}
+        <path
+          d="M 60,320 L 150,190 L 220,270 L 300,160 L 380,320 Z"
+          fill="#E58E35"
+          opacity="0.25"
+        />
+
+        {/* Mountain Layer 2 (Middle) */}
+        <path
+          d="M 40,320 L 110,230 L 170,290 L 250,195 L 360,320 Z"
+          fill="#C77625"
+          opacity="0.45"
+        />
+
+        {/* Dotted Astrolabe Compass Grid */}
+        <circle cx="200" cy="200" r="150" stroke="#e5e5e5" strokeWidth="1" strokeDasharray="4 8" />
+
+        {/* Clouds */}
+        <path
+          d="M 50,180 C 50,160 80,160 90,170 C 100,155 130,165 130,180 C 140,180 150,190 145,200 L 55,200 Z"
           fill="white"
-          stroke="#262626"
-          strokeWidth="2"
-          rx="4"
+          opacity="0.8"
         />
-
-        {/* Dotted pillar behind block */}
-        <rect
-          x="205"
-          y="180"
-          width="70"
-          height="90"
-          fill="#FCD19C"
-          stroke="#262626"
-          strokeWidth="2"
-          rx="4"
-        />
-        {/* Dotted pattern inside pillar - organic scattered pattern */}
-        <circle cx="218" cy="195" r="4.5" fill="#262626" />
-        <circle cx="240" cy="190" r="4.5" fill="#262626" />
-        <circle cx="258" cy="200" r="4.5" fill="#262626" />
-        <circle cx="225" cy="215" r="4.5" fill="#262626" />
-        <circle cx="248" cy="222" r="4.5" fill="#262626" />
-        <circle cx="216" cy="240" r="4.5" fill="#262626" />
-        <circle cx="238" cy="245" r="4.5" fill="#262626" />
-        <circle cx="255" cy="235" r="4.5" fill="#262626" />
-        <circle cx="228" cy="265" r="4.5" fill="#262626" />
-        <circle cx="252" cy="260" r="4.5" fill="#262626" />
-
-        {/* Laptop - sitting on lap */}
-        {/* Screen */}
         <path
-          d="M50,135 L58,143 L40,105 L32,97 Z"
-          fill="#C2DFA7"
-          stroke="#262626"
-          strokeWidth="2.5"
-          strokeLinejoin="round"
-        />
-        {/* Keyboard base */}
-        <path
-          d="M50,135 L90,125 L98,133 L58,143 Z"
-          fill="#D2E8B5"
-          stroke="#262626"
-          strokeWidth="2.5"
-          strokeLinejoin="round"
-        />
-
-        {/* Character - Curved Baggy Trouser and Body geometry */}
-        {/* Left Leg (in background) */}
-        <path
-          d="M118,158 C95,158 75,175 68,185 C50,210 40,230 25,255 L43,264 C60,235 68,215 85,195 C95,185 105,175 118,172 Z"
+          d="M 280,220 C 280,205 300,200 310,210 C 320,195 345,205 340,220 C 350,220 355,230 350,240 L 275,240 Z"
           fill="white"
-          stroke="#262626"
-          strokeWidth="2"
-          strokeLinejoin="round"
-        />
-        {/* Left Shoe */}
-        <path
-          d="M25,255 L12,260 L15,268 L32,264 Z"
-          fill="#171717"
-          stroke="#262626"
-          strokeWidth="1"
+          opacity="0.85"
         />
 
-        {/* Right Leg (in foreground) */}
+        {/* Birds Silhouette */}
         <path
-          d="M128,160 C108,165 93,185 88,200 C78,225 73,245 68,270 L86,278 C91,255 96,235 111,215 C121,200 128,185 131,168 Z"
-          fill="white"
-          stroke="#262626"
-          strokeWidth="2"
-          strokeLinejoin="round"
+          d="M 80,120 Q 85,115 90,120 Q 95,115 100,120 Q 93,125 90,121 Q 87,125 80,120 Z"
+          fill="#262626"
+          opacity="0.5"
         />
-        {/* Right Shoe */}
         <path
-          d="M68,270 L55,275 L58,283 L75,279 Z"
-          fill="#171717"
-          stroke="#262626"
-          strokeWidth="1"
+          d="M 105,130 Q 109,126 113,130 Q 117,126 121,130 Q 115,134 113,131 Q 111,134 105,130 Z"
+          fill="#262626"
+          opacity="0.5"
+        />
+        <path
+          d="M 95,140 Q 98,137 101,140 Q 104,137 107,140 Q 103,143 101,141 Q 99,143 95,140 Z"
+          fill="#262626"
+          opacity="0.5"
         />
 
-        {/* Torso / Sweater (black with sprinkles texture) */}
-        <path
-          d="M138,115 C145,125 152,142 145,158 C140,160 128,160 118,158 C114,142 118,125 125,115 Z"
-          fill="#171717"
-          stroke="#262626"
-          strokeWidth="2"
-          strokeLinejoin="round"
-        />
-        {/* Sprinkle pattern */}
-        <line x1="124" y1="123" x2="128" y2="120" stroke="white" strokeWidth="1" />
-        <line x1="133" y1="125" x2="137" y2="127" stroke="white" strokeWidth="1" />
-        <line x1="128" y1="135" x2="132" y2="132" stroke="white" strokeWidth="1" />
-        <line x1="139" y1="138" x2="143" y2="135" stroke="white" strokeWidth="1" />
-        <line x1="131" y1="148" x2="135" y2="145" stroke="white" strokeWidth="1" />
-        <line x1="141" y1="149" x2="145" y2="146" stroke="white" strokeWidth="1" />
+        {/* Foreground Hot Air Balloon */}
+        <g transform="translate(40, -10)">
+          {/* Envelope (Teardrop shape) */}
+          <path
+            d="M 200,110 C 200,60 280,60 280,110 C 280,140 255,165 240,180 C 225,165 200,140 200,110 Z"
+            fill="white"
+            stroke="#262626"
+            strokeWidth="2.5"
+          />
 
-        {/* Sleeve and arm */}
+          {/* Stripes */}
+          <path
+            d="M 210,80 C 213,90 216,130 227,157 L 221,162 C 209,134 205,94 202,86 Z"
+            fill="#E58E35"
+            stroke="#262626"
+            strokeWidth="1.5"
+          />
+          <path
+            d="M 230,73 C 235,85 238,135 240,165 L 243,165 C 241,135 237,85 232,73 Z"
+            fill="#E58E35"
+            stroke="#262626"
+            strokeWidth="1.5"
+          />
+          <path
+            d="M 270,86 C 267,94 263,134 251,162 L 245,157 C 256,130 259,90 262,80 Z"
+            fill="#E58E35"
+            stroke="#262626"
+            strokeWidth="1.5"
+          />
+
+          {/* Burner / basket connections */}
+          <line x1="228" y1="180" x2="232" y2="195" stroke="#262626" strokeWidth="1.5" />
+          <line x1="252" y1="180" x2="248" y2="195" stroke="#262626" strokeWidth="1.5" />
+
+          {/* Woven Basket */}
+          <rect
+            x="230"
+            y="195"
+            width="20"
+            height="15"
+            rx="3"
+            fill="#E58E35"
+            stroke="#262626"
+            strokeWidth="2"
+          />
+          <line x1="230" y1="202" x2="250" y2="202" stroke="#262626" strokeWidth="1.5" />
+        </g>
+
+        {/* Small Hot Air Balloon in background (depth) */}
+        <g transform="translate(10, 0)">
+          <path
+            d="M 110,80 C 110,65 130,65 130,80 C 130,90 122,100 120,105 C 118,100 110,90 110,80 Z"
+            fill="#C77625"
+            stroke="#262626"
+            strokeWidth="1.5"
+            opacity="0.7"
+          />
+          <line x1="116" y1="105" x2="117" y2="111" stroke="#262626" strokeWidth="1" />
+          <line x1="124" y1="105" x2="123" y2="111" stroke="#262626" strokeWidth="1" />
+          <rect
+            x="117"
+            y="111"
+            width="7"
+            height="5"
+            fill="#E58E35"
+            stroke="#262626"
+            strokeWidth="1"
+            opacity="0.8"
+          />
+        </g>
+
+        {/* Front Hills / Base silhouette */}
         <path
-          d="M125,115 C120,120 115,125 110,130 C108,135 112,138 116,138 C120,138 128,130 130,125"
-          fill="#171717"
-          stroke="#262626"
-          strokeWidth="2"
-        />
-        <path
-          d="M110,130 C102,132 92,132 88,134 C86,135 88,138 92,138 C96,138 102,135 106,133"
-          fill="white"
-          stroke="#262626"
-          strokeWidth="1.5"
-          strokeLinecap="round"
+          d="M 40,320 Q 120,290 200,310 T 360,320 L 360,360 L 40,360 Z"
+          fill="#8D4C15"
+          opacity="0.8"
         />
 
-        {/* Head, Hair Profile, bun */}
-        {/* Neck */}
-        <path d="M132,106 L134,115" stroke="#262626" strokeWidth="2" strokeLinecap="round" />
-        <path d="M137,106 L138,115" stroke="#262626" strokeWidth="2" strokeLinecap="round" />
-        {/* Hair bun */}
-        <circle cx="146" cy="68" r="9" fill="#171717" stroke="#262626" strokeWidth="2" />
-        {/* Face */}
-        <path
-          d="M124,100 C118,97 122,84 130,84 C138,84 140,92 140,100 C140,106 132,108 132,112 Z"
-          fill="white"
-          stroke="#262626"
-          strokeWidth="2"
-        />
-        {/* Smile */}
-        <path d="M128,94 C129,96 132,96 133,94" stroke="#262626" strokeWidth="1.5" fill="none" />
-        {/* Hair overlay */}
-        <path
-          d="M132,92 C132,84 136,80 144,84 C144,88 142,92 136,94 Z"
-          fill="#171717"
-          stroke="#262626"
-          strokeWidth="1"
-        />
-
-        {/* Floating speech bubble (Right) */}
-        <rect
-          x="25"
-          y="40"
-          width="60"
-          height="40"
-          fill="white"
-          stroke="#262626"
-          strokeWidth="2"
-          rx="6"
-        />
-        <line x1="38" y1="53" x2="72" y2="53" stroke="#262626" strokeWidth="2" />
-        <line x1="38" y1="65" x2="65" y2="65" stroke="#262626" strokeWidth="2" />
-        <polygon points="35,80 35,92 45,80" fill="white" stroke="#262626" strokeWidth="2" />
-        <line x1="36" y1="79" x2="44" y2="79" stroke="white" strokeWidth="2" />
+        {/* Definition of Gradients */}
+        <defs>
+          <radialGradient id="sky-grad" cx="50%" cy="80%" r="80%">
+            <stop offset="0%" stopColor="#FFF3E0" />
+            <stop offset="50%" stopColor="#FFE0B2" />
+            <stop offset="100%" stopColor="#E58E35" stopOpacity="0.25" />
+          </radialGradient>
+          <linearGradient id="sun-grad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#FFA726" />
+            <stop offset="100%" stopColor="#E58E35" />
+          </linearGradient>
+        </defs>
       </svg>
 
       {/* Right Scribble Loop */}
