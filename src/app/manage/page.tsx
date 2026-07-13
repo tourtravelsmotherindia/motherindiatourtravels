@@ -38,7 +38,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 import { useToast } from "@/context/ToastContext";
-import { adminPost, getRecord, getRecords } from "@/lib/adminApi";
+import { adminPost, getRecords } from "@/lib/adminApi";
 import type { SystemStatus } from "@/types/system-status";
 
 interface MetricCardProps {
@@ -95,14 +95,14 @@ export default function DashboardOverview() {
       try {
         setLoading(true);
         // Fetch counts and system status
-        const [bookings, packages, blogs, contacts, statusRecord] = await Promise.all([
+        const [bookings, packages, blogs, contacts, statusRecords] = await Promise.all([
           getRecords<BookingItem>("bookings"),
           getRecords<unknown>("packages"),
           getRecords<unknown>("blog-posts"),
           getRecords<unknown>("contacts"),
-          getRecord<SystemStatus>("system-status", "singleton").catch((e) => {
+          getRecords<SystemStatus>("system-status", "order=createdAt.desc&limit=1").catch((e) => {
             console.error("Failed to fetch system status:", e);
-            return null;
+            return [];
           }),
         ]);
 
@@ -116,6 +116,7 @@ export default function DashboardOverview() {
           contactsCount: contacts.length,
         });
 
+        const statusRecord = statusRecords && statusRecords.length > 0 ? statusRecords[0] : null;
         setSystemStatus(statusRecord);
 
         // Set top 5 recent bookings

@@ -149,9 +149,6 @@ export default function LoginPage() {
                 required
                 className="w-full rounded-[1.25rem] border border-neutral-200 px-5 py-3.5 text-sm focus:border-[#E58E35] focus:outline-none transition-colors disabled:opacity-50 font-medium placeholder:text-neutral-400"
               />
-              <div className="absolute right-5 inset-y-0 flex items-center pointer-events-none">
-                <div className="w-4 h-4 rounded-full border border-neutral-300"></div>
-              </div>
             </div>
 
             {/* Password Field */}
