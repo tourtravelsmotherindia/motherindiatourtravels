@@ -15,9 +15,13 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 import AdminFormDrawer from "@/components/manage/AdminFormDrawer";
+import EmptyState from "@/components/manage/EmptyState";
+import ErrorState from "@/components/manage/ErrorState";
+import LoadingState from "@/components/manage/LoadingState";
 import { useToast } from "@/context/ToastContext";
-import { deleteRecord, getRecords } from "@/lib/adminApi";
 import { ADMIN_TABLES, getSingularLabel } from "@/lib/adminSchema";
+import { useDeleteRecord } from "@/lib/hooks/mutations";
+import { useRecords, useTableRelationCache } from "@/lib/hooks/queries";
 import { formatLocalDateTime } from "@/lib/manage/dateUtils";
 
 interface CrudClientProps {
@@ -32,103 +36,37 @@ export default function CrudClient({ table }: CrudClientProps) {
 
   const tableConfig = ADMIN_TABLES[table];
 
-  // Router Action Parameters
+  // URL action parameters
   const action = searchParams.get("action");
   const editId = searchParams.get("id");
 
-  const [records, setRecords] = useState<Record<string, unknown>[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [refreshTrigger, setRefreshTrigger] = useState<number>(0);
+  // Local UI state (ephemeral, per-table-instance)
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [deletingId, setDeletingId] = useState<string | null>(null);
-  const [deleting, setDeleting] = useState<boolean>(false);
-
   const [mounted, setMounted] = useState<boolean>(false);
 
-  // Relationship Cache Map: { [tableSlug]: { [id]: label } }
-  const [relationCache, setRelationCache] = useState<Record<string, Record<string, string>>>({});
+  // React Query: fetch table records
+  const {
+    data: records = [],
+    isLoading: loading,
+    isError,
+    error,
+    refetch,
+  } = useRecords<Record<string, unknown>>(table);
 
-  // 1. Fetch records for the main table
+  // React Query: delete mutation
+  const deleteMutation = useDeleteRecord(table);
+
+  // Hydration guard
   useEffect(() => {
-    setTimeout(() => {
-      setMounted(true);
-    }, 0);
-    if (!tableConfig) return;
+    setTimeout(() => setMounted(true), 0);
+  }, []);
 
-    const fetchTableRecords = async () => {
-      try {
-        setLoading(true);
-        const data = await getRecords<Record<string, unknown>>(table);
-        setRecords(data);
-        setCurrentPage(1); // reset to page 1
-      } catch (err: unknown) {
-        const errMsg = err instanceof Error ? err.message : "Failed to load database records";
-        // Don't toast on session expiry — the layout handles redirect smoothly
-        if (!errMsg.includes("Session expired")) {
-          showToast("error", "Database Sync", errMsg);
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
+  // Fetch relation options for select fields (uses useEffect internally to avoid hook-in-loop)
+  const relationCache = useTableRelationCache(tableConfig?.fields || [], table);
 
-    fetchTableRecords();
-  }, [table, refreshTrigger, tableConfig, showToast]);
-
-  // 2. Fetch relation metadata to resolve foreign keys in display list
-  useEffect(() => {
-    if (!tableConfig) return;
-
-    const fetchRelationLabels = async () => {
-      const relationFields = tableConfig.fields.filter((f) => f.type === "select" && f.relation);
-
-      for (const field of relationFields) {
-        const rel = field.relation!;
-        // Skip if already cached
-        if (relationCache[rel.table]) continue;
-
-        try {
-          const relRecords = await getRecords<Record<string, unknown>>(rel.table);
-
-          const packagesMap: Record<string, string> = {};
-          if (rel.table === "package-variants") {
-            try {
-              const packages = await getRecords<Record<string, unknown>>("packages");
-              packages.forEach((pkg) => {
-                packagesMap[String(pkg.id)] = String(pkg.name);
-              });
-            } catch (err) {
-              console.error("Failed to fetch packages for variants cache mapping:", err);
-            }
-          }
-
-          const cache: Record<string, string> = {};
-          relRecords.forEach((rec) => {
-            const variantId = (rec[rel.valueField] || rec.id) as string;
-            let label = (rec[rel.labelField] || rec.id) as string;
-
-            if (rel.table === "package-variants") {
-              const packageId = String(rec.packageId || "");
-              const packageName = packagesMap[packageId] || "Unknown Package";
-              label = `${packageName} - ${label}`;
-            }
-
-            cache[variantId] = label;
-          });
-          setRelationCache((prev) => ({
-            ...prev,
-            [rel.table]: cache,
-          }));
-        } catch (err) {
-          console.error(`Failed to cache relationship values for ${rel.table}:`, err);
-        }
-      }
-    };
-
-    fetchRelationLabels();
-  }, [tableConfig, relationCache]);
-
+  // Not in schema
   if (!tableConfig) {
     return (
       <div className="bg-white rounded-2xl border border-neutral-100 p-12 text-center shadow-[0_1px_4px_rgba(0,0,0,0.04)]">
@@ -147,19 +85,15 @@ export default function CrudClient({ table }: CrudClientProps) {
     );
   }
 
-  // Search & Filtering
+  // Search & filtering (client-side)
   const filteredRecords = records.filter((rec) => {
     if (!searchTerm.trim()) return true;
-
-    // Search by primary configured search field (like name or title)
     if (tableConfig.searchField) {
       const val = rec[tableConfig.searchField];
       return String(val || "")
         .toLowerCase()
         .includes(searchTerm.toLowerCase());
     }
-
-    // Fallback: search all textual fields in the record
     return Object.values(rec).some((val) =>
       String(val || "")
         .toLowerCase()
@@ -167,7 +101,7 @@ export default function CrudClient({ table }: CrudClientProps) {
     );
   });
 
-  // Pagination Logic
+  // Pagination
   const itemsPerPage = 12;
   const totalPages = Math.ceil(filteredRecords.length / itemsPerPage);
   const paginatedRecords = filteredRecords.slice(
@@ -198,32 +132,28 @@ export default function CrudClient({ table }: CrudClientProps) {
     if (!deletingId) return;
 
     try {
-      setDeleting(true);
       if (tableConfig.compositeKeys) {
-        await deleteRecord(table, null, deletingId);
+        await deleteMutation.mutateAsync({ id: null, queryParams: deletingId });
       } else {
-        await deleteRecord(table, deletingId);
+        await deleteMutation.mutateAsync({ id: deletingId, queryParams: "" });
       }
       showToast("success", "Record Deleted", "The record has been permanently removed.");
-      setRefreshTrigger((prev) => prev + 1);
       router.push(pathname);
+      setDeletingId(null);
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : "Failed to delete record";
       showToast("error", "Delete Failed", errorMessage);
-    } finally {
-      setDeleting(false);
-      setDeletingId(null);
     }
   };
 
-  // Render cells depending on schema config type
+  // Cell renderer
   const renderCellContent = (colName: string, value: unknown) => {
     const field = tableConfig.fields.find((f) => f.name === colName);
     if (!field) return String(value ?? "");
 
     if (value === null || value === undefined) return "-";
 
-    // 1. Boolean check — uses trueLabel/falseLabel from schema, falls back to "Active"/"Inactive"
+    // Boolean
     if (field.type === "boolean") {
       return value ? (
         <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-600">
@@ -238,20 +168,20 @@ export default function CrudClient({ table }: CrudClientProps) {
       );
     }
 
-    // 2. Select Option Relation Display
+    // Select relation display (uses cached relation options)
     if (field.type === "select" && field.relation) {
-      const cache = relationCache[field.relation.table];
+      const cache = relationCache[field.name];
       const key = String(value);
       return cache ? cache[key] || key : key;
     }
 
-    // 3. Select Static enum display
+    // Select static enum
     if (field.type === "select" && field.options) {
       const option = field.options.find((opt) => opt.value === value);
       return option ? option.label : String(value);
     }
 
-    // 4. Image preview thumbnail
+    // Image thumbnail
     if (field.type === "image") {
       const src = String(value);
       return src ? (
@@ -268,7 +198,7 @@ export default function CrudClient({ table }: CrudClientProps) {
       );
     }
 
-    // 5. Array of strings list (tags)
+    // Array of strings (tags)
     if (field.type === "array-string" && Array.isArray(value)) {
       const list = value as string[];
       return (
@@ -290,7 +220,7 @@ export default function CrudClient({ table }: CrudClientProps) {
       );
     }
 
-    // 6. Datetime formatter (UTC → local timezone)
+    // Datetime
     if (field.type === "datetime") {
       return (
         <span suppressHydrationWarning>
@@ -307,7 +237,6 @@ export default function CrudClient({ table }: CrudClientProps) {
       {/* Search & Actions Toolbar */}
       {(!tableConfig.disableSearch || !tableConfig.disableCreate) && (
         <div className="bg-white rounded-2xl border border-neutral-100 shadow-[0_1px_4px_rgba(0,0,0,0.04)] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          {/* Search Input */}
           {!tableConfig.disableSearch ? (
             <div className="relative max-w-sm w-full">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-neutral-500">
@@ -332,7 +261,6 @@ export default function CrudClient({ table }: CrudClientProps) {
             <div />
           )}
 
-          {/* Add New Button */}
           {!tableConfig.disableCreate && (
             <button
               onClick={handleAddNew}
@@ -345,23 +273,17 @@ export default function CrudClient({ table }: CrudClientProps) {
         </div>
       )}
 
-      {/* Main Database Table Browser */}
+      {/* Main Table Browser */}
       <div className="bg-white rounded-2xl border border-neutral-100 shadow-[0_1px_4px_rgba(0,0,0,0.04)] overflow-hidden">
         {loading ? (
-          <div className="py-24 flex flex-col items-center justify-center">
-            <Loader2 className="w-6 h-6 text-brand animate-spin" />
-            <p className="text-xs text-neutral-600 font-semibold mt-2 animate-pulse">
-              Syncing tables with database...
-            </p>
-          </div>
+          <LoadingState message="Syncing tables with database..." />
+        ) : isError ? (
+          <ErrorState
+            message={error instanceof Error ? error.message : "Failed to load records"}
+            onRetry={() => refetch()}
+          />
         ) : filteredRecords.length === 0 ? (
-          <div className="py-24 text-center">
-            <AlertTriangle className="w-10 h-10 text-neutral-300 mx-auto mb-3" />
-            <h3 className="text-sm font-bold text-neutral-700">No Records Found</h3>
-            <p className="text-xs text-neutral-500 mt-1">
-              Try adjusting your search or insert a new entry.
-            </p>
-          </div>
+          <EmptyState />
         ) : (
           <div className="flex flex-col">
             <div className="overflow-x-auto no-scrollbar">
@@ -426,7 +348,7 @@ export default function CrudClient({ table }: CrudClientProps) {
               </table>
             </div>
 
-            {/* Pagination Controls */}
+            {/* Pagination */}
             {totalPages > 1 && (
               <div className="border-t border-neutral-50 px-6 py-3.5 flex items-center justify-between">
                 <span className="text-[10px] text-neutral-600 font-medium">
@@ -447,7 +369,6 @@ export default function CrudClient({ table }: CrudClientProps) {
                   {Array.from({ length: totalPages }).map((_, idx) => {
                     const pageNum = idx + 1;
                     const isCurrent = currentPage === pageNum;
-
                     return (
                       <button
                         key={pageNum}
@@ -486,19 +407,22 @@ export default function CrudClient({ table }: CrudClientProps) {
             recordId={action === "edit" ? editId : null}
             onClose={() => router.push(pathname)}
             onSaved={() => {
-              setRefreshTrigger((prev) => prev + 1);
+              refetch();
               router.push(pathname);
             }}
           />
         )}
       </AnimatePresence>
 
-      {/* Delete Confirmation Dialog Modal */}
+      {/* Delete Confirmation Dialog */}
       {action === "delete" && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div
             className="fixed inset-0 bg-neutral-900/40 backdrop-blur-xs transition-opacity"
-            onClick={() => router.push(pathname)}
+            onClick={() => {
+              setDeletingId(null);
+              router.push(pathname);
+            }}
           />
 
           <div className="bg-white rounded-[2rem] border border-border-light shadow-premium max-w-sm w-full p-6 text-center z-10 animate-in zoom-in-95 duration-200">
@@ -522,17 +446,17 @@ export default function CrudClient({ table }: CrudClientProps) {
                   setDeletingId(null);
                   router.push(pathname);
                 }}
-                disabled={deleting}
+                disabled={deleteMutation.isPending}
                 className="flex-1 px-4 py-2.5 text-xs font-semibold border border-border-light hover:bg-neutral-100 rounded-full text-neutral-600 transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={handleConfirmDelete}
-                disabled={deleting}
+                disabled={deleteMutation.isPending}
                 className="flex-1 px-4 py-2.5 text-xs font-semibold bg-red-600 hover:bg-red-700 text-white rounded-full transition-all shadow-sm flex items-center justify-center gap-1.5 disabled:opacity-50"
               >
-                {deleting ? (
+                {deleteMutation.isPending ? (
                   <>
                     <Loader2 className="w-3.5 h-3.5 animate-spin" />
                     <span>Deleting...</span>

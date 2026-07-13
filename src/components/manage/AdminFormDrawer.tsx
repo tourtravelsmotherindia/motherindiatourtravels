@@ -6,8 +6,10 @@ import React, { useEffect, useState } from "react";
 
 import Dropdown from "@/components/ui/Dropdown";
 import { useToast } from "@/context/ToastContext";
-import { createRecord, getRecord, getRecords, updateRecord } from "@/lib/adminApi";
 import { ADMIN_TABLES, FieldConfig, getSingularLabel } from "@/lib/adminSchema";
+import { fetchRecords } from "@/lib/apiClient";
+import { useCreateRecord, useUpdateRecord } from "@/lib/hooks/mutations";
+import { useRecord } from "@/lib/hooks/queries";
 import { formatForDatetimeLocalInput } from "@/lib/manage/dateUtils";
 import { type AboutData, type WorkingHoursSchedule } from "@/types/company";
 
@@ -34,13 +36,21 @@ export default function AdminFormDrawer({
   const tableConfig = ADMIN_TABLES[table];
   const { showToast } = useToast();
 
-  // Load field metadata
   const fields = React.useMemo(() => tableConfig?.fields || [], [tableConfig]);
 
-  // Determine if we should split form into tabs (e.g., packages, blog posts)
   const isLargeForm = ["packages", "blog-posts", "company"].includes(table);
 
-  // Initialize form default values with lazy state initializer to avoid set-state-in-effect warning
+  // React Query: fetch existing record for edit mode
+  const { data: fetchedRecord, isLoading: loading } = useRecord<Record<string, unknown>>(
+    table,
+    recordId,
+  );
+
+  // React Query: mutations
+  const createMutation = useCreateRecord(table);
+  const updateMutation = useUpdateRecord(table);
+
+  // Form state
   const [formData, setFormData] = useState<Record<string, unknown>>(() => {
     const defaults: Record<string, unknown> = {};
     fields.forEach((f) => {
@@ -65,115 +75,105 @@ export default function AdminFormDrawer({
     return defaults;
   });
 
-  const [loading, setLoading] = useState<boolean>(false);
-  const [saving, setSaving] = useState<boolean>(false);
-  const [relationOptions, setRelationOptions] = useState<
-    Record<string, { label: string; value: string | number | boolean }[]>
-  >({});
   const [activeTab, setActiveTab] = useState<string>("general");
+  const [tagInputText, setTagInputText] = useState<Record<string, string>>({});
 
-  // Load record details if editing
+  // Lock body scroll when drawer is open
   useEffect(() => {
-    // Lock scroll on background body
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = "";
     };
   }, []);
 
+  // Populate form when fetched record arrives. Deferred via setTimeout so the
+  // state update is asynchronous (avoids react-hooks/set-state-in-effect).
   useEffect(() => {
-    if (!recordId || !table) return;
+    if (!fetchedRecord || !recordId) return;
 
-    const fetchRecord = async () => {
-      try {
-        setLoading(true);
-        const data = await getRecord<Record<string, unknown>>(table, recordId);
-
-        // Parse array/json fields if needed (API worker handles it, but let's make sure it fits inputs)
-        const parsedData = { ...data };
-        fields.forEach((f) => {
-          if (f.type === "json") {
-            const val = parsedData[f.name];
-            if (typeof val === "string" && val.trim()) {
-              try {
-                parsedData[f.name] = JSON.parse(val);
-              } catch {
-                parsedData[f.name] = null;
-              }
-            } else if (typeof val !== "object" || val === null) {
-              if (f.name === "about") {
-                parsedData[f.name] = {};
-              } else if (f.name === "schedule" || f.name === "exceptions") {
-                parsedData[f.name] = [];
-              } else {
-                parsedData[f.name] = {};
-              }
-            }
+    const parsedData = { ...fetchedRecord };
+    fields.forEach((f) => {
+      if (f.type === "json") {
+        const val = parsedData[f.name];
+        if (typeof val === "string" && val.trim()) {
+          try {
+            parsedData[f.name] = JSON.parse(val);
+          } catch {
+            parsedData[f.name] = null;
           }
-        });
-
-        setFormData(parsedData);
-      } catch (err: unknown) {
-        const errorMessage = err instanceof Error ? err.message : "Failed to load record details";
-        showToast("error", "Fetch Details", errorMessage);
-        onClose();
-      } finally {
-        setLoading(false);
+        } else if (typeof val !== "object" || val === null) {
+          if (f.name === "about") {
+            parsedData[f.name] = {};
+          } else if (f.name === "schedule" || f.name === "exceptions") {
+            parsedData[f.name] = [];
+          } else {
+            parsedData[f.name] = {};
+          }
+        }
       }
-    };
+    });
 
-    fetchRecord();
-  }, [table, recordId, fields, onClose, showToast]);
+    const timer = setTimeout(() => setFormData(parsedData), 0);
+    return () => clearTimeout(timer);
+  }, [fetchedRecord, recordId, fields]);
 
-  // Load relationship option dropdowns dynamically
+  // Fetch relation dropdown options via useEffect (avoids hook-in-loop restriction)
+  const [relationOptions, setRelationOptions] = useState<
+    Record<string, { label: string; value: string | number | boolean }[]>
+  >({});
+
   useEffect(() => {
-    const fetchRelations = async () => {
-      const relationFields = fields.filter((f) => f.type === "select" && f.relation);
+    const relationFields = fields.filter((f) => f.type === "select" && f.relation);
+    if (relationFields.length === 0) return;
 
+    let cancelled = false;
+
+    const fetchRelations = async () => {
       for (const field of relationFields) {
-        if (!field.relation) continue;
+        if (cancelled) return;
+        const rel = field.relation!;
         try {
-          const records = await getRecords<Record<string, unknown>>(field.relation.table);
+          const records = await fetchRecords<Record<string, unknown>>(rel.table);
 
           const packagesMap: Record<string, string> = {};
-          if (field.relation.table === "package-variants") {
+          if (rel.table === "package-variants") {
             try {
-              const packages = await getRecords<Record<string, unknown>>("packages");
+              const packages = await fetchRecords<Record<string, unknown>>("packages");
               packages.forEach((pkg) => {
                 packagesMap[String(pkg.id)] = String(pkg.name);
               });
-            } catch (err) {
-              console.error("Failed to fetch packages for variants mapping:", err);
+            } catch {
+              // Non-critical
             }
           }
 
           const options = records.map((rec) => {
-            let label = String(rec[field.relation!.labelField] || rec.id || "Unnamed");
-            if (field.relation!.table === "package-variants") {
-              const packageId = String(rec.packageId || "");
+            let label = String(rec[rel.labelField] || rec.id || "Unnamed");
+            if (rel.table === "package-variants") {
+              const packageId = String((rec as Record<string, unknown>).packageId || "");
               const packageName = packagesMap[packageId] || "Unknown Package";
               label = `${packageName} - ${label}`;
             }
             return {
               label,
-              value: (rec[field.relation!.valueField] || rec.id) as string | number | boolean,
+              value: (rec[rel.valueField] || rec.id) as string | number | boolean,
             };
           });
 
-          setRelationOptions((prev) => ({
-            ...prev,
-            [field.name]: options,
-          }));
+          if (!cancelled) {
+            setRelationOptions((prev) => ({ ...prev, [field.name]: options }));
+          }
         } catch (err) {
           console.error(`Failed to load relation options for ${field.name}:`, err);
         }
       }
     };
 
-    if (table) {
-      fetchRelations();
-    }
-  }, [table, fields]);
+    fetchRelations();
+    return () => {
+      cancelled = true;
+    };
+  }, [fields, table]);
 
   const handleInputChange = (name: string, value: unknown) => {
     setFormData((prev) => ({
@@ -181,9 +181,6 @@ export default function AdminFormDrawer({
       [name]: value,
     }));
   };
-
-  // Tag inputs helper (for Highlights, Inclusions, tags list)
-  const [tagInputText, setTagInputText] = useState<Record<string, string>>({});
 
   const handleAddTag = (fieldName: string, e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -209,7 +206,6 @@ export default function AdminFormDrawer({
     handleInputChange(fieldName, newTags);
   };
 
-  // Submit Handler
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -224,7 +220,7 @@ export default function AdminFormDrawer({
       }
     }
 
-    // Process JSON fields
+    // Process JSON and number fields
     const processedData = { ...formData };
     for (const f of fields) {
       if (f.type === "json") {
@@ -245,7 +241,6 @@ export default function AdminFormDrawer({
         }
       }
 
-      // Convert numbers explicitly
       if (
         f.type === "number" &&
         processedData[f.name] !== undefined &&
@@ -256,35 +251,34 @@ export default function AdminFormDrawer({
     }
 
     try {
-      setSaving(true);
       if (recordId) {
-        // Edit Mode
-        // If composite keys table (like destination-neighbours), call update without a single ID,
-        // but we'll extract filter parameters. Standard table uses standard ID.
         if (tableConfig.compositeKeys) {
           const filterQueries = tableConfig.compositeKeys
             .map((k) => `${k}=eq.${formData[k]}`)
             .join("&");
-          await updateRecord(table, null, processedData, filterQueries);
+          await updateMutation.mutateAsync({
+            id: null,
+            data: processedData,
+            queryParams: filterQueries,
+          });
         } else {
-          await updateRecord(table, recordId, processedData);
+          await updateMutation.mutateAsync({ id: recordId, data: processedData });
         }
         showToast("success", "Update Success", "The database record has been updated.");
       } else {
-        // Create Mode
-        await createRecord(table, processedData);
+        await createMutation.mutateAsync(processedData);
         showToast("success", "Create Success", "A new database record has been created.");
       }
       onSaved();
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : "Failed to save record";
       showToast("error", "Save Failed", errorMessage);
-    } finally {
-      setSaving(false);
     }
   };
 
-  // Group fields for large forms
+  const saving = createMutation.isPending || updateMutation.isPending;
+
+  // Field grouping for large forms
   const generalFields = fields.filter(
     (f) =>
       !f.name.startsWith("seo") &&
@@ -332,7 +326,7 @@ export default function AdminFormDrawer({
           </div>
         );
 
-      case "boolean":
+      case "boolean": {
         const isChecked = !!formData[field.name];
         return (
           <div key={field.name} className="w-full">
@@ -368,6 +362,7 @@ export default function AdminFormDrawer({
             </div>
           </div>
         );
+      }
 
       case "textarea":
         return (
@@ -385,7 +380,7 @@ export default function AdminFormDrawer({
           </div>
         );
 
-      case "select":
+      case "select": {
         const rawOptions = field.relation ? relationOptions[field.name] || [] : field.options || [];
         const dropdownOptions = rawOptions.map((opt) => ({
           value: String(opt.value),
@@ -415,6 +410,7 @@ export default function AdminFormDrawer({
             />
           </div>
         );
+      }
 
       case "image":
         return (
@@ -427,7 +423,7 @@ export default function AdminFormDrawer({
           />
         );
 
-      case "images-list":
+      case "images-list": {
         const list = (formData[field.name] as string[]) || [];
         return (
           <div key={field.name} className="w-full space-y-3">
@@ -465,8 +461,9 @@ export default function AdminFormDrawer({
             </div>
           </div>
         );
+      }
 
-      case "array-string":
+      case "array-string": {
         const tags = (formData[field.name] as string[]) || [];
         return (
           <div key={field.name} className="w-full">
@@ -509,8 +506,9 @@ export default function AdminFormDrawer({
             />
           </div>
         );
+      }
 
-      case "json":
+      case "json": {
         const jsonVal = formData[field.name];
         return (
           <div key={field.name} className="w-full">
@@ -550,6 +548,7 @@ export default function AdminFormDrawer({
               )}
           </div>
         );
+      }
 
       default:
         return null;
@@ -558,7 +557,6 @@ export default function AdminFormDrawer({
 
   return (
     <motion.div className="fixed inset-0 z-40 flex justify-end">
-      {/* Backdrop Overlay */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -568,7 +566,6 @@ export default function AdminFormDrawer({
         onClick={onClose}
       />
 
-      {/* Sliding Panel */}
       <motion.div
         initial={{ x: "100%" }}
         animate={{ x: 0 }}
@@ -603,7 +600,7 @@ export default function AdminFormDrawer({
           </button>
         </div>
 
-        {/* Loading details State */}
+        {/* Loading state */}
         {loading ? (
           <div className="flex-1 flex flex-col items-center justify-center bg-white">
             <Loader2 className="w-8 h-8 text-brand animate-spin" />
@@ -611,12 +608,9 @@ export default function AdminFormDrawer({
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="flex-1 flex flex-col overflow-hidden">
-            {/* Form Body - Scrollable content */}
             <div className="flex-1 overflow-y-auto p-6 space-y-6 dropdown-scrollbar bg-white">
               {isLargeForm ? (
-                // Large forms tabbed layout
                 <div className="space-y-6">
-                  {/* Tabs Segment Control */}
                   <div className="flex rounded-full bg-neutral-100 p-1 w-fit border border-neutral-200">
                     <button
                       type="button"
@@ -670,7 +664,6 @@ export default function AdminFormDrawer({
                     )}
                   </div>
 
-                  {/* Tab panels */}
                   <div className="space-y-5 animate-in fade-in duration-200">
                     {activeTab === "general" && (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -707,7 +700,6 @@ export default function AdminFormDrawer({
                   </div>
                 </div>
               ) : (
-                // Normal Forms (Single Column Layout)
                 <div className="grid grid-cols-1 gap-5">
                   {fields.map((f) => (
                     <div key={f.name}>{renderField(f)}</div>

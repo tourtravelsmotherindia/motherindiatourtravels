@@ -11,7 +11,6 @@ import {
   FileText,
   Globe,
   HardDrive,
-  Loader2,
   Mail,
   MoreVertical,
   Network,
@@ -21,28 +20,16 @@ import {
   TrendingUp,
   XCircle,
 } from "lucide-react";
-
-interface BookingItem {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  createdAt: string;
-  status: string;
-  numberOfPeople?: number;
-  adults: number;
-  children: number;
-  infants: number;
-  rooms: number;
-}
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 import AdminCard from "@/components/manage/AdminCard";
+import LoadingState from "@/components/manage/LoadingState";
 import { useToast } from "@/context/ToastContext";
-import { adminPost, getRecords } from "@/lib/adminApi";
+import { useSystemPing } from "@/lib/hooks/mutations";
+import { useDashboardMetrics } from "@/lib/hooks/queries";
+import type { BookingSummary } from "@/lib/hooks/queries/useDashboardMetrics";
 import { formatLocalDateTime, formatLocalDateTimeVerbose } from "@/lib/manage/dateUtils";
-import type { SystemStatus } from "@/types/system-status";
 
 interface MetricCardProps {
   title: string;
@@ -82,87 +69,30 @@ function MetricCard({ title, value, change, icon }: MetricCardProps) {
 export default function DashboardOverview() {
   const { showToast } = useToast();
   const [mounted, setMounted] = useState<boolean>(false);
-  const [metrics, setMetrics] = useState({
-    bookingsCount: 0,
-    newBookings: 0,
-    packagesCount: 0,
-    blogsCount: 0,
-    contactsCount: 0,
-  });
-  const [recentBookings, setRecentBookings] = useState<BookingItem[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [systemStatus, setSystemStatus] = useState<SystemStatus | null>(null);
-  const [pinging, setPinging] = useState<boolean>(false);
+
+  const { data: metrics, isLoading: loading, isError, error, refetch } = useDashboardMetrics();
+
+  const pingMutation = useSystemPing();
 
   useEffect(() => {
-    setTimeout(() => {
-      setMounted(true);
-    }, 0);
-    const loadDashboardData = async () => {
-      try {
-        setLoading(true);
-        const [bookings, packages, blogs, contacts, statusRecords] = await Promise.all([
-          getRecords<BookingItem>("bookings"),
-          getRecords<unknown>("packages"),
-          getRecords<unknown>("blog-posts"),
-          getRecords<unknown>("contacts"),
-          getRecords<SystemStatus>("system-status", "order=createdAt.desc&limit=1").catch((e) => {
-            console.error("Failed to fetch system status:", e);
-            return [];
-          }),
-        ]);
-
-        const newBookingsCount = bookings.filter((b) => b.status === "NEW").length;
-
-        setMetrics({
-          bookingsCount: bookings.length,
-          newBookings: newBookingsCount,
-          packagesCount: packages.length,
-          blogsCount: blogs.length,
-          contactsCount: contacts.length,
-        });
-
-        const statusRecord = statusRecords && statusRecords.length > 0 ? statusRecords[0] : null;
-        setSystemStatus(statusRecord);
-
-        const sorted = [...bookings].sort(
-          (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-        );
-        setRecentBookings(sorted.slice(0, 5));
-      } catch (err: unknown) {
-        console.error("Dashboard metrics load failed:", err);
-        const errMsg = err instanceof Error ? err.message : "";
-        // Don't toast on session expiry — the layout handles redirect smoothly
-        if (!errMsg.includes("Session expired")) {
-          showToast("error", "Dashboard Metrics", errMsg || "Failed to load dashboard metrics");
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadDashboardData();
-  }, [showToast]);
+    setTimeout(() => setMounted(true), 0);
+  }, []);
 
   const handleManualPing = async () => {
     try {
-      setPinging(true);
-      const response = await adminPost<{ success: boolean; data: SystemStatus; error?: string }>(
-        "/admin/system-status/ping",
-        {},
-      );
+      const response = await pingMutation.mutateAsync();
       if (response && response.success) {
         showToast("success", "System Diagnostic", "Uptime status updated successfully!");
-        setSystemStatus(response.data);
       } else {
         throw new Error(response?.error || "Diagnostics failed");
       }
     } catch (err: unknown) {
       console.error("Diagnostic check failed:", err);
       const errMsg = err instanceof Error ? err.message : "Failed to trigger system status check.";
-      showToast("error", "System Diagnostic", errMsg);
-    } finally {
-      setPinging(false);
+      // Don't toast on session expiry — the layout handles redirect smoothly
+      if (!errMsg.includes("Session expired")) {
+        showToast("error", "System Diagnostic", errMsg);
+      }
     }
   };
 
@@ -218,6 +148,20 @@ export default function DashboardOverview() {
     }
   };
 
+  // Derived values (safe when data is undefined during loading)
+  const metricsValues = metrics ?? {
+    bookingsCount: 0,
+    newBookings: 0,
+    packagesCount: 0,
+    blogsCount: 0,
+    contactsCount: 0,
+    systemStatus: null,
+    recentBookings: [] as BookingSummary[],
+  };
+
+  const systemStatus = metricsValues.systemStatus;
+  const recentBookings = metricsValues.recentBookings;
+
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
       {/* Page Heading */}
@@ -244,27 +188,46 @@ export default function DashboardOverview() {
         </div>
       </div>
 
+      {/* Error state for the whole dashboard */}
+      {isError && (
+        <div className="bg-white rounded-2xl border border-red-100 p-6">
+          <div className="flex items-center gap-3 mb-2">
+            <AlertTriangle className="w-5 h-5 text-red-500" />
+            <p className="text-sm font-bold text-red-700">Dashboard data failed to load</p>
+          </div>
+          <p className="text-xs text-red-500 mb-4">
+            {error instanceof Error ? error.message : "Unknown error"}
+          </p>
+          <button
+            onClick={() => refetch()}
+            className="px-4 py-2 rounded-full bg-white border border-red-200 text-xs font-semibold text-red-600 hover:bg-red-50 transition-colors"
+          >
+            Retry
+          </button>
+        </div>
+      )}
+
       {/* Metrics Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard
           title="Total Bookings"
-          value={loading ? "..." : metrics.bookingsCount}
-          change={metrics.newBookings > 0 ? `+${metrics.newBookings} new` : undefined}
+          value={loading ? "..." : metricsValues.bookingsCount}
+          change={metricsValues.newBookings > 0 ? `+${metricsValues.newBookings} new` : undefined}
           icon={<Receipt className="w-3.5 h-3.5" />}
         />
         <MetricCard
           title="Tour Packages"
-          value={loading ? "..." : metrics.packagesCount}
+          value={loading ? "..." : metricsValues.packagesCount}
           icon={<Package className="w-3.5 h-3.5" />}
         />
         <MetricCard
           title="Articles & Blogs"
-          value={loading ? "..." : metrics.blogsCount}
+          value={loading ? "..." : metricsValues.blogsCount}
           icon={<FileText className="w-3.5 h-3.5" />}
         />
         <MetricCard
           title="Contact Forms"
-          value={loading ? "..." : metrics.contactsCount}
+          value={loading ? "..." : metricsValues.contactsCount}
           icon={<Mail className="w-3.5 h-3.5" />}
         />
       </div>
@@ -288,9 +251,7 @@ export default function DashboardOverview() {
 
           <div className="overflow-x-auto no-scrollbar">
             {loading ? (
-              <div className="py-12 flex justify-center">
-                <Loader2 className="w-5 h-5 text-brand animate-spin" />
-              </div>
+              <LoadingState message="Loading bookings..." variant="inline" />
             ) : recentBookings.length === 0 ? (
               <div className="py-12 text-center text-xs text-neutral-500 font-medium italic">
                 No bookings found yet.
@@ -388,18 +349,18 @@ export default function DashboardOverview() {
               </div>
               <button
                 onClick={handleManualPing}
-                disabled={pinging || loading}
+                disabled={pingMutation.isPending || loading}
                 className="p-2 rounded-lg border border-neutral-100 text-neutral-500 hover:text-brand hover:border-brand/20 hover:bg-brand-light/20 transition-all duration-200 disabled:opacity-50 cursor-pointer"
                 title="Run diagnostic check"
               >
-                <RefreshCw className={`w-3.5 h-3.5 ${pinging ? "animate-spin text-brand" : ""}`} />
+                <RefreshCw
+                  className={`w-3.5 h-3.5 ${pingMutation.isPending ? "animate-spin text-brand" : ""}`}
+                />
               </button>
             </div>
 
             {loading ? (
-              <div className="py-6 flex justify-center">
-                <Loader2 className="w-4 h-4 text-brand animate-spin" />
-              </div>
+              <LoadingState message="Loading system status..." variant="inline" />
             ) : !systemStatus ? (
               <div className="py-4 text-center text-xs text-neutral-500 font-medium italic border border-dashed border-neutral-100 rounded-xl">
                 No status data. Click reload to check.

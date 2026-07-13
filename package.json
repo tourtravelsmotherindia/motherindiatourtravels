@@ -18,13 +18,15 @@
   "dependencies": {
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
+    "@tanstack/react-query": "^5.101.2",
     "countries-list": "^3.4.0",
     "framer-motion": "^12.42.2",
     "lucide-react": "^1.23.0",
     "maplibre-gl": "^5.24.0",
     "next": "16.2.10",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "zustand": "^5.0.14"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"

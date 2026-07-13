@@ -9,6 +9,7 @@ import ConfirmationModal from "@/components/ui/ConfirmationModal";
 import { useToast } from "@/context/ToastContext";
 import { adminGet, adminPost } from "@/lib/adminApi";
 import { ADMIN_TABLES } from "@/lib/adminSchema";
+import { useSystemPing } from "@/lib/hooks/mutations";
 
 interface ManageHeaderProps {
   onOpenMobile: () => void;
@@ -29,15 +30,12 @@ export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHe
   const [deployState, setDeployState] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [deployStatus, setDeployStatus] = useState<DeployStatus | null>(null);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
-  const [pinging, setPinging] = useState(false);
+
+  const pingMutation = useSystemPing();
 
   const handleSystemPing = async () => {
     try {
-      setPinging(true);
-      const response = await adminPost<{ success: boolean; data: unknown; error?: string }>(
-        "/admin/system-status/ping",
-        {},
-      );
+      const response = await pingMutation.mutateAsync();
       if (response && response.success) {
         showToast("success", "Diagnostic Check", "New system status check executed!");
         window.dispatchEvent(new CustomEvent("system-status-pinged"));
@@ -48,8 +46,6 @@ export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHe
       console.error("Diagnostic trigger failed:", err);
       const errMsg = err instanceof Error ? err.message : "Failed to run manual diagnostics.";
       showToast("error", "Diagnostic Failed", errMsg);
-    } finally {
-      setPinging(false);
     }
   };
 
@@ -303,10 +299,10 @@ export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHe
           {pathname.startsWith("/manage/system-status") && (
             <button
               onClick={handleSystemPing}
-              disabled={pinging}
+              disabled={pingMutation.isPending}
               className="flex items-center justify-center gap-1.5 rounded-full bg-brand hover:bg-brand-hover text-white font-semibold text-xs py-1.5 px-4 shadow-premium transition-all cursor-pointer disabled:opacity-50 shrink-0"
             >
-              {pinging ? (
+              {pingMutation.isPending ? (
                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
               ) : (
                 <RefreshCw className="w-3.5 h-3.5" />

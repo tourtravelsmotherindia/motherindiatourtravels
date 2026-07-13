@@ -6,6 +6,7 @@ import localFont from "next/font/local";
 
 import PopupModal from "@/components/layout/PopupModal";
 import { ToastProvider } from "@/context/ToastContext";
+import { QueryProvider } from "@/lib/providers/QueryProvider";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -68,10 +69,12 @@ export default function RootLayout({
       className={`${poppins.variable} ${tripSans.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
-        <ToastProvider>
-          {children}
-          <PopupModal />
-        </ToastProvider>
+        <QueryProvider>
+          <ToastProvider>
+            {children}
+            <PopupModal />
+          </ToastProvider>
+        </QueryProvider>
       </body>
     </html>
   );
