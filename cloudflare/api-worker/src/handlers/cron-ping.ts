@@ -29,7 +29,10 @@ async function pingUrl(url: string): Promise<{ success: boolean; timeMs: number 
   }
 }
 
-export async function handleCronPing(env: Env): Promise<Record<string, unknown>> {
+export async function handleCronPing(
+  env: Env,
+  triggeredBy = "cloudflare-worker-cron",
+): Promise<Record<string, unknown>> {
   console.log("[KeepAlive Cron] Starting system status and keep-alive checks...");
 
   const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
@@ -91,8 +94,9 @@ export async function handleCronPing(env: Env): Promise<Record<string, unknown>>
 
   // 4. Save results to SystemStatus table (generates write activity)
   const now = new Date().toISOString();
+  const id = crypto.randomUUID();
   const statusPayload = {
-    id: "singleton",
+    id,
     status,
     lastPing: now,
     websiteStatus: websiteCheck.success ? "up" : "down",
@@ -105,18 +109,36 @@ export async function handleCronPing(env: Env): Promise<Record<string, unknown>>
       blogsCount,
       destinationsCount,
       recentInquiriesCount,
-      updatedBy: "cloudflare-worker-cron",
+      updatedBy: triggeredBy,
       websitePingTimeMs: websiteCheck.timeMs,
       apiPingTimeMs: apiCheck.timeMs,
       imagesPingTimeMs: imagesCheck.timeMs,
       dbPingTimeMs,
     },
-    updatedAt: now,
+    createdAt: now,
   };
 
   try {
-    const result = await db.from("SystemStatus").upsert(statusPayload, "id");
-    console.log("[KeepAlive Cron] Upserted SystemStatus successfully:", result);
+    // 1. Insert new health log
+    const result = await db.from("SystemStatus").insert(statusPayload);
+    console.log("[KeepAlive Cron] Log inserted successfully:", result);
+
+    // 2. Delete logs older than 90 days
+    const ninetyDaysAgo = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString();
+    const deleteUrl = `${env.SUPABASE_URL}/rest/v1/SystemStatus?createdAt=lt.${ninetyDaysAgo}`;
+    const deleteRes = await fetch(deleteUrl, {
+      method: "DELETE",
+      headers: {
+        apikey: env.SUPABASE_SECRET_KEY,
+        Authorization: `Bearer ${env.SUPABASE_SECRET_KEY}`,
+      },
+    });
+    if (!deleteRes.ok) {
+      console.error("[KeepAlive Cron] Failed to purge old logs:", await deleteRes.text());
+    } else {
+      console.log("[KeepAlive Cron] Successfully purged logs older than 90 days.");
+    }
+
     return statusPayload;
   } catch (err) {
     console.error("[KeepAlive Cron] Failed to write SystemStatus to database:", err);
@@ -150,14 +172,7 @@ export async function handleAdminSystemStatusPing(request: Request, env: Env): P
   }
 
   try {
-    const data = await handleCronPing(env);
-    // Explicitly override updatedBy to show it was triggered by admin
-    if (data.metadata) {
-      (data.metadata as any).updatedBy = "admin-dashboard-manual";
-    }
-    const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
-    await db.from("SystemStatus").upsert(data as Record<string, unknown>, "id");
-
+    const data = await handleCronPing(env, "admin-dashboard-manual");
     return Response.json({ success: true, message: "System health check triggered", data });
   } catch (error: any) {
     return Response.json({ success: false, error: error.message }, { status: 500 });

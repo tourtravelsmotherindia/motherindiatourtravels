@@ -51,7 +51,6 @@ const TABLES_WITH_UPDATED_AT = [
   "BookingInquiry",
   "Company",
   "User",
-  "SystemStatus",
 ];
 
 // Resolves table name or returns error response

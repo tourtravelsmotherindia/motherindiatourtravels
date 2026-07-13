@@ -298,37 +298,45 @@ export default function CrudClient({ table }: CrudClientProps) {
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
       {/* Search & Actions Toolbar */}
-      <div className="bg-white rounded-[1.5rem] border border-border-light p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        {/* Search Input Box */}
-        <div className="relative max-w-sm w-full">
-          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-neutral-400">
-            <Search className="w-4 h-4" />
-          </div>
-          <input
-            type="text"
-            placeholder={
-              tableConfig.searchField
-                ? `Search by ${tableConfig.searchField}...`
-                : "Search records..."
-            }
-            value={searchTerm}
-            onChange={(e) => {
-              setSearchTerm(e.target.value);
-              setCurrentPage(1);
-            }}
-            className="w-full rounded-full border border-border-light pl-11 pr-5 py-2.5 text-sm focus:border-brand focus:outline-none transition-colors bg-white"
-          />
-        </div>
+      {(!tableConfig.disableSearch || !tableConfig.disableCreate) && (
+        <div className="bg-white rounded-[1.5rem] border border-border-light p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          {/* Search Input Box */}
+          {!tableConfig.disableSearch ? (
+            <div className="relative max-w-sm w-full">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-neutral-400">
+                <Search className="w-4 h-4" />
+              </div>
+              <input
+                type="text"
+                placeholder={
+                  tableConfig.searchField
+                    ? `Search by ${tableConfig.searchField}...`
+                    : "Search records..."
+                }
+                value={searchTerm}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  setCurrentPage(1);
+                }}
+                className="w-full rounded-full border border-border-light pl-11 pr-5 py-2.5 text-sm focus:border-brand focus:outline-none transition-colors bg-white"
+              />
+            </div>
+          ) : (
+            <div />
+          )}
 
-        {/* Action Buttons */}
-        <button
-          onClick={handleAddNew}
-          className="flex items-center justify-center gap-2 rounded-full bg-brand hover:bg-brand-hover text-white font-semibold text-sm py-2.5 px-6 shadow-premium transition-all cursor-pointer"
-        >
-          <Plus className="w-4 h-4" />
-          <span>Add New {getSingularLabel(tableConfig.label)}</span>
-        </button>
-      </div>
+          {/* Action Buttons */}
+          {!tableConfig.disableCreate && (
+            <button
+              onClick={handleAddNew}
+              className="flex items-center justify-center gap-2 rounded-full bg-brand hover:bg-brand-hover text-white font-semibold text-sm py-2.5 px-6 shadow-premium transition-all cursor-pointer"
+            >
+              <Plus className="w-4 h-4" />
+              <span>Add New {getSingularLabel(tableConfig.label)}</span>
+            </button>
+          )}
+        </div>
+      )}
 
       {/* Main Database Table Browser */}
       <div className="bg-white rounded-[2rem] border border-border-light overflow-hidden">
@@ -380,20 +388,29 @@ export default function CrudClient({ table }: CrudClientProps) {
                           </td>
                         ))}
                         <td className="py-3.5 px-6 text-right space-x-1.5 flex items-center justify-end h-full">
-                          <button
-                            onClick={() => handleEdit((rec.id as string) || rowKey)}
-                            title="Edit Record"
-                            className="p-2 rounded-full border border-neutral-100 hover:border-brand hover:bg-brand-light text-neutral-500 hover:text-brand transition-all"
-                          >
-                            <Edit2 className="w-3.5 h-3.5" />
-                          </button>
-                          <button
-                            onClick={() => handleDeleteTrigger(rec)}
-                            title="Delete Record"
-                            className="p-2 rounded-full border border-neutral-100 hover:border-red-600 hover:bg-red-50 text-neutral-500 hover:text-red-600 transition-all"
-                          >
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </button>
+                          {!tableConfig.disableUpdate && (
+                            <button
+                              onClick={() => handleEdit((rec.id as string) || rowKey)}
+                              title="Edit Record"
+                              className="p-2 rounded-full border border-neutral-100 hover:border-brand hover:bg-brand-light text-neutral-500 hover:text-brand transition-all"
+                            >
+                              <Edit2 className="w-3.5 h-3.5" />
+                            </button>
+                          )}
+                          {!tableConfig.disableDelete && (
+                            <button
+                              onClick={() => handleDeleteTrigger(rec)}
+                              title="Delete Record"
+                              className="p-2 rounded-full border border-neutral-100 hover:border-red-600 hover:bg-red-50 text-neutral-500 hover:text-red-600 transition-all"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          )}
+                          {tableConfig.disableUpdate && tableConfig.disableDelete && (
+                            <span className="text-[10px] text-neutral-400 font-semibold italic select-none">
+                              Read-only
+                            </span>
+                          )}
                         </td>
                       </tr>
                     );

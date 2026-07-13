@@ -18,5 +18,5 @@ export interface SystemStatus {
     imagesPingTimeMs?: number;
     dbPingTimeMs?: number;
   } | null;
-  updatedAt: string;
+  createdAt: string;
 }

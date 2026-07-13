@@ -94,4 +94,4 @@ Captures analytics, customer inquiries, reviews, and office contact information.
 
 Monitors infrastructure health and keeps the Supabase instance active.
 
-- **SystemStatus**: Singleton record (`id = "singleton"`) storing operational health metrics for the website, API worker, images worker, and database. It tracks latency and records the last keep-alive sync execution timestamp.
+- **SystemStatus**: Historical log records storing operational health metrics for the website, API worker, images worker, and database. It tracks latency, individual uptime checks, and records each keep-alive sync execution timestamp for diagnostic dashboards.

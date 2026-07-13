@@ -531,10 +531,10 @@ model User {
 
 // SYSTEM & MONITORING GROUP
 
-// Singleton record (id = "singleton") for system monitoring, health checks, and dashboard metrics.
+// Historical record for system monitoring, health checks, and dashboard metrics.
 // Updated regularly by background cron/worker tasks to prevent database pausing and track health.
 model SystemStatus {
-  id            String   @id @default("singleton")
+  id            String   @id @default(dbgenerated("gen_random_uuid()"))
   status        String   @default("healthy") // overall system status
   lastPing      DateTime @default(now())
   websiteStatus String   @default("up")
@@ -542,7 +542,7 @@ model SystemStatus {
   imagesStatus  String   @default("up")
   dbStatus      String   @default("up")
   metadata      Json?    // Detailed metrics and health check timestamps
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime @default(now())
 }
 
 

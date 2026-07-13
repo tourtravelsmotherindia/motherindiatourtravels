@@ -33,6 +33,10 @@ export interface TableConfig {
   searchField?: string; // Field to search on (e.g. "name")
   displayColumns: string[]; // Fields to show in list table
   compositeKeys?: string[]; // If composite table, list the keys (e.g. ["variantId", "destinationId"])
+  disableCreate?: boolean;
+  disableUpdate?: boolean;
+  disableDelete?: boolean;
+  disableSearch?: boolean;
 }
 
 export interface SidebarGroup {
@@ -931,6 +935,10 @@ export const ADMIN_TABLES: Record<string, TableConfig> = {
     label: "System Status",
     dbName: "SystemStatus",
     icon: "Network",
+    disableCreate: true,
+    disableUpdate: true,
+    disableDelete: true,
+    disableSearch: true,
     displayColumns: [
       "id",
       "status",
