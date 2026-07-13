@@ -167,6 +167,28 @@ export function createSupabaseClient(supabaseUrl: string, secretKey: string) {
         return null;
       }
     },
+
+    /**
+     * Sign up with email + password via Supabase Auth.
+     * Returns the created user object on success.
+     */
+    async signUp(email: string, password: string): Promise<{ id: string; email: string } | null> {
+      try {
+        const res = await fetch(`${authUrl}/signup`, {
+          method: "POST",
+          headers: {
+            apikey: secretKey,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        });
+        if (!res.ok) return null;
+        const resData = (await res.json()) as any;
+        return resData.user || resData;
+      } catch {
+        return null;
+      }
+    },
   };
 }
 

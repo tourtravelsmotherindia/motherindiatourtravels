@@ -10,7 +10,7 @@ import {
   handleAdminCrudGet,
   handleAdminCrudUpdate,
 } from "./handlers/admin-crud";
-import { handleLogin } from "./handlers/auth-handler";
+import { handleLogin, handleSignup, handleCheckInit } from "./handlers/auth-handler";
 import {
   handleBlogsCreate,
   handleBlogsDelete,
@@ -103,8 +103,16 @@ async function route(
   }
 
   // Auth
-  if (resource === "auth" && sub === "login" && method === "POST") {
-    return handleLogin(request, env);
+  if (resource === "auth") {
+    if (sub === "login" && method === "POST") {
+      return handleLogin(request, env);
+    }
+    if (sub === "signup" && method === "POST") {
+      return handleSignup(request, env);
+    }
+    if (sub === "check-init" && method === "GET") {
+      return handleCheckInit(request, env);
+    }
   }
 
   // Public form endpoints

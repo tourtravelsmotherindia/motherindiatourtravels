@@ -2,7 +2,7 @@
 
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useToast } from "@/context/ToastContext";
 import { setTokens } from "@/lib/adminApi";
@@ -16,6 +16,24 @@ export default function LoginPage() {
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [needsInit, setNeedsInit] = useState<boolean>(false);
+
+  useEffect(() => {
+    const checkInitialization = async () => {
+      try {
+        const API_BASE =
+          process.env.NEXT_PUBLIC_API_URL ?? "https://api.motherindiatourtravels.com";
+        const res = await fetch(`${API_BASE}/auth/check-init`);
+        if (res.ok) {
+          const data = await res.json();
+          setNeedsInit(!!data.needsInitialization);
+        }
+      } catch (err) {
+        console.error("Failed to check initialization status:", err);
+      }
+    };
+    checkInitialization();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,7 +47,8 @@ export default function LoginPage() {
       setLoading(true);
       const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "https://api.motherindiatourtravels.com";
 
-      const res = await fetch(`${API_BASE}/auth/login`, {
+      const endpoint = needsInit ? "/auth/signup" : "/auth/login";
+      const res = await fetch(`${API_BASE}${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -45,7 +64,11 @@ export default function LoginPage() {
       setTokens(data.access_token, data.refresh_token);
       localStorage.setItem("admin_email", email);
 
-      showToast("success", "Security Gate Unlocked", "Redirecting to admin workspace...");
+      const successTitle = needsInit ? "Admin Initialized" : "Security Gate Unlocked";
+      const successMsg = needsInit
+        ? "Admin account created successfully! Redirecting..."
+        : "Redirecting to admin workspace...";
+      showToast("success", successTitle, successMsg);
 
       // Redirect to the originally requested page, or base dashboard
       const redirectPath = searchParams.get("redirect") || "/manage/";
@@ -97,10 +120,12 @@ export default function LoginPage() {
       <div className="flex-1 flex items-center justify-center z-10 w-full max-w-md my-auto animate-in fade-in zoom-in-95 duration-500">
         <div className="bg-white rounded-[2.5rem] p-8 sm:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.03)] border border-neutral-100/50 w-full flex flex-col items-center">
           <h2 className="font-display font-extrabold text-3xl text-neutral-900 text-center tracking-tight">
-            Admin Login
+            {needsInit ? "Create Admin" : "Admin Login"}
           </h2>
           <p className="text-xs text-neutral-500 font-semibold text-center mt-2 max-w-[240px] leading-relaxed">
-            Hey, Enter your details to get sign in to your account
+            {needsInit
+              ? "Initialize the primary administrator account for this system"
+              : "Hey, Enter your details to get sign in to your account"}
           </p>
 
           <form onSubmit={handleSubmit} className="w-full mt-8 space-y-4">
@@ -149,10 +174,10 @@ export default function LoginPage() {
               {loading ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin text-white" />
-                  <span>Signing in...</span>
+                  <span>{needsInit ? "Initializing..." : "Signing in..."}</span>
                 </>
               ) : (
-                <span>Sign in</span>
+                <span>{needsInit ? "Create Admin Account" : "Sign in"}</span>
               )}
             </button>
           </form>
