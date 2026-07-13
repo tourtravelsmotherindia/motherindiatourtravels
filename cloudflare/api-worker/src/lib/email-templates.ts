@@ -1,58 +1,10 @@
-const BRAND = "#e05423";
-const BRAND_DARK = "#111111";
-
-function baseTemplate(content: string, previewText: string): string {
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Mother India Tour Travels</title>
-  <!--[if mso]><style>td, th { font-family: Arial, sans-serif !important; }</style><![endif]-->
-</head>
-<body style="margin:0;padding:0;background:#f5f4f2;font-family:Arial,Helvetica,sans-serif;">
-  <!-- Preview text -->
-  <div style="display:none;max-height:0;overflow:hidden;">${previewText}&zwnj;&nbsp;&zwnj;</div>
-
-  <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background:#f5f4f2;">
-    <tr><td align="center" style="padding:32px 16px;">
-      <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;">
-
-        <!-- Header -->
-        <tr><td style="background:${BRAND_DARK};border-radius:16px 16px 0 0;padding:28px 32px;text-align:center;">
-          <p style="margin:0;font-size:22px;font-weight:bold;color:#ffffff;letter-spacing:-0.5px;">Mother India Tour Travels</p>
-          <p style="margin:6px 0 0;font-size:12px;color:rgba(255,255,255,0.55);letter-spacing:2px;text-transform:uppercase;">Premium Travel Experiences</p>
-        </td></tr>
-
-        <!-- Accent bar -->
-        <tr><td style="background:${BRAND};height:4px;"></td></tr>
-
-        <!-- Body -->
-        <tr><td style="background:#ffffff;padding:36px 32px;border-radius:0 0 16px 16px;">
-          ${content}
-        </td></tr>
-
-        <!-- Footer -->
-        <tr><td style="padding:24px 32px;text-align:center;">
-          <p style="margin:0;font-size:12px;color:#999999;line-height:1.6;">Mother India Tour Travels · India<br>This is an automated message. Please do not reply directly to this email.</p>
-        </td></tr>
-
-      </table>
-    </td></tr>
-  </table>
-</body>
-</html>`;
+export interface CompanyInfo {
+  name: string;
+  email: string;
+  address: string;
+  phone: string;
+  whatsapp: string;
 }
-
-function infoRow(label: string, value: string): string {
-  return `<tr>
-    <td style="padding:8px 0;font-size:13px;color:#666666;font-weight:600;width:40%;">${label}</td>
-    <td style="padding:8px 0;font-size:13px;color:#111111;font-weight:500;">${value || "—"}</td>
-  </tr>`;
-}
-
-// BOOKING TEMPLATES
 
 export interface BookingEmailData {
   guestName: string;
@@ -60,10 +12,13 @@ export interface BookingEmailData {
   guestPhone: string;
   packageName: string;
   variantLabel: string;
+  packageSlug: string;
+  variantSlug: string;
   travelDate: string;
   travelDateEnd: string;
   dateMode: string;
   flexibleMonth: string;
+  flexibleDays: number | null;
   adults: number;
   children: number;
   infants: number;
@@ -73,42 +28,245 @@ export interface BookingEmailData {
   dropLocation: string;
   message: string;
   source: string;
-  companyEmail: string;
+  company: CompanyInfo;
+}
+
+export interface ContactEmailData {
+  name: string;
+  email: string;
+  phone: string;
+  subject: string;
+  message: string;
+  source: string;
+  company: CompanyInfo;
+}
+
+function baseTemplate(content: string, previewText: string, company: CompanyInfo): string {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Mother India Tour Travels</title>
+  <!--[if !mso]><!-->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <!--<![endif]-->
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f7f6f4;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    table {
+      border-collapse: collapse;
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
+    }
+    td {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+    .heading {
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+    @media only screen and (max-width: 600px) {
+      .container {
+        padding: 16px 8px !important;
+      }
+      .content-card {
+        padding: 24px 16px !important;
+      }
+      .grid-cell {
+        display: block !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        margin-bottom: 16px !important;
+      }
+    }
+  </style>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f7f6f4;">
+  <div style="display:none;max-height:0;overflow:hidden;">${previewText}&zwnj;&nbsp;&zwnj;</div>
+  
+  <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f7f6f4;">
+    <tr>
+      <td align="center" style="padding: 40px 16px;" class="container">
+        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+          
+          <!-- Logo Header -->
+          <tr>
+            <td align="center" style="padding-bottom: 28px;">
+              <img src="https://images.motherindiatourtravels.com/logo.png" alt="Mother India Tour Travels" style="height: 52px; border: 0; display: block;" />
+            </td>
+          </tr>
+          
+          <!-- Main White Card -->
+          <tr>
+            <td style="background-color: #ffffff; border-radius: 12px; border: 1px solid #e8e6e2; box-shadow: 0 4px 12px rgba(0,0,0,0.015); padding: 40px;" class="content-card">
+              ${content}
+            </td>
+          </tr>
+          
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 32px 24px 0; text-align: center;">
+              <p style="margin: 0 0 16px; font-size: 14px; color: #666666; font-weight: 500; font-family: 'Outfit', sans-serif;">
+                Need Help?
+              </p>
+              <p style="margin: 0 0 24px; font-size: 13px; color: #555555; line-height: 1.8;">
+                Our customer support team is available to assist you:<br>
+                Email: <a href="mailto:${company.email}" style="color: #e05423; text-decoration: none; font-weight: 600;">${company.email}</a>
+                ${company.phone ? `<br>Phone: <a href="tel:${company.phone}" style="color: #111111; text-decoration: none; font-weight: 500;">${company.phone}</a>` : ""}
+                ${company.whatsapp ? `<br>WhatsApp: <a href="https://wa.me/${company.whatsapp.replace(/[^0-9]/g, "")}" style="color: #111111; text-decoration: none; font-weight: 500;">${company.whatsapp}</a>` : ""}
+              </p>
+              
+              <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-top: 1px solid #e8e6e2; padding-top: 24px;">
+                <tr>
+                  <td align="center" style="font-size: 12px; color: #999999; line-height: 1.6;">
+                    <strong>${company.name}</strong><br>
+                    ${company.address}<br><br>
+                    © 2026 ${company.name}. All rights reserved.<br>
+                    This is an automated message. Please do not reply directly to this email.
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+}
+
+function detailsBoxHeader(title: string, subtitle?: string): string {
+  return `<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-bottom: 1px solid #e8e6e2; padding-bottom: 16px; margin-bottom: 16px;">
+    <tr>
+      <td>
+        <span style="font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 700; color: #111111; display: block;">${title}</span>
+        ${subtitle ? `<span style="font-size: 13px; color: #666666; display: block; margin-top: 4px;">${subtitle}</span>` : ""}
+      </td>
+    </tr>
+  </table>`;
+}
+
+function detailsGridRow(
+  leftTitle: string,
+  leftVal: string,
+  rightTitle?: string,
+  rightVal?: string,
+): string {
+  return `<tr>
+    <td valign="top" width="${rightTitle ? "50%" : "100%"}" class="grid-cell" style="padding-bottom: 16px; font-size: 13px; color: #666666; line-height: 1.5;">
+      <strong style="font-family: 'Outfit', sans-serif; color: #111111; display: block; margin-bottom: 4px; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px;">${leftTitle}</strong>
+      <span style="color: #444444; font-weight: 500;">${leftVal}</span>
+    </td>
+    ${
+      rightTitle
+        ? `
+    <td valign="top" width="50%" class="grid-cell" style="padding-bottom: 16px; font-size: 13px; color: #666666; line-height: 1.5;">
+      <strong style="font-family: 'Outfit', sans-serif; color: #111111; display: block; margin-bottom: 4px; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px;">${rightTitle}</strong>
+      <span style="color: #444444; font-weight: 500;">${rightVal}</span>
+    </td>
+    `
+        : ""
+    }
+  </tr>`;
 }
 
 /** Email sent to the guest confirming their booking inquiry */
 export function bookingGuestTemplate(data: BookingEmailData): string {
+  const hotelLabel =
+    data.hotelCategory === "3star"
+      ? "3 Star (Standard)"
+      : data.hotelCategory === "5star"
+        ? "5 Star (Luxury)"
+        : "4 Star (Premium)";
+
+  const packageUrl = `https://www.motherindiatourtravels.com/packages/${data.packageSlug}${data.variantSlug ? "/" + data.variantSlug : ""}`;
+
+  const travellersText = `${data.adults} Adult${data.adults !== 1 ? "s" : ""}${data.children > 0 ? `, ${data.children} Child${data.children !== 1 ? "ren" : ""}` : ""}${data.infants > 0 ? `, ${data.infants} Infant${data.infants !== 1 ? "s" : ""}` : ""}`;
+
   const content = `
-    <h1 style="margin:0 0 8px;font-size:26px;font-weight:bold;color:${BRAND_DARK};">Booking Request Received! 🎉</h1>
-    <p style="margin:0 0 24px;font-size:15px;color:#555555;line-height:1.6;">Hi ${data.guestName}, thank you for choosing Mother India Tour Travels. We've received your booking inquiry and our travel specialists will be in touch within 24 hours to discuss your customised itinerary.</p>
+    <h2 class="heading" style="margin: 0 0 12px; font-size: 24px; font-weight: 700; color: #111111; letter-spacing: -0.5px;">Booking Inquiry Received</h2>
+    <p style="margin: 0 0 24px; font-size: 15px; color: #444444; line-height: 1.6;">Hi ${data.guestName}, thank you for choosing Mother India Tour Travels. We have received your booking inquiry and our travel specialists will contact you within 24 hours to discuss your customized itinerary.</p>
 
-    <div style="background:#fff8f5;border-left:4px solid ${BRAND};border-radius:8px;padding:20px 24px;margin-bottom:28px;">
-      <p style="margin:0 0 4px;font-size:11px;font-weight:bold;color:${BRAND};text-transform:uppercase;letter-spacing:1.5px;">Tour Package</p>
-      <p style="margin:0;font-size:18px;font-weight:bold;color:${BRAND_DARK};">${data.packageName}</p>
-      ${data.variantLabel ? `<p style="margin:4px 0 0;font-size:13px;color:#666666;">${data.variantLabel}</p>` : ""}
-    </div>
-
-    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:28px;">
-      ${data.travelDate ? infoRow("Travel Date", data.travelDate) : ""}
-      ${data.travelDateEnd ? infoRow("Return Date", data.travelDateEnd) : ""}
-      ${data.dateMode === "flexible" ? infoRow("Flexible Month", data.flexibleMonth) : ""}
-      ${infoRow("Travellers", `${data.adults} Adult${data.adults !== 1 ? "s" : ""}${data.children > 0 ? `, ${data.children} Child${data.children !== 1 ? "ren" : ""}` : ""}${data.infants > 0 ? `, ${data.infants} Infant${data.infants !== 1 ? "s" : ""}` : ""}`)}
-      ${infoRow("Rooms", `${data.rooms} Room${data.rooms !== 1 ? "s" : ""}`)}
-      ${infoRow("Hotel Category", data.hotelCategory === "3star" ? "3 Star (Standard)" : data.hotelCategory === "5star" ? "5 Star (Luxury)" : "4 Star (Premium)")}
-      ${data.pickupLocation ? infoRow("Pickup", data.pickupLocation) : ""}
-      ${data.dropLocation ? infoRow("Drop", data.dropLocation) : ""}
+    <!-- Details Card -->
+    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color: #fbfbfa; border: 1px solid #e8e6e2; border-radius: 8px; margin: 28px 0; overflow: hidden;">
+      <tr>
+        <td style="padding: 24px;">
+          ${detailsBoxHeader(data.packageName, data.variantLabel)}
+          
+          <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+            ${detailsGridRow(
+              data.dateMode === "flexible" ? "Flexible Month" : "Travel Date",
+              data.dateMode === "flexible" ? data.flexibleMonth : data.travelDate,
+              data.dateMode === "flexible" ? "Duration" : "Return Date",
+              data.dateMode === "flexible" ? `${data.flexibleDays} Days` : data.travelDateEnd,
+            )}
+            ${detailsGridRow(
+              "Travellers & Rooms",
+              `${travellersText}<br>Rooms: ${data.rooms}`,
+              "Hotel Standard",
+              hotelLabel,
+            )}
+            ${
+              data.pickupLocation || data.dropLocation
+                ? detailsGridRow(
+                    "Pickup Location",
+                    data.pickupLocation || "—",
+                    "Drop Location",
+                    data.dropLocation || "—",
+                  )
+                : ""
+            }
+          </table>
+        </td>
+      </tr>
     </table>
 
-    ${data.message ? `<div style="background:#f9f9f9;border-radius:8px;padding:16px 20px;margin-bottom:28px;"><p style="margin:0 0 6px;font-size:11px;font-weight:bold;color:#999999;text-transform:uppercase;letter-spacing:1px;">Your Message</p><p style="margin:0;font-size:14px;color:#444444;line-height:1.6;">${data.message}</p></div>` : ""}
+    ${
+      data.message
+        ? `
+    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 28px;">
+      <tr>
+        <td style="font-size: 13px; color: #666666; line-height: 1.5;">
+          <strong style="font-family: 'Outfit', sans-serif; color: #111111; display: block; margin-bottom: 6px; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px;">Your Message</strong>
+          <div style="background-color: #f7f6f4; border-radius: 6px; padding: 16px; font-size: 14px; color: #444444; border-left: 3px solid #e05423;">
+            ${data.message}
+          </div>
+        </td>
+      </tr>
+    </table>
+    `
+        : ""
+    }
 
-    <p style="margin:0 0 24px;font-size:14px;color:#555555;line-height:1.6;">If you have any urgent queries, feel free to reach out to us at <a href="mailto:${data.companyEmail}" style="color:${BRAND};text-decoration:none;font-weight:600;">${data.companyEmail}</a> and we'll be happy to assist you.</p>
+    <!-- CTA Button -->
+    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin: 32px 0 16px;">
+      <tr>
+        <td align="left">
+          <a href="${packageUrl}" target="_blank" style="display: inline-block; background-color: #e05423; color: #ffffff; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; text-decoration: none; padding: 12px 24px; border-radius: 6px; box-shadow: 0 4px 10px rgba(224, 84, 35, 0.15);">
+            View Package Details
+          </a>
+        </td>
+      </tr>
+    </table>
 
-    <p style="margin:0;font-size:14px;color:#555555;">Warm regards,<br><strong style="color:${BRAND_DARK};">Mother India Tour Travels Team</strong></p>
+    <p style="margin: 24px 0 0; font-size: 14px; color: #555555; line-height: 1.6;">
+      Warm regards,<br>
+      <strong style="color: #111111;">Mother India Tour Travels Team</strong>
+    </p>
   `;
 
   return baseTemplate(
     content,
-    `Booking received for ${data.packageName} — we'll be in touch soon!`,
+    `Booking received for ${data.packageName} — we will be in touch soon`,
+    data.company,
   );
 }
 
@@ -121,100 +279,175 @@ export function bookingCompanyTemplate(data: BookingEmailData): string {
         ? "5 Star (Luxury)"
         : "4 Star (Premium)";
 
+  const packageUrl = `https://www.motherindiatourtravels.com/packages/${data.packageSlug}${data.variantSlug ? "/" + data.variantSlug : ""}`;
+
+  const travellersText = `${data.adults} Adult${data.adults !== 1 ? "s" : ""}${data.children > 0 ? `, ${data.children} Child${data.children !== 1 ? "ren" : ""}` : ""}${data.infants > 0 ? `, ${data.infants} Infant${data.infants !== 1 ? "s" : ""}` : ""}`;
+
   const content = `
-    <div style="background:${BRAND};border-radius:8px;padding:12px 20px;margin-bottom:24px;display:inline-block;">
-      <p style="margin:0;font-size:11px;font-weight:bold;color:#ffffff;text-transform:uppercase;letter-spacing:2px;">🔔 New Booking Inquiry</p>
-    </div>
+    <span style="font-size: 11px; font-weight: 600; color: #e05423; text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 8px;">New Booking Inquiry</span>
+    <h2 class="heading" style="margin: 0 0 20px; font-size: 24px; font-weight: 700; color: #111111; letter-spacing: -0.5px;">${data.packageName}</h2>
 
-    <h1 style="margin:0 0 20px;font-size:22px;font-weight:bold;color:${BRAND_DARK};">${data.packageName}</h1>
-
-    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:24px;">
-      <thead><tr><td colspan="2" style="padding:8px 0 4px;font-size:11px;font-weight:bold;color:${BRAND};text-transform:uppercase;letter-spacing:1.5px;">Guest Details</td></tr></thead>
-      ${infoRow("Name", data.guestName)}
-      ${infoRow("Email", `<a href="mailto:${data.guestEmail}" style="color:${BRAND};text-decoration:none;">${data.guestEmail}</a>`)}
-      ${infoRow("Phone", data.guestPhone)}
-      ${infoRow("Source", data.source)}
+    <!-- Guest Details -->
+    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color: #fbfbfa; border: 1px solid #e8e6e2; border-radius: 8px; margin-bottom: 20px;">
+      <tr>
+        <td style="padding: 20px 24px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+            ${detailsGridRow(
+              "Guest Name",
+              data.guestName,
+              "Email Address",
+              `<a href="mailto:${data.guestEmail}" style="color: #e05423; text-decoration: none;">${data.guestEmail}</a>`,
+            )}
+            ${detailsGridRow("Phone Number", data.guestPhone, "Submission Source", data.source)}
+          </table>
+        </td>
+      </tr>
     </table>
 
-    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:24px;">
-      <thead><tr><td colspan="2" style="padding:8px 0 4px;font-size:11px;font-weight:bold;color:${BRAND};text-transform:uppercase;letter-spacing:1.5px;">Tour Details</td></tr></thead>
-      ${infoRow("Package", data.packageName)}
-      ${data.variantLabel ? infoRow("Variant", data.variantLabel) : ""}
-      ${data.travelDate ? infoRow("Travel Date", data.travelDate) : ""}
-      ${data.travelDateEnd ? infoRow("Return Date", data.travelDateEnd) : ""}
-      ${data.dateMode === "flexible" ? infoRow("Flexible Month", data.flexibleMonth) : ""}
-      ${infoRow("Adults", String(data.adults))}
-      ${infoRow("Children", String(data.children))}
-      ${infoRow("Infants", String(data.infants))}
-      ${infoRow("Rooms", String(data.rooms))}
-      ${infoRow("Hotel Category", hotelLabel)}
-      ${data.pickupLocation ? infoRow("Pickup", data.pickupLocation) : ""}
-      ${data.dropLocation ? infoRow("Drop", data.dropLocation) : ""}
+    <!-- Tour Details -->
+    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color: #fbfbfa; border: 1px solid #e8e6e2; border-radius: 8px; margin-bottom: 24px;">
+      <tr>
+        <td style="padding: 20px 24px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+            ${detailsGridRow(
+              "Selected Package",
+              data.packageName,
+              "Selected Variant",
+              data.variantLabel || "Standard",
+            )}
+            ${detailsGridRow(
+              data.dateMode === "flexible" ? "Flexible Month" : "Travel Date",
+              data.dateMode === "flexible" ? data.flexibleMonth : data.travelDate,
+              data.dateMode === "flexible" ? "Duration" : "Return Date",
+              data.dateMode === "flexible" ? `${data.flexibleDays} Days` : data.travelDateEnd,
+            )}
+            ${detailsGridRow(
+              "Travellers & Rooms",
+              `${travellersText}<br>Rooms: ${data.rooms}`,
+              "Hotel Category",
+              hotelLabel,
+            )}
+            ${
+              data.pickupLocation || data.dropLocation
+                ? detailsGridRow(
+                    "Pickup Location",
+                    data.pickupLocation || "—",
+                    "Drop Location",
+                    data.dropLocation || "—",
+                  )
+                : ""
+            }
+          </table>
+        </td>
+      </tr>
     </table>
 
     ${
       data.message
-        ? `<table role="presentation" cellpadding="0" cellspacing="0" width="100%"><thead><tr><td style="padding:8px 0 4px;font-size:11px;font-weight:bold;color:${BRAND};text-transform:uppercase;letter-spacing:1.5px;">Customer Message</td></tr></thead><tr><td style="background:#f9f9f9;border-radius:8px;padding:16px;font-size:14px;color:#444444;line-height:1.6;">${data.message}</td></tr></table>`
+        ? `
+    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 28px;">
+      <tr>
+        <td style="font-size: 13px; color: #666666; line-height: 1.5;">
+          <strong style="font-family: 'Outfit', sans-serif; color: #111111; display: block; margin-bottom: 6px; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px;">Customer Message</strong>
+          <div style="background-color: #f7f6f4; border-radius: 6px; padding: 16px; font-size: 14px; color: #444444; border-left: 3px solid #111111;">
+            ${data.message}
+          </div>
+        </td>
+      </tr>
+    </table>
+    `
         : ""
     }
+
+    <!-- CTA Button -->
+    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 24px;">
+      <tr>
+        <td align="left">
+          <a href="${packageUrl}" target="_blank" style="display: inline-block; background-color: #111111; color: #ffffff; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; text-decoration: none; padding: 12px 24px; border-radius: 6px;">
+            Open Package Page
+          </a>
+        </td>
+      </tr>
+    </table>
   `;
 
-  return baseTemplate(content, `NEW BOOKING: ${data.guestName} — ${data.packageName}`);
-}
-
-// CONTACT TEMPLATES
-
-export interface ContactEmailData {
-  name: string;
-  email: string;
-  phone: string;
-  subject: string;
-  message: string;
-  source: string;
-  companyEmail: string;
+  return baseTemplate(
+    content,
+    `NEW BOOKING: ${data.guestName} — ${data.packageName}`,
+    data.company,
+  );
 }
 
 /** Confirmation email sent to the person who submitted the contact form */
 export function contactGuestTemplate(data: ContactEmailData): string {
   const content = `
-    <h1 style="margin:0 0 8px;font-size:26px;font-weight:bold;color:${BRAND_DARK};">We've received your message ✉️</h1>
-    <p style="margin:0 0 24px;font-size:15px;color:#555555;line-height:1.6;">Hi ${data.name}, thank you for reaching out to Mother India Tour Travels. Our team will review your message and get back to you within 24–48 hours.</p>
+    <h2 class="heading" style="margin: 0 0 12px; font-size: 24px; font-weight: 700; color: #111111; letter-spacing: -0.5px;">Message Received</h2>
+    <p style="margin: 0 0 24px; font-size: 15px; color: #444444; line-height: 1.6;">Hi ${data.name}, thank you for reaching out to Mother India Tour Travels. We have received your message and our team will get back to you within 24 hours.</p>
 
-    <div style="background:#f9f9f9;border-radius:8px;padding:20px;margin-bottom:28px;">
-      <p style="margin:0 0 6px;font-size:11px;font-weight:bold;color:#999999;text-transform:uppercase;letter-spacing:1px;">Your Message</p>
-      <p style="margin:0;font-size:14px;color:#444444;line-height:1.6;">${data.message}</p>
-    </div>
+    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 28px;">
+      <tr>
+        <td style="font-size: 13px; color: #666666; line-height: 1.5;">
+          <strong style="font-family: 'Outfit', sans-serif; color: #111111; display: block; margin-bottom: 6px; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px;">Your Message</strong>
+          <div style="background-color: #f7f6f4; border-radius: 6px; padding: 16px; font-size: 14px; color: #444444; border-left: 3px solid #e05423;">
+            ${data.message}
+          </div>
+        </td>
+      </tr>
+    </table>
 
-    <p style="margin:0 0 24px;font-size:14px;color:#555555;line-height:1.6;">For urgent travel queries, you can also reach us at <a href="mailto:${data.companyEmail}" style="color:${BRAND};font-weight:600;text-decoration:none;">${data.companyEmail}</a>.</p>
-
-    <p style="margin:0;font-size:14px;color:#555555;">Warm regards,<br><strong style="color:${BRAND_DARK};">Mother India Tour Travels Team</strong></p>
+    <p style="margin: 0; font-size: 14px; color: #555555; line-height: 1.6;">
+      Warm regards,<br>
+      <strong style="color: #111111;">Mother India Tour Travels Team</strong>
+    </p>
   `;
 
-  return baseTemplate(content, "We have received your message and will be in touch soon");
+  return baseTemplate(
+    content,
+    "We have received your message and will be in touch soon",
+    data.company,
+  );
 }
 
 /** Notification sent to the company about a new contact/popup submission */
 export function contactCompanyTemplate(data: ContactEmailData): string {
   const content = `
-    <div style="background:${BRAND_DARK};border-radius:8px;padding:12px 20px;margin-bottom:24px;display:inline-block;">
-      <p style="margin:0;font-size:11px;font-weight:bold;color:#ffffff;text-transform:uppercase;letter-spacing:2px;">📩 New Contact Submission</p>
-    </div>
+    <span style="font-size: 11px; font-weight: 600; color: #e05423; text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 8px;">New Contact Message</span>
+    <h2 class="heading" style="margin: 0 0 20px; font-size: 24px; font-weight: 700; color: #111111; letter-spacing: -0.5px;">From: ${data.name}</h2>
 
-    <h1 style="margin:0 0 20px;font-size:22px;font-weight:bold;color:${BRAND_DARK};">From: ${data.name}</h1>
-
-    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:24px;">
-      ${infoRow("Name", data.name)}
-      ${infoRow("Email", `<a href="mailto:${data.email}" style="color:${BRAND};text-decoration:none;">${data.email}</a>`)}
-      ${infoRow("Phone", data.phone || "—")}
-      ${data.subject ? infoRow("Subject", data.subject) : ""}
-      ${infoRow("Source", data.source)}
+    <!-- Contact Info -->
+    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color: #fbfbfa; border: 1px solid #e8e6e2; border-radius: 8px; margin-bottom: 24px;">
+      <tr>
+        <td style="padding: 20px 24px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+            ${detailsGridRow(
+              "Contact Name",
+              data.name,
+              "Email Address",
+              `<a href="mailto:${data.email}" style="color: #e05423; text-decoration: none;">${data.email}</a>`,
+            )}
+            ${detailsGridRow(
+              "Phone Number",
+              data.phone || "—",
+              "Subject / Topic",
+              data.subject || "—",
+            )}
+            ${detailsGridRow("Submission Source", data.source, "", "")}
+          </table>
+        </td>
+      </tr>
     </table>
 
     <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
-      <tr><td style="padding:8px 0 4px;font-size:11px;font-weight:bold;color:${BRAND};text-transform:uppercase;letter-spacing:1.5px;">Message</td></tr>
-      <tr><td style="background:#f9f9f9;border-radius:8px;padding:16px;font-size:14px;color:#444444;line-height:1.6;">${data.message}</td></tr>
+      <tr>
+        <td style="font-size: 13px; color: #666666; line-height: 1.5;">
+          <strong style="font-family: 'Outfit', sans-serif; color: #111111; display: block; margin-bottom: 6px; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px;">Message Details</strong>
+          <div style="background-color: #f7f6f4; border-radius: 6px; padding: 16px; font-size: 14px; color: #444444; border-left: 3px solid #111111;">
+            ${data.message}
+          </div>
+        </td>
+      </tr>
     </table>
   `;
 
-  return baseTemplate(content, `CONTACT: ${data.name} via ${data.source}`);
+  return baseTemplate(content, `CONTACT: ${data.name} via ${data.source}`, data.company);
 }

@@ -14,6 +14,7 @@ export interface EmailMessage {
   subject: string;
   html: string;
   text?: string;
+  replyTo?: string;
 }
 
 /**
@@ -109,6 +110,7 @@ export async function sendEmail(config: SmtpConfig, message: EmailMessage): Prom
     const emailBody = [
       `From: ${message.fromName} <${message.from}>`,
       `To: ${toHeader}`,
+      ...(message.replyTo ? [`Reply-To: ${message.replyTo}`] : []),
       `Subject: ${message.subject}`,
       `Date: ${dateHeader}`,
       `MIME-Version: 1.0`,

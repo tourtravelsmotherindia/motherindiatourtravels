@@ -48,11 +48,31 @@ export async function handleContact(
     return Response.json({ error: "Failed to save contact submission" }, { status: 500 });
   }
 
-  // Fetch company email
-  let companyEmail = "info@motherindiatourtravels.com";
+  // Fetch full company details for the email footer
+  let companyInfo = {
+    name: "Mother India Tour Travels",
+    email: "info@motherindiatourtravels.com",
+    address: "India",
+    phone: "",
+    whatsapp: "",
+  };
   try {
-    const company = await db.from("Company").select("email").getOne<{ email: string }>();
-    if (company?.email) companyEmail = company.email;
+    const company = await db
+      .from("Company")
+      .select("name,email,address,city,state,pincode,phones,whatsappNumber")
+      .getOne<any>();
+    if (company) {
+      companyInfo = {
+        name: company.name || "Mother India Tour Travels",
+        email: company.email || "info@motherindiatourtravels.com",
+        address:
+          [company.address, company.city, company.state, company.pincode]
+            .filter(Boolean)
+            .join(", ") || "India",
+        phone: company.phones?.[0] || "",
+        whatsapp: company.whatsappNumber || "",
+      };
+    }
   } catch {
     /* non-fatal */
   }
@@ -64,7 +84,7 @@ export async function handleContact(
     subject,
     message,
     source,
-    companyEmail,
+    company: companyInfo,
   };
 
   const smtpConfig = {
@@ -80,14 +100,16 @@ export async function handleContact(
         from: env.BOOKING_SMTP_USER,
         fromName: "Mother India Tour Travels",
         to: [email],
-        subject: `We've received your message — Mother India Tour Travels`,
+        replyTo: companyInfo.email,
+        subject: `Thank you for contacting Mother India Tour Travels`,
         html: contactGuestTemplate(emailData),
       }),
       sendEmail(smtpConfig, {
         from: env.BOOKING_SMTP_USER,
-        fromName: "Mother India — Contact Alert",
-        to: [companyEmail],
-        subject: `[CONTACT] ${name} via ${source}`,
+        fromName: "Mother India Tour Travels",
+        to: [companyInfo.email],
+        replyTo: email,
+        subject: `New Contact Message from ${name}`,
         html: contactCompanyTemplate(emailData),
       }),
     ]).then((results) => {

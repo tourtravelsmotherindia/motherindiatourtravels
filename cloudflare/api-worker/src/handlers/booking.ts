@@ -36,6 +36,8 @@ export async function handleBooking(
 
   const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
 
+  const dateMode = (body.dateMode as string) || "calendar";
+
   // Build the record to insert
   const record = {
     packageId: packageId || null,
@@ -44,11 +46,12 @@ export async function handleBooking(
     name: (name as string).trim(),
     email: (email as string).trim().toLowerCase(),
     phone: (phone as string).trim(),
-    travelDate: body.travelDate ?? null,
-    travelDateEnd: body.travelDateEnd ?? null,
-    dateMode: body.dateMode ?? "calendar",
-    flexibleMonth: body.flexibleMonth ?? "",
-    flexibleDays: body.flexibleDays ?? null,
+    travelDate: dateMode === "flexible" ? null : body.travelDate ? String(body.travelDate) : null,
+    travelDateEnd:
+      dateMode === "flexible" ? null : body.travelDateEnd ? String(body.travelDateEnd) : null,
+    dateMode,
+    flexibleMonth: (body.flexibleMonth as string) || "",
+    flexibleDays: body.flexibleDays ? Number(body.flexibleDays) : null,
     adults: Number(body.adults ?? 1),
     children: Number(body.children ?? 0),
     infants: Number(body.infants ?? 0),
@@ -72,18 +75,39 @@ export async function handleBooking(
     return Response.json({ error: "Failed to save booking inquiry" }, { status: 500 });
   }
 
-  // Fetch company email for notifications
-  let companyEmail = "info@motherindiatourtravels.com";
+  // Fetch full company details for the email footer
+  let companyInfo = {
+    name: "Mother India Tour Travels",
+    email: "info@motherindiatourtravels.com",
+    address: "India",
+    phone: "",
+    whatsapp: "",
+  };
   try {
-    const company = await db.from("Company").select("email").getOne<{ email: string }>();
-    if (company?.email) companyEmail = company.email;
+    const company = await db
+      .from("Company")
+      .select("name,email,address,city,state,pincode,phones,whatsappNumber")
+      .getOne<any>();
+    if (company) {
+      companyInfo = {
+        name: company.name || "Mother India Tour Travels",
+        email: company.email || "info@motherindiatourtravels.com",
+        address:
+          [company.address, company.city, company.state, company.pincode]
+            .filter(Boolean)
+            .join(", ") || "India",
+        phone: company.phones?.[0] || "",
+        whatsapp: company.whatsappNumber || "",
+      };
+    }
   } catch {
     // non-fatal, use default
   }
 
-  // Fetch package/variant names for emails
+  // Fetch package/variant names and slugs for emails
   let packageName = (packageInterest as string) || "Tour Package";
   let variantLabel = "";
+  let variantSlug = "";
   if (packageId) {
     try {
       const pkg = await db
@@ -100,29 +124,41 @@ export async function handleBooking(
     try {
       const variant = await db
         .from("PackageVariant")
-        .select("label")
+        .select("label,slug")
         .eq("id", variantId)
-        .getOne<{ label: string }>();
+        .getOne<{ label: string; slug: string }>();
       if (variant?.label) variantLabel = variant.label;
+      if (variant?.slug) variantSlug = variant.slug;
     } catch {
       /* non-fatal */
     }
   }
 
-  const travelDateStr = body.travelDate
-    ? new Date(body.travelDate as string).toLocaleDateString("en-IN", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      })
-    : "";
-  const travelDateEndStr = body.travelDateEnd
-    ? new Date(body.travelDateEnd as string).toLocaleDateString("en-IN", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      })
-    : "";
+  // Format travel dates (only if not flexible)
+  const travelDateStr =
+    record.dateMode !== "flexible" && body.travelDate
+      ? new Date(body.travelDate as string).toLocaleDateString("en-IN", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        })
+      : "";
+  const travelDateEndStr =
+    record.dateMode !== "flexible" && body.travelDateEnd
+      ? new Date(body.travelDateEnd as string).toLocaleDateString("en-IN", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        })
+      : "";
+
+  // Format flexible month nicely: e.g. "2026-09" to "September 2026"
+  let flexibleMonthStr = record.flexibleMonth;
+  if (record.flexibleMonth && /^\d{4}-\d{2}$/.test(record.flexibleMonth)) {
+    const [year, month] = record.flexibleMonth.split("-");
+    const date = new Date(Number(year), Number(month) - 1, 1);
+    flexibleMonthStr = date.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+  }
 
   const emailData: BookingEmailData = {
     guestName: record.name,
@@ -130,10 +166,13 @@ export async function handleBooking(
     guestPhone: record.phone,
     packageName,
     variantLabel,
+    packageSlug: packageId || "",
+    variantSlug,
     travelDate: travelDateStr,
     travelDateEnd: travelDateEndStr,
     dateMode: record.dateMode as string,
-    flexibleMonth: record.flexibleMonth as string,
+    flexibleMonth: flexibleMonthStr,
+    flexibleDays: record.flexibleDays,
     adults: record.adults,
     children: record.children,
     infants: record.infants,
@@ -143,7 +182,7 @@ export async function handleBooking(
     dropLocation: record.dropLocation,
     message: record.message,
     source: record.source,
-    companyEmail,
+    company: companyInfo,
   };
 
   const smtpConfig = {
@@ -160,14 +199,16 @@ export async function handleBooking(
         from: env.BOOKING_SMTP_USER,
         fromName: "Mother India Tour Travels",
         to: [record.email],
-        subject: `Your Booking Request — ${packageName}`,
+        replyTo: companyInfo.email,
+        subject: `Your Booking Inquiry for ${packageName} — Mother India Tour Travels`,
         html: bookingGuestTemplate(emailData),
       }),
       sendEmail(smtpConfig, {
         from: env.BOOKING_SMTP_USER,
-        fromName: "Mother India — Booking Alert",
-        to: [companyEmail],
-        subject: `[NEW BOOKING] ${packageName} — ${record.name}`,
+        fromName: "Mother India Tour Travels",
+        to: [companyInfo.email],
+        replyTo: record.email,
+        subject: `New Booking Inquiry: ${packageName} — ${record.name}`,
         html: bookingCompanyTemplate(emailData),
       }),
     ]).then((results) => {
