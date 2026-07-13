@@ -6,6 +6,7 @@ import {
 import { sendEmail } from "../lib/smtp";
 import { createSupabaseClient } from "../lib/supabase";
 import type { Env } from "../types";
+import companyJson from "../company.json";
 
 /** POST /booking — saves inquiry to Supabase and sends dual emails */
 export async function handleBooking(
@@ -75,34 +76,14 @@ export async function handleBooking(
     return Response.json({ error: "Failed to save booking inquiry" }, { status: 500 });
   }
 
-  // Fetch full company details for the email footer
-  let companyInfo = {
-    name: "Mother India Tour Travels",
-    email: "info@motherindiatourtravels.com",
-    address: "India",
-    phone: "",
-    whatsapp: "",
+  // Map company details from JSON
+  const companyInfo = {
+    name: companyJson.name,
+    email: companyJson.email,
+    address: companyJson.address,
+    phone: companyJson.phone,
+    whatsapp: companyJson.whatsapp,
   };
-  try {
-    const company = await db
-      .from("Company")
-      .select("name,email,address,city,state,pincode,phones,whatsappNumber")
-      .getOne<any>();
-    if (company) {
-      companyInfo = {
-        name: company.name || "Mother India Tour Travels",
-        email: company.email || "info@motherindiatourtravels.com",
-        address:
-          [company.address, company.city, company.state, company.pincode]
-            .filter(Boolean)
-            .join(", ") || "India",
-        phone: company.phones?.[0] || "",
-        whatsapp: company.whatsappNumber || "",
-      };
-    }
-  } catch {
-    // non-fatal, use default
-  }
 
   // Fetch package/variant names and slugs for emails
   let packageName = (packageInterest as string) || "Tour Package";

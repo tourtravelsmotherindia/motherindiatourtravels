@@ -263,6 +263,35 @@ NEXT_PUBLIC_IMAGES_URL=http://localhost:8788
 
 ---
 
+---
+
+## Step 10 — Static Company Profile Configuration
+
+To avoid database read overhead during automated email dispatch, the contact and booking email footers pull company information directly from a static JSON file stored in the API worker.
+
+### How to update company contact details:
+
+1. Locate the file: [company.json](file://./api-worker/src/company.json)
+2. Update the details as needed:
+   ```json
+   {
+     "name": "Mother India Tour Travels",
+     "tagline": "Explore India with Trusted Tours",
+     "website": "https://www.motherindiatourtravels.com",
+     "email": "tourtravelsmotherindia@gmail.com",
+     "address": "B63/B63A, New Jankipuri, Uttam Nagar, New Delhi - 110059",
+     "phone": "+919810140121",
+     "whatsapp": "+919810140121"
+   }
+   ```
+3. Save the file and redeploy the API worker:
+   ```bash
+   cd cloudflare/api-worker
+   npx wrangler deploy
+   ```
+
+---
+
 ## Secrets & Config Summary
 
 | Variable              | Location                   | Description                                  |

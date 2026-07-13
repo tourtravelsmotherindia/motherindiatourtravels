@@ -5,8 +5,9 @@
     "lib": ["ES2022"],
     "strict": true,
     "moduleResolution": "bundler",
+    "resolveJsonModule": true,
     "types": ["@cloudflare/workers-types"],
     "noEmit": true
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts", "src/**/*.json"]
 }
