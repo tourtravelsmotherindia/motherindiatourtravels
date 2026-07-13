@@ -231,8 +231,8 @@ export default function CrudClient({ table }: CrudClientProps) {
           {field.trueLabel || "Active"}
         </span>
       ) : (
-        <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-red-500">
-          <span className="w-1.5 h-1.5 rounded-full bg-red-400 shrink-0" />
+        <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-neutral-500">
+          <span className="w-1.5 h-1.5 rounded-full bg-neutral-400 shrink-0" />
           {field.falseLabel || "Inactive"}
         </span>
       );
