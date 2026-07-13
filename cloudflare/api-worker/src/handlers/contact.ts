@@ -8,7 +8,11 @@ import { createSupabaseClient } from "../lib/supabase";
 import type { Env } from "../types";
 
 /** POST /contact — handles contact page form and popup modal */
-export async function handleContact(request: Request, env: Env): Promise<Response> {
+export async function handleContact(
+  request: Request,
+  env: Env,
+  ctx: ExecutionContext,
+): Promise<Response> {
   let body: Record<string, unknown>;
   try {
     body = await request.json();
@@ -70,26 +74,28 @@ export async function handleContact(request: Request, env: Env): Promise<Respons
     pass: env.BOOKING_SMTP_PASS,
   };
 
-  Promise.allSettled([
-    sendEmail(smtpConfig, {
-      from: env.BOOKING_SMTP_USER,
-      fromName: "Mother India Tour Travels",
-      to: [email],
-      subject: `We've received your message — Mother India Tour Travels`,
-      html: contactGuestTemplate(emailData),
+  ctx.waitUntil(
+    Promise.allSettled([
+      sendEmail(smtpConfig, {
+        from: env.BOOKING_SMTP_USER,
+        fromName: "Mother India Tour Travels",
+        to: [email],
+        subject: `We've received your message — Mother India Tour Travels`,
+        html: contactGuestTemplate(emailData),
+      }),
+      sendEmail(smtpConfig, {
+        from: env.BOOKING_SMTP_USER,
+        fromName: "Mother India — Contact Alert",
+        to: [companyEmail],
+        subject: `[CONTACT] ${name} via ${source}`,
+        html: contactCompanyTemplate(emailData),
+      }),
+    ]).then((results) => {
+      results.forEach((r, i) => {
+        if (r.status === "rejected") console.error(`Contact email ${i} failed:`, r.reason);
+      });
     }),
-    sendEmail(smtpConfig, {
-      from: env.BOOKING_SMTP_USER,
-      fromName: "Mother India — Contact Alert",
-      to: [companyEmail],
-      subject: `[CONTACT] ${name} via ${source}`,
-      html: contactCompanyTemplate(emailData),
-    }),
-  ]).then((results) => {
-    results.forEach((r, i) => {
-      if (r.status === "rejected") console.error(`Contact email ${i} failed:`, r.reason);
-    });
-  });
+  );
 
   return Response.json({ success: true, id: submission.id });
 }

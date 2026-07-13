@@ -52,7 +52,7 @@ import { handleOptions, withCors } from "./middleware/cors";
 import type { Env } from "./types";
 
 export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
+  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
     const origin = request.headers.get("origin");
 
@@ -63,7 +63,7 @@ export default {
     let response: Response;
 
     try {
-      response = await route(request, url, env);
+      response = await route(request, url, env, ctx);
     } catch (err) {
       console.error("Unhandled error:", err);
       response = Response.json({ error: "Internal server error" }, { status: 500 });
@@ -73,7 +73,12 @@ export default {
   },
 } satisfies ExportedHandler<Env>;
 
-async function route(request: Request, url: URL, env: Env): Promise<Response> {
+async function route(
+  request: Request,
+  url: URL,
+  env: Env,
+  ctx: ExecutionContext,
+): Promise<Response> {
   const method = request.method.toUpperCase();
   // Segments: ['', 'resource', 'id', ...]
   const parts = url.pathname.split("/");
@@ -97,8 +102,8 @@ async function route(request: Request, url: URL, env: Env): Promise<Response> {
   }
 
   // Public form endpoints
-  if (resource === "booking" && method === "POST") return handleBooking(request, env);
-  if (resource === "contact" && method === "POST") return handleContact(request, env);
+  if (resource === "booking" && method === "POST") return handleBooking(request, env, ctx);
+  if (resource === "contact" && method === "POST") return handleContact(request, env, ctx);
   if (resource === "newsletter" && method === "POST") return handleNewsletter(request, env);
 
   // Upload (admin)

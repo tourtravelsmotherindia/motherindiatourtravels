@@ -8,7 +8,11 @@ import { createSupabaseClient } from "../lib/supabase";
 import type { Env } from "../types";
 
 /** POST /booking — saves inquiry to Supabase and sends dual emails */
-export async function handleBooking(request: Request, env: Env): Promise<Response> {
+export async function handleBooking(
+  request: Request,
+  env: Env,
+  ctx: ExecutionContext,
+): Promise<Response> {
   let body: Record<string, unknown>;
   try {
     body = await request.json();
@@ -149,28 +153,30 @@ export async function handleBooking(request: Request, env: Env): Promise<Respons
   };
 
   // Send both emails concurrently — don't block response on email failure
-  Promise.allSettled([
-    sendEmail(smtpConfig, {
-      from: env.BOOKING_SMTP_USER,
-      fromName: "Mother India Tour Travels",
-      to: [record.email],
-      subject: `Your Booking Request — ${packageName}`,
-      html: bookingGuestTemplate(emailData),
+  ctx.waitUntil(
+    Promise.allSettled([
+      sendEmail(smtpConfig, {
+        from: env.BOOKING_SMTP_USER,
+        fromName: "Mother India Tour Travels",
+        to: [record.email],
+        subject: `Your Booking Request — ${packageName}`,
+        html: bookingGuestTemplate(emailData),
+      }),
+      sendEmail(smtpConfig, {
+        from: env.BOOKING_SMTP_USER,
+        fromName: "Mother India — Booking Alert",
+        to: [companyEmail],
+        subject: `[NEW BOOKING] ${packageName} — ${record.name}`,
+        html: bookingCompanyTemplate(emailData),
+      }),
+    ]).then((results) => {
+      results.forEach((r, i) => {
+        if (r.status === "rejected") {
+          console.error(`Booking email ${i} failed:`, r.reason);
+        }
+      });
     }),
-    sendEmail(smtpConfig, {
-      from: env.BOOKING_SMTP_USER,
-      fromName: "Mother India — Booking Alert",
-      to: [companyEmail],
-      subject: `[NEW BOOKING] ${packageName} — ${record.name}`,
-      html: bookingCompanyTemplate(emailData),
-    }),
-  ]).then((results) => {
-    results.forEach((r, i) => {
-      if (r.status === "rejected") {
-        console.error(`Booking email ${i} failed:`, r.reason);
-      }
-    });
-  });
+  );
 
   return Response.json({ success: true, id: inquiry.id });
 }
