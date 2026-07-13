@@ -1,0 +1,21 @@
+NODE_ENV="development"
+ENVIRONMENT="development"
+
+# Supabase REST API Settings
+SUPABASE_URL="https://your-supabase-project-ref.supabase.co"
+SUPABASE_SECRET_KEY="your_supabase_service_role_secret_key"
+
+# SMTP Settings (For email notifications)
+SMTP_HOST="smtp.example.com"
+SMTP_PORT="465"
+BOOKING_SMTP_USER="bookings@example.com"
+BOOKING_SMTP_PASS="your_smtp_password"
+NOTIFY_SMTP_USER="notifications@example.com"
+NOTIFY_SMTP_PASS="your_smtp_password"
+
+# GitHub Deployment Settings
+GITHUB_TOKEN="your_github_pat_token_here"
+GITHUB_OWNER="your_github_username_or_org"
+GITHUB_REPO="your_github_repository_name"
+GITHUB_WORKFLOW="deploy-cpanel.yml"
+GITHUB_REF="deploy"
