@@ -172,7 +172,58 @@ Finally, bind the tables together using these three join-table sections:
 
 ---
 
-## 3. How to Find Latitude & Longitude Coordinates
+## 3. Deployment — When to Trigger a Website Build
+
+The website is **static** — meaning all pages are pre-built into HTML files. Changes you make in the admin panel (adding a blog, updating a package, etc.) only exist in **the database**. They won't appear on the live website until the project is rebuild and redeployed.
+
+### When to Deploy
+
+You must deploy after any change that affects the public-facing content:
+
+| Change                                                    | Deploy Required? | Reason                                        |
+| --------------------------------------------------------- | :--------------: | --------------------------------------------- |
+| Add / update a **Tour Package**                           |        ✅        | Packages are pre-built into static pages      |
+| Delete / disable a **Tour Package**                       |        ✅        | The old page must be removed from the build   |
+| Add / update / delete a **Blog Post**                     |        ✅        | Blog pages are generated at build time        |
+| Add / update / delete **Destinations**                    |        ✅        | Impacts homepage and package content          |
+| Add / update / delete **Hero Slides**                     |        ✅        | Hero banner is compiled into the homepage     |
+| Update **Company Details** (schedule, social links, etc.) |        ✅        | Footer and contact info are static            |
+| Update **Testimonials, FAQs, Site Sections**              |        ✅        | Landing page sections are baked at build time |
+| Add / update / delete **Gallery Images**                  |        ✅        | Gallery is rendered from static data          |
+| Add / update / delete **Categories**                      |        ✅        | Used for package filtering                    |
+| Change **Hero Config** mode (SLIDES → VIDEO)              |        ✅        | Config is read at build time                  |
+| Update **Countries / States / Attractions**               |        ✅        | Geography data is compiled into pages         |
+| Change **admin user roles or access**                     |        ❌        | Admin panel is API-driven (live)              |
+| Update **Bookings / Contacts / Subscribers**              |        ❌        | These are live API records, not static pages  |
+
+### When NOT to Deploy
+
+Do **not** deploy after every single admin change. Instead:
+
+1. **Batch your changes** — Add the country, state, destination, attractions, package, variants, itinerary days, and join-table links all at once.
+2. **Deploy once at the end** — After you've completed all related changes, trigger a single deployment.
+3. **Plan your content updates** — Collect a list of pending changes (new blogs, updated packages, fixed typos) and deploy them together in one batch.
+
+This saves build time and avoids unnecessary FTP uploads.
+
+### How to Deploy
+
+The admin panel has a built-in deploy button:
+
+1. **Click "Deploy Website"** — Look for the button in the top-right area of the admin panel header (available on most admin pages).
+2. **Confirm** — A dialog will ask you to confirm. Click **Deploy Now**.
+3. **Watch the status** — The button will show the current deployment state (Triggering... → Triggered!). A link to the live GitHub Actions run appears beside the button — click it to track the build in real time.
+
+Behind the scenes, the button sends a `POST /deploy` request to the API worker, which triggers the GitHub Actions workflow (`.github/workflows/deploy-cpanel.yml`). The workflow will:
+
+1. Build the static export (`npm run build`).
+2. Upload only the changed files to the cPanel server via FTP.
+
+> **Tip**: For small teams, keep a list of "pending publish items" in your task tracker and deploy once a day or once a week, rather than after every single record save.
+
+---
+
+## 4. How to Find Latitude & Longitude Coordinates
 
 Accurate coordinates are necessary for displaying map markers on the frontend.
 
@@ -188,7 +239,7 @@ Accurate coordinates are necessary for displaying map markers on the frontend.
 
 ---
 
-## 4. Homepage Hero Config (Slides & Videos)
+## 5. Homepage Hero Config (Slides & Videos)
 
 You can toggle the home landing banner between a looping video background and an image slide carousel.
 
@@ -217,7 +268,7 @@ If mode is set to `SLIDES`:
 
 ---
 
-## 5. Company Details (Branding & CMS)
+## 6. Company Details (Branding & CMS)
 
 Go to **CMS & Content** > **Company** and edit the singleton record (ID = 1) to update global brand details.
 

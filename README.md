@@ -176,6 +176,12 @@ The repository includes an automated pipeline in [.github/workflows/deploy-cpane
 
 ---
 
+## Admin Manual
+
+For step-by-step instructions on managing the website (adding tour packages, blog posts, managing hero slides, FAQs, company details, and knowing when to deploy), refer to the **[Admin & Data Management Manual](./MANAGE.md)**.
+
+---
+
 ## Environment Variables Reference
 
 Create a `.env` file at the project root for local development.
