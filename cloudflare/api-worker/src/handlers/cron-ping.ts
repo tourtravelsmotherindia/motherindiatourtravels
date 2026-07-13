@@ -3,7 +3,7 @@ import type { Env } from "../types";
 import { requireAdmin } from "../middleware/auth";
 import monitoringConfig from "../monitoring.json";
 
-async function fetchWithTimeout(url: string, timeoutMs = 5000): Promise<Response> {
+async function fetchWithTimeout(url: string, timeoutMs = 10000): Promise<Response> {
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeoutMs);
   try {
@@ -19,7 +19,7 @@ async function fetchWithTimeout(url: string, timeoutMs = 5000): Promise<Response
 async function pingUrl(url: string): Promise<{ success: boolean; timeMs: number }> {
   const start = Date.now();
   try {
-    const res = await fetchWithTimeout(url, 5000);
+    const res = await fetchWithTimeout(url, 10000);
     // 2xx and 3xx statuses are considered up. We also accept 404/405 for website/images in case /health isn't fully set up,
     // but both workers have a /health endpoint that returns 200, and the website should return 200.
     return { success: res.status >= 200 && res.status < 400, timeMs: Date.now() - start };
