@@ -309,7 +309,7 @@ To ensure the Supabase free tier database remains active and monitor overall sys
 2. Update the target URLs as needed:
    ```json
    {
-     "websiteUrl": "https://beta.motherindiatourtravels.com",
+     "websiteUrl": "https://motherindiatourtravels.com",
      "apiUrl": "https://api.motherindiatourtravels.com",
      "imagesUrl": "https://images.motherindiatourtravels.com"
    }

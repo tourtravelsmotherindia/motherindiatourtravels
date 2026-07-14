@@ -6,7 +6,7 @@
   "compatibility_flags": ["nodejs_compat"],
   "vars": {
     "ENVIRONMENT": "production",
-    "ALLOWED_ORIGIN": "https://beta.motherindiatourtravels.com",
+    "ALLOWED_ORIGIN": "https://motherindiatourtravels.com",
   },
   "assets": {
     "directory": "./public",
