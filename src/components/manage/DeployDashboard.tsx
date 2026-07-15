@@ -456,7 +456,7 @@ export default function DeployDashboard() {
         }}
         onCancel={() => setIsCpanelConfirmOpen(false)}
         icon={
-          <div className="w-12 h-12 rounded-full bg-amber-50 text-amber-500 flex items-center justify-center border border-amber-100 animate-bounce">
+          <div className="w-12 h-12 rounded-full bg-amber-50 text-amber-500 flex items-center justify-center border border-amber-100">
             <Globe className="w-5 h-5" />
           </div>
         }
@@ -474,7 +474,7 @@ export default function DeployDashboard() {
         }}
         onCancel={() => setIsCfConfirmOpen(false)}
         icon={
-          <div className="w-12 h-12 rounded-full bg-indigo-50 text-indigo-500 flex items-center justify-center border border-indigo-100 animate-bounce">
+          <div className="w-12 h-12 rounded-full bg-indigo-50 text-indigo-500 flex items-center justify-center border border-indigo-100">
             <CloudLightning className="w-5 h-5" />
           </div>
         }
