@@ -8,23 +8,26 @@ import TripCards from "@/components/home/TripCards";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import PageShell from "@/components/layout/PageShell";
 import { getCompanyData } from "@/lib/db/repositories/companyRepo";
-import { getFeaturedDestinations } from "@/lib/db/repositories/destinationRepo";
+import {
+  getDestinationsByRegion,
+  getFeaturedDestinations,
+} from "@/lib/db/repositories/destinationRepo";
 import { getFAQSectionData } from "@/lib/db/repositories/faqRepo";
 import { getGallerySectionData } from "@/lib/db/repositories/galleryRepo";
 import { getHeroConfig } from "@/lib/db/repositories/heroRepo";
 import { getAllPackages } from "@/lib/db/repositories/packageRepo";
 
 export default async function Home() {
-  const [heroConfig, packages, faqData, companyData, destinations, galleryData] = await Promise.all(
-    [
+  const [heroConfig, packages, faqData, companyData, destinations, galleryData, regionsData] =
+    await Promise.all([
       getHeroConfig(),
       getAllPackages(),
       getFAQSectionData(),
       getCompanyData(),
       getFeaturedDestinations(),
       getGallerySectionData(),
-    ],
-  );
+      getDestinationsByRegion(),
+    ]);
 
   return (
     <PageShell companyData={companyData} ptClass="pt-0">
@@ -35,7 +38,7 @@ export default async function Home() {
       <Gallery galleryData={galleryData} />
       <TestimonialsSection />
       {/*<PartnerAirlines />*/}
-      <RegionsGrid />
+      <RegionsGrid regions={regionsData} />
       <FAQ faqData={faqData} companyData={companyData} />
     </PageShell>
   );

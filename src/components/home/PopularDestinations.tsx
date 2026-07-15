@@ -10,6 +10,7 @@ import SectionHeader from "@/components/shared/SectionHeader";
 import DotIndicator from "@/components/ui/DotIndicator";
 import FavoriteButton from "@/components/ui/FavoriteButton";
 import PrevNextNav from "@/components/ui/PrevNextNav";
+import { getOptimizedImageUrl } from "@/lib/utils/imageOptimizer";
 import { type DestinationDisplay } from "@/types/destination";
 
 function DestinationCard({
@@ -23,7 +24,8 @@ function DestinationCard({
 }) {
   const [isFavorite, setIsFavorite] = useState(false);
 
-  const imageSrc = dest.image || "/images/placeholder-landscape.png";
+  const rawImageSrc = dest.image || "/images/placeholder-landscape.png";
+  const imageSrc = getOptimizedImageUrl(rawImageSrc, 1000);
   const locationText = dest.stateName ? `${dest.stateName}, ${dest.countryName}` : dest.countryName;
 
   return (

@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 
 import HideScrollbar from "@/components/shared/HideScrollbar";
+import { getOptimizedImageUrl } from "@/lib/utils/imageOptimizer";
 import { type HeroConfigData } from "@/types/hero";
 
 const AUTO_ROTATE_INTERVAL = 5000;
@@ -76,7 +77,7 @@ export default function Hero({ heroConfig }: { heroConfig?: HeroConfigData | nul
             className="absolute inset-0"
           >
             <Image
-              src={slides[currentSlide].image}
+              src={getOptimizedImageUrl(slides[currentSlide].image, 1600)}
               alt={slides[currentSlide].title}
               fill
               sizes="100vw"

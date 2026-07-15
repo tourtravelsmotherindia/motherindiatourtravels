@@ -290,7 +290,6 @@ export default function PackagesClient({
             <div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {paginatedPackages.map((pkg) => {
-                  const defaultVariant = pkg.variants.find((v) => v.isDefault) || pkg.variants[0];
                   return (
                     <PackageCard
                       key={pkg.id}
@@ -298,7 +297,6 @@ export default function PackagesClient({
                       slug={pkg.slug}
                       name={pkg.name}
                       heroImage={pkg.heroImage}
-                      durationText={defaultVariant ? defaultVariant.label : undefined}
                       destinations={pkg.destinations}
                       variant="white"
                       isFavorite={isFavorite(pkg.slug)}

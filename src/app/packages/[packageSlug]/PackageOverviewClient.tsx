@@ -1,6 +1,6 @@
 "use client";
 
-import { Building2, Calendar, ChevronRight, Clock, Compass, Users } from "lucide-react";
+import { Building2, ChevronRight, Clock, Compass, MapPin, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useMemo } from "react";
@@ -10,6 +10,7 @@ import PageShell from "@/components/layout/PageShell";
 import PackageCard from "@/components/shared/PackageCard";
 import SectionHeader from "@/components/shared/SectionHeader";
 import { useFavorites } from "@/lib/hooks/useFavorites";
+import { getOptimizedImageUrl } from "@/lib/utils/imageOptimizer";
 import { type CompanyData } from "@/types/company";
 import { type PackageDetailItem, type PackageItem } from "@/types/package";
 
@@ -197,20 +198,20 @@ export default function PackageOverviewClient({
             <div className="hidden lg:flex flex-col gap-4 col-span-3 h-full">
               <div className="relative flex-[3] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100">
                 <Image
-                  src={galleryImages[0] || heroImage}
+                  src={getOptimizedImageUrl(galleryImages[0] || heroImage, 800)}
                   alt={`${pkgName} Gallery 1`}
                   fill
                   sizes="(max-width: 1024px) 25vw, 15vw"
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="object-cover"
                 />
               </div>
               <div className="relative flex-[2] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100">
                 <Image
-                  src={galleryImages[1] || heroImage}
+                  src={getOptimizedImageUrl(galleryImages[1] || heroImage, 800)}
                   alt={`${pkgName} Gallery 2`}
                   fill
                   sizes="(max-width: 1024px) 25vw, 15vw"
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="object-cover"
                 />
               </div>
             </div>
@@ -218,11 +219,11 @@ export default function PackageOverviewClient({
             {/* Center Column - 1 huge main image */}
             <div className="relative col-span-12 lg:col-span-6 h-full overflow-hidden rounded-[2rem] lg:rounded-[2.5rem] bg-neutral-100 group shadow-sm border border-neutral-100">
               <Image
-                src={heroImage}
+                src={getOptimizedImageUrl(heroImage, 1200)}
                 alt={`${pkgName} Main Gallery`}
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                className="object-cover"
                 priority
               />
             </div>
@@ -231,20 +232,20 @@ export default function PackageOverviewClient({
             <div className="hidden lg:flex flex-col gap-4 col-span-3 h-full">
               <div className="relative flex-[2] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100">
                 <Image
-                  src={galleryImages[3] || galleryImages[2] || heroImage}
+                  src={getOptimizedImageUrl(galleryImages[3] || galleryImages[2] || heroImage, 800)}
                   alt={`${pkgName} Gallery 3`}
                   fill
                   sizes="(max-width: 1024px) 25vw, 15vw"
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="object-cover"
                 />
               </div>
               <div className="relative flex-[3] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100">
                 <Image
-                  src={galleryImages[4] || galleryImages[2] || heroImage}
+                  src={getOptimizedImageUrl(galleryImages[4] || galleryImages[2] || heroImage, 800)}
                   alt={`${pkgName} Gallery 4`}
                   fill
                   sizes="(max-width: 1024px) 25vw, 15vw"
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="object-cover"
                 />
               </div>
             </div>
@@ -258,7 +259,7 @@ export default function PackageOverviewClient({
                 className="relative w-52 h-36 shrink-0 overflow-hidden rounded-[1.5rem] bg-neutral-100 shadow-sm border border-neutral-100"
               >
                 <Image
-                  src={img}
+                  src={getOptimizedImageUrl(img, 800)}
                   alt={`${pkgName} Mobile Gallery ${idx + 1}`}
                   fill
                   sizes="208px"
@@ -298,13 +299,13 @@ export default function PackageOverviewClient({
             {/* Summary Metadata Bar */}
             <div className="border-y border-neutral-200 py-6 mb-10 flex flex-wrap items-center justify-between gap-6 md:gap-8 font-sans">
               <div className="flex items-center gap-3">
-                <Calendar className="w-5 h-5 text-neutral-800 shrink-0" />
+                <MapPin className="w-5 h-5 text-neutral-800 shrink-0" />
                 <div className="flex flex-col">
                   <span className="text-[10px] md:text-[11px] font-medium text-neutral-400 uppercase tracking-wider leading-none mb-1">
-                    Duration Range
+                    Destinations
                   </span>
                   <span className="text-xs md:text-sm font-bold text-neutral-800 leading-snug">
-                    {defaultVariant ? `${defaultVariant.days} Days` : "Classic Tour"}
+                    {uniqueDestinations.length} Places Covered
                   </span>
                 </div>
               </div>
@@ -374,7 +375,7 @@ export default function PackageOverviewClient({
                     <Link
                       key={v.id}
                       href={`/packages/${packageData.slug}/${v.slug}`}
-                      className="group relative bg-white hover:bg-neutral-50/50 border border-neutral-200/60 hover:border-brand/40 rounded-[2rem] p-6 shadow-card hover:shadow-premium transition-all duration-300 flex flex-col justify-between"
+                      className="group relative bg-neutral-50 hover:bg-neutral-100/80 border-0 rounded-[2rem] p-6 shadow-sm transition-all duration-300 flex flex-col justify-between cursor-pointer"
                     >
                       <div>
                         <div className="flex items-center justify-between mb-4">
@@ -382,14 +383,9 @@ export default function PackageOverviewClient({
                             <Clock className="w-3.5 h-3.5" />
                             {v.nights} Nights / {v.days} Days
                           </span>
-                          {v.isDefault && (
-                            <span className="bg-brand/10 text-brand text-[9px] font-extrabold uppercase px-2.5 py-1 rounded-full tracking-wider font-sans">
-                              Popular Choice
-                            </span>
-                          )}
                         </div>
 
-                        <h3 className="text-lg font-bold text-foreground tracking-tight group-hover:text-brand transition-colors duration-300 font-display">
+                        <h3 className="text-lg font-bold text-foreground tracking-tight font-display">
                           {v.label}
                         </h3>
 
@@ -401,7 +397,7 @@ export default function PackageOverviewClient({
                         )}
                       </div>
 
-                      <div className="mt-6 pt-4 border-t border-neutral-100 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-neutral-900 group-hover:text-brand transition-colors duration-300 font-sans">
+                      <div className="mt-6 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-neutral-900 font-sans">
                         <span>View Full Itinerary</span>
                         <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" />
                       </div>
@@ -443,9 +439,6 @@ export default function PackageOverviewClient({
                     </span>
                     <div>
                       <p className="text-sm font-bold text-foreground leading-snug">{dest.name}</p>
-                      <p className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider mt-0.5">
-                        Stage {idx + 1}
-                      </p>
                     </div>
                   </div>
                 ))}
@@ -471,7 +464,6 @@ export default function PackageOverviewClient({
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {recommendedPackages.map((pkg) => {
-              const defaultVariant = pkg.variants.find((v) => v.isDefault) || pkg.variants[0];
               return (
                 <PackageCard
                   key={pkg.id}
@@ -479,7 +471,6 @@ export default function PackageOverviewClient({
                   slug={pkg.slug}
                   name={pkg.name}
                   heroImage={pkg.heroImage}
-                  durationText={defaultVariant ? defaultVariant.label : undefined}
                   destinations={pkg.destinations}
                   variant="white"
                   isFavorite={isFavorite(pkg.slug)}

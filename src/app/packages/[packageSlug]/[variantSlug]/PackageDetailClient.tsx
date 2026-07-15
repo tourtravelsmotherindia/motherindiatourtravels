@@ -25,6 +25,7 @@ import PageShell from "@/components/layout/PageShell";
 import PackageCard from "@/components/shared/PackageCard";
 import SectionHeader from "@/components/shared/SectionHeader";
 import { useFavorites } from "@/lib/hooks/useFavorites";
+import { getOptimizedImageUrl } from "@/lib/utils/imageOptimizer";
 import { type CompanyData } from "@/types/company";
 import {
   type PackageDetailItem,
@@ -201,20 +202,20 @@ export default function PackageDetailClient({
             <div className="hidden lg:flex flex-col gap-4 col-span-3 h-full">
               <div className="relative flex-[3] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100">
                 <Image
-                  src={galleryImages[0] || heroImage}
+                  src={getOptimizedImageUrl(galleryImages[0] || heroImage, 800)}
                   alt={`${pkgName} Gallery 1`}
                   fill
                   sizes="(max-width: 1024px) 25vw, 15vw"
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="object-cover"
                 />
               </div>
               <div className="relative flex-[2] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100">
                 <Image
-                  src={galleryImages[1] || heroImage}
+                  src={getOptimizedImageUrl(galleryImages[1] || heroImage, 800)}
                   alt={`${pkgName} Gallery 2`}
                   fill
                   sizes="(max-width: 1024px) 25vw, 15vw"
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="object-cover"
                 />
               </div>
             </div>
@@ -222,11 +223,11 @@ export default function PackageDetailClient({
             {/* Center Column - 1 huge main image */}
             <div className="relative col-span-12 lg:col-span-6 h-full overflow-hidden rounded-[2rem] lg:rounded-[2.5rem] bg-neutral-100 group shadow-sm border border-neutral-100">
               <Image
-                src={heroImage}
+                src={getOptimizedImageUrl(heroImage, 1200)}
                 alt={`${pkgName} Main Gallery`}
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                className="object-cover"
                 priority
               />
             </div>
@@ -235,20 +236,20 @@ export default function PackageDetailClient({
             <div className="hidden lg:flex flex-col gap-4 col-span-3 h-full">
               <div className="relative flex-[2] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100">
                 <Image
-                  src={galleryImages[3] || galleryImages[2] || heroImage}
+                  src={getOptimizedImageUrl(galleryImages[3] || galleryImages[2] || heroImage, 800)}
                   alt={`${pkgName} Gallery 3`}
                   fill
                   sizes="(max-width: 1024px) 25vw, 15vw"
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="object-cover"
                 />
               </div>
               <div className="relative flex-[3] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100">
                 <Image
-                  src={galleryImages[4] || galleryImages[2] || heroImage}
+                  src={getOptimizedImageUrl(galleryImages[4] || galleryImages[2] || heroImage, 800)}
                   alt={`${pkgName} Gallery 4`}
                   fill
                   sizes="(max-width: 1024px) 25vw, 15vw"
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="object-cover"
                 />
               </div>
             </div>
@@ -262,7 +263,7 @@ export default function PackageDetailClient({
                 className="relative w-52 h-36 shrink-0 overflow-hidden rounded-[1.5rem] bg-neutral-100 shadow-sm border border-neutral-100"
               >
                 <Image
-                  src={img}
+                  src={getOptimizedImageUrl(img, 800)}
                   alt={`${pkgName} Mobile Gallery ${idx + 1}`}
                   fill
                   sizes="208px"
@@ -499,11 +500,11 @@ export default function PackageDetailClient({
                                   className="relative aspect-[4/3] rounded-[1.5rem] overflow-hidden bg-neutral-100 shadow-sm border border-neutral-100 group/img"
                                 >
                                   <Image
-                                    src={img}
+                                    src={getOptimizedImageUrl(img, 600)}
                                     alt={`Itinerary Day ${day.day} Image ${i + 1}`}
                                     fill
                                     sizes="(max-width: 768px) 33vw, 20vw"
-                                    className="object-cover transition-transform duration-500 group-hover/img:scale-105"
+                                    className="object-cover"
                                   />
                                 </div>
                               ))}
@@ -622,7 +623,6 @@ export default function PackageDetailClient({
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {recommendedPackages.map((pkg) => {
-              const defaultVariant = pkg.variants.find((v) => v.isDefault) || pkg.variants[0];
               return (
                 <PackageCard
                   key={pkg.id}
@@ -630,7 +630,6 @@ export default function PackageDetailClient({
                   slug={pkg.slug}
                   name={pkg.name}
                   heroImage={pkg.heroImage}
-                  durationText={defaultVariant ? defaultVariant.label : undefined}
                   destinations={pkg.destinations}
                   variant="white"
                   isFavorite={isFavorite(pkg.slug)}

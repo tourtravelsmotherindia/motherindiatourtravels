@@ -6,11 +6,12 @@ import { useState } from "react";
 import PackageCard from "@/components/shared/PackageCard";
 import SectionHeader from "@/components/shared/SectionHeader";
 import SeeAllLink from "@/components/ui/SeeAllLink";
+import { useFavorites } from "@/lib/hooks/useFavorites";
 import { type PackageItem } from "@/types/package";
 
 export default function TripCards({ packages }: { packages: PackageItem[] }) {
   const [isDomestic, setIsDomestic] = useState(true);
-  const [favorites, setFavorites] = useState<string[]>([]);
+  const { isFavorite, toggleFavorite } = useFavorites();
 
   const popularPackages = packages.filter((pkg) => pkg.isPopular);
 
@@ -18,12 +19,6 @@ export default function TripCards({ packages }: { packages: PackageItem[] }) {
   const internationalPackages = popularPackages.filter((pkg) => !pkg.isDomestic).slice(0, 4);
 
   const currentTrips = isDomestic ? domesticPackages : internationalPackages;
-
-  const toggleFavorite = (slug: string) => {
-    setFavorites((prev) =>
-      prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug],
-    );
-  };
 
   const rightSlot = (
     <div className="flex items-center gap-6 self-start md:self-end">
@@ -80,8 +75,7 @@ export default function TripCards({ packages }: { packages: PackageItem[] }) {
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
       >
         {currentTrips.map((pkg, idx) => {
-          const isFavorite = favorites.includes(pkg.slug);
-          const defaultVariant = pkg.variants.find((v) => v.isDefault) || pkg.variants[0];
+          const isFav = isFavorite(pkg.slug);
 
           return (
             <PackageCard
@@ -90,10 +84,9 @@ export default function TripCards({ packages }: { packages: PackageItem[] }) {
               slug={pkg.slug}
               name={pkg.name}
               heroImage={pkg.heroImage}
-              durationText={defaultVariant ? defaultVariant.label : undefined}
               destinations={pkg.destinations}
-              variant="overlay"
-              isFavorite={isFavorite}
+              variant="white"
+              isFavorite={isFav}
               onToggleFavorite={toggleFavorite}
               showRating={true}
               initial={{ opacity: 0 }}

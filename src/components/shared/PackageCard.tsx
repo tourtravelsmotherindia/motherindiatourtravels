@@ -6,6 +6,8 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
+import { getOptimizedImageUrl } from "@/lib/utils/imageOptimizer";
+
 import FavoriteButton from "../ui/FavoriteButton";
 
 interface PackageCardProps {
@@ -50,16 +52,11 @@ export default function PackageCard({
   viewport,
   transition,
 }: PackageCardProps) {
-  const imageSrc = heroImage || hero_image || "/images/placeholder-landscape.png";
+  const rawImageSrc = heroImage || hero_image || "/images/placeholder-landscape.png";
+  const imageSrc = getOptimizedImageUrl(rawImageSrc, 800);
 
-  // Extract duration string
-  let duration = durationText || duration_range;
-  if (!duration && min_days) {
-    duration = `${min_days} Days`;
-  }
-  if (!duration) {
-    duration = "Classic Tour";
-  }
+  // Extract duration string (keep undefined if none exists)
+  const duration = durationText || duration_range || (min_days ? `${min_days} Days` : undefined);
 
   // Map destinations properly (either string list or object list)
   const mappedDestinations = React.useMemo(() => {
@@ -90,7 +87,7 @@ export default function PackageCard({
         whileInView={whileInView}
         viewport={viewport}
         transition={transition}
-        className="group relative w-full h-[340px] sm:h-[380px] md:h-[400px] lg:h-[350px] xl:h-[380px] 2xl:h-[420px] rounded-[2rem] overflow-hidden shadow-card hover:shadow-premium transition-all duration-500 bg-gray-50 flex flex-col"
+        className="group relative w-full h-[340px] sm:h-[380px] md:h-[400px] lg:h-[350px] xl:h-[380px] 2xl:h-[420px] rounded-[2rem] overflow-hidden shadow-sm bg-gray-50 flex flex-col border-0"
       >
         <div className="absolute inset-0 z-0">
           <Image
@@ -98,17 +95,19 @@ export default function PackageCard({
             alt={name}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+            className="object-cover"
             priority={priority}
           />
           <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/40 to-transparent z-10" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent z-10" />
         </div>
 
-        <div className="absolute top-4 left-4 z-20 bg-white/20 backdrop-blur-md border border-white/25 text-white text-[10px] font-semibold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-1.5 select-none">
-          <Clock className="w-3.5 h-3.5" />
-          <span>{duration}</span>
-        </div>
+        {duration && (
+          <div className="absolute top-4 left-4 z-20 bg-white/20 backdrop-blur-md border border-white/25 text-white text-[10px] font-semibold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-1.5 select-none">
+            <Clock className="w-3.5 h-3.5" />
+            <span>{duration}</span>
+          </div>
+        )}
 
         {onToggleFavorite && (
           <div className="absolute top-4 right-4 z-20">
@@ -122,7 +121,7 @@ export default function PackageCard({
         )}
 
         <div className="mt-auto p-5 xl:p-6 z-20 flex flex-col justify-end">
-          <h3 className="text-lg xl:text-xl font-bold text-white leading-snug tracking-tight mb-2 group-hover:text-brand transition-colors duration-300 drop-shadow-sm">
+          <h3 className="text-lg xl:text-xl font-bold text-white leading-snug tracking-tight mb-2 drop-shadow-sm">
             {name}
           </h3>
           <div className="flex items-center justify-between mt-1 gap-2">
@@ -137,12 +136,12 @@ export default function PackageCard({
             <div className="flex items-center gap-2 shrink-0">
               {showRating && (
                 <div className="flex items-center gap-1 bg-black/45 backdrop-blur-md border border-white/10 px-2 py-1 rounded-lg text-yellow-400 text-[10px] font-extrabold shadow-sm select-none">
-                  <Star className="w-3 h-3 fill-current" />
+                  <Star className="w-3.5 h-3.5 fill-current" />
                   <span>4.9</span>
                 </div>
               )}
-              <div className="w-8 h-8 rounded-full bg-white text-brand-dark flex items-center justify-center shadow-md transition-all duration-300 group-hover:bg-brand group-hover:text-white group-hover:scale-105 active:scale-95">
-                <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:rotate-45" />
+              <div className="w-8 h-8 rounded-full bg-white text-brand-dark flex items-center justify-center shadow-md transition-all duration-300 active:scale-95">
+                <ArrowUpRight className="w-4 h-4" />
               </div>
             </div>
           </div>
@@ -157,61 +156,72 @@ export default function PackageCard({
     );
   }
 
-  // "white" variant
+  // "white" variant (Heart icon positioned on top-right of the image)
   return (
     <motion.div
       initial={initial}
       whileInView={whileInView}
       viewport={viewport}
       transition={transition}
-      className="group relative bg-white border border-neutral-100 rounded-[2rem] p-4 shadow-card hover:shadow-premium transition-all duration-500 flex flex-col h-full justify-between"
+      className="group relative bg-white rounded-[2rem] shadow-sm flex flex-col h-full justify-between cursor-pointer border border-neutral-100 overflow-hidden"
     >
       <div>
-        <div className="relative w-full h-[220px] md:h-[260px] lg:h-[280px] xl:h-[320px] rounded-[1.5rem] overflow-hidden bg-neutral-100 z-0">
+        {/* Flush Image Container with curvy bottom border radius */}
+        <div className="relative w-full aspect-[4/3] bg-neutral-100 z-0 rounded-b-[1.5rem] overflow-hidden">
           <Image
             src={imageSrc}
             alt={name}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            className="object-cover"
             priority={priority}
           />
-        </div>
-
-        <div className="flex items-center justify-between mt-5 mb-3 px-1">
-          <div className="flex items-center gap-1.5 text-neutral-600 font-normal">
-            <Clock className="w-4 h-4 text-neutral-400 shrink-0" />
-            <span className="text-sm">{duration}</span>
-          </div>
-
           {onToggleFavorite && (
-            <FavoriteButton
-              isFavorite={isFavorite}
-              onToggle={handleFavoriteClick}
-              variant="solid"
-              size="sm"
-            />
+            <div className="absolute top-4 right-4 z-20">
+              <FavoriteButton
+                isFavorite={isFavorite}
+                onToggle={handleFavoriteClick}
+                variant="solid"
+                size="sm"
+              />
+            </div>
           )}
         </div>
 
-        <h3 className="font-bold text-lg text-foreground leading-snug px-1 line-clamp-1 mb-2">
-          {name}
-        </h3>
+        {/* Padded Text Content Block */}
+        <div className="px-5 pb-5 pt-4">
+          {duration ? (
+            /* Layout when duration exists */
+            <div>
+              <div className="flex items-center gap-1.5 text-neutral-600 font-normal mb-2.5">
+                <Clock className="w-4.5 h-4.5 text-neutral-400 shrink-0" />
+                <span className="text-xs font-semibold">{duration}</span>
+              </div>
 
-        <div className="flex items-center gap-1.5 text-neutral-500 text-xs px-1 mb-6 font-normal">
-          <MapPin className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
-          <span className="truncate">{mappedDestinations.join(", ")}</span>
+              <h3 className="font-bold text-base text-foreground leading-snug line-clamp-1 mb-2">
+                {name}
+              </h3>
+            </div>
+          ) : (
+            /* Layout when duration is absent (Name is at the very top of the text block) */
+            <h3 className="font-bold text-base text-foreground leading-snug line-clamp-2 mb-2.5">
+              {name}
+            </h3>
+          )}
+
+          <div className="flex items-center gap-1.5 text-neutral-500 text-xs font-normal">
+            <MapPin className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
+            <span className="truncate">{mappedDestinations.slice(0, 3).join(", ")}</span>
+          </div>
         </div>
       </div>
 
-      <div className="px-1 pb-1">
-        <Link
-          href={`/packages/${slug}`}
-          className="block w-full border border-neutral-900 text-neutral-900 hover:bg-brand hover:border-brand hover:text-white font-semibold text-xs uppercase tracking-wider py-3.5 rounded-full transition-all duration-300 text-center select-none cursor-pointer"
-        >
-          View Details
-        </Link>
-      </div>
+      {/* Clickable Card Overlay */}
+      <Link
+        href={`/packages/${slug}`}
+        className="absolute inset-0 z-10 cursor-pointer"
+        aria-label={`View details for ${name}`}
+      />
     </motion.div>
   );
 }
