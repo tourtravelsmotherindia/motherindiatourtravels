@@ -176,16 +176,6 @@ export default function PackageCard({
             className="object-cover"
             priority={priority}
           />
-          {onToggleFavorite && (
-            <div className="absolute top-4 right-4 z-20">
-              <FavoriteButton
-                isFavorite={isFavorite}
-                onToggle={handleFavoriteClick}
-                variant="solid"
-                size="sm"
-              />
-            </div>
-          )}
         </div>
 
         {/* Padded Text Content Block */}
@@ -215,6 +205,17 @@ export default function PackageCard({
           </div>
         </div>
       </div>
+
+      {onToggleFavorite && (
+        <div className="absolute top-4 right-4 z-20">
+          <FavoriteButton
+            isFavorite={isFavorite}
+            onToggle={handleFavoriteClick}
+            variant="solid"
+            size="sm"
+          />
+        </div>
+      )}
 
       {/* Clickable Card Overlay */}
       <Link
