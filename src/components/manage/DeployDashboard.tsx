@@ -19,6 +19,23 @@ import { useToast } from "@/context/ToastContext";
 import { adminGet, adminPost } from "@/lib/adminApi";
 import { formatLocalDateTimeVerbose } from "@/lib/manage/dateUtils";
 
+function GithubIcon(props: React.ComponentProps<"svg">) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+      <path d="M9 18c-4.51 2-5-2-7-2" />
+    </svg>
+  );
+}
+
 interface DeployStatus {
   status: string;
   conclusion: string | null;
@@ -258,8 +275,14 @@ export default function DeployDashboard() {
                 </div>
               </div>
               {!cpanelLoading &&
-                cpanelStatus &&
-                getStatusBadge(cpanelStatus.status, cpanelStatus.conclusion)}
+                (cpanelStatus ? (
+                  getStatusBadge(cpanelStatus.status, cpanelStatus.conclusion)
+                ) : (
+                  <span className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-red-50 text-red-600 border border-red-100">
+                    <AlertTriangle className="w-3.5 h-3.5" />
+                    <span>Unavailable</span>
+                  </span>
+                ))}
             </div>
 
             <div className="border-t border-neutral-50 pt-4 space-y-3">
@@ -269,7 +292,11 @@ export default function DeployDashboard() {
                 synchronized.
               </p>
 
-              {!cpanelLoading && cpanelStatus ? (
+              {cpanelLoading ? (
+                <div className="h-20 flex items-center justify-center">
+                  <Loader2 className="w-6 h-6 animate-spin text-neutral-300" />
+                </div>
+              ) : cpanelStatus ? (
                 <div className="bg-neutral-50/50 rounded-xl p-4 space-y-2 border border-neutral-100 text-xs text-neutral-600 font-medium">
                   <div className="flex justify-between">
                     <span className="text-neutral-400">Latest Build:</span>
@@ -291,8 +318,11 @@ export default function DeployDashboard() {
                   )}
                 </div>
               ) : (
-                <div className="h-20 flex items-center justify-center">
-                  <Loader2 className="w-6 h-6 animate-spin text-neutral-300" />
+                <div className="bg-red-50/50 text-red-700 rounded-xl p-4 border border-red-100 text-xs font-medium flex flex-col gap-1">
+                  <span className="font-semibold text-red-800">Status details unavailable</span>
+                  <span className="text-red-600/80">
+                    Could not retrieve the latest build status from GitHub Actions.
+                  </span>
                 </div>
               )}
             </div>
@@ -304,15 +334,17 @@ export default function DeployDashboard() {
               disabled={
                 cpanelLoading ||
                 cpanelActionState === "loading" ||
-                !!(cpanelStatus &&
-                  (cpanelStatus.status === "queued" || cpanelStatus.status === "in_progress"))
+                !!(
+                  cpanelStatus &&
+                  (cpanelStatus.status === "queued" || cpanelStatus.status === "in_progress")
+                )
               }
-              className="w-full flex items-center justify-center gap-2 rounded-xl bg-neutral-900 hover:bg-neutral-800 disabled:bg-neutral-100 text-white disabled:text-neutral-400 font-bold py-3.5 transition-all cursor-pointer disabled:cursor-not-allowed text-sm shadow-premium"
+              className="w-full flex items-center justify-center gap-2 rounded-full bg-neutral-900 hover:bg-neutral-800 disabled:bg-neutral-100 text-white disabled:text-neutral-400 font-bold py-3.5 transition-all cursor-pointer disabled:cursor-not-allowed text-sm shadow-premium"
             >
               {cpanelActionState === "loading" ? (
-                <Loader2 className="w-4 h-4 animate-spin text-brand" />
+                <Loader2 className="w-4 h-4 animate-spin text-white" />
               ) : (
-                <Play className="w-4 h-4 text-amber-500 fill-amber-500" />
+                <GithubIcon className="w-4 h-4 text-white" />
               )}
               <span>Deploy to cPanel Host</span>
             </button>
@@ -336,7 +368,15 @@ export default function DeployDashboard() {
                   </p>
                 </div>
               </div>
-              {!cfLoading && cfStatus && getStatusBadge(cfStatus.status, cfStatus.conclusion)}
+              {!cfLoading &&
+                (cfStatus ? (
+                  getStatusBadge(cfStatus.status, cfStatus.conclusion)
+                ) : (
+                  <span className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-red-50 text-red-600 border border-red-100">
+                    <AlertTriangle className="w-3.5 h-3.5" />
+                    <span>Unavailable</span>
+                  </span>
+                ))}
             </div>
 
             <div className="border-t border-neutral-50 pt-4 space-y-3">
@@ -346,7 +386,11 @@ export default function DeployDashboard() {
                 edge.
               </p>
 
-              {!cfLoading && cfStatus ? (
+              {cfLoading ? (
+                <div className="h-20 flex items-center justify-center">
+                  <Loader2 className="w-6 h-6 animate-spin text-neutral-300" />
+                </div>
+              ) : cfStatus ? (
                 <div className="bg-neutral-50/50 rounded-xl p-4 space-y-2 border border-neutral-100 text-xs text-neutral-600 font-medium">
                   <div className="flex justify-between">
                     <span className="text-neutral-400">Latest Build:</span>
@@ -368,8 +412,11 @@ export default function DeployDashboard() {
                   )}
                 </div>
               ) : (
-                <div className="h-20 flex items-center justify-center">
-                  <Loader2 className="w-6 h-6 animate-spin text-neutral-300" />
+                <div className="bg-red-50/50 text-red-700 rounded-xl p-4 border border-red-100 text-xs font-medium flex flex-col gap-1">
+                  <span className="font-semibold text-red-800">Status details unavailable</span>
+                  <span className="text-red-600/80">
+                    Could not retrieve the latest build status from Cloudflare Pages.
+                  </span>
                 </div>
               )}
             </div>
@@ -383,7 +430,7 @@ export default function DeployDashboard() {
                 cfActionState === "loading" ||
                 !!(cfStatus && (cfStatus.status === "queued" || cfStatus.status === "in_progress"))
               }
-              className="w-full flex items-center justify-center gap-2 rounded-xl bg-brand hover:bg-brand-hover disabled:bg-neutral-100 text-white disabled:text-neutral-400 font-bold py-3.5 transition-all cursor-pointer disabled:cursor-not-allowed text-sm shadow-premium"
+              className="w-full flex items-center justify-center gap-2 rounded-full bg-brand hover:bg-brand-hover disabled:bg-neutral-100 text-white disabled:text-neutral-400 font-bold py-3.5 transition-all cursor-pointer disabled:cursor-not-allowed text-sm shadow-premium"
             >
               {cfActionState === "loading" ? (
                 <Loader2 className="w-4 h-4 animate-spin text-white" />

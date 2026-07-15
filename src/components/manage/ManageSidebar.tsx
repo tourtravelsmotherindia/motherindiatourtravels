@@ -168,7 +168,7 @@ export default function ManageSidebar({ isMobileOpen, onCloseMobile }: ManageSid
                 }`}
               >
                 <CloudLightning className="w-4.5 h-4.5" />
-                <span>Website Deployments</span>
+                <span>Deployment</span>
               </Link>
             </li>
           </ul>

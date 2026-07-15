@@ -153,7 +153,7 @@ export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHe
 
     if (tableSlug === "deploy") {
       return {
-        heading: "Website Deployments",
+        heading: "Deployments",
         sub: "Rebuild and publish static website updates to cPanel hosting or Cloudflare Pages.",
       };
     }
