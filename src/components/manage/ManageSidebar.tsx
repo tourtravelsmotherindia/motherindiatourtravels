@@ -4,6 +4,7 @@ import {
   Building,
   CalendarRange,
   Camera,
+  CloudLightning,
   Compass,
   FileText,
   Folder,
@@ -154,6 +155,20 @@ export default function ManageSidebar({ isMobileOpen, onCloseMobile }: ManageSid
               >
                 <Home className="w-4.5 h-4.5" />
                 <span>Dashboard Overview</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/manage/deploy/"
+                onClick={onCloseMobile}
+                className={`flex items-center gap-3 px-4 py-2.5 text-sm font-semibold rounded-full transition-all duration-200 ${
+                  pathname === "/manage/deploy" || pathname === "/manage/deploy/"
+                    ? "bg-brand text-white shadow-premium"
+                    : "text-neutral-700 hover:bg-brand-light hover:text-brand"
+                }`}
+              >
+                <CloudLightning className="w-4.5 h-4.5" />
+                <span>Website Deployments</span>
               </Link>
             </li>
           </ul>

@@ -41,3 +41,6 @@ package-lock.json
 
 # biome handles itself
 biome.json
+
+# old HTML source
+/html-old/

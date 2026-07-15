@@ -5,9 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-import ConfirmationModal from "@/components/ui/ConfirmationModal";
 import { useToast } from "@/context/ToastContext";
-import { adminGet, adminPost } from "@/lib/adminApi";
+import { adminGet } from "@/lib/adminApi";
 import { ADMIN_TABLES } from "@/lib/adminSchema";
 import { useSystemPing } from "@/lib/hooks/mutations";
 
@@ -27,9 +26,7 @@ interface DeployStatus {
 export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHeaderProps) {
   const pathname = usePathname();
   const { showToast } = useToast();
-  const [deployState, setDeployState] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [deployStatus, setDeployStatus] = useState<DeployStatus | null>(null);
-  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   const pingMutation = useSystemPing();
 
@@ -92,45 +89,7 @@ export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHe
       active = false;
       if (intervalId) clearInterval(intervalId);
     };
-  }, [deployState]);
-
-  const handleDeployTrigger = async () => {
-    if (deployState === "loading") return;
-    setDeployState("loading");
-
-    try {
-      await adminPost("/deploy", {});
-      setDeployState("success");
-      showToast(
-        "success",
-        "Deployment Triggered",
-        "The build and deploy process has been started on GitHub.",
-      );
-      setTimeout(() => setDeployState("idle"), 3000);
-
-      // Instantly refresh status after triggering
-      setTimeout(async () => {
-        try {
-          const data = await adminGet<DeployStatus>("/deploy");
-          if (data && data.status) {
-            setDeployStatus(data);
-          }
-        } catch (err) {
-          console.error("Failed to fetch deployment status:", err);
-        }
-      }, 1000);
-    } catch (err) {
-      console.error("Failed to trigger deploy:", err);
-      const errMsg = err instanceof Error ? err.message : String(err);
-      showToast("error", "Deployment Failed", errMsg || "Failed to trigger deployment.");
-      setDeployState("error");
-      setTimeout(() => setDeployState("idle"), 5000);
-    }
-  };
-
-  const isDeploying =
-    deployState === "loading" ||
-    (deployStatus && (deployStatus.status === "queued" || deployStatus.status === "in_progress"));
+  }, []);
 
   // Generate breadcrumbs from pathname
   const generateBreadcrumbs = () => {
@@ -189,6 +148,13 @@ export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHe
       return {
         heading: "System Status Dashboard",
         sub: "Uptime health monitors, latency trends and diagnostics log history.",
+      };
+    }
+
+    if (tableSlug === "deploy") {
+      return {
+        heading: "Website Deployments",
+        sub: "Rebuild and publish static website updates to cPanel hosting or Cloudflare Pages.",
       };
     }
 
@@ -278,23 +244,13 @@ export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHe
             )}
           </div>
 
-          <button
-            onClick={() => setIsConfirmOpen(true)}
-            disabled={!!isDeploying}
-            className="flex items-center gap-1.5 text-xs text-neutral-700 bg-white hover:bg-neutral-50 disabled:bg-neutral-50 disabled:text-neutral-300 border border-neutral-100 px-4 py-1.5 rounded-full font-semibold shadow-[0_1px_4px_rgba(0,0,0,0.04)] transition-all duration-200 cursor-pointer disabled:cursor-not-allowed shrink-0"
+          <Link
+            href="/manage/deploy/"
+            className="flex items-center gap-1.5 text-xs text-neutral-700 bg-white hover:bg-neutral-50 border border-neutral-100 px-4 py-1.5 rounded-full font-semibold shadow-[0_1px_4px_rgba(0,0,0,0.04)] transition-all duration-200 cursor-pointer shrink-0"
           >
-            {deployState === "loading" ? (
-              <Loader2 className="w-3.5 h-3.5 animate-spin text-brand" />
-            ) : (
-              <CloudLightning className="w-3.5 h-3.5 text-brand" />
-            )}
-            <span>
-              {deployState === "idle" && "Deploy Website"}
-              {deployState === "loading" && "Triggering..."}
-              {deployState === "success" && "Triggered!"}
-              {deployState === "error" && "Trigger Failed"}
-            </span>
-          </button>
+            <CloudLightning className="w-3.5 h-3.5 text-brand" />
+            <span>Deploy Website</span>
+          </Link>
 
           {pathname.startsWith("/manage/system-status") && (
             <button
@@ -310,24 +266,6 @@ export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHe
               <span>Ping Diagnostics Now</span>
             </button>
           )}
-
-          <ConfirmationModal
-            isOpen={isConfirmOpen}
-            title="Deploy Website?"
-            message="Are you sure you want to trigger a manual deployment? This will rebuild the static website and upload all updated assets to the server."
-            confirmLabel="Deploy Now"
-            cancelLabel="Cancel"
-            onConfirm={() => {
-              setIsConfirmOpen(false);
-              handleDeployTrigger();
-            }}
-            onCancel={() => setIsConfirmOpen(false)}
-            icon={
-              <div className="w-12 h-12 rounded-full bg-brand-light text-brand flex items-center justify-center border border-brand/10">
-                <CloudLightning className="w-5 h-5" />
-              </div>
-            }
-          />
         </div>
       </div>
 

@@ -1,0 +1,437 @@
+"use client";
+
+import {
+  Activity,
+  AlertTriangle,
+  CheckCircle2,
+  Clock,
+  CloudLightning,
+  ExternalLink,
+  Globe,
+  Loader2,
+  Play,
+  XCircle,
+} from "lucide-react";
+import React, { useEffect, useState } from "react";
+
+import ConfirmationModal from "@/components/ui/ConfirmationModal";
+import { useToast } from "@/context/ToastContext";
+import { adminGet, adminPost } from "@/lib/adminApi";
+import { formatLocalDateTimeVerbose } from "@/lib/manage/dateUtils";
+
+interface DeployStatus {
+  status: string;
+  conclusion: string | null;
+  url: string;
+  createdAt: string;
+}
+
+export default function DeployDashboard() {
+  const { showToast } = useToast();
+
+  // cPanel States
+  const [cpanelStatus, setCpanelStatus] = useState<DeployStatus | null>(null);
+  const [cpanelLoading, setCpanelLoading] = useState(true);
+  const [cpanelActionState, setCpanelActionState] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
+  const [isCpanelConfirmOpen, setIsCpanelConfirmOpen] = useState(false);
+
+  // Cloudflare States
+  const [cfStatus, setCfStatus] = useState<DeployStatus | null>(null);
+  const [cfLoading, setCfLoading] = useState(true);
+  const [cfActionState, setCfActionState] = useState<"idle" | "loading" | "success" | "error">(
+    "idle",
+  );
+  const [isCfConfirmOpen, setIsCfConfirmOpen] = useState(false);
+
+  // cPanel Fetch & Poll
+  useEffect(() => {
+    let active = true;
+    let intervalId: NodeJS.Timeout;
+
+    const startPolling = (ms: number) => {
+      if (intervalId) clearInterval(intervalId);
+      intervalId = setInterval(async () => {
+        try {
+          const data = await adminGet<DeployStatus>("/deploy?target=cpanel");
+          if (active && data && data.status) {
+            setCpanelStatus(data);
+            if (data.status === "completed") {
+              startPolling(30000);
+            }
+          }
+        } catch (err) {
+          console.error("Failed to fetch cpanel status:", err);
+        }
+      }, ms);
+    };
+
+    const load = async () => {
+      try {
+        const data = await adminGet<DeployStatus>("/deploy?target=cpanel");
+        if (active && data && data.status) {
+          setCpanelStatus(data);
+          if (data.status === "queued" || data.status === "in_progress") {
+            startPolling(5000);
+          } else {
+            startPolling(30000);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch cpanel status:", err);
+      } finally {
+        if (active) setCpanelLoading(false);
+      }
+    };
+
+    load();
+
+    return () => {
+      active = false;
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [cpanelActionState]);
+
+  // Cloudflare Fetch & Poll
+  useEffect(() => {
+    let active = true;
+    let intervalId: NodeJS.Timeout;
+
+    const startPolling = (ms: number) => {
+      if (intervalId) clearInterval(intervalId);
+      intervalId = setInterval(async () => {
+        try {
+          const data = await adminGet<DeployStatus>("/deploy?target=cloudflare");
+          if (active && data && data.status) {
+            setCfStatus(data);
+            if (data.status === "completed") {
+              startPolling(30000);
+            }
+          }
+        } catch (err) {
+          console.error("Failed to fetch Cloudflare status:", err);
+        }
+      }, ms);
+    };
+
+    const load = async () => {
+      try {
+        const data = await adminGet<DeployStatus>("/deploy?target=cloudflare");
+        if (active && data && data.status) {
+          setCfStatus(data);
+          if (data.status === "queued" || data.status === "in_progress") {
+            startPolling(5000);
+          } else {
+            startPolling(30000);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch Cloudflare status:", err);
+      } finally {
+        if (active) setCfLoading(false);
+      }
+    };
+
+    load();
+
+    return () => {
+      active = false;
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [cfActionState]);
+
+  const handleCpanelDeploy = async () => {
+    if (cpanelActionState === "loading") return;
+    setCpanelActionState("loading");
+
+    try {
+      await adminPost("/deploy", { target: "cpanel" });
+      setCpanelActionState("success");
+      showToast(
+        "success",
+        "cPanel Deploy Triggered",
+        "cPanel build & upload process has been dispatched on GitHub Actions.",
+      );
+      setTimeout(() => setCpanelActionState("idle"), 3000);
+    } catch (err: unknown) {
+      console.error("Failed to trigger cPanel deploy:", err);
+      const errMsg = err instanceof Error ? err.message : "Failed to trigger cPanel deployment.";
+      showToast("error", "Deployment Failed", errMsg);
+      setCpanelActionState("error");
+      setTimeout(() => setCpanelActionState("idle"), 5000);
+    }
+  };
+
+  const handleCfDeploy = async () => {
+    if (cfActionState === "loading") return;
+    setCfActionState("loading");
+
+    try {
+      await adminPost("/deploy", { target: "cloudflare" });
+      setCfActionState("success");
+      showToast(
+        "success",
+        "Cloudflare Pages Deploy Triggered",
+        "Cloudflare Pages deployment webhook has been requested successfully.",
+      );
+      setTimeout(() => setCfActionState("idle"), 3000);
+    } catch (err: unknown) {
+      console.error("Failed to trigger Cloudflare Pages deploy:", err);
+      const errMsg =
+        err instanceof Error ? err.message : "Failed to trigger Cloudflare Pages deployment.";
+      showToast("error", "Deployment Failed", errMsg);
+      setCfActionState("error");
+      setTimeout(() => setCfActionState("idle"), 5000);
+    }
+  };
+
+  const getStatusBadge = (status: string, conclusion: string | null) => {
+    if (status === "queued") {
+      return (
+        <span className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-50 text-amber-600 animate-pulse border border-amber-100">
+          <Clock className="w-3 h-3" />
+          <span>Queued</span>
+        </span>
+      );
+    }
+    if (status === "in_progress") {
+      return (
+        <span className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-600 animate-pulse border border-indigo-100">
+          <Loader2 className="w-3 h-3 animate-spin" />
+          <span>In Progress</span>
+        </span>
+      );
+    }
+    if (status === "completed") {
+      if (conclusion === "success") {
+        return (
+          <span className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100">
+            <CheckCircle2 className="w-3 h-3" />
+            <span>Success</span>
+          </span>
+        );
+      }
+      if (conclusion === "failure") {
+        return (
+          <span className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-red-50 text-red-600 border border-red-100">
+            <XCircle className="w-3 h-3" />
+            <span>Failed</span>
+          </span>
+        );
+      }
+      if (conclusion === "cancelled") {
+        return (
+          <span className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-neutral-50 text-neutral-500 border border-neutral-100">
+            <AlertTriangle className="w-3 h-3" />
+            <span>Cancelled</span>
+          </span>
+        );
+      }
+    }
+    return (
+      <span className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-neutral-50 text-neutral-500 border border-neutral-100">
+        <Activity className="w-3 h-3" />
+        <span>Unknown</span>
+      </span>
+    );
+  };
+
+  return (
+    <div className="space-y-8 animate-in fade-in duration-300">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* cPanel Target */}
+        <div className="bg-white rounded-[2rem] border border-neutral-100 p-6 md:p-8 hover:shadow-premium transition-all duration-300 flex flex-col justify-between space-y-6">
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-500 flex items-center justify-center border border-amber-100">
+                  <Globe className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold font-display text-neutral-800">
+                    cPanel Web Server
+                  </h3>
+                  <p className="text-xs text-neutral-400 font-medium">
+                    FTP Sync & Live Server Deploy
+                  </p>
+                </div>
+              </div>
+              {!cpanelLoading &&
+                cpanelStatus &&
+                getStatusBadge(cpanelStatus.status, cpanelStatus.conclusion)}
+            </div>
+
+            <div className="border-t border-neutral-50 pt-4 space-y-3">
+              <p className="text-sm text-neutral-600">
+                Rebuilds the Next.js static files in GitHub Actions and uploads them securely via
+                FTP directly to your cPanel hosting directories. Only updated files are
+                synchronized.
+              </p>
+
+              {!cpanelLoading && cpanelStatus ? (
+                <div className="bg-neutral-50/50 rounded-xl p-4 space-y-2 border border-neutral-100 text-xs text-neutral-600 font-medium">
+                  <div className="flex justify-between">
+                    <span className="text-neutral-400">Latest Build:</span>
+                    <span>{formatLocalDateTimeVerbose(cpanelStatus.createdAt)}</span>
+                  </div>
+                  {cpanelStatus.url && (
+                    <div className="flex justify-between items-center">
+                      <span className="text-neutral-400">Run Logs:</span>
+                      <a
+                        href={cpanelStatus.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-brand hover:underline flex items-center gap-1"
+                      >
+                        <span>GitHub Action Run</span>
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="h-20 flex items-center justify-center">
+                  <Loader2 className="w-6 h-6 animate-spin text-neutral-300" />
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div>
+            <button
+              onClick={() => setIsCpanelConfirmOpen(true)}
+              disabled={
+                cpanelLoading ||
+                cpanelActionState === "loading" ||
+                !!(cpanelStatus &&
+                  (cpanelStatus.status === "queued" || cpanelStatus.status === "in_progress"))
+              }
+              className="w-full flex items-center justify-center gap-2 rounded-xl bg-neutral-900 hover:bg-neutral-800 disabled:bg-neutral-100 text-white disabled:text-neutral-400 font-bold py-3.5 transition-all cursor-pointer disabled:cursor-not-allowed text-sm shadow-premium"
+            >
+              {cpanelActionState === "loading" ? (
+                <Loader2 className="w-4 h-4 animate-spin text-brand" />
+              ) : (
+                <Play className="w-4 h-4 text-amber-500 fill-amber-500" />
+              )}
+              <span>Deploy to cPanel Host</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Cloudflare Pages Target */}
+        <div className="bg-white rounded-[2rem] border border-neutral-100 p-6 md:p-8 hover:shadow-premium transition-all duration-300 flex flex-col justify-between space-y-6">
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-500 flex items-center justify-center border border-indigo-100">
+                  <CloudLightning className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold font-display text-neutral-800">
+                    Cloudflare Pages
+                  </h3>
+                  <p className="text-xs text-neutral-400 font-medium">
+                    Edge hosting deployment pipeline
+                  </p>
+                </div>
+              </div>
+              {!cfLoading && cfStatus && getStatusBadge(cfStatus.status, cfStatus.conclusion)}
+            </div>
+
+            <div className="border-t border-neutral-50 pt-4 space-y-3">
+              <p className="text-sm text-neutral-600">
+                Triggers Cloudflare Pages built-in build system using an authenticated deploy hook.
+                Cloudflare builds the project on their infrastructure and deploys to their global
+                edge.
+              </p>
+
+              {!cfLoading && cfStatus ? (
+                <div className="bg-neutral-50/50 rounded-xl p-4 space-y-2 border border-neutral-100 text-xs text-neutral-600 font-medium">
+                  <div className="flex justify-between">
+                    <span className="text-neutral-400">Latest Build:</span>
+                    <span>{formatLocalDateTimeVerbose(cfStatus.createdAt)}</span>
+                  </div>
+                  {cfStatus.url && (
+                    <div className="flex justify-between items-center">
+                      <span className="text-neutral-400">Preview Link:</span>
+                      <a
+                        href={cfStatus.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-brand hover:underline flex items-center gap-1"
+                      >
+                        <span>Pages Preview URL</span>
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="h-20 flex items-center justify-center">
+                  <Loader2 className="w-6 h-6 animate-spin text-neutral-300" />
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div>
+            <button
+              onClick={() => setIsCfConfirmOpen(true)}
+              disabled={
+                cfLoading ||
+                cfActionState === "loading" ||
+                !!(cfStatus && (cfStatus.status === "queued" || cfStatus.status === "in_progress"))
+              }
+              className="w-full flex items-center justify-center gap-2 rounded-xl bg-brand hover:bg-brand-hover disabled:bg-neutral-100 text-white disabled:text-neutral-400 font-bold py-3.5 transition-all cursor-pointer disabled:cursor-not-allowed text-sm shadow-premium"
+            >
+              {cfActionState === "loading" ? (
+                <Loader2 className="w-4 h-4 animate-spin text-white" />
+              ) : (
+                <Play className="w-4 h-4 text-white fill-white" />
+              )}
+              <span>Deploy to Cloudflare Pages</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Confirmation Modals */}
+      <ConfirmationModal
+        isOpen={isCpanelConfirmOpen}
+        title="Deploy to cPanel?"
+        message="Are you sure you want to trigger a manual cPanel deployment? This will run a build in GitHub Actions and upload the output via FTP."
+        confirmLabel="Deploy cPanel Now"
+        cancelLabel="Cancel"
+        onConfirm={() => {
+          setIsCpanelConfirmOpen(false);
+          handleCpanelDeploy();
+        }}
+        onCancel={() => setIsCpanelConfirmOpen(false)}
+        icon={
+          <div className="w-12 h-12 rounded-full bg-amber-50 text-amber-500 flex items-center justify-center border border-amber-100 animate-bounce">
+            <Globe className="w-5 h-5" />
+          </div>
+        }
+      />
+
+      <ConfirmationModal
+        isOpen={isCfConfirmOpen}
+        title="Deploy to Cloudflare Pages?"
+        message="Are you sure you want to trigger a manual Cloudflare Pages deployment? This will call Cloudflare's webhook to start the build."
+        confirmLabel="Deploy Cloudflare Now"
+        cancelLabel="Cancel"
+        onConfirm={() => {
+          setIsCfConfirmOpen(false);
+          handleCfDeploy();
+        }}
+        onCancel={() => setIsCfConfirmOpen(false)}
+        icon={
+          <div className="w-12 h-12 rounded-full bg-indigo-50 text-indigo-500 flex items-center justify-center border border-indigo-100 animate-bounce">
+            <CloudLightning className="w-5 h-5" />
+          </div>
+        }
+      />
+    </div>
+  );
+}

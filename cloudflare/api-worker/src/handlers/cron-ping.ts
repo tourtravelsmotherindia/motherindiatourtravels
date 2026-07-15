@@ -35,6 +35,11 @@ export async function handleCronPing(
 ): Promise<Record<string, unknown>> {
   console.log("[KeepAlive Cron] Starting system status and keep-alive checks...");
 
+  if (!env.SUPABASE_URL || !env.SUPABASE_SECRET_KEY) {
+    console.error("[KeepAlive Cron] SUPABASE_URL or SUPABASE_SECRET_KEY is missing!");
+    throw new Error("Missing Supabase configuration");
+  }
+
   const db = createSupabaseClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
 
   // 1. Uptime check endpoints

@@ -72,7 +72,7 @@ export async function handleAdminContactsUpdateStatus(
   return Response.json(contact);
 }
 
-/** POST /deploy — trigger GitHub actions deployment */
+/** POST /deploy — trigger GitHub actions or Cloudflare Pages deployment */
 export async function handleDeploy(request: Request, env: Env): Promise<Response> {
   try {
     await requireAdmin(request, env);
@@ -80,25 +80,21 @@ export async function handleDeploy(request: Request, env: Env): Promise<Response
     return r as Response;
   }
 
-  const token = env.GITHUB_TOKEN;
-  const owner = env.GITHUB_OWNER;
-  const repo = env.GITHUB_REPO;
-  const workflow = env.GITHUB_WORKFLOW || "deploy-cpanel.yml";
-
-  if (!token || !owner || !repo) {
-    return Response.json(
-      { error: "GitHub deployment configuration is missing in server environment variables" },
-      { status: 500 },
-    );
-  }
-
+  let target = "cpanel";
   let inputs = {};
   let ref = env.GITHUB_REF || "deploy";
 
   try {
     if (request.headers.get("content-type")?.includes("application/json")) {
-      const body = (await request.json()) as { ref?: string; inputs?: Record<string, unknown> };
+      const body = (await request.json()) as {
+        target?: string;
+        ref?: string;
+        inputs?: Record<string, unknown>;
+      };
       if (body && typeof body === "object") {
+        if (body.target) {
+          target = body.target;
+        }
         if (body.ref) {
           ref = body.ref;
         }
@@ -109,6 +105,59 @@ export async function handleDeploy(request: Request, env: Env): Promise<Response
     }
   } catch (e) {
     // Ignore body parse errors if body is empty or malformed
+  }
+
+  if (target === "cloudflare") {
+    const deployHook = env.CLOUDFLARE_PAGES_DEPLOY_HOOK;
+    if (!deployHook) {
+      return Response.json(
+        {
+          error: "Cloudflare Pages deployment hook URL is missing in server environment variables",
+        },
+        { status: 500 },
+      );
+    }
+
+    try {
+      const response = await fetch(deployHook, {
+        method: "POST",
+      });
+
+      if (response.ok) {
+        return Response.json({
+          success: true,
+          message: "Cloudflare Pages deployment triggered successfully",
+        });
+      } else {
+        const errorText = await response.text();
+        console.error("Cloudflare Pages hook failed:", response.status, errorText);
+        return Response.json(
+          {
+            error: `Failed to trigger Cloudflare Pages deployment: ${errorText || response.statusText}`,
+          },
+          { status: response.status },
+        );
+      }
+    } catch (err: any) {
+      console.error("Error triggering Cloudflare Pages deployment:", err);
+      return Response.json(
+        { error: `Internal error triggering Cloudflare Pages deployment: ${err.message || err}` },
+        { status: 500 },
+      );
+    }
+  }
+
+  // Default: cpanel (GitHub Actions dispatch)
+  const token = env.GITHUB_TOKEN;
+  const owner = env.GITHUB_OWNER;
+  const repo = env.GITHUB_REPO;
+  const workflow = env.GITHUB_WORKFLOW || "deploy-cpanel.yml";
+
+  if (!token || !owner || !repo) {
+    return Response.json(
+      { error: "GitHub deployment configuration is missing in server environment variables" },
+      { status: 500 },
+    );
   }
 
   try {
@@ -146,7 +195,7 @@ export async function handleDeploy(request: Request, env: Env): Promise<Response
   }
 }
 
-/** GET /deploy — fetch latest deployment workflow run status */
+/** GET /deploy — fetch latest deployment workflow or Cloudflare Pages run status */
 export async function handleDeployStatus(request: Request, env: Env): Promise<Response> {
   try {
     await requireAdmin(request, env);
@@ -154,6 +203,96 @@ export async function handleDeployStatus(request: Request, env: Env): Promise<Re
     return r as Response;
   }
 
+  const url = new URL(request.url);
+  const target = url.searchParams.get("target") || "cpanel";
+
+  if (target === "cloudflare") {
+    const accountId = env.CLOUDFLARE_ACCOUNT_ID;
+    const projectName = env.CLOUDFLARE_PROJECT_NAME;
+    const apiToken = env.CLOUDFLARE_API_TOKEN;
+
+    if (!accountId || !projectName || !apiToken) {
+      return Response.json(
+        {
+          error: "Cloudflare Pages monitoring settings are missing in server environment variables",
+        },
+        { status: 500 },
+      );
+    }
+
+    try {
+      const url = `https://api.cloudflare.com/client/v4/accounts/${accountId}/pages/projects/${projectName}/deployments?per_page=1`;
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${apiToken}`,
+          "Content-Type": "application/json",
+          "User-Agent": "Mother-India-Admin-Panel",
+        },
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Failed to fetch Cloudflare Pages deployments:", response.status, errorText);
+        return Response.json(
+          { error: `Failed to fetch deployment status: ${errorText || response.statusText}` },
+          { status: response.status },
+        );
+      }
+
+      const data = (await response.json()) as {
+        result?: Array<{
+          id: string;
+          status: string;
+          url: string;
+          created_on: string;
+        }>;
+      };
+
+      const latestDeployment = data.result?.[0] || null;
+
+      if (!latestDeployment) {
+        return Response.json({ status: "unknown", conclusion: null });
+      }
+
+      // Map Cloudflare Pages statuses: "queued", "building", "success", "failure", "canceled"
+      // to standard API response payload: { status, conclusion, url, createdAt }
+      let status = "completed";
+      let conclusion: string | null = null;
+
+      if (latestDeployment.status === "queued") {
+        status = "queued";
+      } else if (latestDeployment.status === "building") {
+        status = "in_progress";
+      } else if (latestDeployment.status === "success") {
+        status = "completed";
+        conclusion = "success";
+      } else if (latestDeployment.status === "failure") {
+        status = "completed";
+        conclusion = "failure";
+      } else if (latestDeployment.status === "canceled") {
+        status = "completed";
+        conclusion = "cancelled";
+      } else {
+        status = latestDeployment.status;
+      }
+
+      return Response.json({
+        status,
+        conclusion,
+        url: latestDeployment.url,
+        createdAt: latestDeployment.created_on,
+      });
+    } catch (err: any) {
+      console.error("Error fetching Cloudflare Pages deployment status:", err);
+      return Response.json(
+        { error: `Internal error fetching deployment status: ${err.message || err}` },
+        { status: 500 },
+      );
+    }
+  }
+
+  // Default: cpanel (GitHub Actions run status)
   const token = env.GITHUB_TOKEN;
   const owner = env.GITHUB_OWNER;
   const repo = env.GITHUB_REPO;

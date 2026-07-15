@@ -22,4 +22,10 @@ export interface Env {
   GITHUB_REPO: string;
   GITHUB_WORKFLOW?: string;
   GITHUB_REF?: string;
+
+  // Cloudflare Pages Deployment Settings
+  CLOUDFLARE_PAGES_DEPLOY_HOOK?: string;
+  CLOUDFLARE_ACCOUNT_ID?: string;
+  CLOUDFLARE_PROJECT_NAME?: string;
+  CLOUDFLARE_API_TOKEN?: string;
 }

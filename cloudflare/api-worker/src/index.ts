@@ -86,7 +86,15 @@ export default {
   },
 
   async scheduled(controller: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
-    ctx.waitUntil(handleCronPing(env));
+    ctx.waitUntil(
+      handleCronPing(env)
+        .then((res) => {
+          console.log("[Scheduled Cron] Cron ping executed successfully:", res);
+        })
+        .catch((err) => {
+          console.error("[Scheduled Cron] Error executing cron ping:", err);
+        }),
+    );
   },
 } satisfies ExportedHandler<Env>;
 

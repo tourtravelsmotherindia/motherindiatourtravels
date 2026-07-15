@@ -1,18 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export function useFavorites(storageKey = "mother_india_favorites") {
-  const [favorites, setFavorites] = useState<string[]>(() => {
-    if (typeof window === "undefined") return [];
+  const [favorites, setFavorites] = useState<string[]>([]);
+
+  useEffect(() => {
     try {
       const saved = localStorage.getItem(storageKey);
-      return saved ? JSON.parse(saved) : [];
+      if (saved) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setFavorites(JSON.parse(saved));
+      }
     } catch (e) {
       console.error("Failed to parse favorites from localStorage", e);
-      return [];
     }
-  });
+  }, [storageKey]);
 
   const isFavorite = (slug: string) => favorites.includes(slug);
 

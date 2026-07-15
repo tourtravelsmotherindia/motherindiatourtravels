@@ -88,43 +88,6 @@ Email:    admin@motherindiatourtravels.com
 Password: [strong password]
 ```
 
-### 3c. Run RLS policies
-
-In **Supabase SQL Editor**, run these policies:
-
-```sql
--- Allow public reads on content tables
-ALTER TABLE "Package" ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "public_read_packages" ON "Package" FOR SELECT USING (true);
-
-ALTER TABLE "GalleryImage" ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "public_read_gallery" ON "GalleryImage" FOR SELECT USING (true);
-
-ALTER TABLE "Destination" ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "public_read_destinations" ON "Destination" FOR SELECT USING (true);
-
-ALTER TABLE "FAQ" ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "public_read_faqs" ON "FAQ" FOR SELECT USING (true);
-
-ALTER TABLE "BlogPost" ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "public_read_blogs" ON "BlogPost" FOR SELECT USING (true);
-
-ALTER TABLE "Testimonial" ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "public_read_testimonials" ON "Testimonial" FOR SELECT USING (true);
-
-ALTER TABLE "SiteSection" ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "public_read_sections" ON "SiteSection" FOR SELECT USING (true);
-
-ALTER TABLE "Company" ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "public_read_company" ON "Company" FOR SELECT USING (true);
-
-ALTER TABLE "HeroConfig" ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "public_read_hero" ON "HeroConfig" FOR SELECT USING (true);
-
-ALTER TABLE "HeroSlide" ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "public_read_slides" ON "HeroSlide" FOR SELECT USING (true);
-```
-
 ---
 
 ## Step 4 — Configure Worker Secrets (api-worker)
@@ -318,16 +281,45 @@ To ensure the Supabase free tier database remains active and monitor overall sys
 
 ---
 
+## Step 12 — Cloudflare Pages Deployment Setup
+
+To trigger static site builds on Cloudflare Pages and view their deployment statuses, you must configure a Deploy Hook and add secrets to your API worker.
+
+### Setup Steps:
+
+1. Go to **Cloudflare Dashboard** → **Workers & Pages** → **Pages** → Select your Pages Project.
+2. Go to **Settings** → **Builds & deployments** → **Deploy hooks** section.
+3. Click **Add deploy hook**, name it (e.g., `admin-deploy`), choose your build branch (e.g., `main` or `deploy`), and click **Create**.
+4. Copy the generated deploy hook URL. This is your `CLOUDFLARE_PAGES_DEPLOY_HOOK`.
+5. Create a Cloudflare API Token:
+   - Go to **User Profile** → **API Tokens** → **Create Token**.
+   - Select **Create Custom Token**.
+   - Under permissions, select **Account** → **Cloudflare Pages** → **Read** (or Edit).
+   - Click **Continue to summary** and **Create Token**. Copy the token — this is your `CLOUDFLARE_API_TOKEN`.
+6. Add the following secrets to your API worker in the Cloudflare Dashboard or via Wrangler:
+   ```bash
+   npx wrangler secret put CLOUDFLARE_PAGES_DEPLOY_HOOK
+   npx wrangler secret put CLOUDFLARE_ACCOUNT_ID
+   npx wrangler secret put CLOUDFLARE_PROJECT_NAME
+   npx wrangler secret put CLOUDFLARE_API_TOKEN
+   ```
+
+---
+
 ## Secrets & Config Summary
 
-| Variable              | Location                   | Description                                  |
-| --------------------- | -------------------------- | -------------------------------------------- |
-| `SUPABASE_URL`        | api-worker                 | Supabase REST URL                            |
-| `SUPABASE_SECRET_KEY` | api-worker                 | Supabase secret key (`sb_secret_...` format) |
-| `BUCKET`              | api-worker & images-worker | R2 Bucket wrangler binding                   |
-| `BOOKING_SMTP_USER`   | api-worker                 | Mail account for booking emails              |
-| `BOOKING_SMTP_PASS`   | api-worker                 | Password for booking email account           |
-| `NOTIFY_SMTP_USER`    | api-worker                 | Mail account for notifications               |
-| `NOTIFY_SMTP_PASS`    | api-worker                 | Password for notification account            |
-| `SMTP_HOST`           | api-worker                 | `mail.motherindiatourtravels.com`            |
-| `SMTP_PORT`           | api-worker                 | `465` (secure port)                          |
+| Variable                       | Location                   | Description                                          |
+| ------------------------------ | -------------------------- | ---------------------------------------------------- |
+| `SUPABASE_URL`                 | api-worker                 | Supabase REST URL                                    |
+| `SUPABASE_SECRET_KEY`          | api-worker                 | Supabase secret key (`sb_secret_...` format)         |
+| `BUCKET`                       | api-worker & images-worker | R2 Bucket wrangler binding                           |
+| `BOOKING_SMTP_USER`            | api-worker                 | Mail account for booking emails                      |
+| `BOOKING_SMTP_PASS`            | api-worker                 | Password for booking email account                   |
+| `NOTIFY_SMTP_USER`             | api-worker                 | Mail account for notifications                       |
+| `NOTIFY_SMTP_PASS`             | api-worker                 | Password for notification account                    |
+| `SMTP_HOST`                    | api-worker                 | `mail.motherindiatourtravels.com`                    |
+| `SMTP_PORT`                    | api-worker                 | `465` (secure port)                                  |
+| `CLOUDFLARE_PAGES_DEPLOY_HOOK` | api-worker                 | Webhook URL for Cloudflare Pages (deploy hook)       |
+| `CLOUDFLARE_ACCOUNT_ID`        | api-worker                 | Cloudflare account ID                                |
+| `CLOUDFLARE_PROJECT_NAME`      | api-worker                 | Cloudflare Pages project name                        |
+| `CLOUDFLARE_API_TOKEN`         | api-worker                 | Cloudflare API token with read permissions for Pages |

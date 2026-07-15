@@ -23,10 +23,11 @@
 name: Build & Deploy to cPanel
 
 on:
-  push:
-    branches: [deploy]
-  # Allow manual trigger from GitHub Actions tab
+  # Allow manual trigger from GitHub Actions tab and via API dispatch
   workflow_dispatch:
+  # Allow repository dispatch for external webhook triggering
+  repository_dispatch:
+    types: [deploy-cpanel]
 
 # Prevent overlapping deploys from racing each other on the same FTP target
 concurrency:

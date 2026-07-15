@@ -103,8 +103,9 @@ The codebase uses **highly rounded, organic shapes** to prevent a boxy feel. The
 - **Shadow tokens** (both map to `0 8px 30px rgba(0, 0, 0, 0.04)`):
   - `shadow-premium` — floating overlays, dropdown panels, popovers, the Hero search panel
   - `shadow-card` — card hover states
-- **Cards at rest**: No shadow. Shadow only appears on `:hover` using the `hover:shadow-card` or `hover:shadow-premium` pattern.
-- **Borders**: Use `border border-border-light` (1px `#ECECEC`) for all card outlines, input fields, and section dividers.
+- **Cards at rest**: No heavy shadow (use shadow-sm or none). No hover shadow elevation effects are allowed.
+- **Borders**: Input fields and general section dividers can use subtle borders. For tour package cards, the image must touch the top, left, and right edges, with a thin border container outline.
+- **Card Hover Transitions**: Cards must NOT transition their title/header text to the brand orange color on hover, and must NOT elevate their shadow on hover. Title text should remain its base color, and card shadow elevation should remain flat.
 - **Accent Borders**: Do not use colored accent borders (such as `border-l-[3px]` or custom left-accent lines) on notification banner cards, system health monitors, or status widgets. This reduces visual noise and keeps the dashboard minimal. Use standard subtle borders and soft background colors instead.
 - **Forbidden**: `shadow-lg`, `shadow-xl`, custom dark box-shadows, heavy borders.
 
