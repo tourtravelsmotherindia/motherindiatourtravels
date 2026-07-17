@@ -52,4 +52,8 @@ migration_lock.toml
 /cloudflare/*/.dev.vars
 /cloudflare/*/worker-configuration.d.ts
 
+# build cache
+/.build-cache/
+
+
 

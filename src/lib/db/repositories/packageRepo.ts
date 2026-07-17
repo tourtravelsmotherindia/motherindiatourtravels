@@ -1,3 +1,4 @@
+import { withBuildCache } from "@/lib/db/buildCache";
 import { prisma } from "@/lib/db/prisma";
 import type {
   ItineraryDay,
@@ -295,11 +296,13 @@ const packageDetailInclude = {
 // Public API
 
 export async function getAllPackages(): Promise<PackageItem[]> {
-  const packages = await prisma.package.findMany({
-    include: packageListInclude,
-    orderBy: { createdAt: "desc" },
+  return withBuildCache("all-packages", async () => {
+    const packages = await prisma.package.findMany({
+      include: packageListInclude,
+      orderBy: { createdAt: "desc" },
+    });
+    return packages.map(mapPackage);
   });
-  return packages.map(mapPackage);
 }
 
 export async function getPopularPackages(): Promise<PackageItem[]> {
@@ -329,12 +332,14 @@ export async function getInternationalPackages(): Promise<PackageItem[]> {
 
 /** Get package overview + variants (no itinerary) for the base package page */
 export async function getPackageBySlug(slug: string): Promise<PackageDetailItem | null> {
-  const pkg = await prisma.package.findUnique({
-    where: { slug },
-    include: packageDetailInclude,
+  return withBuildCache(`package-detail-${slug}`, async () => {
+    const pkg = await prisma.package.findUnique({
+      where: { slug },
+      include: packageDetailInclude,
+    });
+    if (!pkg) return null;
+    return mapPackageDetail(pkg);
   });
-  if (!pkg) return null;
-  return mapPackageDetail(pkg);
 }
 
 /** Get a specific variant by its slug for the nested URL detail page */
@@ -342,37 +347,32 @@ export async function getVariantBySlug(
   packageSlug: string,
   variantSlug: string,
 ): Promise<{ package: PackageDetailItem; variant: PackageVariantDetail } | null> {
-  const pkg = await prisma.package.findUnique({
-    where: { slug: packageSlug },
-    include: packageDetailInclude,
-  });
-
+  const pkg = await getPackageBySlug(packageSlug);
   if (!pkg) return null;
 
-  const variantRaw = pkg.variants.find((v: { slug: string }) => v.slug === variantSlug);
-  if (!variantRaw) return null;
+  const variant = pkg.variants.find((v: { slug: string }) => v.slug === variantSlug);
+  if (!variant) return null;
 
-  const packageDetail = mapPackageDetail(pkg);
-  const variant = mapVariantDetail(variantRaw);
-
-  return { package: packageDetail, variant };
+  return { package: pkg, variant };
 }
 
 /** Generate static params for all [packageSlug]/[variantSlug] paths */
 export async function getAllPackageVariantPaths(): Promise<
   { packageSlug: string; variantSlug: string }[]
 > {
-  const packages = await prisma.package.findMany({
-    select: {
-      slug: true,
-      variants: { select: { slug: true } },
-    },
-  });
+  return withBuildCache("package-variant-paths", async () => {
+    const packages = await prisma.package.findMany({
+      select: {
+        slug: true,
+        variants: { select: { slug: true } },
+      },
+    });
 
-  return packages.flatMap((pkg) =>
-    pkg.variants.map((v) => ({
-      packageSlug: pkg.slug,
-      variantSlug: v.slug,
-    })),
-  );
+    return packages.flatMap((pkg) =>
+      pkg.variants.map((v) => ({
+        packageSlug: pkg.slug,
+        variantSlug: v.slug,
+      })),
+    );
+  });
 }
