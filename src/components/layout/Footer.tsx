@@ -341,13 +341,16 @@ export default function Footer({
           </div>
         </div>
 
-        <div className="pt-8 border-t border-neutral-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p
-            className="text-xs font-medium text-neutral-400 text-center sm:text-left"
-            suppressHydrationWarning
-          >
-            © {new Date().getFullYear()} {companyData.name}. All rights reserved.
-          </p>
+        <div className="pt-8 border-t border-neutral-200 flex flex-col lg:flex-row items-center justify-between gap-6">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 text-center sm:text-left">
+            <p className="text-xs font-medium text-neutral-400" suppressHydrationWarning>
+              © {new Date().getFullYear()} {companyData.name}. All rights reserved.
+            </p>
+            <span className="hidden sm:inline text-neutral-300 text-xs">|</span>
+            <p className="text-xs font-medium text-neutral-400">
+              GSTIN: <span className="font-semibold text-neutral-600">07ADZPL9107F1Z3</span>
+            </p>
+          </div>
         </div>
       </div>
     </footer>

@@ -17,6 +17,11 @@ const nextConfig = {
         hostname: "img.freepik.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "images.motherindiatourtravels.com",
+        pathname: "/**",
+      },
     ],
     localPatterns: [
       {
