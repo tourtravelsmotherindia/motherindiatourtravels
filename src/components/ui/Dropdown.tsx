@@ -30,6 +30,7 @@ interface DropdownProps {
   icon?: LucideIcon | React.ComponentType<{ className?: string }>; // Optional starting icon for trigger
   className?: string;
   variant?: "default" | "slim";
+  label?: string;
 }
 
 export default function Dropdown({
@@ -43,6 +44,7 @@ export default function Dropdown({
   icon: TriggerIcon,
   className = "w-full sm:w-auto",
   variant = "default",
+  label,
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [openUpwards, setOpenUpwards] = useState(false);
@@ -113,11 +115,27 @@ export default function Dropdown({
             />
           )}
           {selectedOption ? (
-            <span className="truncate block flex-1">{selectedOption.label}</span>
+            <span className="truncate block flex-1">
+              {label && (
+                <span
+                  className={`${isWhiteText ? "text-white/70" : "text-neutral-500"} font-semibold mr-1`}
+                >
+                  {label}:
+                </span>
+              )}
+              {selectedOption.label}
+            </span>
           ) : (
             <span
               className={`truncate block flex-1 ${isWhiteText ? "text-white/60" : "text-neutral-400"}`}
             >
+              {label && (
+                <span
+                  className={`${isWhiteText ? "text-white/60" : "text-neutral-400"} font-semibold mr-1`}
+                >
+                  {label}:
+                </span>
+              )}
               {placeholder}
             </span>
           )}

@@ -381,6 +381,7 @@ export default function CrudClient({ table }: CrudClientProps) {
                           setFilters((prev) => ({ ...prev, [field.name]: val }));
                           setCurrentPage(1);
                         }}
+                        label={field.label}
                         placeholder={field.label}
                         variant="slim"
                         className="w-auto min-w-[130px]"
