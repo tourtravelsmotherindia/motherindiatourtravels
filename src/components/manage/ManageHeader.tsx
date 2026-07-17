@@ -117,7 +117,7 @@ export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHe
         <React.Fragment key={segment}>
           <ChevronRight className="w-3 h-3 text-neutral-400 mx-1 flex-shrink-0" />
           {idx === segments.length - 2 ? (
-            <span className="text-neutral-900 font-semibold truncate">{label}</span>
+            <span className="text-white font-semibold truncate">{label}</span>
           ) : (
             <Link href={currentPath} className="hover:text-brand transition-colors truncate">
               {label}
@@ -175,18 +175,18 @@ export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHe
   const { heading, sub } = getHeadings();
 
   return (
-    <header className="sticky top-0 bg-white border-b border-neutral-100 px-6 py-3.5 flex flex-col gap-3 z-20">
+    <header className="sticky top-0 bg-black border-b border-neutral-900 px-6 py-3.5 flex flex-col gap-3 z-20 text-white">
       <div className="flex items-center justify-between">
         {/* Left: Mobile hamburger & Breadcrumbs */}
         <div className="flex items-center gap-3 min-w-0">
           <button
             onClick={onOpenMobile}
-            className="lg:hidden p-2 rounded-full border border-border-light hover:bg-neutral-50 text-neutral-500 hover:text-neutral-800 transition-colors"
+            className="lg:hidden p-2 rounded-full border border-neutral-800 hover:bg-neutral-900 text-neutral-400 hover:text-white transition-colors cursor-pointer"
           >
             <Menu className="w-5 h-5" />
           </button>
 
-          <div className="flex items-center text-xs font-semibold text-neutral-700 min-w-0 overflow-x-auto no-scrollbar">
+          <div className="flex items-center text-xs font-semibold text-neutral-400 min-w-0 overflow-x-auto no-scrollbar">
             {generateBreadcrumbs()}
           </div>
         </div>
@@ -194,33 +194,33 @@ export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHe
         {/* Right: Quick Action or Status */}
         <div className="hidden sm:flex items-center gap-3">
           {/* Unified System Health Status Pill */}
-          <div className="flex items-center gap-3 text-[10px] md:text-xs font-semibold px-4 py-1.5 rounded-full border border-neutral-100 bg-white text-neutral-600 shadow-[0_1px_4px_rgba(0,0,0,0.04)] leading-none shrink-0">
+          <div className="flex items-center gap-3 text-[10px] md:text-xs font-semibold px-4 py-1.5 rounded-full border border-neutral-800 bg-black text-neutral-400 leading-none shrink-0">
             {/* API Status Indicator */}
             <div className="flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
               <span className="text-neutral-500 font-medium">API:</span>
-              <span className="text-emerald-700 font-bold">Online</span>
+              <span className="text-emerald-500 font-bold">Online</span>
             </div>
 
             {deployStatus && (
               <>
-                <span className="w-px h-3 bg-neutral-100 shrink-0" />
+                <span className="w-px h-3 bg-neutral-800 shrink-0" />
                 {/* Deploy Status Indicator */}
                 <a
                   href={deployStatus.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 text-neutral-500 hover:text-brand transition-colors shrink-0"
+                  className="flex items-center gap-1.5 text-neutral-400 hover:text-brand transition-colors shrink-0"
                   title="Click to view run logs on GitHub"
                 >
                   <span className="text-neutral-500 font-medium">Deploy:</span>
                   <span
                     className={`font-semibold ${
                       deployStatus.status === "queued" || deployStatus.status === "in_progress"
-                        ? "text-amber-700 animate-pulse"
+                        ? "text-amber-500 animate-pulse"
                         : deployStatus.conclusion === "success"
-                          ? "text-emerald-700"
-                          : "text-red-700"
+                          ? "text-emerald-500"
+                          : "text-red-500"
                     }`}
                   >
                     {deployStatus.status === "queued" && "Queued"}
@@ -246,7 +246,7 @@ export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHe
 
           <Link
             href="/manage/deploy/"
-            className="flex items-center gap-1.5 text-xs text-neutral-700 bg-white hover:bg-neutral-50 border border-neutral-100 px-4 py-1.5 rounded-full font-semibold shadow-[0_1px_4px_rgba(0,0,0,0.04)] transition-all duration-200 cursor-pointer shrink-0"
+            className="flex items-center gap-1.5 text-xs text-neutral-300 bg-black hover:bg-neutral-900 border border-neutral-800 px-4 py-1.5 rounded-full font-semibold transition-all duration-200 cursor-pointer shrink-0"
           >
             <CloudLightning className="w-3.5 h-3.5 text-brand" />
             <span>Deploy Website</span>
@@ -271,11 +271,11 @@ export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHe
 
       {/* Main Heading Text */}
       <div className="mt-1">
-        <h1 className="text-xl md:text-2xl font-bold font-display text-neutral-800 leading-tight">
+        <h1 className="text-xl md:text-2xl font-bold font-display text-white leading-tight">
           {heading}
         </h1>
         {sub && (
-          <p className="text-xs md:text-sm text-neutral-600 font-medium mt-1 leading-relaxed max-w-3xl">
+          <p className="text-xs md:text-sm text-neutral-400 font-medium mt-1 leading-relaxed max-w-3xl">
             {sub}
           </p>
         )}
