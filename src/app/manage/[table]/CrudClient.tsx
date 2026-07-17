@@ -318,10 +318,11 @@ export default function CrudClient({ table }: CrudClientProps) {
       {(!tableConfig.disableSearch ||
         !tableConfig.disableCreate ||
         filterableFields.length > 0) && (
-        <div className="bg-white rounded-2xl border border-neutral-100 shadow-[0_1px_4px_rgba(0,0,0,0.04)] p-4 space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="bg-white rounded-2xl border border-neutral-100 shadow-[0_1px_4px_rgba(0,0,0,0.04)] p-4 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          {/* Left: Search Bar & Filters in one line */}
+          <div className="flex-1 flex flex-col md:flex-row md:items-center gap-3 min-w-0">
             {!tableConfig.disableSearch ? (
-              <div className="relative max-w-sm w-full">
+              <div className="relative w-full md:w-72 shrink-0">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-neutral-500">
                   <Search className="w-3.5 h-3.5" />
                 </div>
@@ -344,76 +345,74 @@ export default function CrudClient({ table }: CrudClientProps) {
               <div />
             )}
 
-            <div className="flex items-center gap-3.5">
-              {Object.values(filters).some((v) => v !== "") && (
-                <button
-                  onClick={() => setFilters({})}
-                  className="text-xs font-bold text-black hover:text-brand transition-colors cursor-pointer"
-                >
-                  Clear Filters
-                </button>
-              )}
+            {filterableFields.length > 0 && (
+              <div className="flex flex-wrap items-center gap-2.5 min-w-0">
+                {filterableFields.map((field) => {
+                  let dropdownOptions: { label: string; value: string }[] = [];
 
-              {!tableConfig.disableCreate && (
-                <button
-                  onClick={handleAddNew}
-                  className="flex items-center justify-center gap-1.5 rounded-full bg-brand hover:bg-brand-hover text-white font-semibold text-xs py-2 px-5 shadow-[0_1px_4px_rgba(0,0,0,0.08)] transition-all cursor-pointer shrink-0"
-                >
-                  <Plus className="w-3.5 h-3.5" />
-                  <span>Add {getSingularLabel(tableConfig.label)}</span>
-                </button>
-              )}
-            </div>
+                  if (field.type === "boolean") {
+                    dropdownOptions = [
+                      { label: "All", value: "" },
+                      { label: field.trueLabel || "Yes", value: "true" },
+                      { label: field.falseLabel || "No", value: "false" },
+                    ];
+                  } else if (field.type === "select") {
+                    dropdownOptions = [{ label: "All", value: "" }];
+                    if (field.relation) {
+                      const cache = relationCache[field.name] || {};
+                      Object.entries(cache).forEach(([val, label]) => {
+                        dropdownOptions.push({ label: String(label), value: val });
+                      });
+                    } else if (field.options) {
+                      field.options.forEach((opt) => {
+                        dropdownOptions.push({ label: opt.label, value: String(opt.value) });
+                      });
+                    }
+                  }
+
+                  const currentValue = filters[field.name] || "";
+
+                  return (
+                    <div key={field.name} className="flex items-center gap-1.5 shrink-0">
+                      <Dropdown
+                        options={dropdownOptions}
+                        value={currentValue}
+                        onChange={(val) => {
+                          setFilters((prev) => ({ ...prev, [field.name]: val }));
+                          setCurrentPage(1);
+                        }}
+                        placeholder={field.label}
+                        variant="slim"
+                        className="w-auto min-w-[130px]"
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
-          {filterableFields.length > 0 && (
-            <div className="flex flex-wrap items-center gap-3 pt-3 border-t border-neutral-50">
-              <span className="text-[10px] uppercase font-extrabold tracking-wider text-black mr-1 select-none">
-                Filters:
-              </span>
-              {filterableFields.map((field) => {
-                let dropdownOptions: { label: string; value: string }[] = [];
+          {/* Right: Actions / Clear Filters */}
+          <div className="flex items-center justify-end gap-3.5 shrink-0">
+            {Object.values(filters).some((v) => v !== "") && (
+              <button
+                onClick={() => setFilters({})}
+                className="text-xs font-bold text-black hover:text-brand transition-colors cursor-pointer"
+              >
+                Clear Filters
+              </button>
+            )}
 
-                if (field.type === "boolean") {
-                  dropdownOptions = [
-                    { label: `All ${field.label}`, value: "" },
-                    { label: field.trueLabel || "Yes", value: "true" },
-                    { label: field.falseLabel || "No", value: "false" },
-                  ];
-                } else if (field.type === "select") {
-                  dropdownOptions = [{ label: `All ${field.label}`, value: "" }];
-                  if (field.relation) {
-                    const cache = relationCache[field.name] || {};
-                    Object.entries(cache).forEach(([val, label]) => {
-                      dropdownOptions.push({ label: String(label), value: val });
-                    });
-                  } else if (field.options) {
-                    field.options.forEach((opt) => {
-                      dropdownOptions.push({ label: opt.label, value: String(opt.value) });
-                    });
-                  }
-                }
-
-                const currentValue = filters[field.name] || "";
-
-                return (
-                  <div key={field.name} className="flex items-center gap-1.5">
-                    <Dropdown
-                      options={dropdownOptions}
-                      value={currentValue}
-                      onChange={(val) => {
-                        setFilters((prev) => ({ ...prev, [field.name]: val }));
-                        setCurrentPage(1);
-                      }}
-                      placeholder={`All ${field.label}`}
-                      variant="slim"
-                      className="w-auto min-w-[130px]"
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          )}
+            {!tableConfig.disableCreate && (
+              <button
+                onClick={handleAddNew}
+                className="flex items-center justify-center gap-1.5 rounded-full bg-brand hover:bg-brand-hover text-white font-semibold text-xs py-2 px-5 shadow-[0_1px_4px_rgba(0,0,0,0.08)] transition-all cursor-pointer shrink-0"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span>Add {getSingularLabel(tableConfig.label)}</span>
+              </button>
+            )}
+          </div>
         </div>
       )}
 

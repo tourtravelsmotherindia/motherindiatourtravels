@@ -1071,9 +1071,25 @@ export const ADMIN_TABLES: Record<string, TableConfig> = {
 export function getSingularLabel(label: string): string {
   if (!label) return "";
   const lower = label.toLowerCase();
+
   if (lower === "gallery") return "Gallery";
-  if (lower.endsWith("categories")) {
+  if (lower === "system status") return "System Status";
+  if (lower === "company") return "Company";
+
+  // Plurals ending in -ies -> -y (e.g. Countries -> Country, Categories -> Category)
+  if (label.endsWith("ies")) {
     return label.slice(0, -3) + "y";
   }
-  return label.slice(0, -1);
+
+  // Preserve status endings
+  if (label.endsWith("status") || label.endsWith("Status")) {
+    return label;
+  }
+
+  // Standard s-stripping
+  if (label.endsWith("s") || label.endsWith("S")) {
+    return label.slice(0, -1);
+  }
+
+  return label;
 }

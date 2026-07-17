@@ -411,14 +411,7 @@ export default function DeployDashboard() {
                     </div>
                   )}
                 </div>
-              ) : (
-                <div className="bg-red-50/50 text-red-700 rounded-xl p-4 border border-red-100 text-xs font-medium flex flex-col gap-1">
-                  <span className="font-semibold text-red-800">Status details unavailable</span>
-                  <span className="text-red-600/80">
-                    Could not retrieve the latest build status from Cloudflare Pages.
-                  </span>
-                </div>
-              )}
+              ) : null}
             </div>
           </div>
 
