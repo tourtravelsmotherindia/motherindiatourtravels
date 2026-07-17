@@ -36,9 +36,11 @@ export default function PackageMap({ markers }: PackageMapProps) {
       unique.length > 0 ? [unique[0].longitude, unique[0].latitude] : defaultCenter;
     const initialZoom = unique.length > 0 ? 8 : 4;
 
+    const maptilerKey = process.env.NEXT_PUBLIC_MAPTILER_KEY || "SCrHPGyvgfPz8bu3da4e";
+
     const map = new maplibregl.Map({
       container: mapContainerRef.current,
-      style: `https://api.maptiler.com/maps/streets-v4/style.json?key=${process.env.NEXT_PUBLIC_MAPTILER_KEY}`,
+      style: `https://api.maptiler.com/maps/streets-v4/style.json?key=${maptilerKey}`,
       center: initialCenter,
       zoom: initialZoom,
       attributionControl: {},

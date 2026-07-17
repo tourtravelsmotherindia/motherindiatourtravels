@@ -22,9 +22,11 @@ export default function ContactMap({ address, latitude, longitude }: ContactMapP
   useEffect(() => {
     if (!mapContainerRef.current) return;
 
+    const maptilerKey = process.env.NEXT_PUBLIC_MAPTILER_KEY || "SCrHPGyvgfPz8bu3da4e";
+
     const map = new maplibregl.Map({
       container: mapContainerRef.current,
-      style: `https://api.maptiler.com/maps/streets-v4/style.json?key=${process.env.NEXT_PUBLIC_MAPTILER_KEY}`,
+      style: `https://api.maptiler.com/maps/streets-v4/style.json?key=${maptilerKey}`,
       center: [lng, lat],
       zoom: 15,
       attributionControl: {},
