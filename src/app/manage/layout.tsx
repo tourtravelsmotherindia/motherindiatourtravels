@@ -60,9 +60,9 @@ export default function ManageLayout({
 
   if (checkingAuth) {
     return (
-      <div className="min-h-screen bg-black flex flex-col items-center justify-center">
+      <div className="min-h-screen bg-white flex flex-col items-center justify-center">
         <Loader2 className="w-10 h-10 text-brand animate-spin" />
-        <p className="text-sm font-semibold text-neutral-400 mt-3 animate-pulse">
+        <p className="text-sm font-semibold text-neutral-500 mt-3 animate-pulse">
           Authenticating administrator...
         </p>
       </div>
@@ -72,9 +72,9 @@ export default function ManageLayout({
   // If not authorized and not on login page, prevent flash of content
   if (!authorized && !isLoginPage) {
     return (
-      <div className="min-h-screen bg-black flex flex-col items-center justify-center">
+      <div className="min-h-screen bg-white flex flex-col items-center justify-center">
         <Loader2 className="w-10 h-10 text-brand animate-spin" />
-        <p className="text-sm font-semibold text-neutral-400 mt-3 animate-pulse">
+        <p className="text-sm font-semibold text-neutral-500 mt-3 animate-pulse">
           Redirecting to security gate...
         </p>
       </div>
@@ -83,12 +83,12 @@ export default function ManageLayout({
 
   // Login page layout (no sidebar / header)
   if (isLoginPage) {
-    return <div className="min-h-screen bg-black flex flex-col">{children}</div>;
+    return <div className="min-h-screen bg-white flex flex-col">{children}</div>;
   }
 
   // Admin Dashboard layout shell
   return (
-    <div className="min-h-screen bg-black flex flex-col lg:flex-row">
+    <div className="min-h-screen bg-white flex flex-col lg:flex-row">
       {/* Sidebar Navigation */}
       <ManageSidebar
         isMobileOpen={mobileSidebarOpen}

@@ -296,7 +296,7 @@ export default function AdminFormDrawer({
       case "number":
         return (
           <div key={field.name} className="w-full">
-            <label className="block text-xs font-semibold text-neutral-400 uppercase mb-2">
+            <label className="block text-xs font-bold text-black uppercase mb-2">
               {field.label} {field.required && <span className="text-red-500">*</span>}
             </label>
             <input
@@ -304,7 +304,7 @@ export default function AdminFormDrawer({
               value={(formData[field.name] as string | number | undefined) ?? ""}
               onChange={(e) => handleInputChange(field.name, e.target.value)}
               placeholder={field.placeholder || `Enter ${field.label.toLowerCase()}`}
-              className="w-full rounded-full border border-neutral-800 px-5 py-2.5 text-sm bg-black text-white focus:border-brand focus:outline-none transition-colors"
+              className="w-full rounded-full border border-border-light px-5 py-2.5 text-sm bg-white focus:border-brand focus:outline-none transition-colors text-black"
             />
           </div>
         );
@@ -312,7 +312,7 @@ export default function AdminFormDrawer({
       case "datetime":
         return (
           <div key={field.name} className="w-full">
-            <label className="block text-xs font-semibold text-neutral-400 uppercase mb-2">
+            <label className="block text-xs font-bold text-black uppercase mb-2">
               {field.label} {field.required && <span className="text-red-500">*</span>}
             </label>
             <input
@@ -321,7 +321,7 @@ export default function AdminFormDrawer({
                 formData[field.name] as string | Date | number | null,
               )}
               onChange={(e) => handleInputChange(field.name, e.target.value)}
-              className="w-full rounded-full border border-neutral-800 px-5 py-2.5 text-sm bg-black text-white focus:border-brand focus:outline-none transition-colors"
+              className="w-full rounded-full border border-border-light px-5 py-2.5 text-sm bg-white focus:border-brand focus:outline-none transition-colors text-black"
             />
           </div>
         );
@@ -330,12 +330,10 @@ export default function AdminFormDrawer({
         const isChecked = !!formData[field.name];
         return (
           <div key={field.name} className="w-full">
-            <label className="block text-xs font-semibold text-neutral-400 uppercase mb-2">
-              &nbsp;
-            </label>
+            <label className="block text-xs font-bold text-black uppercase mb-2">&nbsp;</label>
             <div
               onClick={() => handleInputChange(field.name, !isChecked)}
-              className="flex items-center gap-3.5 w-full rounded-full border border-neutral-800 px-5 py-[11px] bg-black hover:border-brand/45 cursor-pointer transition-colors select-none"
+              className="flex items-center gap-3.5 w-full rounded-full border border-border-light px-5 py-[11px] bg-white hover:border-brand/45 cursor-pointer transition-colors select-none"
             >
               <button
                 type="button"
@@ -343,7 +341,7 @@ export default function AdminFormDrawer({
                 className={`w-5 h-5 rounded-md border flex items-center justify-center transition-all duration-200 cursor-pointer ${
                   isChecked
                     ? "bg-brand border-brand text-white"
-                    : "bg-black border-neutral-700 text-transparent"
+                    : "bg-white border-neutral-300 text-transparent"
                 }`}
               >
                 <svg
@@ -358,7 +356,7 @@ export default function AdminFormDrawer({
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
               </button>
-              <span className="text-sm font-bold text-neutral-700">{field.label}</span>
+              <span className="text-sm font-bold text-black">{field.label}</span>
             </div>
           </div>
         );
@@ -367,7 +365,7 @@ export default function AdminFormDrawer({
       case "textarea":
         return (
           <div key={field.name} className="w-full">
-            <label className="block text-xs font-semibold text-neutral-400 uppercase mb-2">
+            <label className="block text-xs font-bold text-black uppercase mb-2">
               {field.label} {field.required && <span className="text-red-500">*</span>}
             </label>
             <textarea
@@ -375,7 +373,7 @@ export default function AdminFormDrawer({
               value={(formData[field.name] as string | undefined) ?? ""}
               onChange={(e) => handleInputChange(field.name, e.target.value)}
               placeholder={field.placeholder || `Enter ${field.label.toLowerCase()} content`}
-              className="w-full rounded-[1.5rem] border border-neutral-800 px-5 py-3 text-sm bg-black text-white focus:border-brand focus:outline-none transition-colors font-sans leading-relaxed"
+              className="w-full rounded-[1.5rem] border border-border-light px-5 py-3 text-sm bg-white focus:border-brand focus:outline-none transition-colors font-sans leading-relaxed text-black"
             />
           </div>
         );
@@ -396,7 +394,7 @@ export default function AdminFormDrawer({
 
         return (
           <div key={field.name} className="w-full">
-            <label className="block text-xs font-semibold text-neutral-400 uppercase mb-2">
+            <label className="block text-xs font-bold text-black uppercase mb-2">
               {field.label} {field.required && <span className="text-red-500">*</span>}
             </label>
             <Dropdown
@@ -404,10 +402,10 @@ export default function AdminFormDrawer({
               value={selectedValue}
               onChange={handleDropdownChange}
               placeholder={`Select ${field.label}`}
-              className="w-full"
-              triggerClassName="w-full text-left font-medium"
+              className="w-full text-black"
+              triggerClassName="w-full text-left font-medium text-black"
               menuClassName="w-full max-w-full"
-              theme="dark"
+              variant="slim"
             />
           </div>
         );
@@ -428,7 +426,7 @@ export default function AdminFormDrawer({
         const list = (formData[field.name] as string[]) || [];
         return (
           <div key={field.name} className="w-full space-y-3">
-            <label className="block text-xs font-semibold text-neutral-600 uppercase">
+            <label className="block text-xs font-bold text-black uppercase mb-2">
               {field.label}
             </label>
 
@@ -468,7 +466,7 @@ export default function AdminFormDrawer({
         const tags = (formData[field.name] as string[]) || [];
         return (
           <div key={field.name} className="w-full">
-            <label className="block text-xs font-semibold text-neutral-600 uppercase mb-2">
+            <label className="block text-xs font-bold text-black uppercase mb-2">
               {field.label} (Press Enter to add)
             </label>
 
@@ -503,7 +501,7 @@ export default function AdminFormDrawer({
               }
               onKeyDown={(e) => handleAddTag(field.name, e)}
               placeholder="Type value and press Enter"
-              className="w-full rounded-full border border-border-light px-5 py-2.5 text-sm bg-white focus:border-brand focus:outline-none transition-colors"
+              className="w-full rounded-full border border-border-light px-5 py-2.5 text-sm bg-white focus:border-brand focus:outline-none transition-colors text-black"
             />
           </div>
         );
@@ -572,30 +570,30 @@ export default function AdminFormDrawer({
         animate={{ x: 0 }}
         exit={{ x: "100%" }}
         transition={{ type: "tween", duration: 0.3 }}
-        className={`relative h-full bg-black shadow-premium flex flex-col z-50 border-l border-neutral-900 ${
+        className={`relative h-full bg-neutral-50 shadow-premium flex flex-col z-50 border-l border-border-light ${
           isLargeForm ? "w-full max-w-4xl" : "w-full max-w-2xl"
         }`}
       >
         {/* Header */}
-        <div className="bg-black px-6 py-4 border-b border-neutral-900 flex items-center justify-between">
+        <div className="bg-white px-6 py-4 border-b border-border-light flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-bold font-display text-white flex items-center gap-2">
+            <h2 className="text-lg font-bold font-display text-black flex items-center gap-2">
               <span>
                 {recordId ? "Edit" : "Create"} {getSingularLabel(tableConfig?.label) || "Record"}
               </span>
               {recordId && (
-                <span className="text-xs px-2 py-0.5 bg-neutral-900 text-neutral-400 rounded-full font-mono border border-neutral-800">
+                <span className="text-xs px-2 py-0.5 bg-neutral-100 text-neutral-500 rounded-full font-mono">
                   {recordId.slice(0, 8)}
                 </span>
               )}
             </h2>
-            <p className="text-xs text-neutral-400 mt-0.5">
+            <p className="text-xs text-black mt-0.5">
               Fill in fields to persist items in database.
             </p>
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full border border-neutral-800 hover:bg-neutral-900 text-neutral-400 hover:text-white transition-colors flex items-center justify-center cursor-pointer"
+            className="w-8 h-8 rounded-full border border-border-light hover:bg-neutral-50 text-neutral-500 hover:text-neutral-800 transition-colors flex items-center justify-center"
           >
             <X className="w-4 h-4" />
           </button>
@@ -603,23 +601,23 @@ export default function AdminFormDrawer({
 
         {/* Loading state */}
         {loading ? (
-          <div className="flex-1 flex flex-col items-center justify-center bg-black">
+          <div className="flex-1 flex flex-col items-center justify-center bg-white">
             <Loader2 className="w-8 h-8 text-brand animate-spin" />
-            <p className="text-xs text-neutral-400 font-semibold mt-2">Loading record details...</p>
+            <p className="text-xs text-neutral-500 font-semibold mt-2">Loading record details...</p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="flex-1 flex flex-col overflow-hidden bg-black">
-            <div className="flex-1 overflow-y-auto overflow-x-hidden p-6 space-y-6 dropdown-scrollbar bg-black text-white">
+          <form onSubmit={handleSubmit} className="flex-1 flex flex-col overflow-hidden">
+            <div className="flex-1 overflow-y-auto overflow-x-hidden p-6 space-y-6 dropdown-scrollbar bg-white">
               {isLargeForm ? (
                 <div className="space-y-6">
-                  <div className="flex rounded-full bg-neutral-900 p-1 w-fit border border-neutral-800">
+                  <div className="flex rounded-full bg-neutral-100 p-1 w-fit border border-neutral-200">
                     <button
                       type="button"
                       onClick={() => setActiveTab("general")}
-                      className={`px-4 py-1.5 text-xs font-semibold rounded-full transition-colors cursor-pointer ${
+                      className={`px-4 py-1.5 text-xs font-semibold rounded-full transition-colors ${
                         activeTab === "general"
                           ? "bg-brand text-white shadow-premium"
-                          : "text-neutral-400 hover:text-white"
+                          : "text-black hover:text-brand"
                       }`}
                     >
                       General Details
@@ -628,10 +626,10 @@ export default function AdminFormDrawer({
                       <button
                         type="button"
                         onClick={() => setActiveTab("content")}
-                        className={`px-4 py-1.5 text-xs font-semibold rounded-full transition-colors cursor-pointer ${
+                        className={`px-4 py-1.5 text-xs font-semibold rounded-full transition-colors ${
                           activeTab === "content"
                             ? "bg-brand text-white shadow-premium"
-                            : "text-neutral-400 hover:text-white"
+                            : "text-black hover:text-brand"
                         }`}
                       >
                         Long Content
@@ -641,10 +639,10 @@ export default function AdminFormDrawer({
                       <button
                         type="button"
                         onClick={() => setActiveTab("media")}
-                        className={`px-4 py-1.5 text-xs font-semibold rounded-full transition-colors cursor-pointer ${
+                        className={`px-4 py-1.5 text-xs font-semibold rounded-full transition-colors ${
                           activeTab === "media"
                             ? "bg-brand text-white shadow-premium"
-                            : "text-neutral-400 hover:text-white"
+                            : "text-black hover:text-brand"
                         }`}
                       >
                         Gallery / Media
@@ -654,10 +652,10 @@ export default function AdminFormDrawer({
                       <button
                         type="button"
                         onClick={() => setActiveTab("seo")}
-                        className={`px-4 py-1.5 text-xs font-semibold rounded-full transition-colors cursor-pointer ${
+                        className={`px-4 py-1.5 text-xs font-semibold rounded-full transition-colors ${
                           activeTab === "seo"
                             ? "bg-brand text-white shadow-premium"
-                            : "text-neutral-400 hover:text-white"
+                            : "text-black hover:text-brand"
                         }`}
                       >
                         SEO Optimization
@@ -710,19 +708,19 @@ export default function AdminFormDrawer({
             </div>
 
             {/* Footer */}
-            <div className="bg-black px-6 py-4 border-t border-neutral-900 flex items-center justify-end gap-3.5">
+            <div className="bg-neutral-50 px-6 py-4 border-t border-border-light flex items-center justify-end gap-3.5">
               <button
                 type="button"
                 onClick={onClose}
                 disabled={saving}
-                className="px-5 py-2.5 rounded-full border border-neutral-800 text-neutral-400 hover:bg-neutral-900 hover:text-white font-semibold text-sm transition-colors cursor-pointer"
+                className="px-5 py-2.5 rounded-full border border-border-light text-neutral-600 hover:bg-neutral-100 font-semibold text-sm transition-colors"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={saving}
-                className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-brand hover:bg-brand-hover text-white font-semibold text-sm transition-all shadow-premium disabled:opacity-50 cursor-pointer"
+                className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-brand hover:bg-brand-hover text-white font-semibold text-sm transition-all shadow-premium disabled:opacity-50"
               >
                 {saving ? (
                   <>

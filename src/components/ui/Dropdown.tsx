@@ -29,7 +29,7 @@ interface DropdownProps {
   align?: "left" | "right";
   icon?: LucideIcon | React.ComponentType<{ className?: string }>; // Optional starting icon for trigger
   className?: string;
-  theme?: "light" | "dark";
+  variant?: "default" | "slim";
 }
 
 export default function Dropdown({
@@ -42,7 +42,7 @@ export default function Dropdown({
   align = "left",
   icon: TriggerIcon,
   className = "w-full sm:w-auto",
-  theme = "light",
+  variant = "default",
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [openUpwards, setOpenUpwards] = useState(false);
@@ -50,25 +50,10 @@ export default function Dropdown({
 
   const selectedOption = options.find((opt) => opt.value === value);
 
-  const isDark = theme === "dark";
   const isTransparent = triggerClassName.includes("bg-transparent");
   const isWhiteText = triggerClassName.includes("text-white");
   const isWhiteBorder = triggerClassName.includes("border-white");
-
-  // Computed theme styles
-  const triggerBg = isTransparent
-    ? ""
-    : isDark
-      ? "bg-black hover:bg-neutral-900/60 focus:border-brand/45"
-      : "bg-white hover:bg-neutral-50/50 focus:border-brand/40";
-
-  const triggerBorder = isWhiteBorder
-    ? ""
-    : isDark
-      ? "border border-neutral-800 hover:border-neutral-700"
-      : "border border-neutral-200 hover:border-brand/35";
-
-  const triggerTextColor = isWhiteText ? "" : isDark ? "text-white" : "text-neutral-700";
+  const isSlim = variant === "slim";
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -107,34 +92,42 @@ export default function Dropdown({
       <button
         type="button"
         onClick={handleToggle}
-        className={`flex items-center justify-between gap-2.5 w-full min-w-0 rounded-full px-5 py-2.5 lg:py-3 text-sm font-semibold cursor-pointer transition-all duration-300 focus:outline-none ${triggerBg} ${triggerBorder} ${triggerTextColor} ${triggerClassName}`}
+        className={`flex items-center justify-between gap-2.5 w-full cursor-pointer transition-all duration-300 focus:outline-none ${
+          isSlim
+            ? "rounded-xl px-3.5 py-1.5 text-xs font-semibold"
+            : "rounded-full px-5 py-2.5 lg:py-3 text-sm font-semibold"
+        } ${
+          isTransparent ? "" : "bg-white hover:bg-neutral-50/50 focus:border-brand/40"
+        } ${isWhiteBorder ? "" : "border border-neutral-200 hover:border-brand/35"} ${
+          isWhiteText ? "" : isSlim ? "text-black" : "text-neutral-700"
+        } ${triggerClassName}`}
         aria-haspopup="true"
         aria-expanded={isOpen}
       >
-        <div className="flex items-center gap-2 min-w-0 flex-1">
+        <div className="flex items-center gap-2 min-w-0 flex-1 text-left">
           {TriggerIcon && (
             <TriggerIcon
               className={`w-4 h-4 shrink-0 transition-colors ${
-                isWhiteText ? "text-white/70" : isDark ? "text-neutral-400" : "text-neutral-400"
+                isWhiteText ? "text-white/70" : "text-neutral-400"
               }`}
             />
           )}
           {selectedOption ? (
-            <span className="block truncate text-left">{selectedOption.label}</span>
+            <span className="truncate block flex-1">{selectedOption.label}</span>
           ) : (
             <span
-              className={`block truncate text-left ${
-                isWhiteText ? "text-white/60" : isDark ? "text-neutral-500" : "text-neutral-400"
-              }`}
+              className={`truncate block flex-1 ${isWhiteText ? "text-white/60" : "text-neutral-400"}`}
             >
               {placeholder}
             </span>
           )}
         </div>
         <ChevronDown
-          className={`w-4.5 h-4.5 transition-transform duration-300 shrink-0 ${
+          className={`transition-transform duration-300 shrink-0 ${
             isOpen ? "rotate-180" : ""
-          } ${isWhiteText ? "text-white/70" : isDark ? "text-neutral-500" : "text-neutral-400"}`}
+          } ${isSlim ? "w-3.5 h-3.5" : "w-4.5 h-4.5"} ${
+            isWhiteText ? "text-white/70" : "text-neutral-400"
+          }`}
         />
       </button>
 
@@ -151,16 +144,24 @@ export default function Dropdown({
               damping: 26,
             }}
             style={{ originY: openUpwards ? 1 : 0 }}
-            className={`absolute z-50 rounded-[28px] p-2 shadow-premium focus:outline-none font-sans ${
-              isDark
-                ? "bg-black border border-neutral-800 text-white"
-                : "bg-white border border-neutral-200 text-neutral-800"
-            } ${openUpwards ? "bottom-full mb-2" : "top-full mt-2"} ${
+            className={`absolute z-50 bg-white border border-neutral-200 shadow-premium focus:outline-none font-sans ${
+              isSlim ? "rounded-xl p-1" : "rounded-[28px] p-2"
+            } ${
+              openUpwards
+                ? isSlim
+                  ? "bottom-full mb-1.5"
+                  : "bottom-full mb-2"
+                : isSlim
+                  ? "top-full mt-1.5"
+                  : "top-full mt-2"
+            } ${
               align === "right" ? "right-0" : "left-0"
-            } ${menuClassName.includes("w-") ? "" : "w-72"} ${menuClassName}`}
+            } ${menuClassName.includes("w-") ? "" : isSlim ? "w-56" : "w-72"} ${menuClassName}`}
           >
             <div
-              className="flex flex-col gap-0.5 max-h-60 overflow-y-auto pr-1 dropdown-scrollbar"
+              className={`flex flex-col gap-0.5 overflow-y-auto pr-1 dropdown-scrollbar ${
+                isSlim ? "max-h-48" : "max-h-60"
+              }`}
               role="menu"
               aria-orientation="vertical"
             >
@@ -171,50 +172,44 @@ export default function Dropdown({
 
                 return (
                   <React.Fragment key={option.value || index}>
-                    {option.divider && (
-                      <div
-                        className={`h-[1px] my-1.5 mx-2 ${isDark ? "bg-neutral-800" : "bg-neutral-100"}`}
-                      />
-                    )}
+                    {option.divider && <div className="h-[1px] bg-neutral-100 my-1.5 mx-2" />}
 
                     <button
                       type="button"
                       onClick={() => handleOptionClick(option)}
-                      className={`flex items-center justify-between w-full px-4 py-3 text-sm font-semibold rounded-2xl cursor-pointer text-left transition-all duration-200 select-none outline-none ${
+                      className={`flex items-center justify-between w-full text-left transition-all duration-200 select-none outline-none ${
+                        isSlim
+                          ? "px-3 py-2 text-xs font-semibold rounded-lg cursor-pointer"
+                          : "px-4 py-3 text-sm font-semibold rounded-2xl cursor-pointer"
+                      } ${
                         isSelected
-                          ? isDark
-                            ? "bg-neutral-900 text-brand font-bold"
-                            : "bg-neutral-100/90 text-foreground"
-                          : isDark
-                            ? "text-neutral-300 hover:bg-neutral-900 hover:text-white"
-                            : "text-foreground hover:bg-neutral-50/90 hover:text-foreground"
+                          ? "bg-neutral-100/90 text-black"
+                          : "text-black hover:bg-neutral-50/90"
                       }`}
                       role="menuitem"
                     >
-                      <div className="flex items-center gap-3 min-w-0 flex-1">
+                      <div className="flex items-center gap-3 min-w-0">
                         {OptionIcon && (
                           <OptionIcon
-                            className={`w-5 h-5 shrink-0 transition-colors ${
-                              isSelected
-                                ? isDark
-                                  ? "text-brand"
-                                  : "text-foreground"
-                                : isDark
-                                  ? "text-neutral-500"
-                                  : "text-neutral-700"
-                            }`}
+                            className={`shrink-0 transition-colors ${
+                              isSlim ? "w-4 h-4" : "w-5 h-5"
+                            } ${isSelected ? "text-black" : "text-neutral-700"}`}
                           />
                         )}
-                        <span className="block truncate text-left flex-1">{option.label}</span>
+                        <span className="truncate">{option.label}</span>
                       </div>
 
                       {option.badge && (
                         <span
-                          className={`flex items-center gap-1 px-2.5 py-1 rounded-[10px] text-[10px] font-bold tracking-wide uppercase select-none ${
-                            option.badge.className || "bg-[#ffd3f3] text-[#a100a1]"
-                          }`}
+                          className={`flex items-center gap-1 uppercase select-none ${
+                            isSlim
+                              ? "px-2 py-0.5 rounded-[6px] text-[8px] font-extrabold tracking-wider"
+                              : "px-2.5 py-1 rounded-[10px] text-[10px] font-bold tracking-wide"
+                          } ${option.badge.className || "bg-[#ffd3f3] text-[#a100a1]"}`}
                         >
-                          {BadgeIcon && <BadgeIcon className="w-3.5 h-3.5" />}
+                          {BadgeIcon && (
+                            <BadgeIcon className={isSlim ? "w-3 h-3" : "w-3.5 h-3.5"} />
+                          )}
                           <span>{option.badge.text}</span>
                         </span>
                       )}

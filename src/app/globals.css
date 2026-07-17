@@ -13,7 +13,7 @@ html {
   --brand-dark: #111111;
   --muted: #666666;
   --border-light: #ececec;
-  --admin-bg: #000000;
+  --admin-bg: #f8f8f8;
 }
 
 @theme {

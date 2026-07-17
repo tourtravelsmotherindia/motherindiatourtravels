@@ -81,7 +81,7 @@ export default function ManageSidebar({ isMobileOpen, onCloseMobile }: ManageSid
   const renderNavItems = () => {
     return ADMIN_SIDEBAR_GROUPS.map((group) => (
       <div key={group.name} className="mb-6">
-        <h3 className="px-4 text-xs font-bold text-neutral-600 uppercase tracking-wider mb-2">
+        <h3 className="px-4 text-xs font-bold text-black uppercase tracking-wider mb-2">
           {group.name}
         </h3>
         <ul className="space-y-1">
@@ -101,11 +101,11 @@ export default function ManageSidebar({ isMobileOpen, onCloseMobile }: ManageSid
                   className={`flex items-center gap-3 px-4 py-2 text-sm font-semibold rounded-full transition-all duration-200 ${
                     isActive
                       ? "bg-brand text-white shadow-premium"
-                      : "text-neutral-400 hover:bg-neutral-900/50 hover:text-white"
+                      : "text-black hover:bg-brand-light hover:text-brand"
                   }`}
                 >
                   <Icon
-                    className={`w-4 h-4 ${isActive ? "text-white" : "text-neutral-500 group-hover:text-white"}`}
+                    className={`w-4 h-4 ${isActive ? "text-white" : "text-black group-hover:text-brand"}`}
                   />
                   <span>{table.label}</span>
                 </Link>
@@ -118,9 +118,9 @@ export default function ManageSidebar({ isMobileOpen, onCloseMobile }: ManageSid
   };
 
   const sidebarContent = (
-    <div className="flex flex-col h-full bg-black border-r border-neutral-900">
+    <div className="flex flex-col h-full bg-white border-r border-neutral-100">
       {/* Brand Header */}
-      <div className="px-5 py-5 border-b border-neutral-900">
+      <div className="px-5 py-5 border-b border-neutral-100">
         <Link href="/manage/" className="flex items-center gap-3 select-none">
           <img
             src="/logo.png?v=234567"
@@ -128,10 +128,10 @@ export default function ManageSidebar({ isMobileOpen, onCloseMobile }: ManageSid
             className="w-9 h-9 object-contain shrink-0"
           />
           <div className="flex flex-col min-w-0">
-            <span className="block font-display text-xs lg:text-sm font-bold tracking-[0.18em] uppercase leading-none text-white">
+            <span className="block font-display text-xs lg:text-sm font-bold tracking-[0.18em] uppercase leading-none text-foreground">
               Mother India
             </span>
-            <span className="block font-sans text-[8px] lg:text-[9px] font-semibold tracking-[0.25em] uppercase leading-none mt-1 text-neutral-500">
+            <span className="block font-sans text-[8px] lg:text-[9px] font-semibold tracking-[0.25em] uppercase leading-none mt-1 text-neutral-400">
               Tour Travels
             </span>
           </div>
@@ -150,7 +150,7 @@ export default function ManageSidebar({ isMobileOpen, onCloseMobile }: ManageSid
                 className={`flex items-center gap-3 px-4 py-2.5 text-sm font-semibold rounded-full transition-all duration-200 ${
                   pathname === "/manage" || pathname === "/manage/"
                     ? "bg-brand text-white shadow-premium"
-                    : "text-neutral-400 hover:bg-neutral-900/50 hover:text-white"
+                    : "text-black hover:bg-brand-light hover:text-brand"
                 }`}
               >
                 <Home className="w-4.5 h-4.5" />
@@ -164,7 +164,7 @@ export default function ManageSidebar({ isMobileOpen, onCloseMobile }: ManageSid
                 className={`flex items-center gap-3 px-4 py-2.5 text-sm font-semibold rounded-full transition-all duration-200 ${
                   pathname === "/manage/deploy" || pathname === "/manage/deploy/"
                     ? "bg-brand text-white shadow-premium"
-                    : "text-neutral-400 hover:bg-neutral-900/50 hover:text-white"
+                    : "text-black hover:bg-brand-light hover:text-brand"
                 }`}
               >
                 <CloudLightning className="w-4.5 h-4.5" />
@@ -178,16 +178,16 @@ export default function ManageSidebar({ isMobileOpen, onCloseMobile }: ManageSid
       </nav>
 
       {/* User Card & Logout */}
-      <div className="p-4 border-t border-neutral-900">
+      <div className="p-4 border-t border-neutral-100">
         <div className="flex items-center gap-3 mb-3 px-2">
-          <div className="w-8 h-8 rounded-full bg-neutral-900 flex items-center justify-center border border-neutral-800">
+          <div className="w-8 h-8 rounded-full bg-brand-light flex items-center justify-center border border-brand/10">
             <span className="text-brand font-bold text-xs">{email.slice(0, 2).toUpperCase()}</span>
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-xs font-semibold text-neutral-200 truncate" title={email}>
+            <p className="text-xs font-semibold text-black truncate" title={email}>
               {email}
             </p>
-            <p className="text-[10px] text-neutral-500 font-semibold">Administrator</p>
+            <p className="text-[10px] text-black font-semibold">Administrator</p>
           </div>
         </div>
 
@@ -196,7 +196,7 @@ export default function ManageSidebar({ isMobileOpen, onCloseMobile }: ManageSid
             logout();
             onCloseMobile?.();
           }}
-          className="w-full flex items-center justify-center gap-2 px-4 py-2 text-xs font-semibold text-red-500 hover:text-red-400 border border-neutral-800 hover:border-red-950/30 hover:bg-red-950/15 rounded-full transition-all duration-200 cursor-pointer"
+          className="w-full flex items-center justify-center gap-2 px-4 py-2 text-xs font-semibold text-red-400 hover:text-red-600 border border-red-50 hover:border-red-100 hover:bg-red-50/50 rounded-full transition-all duration-200"
         >
           <LogOut className="w-4 h-4" />
           <span>Sign Out</span>
@@ -226,7 +226,7 @@ export default function ManageSidebar({ isMobileOpen, onCloseMobile }: ManageSid
             {/* Close button float */}
             <button
               onClick={onCloseMobile}
-              className="absolute right-4 top-4 w-8 h-8 rounded-full bg-black border border-neutral-800 flex items-center justify-center text-neutral-400 hover:text-white hover:shadow-sm z-50 cursor-pointer"
+              className="absolute right-4 top-4 w-8 h-8 rounded-full bg-white border border-border-light flex items-center justify-center text-neutral-500 hover:text-neutral-800 hover:shadow-sm z-50"
             >
               <X className="w-4 h-4" />
             </button>
