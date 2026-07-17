@@ -98,16 +98,16 @@ export default function ManageSidebar({ isMobileOpen, onCloseMobile }: ManageSid
                 <Link
                   href={targetPath}
                   onClick={onCloseMobile}
-                  className={`flex items-center gap-3 px-4 py-2 text-sm font-semibold rounded-full transition-all duration-200 ${
+                  className={`flex items-center gap-3 px-4 py-2 text-sm font-semibold rounded-full transition-all duration-200 min-w-0 ${
                     isActive
                       ? "bg-brand text-white shadow-premium"
                       : "text-black hover:bg-brand-light hover:text-brand"
                   }`}
                 >
                   <Icon
-                    className={`w-4 h-4 ${isActive ? "text-white" : "text-black group-hover:text-brand"}`}
+                    className={`w-4 h-4 shrink-0 ${isActive ? "text-white" : "text-black group-hover:text-brand"}`}
                   />
-                  <span>{table.label}</span>
+                  <span className="truncate block flex-1">{table.label}</span>
                 </Link>
               </li>
             );
@@ -147,28 +147,28 @@ export default function ManageSidebar({ isMobileOpen, onCloseMobile }: ManageSid
               <Link
                 href="/manage/"
                 onClick={onCloseMobile}
-                className={`flex items-center gap-3 px-4 py-2.5 text-sm font-semibold rounded-full transition-all duration-200 ${
+                className={`flex items-center gap-3 px-4 py-2.5 text-sm font-semibold rounded-full transition-all duration-200 min-w-0 ${
                   pathname === "/manage" || pathname === "/manage/"
                     ? "bg-brand text-white shadow-premium"
                     : "text-black hover:bg-brand-light hover:text-brand"
                 }`}
               >
-                <Home className="w-4.5 h-4.5" />
-                <span>Dashboard Overview</span>
+                <Home className="w-4.5 h-4.5 shrink-0" />
+                <span className="truncate block flex-1">Dashboard Overview</span>
               </Link>
             </li>
             <li>
               <Link
                 href="/manage/deploy/"
                 onClick={onCloseMobile}
-                className={`flex items-center gap-3 px-4 py-2.5 text-sm font-semibold rounded-full transition-all duration-200 ${
+                className={`flex items-center gap-3 px-4 py-2.5 text-sm font-semibold rounded-full transition-all duration-200 min-w-0 ${
                   pathname === "/manage/deploy" || pathname === "/manage/deploy/"
                     ? "bg-brand text-white shadow-premium"
                     : "text-black hover:bg-brand-light hover:text-brand"
                 }`}
               >
-                <CloudLightning className="w-4.5 h-4.5" />
-                <span>Deployment</span>
+                <CloudLightning className="w-4.5 h-4.5 shrink-0" />
+                <span className="truncate block flex-1">Deployment</span>
               </Link>
             </li>
           </ul>

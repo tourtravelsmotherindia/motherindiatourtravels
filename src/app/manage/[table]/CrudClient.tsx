@@ -6,6 +6,8 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
   ChevronsUpDown,
   ChevronUp,
   Edit2,
@@ -23,7 +25,7 @@ import ErrorState from "@/components/manage/ErrorState";
 import LoadingState from "@/components/manage/LoadingState";
 import Dropdown from "@/components/ui/Dropdown";
 import { useToast } from "@/context/ToastContext";
-import { ADMIN_TABLES, getSingularLabel } from "@/lib/adminSchema";
+import { ADMIN_TABLES, getFriendlyLabel, getSingularLabel } from "@/lib/adminSchema";
 import { useDeleteRecord } from "@/lib/hooks/mutations";
 import { useRecords, useTableRelationCache } from "@/lib/hooks/queries";
 import { formatLocalDateTime } from "@/lib/manage/dateUtils";
@@ -312,6 +314,47 @@ export default function CrudClient({ table }: CrudClientProps) {
     return String(value);
   };
 
+  // Compact pagination helper
+  const getPageNumbers = () => {
+    const pageNumbers: (number | string)[] = [];
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(i);
+      }
+    } else {
+      // Always show page 1
+      pageNumbers.push(1);
+
+      if (currentPage > 3) {
+        pageNumbers.push("...");
+      }
+
+      const start = Math.max(2, currentPage - 1);
+      const end = Math.min(totalPages - 1, currentPage + 1);
+
+      // Adjust boundaries if current page is near start or end
+      let finalStart = start;
+      let finalEnd = end;
+      if (currentPage <= 3) {
+        finalEnd = 4;
+      } else if (currentPage >= totalPages - 2) {
+        finalStart = totalPages - 3;
+      }
+
+      for (let i = finalStart; i <= finalEnd; i++) {
+        pageNumbers.push(i);
+      }
+
+      if (currentPage < totalPages - 2) {
+        pageNumbers.push("...");
+      }
+
+      // Always show last page
+      pageNumbers.push(totalPages);
+    }
+    return pageNumbers;
+  };
+
   return (
     <div className="space-y-4 animate-in fade-in duration-300">
       {/* Search & Actions Toolbar */}
@@ -381,8 +424,8 @@ export default function CrudClient({ table }: CrudClientProps) {
                           setFilters((prev) => ({ ...prev, [field.name]: val }));
                           setCurrentPage(1);
                         }}
-                        label={field.label}
-                        placeholder={field.label}
+                        label={getFriendlyLabel(field.name, field.label)}
+                        placeholder={getFriendlyLabel(field.name, field.label)}
                         variant="slim"
                         className="w-auto min-w-[130px]"
                       />
@@ -431,7 +474,7 @@ export default function CrudClient({ table }: CrudClientProps) {
         ) : (
           <div className="flex flex-col">
             <div className="overflow-x-auto no-scrollbar">
-              <table className="w-full text-left border-collapse text-xs">
+              <table className="w-full text-left border-collapse text-xs table-fixed min-w-[900px]">
                 <thead>
                   <tr className="border-b border-neutral-50 text-black uppercase tracking-wider font-extrabold text-[10px]">
                     {tableConfig.displayColumns.map((col) => {
@@ -440,7 +483,7 @@ export default function CrudClient({ table }: CrudClientProps) {
                       return (
                         <th
                           key={col}
-                          className="py-3 px-6 font-bold cursor-pointer select-none hover:bg-neutral-50/80 transition-colors"
+                          className="py-3 px-6 font-bold cursor-pointer select-none hover:bg-neutral-50/80 transition-colors w-[160px] min-w-[160px] max-w-[160px]"
                           onClick={() => {
                             if (sortBy === col) {
                               setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
@@ -450,22 +493,24 @@ export default function CrudClient({ table }: CrudClientProps) {
                             }
                           }}
                         >
-                          <div className="flex items-center gap-1">
-                            <span>{f ? f.label : col}</span>
+                          <div className="flex items-center gap-1 min-w-0">
+                            <span className="truncate">{getFriendlyLabel(col, f?.label)}</span>
                             {isSorted ? (
                               sortOrder === "asc" ? (
-                                <ChevronUp className="w-3 h-3 text-brand" />
+                                <ChevronUp className="w-3 h-3 text-brand shrink-0" />
                               ) : (
-                                <ChevronDown className="w-3 h-3 text-brand" />
+                                <ChevronDown className="w-3 h-3 text-brand shrink-0" />
                               )
                             ) : (
-                              <ChevronsUpDown className="w-3 h-3 text-neutral-400 opacity-40 hover:opacity-100 transition-opacity" />
+                              <ChevronsUpDown className="w-3 h-3 text-neutral-400 opacity-40 hover:opacity-100 transition-opacity shrink-0" />
                             )}
                           </div>
                         </th>
                       );
                     })}
-                    <th className="py-3 px-6 font-bold text-right">Actions</th>
+                    <th className="py-3 px-6 font-bold text-right w-[100px] min-w-[100px] max-w-[100px]">
+                      Actions
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-neutral-50 text-black font-medium">
@@ -479,34 +524,39 @@ export default function CrudClient({ table }: CrudClientProps) {
                     return (
                       <tr key={rowKey} className="hover:bg-neutral-50/60 transition-colors">
                         {tableConfig.displayColumns.map((col) => (
-                          <td key={col} className="py-3.5 px-6 truncate max-w-[220px]">
+                          <td
+                            key={col}
+                            className="py-3.5 px-6 truncate w-[160px] min-w-[160px] max-w-[160px]"
+                          >
                             {renderCellContent(col, rec[col])}
                           </td>
                         ))}
-                        <td className="py-3.5 px-6 text-right space-x-1.5 flex items-center justify-end h-full">
-                          {!tableConfig.disableUpdate && (
-                            <button
-                              onClick={() => handleEdit((rec.id as string) || rowKey)}
-                              title="Edit Record"
-                              className="p-1.5 rounded-lg border border-neutral-100 hover:border-brand/20 hover:bg-brand-light/30 text-neutral-500 hover:text-brand transition-all"
-                            >
-                              <Edit2 className="w-3 h-3" />
-                            </button>
-                          )}
-                          {!tableConfig.disableDelete && (
-                            <button
-                              onClick={() => handleDeleteTrigger(rec)}
-                              title="Delete Record"
-                              className="p-1.5 rounded-lg border border-neutral-100 hover:border-red-200 hover:bg-red-50 text-neutral-500 hover:text-red-500 transition-all"
-                            >
-                              <Trash2 className="w-3 h-3" />
-                            </button>
-                          )}
-                          {tableConfig.disableUpdate && tableConfig.disableDelete && (
-                            <span className="text-[10px] text-neutral-500 font-medium italic select-none">
-                              Read-only
-                            </span>
-                          )}
+                        <td className="py-3.5 px-6 text-right w-[100px] min-w-[100px] max-w-[100px]">
+                          <div className="flex items-center justify-end gap-1.5">
+                            {!tableConfig.disableUpdate && (
+                              <button
+                                onClick={() => handleEdit((rec.id as string) || rowKey)}
+                                title="Edit Record"
+                                className="p-1.5 rounded-lg border border-neutral-100 hover:border-brand/20 hover:bg-brand-light/30 text-neutral-500 hover:text-brand transition-all"
+                              >
+                                <Edit2 className="w-3 h-3" />
+                              </button>
+                            )}
+                            {!tableConfig.disableDelete && (
+                              <button
+                                onClick={() => handleDeleteTrigger(rec)}
+                                title="Delete Record"
+                                className="p-1.5 rounded-lg border border-neutral-100 hover:border-red-200 hover:bg-red-50 text-neutral-500 hover:text-red-500 transition-all"
+                              >
+                                <Trash2 className="w-3 h-3" />
+                              </button>
+                            )}
+                            {tableConfig.disableUpdate && tableConfig.disableDelete && (
+                              <span className="text-[10px] text-neutral-500 font-medium italic select-none">
+                                Read-only
+                              </span>
+                            )}
+                          </div>
                         </td>
                       </tr>
                     );
@@ -525,22 +575,45 @@ export default function CrudClient({ table }: CrudClientProps) {
                 </span>
 
                 <div className="flex items-center gap-1">
+                  {/* First page (<<) */}
+                  <button
+                    disabled={currentPage === 1}
+                    onClick={() => setCurrentPage(1)}
+                    className="p-1.5 rounded-lg border border-neutral-100 hover:bg-neutral-50 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                    title="First Page"
+                  >
+                    <ChevronsLeft className="w-3.5 h-3.5 text-neutral-500" />
+                  </button>
+
+                  {/* Previous page (<) */}
                   <button
                     disabled={currentPage === 1}
                     onClick={() => setCurrentPage((p) => p - 1)}
                     className="p-1.5 rounded-lg border border-neutral-100 hover:bg-neutral-50 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                    title="Previous Page"
                   >
                     <ChevronLeft className="w-3.5 h-3.5 text-neutral-500" />
                   </button>
 
-                  {Array.from({ length: totalPages }).map((_, idx) => {
-                    const pageNum = idx + 1;
+                  {/* Page numbers and ellipsis */}
+                  {getPageNumbers().map((pageNum, idx) => {
+                    if (pageNum === "...") {
+                      return (
+                        <span
+                          key={`dots-${idx}`}
+                          className="w-7 h-7 flex items-center justify-center text-[10px] font-bold text-neutral-400 select-none animate-in fade-in duration-200"
+                        >
+                          ...
+                        </span>
+                      );
+                    }
+
                     const isCurrent = currentPage === pageNum;
                     return (
                       <button
                         key={pageNum}
-                        onClick={() => setCurrentPage(pageNum)}
-                        className={`w-7 h-7 rounded-lg text-[10px] font-bold transition-all ${
+                        onClick={() => setCurrentPage(pageNum as number)}
+                        className={`w-7 h-7 rounded-lg text-[10px] font-bold transition-all cursor-pointer ${
                           isCurrent
                             ? "bg-brand text-white shadow-[0_1px_4px_rgba(0,0,0,0.1)]"
                             : "bg-white border border-neutral-100 hover:bg-neutral-50 text-black"
@@ -551,12 +624,24 @@ export default function CrudClient({ table }: CrudClientProps) {
                     );
                   })}
 
+                  {/* Next page (>) */}
                   <button
                     disabled={currentPage === totalPages}
                     onClick={() => setCurrentPage((p) => p + 1)}
                     className="p-1.5 rounded-lg border border-neutral-100 hover:bg-neutral-50 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                    title="Next Page"
                   >
                     <ChevronRight className="w-3.5 h-3.5 text-neutral-500" />
+                  </button>
+
+                  {/* Last page (>>) */}
+                  <button
+                    disabled={currentPage === totalPages}
+                    onClick={() => setCurrentPage(totalPages)}
+                    className="p-1.5 rounded-lg border border-neutral-100 hover:bg-neutral-50 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                    title="Last Page"
+                  >
+                    <ChevronsRight className="w-3.5 h-3.5 text-neutral-500" />
                   </button>
                 </div>
               </div>

@@ -1093,3 +1093,71 @@ export function getSingularLabel(label: string): string {
 
   return label;
 }
+
+/**
+ * Helper to convert database/technical field names or raw labels
+ * into short, friendly, and clean display names for UI columns/filters.
+ */
+export function getFriendlyLabel(name: string, fallbackLabel?: string): string {
+  // Direct overrides for technical/boolean field names
+  const mapping: Record<string, string> = {
+    isDomestic: "Domestic",
+    isFeatured: "Featured",
+    isPopular: "Popular",
+    isPinned: "Pinned",
+    countryId: "Country",
+    stateId: "State",
+    destinationId: "Destination",
+    categoryId: "Category",
+    packageId: "Package",
+    variantId: "Variant",
+    attractionId: "Attraction",
+    tourStyle: "Tour Style",
+    currency: "Currency",
+    currencyCode: "Currency",
+    "Currency Code": "Currency",
+    visaRequiredForIndians: "Visa Required",
+    visaOnArrival: "Visa on Arrival",
+    "Is Domestic": "Domestic",
+    "Is Featured": "Featured",
+    "Is Popular": "Popular",
+  };
+
+  if (mapping[name]) {
+    return mapping[name];
+  }
+
+  // Use the fallback label (e.g. from schema config) if available, otherwise the raw name
+  const source = fallbackLabel || name;
+
+  // If the source has a custom mapping
+  if (mapping[source]) {
+    return mapping[source];
+  }
+
+  // Convert camelCase/PascalCase to spaced words
+  let friendly = source
+    .replace(/([A-Z])/g, " $1")
+    .replace(/[-_]+/g, " ")
+    .trim();
+
+  // Strip prefixes like "Is " or "is " or "Has "
+  if (friendly.toLowerCase().startsWith("is ")) {
+    friendly = friendly.slice(3);
+  } else if (friendly.toLowerCase().startsWith("has ")) {
+    friendly = friendly.slice(4);
+  }
+
+  // Strip suffixes like " Id" or " id"
+  if (friendly.toLowerCase().endsWith(" id")) {
+    friendly = friendly.slice(0, -3);
+  }
+
+  // Capitalize first letter of each word
+  friendly = friendly
+    .split(/\s+/)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+
+  return friendly;
+}
