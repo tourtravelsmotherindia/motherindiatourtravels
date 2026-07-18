@@ -135,6 +135,16 @@ export default function Footer({
       ),
       href: companyData.social_media.whatsapp,
     },
+    {
+      name: "Messenger",
+      svg: (
+        <svg className="w-4 h-4" viewBox="0 0 16 16" fill="currentColor">
+          <title>Messenger</title>
+          <path d="M0 7.76C0 3.301 3.493 0 8 0s8 3.301 8 7.76-3.493 7.76-8 7.76c-.81 0-1.586-.107-2.316-.307a.64.64 0 0 0-.427.03l-1.588.702a.64.64 0 0 1-.898-.566l-.044-1.423a.64.64 0 0 0-.215-.456C.956 12.108 0 10.092 0 7.76m5.546-1.459-2.35 3.728c-.225.358.214.761.551.506l2.525-1.916a.48.48 0 0 1 .578-.002l1.869 1.402a1.2 1.2 0 0 0 1.735-.32l2.35-3.728c.226-.358-.214-.761-.551-.506L9.728 7.381a.48.48 0 0 1-.578.002L7.281 5.98a1.2 1.2 0 0 0-1.735.32z" />
+        </svg>
+      ),
+      href: companyData.messengerNumber,
+    },
   ];
 
   return (
@@ -149,18 +159,20 @@ export default function Footer({
               Leading the way in adventure
             </h3>
             <div className="flex items-center gap-3">
-              {socialIcons.map((social) => (
-                <a
-                  key={social.name}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-white text-neutral-800 shadow-[0_2px_8px_rgba(0,0,0,0.06)] hover:bg-brand hover:text-white flex items-center justify-center transition-all duration-300 border border-neutral-100"
-                  aria-label={social.name}
-                >
-                  {social.svg}
-                </a>
-              ))}
+              {socialIcons
+                .filter((social) => social.href)
+                .map((social) => (
+                  <a
+                    key={social.name}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 rounded-full bg-white text-neutral-800 shadow-[0_2px_8px_rgba(0,0,0,0.06)] hover:bg-brand hover:text-white flex items-center justify-center transition-all duration-300 border border-neutral-100"
+                    aria-label={social.name}
+                  >
+                    {social.svg}
+                  </a>
+                ))}
             </div>
           </div>
 
