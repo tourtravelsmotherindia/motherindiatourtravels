@@ -67,6 +67,7 @@ export interface PackageItem {
   stayType: string;
   marketingPitch: string;
   isPopular: boolean;
+  isFeatured: boolean;
   isDomestic: boolean;
   tags: string[];
   countryId: string;

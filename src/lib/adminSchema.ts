@@ -326,7 +326,15 @@ export const ADMIN_TABLES: Record<string, TableConfig> = {
     dbName: "Package",
     icon: "Package",
     searchField: "name",
-    displayColumns: ["name", "tourStyle", "isPopular", "isDomestic", "countryId", "stateId"],
+    displayColumns: [
+      "name",
+      "tourStyle",
+      "isPopular",
+      "isFeatured",
+      "isDomestic",
+      "countryId",
+      "stateId",
+    ],
     fields: [
       { name: "name", label: "Package Name", type: "text", required: true },
       { name: "slug", label: "Slug", type: "text", required: true },
@@ -400,6 +408,14 @@ export const ADMIN_TABLES: Record<string, TableConfig> = {
         type: "boolean",
         defaultValue: false,
         trueLabel: "Popular",
+        falseLabel: "Standard",
+      },
+      {
+        name: "isFeatured",
+        label: "Is Featured",
+        type: "boolean",
+        defaultValue: false,
+        trueLabel: "Featured",
         falseLabel: "Standard",
       },
       {
