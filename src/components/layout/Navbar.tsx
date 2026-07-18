@@ -204,7 +204,7 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
               priority
             />
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col notranslate">
             <span
               className={`block font-display text-[10px] sm:text-xs lg:text-sm font-bold tracking-[0.18em] uppercase leading-none transition-colors duration-300 ${
                 !scrolled && isTransparentPage ? "text-white" : "text-foreground"
