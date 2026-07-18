@@ -298,7 +298,7 @@ export default function PackageDetailClient({
 
             {/* Hero Description (Marketing Pitch) */}
             {overviewParagraphs.pitch && (
-              <div className="text-neutral-500 font-medium text-sm md:text-base leading-relaxed space-y-4 mb-8">
+              <div className="text-neutral-800 font-medium text-sm md:text-base leading-relaxed space-y-4 mb-8">
                 <p className="whitespace-pre-line">{overviewParagraphs.pitch}</p>
               </div>
             )}
@@ -359,7 +359,7 @@ export default function PackageDetailClient({
               <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4 font-display">
                 Trip Overview
               </h2>
-              <div className="text-neutral-500 font-medium text-sm md:text-base leading-relaxed space-y-4">
+              <div className="text-neutral-800 font-medium text-sm md:text-base leading-relaxed space-y-4">
                 <p className="whitespace-pre-line">{overviewParagraphs.detailed}</p>
               </div>
             </div>
@@ -369,7 +369,7 @@ export default function PackageDetailClient({
               <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4">
                 Tour Highlights
               </h2>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3.5 list-disc pl-5 text-neutral-500 font-medium text-sm md:text-base">
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3.5 list-disc pl-5 text-neutral-800 font-medium text-sm md:text-base">
                 {highlights.map((highlight, idx) => (
                   <li key={idx} className="leading-relaxed">
                     {highlight}
@@ -389,7 +389,7 @@ export default function PackageDetailClient({
                     <div className="w-5 h-5 rounded-full bg-neutral-100 flex items-center justify-center shrink-0 mt-0.5">
                       <Check className="w-3.5 h-3.5 text-neutral-500" />
                     </div>
-                    <span className="text-neutral-600 font-medium text-sm leading-snug">{inc}</span>
+                    <span className="text-neutral-800 font-medium text-sm leading-snug">{inc}</span>
                   </div>
                 ))}
               </div>
@@ -404,7 +404,7 @@ export default function PackageDetailClient({
                     <div className="w-5 h-5 rounded-full bg-neutral-100/50 flex items-center justify-center shrink-0 mt-0.5">
                       <X className="w-3.5 h-3.5 text-neutral-400" />
                     </div>
-                    <span className="text-neutral-500 font-normal text-sm leading-snug">{exc}</span>
+                    <span className="text-neutral-800 font-medium text-sm leading-snug">{exc}</span>
                   </div>
                 ))}
               </div>
@@ -416,7 +416,7 @@ export default function PackageDetailClient({
                 <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">
                   Important Notes
                 </h2>
-                <ul className="flex flex-col gap-3.5 pl-5 list-disc text-neutral-500 font-medium text-sm md:text-base">
+                <ul className="flex flex-col gap-3.5 pl-5 list-disc text-neutral-800 font-medium text-sm md:text-base">
                   {packageData.notes.map((item, idx) => (
                     <li key={idx} className="leading-relaxed">
                       {item}
@@ -476,7 +476,7 @@ export default function PackageDetailClient({
 
                       {/* Description */}
                       <p
-                        className={`text-neutral-500 font-medium text-sm md:text-[14px] leading-relaxed mt-3.5 whitespace-pre-line pr-4 transition-all duration-300 ${
+                        className={`text-neutral-800 font-medium text-sm md:text-[14px] leading-relaxed mt-3.5 whitespace-pre-line pr-4 transition-all duration-300 ${
                           isExpanded ? "" : "line-clamp-3"
                         }`}
                       >
@@ -535,18 +535,34 @@ export default function PackageDetailClient({
           <aside className="lg:sticky lg:top-28 z-10 flex flex-col gap-6">
             <div className="bg-white border border-border-light rounded-[2rem] p-6 shadow-premium">
               <div className="mb-6">
-                <div className="flex items-center gap-1.5 text-neutral-400 text-xs font-bold uppercase tracking-wider mb-2">
-                  <Clock className="w-3.5 h-3.5" />
-                  <span>{activeVariant.label}</span>
+                {/* Duration Badge */}
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-neutral-50 border border-neutral-200/60 rounded-full text-neutral-700 text-xs font-bold uppercase tracking-wider leading-none w-fit mb-4">
+                  <Clock className="w-3.5 h-3.5 text-brand shrink-0" />
+                  <span>
+                    {activeVariant.nights} Nights / {activeVariant.days} Days
+                  </span>
                 </div>
-                <div className="font-bold text-foreground text-sm flex flex-wrap items-center gap-1.5 leading-snug">
-                  {activeVariant.destinations.map((dest, idx) => (
-                    <React.Fragment key={dest.destinationId}>
-                      {idx > 0 && <ChevronRight className="w-3 h-3 text-neutral-300 shrink-0" />}
-                      <span className="text-foreground">{dest.destinationName}</span>
-                    </React.Fragment>
-                  ))}
-                </div>
+
+                {/* Route Path (UX Optimized) */}
+                {activeVariant.destinations.length > 0 && (
+                  <div className="mt-3">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 block mb-2.5">
+                      Tour Route
+                    </span>
+                    <div className="flex flex-wrap items-center gap-y-2 gap-x-1">
+                      {activeVariant.destinations.map((dest, idx) => (
+                        <div key={dest.destinationId} className="flex items-center gap-1">
+                          <span className="bg-neutral-50 text-[11px] font-bold text-neutral-700 border border-neutral-200/80 px-2.5 py-1 rounded-full whitespace-nowrap shadow-xs">
+                            {dest.destinationName}
+                          </span>
+                          {idx < activeVariant.destinations.length - 1 && (
+                            <ChevronRight className="w-3.5 h-3.5 text-neutral-300 shrink-0" />
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Pricing hidden - shown as Price On Request */}
