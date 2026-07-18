@@ -291,7 +291,7 @@ export default function PackageOverviewClient({
 
             {/* Hero Description (Marketing Pitch) */}
             {overviewParagraphs.pitch && (
-              <div className="text-neutral-800 font-medium text-sm md:text-base leading-relaxed space-y-4 mb-8">
+              <div className="text-neutral-700 font-medium text-sm md:text-base leading-relaxed space-y-4 mb-8">
                 <p className="whitespace-pre-line">{overviewParagraphs.pitch}</p>
               </div>
             )}
@@ -352,7 +352,7 @@ export default function PackageOverviewClient({
               <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4 font-display">
                 Trip Overview
               </h2>
-              <div className="text-neutral-800 font-medium text-sm md:text-base leading-relaxed space-y-4">
+              <div className="text-neutral-700 font-medium text-sm md:text-base leading-relaxed space-y-4">
                 <p className="whitespace-pre-line">{overviewParagraphs.detailed}</p>
               </div>
             </div>
@@ -413,7 +413,7 @@ export default function PackageOverviewClient({
                 <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4">
                   Tour Highlights
                 </h2>
-                <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3.5 list-disc pl-5 text-neutral-800 font-medium text-sm md:text-base">
+                <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3.5 list-disc pl-5 text-neutral-700 font-medium text-sm md:text-base">
                   {highlights.map((highlight, idx) => (
                     <li key={idx} className="leading-relaxed">
                       {highlight}
