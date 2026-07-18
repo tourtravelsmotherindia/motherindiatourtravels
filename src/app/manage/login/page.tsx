@@ -2,12 +2,12 @@
 
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 
 import { useToast } from "@/context/ToastContext";
 import { setTokens } from "@/lib/adminApi";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { showToast } = useToast();
@@ -357,5 +357,22 @@ export default function LoginPage() {
         Copyright © 2026 Mother India Tour Travels | Privacy Policy
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="h-screen bg-[#FAF8F5] flex flex-col items-center justify-center font-sans text-muted">
+          <Loader2 className="w-10 h-10 text-brand animate-spin" />
+          <p className="text-sm font-semibold text-neutral-500 mt-3 animate-pulse">
+            Loading security gate...
+          </p>
+        </div>
+      }
+    >
+      <LoginForm />
+    </Suspense>
   );
 }

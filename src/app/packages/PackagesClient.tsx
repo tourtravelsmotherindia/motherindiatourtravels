@@ -15,7 +15,7 @@ import {
   Wallet,
 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 
 import PageShell from "@/components/layout/PageShell";
 import PackageCard from "@/components/shared/PackageCard";
@@ -26,7 +26,7 @@ import { useFavorites } from "@/lib/hooks/useFavorites";
 import { type CompanyData } from "@/types/company";
 import { type PackageItem } from "@/types/package";
 
-export default function PackagesClient({
+function PackagesContent({
   packagesData,
   companyData,
 }: {
@@ -318,5 +318,22 @@ export default function PackagesClient({
         </div>
       </div>
     </PageShell>
+  );
+}
+
+export default function PackagesClient(props: {
+  packagesData: PackageItem[];
+  companyData: CompanyData | null;
+}) {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-white flex items-center justify-center font-sans text-muted">
+          Loading packages...
+        </div>
+      }
+    >
+      <PackagesContent {...props} />
+    </Suspense>
   );
 }

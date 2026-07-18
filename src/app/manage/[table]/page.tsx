@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 
 import { ADMIN_TABLES } from "@/lib/adminSchema";
 
@@ -12,5 +12,15 @@ export async function generateStaticParams() {
 
 export default async function GenericCrudPage({ params }: { params: Promise<{ table: string }> }) {
   const { table } = await params;
-  return <CrudClient table={table} />;
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-white flex items-center justify-center font-sans text-muted">
+          Loading manager...
+        </div>
+      }
+    >
+      <CrudClient table={table} />
+    </Suspense>
+  );
 }
