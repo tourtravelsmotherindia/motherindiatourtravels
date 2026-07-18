@@ -178,6 +178,7 @@ model Package {
   stayType       String    @default("Premium Hotels")
   marketingPitch String    @default("")
   isPopular      Boolean   @default(false)
+  isFeatured     Boolean   @default(false)
   isDomestic     Boolean   @default(true)
   tags           String[]
   countryId      String
@@ -199,6 +200,7 @@ model Package {
 
   @@index([slug])
   @@index([isPopular])
+  @@index([isFeatured])
   @@index([isDomestic])
   @@index([countryId])
   @@index([stateId])
