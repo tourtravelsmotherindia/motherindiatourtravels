@@ -368,15 +368,6 @@ export default function DeployDashboard() {
                   </p>
                 </div>
               </div>
-              {!cfLoading &&
-                (cfStatus ? (
-                  getStatusBadge(cfStatus.status, cfStatus.conclusion)
-                ) : (
-                  <span className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-red-50 text-red-600 border border-red-100">
-                    <AlertTriangle className="w-3.5 h-3.5" />
-                    <span>Unavailable</span>
-                  </span>
-                ))}
             </div>
 
             <div className="border-t border-neutral-50 pt-4 space-y-3">
