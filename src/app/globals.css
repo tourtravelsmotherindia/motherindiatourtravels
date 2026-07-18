@@ -134,3 +134,25 @@ body {
     padding-right: 7rem; /* px-28 / 112px */
   }
 }
+
+/* Google Translate UI Overrides */
+body {
+  top: 0px !important;
+}
+
+.skiptranslate,
+.goog-te-banner-frame,
+#goog-gt-tt,
+.goog-te-balloon-frame,
+.goog-te-gadget {
+  display: none !important;
+}
+
+.goog-tooltip-skin {
+  display: none !important;
+}
+
+.goog-text-highlight {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}

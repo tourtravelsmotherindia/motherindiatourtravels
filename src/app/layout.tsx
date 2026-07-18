@@ -5,6 +5,7 @@ import { Poppins } from "next/font/google";
 import localFont from "next/font/local";
 
 import PopupModal from "@/components/layout/PopupModal";
+import TranslationScript from "@/components/layout/TranslationScript";
 import { ToastProvider } from "@/context/ToastContext";
 import { QueryProvider } from "@/lib/providers/QueryProvider";
 
@@ -73,6 +74,7 @@ export default function RootLayout({
           <ToastProvider>
             {children}
             <PopupModal />
+            <TranslationScript />
           </ToastProvider>
         </QueryProvider>
       </body>

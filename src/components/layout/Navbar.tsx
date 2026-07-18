@@ -7,6 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import { getActiveLanguage, triggerTranslation } from "@/components/layout/TranslationScript";
 import Dropdown from "@/components/ui/Dropdown";
 
 interface SubmenuItem {
@@ -38,15 +39,56 @@ interface NavLink {
 export default function Navbar({ transparent = false }: { transparent?: boolean }) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const [lang, setLang] = useState("EN");
+  const [lang, setLang] = useState("en");
   const [scrolled, setScrolled] = useState(false);
   const [mobileSubmenuOpen, setMobileSubmenuOpen] = useState<string | null>(null);
 
+  // Synchronize language state on client mount to avoid Next.js hydration mismatches
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setLang(getActiveLanguage());
+  }, []);
+
+  const handleLanguageChange = (val: string) => {
+    setLang(val);
+    triggerTranslation(val);
+  };
+
   const languageOptions = [
-    { value: "EN", label: "EN", icon: Globe },
-    { value: "HI", label: "HI", icon: Globe },
-    { value: "ES", label: "ES", icon: Globe },
-    { value: "FR", label: "FR", icon: Globe },
+    // --- POPULAR ---
+    { value: "en", label: "English", triggerLabel: "EN", icon: Globe },
+    { value: "es", label: "Español (Spanish)", triggerLabel: "ES", icon: Globe },
+    { value: "fr", label: "Français (French)", triggerLabel: "FR", icon: Globe },
+    { value: "de", label: "Deutsch (German)", triggerLabel: "DE", icon: Globe },
+    { value: "hi", label: "हिन्दी (Hindi)", triggerLabel: "HI", icon: Globe },
+    { value: "ar", label: "العربية (Arabic)", triggerLabel: "AR", icon: Globe },
+
+    // --- GLOBAL ---
+    { value: "nl", label: "Nederlands (Dutch)", triggerLabel: "NL", icon: Globe, divider: true },
+    { value: "zh-CN", label: "中文 (Chinese)", triggerLabel: "ZH", icon: Globe },
+    { value: "it", label: "Italiano (Italian)", triggerLabel: "IT", icon: Globe },
+    { value: "ja", label: "日本語 (Japanese)", triggerLabel: "JA", icon: Globe },
+    { value: "ko", label: "한국어 (Korean)", triggerLabel: "KO", icon: Globe },
+    { value: "pl", label: "Polski (Polish)", triggerLabel: "PL", icon: Globe },
+    { value: "pt", label: "Português (Portuguese)", triggerLabel: "PT", icon: Globe },
+    { value: "ru", label: "Русский (Russian)", triggerLabel: "RU", icon: Globe },
+    { value: "sv", label: "Svenska (Swedish)", triggerLabel: "SV", icon: Globe },
+    { value: "tr", label: "Türkçe (Turkish)", triggerLabel: "TR", icon: Globe },
+    { value: "vi", label: "Tiếng Việt (Vietnamese)", triggerLabel: "VI", icon: Globe },
+    { value: "th", label: "ภาษาไทย (Thai)", triggerLabel: "TH", icon: Globe },
+    { value: "id", label: "Bahasa Indonesia", triggerLabel: "ID", icon: Globe },
+    { value: "he", label: "עברית (Hebrew)", triggerLabel: "HE", icon: Globe },
+
+    // --- REGIONAL ---
+    { value: "bn", label: "বাংলা (Bengali)", triggerLabel: "BN", icon: Globe, divider: true },
+    { value: "gu", label: "ગુજરાતી (Gujarati)", triggerLabel: "GU", icon: Globe },
+    { value: "kn", label: "ಕನ್ನಡ (Kannada)", triggerLabel: "KN", icon: Globe },
+    { value: "ml", label: "മലയാളം (Malayalam)", triggerLabel: "ML", icon: Globe },
+    { value: "mr", label: "मराठी (Marathi)", triggerLabel: "MR", icon: Globe },
+    { value: "pa", label: "ਪੰਜਾਬੀ (Punjabi)", triggerLabel: "PA", icon: Globe },
+    { value: "ta", label: "தமிழ் (Tamil)", triggerLabel: "TA", icon: Globe },
+    { value: "te", label: "తెలుగు (Telugu)", triggerLabel: "TE", icon: Globe },
+    { value: "ur", label: "اردו (Urdu)", triggerLabel: "UR", icon: Globe },
   ];
 
   useEffect(() => {
@@ -281,14 +323,14 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
             <Dropdown
               options={languageOptions}
               value={lang}
-              onChange={(val) => setLang(val)}
+              onChange={(val) => handleLanguageChange(val)}
               align="right"
               triggerClassName={`px-4 py-2 border transition-all duration-200 text-xs font-semibold w-auto shadow-none bg-transparent ${
                 !scrolled && isTransparentPage
                   ? "border-white/20 text-white hover:bg-white/10 hover:border-white/40"
                   : "border-border-light text-foreground hover:bg-brand-light hover:text-brand hover:border-brand/30"
               }`}
-              menuClassName="w-28 rounded-2xl p-1"
+              menuClassName="w-64 max-h-[300px] overflow-y-auto rounded-2xl p-1"
               icon={Globe}
             />
           </div>
@@ -405,10 +447,10 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
                 <Dropdown
                   options={languageOptions}
                   value={lang}
-                  onChange={(val) => setLang(val)}
+                  onChange={(val) => handleLanguageChange(val)}
                   align="left"
                   triggerClassName="px-4 py-2.5 border border-border-light rounded-full text-foreground hover:bg-brand-light hover:text-brand hover:border-brand/30 transition-all duration-200 text-xs font-semibold w-full shadow-none bg-transparent flex items-center justify-between"
-                  menuClassName="w-full rounded-2xl p-1"
+                  menuClassName="w-full max-h-[250px] overflow-y-auto rounded-2xl p-1"
                   icon={Globe}
                 />
               </div>

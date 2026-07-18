@@ -13,6 +13,7 @@ export interface DropdownBadge {
 export interface DropdownOption {
   value: string;
   label: string;
+  triggerLabel?: string;
   icon?: LucideIcon | React.ComponentType<{ className?: string }>;
   badge?: DropdownBadge;
   divider?: boolean;
@@ -123,7 +124,7 @@ export default function Dropdown({
                   {label}:
                 </span>
               )}
-              {selectedOption.label}
+              {selectedOption.triggerLabel || selectedOption.label}
             </span>
           ) : (
             <span
