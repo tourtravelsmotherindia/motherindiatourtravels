@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect } from "react";
@@ -5,7 +6,6 @@ import { useEffect } from "react";
 declare global {
   interface Window {
     googleTranslateElementInit?: () => void;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     google?: any;
   }
 }
@@ -14,6 +14,7 @@ export default function TranslationScript() {
   useEffect(() => {
     // 1. Define the initialization function Google Translate expects
     window.googleTranslateElementInit = () => {
+      console.log("🌐 Google Translate Element Initializing...");
       if (window.google?.translate?.TranslateElement) {
         new window.google.translate.TranslateElement(
           {
@@ -23,26 +24,46 @@ export default function TranslationScript() {
             layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
             autoDisplay: false,
           },
-          "google_translate_element",
+          "google_translate_element"
         );
+        console.log("🌐 Google Translate Element Initialized Successfully.");
+      } else {
+        console.error("🌐 Google Translate Element failed: translate library not found on google object.");
       }
     };
 
     // 2. Load the Google Translate script dynamically if it doesn't exist
     const scriptId = "google-translate-script";
     if (!document.getElementById(scriptId)) {
+      console.log("🌐 Injecting Google Translate Script...");
       const script = document.createElement("script");
       script.id = scriptId;
       script.type = "text/javascript";
-      script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+      script.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
       script.async = true;
+      script.onerror = (err) => {
+        console.error("🌐 Google Translate Script failed to load. Adblocker or offline?", err);
+      };
       document.body.appendChild(script);
     }
   }, []);
 
   return (
-    // Hidden container that Google Translate uses to inject its combo box
-    <div id="google_translate_element" style={{ display: "none" }} aria-hidden="true" />
+    // Render off-screen instead of display:none, ensuring browser performs full layout and script initialization
+    <div
+      id="google_translate_element"
+      style={{
+        position: "absolute",
+        top: "-9999px",
+        left: "-9999px",
+        width: "1px",
+        height: "1px",
+        overflow: "hidden",
+        opacity: 0,
+        pointerEvents: "none",
+      }}
+      aria-hidden="true"
+    />
   );
 }
 
@@ -51,33 +72,68 @@ export default function TranslationScript() {
  * Sets the appropriate cookie for cross-page persistence and triggers the select event.
  */
 export const triggerTranslation = (langCode: string) => {
+  console.log(`🌐 triggerTranslation called for: "${langCode}"`);
   try {
-    // googtrans cookie format is "/source_lang/target_lang" (e.g. "/en/hi")
     const value = `/en/${langCode}`;
-
-    // Set cookie for both current domain and base path to ensure it persists
-    document.cookie = `googtrans=${value}; path=/;`;
-
-    // Fallback: If it's a subdomain or different host, set it on window/local domain
-    if (typeof window !== "undefined") {
-      const host = window.location.hostname;
-      const domainParts = host.split(".");
-      if (domainParts.length > 2) {
-        const baseDomain = `.${domainParts.slice(-2).join(".")}`;
-        document.cookie = `googtrans=${value}; path=/; domain=${baseDomain};`;
+    
+    // Set cookies with absolute path
+    if (langCode === "en") {
+      // Clear cookie to restore default page language
+      document.cookie = "googtrans=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+      
+      if (typeof window !== "undefined") {
+        const host = window.location.hostname;
+        const domainParts = host.split(".");
+        if (domainParts.length > 2) {
+          const baseDomain = `.${domainParts.slice(-2).join(".")}`;
+          document.cookie = `googtrans=; path=/; domain=${baseDomain}; expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
+        }
+      }
+    } else {
+      document.cookie = `googtrans=${value}; path=/;`;
+      
+      if (typeof window !== "undefined") {
+        const host = window.location.hostname;
+        const domainParts = host.split(".");
+        if (domainParts.length > 2) {
+          const baseDomain = `.${domainParts.slice(-2).join(".")}`;
+          document.cookie = `googtrans=${value}; path=/; domain=${baseDomain};`;
+        }
       }
     }
 
     localStorage.setItem("preferred_language", langCode);
 
-    // Find Google's hidden select combo box and trigger changes
-    const googleSelect = document.querySelector(".goog-te-combo") as HTMLSelectElement | null;
-    if (googleSelect) {
-      googleSelect.value = langCode;
-      googleSelect.dispatchEvent(new Event("change"));
+    // Internal function to find and trigger change on the google translate combo box
+    const applyChange = (): boolean => {
+      const googleSelect = document.querySelector(".goog-te-combo") as HTMLSelectElement | null;
+      if (googleSelect) {
+        googleSelect.value = langCode;
+        googleSelect.dispatchEvent(new Event("change"));
+        console.log(`🌐 Successfully triggered translation to: "${langCode}"`);
+        return true;
+      }
+      return false;
+    };
+
+    // Attempt immediately
+    if (!applyChange()) {
+      console.warn("🌐 Google Translate select element (.goog-te-combo) not found in DOM yet. Retrying...");
+      // Poll every 150ms up to 20 times (3 seconds total) to handle deferred loading
+      let attempts = 0;
+      const interval = setInterval(() => {
+        attempts++;
+        const success = applyChange();
+        if (success || attempts >= 20) {
+          clearInterval(interval);
+          if (!success) {
+            console.error("🌐 Google Translate failed to initialize after 3 seconds.");
+          }
+        }
+      }, 150);
     }
   } catch (error) {
-    console.error("Error setting translation:", error);
+    console.error("🌐 Error setting translation:", error);
   }
 };
 
@@ -86,12 +142,10 @@ export const triggerTranslation = (langCode: string) => {
  */
 export const getActiveLanguage = (): string => {
   if (typeof window === "undefined") return "en";
-
-  // Try localStorage first
+  
   const localLang = localStorage.getItem("preferred_language");
   if (localLang) return localLang;
 
-  // Fallback to reading the googtrans cookie
   const match = document.cookie.match(/googtrans=\/en\/([^;]+)/);
   if (match && match[1]) {
     return match[1];
