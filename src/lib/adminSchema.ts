@@ -908,6 +908,8 @@ export const ADMIN_TABLES: Record<string, TableConfig> = {
         defaultValue: [],
       },
       { name: "about", label: "About Us Narrative Block (JSON)", type: "json" },
+      { name: "gstin", label: "GSTIN Number", type: "text", defaultValue: "" },
+      { name: "messengerNumber", label: "Messenger Number / Link", type: "text", defaultValue: "" },
       {
         name: "googleAnalytics",
         label: "Google Analytics UA/G-ID",

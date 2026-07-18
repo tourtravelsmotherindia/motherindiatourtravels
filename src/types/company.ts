@@ -60,4 +60,6 @@ export interface CompanyData {
   googleTagManager: string;
   latitude?: number | null;
   longitude?: number | null;
+  gstin: string;
+  messengerNumber: string;
 }

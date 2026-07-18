@@ -35,6 +35,8 @@ export default function Footer({
     whatsapp_number: "",
     google_analytics: "",
     google_tag_manager: "",
+    gstin: "",
+    messengerNumber: "",
   };
   const { showToast } = useToast();
   const newsletterMutation = useSubscribeNewsletter();
@@ -347,10 +349,14 @@ export default function Footer({
               © {new Date().getFullYear()} <span className="notranslate">{companyData.name}</span>.
               All rights reserved.
             </p>
-            <span className="hidden sm:inline text-neutral-300 text-xs">|</span>
-            <p className="text-xs font-medium text-neutral-400">
-              GSTIN: <span className="font-semibold text-neutral-600">07ADZPL9107F1Z3</span>
-            </p>
+            {companyData.gstin && (
+              <>
+                <span className="hidden sm:inline text-neutral-300 text-xs">|</span>
+                <p className="text-xs font-medium text-neutral-400">
+                  GSTIN: <span className="font-semibold text-neutral-600">{companyData.gstin}</span>
+                </p>
+              </>
+            )}
           </div>
         </div>
       </div>

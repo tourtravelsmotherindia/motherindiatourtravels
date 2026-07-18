@@ -495,6 +495,8 @@ model Company {
   googleTagManager String   @default("")
   latitude         Float?
   longitude        Float?
+  gstin            String   @default("")
+  messengerNumber  String   @default("")
   updatedAt        DateTime @updatedAt
 }
 

@@ -75,6 +75,8 @@ export async function getCompanyData(): Promise<CompanyData | null> {
       googleTagManager: c.googleTagManager,
       latitude: c.latitude,
       longitude: c.longitude,
+      gstin: c.gstin,
+      messengerNumber: c.messengerNumber,
     };
   });
 }

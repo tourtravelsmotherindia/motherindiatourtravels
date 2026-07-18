@@ -10,7 +10,7 @@ INSERT INTO "Company" (
   "id", "name", "tagline", "website", "phones", "email", "address",
   "whatsappNumber", "timezone", "schedule", "exceptions", "socialMedia",
   "certifications", "about", "googleAnalytics", "googleTagManager",
-  "latitude", "longitude", "updatedAt"
+  "latitude", "longitude", "gstin", "messengerNumber", "updatedAt"
 ) VALUES (
   1,
   'Mother India Tour Travels',
@@ -30,6 +30,8 @@ INSERT INTO "Company" (
   'GTM-W225BT8G',
   28.61017854877562,
   77.0760841189022,
+  '07ADZPL9107F1Z3',
+  'https://www.messenger.com/e2ee/t/9661855783930883',
   NOW()
 ) ON CONFLICT ("id") DO UPDATE SET
   "name" = EXCLUDED."name", "tagline" = EXCLUDED."tagline",
@@ -41,6 +43,7 @@ INSERT INTO "Company" (
   "about" = EXCLUDED."about", "googleAnalytics" = EXCLUDED."googleAnalytics",
   "googleTagManager" = EXCLUDED."googleTagManager",
   "latitude" = EXCLUDED."latitude", "longitude" = EXCLUDED."longitude",
+  "gstin" = EXCLUDED."gstin", "messengerNumber" = EXCLUDED."messengerNumber",
   "updatedAt" = NOW();
 
 -- ─────────────────────────────────────────────
