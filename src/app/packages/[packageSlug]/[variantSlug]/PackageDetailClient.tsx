@@ -535,14 +535,6 @@ export default function PackageDetailClient({
           <aside className="lg:sticky lg:top-28 z-10 flex flex-col gap-6">
             <div className="bg-white border border-border-light rounded-[2rem] p-6 shadow-premium">
               <div className="mb-6">
-                {/* Duration Badge */}
-                <div className="flex items-center gap-2 px-3 py-1.5 bg-neutral-50 border border-neutral-200/60 rounded-full text-neutral-700 text-xs font-bold uppercase tracking-wider leading-none w-fit mb-4">
-                  <Clock className="w-3.5 h-3.5 text-brand shrink-0" />
-                  <span>
-                    {activeVariant.nights} Nights / {activeVariant.days} Days
-                  </span>
-                </div>
-
                 {/* Route Path (UX Optimized) */}
                 {activeVariant.destinations.length > 0 && (
                   <div className="mt-3">
