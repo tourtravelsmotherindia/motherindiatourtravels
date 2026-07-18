@@ -191,3 +191,23 @@ export const getActiveLanguage = (): string => {
 
   return "en";
 };
+
+/**
+ * Helper to force-trigger translation on dynamically rendered DOM elements.
+ * Dispatches a change event on the Google Translate select to re-scan the DOM.
+ */
+export const retriggerTranslation = () => {
+  try {
+    const activeLang = getActiveLanguage();
+    if (activeLang && activeLang !== "en") {
+      const googleSelect = document.querySelector(".goog-te-combo") as HTMLSelectElement | null;
+      if (googleSelect) {
+        googleSelect.value = activeLang;
+        googleSelect.dispatchEvent(new Event("change"));
+        console.log(`🌐 Retriggered translation to: "${activeLang}"`);
+      }
+    }
+  } catch (error) {
+    console.error("🌐 Error re-triggering translation:", error);
+  }
+};

@@ -87,39 +87,39 @@ export default function Hero({ heroConfig }: { heroConfig?: HeroConfigData | nul
           </motion.div>
         </AnimatePresence>
 
-        {/* Dynamic overlay gradients to look premium and guarantee text readability */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-black/35 pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent pointer-events-none" />
 
-        {/* Slide Text Content */}
-        <AnimatePresence mode="wait">
+        {slides.map((slide, index) => (
           <motion.div
-            key={`content-${slides[currentSlide].id}`}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5, delay: 0.15 }}
+            key={`content-${slide.id}`}
+            animate={{
+              opacity: index === currentSlide ? 1 : 0,
+              y: index === currentSlide ? 0 : 20,
+            }}
+            initial={false}
+            transition={{ duration: 0.5 }}
+            style={{ pointerEvents: index === currentSlide ? "auto" : "none" }}
             className="absolute inset-0 flex items-end pb-24 md:pb-32 lg:pb-36 px-6 sm:px-12 md:px-16 lg:px-24"
           >
             <div className="max-w-3xl text-left z-10">
-              {slides[currentSlide].tag && (
+              {slide.tag && (
                 <span className="inline-block text-white font-semibold tracking-[0.25em] text-[10px] uppercase bg-black/30 backdrop-blur-md px-4 py-2 rounded-full border border-white/15 mb-5">
-                  {slides[currentSlide].tag}
+                  {slide.tag}
                 </span>
               )}
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.1] tracking-tight font-display [text-shadow:0_2px_15px_rgba(0,0,0,0.4)]">
-                {slides[currentSlide].title}
+                {slide.title}
               </h1>
-              {slides[currentSlide].description && (
+              {slide.description && (
                 <p className="text-white/80 mt-5 sm:mt-6 text-sm sm:text-base md:text-lg max-w-lg leading-relaxed [text-shadow:0_1px_8px_rgba(0,0,0,0.3)]">
-                  {slides[currentSlide].description}
+                  {slide.description}
                 </p>
               )}
             </div>
           </motion.div>
-        </AnimatePresence>
+        ))}
 
-        {/* Slide Navigation Arrows */}
         {totalSlides > 1 && (
           <>
             <button
@@ -141,7 +141,6 @@ export default function Hero({ heroConfig }: { heroConfig?: HeroConfigData | nul
           </>
         )}
 
-        {/* Slide Indicators */}
         {totalSlides > 1 && (
           <div className="absolute bottom-10 left-6 sm:left-12 md:left-16 lg:left-24 z-20 flex gap-2.5">
             {slides.map((_, index) => (
