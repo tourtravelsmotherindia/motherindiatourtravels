@@ -45,6 +45,7 @@ next-env.d.ts
 graphify-out
 migration_lock.toml
 /src/generated/prisma
+motherindiatourtravels-old/
 
 # cloudflare workers dependencies and build artifacts
 /cloudflare/*/node_modules
