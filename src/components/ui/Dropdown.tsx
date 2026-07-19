@@ -108,13 +108,19 @@ export default function Dropdown({
         aria-expanded={isOpen}
       >
         <div className="flex items-center gap-2 min-w-0 flex-1 text-left">
-          {TriggerIcon && (
+          {selectedOption?.icon ? (
+            <selectedOption.icon
+              className={`shrink-0 transition-colors ${
+                isWhiteText ? "text-white/70" : "text-neutral-700"
+              }`}
+            />
+          ) : TriggerIcon ? (
             <TriggerIcon
               className={`w-4 h-4 shrink-0 transition-colors ${
                 isWhiteText ? "text-white/70" : "text-neutral-400"
               }`}
             />
-          )}
+          ) : null}
           {selectedOption ? (
             <span className="truncate block flex-1">
               {label && (

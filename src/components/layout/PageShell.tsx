@@ -5,6 +5,7 @@ import React from "react";
 import { type CompanyData } from "@/types/company";
 
 import Footer from "./Footer";
+import HelpFloatingButton from "./HelpFloatingButton";
 import Navbar from "./Navbar";
 
 interface PageShellProps {
@@ -29,6 +30,7 @@ export default function PageShell({
       <Navbar transparent={transparentNavbar} />
       <main className={`flex-1 ${className}`}>{children}</main>
       <Footer companyData={companyData} />
+      <HelpFloatingButton companyData={companyData} />
     </div>
   );
 }

@@ -36,7 +36,7 @@ export default function TranslationScript() {
             {
               pageLanguage: "en",
               includedLanguages:
-                "en,hi,es,fr,de,it,pt,ru,ar,zh-CN,ja,ko,nl,pl,sv,tr,vi,th,id,he,bn,gu,kn,ml,mr,pa,ta,te,ur",
+                "en,hi,es,fr,de,ar,it,pt,ru,zh-CN,zh-TW,ja,ko,nl,pl,sv,tr,vi,th,id,he,uk,ro,el,cs,hu,da,fi,no,sk,hr,bg,tl,ms,fa,ne,si,my,km,lo,sw,zu,af,am,bn,gu,kn,ml,mr,pa,ta,te,ur",
               autoDisplay: false,
             },
             "google_translate_element",
