@@ -1,6 +1,16 @@
 -- =============================================================
 -- Mother India Tour Travels — Complete Seed File
--- Generated: 2026-07-19T03:42:09.310Z
+-- Generated: 2026-07-19T13:43:23.573Z
+-- =============================================================
+
+-- =============================================================
+-- NON-PACKAGE DATA (Company, Hero, FAQ, Testimonials, etc.)
+-- Preserved from original seed.sql (git HEAD)
+-- =============================================================
+
+-- =============================================================
+-- Mother India Tour Travels — Modern Seed Data v2.0
+-- Schema: PostgreSQL / Prisma v7 / Supabase
 -- =============================================================
 
 -- ─────────────────────────────────────────────
@@ -437,6 +447,7 @@ BEGIN
   SELECT "id" INTO varanasi_id FROM "Destination" WHERE "slug" = 'varanasi';
   SELECT "id" INTO jaipur_id FROM "Destination" WHERE "slug" = 'jaipur';
 
+  DELETE FROM "GalleryImage";
   INSERT INTO "GalleryImage" ("id","title","location","image","altText","sortOrder","destinationId") VALUES
   (gen_random_uuid(), 'Agra (Taj Mahal)', 'Uttar Pradesh', 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80', 'Taj Mahal at sunrise, Agra', 1, agra_id),
   (gen_random_uuid(), 'Houseboat Cruise', 'Alleppey, Kerala', 'https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=800&q=80', 'Traditional houseboat on Kerala backwaters', 2, kerala_id),
@@ -450,11 +461,12 @@ END $$;
 -- ─────────────────────────────────────────────
 -- FAQ
 -- ─────────────────────────────────────────────
+DELETE FROM "FAQ";
 INSERT INTO "FAQ" ("id","question","answer","sortOrder") VALUES
 (gen_random_uuid(), 'What is included in your tour packages?', 'Our packages typically include accommodation, transportation (AC vehicle with driver), sightseeing as per itinerary, and a dedicated tour manager. Meals and flights are added as per the selected package. Please refer to the specific package inclusions for details.', 1),
 (gen_random_uuid(), 'Can I customize a tour package?', 'Absolutely! All our tour packages are fully customizable. You can add destinations, change hotels, extend duration, or create a completely personalized itinerary. Contact us via WhatsApp or phone and our travel experts will design your dream trip.', 2),
 (gen_random_uuid(), 'How do I book a tour package?', 'You can book by filling out the inquiry form on the package page, calling us at +91 9810140121, or messaging us on WhatsApp. We will confirm availability, share the detailed itinerary, and once you approve, collect an advance payment to secure your booking.', 3),
-(gen_random_uuid(), 'What is your cancellation policy?', 'Cancellations made 30+ days before departure receive 90% refund. 15–30 days: 70% refund. 7–15 days: 50% refund. Less than 7 days: no refund. We recommend travel insurance for peace of mind.', 4),
+(gen_random_uuid(), 'What is your cancellation policy?', 'Cancellation Policy: - 16 Days & prior to arrival date – No Cancellation charges. However, following deductions would be levied: Within 15 Days to 08 Days prior to Arrival date – 50% of the total Package cost. Within 07 Days of Arrival Date / No Show – No Refund.', 4),
 (gen_random_uuid(), 'Do you provide visa assistance for international tours?', 'Yes, we provide visa guidance and documentation support for international packages. However, the visa fee and final approval is the responsibility of the concerned embassy. We help you prepare the correct documents to maximize approval chances.', 5),
 (gen_random_uuid(), 'Are your tours suitable for senior citizens?', 'Yes! We design all our tours keeping comfort and accessibility in mind. We use comfortable AC vehicles, select senior-friendly hotels, and our tour managers are experienced in assisting elderly travelers. Just let us know your specific requirements.', 6),
 (gen_random_uuid(), 'Do you offer group discounts?', 'Yes, we offer attractive discounts for groups of 10 or more. We also specialize in school trips, corporate outings, and pilgrimage group tours. Contact us for a customized group quote.', 7),
@@ -464,6 +476,7 @@ ON CONFLICT DO NOTHING;
 -- ─────────────────────────────────────────────
 -- TESTIMONIALS
 -- ─────────────────────────────────────────────
+DELETE FROM "Testimonial";
 INSERT INTO "Testimonial" ("id","reviewer","review","rating","packageName","source","isApproved","isFeatured","createdAt") VALUES
 (gen_random_uuid(), 'Rajesh Sharma', 'Had an absolutely wonderful experience with Mother India Tour Travels! Our Golden Triangle tour was perfectly organized. The hotel choices were excellent, the driver was courteous, and the guide was very knowledgeable. Will definitely book again!', 5, 'Golden Triangle Tour', 'Google', TRUE, TRUE, NOW()),
 (gen_random_uuid(), 'Priya Mehta', 'Our Kashmir honeymoon was a dream come true thanks to this team. The houseboat on Dal Lake, the shikara rides, Gulmarg snow — everything was perfectly arranged. The team was available 24/7 for any need. Highly recommend!', 5, 'Kashmir Honeymoon Package', 'Google', TRUE, TRUE, NOW()),
@@ -482,7 +495,7 @@ ON CONFLICT DO NOTHING;
 
 -- =============================================================
 -- PACKAGE DATA — Auto-generated by scripts/step4_assemble_seed.js
--- Generated: 2026-07-19T03:42:09.303Z
+-- Generated: 2026-07-19T13:43:23.562Z
 -- Packages: 20 | Variants: 112
 -- =============================================================
 
@@ -989,7 +1002,7 @@ BEGIN
     ARRAY['Witness the Taj Mahal at sunrise from the Diwan-i-Khas garden', 'Explore the magnificent Amber Fort by jeep and its Sheesh Mahal (Mirror Palace)', 'Discover the intricate jali work at Delhi’s Humayun’s Tomb, a UNESCO World Heritage Site', 'Stroll through Jaipur’s Hawa Mahal and City Palace, home to the royal family', 'Shop for handcrafted marble inlay souvenirs in Agra’s Kachhpura district'],
     ARRAY['Accommodation in heritage hotels (e.g., Alsisar Haveli, Jaipur) or modern 5-star options', 'Private air-conditioned vehicle with English-speaking driver for all transfers and sightseeing', 'Expert licensed tour guide at each city (Delhi, Agra, Jaipur)', 'Entrance fees to all monuments including Taj Mahal (₹1,300), Amber Fort (₹500), Qutub Minar (₹600)', 'Daily buffet breakfast at hotel (local specialties like parathas, lassi, chai)', 'One traditional Rajasthani dinner with folk dance performance in Jaipur', 'All taxes, tolls, parking, and driver allowances'],
     ARRAY['International or domestic airfare (not included unless specified)', 'Personal expenses such as tips, laundry, phone calls, or souvenirs', 'Camera fees at monuments (₹25-100 per device)', 'Travel insurance (recommended: cover medical and baggage)', 'Meals not mentioned in the itinerary (lunch and dinner on free days)'],
-    ARRAY['Taj Mahal is closed every Friday; plan accordingly.', 'Modest dress is recommended for temples and mosques; remove shoes before entering.'],
+    ARRAY['Taj Mahal is closed every Friday; plan accordingly.', 'Modest dress is recommended for temples and mosques; remove shoes before entering.', 'Peak season (Oct-Mar) requires booking 3-4 months in advance for best options.'],
     'https://images.pexels.com/photos/11948442/pexels-photo-11948442.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940', ARRAY['https://images.pexels.com/photos/7800309/pexels-photo-7800309.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940', 'https://images.pexels.com/photos/37126715/pexels-photo-37126715.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940', 'https://images.pexels.com/photos/29018572/pexels-photo-29018572.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940', 'https://images.pexels.com/photos/32261869/pexels-photo-32261869.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'],
     'Heritage', 20, 12, 'Premium Hotels',
     'Discover the Golden Triangle: 17 heritage tours from ₹4,999', TRUE, TRUE, TRUE,
@@ -4215,7 +4228,7 @@ BEGIN
     ARRAY['Sunset party at Tito’s Lane in Baga with live music and beach shacks', 'Watersports at Calangute Beach including parasailing, jet-skiing, and banana boat rides', 'Visit to the 400-year-old Fort Aguada with panoramic Arabian Sea views', 'Traditional Goan fish curry and feni tasting at a local restaurant in Panjim', 'Dolphin spotting cruise from Palolem Beach with snorkeling in clear waters'],
     ARRAY['Accommodation in 4-star beach resort with breakfast and dinner', 'Private airport transfers from Goa International Airport', 'Daily scheduled sightseeing in air-conditioned vehicle with English-speaking driver', 'Half-day water sports package at Candolim Beach (2 activities per person)', 'Guided tour of Old Goa churches and Fort Aguada with entry fees', 'Sunset cruise on Mandovi River with live entertainment and snacks', 'All applicable taxes and GST'],
     ARRAY['International or domestic airfare to/from Goa', 'Lunch and beverages (except as specified in inclusions)', 'Personal expenses like laundry, shopping, and tips', 'Camera fees at monuments and churches', 'Travel insurance (recommended to purchase separately)'],
-    ARRAY['Beach activities depend on weather and sea conditions; water sports are generally available from November to May.', 'Goa has a mandatory plastic ban; carry eco-friendly bags for shopping.'],
+    ARRAY['Beach activities depend on weather and sea conditions; water sports are generally available from November to May.', 'Goa has a mandatory plastic ban; carry eco-friendly bags for shopping.', 'Many beach shacks operate only during the peak season (October–April); advance booking recommended.'],
     'https://images.pexels.com/photos/28159570/pexels-photo-28159570.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940', ARRAY['https://images.pexels.com/photos/8037061/pexels-photo-8037061.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940', 'https://images.pexels.com/photos/4429334/pexels-photo-4429334.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940', 'https://images.pexels.com/photos/14581330/pexels-photo-14581330.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940', 'https://images.pexels.com/photos/27869485/pexels-photo-27869485.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'],
     'Beach', 20, 12, 'Premium Hotels',
     'Goa''s beaches, nightlife & heritage – we curate it all.', TRUE, FALSE, TRUE,
@@ -5236,7 +5249,7 @@ BEGIN
     ARRAY['Witness the Taj Mahal at sunrise from the Diwan-i-Khas platform, then explore Agra Fort''s Sheesh Mahal', 'Ride an open-top jeep through Delhi''s Chandni Chowk, tasting parathas at the 150-year-old Paranthe Wali Gali', 'Walk the mirrored corridors of Jaipur''s Amber Fort, followed by a visit to Hawa Mahal''s lattice windows', 'Attend the evening Ganga Aarti at Haridwar''s Har Ki Pauri, where thousands of lamps float on the sacred river', 'Spot tigers and Asiatic elephants at Jim Corbett National Park, a 3-hour drive from Haridwar (optional extension)'],
     ARRAY['7 nights / 8 days accommodation in 4-star heritage hotels (Delhi, Agra, Jaipur, Haridwar)', 'Daily buffet breakfast and 3 dinners with local Rajasthani thali or Mughlai cuisine', 'Private air-conditioned vehicle with English-speaking driver for all transfers and sightseeing', 'Expert local guides for monument visits (licensed, with headset audio for group clarity)', 'Monument entry fees including Taj Mahal, Agra Fort, Amber Fort, and Qutub Minar', 'Traditional welcome: tikka ceremony in Jaipur with elephant or jeep ride at Amber Fort', '24/7 assistance from Mother India Tour Travels representative during the trip'],
     ARRAY['International or domestic airfare (suggested flights from Delhi, arrival/departure transfer included)', 'Personal expenses such as laundry, phone calls, or drinks at bar', 'Optional activities like hot air balloon over Jaipur or white-water rafting in Rishikesh', 'Tips and gratuities for guides, drivers, or hotel staff (recommended ₹200-500 per person per day)', 'Travel insurance (recommended to cover cancellations and medical emergencies)'],
-    ARRAY['Moderate walking required at most monuments; comfortable shoes and sunscreen recommended.', 'Haridwar is a holy city; dress modestly and avoid footwear near the ghats. Photography is allowed but respectful of rituals.'],
+    ARRAY['Moderate walking required at most monuments; comfortable shoes and sunscreen recommended.', 'Haridwar is a holy city; dress modestly and avoid footwear near the ghats. Photography is allowed but respectful of rituals.', 'Peak season runs October–March; book 2 months in advance for best room rates and guide availability.'],
     'https://images.pexels.com/photos/30032907/pexels-photo-30032907.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940', ARRAY['https://images.pexels.com/photos/789750/pexels-photo-789750.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940', 'https://images.pexels.com/photos/16952108/pexels-photo-16952108.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940', 'https://images.pexels.com/photos/19927019/pexels-photo-19927019.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940', 'https://images.pexels.com/photos/6472566/pexels-photo-6472566.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'],
     'Heritage', 20, 12, 'Premium Hotels',
     'Majestic Mughals, Pink Cities & Sacred Ghats: North India''s best.', FALSE, FALSE, TRUE,
