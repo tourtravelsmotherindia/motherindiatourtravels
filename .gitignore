@@ -46,6 +46,8 @@ graphify-out
 migration_lock.toml
 /src/generated/prisma
 motherindiatourtravels-old/
+scripts/
+generated/
 
 # cloudflare workers dependencies and build artifacts
 /cloudflare/*/node_modules

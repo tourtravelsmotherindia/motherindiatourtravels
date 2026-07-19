@@ -428,7 +428,7 @@ export default function PackageOverviewClient({
           <aside className="lg:sticky lg:top-28 z-10 flex flex-col gap-6">
             <div className="bg-white border border-neutral-200/60 rounded-[2.5rem] p-8 shadow-card animate-fade-in">
               <h3 className="font-bold text-lg text-foreground mb-4 font-display">
-                Tour Destinations
+                Destinations Covered
               </h3>
 
               <div className="flex flex-col gap-4 font-medium text-neutral-600 font-sans">
