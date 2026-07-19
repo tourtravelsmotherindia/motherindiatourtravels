@@ -623,7 +623,7 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
     { name: "About", href: "/about" },
     {
       name: "Destinations",
-      href: "/packages",
+      href: "/destinations/",
       submenu: {
         type: "destinations",
         sections: [
@@ -667,6 +667,7 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
       },
     },
     { name: "Packages", href: "/packages" },
+    { name: "Regions", href: "/regions/" },
     { name: "Blog", href: "#blog" },
     { name: "Gallery", href: "#gallery" },
     { name: "Contact", href: "/contact" },

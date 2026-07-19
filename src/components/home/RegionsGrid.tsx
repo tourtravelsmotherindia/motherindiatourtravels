@@ -19,7 +19,7 @@ interface Region {
 }
 
 export default function RegionsGrid({ regions }: { regions: Region[] }) {
-  const rightSlot = <SeeAllLink href="/packages" label="See All Destinations" />;
+  const rightSlot = <SeeAllLink href="/regions/" label="See All Regions" />;
 
   return (
     <section id="regions" className="py-24 layout-container">
@@ -31,7 +31,6 @@ export default function RegionsGrid({ regions }: { regions: Region[] }) {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         {regions.map((region, idx) => {
-          const searchKeyword = region.name.split(" ")[0]; // "North", "South", etc.
           return (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -78,7 +77,7 @@ export default function RegionsGrid({ regions }: { regions: Region[] }) {
 
               {/* Clickable Overlay Link */}
               <Link
-                href={`/packages?search=${encodeURIComponent(searchKeyword)}`}
+                href={`/regions?region=${encodeURIComponent(region.name)}`}
                 className="absolute inset-0 z-10 cursor-pointer"
                 aria-label={`Explore packages in ${region.name}`}
               />

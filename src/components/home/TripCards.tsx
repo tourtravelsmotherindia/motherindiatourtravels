@@ -13,10 +13,10 @@ export default function TripCards({ packages }: { packages: PackageItem[] }) {
   const [isDomestic, setIsDomestic] = useState(true);
   const { isFavorite, toggleFavorite } = useFavorites();
 
-  const popularPackages = packages.filter((pkg) => pkg.isPopular);
+  const featuredPackages = packages.filter((pkg) => pkg.isFeatured);
 
-  const domesticPackages = popularPackages.filter((pkg) => pkg.isDomestic).slice(0, 4);
-  const internationalPackages = popularPackages.filter((pkg) => !pkg.isDomestic).slice(0, 4);
+  const domesticPackages = featuredPackages.filter((pkg) => pkg.isDomestic).slice(0, 4);
+  const internationalPackages = featuredPackages.filter((pkg) => !pkg.isDomestic).slice(0, 4);
 
   const currentTrips = isDomestic ? domesticPackages : internationalPackages;
 
