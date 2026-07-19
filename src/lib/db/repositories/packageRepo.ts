@@ -378,3 +378,28 @@ export async function getAllPackageVariantPaths(): Promise<
     );
   });
 }
+
+export async function getPackagesByDestinationSlug(
+  destinationSlug: string,
+): Promise<PackageItem[]> {
+  return withBuildCache(`packages-by-destination-${destinationSlug}`, async () => {
+    const packages = await prisma.package.findMany({
+      where: {
+        variants: {
+          some: {
+            destinations: {
+              some: {
+                destination: {
+                  slug: destinationSlug,
+                },
+              },
+            },
+          },
+        },
+      },
+      include: packageListInclude,
+      orderBy: { createdAt: "desc" },
+    });
+    return packages.map(mapPackage);
+  });
+}

@@ -424,14 +424,18 @@ ON CONFLICT DO NOTHING;
 -- ─────────────────────────────────────────────
 -- SITE SECTIONS (CMS text for page sections)
 -- ─────────────────────────────────────────────
-INSERT INTO "SiteSection" ("id","key","tagline","subtitle","image") VALUES
-(gen_random_uuid(), 'faq', 'All You Should Know Before Embarking on Your Journey', 'We''ve got answers to the most common travel questions from our customers.', 'https://motherindiatourtravels.com/images/trip_ladakh.png'),
-(gen_random_uuid(), 'gallery', 'Our Travel Gallery', 'Catch a glimpse of the mesmerizing landscapes, historical monuments, and soulful cultures captured during our curated trips.', NULL),
-(gen_random_uuid(), 'why-choose-us', 'Why Choose Us', 'Two decades of trust, expertise, and unforgettable journeys across India and the world.', NULL),
-(gen_random_uuid(), 'testimonials', 'What Our Travelers Say', 'Thousands of happy travelers have explored India with us. Here''s what they say about their experience.', NULL),
-(gen_random_uuid(), 'destinations', 'Explore Destinations', 'From the snow-capped Himalayas to tropical beaches, discover India''s incredible diversity with our handpicked destinations.', NULL)
+INSERT INTO "SiteSection" ("id","key","tagline","subtitle","image","metaJson") VALUES
+(gen_random_uuid(), 'faq', 'All You Should Know Before Embarking on Your Journey', 'We''ve got answers to the most common travel questions from our customers.', 'https://motherindiatourtravels.com/images/trip_ladakh.png', NULL),
+(gen_random_uuid(), 'gallery', 'Our Travel Gallery', 'Catch a glimpse of the mesmerizing landscapes, historical monuments, and soulful cultures captured during our curated trips.', NULL, NULL),
+(gen_random_uuid(), 'why-choose-us', 'Why Choose Us', 'Two decades of trust, expertise, and unforgettable journeys across India and the world.', NULL, NULL),
+(gen_random_uuid(), 'testimonials', 'What Our Travelers Say', 'Thousands of happy travelers have explored India with us. Here''s what they say about their experience.', NULL, NULL),
+(gen_random_uuid(), 'destinations', 'Explore Destinations', 'From the snow-capped Himalayas to tropical beaches, discover India''s incredible diversity with our handpicked destinations.', NULL, NULL),
+(gen_random_uuid(), 'regions', 'Destination By Region', 'Explore adventures across every corner of the incredible Indian subcontinent', NULL, '[{"id": 1, "name": "North India", "image": "https://images.unsplash.com/photo-1589308078059-be1415eab4c3?auto=format&fit=crop&w=800&q=80", "badges": ["All Adventures", "Deals"], "states": ["delhi", "uttar pradesh", "himachal pradesh", "uttarakhand", "jammu & kashmir", "jammu and kashmir", "ladakh", "punjab", "haryana"]}, {"id": 2, "name": "South India", "image": "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=800&q=80", "badges": ["Nature", "Wellness"], "states": ["kerala", "karnataka", "tamil nadu", "andhra pradesh", "telangana"]}, {"id": 3, "name": "West India", "image": "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=800&q=80", "badges": ["Beaches", "Heritage"], "states": ["goa", "rajasthan", "gujarat", "maharashtra"]}, {"id": 4, "name": "East India", "image": "https://images.unsplash.com/photo-1555899434-94d1368aa7af?auto=format&fit=crop&w=800&q=80", "badges": ["Hills", "Tea Gardens"], "states": ["west bengal", "odisha", "bihar", "jharkhand"]}, {"id": 5, "name": "Central India", "image": "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80", "badges": ["Culture", "History"], "states": ["madhya pradesh", "chhattisgarh"]}, {"id": 6, "name": "Northeast India", "image": "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80", "badges": ["Monasteries", "Scenic"], "states": ["sikkim", "meghalaya", "assam", "arunachal pradesh", "nagaland", "manipur", "mizoram", "tripura"]}]'::jsonb)
 ON CONFLICT ("key") DO UPDATE SET
-  "tagline" = EXCLUDED."tagline", "subtitle" = EXCLUDED."subtitle", "image" = EXCLUDED."image";
+  "tagline" = EXCLUDED."tagline",
+  "subtitle" = EXCLUDED."subtitle",
+  "image" = EXCLUDED."image",
+  "metaJson" = EXCLUDED."metaJson";
 
 -- ─────────────────────────────────────────────
 -- GALLERY IMAGES

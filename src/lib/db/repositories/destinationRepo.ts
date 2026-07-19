@@ -1,6 +1,11 @@
 import { withBuildCache } from "@/lib/db/buildCache";
 import { prisma } from "@/lib/db/prisma";
-import type { DestinationDisplay, DestinationItem } from "@/types/destination";
+import type {
+  DestinationDisplay,
+  DestinationItem,
+  DestinationsSectionData,
+  RegionWithDestinations,
+} from "@/types/destination";
 
 const destinationInclude = {
   country: { select: { id: true, name: true, slug: true } },
@@ -90,6 +95,41 @@ export async function getFeaturedDestinations(): Promise<DestinationDisplay[]> {
   });
 }
 
+export async function getFeaturedDestinationsSectionData(): Promise<DestinationsSectionData> {
+  return withBuildCache("featured-destinations-section", async () => {
+    const [destinations, section] = await Promise.all([
+      prisma.destination.findMany({
+        where: { isFeatured: true },
+        include: {
+          country: { select: { name: true, slug: true } },
+          state: { select: { name: true } },
+        },
+        orderBy: { name: "asc" },
+      }),
+      prisma.siteSection.findUnique({
+        where: { key: "destinations" },
+      }),
+    ]);
+
+    return {
+      tagline: section?.tagline ?? "Explore Top Destinations",
+      subtitle: section?.subtitle ?? "Explore the world's most sought-after travel experiences",
+      items: destinations.map((d) => ({
+        id: d.id,
+        name: d.name,
+        slug: d.slug,
+        stateName: d.state?.name ?? null,
+        countryName: d.country.name,
+        type: d.type,
+        isFeatured: d.isFeatured,
+        image: d.image,
+        latitude: d.latitude,
+        longitude: d.longitude,
+      })),
+    };
+  });
+}
+
 export async function getDestinationBySlug(slug: string): Promise<DestinationItem | null> {
   const d = await prisma.destination.findUnique({
     where: { slug },
@@ -108,10 +148,14 @@ export interface RegionDisplay {
   badges: string[];
 }
 
-function checkStateRegion(stateName: string, regionName: string): boolean {
-  const s = stateName.toLowerCase();
-  if (regionName === "North India") {
-    return [
+const DEFAULT_REGIONS = [
+  {
+    id: 1,
+    name: "North India",
+    image:
+      "https://images.unsplash.com/photo-1589308078059-be1415eab4c3?auto=format&fit=crop&w=800&q=80",
+    badges: ["All Adventures", "Deals"],
+    states: [
       "delhi",
       "uttar pradesh",
       "himachal pradesh",
@@ -121,24 +165,47 @@ function checkStateRegion(stateName: string, regionName: string): boolean {
       "ladakh",
       "punjab",
       "haryana",
-    ].some((x) => s.includes(x));
-  }
-  if (regionName === "South India") {
-    return ["kerala", "karnataka", "tamil nadu", "andhra pradesh", "telangana"].some((x) =>
-      s.includes(x),
-    );
-  }
-  if (regionName === "West India") {
-    return ["goa", "rajasthan", "gujarat", "maharashtra"].some((x) => s.includes(x));
-  }
-  if (regionName === "East India") {
-    return ["west bengal", "odisha", "bihar", "jharkhand"].some((x) => s.includes(x));
-  }
-  if (regionName === "Central India") {
-    return ["madhya pradesh", "chhattisgarh"].some((x) => s.includes(x));
-  }
-  if (regionName === "Northeast India") {
-    return [
+    ],
+  },
+  {
+    id: 2,
+    name: "South India",
+    image:
+      "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=800&q=80",
+    badges: ["Nature", "Wellness"],
+    states: ["kerala", "karnataka", "tamil nadu", "andhra pradesh", "telangana"],
+  },
+  {
+    id: 3,
+    name: "West India",
+    image:
+      "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=800&q=80",
+    badges: ["Beaches", "Heritage"],
+    states: ["goa", "rajasthan", "gujarat", "maharashtra"],
+  },
+  {
+    id: 4,
+    name: "East India",
+    image:
+      "https://images.unsplash.com/photo-1555899434-94d1368aa7af?auto=format&fit=crop&w=800&q=80",
+    badges: ["Hills", "Tea Gardens"],
+    states: ["west bengal", "odisha", "bihar", "jharkhand"],
+  },
+  {
+    id: 5,
+    name: "Central India",
+    image:
+      "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80",
+    badges: ["Culture", "History"],
+    states: ["madhya pradesh", "chhattisgarh"],
+  },
+  {
+    id: 6,
+    name: "Northeast India",
+    image:
+      "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80",
+    badges: ["Monasteries", "Scenic"],
+    states: [
       "sikkim",
       "meghalaya",
       "assam",
@@ -147,99 +214,60 @@ function checkStateRegion(stateName: string, regionName: string): boolean {
       "manipur",
       "mizoram",
       "tripura",
-    ].some((x) => s.includes(x));
-  }
-  return false;
+    ],
+  },
+];
+
+interface RegionConfig {
+  id: number;
+  name: string;
+  image: string;
+  badges: string[];
+  states: string[];
 }
 
 export async function getDestinationsByRegion(): Promise<RegionDisplay[]> {
   return withBuildCache("destinations-by-region", async () => {
-    const destinations = await prisma.destination.findMany({
-      include: {
-        state: { select: { name: true } },
-      },
-    });
+    const [destinations, section] = await Promise.all([
+      prisma.destination.findMany({
+        include: {
+          state: { select: { name: true } },
+        },
+      }),
+      prisma.siteSection.findUnique({
+        where: { key: "regions" },
+      }),
+    ]);
 
-    const regionsMap: Record<
-      string,
-      {
-        id: number;
-        name: string;
-        image: string;
-        statesList: Set<string>;
-        count: number;
-        badges: string[];
-      }
-    > = {
-      "North India": {
-        id: 1,
-        name: "North India",
-        image:
-          "https://images.unsplash.com/photo-1589308078059-be1415eab4c3?auto=format&fit=crop&w=800&q=80",
-        statesList: new Set(),
-        count: 0,
-        badges: ["All Adventures", "Deals"],
-      },
-      "South India": {
-        id: 2,
-        name: "South India",
-        image:
-          "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=800&q=80",
-        statesList: new Set(),
-        count: 0,
-        badges: ["Nature", "Wellness"],
-      },
-      "West India": {
-        id: 3,
-        name: "West India",
-        image:
-          "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=800&q=80",
-        statesList: new Set(),
-        count: 0,
-        badges: ["Beaches", "Heritage"],
-      },
-      "East India": {
-        id: 4,
-        name: "East India",
-        image:
-          "https://images.unsplash.com/photo-1555899434-94d1368aa7af?auto=format&fit=crop&w=800&q=80",
-        statesList: new Set(),
-        count: 0,
-        badges: ["Hills", "Tea Gardens"],
-      },
-      "Central India": {
-        id: 5,
-        name: "Central India",
-        image:
-          "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80",
-        statesList: new Set(),
-        count: 0,
-        badges: ["Culture", "History"],
-      },
-      "Northeast India": {
-        id: 6,
-        name: "Northeast India",
-        image:
-          "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80",
-        statesList: new Set(),
-        count: 0,
-        badges: ["Monasteries", "Scenic"],
-      },
-    };
+    const regionsList = (section?.metaJson as unknown as RegionConfig[]) || DEFAULT_REGIONS;
+
+    const regionsMap = regionsList.map((r: RegionConfig) => ({
+      id: r.id,
+      name: r.name,
+      image: r.image,
+      badges: r.badges || [],
+      statesPatterns: r.states || [],
+      statesList: new Set<string>(),
+      count: 0,
+    }));
 
     destinations.forEach((d) => {
       const stateName = d.state?.name;
       if (stateName) {
-        for (const region of Object.values(regionsMap)) {
-          if (checkStateRegion(stateName, region.name)) {
+        const s = stateName.toLowerCase();
+        regionsMap.forEach((region) => {
+          const matched = region.statesPatterns.some((pattern: string) =>
+            s.includes(pattern.toLowerCase()),
+          );
+          if (matched) {
             region.statesList.add(stateName);
             region.count++;
           }
-        }
+        });
       }
     });
 
-    return Object.values(regionsMap).map((r) => ({
+    return regionsMap.map((r) => ({
       id: r.id,
       name: r.name,
       image: r.image,
@@ -250,5 +278,60 @@ export async function getDestinationsByRegion(): Promise<RegionDisplay[]> {
       moreCount: `+ ${r.count} destinations`,
       badges: r.badges,
     }));
+  });
+}
+
+export async function getRegionsWithDestinations(): Promise<RegionWithDestinations[]> {
+  return withBuildCache("regions-with-destinations", async () => {
+    const [destinations, section] = await Promise.all([
+      prisma.destination.findMany({
+        include: {
+          country: { select: { name: true, slug: true } },
+          state: { select: { name: true } },
+        },
+        orderBy: { name: "asc" },
+      }),
+      prisma.siteSection.findUnique({
+        where: { key: "regions" },
+      }),
+    ]);
+
+    const regionsList = (section?.metaJson as unknown as RegionConfig[]) || DEFAULT_REGIONS;
+
+    const regionsMap = regionsList.map((r: RegionConfig) => ({
+      name: r.name,
+      image: r.image,
+      badges: r.badges || [],
+      statesPatterns: r.states || [],
+      destinations: [] as DestinationDisplay[],
+    }));
+
+    destinations.forEach((d) => {
+      const stateName = d.state?.name;
+      if (stateName) {
+        const s = stateName.toLowerCase();
+        regionsMap.forEach((region) => {
+          const matched = region.statesPatterns.some((pattern: string) =>
+            s.includes(pattern.toLowerCase()),
+          );
+          if (matched) {
+            region.destinations.push({
+              id: d.id,
+              name: d.name,
+              slug: d.slug,
+              stateName: d.state?.name ?? null,
+              countryName: d.country.name,
+              type: d.type,
+              isFeatured: d.isFeatured,
+              image: d.image,
+              latitude: d.latitude,
+              longitude: d.longitude,
+            });
+          }
+        });
+      }
+    });
+
+    return regionsMap;
   });
 }

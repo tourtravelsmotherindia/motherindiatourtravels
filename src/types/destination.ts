@@ -47,3 +47,16 @@ export interface DestinationDisplay {
   latitude: number | null;
   longitude: number | null;
 }
+
+export interface DestinationsSectionData {
+  tagline: string;
+  subtitle: string;
+  items: DestinationDisplay[];
+}
+
+export interface RegionWithDestinations {
+  name: string;
+  image: string;
+  badges: string[];
+  destinations: DestinationDisplay[];
+}
