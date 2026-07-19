@@ -357,14 +357,14 @@ export default function Footer({
 
         <div className="pt-8 border-t border-neutral-200 flex flex-col lg:flex-row items-center justify-between gap-6">
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 text-center sm:text-left">
-            <p className="text-xs font-medium text-neutral-400" suppressHydrationWarning>
+            <p className="text-xs font-medium text-neutral-800" suppressHydrationWarning>
               © {new Date().getFullYear()} <span className="notranslate">{companyData.name}</span>.
               All rights reserved.
             </p>
             {companyData.gstin && (
               <>
                 <span className="hidden sm:inline text-neutral-300 text-xs">|</span>
-                <p className="text-xs font-medium text-neutral-450">
+                <p className="text-xs font-medium text-neutral-800">
                   GSTIN: <span className="font-semibold text-neutral-800">{companyData.gstin}</span>
                 </p>
               </>
