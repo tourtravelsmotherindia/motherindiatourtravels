@@ -7,7 +7,6 @@ import {
   Check,
   ChevronDown,
   ChevronRight,
-  Clock,
   Compass,
   HelpCircle,
   MapPin,
