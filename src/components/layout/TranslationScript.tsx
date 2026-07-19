@@ -36,7 +36,7 @@ export default function TranslationScript() {
             {
               pageLanguage: "en",
               includedLanguages:
-                "en,hi,es,fr,de,ar,it,pt,ru,zh-CN,zh-TW,ja,ko,nl,pl,sv,tr,vi,th,id,he,uk,ro,el,cs,hu,da,fi,no,sk,hr,bg,tl,ms,fa,ne,si,my,km,lo,sw,zu,af,am,bn,gu,kn,ml,mr,pa,ta,te,ur",
+                "en,hi,es,fr,de,ar,af,sq,am,hy,az,eu,bs,bg,ca,zh-CN,zh-TW,hr,cs,da,nl,et,tl,fi,gl,ka,el,ha,haw,he,hu,is,ig,id,ga,it,ja,kk,km,ko,ky,lo,lv,lt,lb,mk,mg,ms,mt,mi,mn,ne,no,fa,pl,pt,ro,ru,sm,sr,sn,si,sk,sl,so,sw,sv,th,tr,uk,uz,vi,cy,yo,zu,bn,gu,kn,ml,mr,pa,ta,te,ur",
               autoDisplay: false,
             },
             "google_translate_element",

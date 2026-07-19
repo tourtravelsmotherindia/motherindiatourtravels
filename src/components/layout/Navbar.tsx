@@ -46,7 +46,8 @@ const FlagIcon = ({ countryCode, className = "" }: { countryCode: string; classN
       src={`https://flagcdn.com/w40/${countryCode.toLowerCase()}.png`}
       srcSet={`https://flagcdn.com/w80/${countryCode.toLowerCase()}.png 2x`}
       alt={countryCode}
-      className={`shrink-0 w-4.5 h-3.2 object-cover rounded-[1.5px] border border-neutral-200/30 ${cleanClassName}`}
+      style={{ width: "24px", height: "16px" }}
+      className={`shrink-0 object-cover rounded-sm border border-neutral-200/20 ${cleanClassName}`}
       loading="lazy"
     />
   );
@@ -111,151 +112,71 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
 
     // --- GLOBAL ---
     {
-      value: "it",
-      label: "Italiano (Italian)",
-      triggerLabel: "IT",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="it" {...props} />,
+      value: "af",
+      label: "Afrikaans",
+      triggerLabel: "AF",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="za" {...props} />,
       divider: true,
     },
     {
-      value: "pt",
-      label: "Português",
-      triggerLabel: "PT",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="pt" {...props} />,
+      value: "sq",
+      label: "Shqip (Albanian)",
+      triggerLabel: "SQ",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="al" {...props} />,
     },
     {
-      value: "ru",
-      label: "Русский (Russian)",
-      triggerLabel: "RU",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="ru" {...props} />,
+      value: "am",
+      label: "አማርኛ (Amharic)",
+      triggerLabel: "AM",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="et" {...props} />,
+    },
+    {
+      value: "hy",
+      label: "Հայերեն (Armenian)",
+      triggerLabel: "HY",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="am" {...props} />,
+    },
+    {
+      value: "az",
+      label: "Azərbaycanca (Azerbaijani)",
+      triggerLabel: "AZ",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="az" {...props} />,
+    },
+    {
+      value: "eu",
+      label: "Euskara (Basque)",
+      triggerLabel: "EU",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="es" {...props} />,
+    },
+    {
+      value: "bs",
+      label: "Bosanski (Bosnian)",
+      triggerLabel: "BS",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="ba" {...props} />,
+    },
+    {
+      value: "bg",
+      label: "Български (Bulgarian)",
+      triggerLabel: "BG",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="bg" {...props} />,
+    },
+    {
+      value: "ca",
+      label: "Català (Catalan)",
+      triggerLabel: "CA",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="es" {...props} />,
     },
     {
       value: "zh-CN",
-      label: "简体中文 (Chinese)",
+      label: "简体中文 (Chinese Simplified)",
       triggerLabel: "ZH",
       icon: (props: { className?: string }) => <FlagIcon countryCode="cn" {...props} />,
     },
     {
       value: "zh-TW",
-      label: "繁體中文 (Taiwan)",
+      label: "繁體中文 (Chinese Traditional)",
       triggerLabel: "ZH",
       icon: (props: { className?: string }) => <FlagIcon countryCode="tw" {...props} />,
-    },
-    {
-      value: "ja",
-      label: "日本語 (Japanese)",
-      triggerLabel: "JA",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="jp" {...props} />,
-    },
-    {
-      value: "ko",
-      label: "한국어 (Korean)",
-      triggerLabel: "KO",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="kr" {...props} />,
-    },
-    {
-      value: "nl",
-      label: "Nederlands (Dutch)",
-      triggerLabel: "NL",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="nl" {...props} />,
-    },
-    {
-      value: "pl",
-      label: "Polski (Polish)",
-      triggerLabel: "PL",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="pl" {...props} />,
-    },
-    {
-      value: "sv",
-      label: "Svenska (Swedish)",
-      triggerLabel: "SV",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="se" {...props} />,
-    },
-    {
-      value: "tr",
-      label: "Türkçe (Turkish)",
-      triggerLabel: "TR",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="tr" {...props} />,
-    },
-    {
-      value: "vi",
-      label: "Tiếng Việt",
-      triggerLabel: "VI",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="vn" {...props} />,
-    },
-    {
-      value: "th",
-      label: "ภาษาไทย (Thai)",
-      triggerLabel: "TH",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="th" {...props} />,
-    },
-    {
-      value: "id",
-      label: "Bahasa Indonesia",
-      triggerLabel: "ID",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="id" {...props} />,
-    },
-    {
-      value: "he",
-      label: "עברית (Hebrew)",
-      triggerLabel: "HE",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="il" {...props} />,
-    },
-
-    // --- MORE EUROPEAN & GLOBAL ---
-    {
-      value: "uk",
-      label: "Українська (Ukrainian)",
-      triggerLabel: "UK",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="ua" {...props} />,
-    },
-    {
-      value: "ro",
-      label: "Română (Romanian)",
-      triggerLabel: "RO",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="ro" {...props} />,
-    },
-    {
-      value: "el",
-      label: "Ελληνικά (Greek)",
-      triggerLabel: "EL",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="gr" {...props} />,
-    },
-    {
-      value: "cs",
-      label: "Čeština (Czech)",
-      triggerLabel: "CS",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="cz" {...props} />,
-    },
-    {
-      value: "hu",
-      label: "Magyar (Hungarian)",
-      triggerLabel: "HU",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="hu" {...props} />,
-    },
-    {
-      value: "da",
-      label: "Dansk (Danish)",
-      triggerLabel: "DA",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="dk" {...props} />,
-    },
-    {
-      value: "fi",
-      label: "Suomi (Finnish)",
-      triggerLabel: "FI",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="fi" {...props} />,
-    },
-    {
-      value: "no",
-      label: "Norsk (Norwegian)",
-      triggerLabel: "NO",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="no" {...props} />,
-    },
-    {
-      value: "sk",
-      label: "Slovenčina (Slovak)",
-      triggerLabel: "SK",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="sk" {...props} />,
     },
     {
       value: "hr",
@@ -264,13 +185,29 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
       icon: (props: { className?: string }) => <FlagIcon countryCode="hr" {...props} />,
     },
     {
-      value: "bg",
-      label: "Български (Bulgarian)",
-      triggerLabel: "BG",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="bg" {...props} />,
+      value: "cs",
+      label: "Čeština (Czech)",
+      triggerLabel: "CS",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="cz" {...props} />,
     },
-
-    // --- ASIA PACIFIC & AFRICA ---
+    {
+      value: "da",
+      label: "Dansk (Danish)",
+      triggerLabel: "DA",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="dk" {...props} />,
+    },
+    {
+      value: "nl",
+      label: "Nederlands (Dutch)",
+      triggerLabel: "NL",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="nl" {...props} />,
+    },
+    {
+      value: "et",
+      label: "Eesti (Estonian)",
+      triggerLabel: "ET",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="ee" {...props} />,
+    },
     {
       value: "tl",
       label: "Filipino",
@@ -278,34 +215,94 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
       icon: (props: { className?: string }) => <FlagIcon countryCode="ph" {...props} />,
     },
     {
-      value: "ms",
-      label: "Bahasa Melayu",
-      triggerLabel: "MS",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="my" {...props} />,
+      value: "fi",
+      label: "Suomi (Finnish)",
+      triggerLabel: "FI",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="fi" {...props} />,
     },
     {
-      value: "fa",
-      label: "فارسی (Persian)",
-      triggerLabel: "FA",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="ir" {...props} />,
+      value: "gl",
+      label: "Galego (Galician)",
+      triggerLabel: "GL",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="es" {...props} />,
     },
     {
-      value: "ne",
-      label: "नेपाली (Nepali)",
-      triggerLabel: "NE",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="np" {...props} />,
+      value: "ka",
+      label: "ქართული (Georgian)",
+      triggerLabel: "KA",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="ge" {...props} />,
     },
     {
-      value: "si",
-      label: "සිංහල (Sinhala)",
-      triggerLabel: "SI",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="lk" {...props} />,
+      value: "el",
+      label: "Ελληνικά (Greek)",
+      triggerLabel: "EL",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="gr" {...props} />,
     },
     {
-      value: "my",
-      label: "မြန်မာ (Burmese)",
-      triggerLabel: "MY",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="mm" {...props} />,
+      value: "ha",
+      label: "Hausa",
+      triggerLabel: "HA",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="ng" {...props} />,
+    },
+    {
+      value: "haw",
+      label: "Hawaiʻi (Hawaiian)",
+      triggerLabel: "HAW",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="us" {...props} />,
+    },
+    {
+      value: "he",
+      label: "עברית (Hebrew)",
+      triggerLabel: "HE",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="il" {...props} />,
+    },
+    {
+      value: "hu",
+      label: "Magyar (Hungarian)",
+      triggerLabel: "HU",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="hu" {...props} />,
+    },
+    {
+      value: "is",
+      label: "Íslenska (Icelandic)",
+      triggerLabel: "IS",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="is" {...props} />,
+    },
+    {
+      value: "ig",
+      label: "Asụsụ Igbo (Igbo)",
+      triggerLabel: "IG",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="ng" {...props} />,
+    },
+    {
+      value: "id",
+      label: "Bahasa Indonesia",
+      triggerLabel: "ID",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="id" {...props} />,
+    },
+    {
+      value: "ga",
+      label: "Gaeilge (Irish)",
+      triggerLabel: "GA",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="ie" {...props} />,
+    },
+    {
+      value: "it",
+      label: "Italiano (Italian)",
+      triggerLabel: "IT",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="it" {...props} />,
+    },
+    {
+      value: "ja",
+      label: "日本語 (Japanese)",
+      triggerLabel: "JA",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="jp" {...props} />,
+    },
+    {
+      value: "kk",
+      label: "Қазақ (Kazakh)",
+      triggerLabel: "KK",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="kz" {...props} />,
     },
     {
       value: "km",
@@ -314,10 +311,160 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
       icon: (props: { className?: string }) => <FlagIcon countryCode="kh" {...props} />,
     },
     {
+      value: "ko",
+      label: "한국어 (Korean)",
+      triggerLabel: "KO",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="kr" {...props} />,
+    },
+    {
+      value: "ky",
+      label: "Кыргызча (Kyrgyz)",
+      triggerLabel: "KY",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="kg" {...props} />,
+    },
+    {
       value: "lo",
       label: "ລາວ (Lao)",
       triggerLabel: "LO",
       icon: (props: { className?: string }) => <FlagIcon countryCode="la" {...props} />,
+    },
+    {
+      value: "lv",
+      label: "Latviešu (Latvian)",
+      triggerLabel: "LV",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="lv" {...props} />,
+    },
+    {
+      value: "lt",
+      label: "Lietuvių (Lithuanian)",
+      triggerLabel: "LT",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="lt" {...props} />,
+    },
+    {
+      value: "lb",
+      label: "Lëtzebuergesch (Luxembourgish)",
+      triggerLabel: "LB",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="lu" {...props} />,
+    },
+    {
+      value: "mk",
+      label: "Македонски (Macedonian)",
+      triggerLabel: "MK",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="mk" {...props} />,
+    },
+    {
+      value: "mg",
+      label: "Malagasy",
+      triggerLabel: "MG",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="mg" {...props} />,
+    },
+    {
+      value: "ms",
+      label: "Bahasa Melayu (Malay)",
+      triggerLabel: "MS",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="my" {...props} />,
+    },
+    {
+      value: "mt",
+      label: "Malti (Maltese)",
+      triggerLabel: "MT",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="mt" {...props} />,
+    },
+    {
+      value: "mi",
+      label: "Māori",
+      triggerLabel: "MI",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="nz" {...props} />,
+    },
+    {
+      value: "mn",
+      label: "Монгол (Mongolian)",
+      triggerLabel: "MN",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="mn" {...props} />,
+    },
+    {
+      value: "ne",
+      label: "नेपाली (Nepali)",
+      triggerLabel: "NE",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="np" {...props} />,
+    },
+    {
+      value: "no",
+      label: "Norsk (Norwegian)",
+      triggerLabel: "NO",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="no" {...props} />,
+    },
+    {
+      value: "fa",
+      label: "فارسی (Persian)",
+      triggerLabel: "FA",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="ir" {...props} />,
+    },
+    {
+      value: "pl",
+      label: "Polski (Polish)",
+      triggerLabel: "PL",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="pl" {...props} />,
+    },
+    {
+      value: "pt",
+      label: "Português (Portuguese)",
+      triggerLabel: "PT",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="pt" {...props} />,
+    },
+    {
+      value: "ro",
+      label: "Română (Romanian)",
+      triggerLabel: "RO",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="ro" {...props} />,
+    },
+    {
+      value: "ru",
+      label: "Русский (Russian)",
+      triggerLabel: "RU",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="ru" {...props} />,
+    },
+    {
+      value: "sm",
+      label: "Gagana Sāmoa (Samoan)",
+      triggerLabel: "SM",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="ws" {...props} />,
+    },
+    {
+      value: "sr",
+      label: "Српски (Serbian)",
+      triggerLabel: "SR",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="rs" {...props} />,
+    },
+    {
+      value: "sn",
+      label: "ChiShona (Shona)",
+      triggerLabel: "SN",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="zw" {...props} />,
+    },
+    {
+      value: "si",
+      label: "සිංහල (Sinhala)",
+      triggerLabel: "SI",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="lk" {...props} />,
+    },
+    {
+      value: "sk",
+      label: "Slovenčina (Slovak)",
+      triggerLabel: "SK",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="sk" {...props} />,
+    },
+    {
+      value: "sl",
+      label: "Slovenščina (Slovenian)",
+      triggerLabel: "SL",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="si" {...props} />,
+    },
+    {
+      value: "so",
+      label: "Soomaali (Somali)",
+      triggerLabel: "SO",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="so" {...props} />,
     },
     {
       value: "sw",
@@ -326,22 +473,58 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
       icon: (props: { className?: string }) => <FlagIcon countryCode="ke" {...props} />,
     },
     {
+      value: "sv",
+      label: "Svenska (Swedish)",
+      triggerLabel: "SV",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="se" {...props} />,
+    },
+    {
+      value: "th",
+      label: "ภาษาไทย (Thai)",
+      triggerLabel: "TH",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="th" {...props} />,
+    },
+    {
+      value: "tr",
+      label: "Türkçe (Turkish)",
+      triggerLabel: "TR",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="tr" {...props} />,
+    },
+    {
+      value: "uk",
+      label: "Українська (Ukrainian)",
+      triggerLabel: "UK",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="ua" {...props} />,
+    },
+    {
+      value: "uz",
+      label: "Oʻzbekcha (Uzbek)",
+      triggerLabel: "UZ",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="uz" {...props} />,
+    },
+    {
+      value: "vi",
+      label: "Tiếng Việt (Vietnamese)",
+      triggerLabel: "VI",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="vn" {...props} />,
+    },
+    {
+      value: "cy",
+      label: "Cymraeg (Welsh)",
+      triggerLabel: "CY",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="gb" {...props} />,
+    },
+    {
+      value: "yo",
+      label: "Yorùbá (Yoruba)",
+      triggerLabel: "YO",
+      icon: (props: { className?: string }) => <FlagIcon countryCode="ng" {...props} />,
+    },
+    {
       value: "zu",
       label: "isiZulu (Zulu)",
       triggerLabel: "ZU",
       icon: (props: { className?: string }) => <FlagIcon countryCode="za" {...props} />,
-    },
-    {
-      value: "af",
-      label: "Afrikaans",
-      triggerLabel: "AF",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="za" {...props} />,
-    },
-    {
-      value: "am",
-      label: "አማርኛ (Amharic)",
-      triggerLabel: "AM",
-      icon: (props: { className?: string }) => <FlagIcon countryCode="et" {...props} />,
     },
 
     // --- REGIONAL INDIAN ---
@@ -643,6 +826,7 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
               }`}
               menuClassName="w-64 max-h-[300px] overflow-y-auto rounded-2xl p-1"
               icon={Globe}
+              className="notranslate"
             />
           </div>
 
@@ -763,6 +947,7 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
                   triggerClassName="px-4 py-2.5 border border-border-light rounded-full text-foreground hover:bg-brand-light hover:text-brand hover:border-brand/30 transition-all duration-200 text-xs font-semibold w-full shadow-none bg-transparent flex items-center justify-between"
                   menuClassName="w-full max-h-[250px] overflow-y-auto rounded-2xl p-1"
                   icon={Globe}
+                  className="notranslate"
                 />
               </div>
             </div>
