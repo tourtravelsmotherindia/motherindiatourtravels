@@ -150,7 +150,7 @@ export default function Footer({
   return (
     <footer
       id="contact"
-      className="bg-[#F9F9F9] border-t border-neutral-200 text-neutral-600 pt-16 pb-12 relative overflow-hidden font-sans"
+      className="bg-[#F9F9F9] border-t border-neutral-200 text-neutral-800 pt-16 pb-12 relative overflow-hidden font-sans"
     >
       <div className="layout-container">
         <div className="flex flex-col md:flex-row items-stretch gap-8 md:gap-0 pb-12 border-b border-neutral-200">
@@ -237,12 +237,12 @@ export default function Footer({
                 <span className="font-display text-xs lg:text-sm font-bold text-neutral-900 tracking-[0.18em] uppercase leading-none">
                   Mother India
                 </span>
-                <span className="font-sans text-[8px] lg:text-[9px] font-semibold text-muted tracking-[0.25em] uppercase leading-none mt-1">
+                <span className="font-sans text-[8px] lg:text-[9px] font-semibold text-neutral-800 tracking-[0.25em] uppercase leading-none mt-1">
                   Tour Travels
                 </span>
               </div>
             </Link>
-            <p className="text-sm text-neutral-500 font-normal leading-relaxed max-w-md">
+            <p className="text-sm text-neutral-800 font-normal leading-relaxed max-w-md">
               {typeof companyData.about === "string"
                 ? companyData.about
                 : companyData.about?.footer}
@@ -253,10 +253,10 @@ export default function Footer({
             <h4 className="text-xs font-bold uppercase tracking-widest text-neutral-900">
               Contact
             </h4>
-            <ul className="flex flex-col gap-3 text-sm text-neutral-500 font-medium">
+            <ul className="flex flex-col gap-3 text-sm text-neutral-800 font-medium">
               <li className="flex items-start gap-2.5">
                 <Phone className="w-4 h-4 text-neutral-400 shrink-0 mt-0.5" />
-                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 text-neutral-500 font-medium">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 text-neutral-800 font-medium">
                   {companyData.phone.map((phoneNum, idx) => (
                     <div key={idx} className="flex items-center gap-1.5 sm:gap-2">
                       {idx > 0 && <span className="hidden sm:inline text-neutral-300">|</span>}
@@ -287,7 +287,7 @@ export default function Footer({
                 <div className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 mb-1">
                   Working Hours
                 </div>
-                <div className="text-xs text-neutral-500 font-semibold normal-case">
+                <div className="text-xs text-neutral-800 font-semibold normal-case">
                   {getFormattedWorkingHours()}
                 </div>
               </li>
@@ -299,7 +299,7 @@ export default function Footer({
               <h4 className="text-xs font-bold uppercase tracking-widest text-neutral-900">
                 Quick Links
               </h4>
-              <ul className="flex flex-col gap-2.5 text-sm text-neutral-500 font-medium">
+              <ul className="flex flex-col gap-2.5 text-sm text-neutral-800 font-medium">
                 {[
                   { name: "Home", href: "#home" },
                   { name: "About Us", href: "/about" },
@@ -325,7 +325,7 @@ export default function Footer({
               <h4 className="text-xs font-bold uppercase tracking-widest text-neutral-900">
                 Popular Highlights
               </h4>
-              <ul className="flex flex-col gap-2.5 text-sm text-neutral-500 font-medium">
+              <ul className="flex flex-col gap-2.5 text-sm text-neutral-800 font-medium">
                 {[
                   { name: "Kerala Backwaters", href: "/packages?search=Kerala" },
                   { name: "Kashmir Valley Escape", href: "/packages?search=Srinagar" },
@@ -364,8 +364,8 @@ export default function Footer({
             {companyData.gstin && (
               <>
                 <span className="hidden sm:inline text-neutral-300 text-xs">|</span>
-                <p className="text-xs font-medium text-neutral-400">
-                  GSTIN: <span className="font-semibold text-neutral-600">{companyData.gstin}</span>
+                <p className="text-xs font-medium text-neutral-450">
+                  GSTIN: <span className="font-semibold text-neutral-800">{companyData.gstin}</span>
                 </p>
               </>
             )}

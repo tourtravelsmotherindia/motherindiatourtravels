@@ -298,7 +298,7 @@ export default function PackageDetailClient({
 
             {/* Hero Description (Marketing Pitch) */}
             {overviewParagraphs.pitch && (
-              <div className="text-neutral-700 font-medium text-sm md:text-base leading-relaxed space-y-4 mb-8">
+              <div className="text-neutral-900 font-medium text-sm md:text-base leading-relaxed space-y-4 mb-8">
                 <p className="whitespace-pre-line">{overviewParagraphs.pitch}</p>
               </div>
             )}
@@ -359,7 +359,7 @@ export default function PackageDetailClient({
               <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4 font-display">
                 Trip Overview
               </h2>
-              <div className="text-neutral-700 font-medium text-sm md:text-base leading-relaxed space-y-4">
+              <div className="text-neutral-900 font-medium text-sm md:text-base leading-relaxed space-y-4">
                 <p className="whitespace-pre-line">{overviewParagraphs.detailed}</p>
               </div>
             </div>
@@ -369,7 +369,7 @@ export default function PackageDetailClient({
               <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4">
                 Tour Highlights
               </h2>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3.5 list-disc pl-5 text-neutral-700 font-medium text-sm md:text-base">
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3.5 list-disc pl-5 text-neutral-900 font-medium text-sm md:text-base">
                 {highlights.map((highlight, idx) => (
                   <li key={idx} className="leading-relaxed">
                     {highlight}
@@ -389,7 +389,7 @@ export default function PackageDetailClient({
                     <div className="w-5 h-5 rounded-full bg-neutral-100 flex items-center justify-center shrink-0 mt-0.5">
                       <Check className="w-3.5 h-3.5 text-neutral-500" />
                     </div>
-                    <span className="text-neutral-700 font-medium text-sm leading-snug">{inc}</span>
+                    <span className="text-neutral-900 font-medium text-sm leading-snug">{inc}</span>
                   </div>
                 ))}
               </div>
@@ -404,7 +404,7 @@ export default function PackageDetailClient({
                     <div className="w-5 h-5 rounded-full bg-neutral-100/50 flex items-center justify-center shrink-0 mt-0.5">
                       <X className="w-3.5 h-3.5 text-neutral-400" />
                     </div>
-                    <span className="text-neutral-700 font-medium text-sm leading-snug">{exc}</span>
+                    <span className="text-neutral-900 font-medium text-sm leading-snug">{exc}</span>
                   </div>
                 ))}
               </div>
@@ -416,7 +416,7 @@ export default function PackageDetailClient({
                 <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">
                   Important Notes
                 </h2>
-                <ul className="flex flex-col gap-3.5 pl-5 list-disc text-neutral-700 font-medium text-sm md:text-base">
+                <ul className="flex flex-col gap-3.5 pl-5 list-disc text-neutral-900 font-medium text-sm md:text-base">
                   {packageData.notes.map((item, idx) => (
                     <li key={idx} className="leading-relaxed">
                       {item}
@@ -476,7 +476,7 @@ export default function PackageDetailClient({
 
                       {/* Description */}
                       <p
-                        className={`text-neutral-700 font-medium text-sm md:text-[14px] leading-relaxed mt-3.5 whitespace-pre-line pr-4 transition-all duration-300 ${
+                        className={`text-neutral-900 font-medium text-sm md:text-[14px] leading-relaxed mt-3.5 whitespace-pre-line pr-4 transition-all duration-300 ${
                           isExpanded ? "" : "line-clamp-3"
                         }`}
                       >
