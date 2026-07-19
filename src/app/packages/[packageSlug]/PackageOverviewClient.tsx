@@ -277,10 +277,10 @@ export default function PackageOverviewClient({
             {/* Header Title */}
             <div className="mb-6">
               <div className="flex items-center gap-2.5 mb-3 font-sans text-xs md:text-sm font-medium">
-                <span className="inline-block bg-white border border-neutral-200 text-neutral-700 font-semibold px-2.5 py-1 rounded-[8px] uppercase tracking-wider text-[10px]">
+                <span className="inline-block bg-white border border-neutral-300 text-neutral-800 font-semibold px-2.5 py-1 rounded-[8px] uppercase tracking-wider text-[10px]">
                   {packageData.isDomestic ? "Domestic" : "International"}
                 </span>
-                <span className="text-neutral-400 font-medium select-none">
+                <span className="text-neutral-500 font-medium select-none">
                   • Trip Code: MI-{packageData.id.toUpperCase().replace(/-/g, "")}
                 </span>
               </div>
@@ -301,7 +301,7 @@ export default function PackageOverviewClient({
               <div className="flex items-center gap-3">
                 <MapPin className="w-5 h-5 text-neutral-800 shrink-0" />
                 <div className="flex flex-col">
-                  <span className="text-[10px] md:text-[11px] font-medium text-neutral-400 uppercase tracking-wider leading-none mb-1">
+                  <span className="text-[10px] md:text-[11px] font-medium text-neutral-600 uppercase tracking-wider leading-none mb-1">
                     Destinations
                   </span>
                   <span className="text-xs md:text-sm font-bold text-neutral-800 leading-snug">
@@ -313,7 +313,7 @@ export default function PackageOverviewClient({
               <div className="flex items-center gap-3">
                 <Users className="w-5 h-5 text-neutral-800 shrink-0" />
                 <div className="flex flex-col">
-                  <span className="text-[10px] md:text-[11px] font-medium text-neutral-400 uppercase tracking-wider leading-none mb-1">
+                  <span className="text-[10px] md:text-[11px] font-medium text-neutral-600 uppercase tracking-wider leading-none mb-1">
                     Group Size
                   </span>
                   <span className="text-xs md:text-sm font-bold text-neutral-800 leading-snug">
@@ -325,7 +325,7 @@ export default function PackageOverviewClient({
               <div className="flex items-center gap-3">
                 <Compass className="w-5 h-5 text-neutral-800 shrink-0" />
                 <div className="flex flex-col">
-                  <span className="text-[10px] md:text-[11px] font-medium text-neutral-400 uppercase tracking-wider leading-none mb-1">
+                  <span className="text-[10px] md:text-[11px] font-medium text-neutral-600 uppercase tracking-wider leading-none mb-1">
                     Tour Style
                   </span>
                   <span className="text-xs md:text-sm font-bold text-neutral-800 leading-snug">
@@ -337,7 +337,7 @@ export default function PackageOverviewClient({
               <div className="flex items-center gap-3">
                 <Building2 className="w-5 h-5 text-neutral-800 shrink-0" />
                 <div className="flex flex-col">
-                  <span className="text-[10px] md:text-[11px] font-medium text-neutral-400 uppercase tracking-wider leading-none mb-1">
+                  <span className="text-[10px] md:text-[11px] font-medium text-neutral-600 uppercase tracking-wider leading-none mb-1">
                     Accommodation
                   </span>
                   <span className="text-xs md:text-sm font-bold text-neutral-800 leading-snug">
@@ -363,7 +363,7 @@ export default function PackageOverviewClient({
                 <h2 className="text-xl md:text-2xl font-bold text-foreground font-display">
                   Select Tour Option
                 </h2>
-                <span className="text-xs font-semibold uppercase tracking-wider text-neutral-400">
+                <span className="text-xs font-semibold uppercase tracking-wider text-neutral-600">
                   Choose duration to see itinerary
                 </span>
               </div>
@@ -379,7 +379,7 @@ export default function PackageOverviewClient({
                     >
                       <div>
                         <div className="flex items-center justify-between mb-4">
-                          <span className="text-xs font-bold text-neutral-400 uppercase tracking-wider flex items-center gap-1.5 font-sans">
+                          <span className="text-xs font-bold text-neutral-600 uppercase tracking-wider flex items-center gap-1.5 font-sans">
                             <Clock className="w-3.5 h-3.5" />
                             {v.nights} Nights / {v.days} Days
                           </span>
@@ -390,9 +390,9 @@ export default function PackageOverviewClient({
                         </h3>
 
                         {destNames && (
-                          <p className="text-xs text-neutral-400 font-medium leading-relaxed mt-2.5 font-sans">
+                          <p className="text-xs text-neutral-600 font-medium leading-relaxed mt-2.5 font-sans">
                             Covers:{" "}
-                            <span className="text-neutral-500 font-semibold">{destNames}</span>
+                            <span className="text-neutral-700 font-semibold">{destNames}</span>
                           </p>
                         )}
                       </div>

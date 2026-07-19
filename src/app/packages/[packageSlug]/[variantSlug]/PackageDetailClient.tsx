@@ -39,8 +39,8 @@ const PackageMap = dynamic(() => import("@/components/packages/PackageMap"), {
   loading: () => (
     <div className="w-full h-full min-h-[350px] bg-neutral-50 border border-neutral-100 rounded-[2rem] flex items-center justify-center animate-pulse">
       <div className="text-center">
-        <Sparkles className="w-8 h-8 text-neutral-300 mx-auto mb-2 animate-bounce" />
-        <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">
+        <Sparkles className="w-8 h-8 text-neutral-400 mx-auto mb-2 animate-bounce" />
+        <p className="text-xs font-semibold text-neutral-600 uppercase tracking-wider">
           Loading Route Map...
         </p>
       </div>
@@ -281,17 +281,17 @@ export default function PackageDetailClient({
             {/* Header Title */}
             <div className="mb-6">
               <div className="flex items-center gap-2.5 mb-3 font-sans text-xs md:text-sm font-medium">
-                <span className="inline-block bg-white border border-neutral-200 text-neutral-700 font-semibold px-2.5 py-1 rounded-[8px] uppercase tracking-wider text-[10px]">
+                <span className="inline-block bg-white border border-neutral-300 text-neutral-800 font-semibold px-2.5 py-1 rounded-[8px] uppercase tracking-wider text-[10px]">
                   {packageData.isDomestic ? "Domestic" : "International"}
                 </span>
-                <span className="text-neutral-400 font-medium select-none">
+                <span className="text-neutral-500 font-medium select-none">
                   • Trip Code: MI-{packageData.id.toUpperCase().replace(/-/g, "")}
                 </span>
               </div>
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight tracking-tight font-display">
                 {pkgName}
               </h1>
-              <p className="text-neutral-500 font-sans text-xs md:text-sm font-semibold tracking-wide uppercase mt-1.5 leading-none">
+              <p className="text-neutral-600 font-sans text-xs md:text-sm font-semibold tracking-wide uppercase mt-1.5 leading-none">
                 {activeVariant.label}
               </p>
             </div>
@@ -308,10 +308,10 @@ export default function PackageDetailClient({
               <div className="flex items-center gap-3">
                 <Calendar className="w-5 h-5 text-neutral-800 shrink-0" />
                 <div className="flex flex-col">
-                  <span className="text-[10px] md:text-[11px] font-medium text-neutral-400 uppercase tracking-wider leading-none mb-1">
+                  <span className="text-[10px] md:text-[11px] font-medium text-neutral-700 uppercase tracking-wider leading-none mb-1">
                     Duration
                   </span>
-                  <span className="text-xs md:text-sm font-bold text-neutral-800 leading-snug">
+                  <span className="text-xs md:text-sm font-bold text-neutral-900 leading-snug">
                     {activeVariant.days} Days / {activeVariant.nights} Nights
                   </span>
                 </div>
@@ -320,10 +320,10 @@ export default function PackageDetailClient({
               <div className="flex items-center gap-3">
                 <Users className="w-5 h-5 text-neutral-800 shrink-0" />
                 <div className="flex flex-col">
-                  <span className="text-[10px] md:text-[11px] font-medium text-neutral-400 uppercase tracking-wider leading-none mb-1">
+                  <span className="text-[10px] md:text-[11px] font-medium text-neutral-700 uppercase tracking-wider leading-none mb-1">
                     Group Size
                   </span>
-                  <span className="text-xs md:text-sm font-bold text-neutral-800 leading-snug">
+                  <span className="text-xs md:text-sm font-bold text-neutral-900 leading-snug">
                     Max {packageData.groupSizeMax || 12}, Avg {packageData.groupSizeAvg || 10}
                   </span>
                 </div>
@@ -332,10 +332,10 @@ export default function PackageDetailClient({
               <div className="flex items-center gap-3">
                 <Compass className="w-5 h-5 text-neutral-800 shrink-0" />
                 <div className="flex flex-col">
-                  <span className="text-[10px] md:text-[11px] font-medium text-neutral-400 uppercase tracking-wider leading-none mb-1">
+                  <span className="text-[10px] md:text-[11px] font-medium text-neutral-700 uppercase tracking-wider leading-none mb-1">
                     Tour Style
                   </span>
-                  <span className="text-xs md:text-sm font-bold text-neutral-800 leading-snug">
+                  <span className="text-xs md:text-sm font-bold text-neutral-900 leading-snug">
                     {tourStyle}
                   </span>
                 </div>
@@ -344,10 +344,10 @@ export default function PackageDetailClient({
               <div className="flex items-center gap-3">
                 <Building2 className="w-5 h-5 text-neutral-800 shrink-0" />
                 <div className="flex flex-col">
-                  <span className="text-[10px] md:text-[11px] font-medium text-neutral-400 uppercase tracking-wider leading-none mb-1">
+                  <span className="text-[10px] md:text-[11px] font-medium text-neutral-700 uppercase tracking-wider leading-none mb-1">
                     Accommodation
                   </span>
-                  <span className="text-xs md:text-sm font-bold text-neutral-800 leading-snug">
+                  <span className="text-xs md:text-sm font-bold text-neutral-900 leading-snug">
                     Hotels ({activeVariant.nights} nts)
                   </span>
                 </div>
@@ -386,8 +386,8 @@ export default function PackageDetailClient({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {inclusions.map((inc, idx) => (
                   <div key={idx} className="flex gap-3">
-                    <div className="w-5 h-5 rounded-full bg-neutral-100 flex items-center justify-center shrink-0 mt-0.5">
-                      <Check className="w-3.5 h-3.5 text-neutral-500" />
+                    <div className="w-5 h-5 rounded-full bg-neutral-200 flex items-center justify-center shrink-0 mt-0.5">
+                      <Check className="w-3.5 h-3.5 text-neutral-700" />
                     </div>
                     <span className="text-neutral-900 font-medium text-sm leading-snug">{inc}</span>
                   </div>
@@ -430,7 +430,7 @@ export default function PackageDetailClient({
             <div className="mb-12 border-b border-border-light pb-10">
               <div className="flex items-center justify-between mb-8">
                 <h2 className="text-xl md:text-2xl font-bold text-foreground">Itinerary</h2>
-                <span className="text-xs md:text-sm font-bold text-neutral-400 uppercase tracking-wider font-sans">
+                <span className="text-xs md:text-sm font-bold text-neutral-600 uppercase tracking-wider font-sans">
                   {activeVariant.days} Days / {activeVariant.nights} Nights
                 </span>
               </div>
@@ -467,7 +467,7 @@ export default function PackageDetailClient({
                           </h3>
                         </div>
 
-                        <div className="w-8 h-8 rounded-full border border-neutral-200 flex items-center justify-center text-neutral-400 group-hover:text-brand group-hover:border-brand/40 transition-colors shrink-0 mt-1">
+                        <div className="w-8 h-8 rounded-full border border-neutral-200 flex items-center justify-center text-neutral-500 group-hover:text-brand group-hover:border-brand/40 transition-colors shrink-0 mt-1">
                           <ChevronDown
                             className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}
                           />
@@ -538,7 +538,7 @@ export default function PackageDetailClient({
                 {/* Route Path (UX Optimized) */}
                 {activeVariant.destinations.length > 0 && (
                   <div className="mt-3">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 block mb-2.5">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-600 block mb-2.5">
                       Tour Route
                     </span>
                     <div className="flex flex-wrap items-center gap-y-2 gap-x-1">
