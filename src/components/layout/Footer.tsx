@@ -22,21 +22,21 @@ export default function Footer({
   const pathname = usePathname();
   // Provide fallback empty object so destructuring doesn't crash
   const companyData = rawCompanyData || {
-    name: "",
-    tagline: "",
-    website: "",
-    phone: [],
-    email: "",
-    address: "",
+    name: "Mother India Tour Travels",
+    tagline: "Explore India with Trusted Tours",
+    website: "https://www.motherindiatourtravels.com",
+    phone: ['+919810140121', '+919971053881'],
+    email: "tourtravelsmotherindia@gmail.com",
+    address: "B63/B63A, New Jankipuri, Uttam Nagar, New Delhi - 110059",
     working_hours: { timezone: "", schedule: [], exceptions: [] },
     social_media: {} as Record<string, string>,
-    certifications: [],
-    about: "",
-    whatsapp_number: "",
-    google_analytics: "",
-    google_tag_manager: "",
-    gstin: "",
-    messengerNumber: "",
+    certifications: ['MSME Certified', 'ISO 9001:2015'],
+    about: "Mother India Tour Travels is a trusted tour and travel agency based in Delhi, India. We specialize in customized domestic and international tour packages for individuals, families, and groups. With years of experience, we have served thousands of satisfied customers from around the world.",
+    whatsapp_number: "+919810140121",
+    google_analytics: "G-9R0JL5K333",
+    google_tag_manager: "GTM-W225BT8G",
+    gstin: "07ADZPL9107F1Z3",
+    messengerNumber: "https://www.messenger.com/e2ee/t/9661855783930883",
   };
   const { showToast } = useToast();
   const newsletterMutation = useSubscribeNewsletter();
