@@ -20,8 +20,9 @@ export default async function CancellationPolicyPage() {
         <>
           <p>
             Cancellations of any confirmed bookings must be requested in writing via email to our
-            official address (tourtravelsmotherindia@gmail.com). The date on which we receive your
-            written email request determines the applicable cancellation charges.
+            official address ({companyData?.email || "tourtravelsmotherindia@gmail.com"}). The date
+            on which we receive your written email request determines the applicable cancellation
+            charges.
           </p>
           <p>Standard package cancellation charges are computed as follows:</p>
           <div className="overflow-x-auto my-6">
@@ -237,10 +238,10 @@ export default async function CancellationPolicyPage() {
           </a>{" "}
           directly or email our support desk at{" "}
           <a
-            href="mailto:tourtravelsmotherindia@gmail.com"
+            href={`mailto:${companyData?.email || "tourtravelsmotherindia@gmail.com"}`}
             className="text-neutral-900 font-bold underline hover:text-neutral-700 transition-colors"
           >
-            tourtravelsmotherindia@gmail.com
+            {companyData?.email || "tourtravelsmotherindia@gmail.com"}
           </a>
           . Our travel coordinators will guide you through the cancellation process and outline any
           penalties or eligible refunds.

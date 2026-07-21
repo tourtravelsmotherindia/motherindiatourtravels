@@ -248,10 +248,10 @@ export default async function PrivacyPolicyPage() {
           <p>
             To submit a request, please send an email to our support team at{" "}
             <a
-              href="mailto:tourtravelsmotherindia@gmail.com"
+              href={`mailto:${companyData?.email || "tourtravelsmotherindia@gmail.com"}`}
               className="text-neutral-900 font-bold underline hover:text-neutral-700 transition-colors"
             >
-              tourtravelsmotherindia@gmail.com
+              {companyData?.email || "tourtravelsmotherindia@gmail.com"}
             </a>
             . We will review and respond to your request within a reasonable timeframe.
           </p>
@@ -290,10 +290,10 @@ export default async function PrivacyPolicyPage() {
           </a>{" "}
           directly or email us at{" "}
           <a
-            href="mailto:tourtravelsmotherindia@gmail.com"
+            href={`mailto:${companyData?.email || "tourtravelsmotherindia@gmail.com"}`}
             className="text-neutral-900 font-bold underline hover:text-neutral-700 transition-colors"
           >
-            tourtravelsmotherindia@gmail.com
+            {companyData?.email || "tourtravelsmotherindia@gmail.com"}
           </a>
           .
         </p>

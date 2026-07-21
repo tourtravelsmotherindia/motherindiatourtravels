@@ -138,13 +138,13 @@ export default async function CookiePolicyPage() {
             </li>
             <li>
               <strong>Google Analytics:</strong> We use Google Analytics (using tag ID{" "}
-              <code>G-9R0JL5K333</code>) to monitor traffic statistics and device types. Google
-              Analytics cookies trace user actions on our site but do not store identifiers like
-              names or phone numbers.
+              <code>{companyData?.googleAnalytics || "G-9R0JL5K333"}</code>) to monitor traffic
+              statistics and device types. Google Analytics cookies trace user actions on our site
+              but do not store identifiers like names or phone numbers.
             </li>
             <li>
               <strong>Google Tag Manager:</strong> Used to run scripting tags and analytics pixels
-              (using container ID <code>GTM-W225BT8G</code>).
+              (using container ID <code>{companyData?.googleTagManager || "GTM-W225BT8G"}</code>).
             </li>
             <li>
               <strong>Google Translate Widget:</strong> We run Google translation scripts to allow
@@ -182,10 +182,10 @@ export default async function CookiePolicyPage() {
           </a>{" "}
           directly or email us at{" "}
           <a
-            href="mailto:tourtravelsmotherindia@gmail.com"
+            href={`mailto:${companyData?.email || "tourtravelsmotherindia@gmail.com"}`}
             className="text-neutral-900 font-bold underline hover:text-neutral-700 transition-colors"
           >
-            tourtravelsmotherindia@gmail.com
+            {companyData?.email || "tourtravelsmotherindia@gmail.com"}
           </a>
           .
         </p>

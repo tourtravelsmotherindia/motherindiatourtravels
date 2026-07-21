@@ -1,8 +1,9 @@
 import "dotenv/config";
-import pg from "pg";
+
+import crypto from "crypto";
 import fs from "fs";
 import path from "path";
-import crypto from "crypto";
+import pg from "pg";
 
 async function main() {
   const connectionString = process.env.DIRECT_URL || process.env.DATABASE_URL;

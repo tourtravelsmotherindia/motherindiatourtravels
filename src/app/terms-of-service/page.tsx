@@ -351,10 +351,10 @@ export default async function TermsOfServicePage() {
           <p>
             If you are not comfortable with this, please drop an email to{" "}
             <a
-              href="mailto:tourtravelsmotherindia@gmail.com"
+              href={`mailto:${companyData?.email || "tourtravelsmotherindia@gmail.com"}`}
               className="text-neutral-900 font-bold underline hover:text-neutral-700 transition-colors"
             >
-              tourtravelsmotherindia@gmail.com
+              {companyData?.email || "tourtravelsmotherindia@gmail.com"}
             </a>
             , and we will promptly remove or avoid uploading your media.
           </p>
