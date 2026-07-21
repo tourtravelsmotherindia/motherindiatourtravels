@@ -36,16 +36,16 @@ This project uses a **two-font system** loaded in `src/app/layout.tsx`:
 
 ## Color Palette
 
-| CSS Variable     | Hex       | Tailwind Token | Purpose                                                       |
-| ---------------- | --------- | -------------- | ------------------------------------------------------------- |
-| `--brand`        | `#E05423` | `brand`        | **Primary CTA orange**                                        |
-| `--brand-hover`  | `#C54417` | `brand-hover`  | Hover / focus / active states for brand elements              |
-| `--brand-light`  | `#FFF3EE` | `brand-light`  | Light orange backgrounds for tags, badges, card accents       |
-| `--brand-dark`   | `#111111` | `brand-dark`   | Dark backgrounds, overlays                                    |
-| `--background`   | `#FFFFFF` | `background`   | Page and section backgrounds                                  |
-| `--foreground`   | `#111111` | `foreground`   | Primary text — headings, body copy                            |
-| `--muted`        | `#666666` | `muted`        | Secondary text — subtitles, descriptions, placeholders, icons |
-| `--border-light` | `#ECECEC` | `border-light` | Borders — cards, inputs, dividers, filter boxes               |
+| CSS Variable     | Hex       | Tailwind Token | Purpose                                                                               |
+| ---------------- | --------- | -------------- | ------------------------------------------------------------------------------------- |
+| `--brand`        | `#E05423` | `brand`        | **Primary CTA orange**                                                                |
+| `--brand-hover`  | `#C54417` | `brand-hover`  | Hover / focus / active states for brand elements                                      |
+| `--brand-light`  | `#FFF3EE` | `brand-light`  | Light orange backgrounds for tags, badges, card accents                               |
+| `--brand-dark`   | `#111111` | `brand-dark`   | Dark backgrounds, overlays                                                            |
+| `--background`   | `#FFFFFF` | `background`   | Page and section backgrounds                                                          |
+| `--foreground`   | `#111111` | `foreground`   | Primary text — headings, body copy                                                    |
+| `--muted`        | `#4C4C4C` | `muted`        | Secondary text — subtitles, descriptions, placeholders, icons (darkened for contrast) |
+| `--border-light` | `#ECECEC` | `border-light` | Borders — cards, inputs, dividers, filter boxes                                       |
 
 ### Color Usage Rules
 
@@ -73,7 +73,7 @@ The brand orange (`#E05423` / `--brand`) is **only for interactive, action-orien
 **Forbidden:**
 
 - Coloring individual words inside headings orange
-- Non-interactive icons (MapPin, Calendar, Clock, Chevron) — use `text-neutral-400` or `text-muted`
+- Non-interactive icons (MapPin, Calendar, Clock, Chevron) — use `text-neutral-400` (overridden in theme to `#767676` for contrast) or `text-muted` (`#4C4C4C`)
 - Static labels, badges, or tags (use `bg-brand-light` for backgrounds, never orange text)
 - Decorative underlines, dividers, or background accents
 - Any element that is not clickable/interactive

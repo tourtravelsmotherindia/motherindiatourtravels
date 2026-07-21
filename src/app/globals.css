@@ -11,7 +11,7 @@ html {
   --brand-hover: #c77625;
   --brand-light: #fbf2e6;
   --brand-dark: #111111;
-  --muted: #666666;
+  --muted: #4c4c4c;
   --border-light: #ececec;
   --admin-bg: #f8f8f8;
 }
@@ -24,6 +24,7 @@ html {
   --color-brand-light: var(--brand-light);
   --color-brand-dark: var(--brand-dark);
   --color-muted: var(--muted);
+  --color-neutral-400: #767676;
   --color-border-light: var(--border-light);
   --color-admin-bg: var(--admin-bg);
   --font-sans:
