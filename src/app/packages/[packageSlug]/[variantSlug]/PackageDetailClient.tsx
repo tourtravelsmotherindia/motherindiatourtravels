@@ -531,84 +531,90 @@ export default function PackageDetailClient({
           </div>
 
           {/* RIGHT COLUMN: Sticky booking trigger */}
-          <aside className="lg:sticky lg:top-28 z-10 flex flex-col gap-6">
-            <div className="bg-white border border-border-light rounded-[2rem] p-6 shadow-premium">
-              <div className="mb-6">
-                {/* Route Path (UX Optimized) */}
-                {activeVariant.destinations.length > 0 && (
-                  <div className="mt-3">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-600 block mb-2.5">
-                      Tour Route
-                    </span>
-                    <div className="flex flex-wrap items-center gap-y-2 gap-x-1">
-                      {activeVariant.destinations.map((dest, idx) => (
-                        <div key={dest.destinationId} className="flex items-center gap-1">
-                          <span className="bg-neutral-50 text-[11px] font-bold text-neutral-700 border border-neutral-200/80 px-2.5 py-1 rounded-full whitespace-nowrap shadow-xs">
-                            {dest.destinationName}
-                          </span>
-                          {idx < activeVariant.destinations.length - 1 && (
-                            <ChevronRight className="w-3.5 h-3.5 text-neutral-300 shrink-0" />
-                          )}
-                        </div>
-                      ))}
-                    </div>
+          <aside className="lg:sticky lg:top-28 z-10 flex flex-col font-sans">
+            <div className="py-2 space-y-6">
+              {/* Tour Route Path */}
+              {activeVariant.destinations.length > 0 && (
+                <div className="pb-4 border-b border-neutral-200/80">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-600 block mb-2.5">
+                    Tour Route
+                  </span>
+                  <div className="flex flex-wrap items-center gap-y-2 gap-x-1">
+                    {activeVariant.destinations.map((dest, idx) => (
+                      <div key={dest.destinationId} className="flex items-center gap-1">
+                        <span className="bg-neutral-100 text-[11px] font-bold text-neutral-800 px-2.5 py-1 rounded-full whitespace-nowrap">
+                          {dest.destinationName}
+                        </span>
+                        {idx < activeVariant.destinations.length - 1 && (
+                          <ChevronRight className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
+                        )}
+                      </div>
+                    ))}
                   </div>
-                )}
-              </div>
+                </div>
+              )}
 
-              {/* Pricing hidden - shown as Price On Request */}
-              <div className="mb-6 flex items-baseline gap-2">
-                <span className="text-3xl font-black text-foreground font-display leading-none">
-                  Price On Request
+              {/* Price & Inclusions */}
+              <div>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-600 block mb-1.5">
+                  Pricing Overview
                 </span>
-              </div>
+                <div className="flex items-baseline gap-2 mb-4">
+                  <span className="text-2xl md:text-3xl font-black text-foreground font-display leading-none">
+                    Price On Request
+                  </span>
+                </div>
 
-              <div className="border-t border-b border-border-light py-5 mb-6 space-y-3.5">
-                <div className="flex items-center gap-3">
-                  <Check className="w-4 h-4 text-neutral-400 shrink-0" />
-                  <span className="text-xs font-medium text-neutral-500">
-                    Premium Stays Included
-                  </span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <MapPin className="w-4 h-4 text-neutral-400 shrink-0" />
-                  <span className="text-xs font-medium text-neutral-500">
-                    Sightseeing by Private AC Vehicle
-                  </span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Users className="w-4 h-4 text-neutral-400 shrink-0" />
-                  <span className="text-xs font-medium text-neutral-500">
-                    24/7 Ground Tour Coordinator
-                  </span>
+                <div className="border-t border-b border-neutral-200/80 py-4 space-y-3">
+                  <div className="flex items-center gap-3">
+                    <Check className="w-4 h-4 text-neutral-500 shrink-0" />
+                    <span className="text-xs font-semibold text-neutral-700">
+                      Premium Stays Included
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <MapPin className="w-4 h-4 text-neutral-500 shrink-0" />
+                    <span className="text-xs font-semibold text-neutral-700">
+                      Sightseeing by Private AC Vehicle
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Users className="w-4 h-4 text-neutral-500 shrink-0" />
+                    <span className="text-xs font-semibold text-neutral-700">
+                      24/7 Ground Tour Coordinator
+                    </span>
+                  </div>
                 </div>
               </div>
 
               {/* Book Now button routing directly to nested booking page */}
               <Link
                 href={`/packages/${packageData.slug}/${activeVariant.slug}/book`}
-                className="block w-full bg-brand hover:bg-brand-hover text-white font-semibold text-xs tracking-wider uppercase py-4 rounded-full transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer text-center select-none border-none outline-none mt-2 active:scale-98"
+                className="block w-full bg-brand hover:bg-brand-hover text-white font-semibold text-xs tracking-wider uppercase py-4 rounded-full transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer text-center select-none border-none outline-none active:scale-98"
               >
                 Book Now
               </Link>
-            </div>
 
-            <div className="bg-neutral-50/50 border border-border-light rounded-[2rem] p-6 text-center">
-              <HelpCircle className="w-6 h-6 text-neutral-400 mx-auto mb-3" />
-              <h4 className="font-bold text-foreground text-base mb-2">Need Custom Itinerary?</h4>
-              <p className="text-xs text-neutral-500 font-medium leading-relaxed mb-4">
-                Let our travel specialists design a tailored package just for you.
-              </p>
-              {companyData?.whatsappNumber && (
-                <a
-                  href={`https://wa.me/${companyData.whatsappNumber}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white font-semibold text-xs uppercase tracking-wider px-6 py-3 rounded-full transition-all duration-300 cursor-pointer select-none"
-                >
-                  WhatsApp Specialists
-                </a>
-              )}
+              {/* Need Custom Itinerary - Seamless Inline Integration */}
+              <div className="pt-6 border-t border-neutral-200/80 flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+                  <HelpCircle className="w-4 h-4 text-neutral-500 shrink-0" />
+                  <h4 className="font-bold text-foreground text-sm">Need Custom Itinerary?</h4>
+                </div>
+                <p className="text-xs text-neutral-600 font-medium leading-relaxed">
+                  Let our travel specialists design a tailored package just for you.
+                </p>
+                {companyData?.whatsappNumber && (
+                  <a
+                    href={`https://wa.me/${companyData.whatsappNumber}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white font-semibold text-xs uppercase tracking-wider py-3 px-5 rounded-full transition-all duration-300 cursor-pointer select-none mt-2"
+                  >
+                    WhatsApp Specialists
+                  </a>
+                )}
+              </div>
             </div>
           </aside>
         </div>

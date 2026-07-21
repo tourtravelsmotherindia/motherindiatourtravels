@@ -425,20 +425,31 @@ export default function PackageOverviewClient({
           </div>
 
           {/* RIGHT COLUMN: Sticky summary of route */}
-          <aside className="lg:sticky lg:top-28 z-10 flex flex-col gap-6">
-            <div className="bg-white border border-neutral-200/60 rounded-[2.5rem] p-8 shadow-card animate-fade-in">
-              <h3 className="font-bold text-lg text-foreground mb-4 font-display">
-                Destinations Covered
-              </h3>
+          <aside className="lg:sticky lg:top-28 z-10 flex flex-col gap-6 font-sans">
+            <div className="py-2 animate-fade-in">
+              <div className="flex items-center justify-between mb-6 pb-3 border-b border-neutral-200/80">
+                <h3 className="font-bold text-base md:text-lg text-foreground tracking-tight font-display flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-neutral-500" />
+                  Destinations Covered
+                </h3>
+                <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-500 bg-neutral-100 px-2.5 py-0.5 rounded-full">
+                  {uniqueDestinations.length} Stops
+                </span>
+              </div>
 
-              <div className="flex flex-col gap-4 font-medium text-neutral-600 font-sans">
+              <div className="relative pl-4 space-y-5 border-l border-neutral-200">
                 {uniqueDestinations.map((dest, idx) => (
-                  <div key={dest.id} className="flex items-start gap-4">
-                    <span className="w-6 h-6 rounded-full bg-neutral-100 text-neutral-600 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
-                      {idx + 1}
-                    </span>
-                    <div>
-                      <p className="text-sm font-bold text-foreground leading-snug">{dest.name}</p>
+                  <div key={dest.id} className="relative flex items-center justify-between group">
+                    {/* Timeline Dot */}
+                    <div className="absolute -left-[21px] top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-neutral-300 border-2 border-white group-hover:bg-brand transition-colors" />
+
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs font-semibold text-neutral-500 font-mono">
+                        {String(idx + 1).padStart(2, "0")}
+                      </span>
+                      <span className="text-sm font-semibold text-foreground group-hover:text-brand transition-colors leading-snug">
+                        {dest.name}
+                      </span>
                     </div>
                   </div>
                 ))}
