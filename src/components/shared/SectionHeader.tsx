@@ -3,7 +3,7 @@
 import React from "react";
 
 interface SectionHeaderProps {
-  title: string;
+  title: React.ReactNode;
   subtitle?: string;
   badge?: string; // Optional small text above title
   align?: "left" | "center"; // default "left"
