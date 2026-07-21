@@ -179,28 +179,28 @@ export default function PackageCard({
         </div>
 
         {/* Padded Text Content Block */}
-        <div className="px-5 pb-5 pt-4">
+        <div className="px-3.5 sm:px-5 pb-3.5 sm:pb-5 pt-3 sm:pt-4">
           {duration ? (
             /* Layout when duration exists */
             <div>
-              <div className="flex items-center gap-1.5 text-neutral-600 font-normal mb-2.5">
-                <Clock className="w-4.5 h-4.5 text-neutral-400 shrink-0" />
-                <span className="text-xs font-semibold">{duration}</span>
+              <div className="flex items-center gap-1.5 text-neutral-600 font-normal mb-1.5 sm:mb-2.5">
+                <Clock className="w-3.5 h-3.5 sm:w-4.5 sm:h-4.5 text-neutral-400 shrink-0" />
+                <span className="text-[11px] sm:text-xs font-semibold">{duration}</span>
               </div>
 
-              <h3 className="font-bold text-base text-foreground leading-snug line-clamp-1 mb-2">
+              <h3 className="font-bold text-xs sm:text-base text-foreground leading-snug line-clamp-1 mb-1.5 sm:mb-2">
                 {name}
               </h3>
             </div>
           ) : (
             /* Layout when duration is absent (Name is at the very top of the text block) */
-            <h3 className="font-bold text-base text-foreground leading-snug line-clamp-2 mb-2.5">
+            <h3 className="font-bold text-xs sm:text-base text-foreground leading-snug line-clamp-2 mb-1.5 sm:mb-2.5">
               {name}
             </h3>
           )}
 
-          <div className="flex items-center gap-1.5 text-neutral-500 text-xs font-normal">
-            <MapPin className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
+          <div className="flex items-center gap-1 text-neutral-500 text-[10px] sm:text-xs font-normal">
+            <MapPin className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-neutral-400 shrink-0" />
             <span className="truncate">{mappedDestinations.slice(0, 3).join(", ")}</span>
           </div>
         </div>

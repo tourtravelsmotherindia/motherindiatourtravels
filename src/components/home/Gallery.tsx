@@ -14,10 +14,10 @@ interface GalleryProps {
 
 export default function Gallery({ galleryData }: GalleryProps) {
   return (
-    <section id="gallery" className="py-24 scroll-mt-24 layout-container">
+    <section id="gallery" className="py-16 md:py-24 scroll-mt-24 layout-container">
       <SectionHeader title={galleryData.tagline} subtitle={galleryData.subtitle} />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="flex overflow-x-auto gap-4 sm:gap-6 snap-x snap-mandatory no-scrollbar pb-4 sm:pb-0 sm:grid sm:grid-cols-2 lg:grid-cols-3">
         {galleryData.images.map((item, idx) => (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -25,7 +25,7 @@ export default function Gallery({ galleryData }: GalleryProps) {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: idx * 0.08 }}
             key={item.id}
-            className="group relative h-[300px] lg:h-[340px] xl:h-[370px] 2xl:h-[400px] rounded-[2rem] overflow-hidden shadow-card hover:shadow-premium transition-all duration-300 border border-border-light cursor-pointer"
+            className="group relative h-[280px] sm:h-[300px] lg:h-[340px] xl:h-[370px] 2xl:h-[400px] w-[260px] sm:w-auto shrink-0 snap-start rounded-[2rem] overflow-hidden shadow-card hover:shadow-premium transition-all duration-300 border border-border-light cursor-pointer"
           >
             <Image
               src={item.image}

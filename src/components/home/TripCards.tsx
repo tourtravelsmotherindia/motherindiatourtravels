@@ -21,11 +21,11 @@ export default function TripCards({ packages }: { packages: PackageItem[] }) {
   const currentTrips = isDomestic ? domesticPackages : internationalPackages;
 
   const rightSlot = (
-    <div className="flex items-center gap-6 self-start md:self-end">
+    <div className="flex flex-wrap items-center justify-between sm:justify-start gap-3 sm:gap-6 w-full sm:w-auto">
       <div className="bg-neutral-100 p-1 rounded-full flex gap-1 border border-neutral-200/50 relative">
         <button
           onClick={() => setIsDomestic(true)}
-          className={`relative px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors duration-200 z-10 cursor-pointer select-none ${
+          className={`relative px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-semibold uppercase tracking-wider transition-colors duration-200 z-10 cursor-pointer select-none ${
             isDomestic ? "text-foreground" : "text-muted hover:text-foreground"
           }`}
         >
@@ -40,7 +40,7 @@ export default function TripCards({ packages }: { packages: PackageItem[] }) {
         </button>
         <button
           onClick={() => setIsDomestic(false)}
-          className={`relative px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors duration-200 z-10 cursor-pointer select-none ${
+          className={`relative px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-semibold uppercase tracking-wider transition-colors duration-200 z-10 cursor-pointer select-none ${
             !isDomestic ? "text-foreground" : "text-muted hover:text-foreground"
           }`}
         >
@@ -55,12 +55,12 @@ export default function TripCards({ packages }: { packages: PackageItem[] }) {
         </button>
       </div>
 
-      <SeeAllLink href="/packages" label="See All Trips" className="hidden sm:flex" />
+      <SeeAllLink href="/packages" label="See All" />
     </div>
   );
 
   return (
-    <section id="packages" className="py-24 overflow-hidden layout-container">
+    <section id="packages" className="py-16 md:py-24 overflow-hidden layout-container">
       <SectionHeader
         title="Explore Trips"
         subtitle="Handpicked adventures designed to inspire your next journey"
@@ -72,35 +72,32 @@ export default function TripCards({ packages }: { packages: PackageItem[] }) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3, ease: "easeOut" }}
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+        className="flex overflow-x-auto gap-4 sm:gap-6 snap-x snap-mandatory no-scrollbar pb-4 sm:pb-0 sm:grid sm:grid-cols-2 lg:grid-cols-4"
       >
         {currentTrips.map((pkg, idx) => {
           const isFav = isFavorite(pkg.slug);
 
           return (
-            <PackageCard
-              key={pkg.id}
-              id={pkg.id}
-              slug={pkg.slug}
-              name={pkg.name}
-              heroImage={pkg.heroImage}
-              destinations={pkg.destinations}
-              variant="white"
-              isFavorite={isFav}
-              onToggleFavorite={toggleFavorite}
-              showRating={true}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.4, delay: idx * 0.05 }}
-            />
+            <div key={pkg.id} className="w-[280px] sm:w-auto shrink-0 snap-start">
+              <PackageCard
+                id={pkg.id}
+                slug={pkg.slug}
+                name={pkg.name}
+                heroImage={pkg.heroImage}
+                destinations={pkg.destinations}
+                variant="white"
+                isFavorite={isFav}
+                onToggleFavorite={toggleFavorite}
+                showRating={true}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.4, delay: idx * 0.05 }}
+              />
+            </div>
           );
         })}
       </motion.div>
-
-      <div className="mt-10 flex justify-center sm:hidden">
-        <SeeAllLink href="/packages" label="See All Trips" />
-      </div>
     </section>
   );
 }

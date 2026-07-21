@@ -33,6 +33,18 @@ export default function Hero({ heroConfig }: { heroConfig?: HeroConfigData | nul
     return () => clearInterval(timer);
   }, [nextSlide, isPaused, totalSlides]);
 
+  const handleDragEnd = useCallback(
+    (_: unknown, info: { offset: { x: number }; velocity: { x: number } }) => {
+      const swipeThreshold = 50;
+      if (info.offset.x < -swipeThreshold || info.velocity.x < -500) {
+        nextSlide();
+      } else if (info.offset.x > swipeThreshold || info.velocity.x > 500) {
+        prevSlide();
+      }
+    },
+    [nextSlide, prevSlide],
+  );
+
   if (!heroConfig) return null;
   if (isVideoMode) {
     return (
@@ -60,7 +72,7 @@ export default function Hero({ heroConfig }: { heroConfig?: HeroConfigData | nul
   return (
     <section
       id="home"
-      className="relative w-full h-[100dvh] overflow-hidden bg-black"
+      className="relative w-full h-[100dvh] overflow-hidden bg-black touch-pan-y"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       aria-label="Hero slider"
@@ -74,7 +86,11 @@ export default function Hero({ heroConfig }: { heroConfig?: HeroConfigData | nul
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1.2, ease: "easeInOut" }}
-            className="absolute inset-0"
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.2}
+            onDragEnd={handleDragEnd}
+            className="absolute inset-0 cursor-grab active:cursor-grabbing"
           >
             <Image
               src={getOptimizedImageUrl(slides[currentSlide].image, 1600)}
@@ -82,7 +98,7 @@ export default function Hero({ heroConfig }: { heroConfig?: HeroConfigData | nul
               fill
               sizes="100vw"
               priority
-              className="object-cover object-center"
+              className="object-cover object-center pointer-events-none"
             />
           </motion.div>
         </AnimatePresence>

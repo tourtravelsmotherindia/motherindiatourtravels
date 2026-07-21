@@ -48,20 +48,23 @@ export default function Breadcrumbs({
 
   return (
     <nav
-      className={`flex items-center gap-2 text-xs md:text-sm font-medium text-neutral-400 mb-8 font-sans ${className}`}
+      className={`flex items-center gap-1.5 sm:gap-2 text-xs md:text-sm font-medium text-neutral-400 mb-6 md:mb-8 font-sans overflow-hidden whitespace-nowrap max-w-full ${className}`}
       aria-label="Breadcrumb"
     >
       {items.map((item, idx) => {
         const isLast = idx === items.length - 1;
         return (
           <React.Fragment key={idx}>
-            {idx > 0 && <ChevronRight className="w-3 h-3 text-neutral-300" />}
+            {idx > 0 && <ChevronRight className="w-3 h-3 text-neutral-300 shrink-0" />}
             {isLast || !item.href ? (
-              <span className="text-neutral-500 font-semibold truncate max-w-[200px] md:max-w-none">
+              <span className="text-neutral-500 font-semibold truncate max-w-[140px] sm:max-w-[220px] md:max-w-none shrink">
                 {item.label}
               </span>
             ) : (
-              <Link href={item.href} className="hover:text-brand transition-colors">
+              <Link
+                href={item.href}
+                className="hover:text-brand transition-colors truncate max-w-[90px] sm:max-w-[160px] md:max-w-none shrink-0"
+              >
                 {item.label}
               </Link>
             )}

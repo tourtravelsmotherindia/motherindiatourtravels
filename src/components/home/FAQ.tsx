@@ -65,18 +65,18 @@ export default function FAQ({
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        <div className="lg:col-span-5 relative w-full h-[320px] sm:h-[400px] lg:h-[500px]">
+        <div className="hidden lg:block lg:col-span-5 relative w-full h-[500px]">
           <Image
             src={faqData?.image || "/images/trip_ladakh.png"}
             alt="FAQ section illustration"
             fill
             className="object-cover rounded-[32px]"
-            sizes="(max-width: 1024px) 100vw, 40vw"
+            sizes="40vw"
             priority
           />
         </div>
 
-        <div className="lg:col-span-7 flex flex-col gap-4">
+        <div className="col-span-1 lg:col-span-7 flex flex-col gap-4">
           {faqs.map((faq, index) => {
             const isOpen = activeIndex === index;
             const trigger = (

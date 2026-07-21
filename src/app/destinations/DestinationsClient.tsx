@@ -352,10 +352,10 @@ function DestinationsContent({
             </div>
           ) : (
             <div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-6 lg:gap-8">
                 {paginatedDestinations.map((dest) => {
                   return (
-                    <div key={dest.slug} className="h-[360px] md:h-[400px] w-full">
+                    <div key={dest.slug} className="h-[280px] sm:h-[360px] md:h-[400px] w-full">
                       <DestinationCard dest={dest} isMobile />
                     </div>
                   );

@@ -19,17 +19,17 @@ interface Region {
 }
 
 export default function RegionsGrid({ regions }: { regions: Region[] }) {
-  const rightSlot = <SeeAllLink href="/regions/" label="See All Regions" />;
+  const rightSlot = <SeeAllLink href="/regions/" label="See All" />;
 
   return (
-    <section id="regions" className="py-24 layout-container">
+    <section id="regions" className="py-16 md:py-24 layout-container">
       <SectionHeader
         title="Destination By Region"
         subtitle="Explore adventures across every corner of the incredible Indian subcontinent"
         rightSlot={rightSlot}
       />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+      <div className="flex overflow-x-auto gap-4 sm:gap-8 snap-x snap-mandatory no-scrollbar pb-4 sm:pb-0 sm:grid sm:grid-cols-2 md:grid-cols-3">
         {regions.map((region, idx) => {
           return (
             <motion.div
@@ -38,7 +38,7 @@ export default function RegionsGrid({ regions }: { regions: Region[] }) {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: idx * 0.05 }}
               key={region.id}
-              className="group relative flex flex-col h-full bg-transparent overflow-hidden rounded-2xl cursor-pointer"
+              className="group relative flex flex-col h-full w-[260px] sm:w-auto shrink-0 snap-start bg-transparent overflow-hidden rounded-2xl cursor-pointer"
             >
               {/* Image Block */}
               <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl shadow-sm">

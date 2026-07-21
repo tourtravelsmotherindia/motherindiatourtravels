@@ -88,30 +88,25 @@ export default function TravelerMoments() {
   );
 
   return (
-    <section id="blog" className="py-24 overflow-hidden layout-container">
+    <section id="blog" className="py-16 md:py-24 overflow-hidden layout-container">
       <SectionHeader
-        title="What Our Customers Say"
+        title={
+          <>
+            <span className="md:hidden">Reviews</span>
+            <span className="hidden md:inline">What Our Customers Say</span>
+          </>
+        }
         subtitle="Hear from our adventurers about their recent travel experiences"
         rightSlot={rightSlot}
       />
 
-      {/* MOBILE VIEW: Keeps the original layout design */}
-      <div className="grid grid-cols-1 md:hidden gap-8">
-        {reviews.slice(0, 3).map((review, idx) => {
-          // Adjust display indices to simulate shifting carousel on mobile
-          const displayIdx = (idx - currentIndex + 3) % 3;
-
+      {/* MOBILE VIEW: Horizontal scrolling cards */}
+      <div className="flex overflow-x-auto md:hidden gap-4 snap-x snap-mandatory no-scrollbar pb-4">
+        {reviews.map((review) => {
           return (
-            <motion.div
-              layout
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
+            <div
               key={review.id}
-              className={`bg-white rounded-[2rem] border border-border-light p-5 shadow-card hover:shadow-premium transition-all duration-300 flex flex-col h-full ${
-                displayIdx === 0 ? "order-first" : displayIdx === 1 ? "order-none" : "order-last"
-              }`}
+              className="w-[280px] shrink-0 snap-start bg-white rounded-[2rem] border border-border-light p-5 shadow-card transition-all duration-300 flex flex-col h-full"
             >
               {/* Image Container with Play Overlay if Video review */}
               <div className="relative h-60 w-full rounded-[1.5rem] overflow-hidden mb-5">
@@ -168,7 +163,7 @@ export default function TravelerMoments() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           );
         })}
       </div>

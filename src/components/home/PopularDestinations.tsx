@@ -67,6 +67,7 @@ export default function PopularDestinations({
       onNext={handleNext}
       prevAriaLabel="Previous destination"
       nextAriaLabel="Next destination"
+      className="hidden md:flex"
     />
   );
 

@@ -8,6 +8,7 @@ import {
   ChevronDown,
   ChevronRight,
   Compass,
+  Heart,
   HelpCircle,
   MapPin,
   Sparkles,
@@ -634,24 +635,49 @@ export default function PackageDetailClient({
             }
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="flex overflow-x-auto gap-4 sm:gap-8 snap-x snap-mandatory no-scrollbar pb-4 sm:pb-0 sm:grid sm:grid-cols-2 lg:grid-cols-3">
             {recommendedPackages.map((pkg) => {
               return (
-                <PackageCard
-                  key={pkg.id}
-                  id={pkg.id}
-                  slug={pkg.slug}
-                  name={pkg.name}
-                  heroImage={pkg.heroImage}
-                  destinations={pkg.destinations}
-                  variant="white"
-                  isFavorite={isFavorite(pkg.slug)}
-                  onToggleFavorite={toggleFavorite}
-                />
+                <div key={pkg.id} className="w-[280px] sm:w-auto shrink-0 snap-start">
+                  <PackageCard
+                    id={pkg.id}
+                    slug={pkg.slug}
+                    name={pkg.name}
+                    heroImage={pkg.heroImage}
+                    destinations={pkg.destinations}
+                    variant="white"
+                    isFavorite={isFavorite(pkg.slug)}
+                    onToggleFavorite={toggleFavorite}
+                  />
+                </div>
               );
             })}
           </div>
         </section>
+
+        {/* MOBILE STICKY BOTTOM BAR */}
+        <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-white/95 backdrop-blur-md border-t border-neutral-200/80 lg:hidden flex items-center gap-3 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+          <button
+            type="button"
+            onClick={() => toggleFavorite(packageData.slug)}
+            className="w-12 h-12 rounded-full border border-neutral-300 bg-white flex items-center justify-center text-neutral-700 hover:border-neutral-400 transition-all shrink-0 cursor-pointer shadow-xs active:scale-90"
+            aria-label="Toggle Wishlist"
+          >
+            <Heart
+              className={`w-5 h-5 transition-all duration-300 ${
+                isFavorite(packageData.slug)
+                  ? "fill-red-500 text-red-500 stroke-red-500"
+                  : "text-neutral-600 stroke-neutral-600"
+              }`}
+            />
+          </button>
+          <Link
+            href={`/packages/${packageData.slug}/${activeVariant.slug}/book`}
+            className="flex-1 bg-brand hover:bg-brand-hover text-white font-bold text-sm tracking-wide py-3.5 px-6 rounded-full transition-all duration-300 shadow-md cursor-pointer text-center select-none active:scale-98"
+          >
+            Book now
+          </Link>
+        </div>
       </div>
     </PageShell>
   );

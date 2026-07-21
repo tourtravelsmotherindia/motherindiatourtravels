@@ -361,21 +361,21 @@ export default function PackageOverviewClient({
             <div className="mb-12 border-b border-border-light pb-10">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl md:text-2xl font-bold text-foreground font-display">
-                  Select Tour Option
+                  Select Tour
                 </h2>
                 <span className="text-xs font-semibold uppercase tracking-wider text-neutral-600">
                   Choose duration to see itinerary
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="flex overflow-x-auto gap-4 sm:gap-6 snap-x snap-mandatory no-scrollbar pb-4 sm:pb-0 sm:grid sm:grid-cols-2">
                 {packageData.variants.map((v) => {
                   const destNames = v.destinations.map((d) => d.destinationName).join(", ");
                   return (
                     <Link
                       key={v.id}
                       href={`/packages/${packageData.slug}/${v.slug}`}
-                      className="group relative bg-neutral-50 hover:bg-neutral-100/80 border-0 rounded-[2rem] p-6 shadow-sm transition-all duration-300 flex flex-col justify-between cursor-pointer"
+                      className="group relative bg-neutral-50 hover:bg-neutral-100/80 border-0 rounded-[2rem] p-6 shadow-sm transition-all duration-300 flex flex-col justify-between cursor-pointer w-[280px] sm:w-auto shrink-0 snap-start"
                     >
                       <div>
                         <div className="flex items-center justify-between mb-4">
@@ -473,20 +473,21 @@ export default function PackageOverviewClient({
             }
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="flex overflow-x-auto gap-4 sm:gap-8 snap-x snap-mandatory no-scrollbar pb-4 sm:pb-0 sm:grid sm:grid-cols-2 lg:grid-cols-3">
             {recommendedPackages.map((pkg) => {
               return (
-                <PackageCard
-                  key={pkg.id}
-                  id={pkg.id}
-                  slug={pkg.slug}
-                  name={pkg.name}
-                  heroImage={pkg.heroImage}
-                  destinations={pkg.destinations}
-                  variant="white"
-                  isFavorite={isFavorite(pkg.slug)}
-                  onToggleFavorite={toggleFavorite}
-                />
+                <div key={pkg.id} className="w-[280px] sm:w-auto shrink-0 snap-start">
+                  <PackageCard
+                    id={pkg.id}
+                    slug={pkg.slug}
+                    name={pkg.name}
+                    heroImage={pkg.heroImage}
+                    destinations={pkg.destinations}
+                    variant="white"
+                    isFavorite={isFavorite(pkg.slug)}
+                    onToggleFavorite={toggleFavorite}
+                  />
+                </div>
               );
             })}
           </div>
