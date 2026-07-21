@@ -396,10 +396,6 @@ export default function Footer({
             <Link href="/cookie-policy" className="hover:text-brand transition-colors duration-200">
               Cookie Policy
             </Link>
-            <span className="text-neutral-300">|</span>
-            <Link href="/faqs" className="hover:text-brand transition-colors duration-200">
-              FAQs
-            </Link>
           </div>
         </div>
       </div>
