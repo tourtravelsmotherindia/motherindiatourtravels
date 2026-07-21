@@ -207,7 +207,7 @@ export default function Footer({
                   <button
                     type="submit"
                     disabled={newsletterMutation.isPending}
-                    className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center hover:bg-brand transition-colors duration-200 shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-10 h-10 rounded-full bg-brand hover:bg-brand-hover text-white flex items-center justify-center transition-all duration-300 shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow"
                     aria-label="Subscribe"
                   >
                     {newsletterMutation.isPending ? (
