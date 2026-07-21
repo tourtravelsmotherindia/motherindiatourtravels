@@ -2,6 +2,7 @@
 
 import { ArrowDown } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 import AccordionItem from "@/components/ui/Accordion";
@@ -98,6 +99,16 @@ export default function FAQ({
               </AccordionItem>
             );
           })}
+
+          {/* View More FAQs Button */}
+          <div className="mt-4 text-left">
+            <Link
+              href="/faqs"
+              className="inline-flex items-center justify-center px-6 py-3.5 bg-neutral-900 text-white font-bold rounded-2xl hover:bg-neutral-800 transition-all duration-200 shadow-sm hover:shadow"
+            >
+              View More FAQs
+            </Link>
+          </div>
         </div>
       </div>
     </section>

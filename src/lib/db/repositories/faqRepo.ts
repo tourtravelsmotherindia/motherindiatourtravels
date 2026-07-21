@@ -3,9 +3,12 @@ import { prisma } from "@/lib/db/prisma";
 import type { FAQSectionData } from "@/types/faq";
 
 export async function getFAQSectionData(): Promise<FAQSectionData> {
-  return withBuildCache("faq-section", async () => {
+  return withBuildCache("faq-section-featured", async () => {
     const [faqs, section] = await Promise.all([
-      prisma.fAQ.findMany({ orderBy: { sortOrder: "asc" } }),
+      prisma.fAQ.findMany({
+        where: { isFeatured: true },
+        orderBy: { sortOrder: "asc" },
+      }),
       prisma.siteSection.findUnique({ where: { key: "faq" } }),
     ]);
 
@@ -22,5 +25,13 @@ export async function getFAQSectionData(): Promise<FAQSectionData> {
         sortOrder: f.sortOrder,
       })),
     };
+  });
+}
+
+export async function getAllFAQs() {
+  return withBuildCache("faq-all", async () => {
+    return prisma.fAQ.findMany({
+      orderBy: { sortOrder: "asc" },
+    });
   });
 }

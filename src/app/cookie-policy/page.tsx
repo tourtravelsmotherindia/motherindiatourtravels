@@ -132,6 +132,12 @@ export default async function CookiePolicyPage() {
           </p>
           <ul className="list-disc pl-5 space-y-2 mt-2">
             <li>
+              <strong>MapTiler Maps:</strong> We use MapTiler to display responsive and interactive
+              maps for our travel package destinations and our main contact office location.
+              MapTiler may process basic device metadata (such as IP addresses and browser headers)
+              for map tiles rendering and api usage monitoring.
+            </li>
+            <li>
               <strong>Google Analytics:</strong> We use Google Analytics (using tag ID{" "}
               <code>G-9R0JL5K333</code>) to monitor traffic statistics and device types. Google
               Analytics cookies trace user actions on our site but do not store identifiers like
