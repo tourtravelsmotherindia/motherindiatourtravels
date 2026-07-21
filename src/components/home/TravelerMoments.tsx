@@ -84,6 +84,7 @@ export default function TravelerMoments() {
       onNext={handleNext}
       prevAriaLabel="Previous testimonial"
       nextAriaLabel="Next testimonial"
+      className="hidden md:flex"
     />
   );
 
