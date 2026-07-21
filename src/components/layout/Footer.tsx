@@ -383,7 +383,7 @@ export default function Footer({
               href="/terms-of-service"
               className="hover:text-brand transition-colors duration-200"
             >
-              Terms & Conditions
+              Terms of Service
             </Link>
             <span className="text-neutral-300">|</span>
             <Link

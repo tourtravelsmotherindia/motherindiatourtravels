@@ -167,26 +167,23 @@ export default async function CookiePolicyPage() {
       id: "cookie-contact",
       title: "Contact Information",
       content: (
-        <>
-          <p>For questions about our Cookie Policy or how we use cookies, write to us at:</p>
-          <div className="mt-4 p-5 bg-neutral-50 rounded-2xl border border-neutral-100 space-y-2 text-sm text-neutral-800">
-            <p>
-              <strong>Company:</strong> Mother India Tour Travels
-            </p>
-            <p>
-              <strong>Address:</strong> B63/B63A, New Jankipuri, Uttam Nagar, New Delhi - 110059
-            </p>
-            <p>
-              <strong>Email:</strong>{" "}
-              <a
-                href="mailto:tourtravelsmotherindia@gmail.com"
-                className="text-brand hover:underline font-semibold"
-              >
-                tourtravelsmotherindia@gmail.com
-              </a>
-            </p>
-          </div>
-        </>
+        <p>
+          For questions about our Cookie Policy or how we use cookies, please feel free to{" "}
+          <a
+            href="/contact"
+            className="text-neutral-900 font-bold underline hover:text-neutral-700 transition-colors"
+          >
+            contact us
+          </a>{" "}
+          directly or email us at{" "}
+          <a
+            href="mailto:tourtravelsmotherindia@gmail.com"
+            className="text-neutral-900 font-bold underline hover:text-neutral-700 transition-colors"
+          >
+            tourtravelsmotherindia@gmail.com
+          </a>
+          .
+        </p>
       ),
     },
   ];

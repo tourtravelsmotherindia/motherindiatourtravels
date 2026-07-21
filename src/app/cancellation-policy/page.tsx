@@ -227,41 +227,24 @@ export default async function CancellationPolicyPage() {
       id: "cancellation-contact",
       title: "How to Request a Cancellation",
       content: (
-        <>
-          <p>
-            If you need to cancel a package, please reach out to us using the contact details below.
-            Our travel coordinators will guide you through the process, outline any penalties, and
-            initiate eligible refunds.
-          </p>
-          <div className="mt-4 p-5 bg-neutral-50 rounded-2xl border border-neutral-100 space-y-2 text-sm text-neutral-800">
-            <p>
-              <strong>Email Request:</strong>{" "}
-              <a
-                href="mailto:tourtravelsmotherindia@gmail.com"
-                className="text-brand hover:underline font-semibold"
-              >
-                tourtravelsmotherindia@gmail.com
-              </a>
-            </p>
-            <p>
-              <strong>Office Phone:</strong>{" "}
-              <a href="tel:+919810140121" className="text-brand hover:underline font-semibold">
-                +91 9810140121
-              </a>
-            </p>
-            <p>
-              <strong>WhatsApp Support:</strong>{" "}
-              <a
-                href="https://wa.me/919810140121"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-brand hover:underline font-semibold"
-              >
-                +91 9810140121
-              </a>
-            </p>
-          </div>
-        </>
+        <p>
+          If you need to cancel a package or request booking changes, please{" "}
+          <a
+            href="/contact"
+            className="text-neutral-900 font-bold underline hover:text-neutral-700 transition-colors"
+          >
+            contact us
+          </a>{" "}
+          directly or email our support desk at{" "}
+          <a
+            href="mailto:tourtravelsmotherindia@gmail.com"
+            className="text-neutral-900 font-bold underline hover:text-neutral-700 transition-colors"
+          >
+            tourtravelsmotherindia@gmail.com
+          </a>
+          . Our travel coordinators will guide you through the cancellation process and outline any
+          penalties or eligible refunds.
+        </p>
       ),
     },
   ];

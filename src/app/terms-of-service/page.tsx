@@ -4,9 +4,9 @@ import PolicyLayout from "@/components/layout/PolicyLayout";
 import { getCompanyData } from "@/lib/db/repositories/companyRepo";
 
 export const metadata = {
-  title: "Terms & Conditions | Mother India Tour Travels",
+  title: "Terms of Service | Mother India Tour Travels",
   description:
-    "Read the Terms and Conditions of Mother India Tour Travels. Understand the terms, guidelines, and policies governing our tour packages and services.",
+    "Read the Terms of Service of Mother India Tour Travels. Understand the terms, guidelines, and policies governing our tour packages and services.",
 };
 
 export default async function TermsOfServicePage() {
@@ -355,7 +355,7 @@ export default async function TermsOfServicePage() {
             If you are not comfortable with this, please drop an email to{" "}
             <a
               href="mailto:tourtravelsmotherindia@gmail.com"
-              className="text-brand hover:underline font-semibold"
+              className="text-neutral-900 font-bold underline hover:text-neutral-700 transition-colors"
             >
               tourtravelsmotherindia@gmail.com
             </a>
@@ -383,11 +383,11 @@ export default async function TermsOfServicePage() {
   ];
 
   const introText =
-    "Welcome to Mother India Tour Travels. By availing of our services, booking tour packages, or browsing our website, you agree to comply with and be bound by the following Terms & Conditions. Please read them carefully before finalizing your bookings.";
+    "Welcome to Mother India Tour Travels. By availing of our services, booking tour packages, or browsing our website, you agree to comply with and be bound by the following Terms of Service. Please read them carefully before finalizing your bookings.";
 
   return (
     <PolicyLayout
-      title="Terms & Conditions"
+      title="Terms of Service"
       lastUpdated="July 21st, 2026"
       introText={introText}
       sections={sections}

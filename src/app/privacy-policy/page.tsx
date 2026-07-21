@@ -249,7 +249,7 @@ export default async function PrivacyPolicyPage() {
             To submit a request, please send an email to our support team at{" "}
             <a
               href="mailto:tourtravelsmotherindia@gmail.com"
-              className="text-brand hover:underline font-semibold"
+              className="text-neutral-900 font-bold underline hover:text-neutral-700 transition-colors"
             >
               tourtravelsmotherindia@gmail.com
             </a>
@@ -279,39 +279,24 @@ export default async function PrivacyPolicyPage() {
       id: "contact-us",
       title: "Contact Us",
       content: (
-        <>
-          <p>
-            If you have any questions, feedback, or concerns regarding our Privacy Policy or data
-            handling procedures, feel free to contact us:
-          </p>
-          <div className="mt-4 p-5 bg-neutral-50 rounded-2xl border border-neutral-100 space-y-2 text-sm text-neutral-800">
-            <p>
-              <strong>Company:</strong> Mother India Tour Travels
-            </p>
-            <p>
-              <strong>Address:</strong> B63/B63A, New Jankipuri, Uttam Nagar, New Delhi - 110059
-            </p>
-            <p>
-              <strong>Email:</strong>{" "}
-              <a
-                href="mailto:tourtravelsmotherindia@gmail.com"
-                className="text-brand hover:underline font-semibold"
-              >
-                tourtravelsmotherindia@gmail.com
-              </a>
-            </p>
-            <p>
-              <strong>Phone/WhatsApp:</strong>{" "}
-              <a href="tel:+919810140121" className="text-brand hover:underline font-semibold">
-                +91 9810140121
-              </a>{" "}
-              |{" "}
-              <a href="tel:+919971053881" className="text-brand hover:underline font-semibold">
-                +91 9971053881
-              </a>
-            </p>
-          </div>
-        </>
+        <p>
+          If you have any questions, feedback, or concerns regarding our Privacy Policy or data
+          handling procedures, please feel free to{" "}
+          <a
+            href="/contact"
+            className="text-neutral-900 font-bold underline hover:text-neutral-700 transition-colors"
+          >
+            contact us
+          </a>{" "}
+          directly or email us at{" "}
+          <a
+            href="mailto:tourtravelsmotherindia@gmail.com"
+            className="text-neutral-900 font-bold underline hover:text-neutral-700 transition-colors"
+          >
+            tourtravelsmotherindia@gmail.com
+          </a>
+          .
+        </p>
       ),
     },
   ];

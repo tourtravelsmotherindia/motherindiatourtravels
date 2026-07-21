@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "workers": "concurrently \"npm --prefix cloudflare/api-worker run dev -- --port 8787 --inspector-port 9229\" \"npm --prefix cloudflare/images-worker run dev -- --port 7878 --inspector-port 9230\"",
-    "build": "npx prisma generate && npx prisma migrate deploy && next build",
-    "build:static": "npx prisma generate && npx prisma migrate deploy && next build",
+    "build": "npx prisma generate && next build",
+    "build:static": "npx prisma generate && next build",
     "start": "next start",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

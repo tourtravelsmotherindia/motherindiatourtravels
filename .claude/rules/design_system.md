@@ -57,6 +57,10 @@ This project uses a **two-font system** loaded in `src/app/layout.tsx`:
 | `border-light`       | Card borders, input borders, dividers, filter box outlines                      | Active/selected state borders (use `brand` instead)                     |
 | `brand-light`        | Tag backgrounds, badge fills, decorative card accent areas                      | Text color (insufficient contrast on white)                             |
 
+### Summary & Overview Contrast Rule
+
+- **Page Descriptions / Introduction Summaries / Overview Blocks:** For text blocks that serve as section summaries, intro texts, package descriptions, or page overview callouts (such as policy summaries or package itinerary overviews), **always use `text-neutral-900`** instead of greyish classes like `text-neutral-500` or `text-muted`. This ensures optimal visual contrast and maximum readability.
+
 ### Orange Accent Limitation (Strict)
 
 The brand orange (`#E05423` / `--brand`) is **only for interactive, action-oriented elements**.
