@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { MessageCircle, X } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { type CompanyData } from "@/types/company";
@@ -11,6 +12,7 @@ interface HelpFloatingButtonProps {
 }
 
 export default function HelpFloatingButton({ companyData }: HelpFloatingButtonProps) {
+  const pathname = usePathname();
   const [isHovered, setIsHovered] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -19,7 +21,9 @@ export default function HelpFloatingButton({ companyData }: HelpFloatingButtonPr
     setMounted(true);
   }, []);
 
-  if (!mounted || !companyData) return null;
+  const isVariantPage = pathname ? /^\/packages\/[^/]+\/[^/]+/.test(pathname) : false;
+
+  if (!mounted || !companyData || isVariantPage) return null;
 
   const rawWhatsapp = companyData.whatsappNumber || "";
   const rawMessenger = companyData.messengerNumber || "";

@@ -591,7 +591,7 @@ export default function PackageDetailClient({
               {/* Book Now button routing directly to nested booking page */}
               <Link
                 href={`/packages/${packageData.slug}/${activeVariant.slug}/book`}
-                className="block w-full bg-brand hover:bg-brand-hover text-white font-semibold text-xs tracking-wider uppercase py-4 rounded-full transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer text-center select-none border-none outline-none active:scale-98"
+                className="hidden lg:block w-full bg-brand hover:bg-brand-hover text-white font-semibold text-xs tracking-wider uppercase py-4 rounded-full transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer text-center select-none border-none outline-none active:scale-98"
               >
                 Book Now
               </Link>
@@ -656,7 +656,7 @@ export default function PackageDetailClient({
         </section>
 
         {/* MOBILE STICKY BOTTOM BAR */}
-        <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-white/95 backdrop-blur-md border-t border-neutral-200/80 lg:hidden flex items-center gap-3 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+        <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-white/80 backdrop-blur-md border-t border-neutral-200/40 lg:hidden flex items-center gap-3 shadow-[0_-8px_30px_rgba(0,0,0,0.06)] rounded-t-[2.2rem]">
           <button
             type="button"
             onClick={() => toggleFavorite(packageData.slug)}
