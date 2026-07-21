@@ -123,8 +123,8 @@ export default function FAQsClient({
                       }}
                       className={`text-left py-2.5 px-4 rounded-xl transition-all duration-200 ${
                         isActive
-                          ? "bg-neutral-900 text-white"
-                          : "text-neutral-700 hover:bg-neutral-100 hover:text-neutral-900"
+                          ? "bg-neutral-100/90 text-black font-semibold"
+                          : "text-neutral-700 hover:bg-neutral-50/90 hover:text-black font-semibold"
                       }`}
                     >
                       {cat}
@@ -146,8 +146,8 @@ export default function FAQsClient({
                       }}
                       className={`snap-center shrink-0 py-2 px-4 rounded-full text-sm font-semibold transition-all duration-200 ${
                         isActive
-                          ? "bg-neutral-900 text-white"
-                          : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
+                          ? "bg-neutral-100/90 text-black border border-transparent"
+                          : "bg-white text-neutral-700 hover:bg-neutral-50/90 hover:text-black border border-neutral-200"
                       }`}
                     >
                       {cat}
@@ -169,7 +169,7 @@ export default function FAQsClient({
                     setSearchQuery(e.target.value);
                     setActiveIndex(null);
                   }}
-                  className="w-full pl-12 pr-4 py-4 bg-neutral-50 border border-neutral-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-neutral-950 focus:border-transparent transition-all duration-200 text-neutral-900 font-medium placeholder-neutral-400"
+                  className="w-full pl-12 pr-4 py-4 bg-neutral-50 border border-neutral-200 rounded-2xl focus:outline-none focus:border-neutral-300 transition-all duration-200 text-neutral-900 font-medium placeholder-neutral-400"
                 />
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 w-5 h-5" />
               </div>
@@ -181,14 +181,14 @@ export default function FAQsClient({
                     const isOpen = activeIndex === faq.id;
                     const trigger = (
                       <div className="w-full px-6 py-5 flex items-center justify-between text-left group">
-                        <span className="text-base md:text-lg font-bold text-neutral-900 tracking-tight transition-colors duration-200 group-hover:text-neutral-800">
+                        <span className="text-sm md:text-base font-semibold text-gray-800 tracking-tight transition-colors duration-200 group-hover:text-brand">
                           {faq.question}
                         </span>
                         <span
                           className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 shrink-0 ml-4 ${
                             isOpen
-                              ? "bg-neutral-900 text-white"
-                              : "bg-neutral-50 text-neutral-800 group-hover:bg-neutral-100"
+                              ? "bg-brand text-white"
+                              : "bg-gray-50 text-gray-800 group-hover:bg-gray-100"
                           }`}
                         >
                           <ArrowDown
@@ -207,9 +207,9 @@ export default function FAQsClient({
                         onToggle={() => toggleAccordion(faq.id)}
                         trigger={trigger}
                         duration={0.25}
-                        className="bg-white border border-neutral-200 rounded-2xl transition-all duration-300 overflow-hidden shadow-sm hover:shadow-md"
+                        className="bg-white border border-border-light rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.01)] transition-all duration-300 overflow-hidden"
                       >
-                        <div className="px-6 pb-6 text-base text-neutral-900 leading-relaxed pt-2 border-t border-neutral-100">
+                        <div className="px-6 pb-6 text-sm text-gray-500 leading-relaxed pt-2 border-t border-border-light/60">
                           {faq.answer}
                         </div>
                       </AccordionItem>

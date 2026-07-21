@@ -45,7 +45,21 @@ export default function FAQ({
             Didn&apos;t see your question?
           </h4>
           <p className="text-sm text-gray-500 leading-relaxed font-normal">
-            Our team is here to help &mdash; just reach out and we&apos;ll reply shortly.
+            See more{" "}
+            <Link
+              href="/faqs"
+              className="text-neutral-900 font-bold underline hover:text-brand transition-colors duration-200"
+            >
+              FAQs
+            </Link>{" "}
+            or Our team is here to help &mdash; just{" "}
+            <Link
+              href="/contact"
+              className="text-neutral-900 font-bold underline hover:text-brand transition-colors duration-200"
+            >
+              reach out
+            </Link>{" "}
+            and we&apos;ll reply shortly.
           </p>
         </div>
       </div>
@@ -99,16 +113,6 @@ export default function FAQ({
               </AccordionItem>
             );
           })}
-
-          {/* View More FAQs Button */}
-          <div className="mt-4 text-left">
-            <Link
-              href="/faqs"
-              className="inline-flex items-center justify-center px-6 py-3.5 bg-neutral-900 text-white font-bold rounded-2xl hover:bg-neutral-800 transition-all duration-200 shadow-sm hover:shadow"
-            >
-              View More FAQs
-            </Link>
-          </div>
         </div>
       </div>
     </section>
