@@ -371,6 +371,32 @@ export default function Footer({
               </>
             )}
           </div>
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs font-medium text-neutral-500">
+            <Link
+              href="/privacy-policy"
+              className="hover:text-brand transition-colors duration-200"
+            >
+              Privacy Policy
+            </Link>
+            <span className="text-neutral-300">|</span>
+            <Link
+              href="/terms-of-service"
+              className="hover:text-brand transition-colors duration-200"
+            >
+              Terms & Conditions
+            </Link>
+            <span className="text-neutral-300">|</span>
+            <Link
+              href="/cancellation-policy"
+              className="hover:text-brand transition-colors duration-200"
+            >
+              Cancellation Policy
+            </Link>
+            <span className="text-neutral-300">|</span>
+            <Link href="/cookie-policy" className="hover:text-brand transition-colors duration-200">
+              Cookie Policy
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
