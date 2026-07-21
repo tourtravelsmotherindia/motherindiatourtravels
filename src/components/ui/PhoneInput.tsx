@@ -116,7 +116,7 @@ export default function PhoneInput({
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search country/code..."
-                  className="w-full border border-neutral-100 bg-neutral-50/50 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-brand/35 mb-2 placeholder-neutral-400 font-sans text-neutral-800"
+                  className="w-full border border-neutral-200 bg-neutral-50/50 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-neutral-300 mb-2 placeholder-neutral-400 font-sans text-neutral-800"
                 />
                 <div className="max-h-48 overflow-y-auto flex flex-col gap-0.5 pr-1 dropdown-scrollbar select-none">
                   {filteredCountries.length > 0 ? (

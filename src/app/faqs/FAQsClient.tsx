@@ -160,7 +160,7 @@ export default function FAQsClient({
             {/* Content Column - Search Input & FAQ Accordions */}
             <div className="lg:col-span-9">
               {/* Search Box */}
-              <div className="relative mb-8 shadow-sm rounded-2xl">
+              <div className="relative mb-8">
                 <input
                   type="text"
                   placeholder="Search questions or keywords..."
@@ -169,7 +169,7 @@ export default function FAQsClient({
                     setSearchQuery(e.target.value);
                     setActiveIndex(null);
                   }}
-                  className="w-full pl-12 pr-4 py-4 bg-neutral-50 border border-neutral-200 rounded-2xl focus:outline-none focus:border-neutral-300 transition-all duration-200 text-neutral-900 font-medium placeholder-neutral-400"
+                  className="w-full pl-12 pr-4 py-4 bg-white border border-neutral-200 rounded-2xl focus:outline-none focus:border-neutral-300 transition-all duration-200 text-neutral-900 font-medium placeholder-neutral-400"
                 />
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 w-5 h-5" />
               </div>

@@ -164,7 +164,7 @@ function DestinationsContent({
           align="left"
         />
 
-        <div className="bg-neutral-50/80 border border-neutral-200/50 rounded-3xl p-5 md:p-6 mb-10 flex flex-col gap-4 shadow-sm">
+        <div className="bg-neutral-50/50 border border-neutral-200/50 rounded-3xl p-5 md:p-6 mb-10 flex flex-col gap-4">
           {/* Main Search Row */}
           <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center">
             {/* Search Input */}
@@ -178,7 +178,7 @@ function DestinationsContent({
                   setSearchQuery(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="w-full bg-white border border-neutral-200 rounded-full pl-11 pr-5 py-3 text-sm focus:outline-none focus:border-brand/40 focus:ring-1 focus:ring-brand/40 transition-all duration-300 font-semibold text-neutral-600 placeholder:text-neutral-400"
+                className="w-full bg-white border border-neutral-200 rounded-full pl-11 pr-5 py-3 text-sm focus:outline-none focus:border-neutral-300 transition-all duration-300 font-semibold text-neutral-600 placeholder:text-neutral-400"
               />
               {searchQuery && (
                 <button
