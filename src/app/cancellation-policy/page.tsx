@@ -83,7 +83,7 @@ export default async function CancellationPolicyPage() {
             <li>
               <strong>Refundable Hotels:</strong> For hotels designated as &quot;Refundable&quot; on
               your travel vouchers, refunds and their respective timelines will be processed
-              according to the hotel&apos;s specific terms.
+              according to the hotel{"'"}s specific terms.
             </li>
             <li>
               <strong>Non-Refundable Hotels:</strong> If a hotel is marked as
@@ -113,14 +113,14 @@ export default async function CancellationPolicyPage() {
       content: (
         <>
           <p>
-            Airfare cancellations and modifications are governed solely by the respective
-            airline&apos;s fare rules and cancellation policy:
+            Airfare cancellations and modifications are governed solely by the respective airline
+            {"'"}s fare rules and cancellation policy:
           </p>
           <ul className="list-disc pl-5 space-y-2 mt-2">
             <li>
               <strong>Non-Refundable Flights:</strong> On cancelling flights marked as
-              &quot;Non-Refundable&quot; on the final travel vouchers, customers will be eligible
-              for a zero refund.
+              {'"'}Non-Refundable{'"'} on the final travel vouchers, customers will be eligible for
+              a zero refund.
             </li>
             <li>
               <strong>Refundable Flights:</strong> For flights marked as &quot;Refundable&quot;, the

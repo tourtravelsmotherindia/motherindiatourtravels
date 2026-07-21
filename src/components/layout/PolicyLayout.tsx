@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 
 import { type CompanyData } from "@/types/company";
 
+import Breadcrumbs from "./Breadcrumbs";
 import PageShell from "./PageShell";
 
 interface PolicySection {
@@ -59,8 +60,12 @@ export default function PolicyLayout({
       <div id="top" className="absolute top-0 left-0 w-full h-px" />
 
       <div className="py-12 md:py-20 font-sans">
-        {/* Header Section */}
-        <div className="layout-container text-center mb-12 md:mb-16">
+        {/* Header Section (Left-aligned, consistent with About Us page) */}
+        <div className="layout-container text-left mb-12 md:mb-16">
+          <Breadcrumbs
+            items={[{ label: "Home", href: "/" }, { label: title }]}
+            variant="brackets"
+          />
           <h1 className="text-4xl md:text-5xl font-extrabold text-neutral-900 tracking-tight mb-4 leading-tight">
             {title}
           </h1>
@@ -74,23 +79,22 @@ export default function PolicyLayout({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
             {/* Left Column: Intro + Main Content */}
             <div className="lg:col-span-8">
-              {/* Large Intro Paragraph */}
-              <div className="text-lg md:text-xl text-neutral-700 font-medium leading-relaxed mb-12 border-l-4 border-brand pl-6">
+              {/* Large Intro Paragraph - No brand orange text or highlights */}
+              <div className="text-lg md:text-xl text-neutral-700 font-medium leading-relaxed mb-12 border-l-4 border-neutral-200 pl-6">
                 {introText}
               </div>
 
-              {/* Table of Contents - Mobile Only */}
-              <div className="block lg:hidden mb-10 bg-brand-light/35 border border-brand-light/70 p-6 md:p-8 rounded-[2rem] shadow-premium">
+              {/* Table of Contents - Mobile Only (Clean text list, no orange/cream bg cards) */}
+              <div className="block lg:hidden mb-10 py-2 border-t border-b border-neutral-100">
                 <h2 className="text-sm font-bold text-neutral-900 uppercase tracking-widest mb-4">
                   Table of contents
                 </h2>
-                <div className="w-full h-px bg-neutral-200/80 mb-5" />
-                <ol className="space-y-3.5 list-decimal list-inside text-sm text-neutral-700 font-medium">
+                <ol className="space-y-3.5 list-decimal list-inside text-sm text-neutral-600 font-medium">
                   {sections.map((sec) => (
-                    <li key={sec.id}>
+                    <li key={sec.id} className="text-neutral-500">
                       <a
                         href={`#${sec.id}`}
-                        className="hover:text-brand transition-colors hover:underline underline-offset-4 decoration-brand/35 text-neutral-800"
+                        className="hover:text-neutral-900 transition-colors hover:underline underline-offset-4 decoration-neutral-300 text-neutral-600"
                       >
                         {sec.title}
                       </a>
@@ -99,18 +103,12 @@ export default function PolicyLayout({
                 </ol>
               </div>
 
-              {/* Main Content Sections */}
+              {/* Main Content Sections (No gray line dividers between sections) */}
               <div className="space-y-12">
                 {sections.map((sec) => (
-                  <section
-                    key={sec.id}
-                    id={sec.id}
-                    className="scroll-mt-28 border-b border-neutral-100 pb-8 last:border-0 last:pb-0"
-                  >
-                    <h2 className="text-2xl font-bold text-neutral-900 mb-5 flex gap-2">
-                      <span className="text-brand font-display font-black">#</span>
-                      {sec.title}
-                    </h2>
+                  <section key={sec.id} id={sec.id} className="scroll-mt-28 pb-4">
+                    {/* Section Title - No hashtags (#) and no brand orange text */}
+                    <h2 className="text-2xl font-bold text-neutral-900 mb-5">{sec.title}</h2>
                     <div className="prose prose-neutral max-w-none text-neutral-600 leading-relaxed font-medium text-sm md:text-base space-y-4">
                       {sec.content}
                     </div>
@@ -119,42 +117,40 @@ export default function PolicyLayout({
               </div>
             </div>
 
-            {/* Right Column: Sticky Table of Contents - Desktop Only */}
-            <div className="hidden lg:block lg:col-span-4 sticky top-28">
-              <div className="bg-brand-light/35 backdrop-blur-md border border-brand-light/60 p-8 rounded-[2.5rem] shadow-premium">
-                <h2 className="text-xs font-bold text-neutral-800 uppercase tracking-widest mb-4">
-                  Table of contents
-                </h2>
-                <div className="w-full h-px bg-neutral-200/80 mb-5" />
-                <ol className="space-y-3.5 list-decimal list-inside text-sm text-neutral-600 font-semibold">
-                  {sections.map((sec) => {
-                    const isActive = activeId === sec.id;
-                    return (
-                      <li key={sec.id}>
-                        <a
-                          href={`#${sec.id}`}
-                          className={`hover:text-brand transition-all duration-200 underline-offset-4 decoration-brand/35 ${
-                            isActive
-                              ? "text-brand font-bold underline"
-                              : "text-neutral-600 hover:underline"
-                          }`}
-                        >
-                          {sec.title}
-                        </a>
-                      </li>
-                    );
-                  })}
-                </ol>
-                <div className="w-full h-px bg-neutral-200/80 mt-6 mb-4" />
-                <button
-                  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                  className="flex items-center gap-2 text-xs font-bold text-neutral-500 hover:text-brand transition-colors cursor-pointer group"
-                >
-                  <span className="group-hover:-translate-y-0.5 transition-transform duration-200">
-                    Back to top ↑
-                  </span>
-                </button>
-              </div>
+            {/* Right Column: Sticky Table of Contents - Desktop Only (No orange/cream bg cards, plain text list) */}
+            <div className="hidden lg:block lg:col-span-4 sticky top-28 pl-4">
+              <h2 className="text-xs font-bold text-neutral-900 uppercase tracking-widest mb-4">
+                Table of contents
+              </h2>
+              <div className="w-full h-px bg-neutral-200 mb-5" />
+              <ol className="space-y-3.5 list-decimal list-inside text-sm font-medium">
+                {sections.map((sec) => {
+                  const isActive = activeId === sec.id;
+                  return (
+                    <li key={sec.id} className="text-neutral-400">
+                      <a
+                        href={`#${sec.id}`}
+                        className={`transition-all duration-200 underline-offset-4 decoration-neutral-300 ${
+                          isActive
+                            ? "text-neutral-900 font-bold underline"
+                            : "text-neutral-500 hover:text-neutral-900 hover:underline"
+                        }`}
+                      >
+                        {sec.title}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ol>
+              <div className="w-full h-px bg-neutral-200 mt-6 mb-4" />
+              <button
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                className="flex items-center gap-2 text-xs font-bold text-neutral-500 hover:text-neutral-900 transition-colors cursor-pointer group"
+              >
+                <span className="group-hover:-translate-y-0.5 transition-transform duration-200">
+                  Back to top ↑
+                </span>
+              </button>
             </div>
           </div>
         </div>

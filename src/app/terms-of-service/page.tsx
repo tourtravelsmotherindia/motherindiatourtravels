@@ -20,22 +20,22 @@ export default async function TermsOfServicePage() {
         <>
           <p>
             This agreement (user agreement) incorporates the terms and conditions for Mother India
-            Tour Travels to provide services to the person(s) (&apos;the User&apos;) intending to
-            purchase or inquiring for any products and/or services of Mother India Tour Travels by
-            using our website (https://www.motherindiatourtravels.com) or using any other customer
-            interface channels which includes our sales team, office locations, call centers,
-            advertisements, or information campaigns.
+            Tour Travels to provide services to the person(s) ({"'the User'"}) intending to purchase
+            or inquiring for any products and/or services of Mother India Tour Travels by using our
+            website (https://www.motherindiatourtravels.com) or using any other customer interface
+            channels which includes our sales team, office locations, call centers, advertisements,
+            or information campaigns.
           </p>
           <p>
-            Both the User and Mother India Tour Travels are individually referred to as a
-            &apos;party&apos; to this agreement and collectively as the &apos;parties&apos;.
+            Both the User and Mother India Tour Travels are individually referred to as a{"'party'"}{" "}
+            to this agreement and collectively as the {"'parties'"}.
           </p>
         </>
       ),
     },
     {
       id: "user-responsibility",
-      title: "User&apos;s Responsibility of Cognizance",
+      title: "User's Responsibility of Cognizance",
       content: (
         <>
           <p>
@@ -343,7 +343,7 @@ export default async function TermsOfServicePage() {
     },
     {
       id: "holiday-pictures",
-      title: "Usage of Customer&apos;s Holiday Pictures",
+      title: "Usage of Customer's Holiday Pictures",
       content: (
         <>
           <p>
