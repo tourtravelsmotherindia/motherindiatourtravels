@@ -603,11 +603,19 @@ export const ADMIN_TABLES: Record<string, TableConfig> = {
     dbName: "FAQ",
     icon: "HelpCircle",
     searchField: "question",
-    displayColumns: ["question", "sortOrder"],
+    displayColumns: ["question", "sortOrder", "isFeatured"],
     fields: [
       { name: "question", label: "Question", type: "text", required: true },
       { name: "answer", label: "Answer Detail", type: "textarea", required: true },
       { name: "sortOrder", label: "Sort Order", type: "number", defaultValue: 0 },
+      {
+        name: "isFeatured",
+        label: "Featured on Homepage",
+        type: "boolean",
+        defaultValue: false,
+        trueLabel: "Featured",
+        falseLabel: "Standard",
+      },
     ],
   },
   "gallery-images": {
