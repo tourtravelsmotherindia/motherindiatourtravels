@@ -656,27 +656,33 @@ export default function PackageDetailClient({
         </section>
 
         {/* MOBILE STICKY BOTTOM BAR */}
-        <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-white/80 backdrop-blur-md border-t border-neutral-200/40 lg:hidden flex items-center gap-3 shadow-[0_-8px_30px_rgba(0,0,0,0.06)] rounded-t-[2.2rem]">
-          <button
-            type="button"
-            onClick={() => toggleFavorite(packageData.slug)}
-            className="w-12 h-12 rounded-full border border-neutral-300 bg-white flex items-center justify-center text-neutral-700 hover:border-neutral-400 transition-all shrink-0 cursor-pointer shadow-xs active:scale-90"
-            aria-label="Toggle Wishlist"
-          >
-            <Heart
-              className={`w-5 h-5 transition-all duration-300 ${
-                isFavorite(packageData.slug)
-                  ? "fill-red-500 text-red-500 stroke-red-500"
-                  : "text-neutral-600 stroke-neutral-600"
-              }`}
-            />
-          </button>
-          <Link
-            href={`/packages/${packageData.slug}/${activeVariant.slug}/book`}
-            className="flex-1 bg-brand hover:bg-brand-hover text-white font-bold text-sm tracking-wide py-3.5 px-6 rounded-full transition-all duration-300 shadow-md cursor-pointer text-center select-none active:scale-98"
-          >
-            Book now
-          </Link>
+        <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden pointer-events-none">
+          {/* Smooth gradient blur overlay extending upwards */}
+          <div className="h-10 w-full bg-gradient-to-t from-white via-white/80 to-transparent backdrop-blur-[1.5px]" />
+
+          {/* Solid white bottom action container */}
+          <div className="bg-white px-4 pb-5 pt-0.5 flex items-center gap-3 pointer-events-auto">
+            <button
+              type="button"
+              onClick={() => toggleFavorite(packageData.slug)}
+              className="w-12 h-12 rounded-full border border-neutral-300/80 bg-white flex items-center justify-center text-neutral-700 transition-all shrink-0 cursor-pointer shadow-xs active:scale-90"
+              aria-label="Toggle Wishlist"
+            >
+              <Heart
+                className={`w-5.5 h-5.5 transition-all duration-300 ${
+                  isFavorite(packageData.slug)
+                    ? "fill-red-500 text-red-500 stroke-red-500"
+                    : "text-neutral-600 stroke-neutral-600"
+                }`}
+              />
+            </button>
+            <Link
+              href={`/packages/${packageData.slug}/${activeVariant.slug}/book`}
+              className="flex-1 bg-brand hover:bg-brand-hover text-white font-bold text-sm tracking-wide py-3.5 px-6 rounded-full transition-all duration-300 shadow-sm cursor-pointer text-center select-none active:scale-98"
+            >
+              Book now
+            </Link>
+          </div>
         </div>
       </div>
     </PageShell>
