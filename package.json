@@ -12,7 +12,8 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "db:reset": "npx prisma migrate reset",
+    "db:reset": "npx prisma migrate reset || npx tsx scripts/db-reset-seed.ts",
+    "db:fallback": "npx tsx scripts/db-reset-seed.ts",
     "db:seed": "npx prisma db seed",
     "postinstall": "prisma generate"
   },
