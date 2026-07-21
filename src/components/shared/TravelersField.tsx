@@ -203,8 +203,8 @@ export default function TravelersField({
         className="flex flex-col gap-2 cursor-pointer select-none"
         onClick={() => setActiveDropdown(active ? null : "guests")}
       >
-        <span className="text-xs font-semibold text-neutral-500 ml-1">Travelers</span>
-        <div className="w-full bg-white border border-neutral-200 rounded-full px-5 py-3 text-sm font-semibold text-foreground hover:border-brand/40 focus-within:border-brand transition-all duration-200 flex items-center gap-2.5 min-h-[46px]">
+        <span className="text-xs font-semibold text-neutral-800 ml-1">Travelers</span>
+        <div className="w-full bg-white border border-neutral-200 rounded-full px-5 py-3 text-sm font-semibold text-neutral-800 hover:border-brand/40 focus-within:border-brand transition-all duration-200 flex items-center gap-2.5 min-h-[46px]">
           <Users className="w-4 h-4 text-neutral-400 shrink-0" />
           <span className="truncate">{formatTravelersSummary()}</span>
         </div>

@@ -213,7 +213,7 @@ export default function BookClient({
             <br />
             <span className="text-brand font-display">{pkgName}</span>
           </h1>
-          <p className="text-neutral-500 font-sans text-sm sm:text-base leading-relaxed max-w-lg mt-4 font-medium">
+          <p className="text-neutral-800 font-sans text-sm sm:text-base leading-relaxed max-w-lg mt-4 font-medium">
             Please provide your contact information and travel coordinates. Our tour specialists
             will tailor the package itinerary and revert with customized coordinates.
           </p>
@@ -294,7 +294,7 @@ export default function BookClient({
               {/* Rooms & Hotel Category Row */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div className="relative flex flex-col gap-2">
-                  <span className="text-xs font-semibold text-neutral-500 ml-1">
+                  <span className="text-xs font-semibold text-neutral-800 ml-1">
                     Hotel Type / Category
                   </span>
                   <Dropdown
@@ -302,14 +302,14 @@ export default function BookClient({
                     value={hotelCategory}
                     onChange={(val) => setHotelCategory(val)}
                     align="left"
-                    triggerClassName="w-full border border-neutral-200 hover:border-brand/40 transition-all duration-200 py-3 lg:py-3 text-sm font-semibold text-foreground bg-white"
+                    triggerClassName="w-full border border-neutral-200 hover:border-brand/40 transition-all duration-200 py-3 lg:py-3 text-sm font-semibold text-neutral-800 bg-white"
                     menuClassName="w-full rounded-2xl p-1"
                     icon={Hotel}
                   />
                 </div>
 
                 <div className="relative flex flex-col gap-2">
-                  <span className="text-xs font-semibold text-neutral-500 ml-1">Rooms</span>
+                  <span className="text-xs font-semibold text-neutral-800 ml-1">Rooms</span>
                   <Dropdown
                     options={[
                       { value: "1", label: "1 Room" },
@@ -326,7 +326,7 @@ export default function BookClient({
                     value={String(rooms)}
                     onChange={(val) => setRooms(Number(val))}
                     align="left"
-                    triggerClassName="w-full border border-neutral-200 hover:border-brand/40 transition-all duration-200 py-3 lg:py-3 text-sm font-semibold text-foreground bg-white"
+                    triggerClassName="w-full border border-neutral-200 hover:border-brand/40 transition-all duration-200 py-3 lg:py-3 text-sm font-semibold text-neutral-800 bg-white"
                     menuClassName="w-full rounded-2xl p-1"
                     icon={Bed}
                   />
@@ -396,17 +396,17 @@ export default function BookClient({
                 </div>
 
                 <div className="flex flex-col gap-2.5 font-sans mt-2">
-                  <div className="flex items-center justify-between text-xs font-semibold text-neutral-500 border-b border-neutral-100 pb-2">
+                  <div className="flex items-center justify-between text-xs font-semibold text-neutral-800 border-b border-neutral-100 pb-2">
                     <span>Tour Style</span>
                     <span className="text-neutral-800 font-bold uppercase">{tourStyle}</span>
                   </div>
-                  <div className="flex items-center justify-between text-xs font-semibold text-neutral-500 border-b border-neutral-100 pb-2">
+                  <div className="flex items-center justify-between text-xs font-semibold text-neutral-800 border-b border-neutral-100 pb-2">
                     <span>Duration</span>
                     <span className="text-neutral-800 font-bold">
                       {activeVariant.days} Days / {activeVariant.nights} Nights
                     </span>
                   </div>
-                  <div className="flex items-center justify-between text-xs font-semibold text-neutral-500 pb-1">
+                  <div className="flex items-center justify-between text-xs font-semibold text-neutral-800 pb-1">
                     <span>Pricing</span>
                     <span className="text-brand font-extrabold font-display text-sm leading-none">
                       Price On Request
@@ -421,7 +421,7 @@ export default function BookClient({
               <h4 className="font-bold text-neutral-800 font-display text-sm md:text-base">
                 Why book with us?
               </h4>
-              <ul className="flex flex-col gap-3 font-semibold text-neutral-600">
+              <ul className="flex flex-col gap-3 font-semibold text-neutral-800">
                 <li className="flex items-center gap-2">
                   <Check className="w-4.5 h-4.5 text-brand shrink-0 stroke-[2.5]" />
                   <span>100% Tailored itineraries</span>
@@ -445,7 +445,7 @@ export default function BookClient({
             <div className="bg-neutral-50/50 border border-border-light rounded-[2rem] p-6 text-center">
               <HelpCircle className="w-6 h-6 text-neutral-400 mx-auto mb-3" />
               <h4 className="font-bold text-foreground text-base mb-2">Need Help Planning?</h4>
-              <p className="text-xs text-neutral-500 font-medium leading-relaxed mb-4">
+              <p className="text-xs text-neutral-800 font-medium leading-relaxed mb-4">
                 Talk to our travel specialists for custom itineraries, group discounts, or special
                 requirements.
               </p>

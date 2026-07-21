@@ -88,7 +88,7 @@ export default function PhoneInput({
 
   return (
     <div className="flex flex-col gap-2 w-full">
-      <label htmlFor={id} className="text-xs font-semibold text-neutral-500 ml-1">
+      <label htmlFor={id} className="text-xs font-semibold text-neutral-800 ml-1">
         {label}
       </label>
       <div className="flex gap-2">
@@ -96,10 +96,10 @@ export default function PhoneInput({
           <button
             type="button"
             onClick={() => setIsOpen(!isOpen)}
-            className="flex items-center justify-between gap-1 w-26 bg-white border border-neutral-200 rounded-full px-3.5 py-3 text-sm font-semibold text-neutral-700 hover:border-neutral-300 hover:bg-neutral-50/50 cursor-pointer transition-all duration-200 h-[46px]"
+            className="flex items-center justify-between gap-1 w-26 bg-white border border-neutral-200 rounded-full px-3.5 py-3 text-sm font-semibold text-neutral-800 hover:border-neutral-300 hover:bg-neutral-50/50 cursor-pointer transition-all duration-200 h-[46px]"
           >
             <span className="text-base leading-none select-none">{selectedFlag}</span>
-            <span className="text-xs">{selectedDialCode}</span>
+            <span className="text-xs text-neutral-800">{selectedDialCode}</span>
           </button>
 
           <AnimatePresence>
@@ -116,7 +116,7 @@ export default function PhoneInput({
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search country/code..."
-                  className="w-full border border-neutral-100 bg-neutral-50/50 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-brand/35 mb-2 placeholder-neutral-400 font-sans text-foreground"
+                  className="w-full border border-neutral-100 bg-neutral-50/50 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-brand/35 mb-2 placeholder-neutral-400 font-sans text-neutral-800"
                 />
                 <div className="max-h-48 overflow-y-auto flex flex-col gap-0.5 pr-1 dropdown-scrollbar select-none">
                   {filteredCountries.length > 0 ? (
@@ -132,7 +132,7 @@ export default function PhoneInput({
                         className={`flex items-center justify-between w-full px-2.5 py-2 text-xs font-semibold rounded-lg cursor-pointer transition-colors text-left ${
                           selectedCode === c.code
                             ? "bg-brand-light text-brand"
-                            : "text-neutral-700 hover:bg-neutral-50"
+                            : "text-neutral-800 hover:bg-neutral-50"
                         }`}
                       >
                         <span className="flex items-center gap-2 truncate">
@@ -164,7 +164,7 @@ export default function PhoneInput({
             value={phoneNumber}
             onChange={(e) => onChange(e.target.value)}
             placeholder={placeholder}
-            className="w-full bg-white border border-neutral-200 rounded-full pl-11 pr-5 py-3 text-sm focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200 h-[46px] text-foreground"
+            className="w-full bg-white border border-neutral-200 rounded-full pl-11 pr-5 py-3 text-sm focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200 h-[46px] text-neutral-800 placeholder-neutral-400"
           />
         </div>
       </div>

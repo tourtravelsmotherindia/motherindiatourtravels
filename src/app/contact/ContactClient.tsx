@@ -88,7 +88,7 @@ export default function ContactClient({ companyData }: ContactClientProps) {
             <br />
             touch with us
           </h1>
-          <p className="text-neutral-500 font-sans text-sm sm:text-base leading-relaxed max-w-lg mt-6">
+          <p className="text-neutral-800 font-sans text-sm sm:text-base leading-relaxed max-w-lg mt-6">
             {
               "We're here to help! Whether you have a question about our services, need assistance with your account, or want to provide feedback, our team is ready to assist you."
             }
@@ -132,7 +132,7 @@ export default function ContactClient({ companyData }: ContactClientProps) {
               <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest font-sans">
                 Working Hours
               </span>
-              <span className="text-neutral-500 font-sans text-xs sm:text-sm font-medium leading-relaxed">
+              <span className="text-neutral-800 font-sans text-xs sm:text-sm font-medium leading-relaxed">
                 Available {getFormattedWorkingHours()}
               </span>
             </div>

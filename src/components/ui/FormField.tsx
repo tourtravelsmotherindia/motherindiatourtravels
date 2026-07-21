@@ -29,11 +29,11 @@ export default function FormField({
   icon: Icon,
 }: FormFieldProps) {
   const commonClasses =
-    "w-full bg-white border border-neutral-200 text-sm focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/35 hover:border-neutral-300 font-sans transition-all duration-200 text-foreground";
+    "w-full bg-white border border-neutral-200 text-sm focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/35 hover:border-neutral-300 font-sans transition-all duration-200 text-neutral-800 placeholder-neutral-400";
 
   return (
     <div className={`flex flex-col gap-2 ${className}`}>
-      <label htmlFor={id} className="text-xs font-semibold text-neutral-500 ml-1">
+      <label htmlFor={id} className="text-xs font-semibold text-neutral-800 ml-1">
         {label}
       </label>
       {type === "textarea" ? (
@@ -56,7 +56,7 @@ export default function FormField({
             value={value}
             onChange={(e) => onChange(e.target.value)}
             placeholder={placeholder}
-            className="w-full bg-transparent text-sm focus:outline-none font-sans text-foreground py-3 border-none p-0 focus:ring-0 focus:border-none focus:outline-none"
+            className="w-full bg-transparent text-sm focus:outline-none font-sans text-neutral-800 placeholder-neutral-400 py-3 border-none p-0 focus:ring-0 focus:border-none focus:outline-none"
           />
         </div>
       )}

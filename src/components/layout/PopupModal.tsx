@@ -232,7 +232,7 @@ export default function PopupModal() {
                 <h2 className="font-display text-xl sm:text-2.5xl font-bold text-neutral-900 leading-tight">
                   {selectedPackage ? `Book ${selectedPackage}` : "Planning a Trip?"}
                 </h2>
-                <p className="font-sans text-neutral-500 text-[11px] sm:text-xs mt-1.5 max-w-[320px] mx-auto leading-relaxed">
+                <p className="font-sans text-neutral-800 text-[11px] sm:text-xs mt-1.5 max-w-[320px] mx-auto leading-relaxed">
                   {selectedPackage
                     ? `Tell us your travel dates and preferences for your custom ${selectedPackage} itinerary!`
                     : "Tell us your preferences and we'll do the rest – it's fast, free, and personalized!."}
@@ -241,7 +241,7 @@ export default function PopupModal() {
 
               <form onSubmit={handleSubmit} className="flex flex-col gap-3.5 sm:gap-4 text-left">
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-neutral-500 ml-1">Full Name*</label>
+                  <label className="text-xs font-semibold text-neutral-800 ml-1">Full Name*</label>
                   <div className="relative flex items-center">
                     <User className="absolute left-4.5 w-4 h-4 text-neutral-400" />
                     <input
@@ -250,13 +250,13 @@ export default function PopupModal() {
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
                       placeholder="Type your name"
-                      className="w-full bg-white border border-neutral-200 rounded-full pl-11 pr-5 py-3 text-sm focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200"
+                      className="w-full bg-white border border-neutral-200 rounded-full pl-11 pr-5 py-3 text-sm focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200 text-neutral-800 placeholder-neutral-400"
                     />
                   </div>
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-neutral-500 ml-1">
+                  <label className="text-xs font-semibold text-neutral-800 ml-1">
                     Email Address*
                   </label>
                   <div className="relative flex items-center">
@@ -267,7 +267,7 @@ export default function PopupModal() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="Type your email address"
-                      className="w-full bg-white border border-neutral-200 rounded-full pl-11 pr-5 py-3 text-sm focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200"
+                      className="w-full bg-white border border-neutral-200 rounded-full pl-11 pr-5 py-3 text-sm focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200 text-neutral-800 placeholder-neutral-400"
                     />
                   </div>
                 </div>
@@ -285,17 +285,17 @@ export default function PopupModal() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="flex flex-col gap-1.5 relative" ref={calendarRef}>
-                    <label className="text-xs font-semibold text-neutral-500 ml-1">
+                    <label className="text-xs font-semibold text-neutral-800 ml-1">
                       Travel Date*
                     </label>
                     <button
                       type="button"
                       onClick={() => setIsCalendarOpen(!isCalendarOpen)}
-                      className="w-full flex items-center justify-start gap-2.5 bg-white border border-neutral-200 rounded-full px-4 py-3 text-sm text-left focus:outline-none focus:border-brand/50 hover:border-neutral-300 cursor-pointer transition-all duration-200"
+                      className="w-full flex items-center justify-start gap-2.5 bg-white border border-neutral-200 rounded-full px-4 py-3 text-sm text-left focus:outline-none focus:border-brand/50 hover:border-neutral-300 cursor-pointer transition-all duration-200 text-neutral-800"
                     >
                       <CalendarIcon className="w-4 h-4 text-neutral-400 shrink-0" />
                       <span
-                        className={`truncate text-sm ${selectedDate ? "text-neutral-700 font-medium" : "text-neutral-400"}`}
+                        className={`truncate text-sm ${selectedDate ? "text-neutral-800 font-medium" : "text-neutral-400"}`}
                       >
                         {formatDateLabel(selectedDate)}
                       </span>
@@ -357,7 +357,7 @@ export default function PopupModal() {
                               } else if (isSelected) {
                                 dayClass += "bg-brand text-white shadow-sm shadow-brand/20";
                               } else {
-                                dayClass += "text-neutral-700 hover:bg-neutral-50 hover:text-brand";
+                                dayClass += "text-neutral-800 hover:bg-neutral-50 hover:text-brand";
                               }
 
                               return (
@@ -382,7 +382,7 @@ export default function PopupModal() {
                   </div>
 
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-semibold text-neutral-500 ml-1">
+                    <label className="text-xs font-semibold text-neutral-800 ml-1">
                       Travellers*
                     </label>
                     <div className="relative flex items-center">
@@ -395,14 +395,14 @@ export default function PopupModal() {
                         value={travellers}
                         onChange={(e) => setTravellers(e.target.value)}
                         placeholder="1"
-                        className="w-full bg-white border border-neutral-200 rounded-full pl-11 pr-5 py-3 text-sm focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200"
+                        className="w-full bg-white border border-neutral-200 rounded-full pl-11 pr-5 py-3 text-sm focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200 text-neutral-800 placeholder-neutral-400"
                       />
                     </div>
                   </div>
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-neutral-500 ml-1">
+                  <label className="text-xs font-semibold text-neutral-800 ml-1">
                     Additional Message
                   </label>
                   <div className="relative flex items-start">
@@ -411,7 +411,7 @@ export default function PopupModal() {
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       placeholder="Describe any special preferences..."
-                      className="w-full bg-white border border-neutral-200 rounded-2xl pl-11 pr-5 py-3 text-sm focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200 h-20 resize-none"
+                      className="w-full bg-white border border-neutral-200 rounded-2xl pl-11 pr-5 py-3 text-sm focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200 h-20 resize-none text-neutral-800 placeholder-neutral-400"
                     />
                   </div>
                 </div>
@@ -427,7 +427,7 @@ export default function PopupModal() {
                   <button
                     type="button"
                     onClick={handleClose}
-                    className="w-full text-center text-neutral-400 hover:text-neutral-600 font-semibold text-xs py-1.5 cursor-pointer transition-colors block border-none bg-transparent outline-none focus:outline-none"
+                    className="w-full text-center text-neutral-800 hover:text-neutral-950 font-semibold text-xs py-1.5 cursor-pointer transition-colors block border-none bg-transparent outline-none focus:outline-none"
                   >
                     I&apos;ll do it later
                   </button>
