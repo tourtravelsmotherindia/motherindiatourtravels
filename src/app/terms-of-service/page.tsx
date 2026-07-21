@@ -61,23 +61,20 @@ export default async function TermsOfServicePage() {
       ),
     },
     {
-      id: "account-info",
-      title: "Third Party Account Information",
+      id: "accuracy-of-info",
+      title: "Accuracy of Booking Information",
       content: (
         <>
           <p>
-            By using payment gateway linkages in our website, the User authorizes Mother India Tour
-            Travels and its agents to access third-party sites, including that of Banks and other
-            payment gateways, designated by them or on their behalf for retrieving requested
-            information.
+            By using payment gateway linkages on our website, the User authorizes Mother India Tour
+            Travels and its designated payment partners to process transactions for retrieving
+            requested booking confirmations.
           </p>
           <p>
-            While registering or booking, the User is fully responsible for maintaining the
-            confidentiality of any passwords or account details. The User must notify us immediately
-            in writing of any unauthorized use of their password or account or any other breach of
-            security. Mother India Tour Travels will not be liable for any loss that may be incurred
-            by the User as a result of unauthorized use of their account, either with or without
-            their knowledge.
+            When submitting inquiries or booking forms, the User is fully responsible for providing
+            accurate and truthful personal details, contact numbers, and travel information. Mother
+            India Tour Travels will not be liable for any booking delays or financial loss incurred
+            as a result of incorrect or inaccurate information submitted by the User.
           </p>
         </>
       ),

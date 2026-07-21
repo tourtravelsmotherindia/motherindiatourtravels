@@ -23,9 +23,9 @@ export default async function CookiePolicyPage() {
             saved on your device (computer, smartphone, tablet) when you visit a website.
           </p>
           <p>
-            Cookies help websites identify your browser, remember login states, save translation
-            preferences, and analyze how visitors move through pages. They ensure website
-            interactions are fast, secure, and personalized.
+            Cookies help websites identify your browser, save translation preferences, and analyze
+            how visitors move through pages. They ensure website interactions are fast, secure, and
+            personalized.
           </p>
         </>
       ),
@@ -41,7 +41,6 @@ export default async function CookiePolicyPage() {
           </p>
           <p>Specifically, we use cookies to:</p>
           <ul className="list-disc pl-5 space-y-2 mt-2">
-            <li>Keep you logged in if you have access to admin dashboards.</li>
             <li>
               Maintain your selected language version across pages through our translation modules.
             </li>

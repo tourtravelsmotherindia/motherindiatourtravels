@@ -90,7 +90,7 @@ export default function ContactClient({ companyData }: ContactClientProps) {
           </h1>
           <p className="text-neutral-800 font-sans text-sm sm:text-base leading-relaxed max-w-lg mt-6">
             {
-              "We're here to help! Whether you have a question about our services, need assistance with your account, or want to provide feedback, our team is ready to assist you."
+              "We're here to help! Whether you have a question about our tour packages, need assistance with a booking, or want to provide feedback, our team is ready to assist you."
             }
           </p>
 
