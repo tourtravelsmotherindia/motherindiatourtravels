@@ -296,6 +296,27 @@ export default function PackageDetailClient({
               </p>
             </div>
 
+            {/* Mobile Tour Route */}
+            {activeVariant.destinations.length > 0 && (
+              <div className="lg:hidden mb-6 pb-4 border-b border-neutral-100 font-sans">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-600 block mb-2">
+                  Tour Route
+                </span>
+                <div className="flex flex-wrap items-center gap-y-2 gap-x-1">
+                  {activeVariant.destinations.map((dest, idx) => (
+                    <div key={dest.destinationId} className="flex items-center gap-1">
+                      <span className="bg-neutral-100 text-[11px] font-bold text-neutral-800 px-2.5 py-1 rounded-full whitespace-nowrap">
+                        {dest.destinationName}
+                      </span>
+                      {idx < activeVariant.destinations.length - 1 && (
+                        <ChevronRight className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Hero Description (Marketing Pitch) */}
             {overviewParagraphs.pitch && (
               <div className="text-neutral-900 font-medium text-sm md:text-base leading-relaxed space-y-4 mb-8">
@@ -529,10 +550,31 @@ export default function PackageDetailClient({
                 </div>
               </div>
             )}
+
+            {/* Mobile Custom Itinerary Banner */}
+            <div className="lg:hidden my-6 p-6 bg-neutral-50 border border-neutral-200/80 rounded-[2rem] flex flex-col gap-3 font-sans">
+              <div className="flex items-center gap-2">
+                <HelpCircle className="w-5 h-5 text-brand shrink-0" />
+                <h4 className="font-bold text-foreground text-base">Need Custom Itinerary?</h4>
+              </div>
+              <p className="text-xs text-neutral-600 font-medium leading-relaxed">
+                Let our travel specialists design a tailored package just for you.
+              </p>
+              {companyData?.whatsappNumber && (
+                <a
+                  href={`https://wa.me/${companyData.whatsappNumber}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white font-semibold text-xs uppercase tracking-wider py-3.5 px-5 rounded-full transition-all duration-300 cursor-pointer select-none mt-1"
+                >
+                  WhatsApp Specialists
+                </a>
+              )}
+            </div>
           </div>
 
-          {/* RIGHT COLUMN: Sticky booking trigger */}
-          <aside className="lg:sticky lg:top-28 z-10 flex flex-col font-sans">
+          {/* RIGHT COLUMN: Sticky booking trigger (Desktop Only) */}
+          <aside className="hidden lg:flex lg:sticky lg:top-28 z-10 flex-col font-sans">
             <div className="py-2 space-y-6">
               {/* Tour Route Path */}
               {activeVariant.destinations.length > 0 && (
