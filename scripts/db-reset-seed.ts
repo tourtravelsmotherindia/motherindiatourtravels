@@ -12,26 +12,26 @@ async function main() {
     process.exit(1);
   }
 
-  console.log("🔄 Fallback Database Reset & Seed Script Started...");
-  console.log("🔌 Connecting to PostgreSQL direct pooler socket...");
+  console.log("Fallback Database Reset & Seed Script Started...");
+  console.log("Connecting to PostgreSQL direct pooler socket...");
 
   const client = new pg.Client({ connectionString });
   try {
     await client.connect();
-    console.log("✅ Database connection established.");
+    console.log("Database connection established.");
 
     // Step 1: Wipe and recreate public schema cleanly
-    console.log("🧹 Resetting public schema...");
+    console.log("Resetting public schema...");
     await client.query("DROP SCHEMA IF EXISTS public CASCADE;");
     await client.query("CREATE SCHEMA public;");
     await client.query("GRANT ALL ON SCHEMA public TO postgres;");
     await client.query("GRANT ALL ON SCHEMA public TO public;");
-    console.log("✅ Public schema reset complete.");
+    console.log("Public schema reset complete.");
 
     // Step 2: Apply all migrations from prisma/migrations/ in order
     const migrationsDir = path.join(process.cwd(), "prisma/migrations");
     if (fs.existsSync(migrationsDir)) {
-      console.log("📦 Applying Prisma migrations from prisma/migrations/ ...");
+      console.log("Applying Prisma migrations from prisma/migrations/ ...");
       const migrationFolders = fs
         .readdirSync(migrationsDir)
         .filter((file) => {
@@ -81,25 +81,25 @@ async function main() {
           await client.query("COMMIT");
         }
       }
-      console.log("✅ All migrations applied and recorded.");
+      console.log("All migrations applied and recorded.");
     }
 
     // Step 3: Seed database using prisma/seed.sql
     const seedSqlPath = path.join(process.cwd(), "prisma/seed.sql");
     if (fs.existsSync(seedSqlPath)) {
-      console.log("🌱 Executing seed data from prisma/seed.sql ...");
+      console.log("Executing seed data from prisma/seed.sql ...");
       const seedSql = fs.readFileSync(seedSqlPath, "utf8");
 
       // Execute seed statements
       await client.query(seedSql);
-      console.log("✅ Database seeded successfully.");
+      console.log("Database seeded successfully.");
     } else {
-      console.warn("⚠️ Warning: prisma/seed.sql file not found.");
+      console.warn("Warning: prisma/seed.sql file not found.");
     }
 
-    console.log("🎉 Database reset & seed completed cleanly!");
+    console.log("Database reset & seed completed cleanly!");
   } catch (err) {
-    console.error("❌ Error during database reset and seed:", err);
+    console.error("Error during database reset and seed:", err);
     try {
       await client.query("ROLLBACK");
     } catch {
