@@ -246,7 +246,7 @@ export default function PackageOverviewClient({
                 className="relative flex-[3] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100 cursor-pointer select-none"
               >
                 <Image
-                  src={getOptimizedImageUrl(currentGalleryImages[0] || currentHeroImage, 800)}
+                  src={getOptimizedImageUrl(currentGalleryImages[0] || currentHeroImage, 1000)}
                   alt={`${pkgName} Gallery 1`}
                   fill
                   sizes="(max-width: 1024px) 25vw, 15vw"
@@ -258,7 +258,7 @@ export default function PackageOverviewClient({
                 className="relative flex-[2] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100 cursor-pointer select-none"
               >
                 <Image
-                  src={getOptimizedImageUrl(currentGalleryImages[1] || currentHeroImage, 800)}
+                  src={getOptimizedImageUrl(currentGalleryImages[1] || currentHeroImage, 1000)}
                   alt={`${pkgName} Gallery 2`}
                   fill
                   sizes="(max-width: 1024px) 25vw, 15vw"
@@ -270,7 +270,7 @@ export default function PackageOverviewClient({
             {/* Center Column - 1 huge main image */}
             <div className="relative col-span-12 lg:col-span-6 h-full overflow-hidden rounded-[2rem] lg:rounded-[2.5rem] bg-neutral-100 group shadow-sm border border-neutral-100 select-none">
               <Image
-                src={getOptimizedImageUrl(currentHeroImage, 1200)}
+                src={getOptimizedImageUrl(currentHeroImage, 1000)}
                 alt={`${pkgName} Main Gallery`}
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
@@ -293,7 +293,7 @@ export default function PackageOverviewClient({
                 <Image
                   src={getOptimizedImageUrl(
                     currentGalleryImages[3] || currentGalleryImages[2] || currentHeroImage,
-                    800,
+                    1000,
                   )}
                   alt={`${pkgName} Gallery 3`}
                   fill
@@ -313,7 +313,7 @@ export default function PackageOverviewClient({
                 <Image
                   src={getOptimizedImageUrl(
                     currentGalleryImages[4] || currentGalleryImages[2] || currentHeroImage,
-                    800,
+                    1000,
                   )}
                   alt={`${pkgName} Gallery 4`}
                   fill
@@ -333,7 +333,7 @@ export default function PackageOverviewClient({
                 className="relative w-52 h-36 shrink-0 overflow-hidden rounded-[1.5rem] bg-neutral-100 shadow-sm border border-neutral-100 cursor-pointer select-none"
               >
                 <Image
-                  src={getOptimizedImageUrl(img, 800)}
+                  src={getOptimizedImageUrl(img, 1000)}
                   alt={`${pkgName} Mobile Gallery ${idx + 1}`}
                   fill
                   sizes="208px"
