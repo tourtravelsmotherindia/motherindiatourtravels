@@ -3,7 +3,7 @@
 import { Building2, ChevronRight, Clock, Compass, MapPin, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import PageShell from "@/components/layout/PageShell";
@@ -19,6 +19,31 @@ interface PackageOverviewClientProps {
   allPackages: PackageItem[];
   companyData: CompanyData | null;
 }
+
+// Expandable text helper component
+const ExpandableText = ({ text, maxLength = 240 }: { text: string; maxLength?: number }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  if (!text) return null;
+  if (text.length <= maxLength) {
+    return <p className="whitespace-pre-line">{text}</p>;
+  }
+
+  const displayText = isExpanded ? text : `${text.slice(0, maxLength)}...`;
+
+  return (
+    <div>
+      <p className="whitespace-pre-line inline">{displayText}</p>
+      <button
+        type="button"
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="text-brand hover:text-brand-hover font-bold text-xs uppercase tracking-wider ml-1.5 inline-block focus:outline-none cursor-pointer"
+      >
+        {isExpanded ? "see less" : "see more"}
+      </button>
+    </div>
+  );
+};
 
 // Gallery image resolver helper
 function getGalleryImages(pkgName: string, heroImage?: string): string[] {
@@ -146,14 +171,32 @@ export default function PackageOverviewClient({
 
   const defaultVariant = packageData.variants.find((v) => v.isDefault) || packageData.variants[0];
 
-  // Fallbacks: default variant takes priority for landing overview if defined
-  const heroImage = defaultVariant?.heroImage || packageData.heroImage;
-  const galleryImages = useMemo(() => {
+  // Dynamic hero image and gallery list swap functionality
+  const initialHeroImage = defaultVariant?.heroImage || packageData.heroImage;
+  const initialGalleryImages = useMemo(() => {
     if (defaultVariant?.galleryImages && defaultVariant.galleryImages.length > 0) {
       return defaultVariant.galleryImages;
     }
     return getGalleryImages(pkgName, packageData.heroImage);
   }, [pkgName, packageData.heroImage, defaultVariant]);
+
+  const [currentHeroImage, setCurrentHeroImage] = useState(initialHeroImage);
+  const [currentGalleryImages, setCurrentGalleryImages] = useState<string[]>([]);
+
+  useEffect(() => {
+    setCurrentHeroImage(initialHeroImage);
+    setCurrentGalleryImages(initialGalleryImages);
+  }, [initialHeroImage, initialGalleryImages]);
+
+  const handleGalleryClick = (clickedImg: string, index: number) => {
+    const previousHero = currentHeroImage;
+    setCurrentHeroImage(clickedImg);
+    setCurrentGalleryImages((prev) => {
+      const next = [...prev];
+      next[index] = previousHero;
+      return next;
+    });
+  };
 
   // Split overview into marketing pitch (first paragraph) and detailed overview (the rest)
   const overviewParagraphs = useMemo(() => {
@@ -192,60 +235,72 @@ export default function PackageOverviewClient({
         <Breadcrumbs items={breadcrumbItems} />
 
         {/* ASYMMETRIC MASONRY GALLERY */}
-        <section className="mb-12 animate-fade-in">
+        <section className="mb-12 animate-fade-in font-sans">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 h-[300px] md:h-[450px] lg:h-[550px]">
             {/* Left Column - 2 stacked images */}
             <div className="hidden lg:flex flex-col gap-4 col-span-3 h-full">
-              <div className="relative flex-[3] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100">
+              <div 
+                onClick={() => handleGalleryClick(currentGalleryImages[0] || currentHeroImage, 0)}
+                className="relative flex-[3] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100 cursor-pointer select-none"
+              >
                 <Image
-                  src={getOptimizedImageUrl(galleryImages[0] || heroImage, 800)}
+                  src={getOptimizedImageUrl(currentGalleryImages[0] || currentHeroImage, 800)}
                   alt={`${pkgName} Gallery 1`}
                   fill
                   sizes="(max-width: 1024px) 25vw, 15vw"
-                  className="object-cover"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
-              <div className="relative flex-[2] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100">
+              <div 
+                onClick={() => handleGalleryClick(currentGalleryImages[1] || currentHeroImage, 1)}
+                className="relative flex-[2] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100 cursor-pointer select-none"
+              >
                 <Image
-                  src={getOptimizedImageUrl(galleryImages[1] || heroImage, 800)}
+                  src={getOptimizedImageUrl(currentGalleryImages[1] || currentHeroImage, 800)}
                   alt={`${pkgName} Gallery 2`}
                   fill
                   sizes="(max-width: 1024px) 25vw, 15vw"
-                  className="object-cover"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
             </div>
 
             {/* Center Column - 1 huge main image */}
-            <div className="relative col-span-12 lg:col-span-6 h-full overflow-hidden rounded-[2rem] lg:rounded-[2.5rem] bg-neutral-100 group shadow-sm border border-neutral-100">
+            <div className="relative col-span-12 lg:col-span-6 h-full overflow-hidden rounded-[2rem] lg:rounded-[2.5rem] bg-neutral-100 group shadow-sm border border-neutral-100 select-none">
               <Image
-                src={getOptimizedImageUrl(heroImage, 1200)}
+                src={getOptimizedImageUrl(currentHeroImage, 1200)}
                 alt={`${pkgName} Main Gallery`}
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
+                className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
                 priority
               />
             </div>
 
             {/* Right Column - 2 stacked images */}
             <div className="hidden lg:flex flex-col gap-4 col-span-3 h-full">
-              <div className="relative flex-[2] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100">
+              <div 
+                onClick={() => handleGalleryClick(currentGalleryImages[3] || currentGalleryImages[2] || currentHeroImage, 3)}
+                className="relative flex-[2] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100 cursor-pointer select-none"
+              >
                 <Image
-                  src={getOptimizedImageUrl(galleryImages[3] || galleryImages[2] || heroImage, 800)}
+                  src={getOptimizedImageUrl(currentGalleryImages[3] || currentGalleryImages[2] || currentHeroImage, 800)}
                   alt={`${pkgName} Gallery 3`}
                   fill
                   sizes="(max-width: 1024px) 25vw, 15vw"
-                  className="object-cover"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
-              <div className="relative flex-[3] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100">
+              <div 
+                onClick={() => handleGalleryClick(currentGalleryImages[4] || currentGalleryImages[2] || currentHeroImage, 4)}
+                className="relative flex-[3] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100 cursor-pointer select-none"
+              >
                 <Image
-                  src={getOptimizedImageUrl(galleryImages[4] || galleryImages[2] || heroImage, 800)}
+                  src={getOptimizedImageUrl(currentGalleryImages[4] || currentGalleryImages[2] || currentHeroImage, 800)}
                   alt={`${pkgName} Gallery 4`}
                   fill
                   sizes="(max-width: 1024px) 25vw, 15vw"
-                  className="object-cover"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
             </div>
@@ -253,17 +308,18 @@ export default function PackageOverviewClient({
 
           {/* Mobile horizontal gallery scrollbar */}
           <div className="flex lg:hidden gap-3 overflow-x-auto no-scrollbar py-2 mt-4 px-1">
-            {galleryImages.map((img, idx) => (
+            {currentGalleryImages.map((img, idx) => (
               <div
                 key={idx}
-                className="relative w-52 h-36 shrink-0 overflow-hidden rounded-[1.5rem] bg-neutral-100 shadow-sm border border-neutral-100"
+                onClick={() => handleGalleryClick(img, idx)}
+                className="relative w-52 h-36 shrink-0 overflow-hidden rounded-[1.5rem] bg-neutral-100 shadow-sm border border-neutral-100 cursor-pointer select-none"
               >
                 <Image
                   src={getOptimizedImageUrl(img, 800)}
                   alt={`${pkgName} Mobile Gallery ${idx + 1}`}
                   fill
                   sizes="208px"
-                  className="object-cover"
+                  className="object-cover transition-transform duration-500 hover:scale-105"
                 />
               </div>
             ))}
@@ -281,7 +337,7 @@ export default function PackageOverviewClient({
                   {packageData.isDomestic ? "Domestic" : "International"}
                 </span>
                 <span className="text-neutral-500 font-medium select-none">
-                  • Trip Code: MI-{packageData.id.toUpperCase().replace(/-/g, "")}
+                  • Trip Code: MI-{packageData.id.substring(0, 8).toUpperCase()}
                 </span>
               </div>
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight tracking-tight font-display">
@@ -292,12 +348,12 @@ export default function PackageOverviewClient({
             {/* Hero Description (Marketing Pitch) */}
             {overviewParagraphs.pitch && (
               <div className="text-neutral-900 font-medium text-sm md:text-base leading-relaxed space-y-4 mb-8">
-                <p className="whitespace-pre-line">{overviewParagraphs.pitch}</p>
+                <ExpandableText text={overviewParagraphs.pitch} maxLength={240} />
               </div>
             )}
 
-            {/* Summary Metadata Bar */}
-            <div className="border-y border-neutral-200 py-6 mb-10 flex flex-wrap items-center justify-between gap-6 md:gap-8 font-sans">
+            {/* Summary Metadata Bar (Perfect Column Alignment Grid) */}
+            <div className="border-y border-neutral-200 py-6 mb-10 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 font-sans">
               <div className="flex items-center gap-3">
                 <MapPin className="w-5 h-5 text-neutral-800 shrink-0" />
                 <div className="flex flex-col">
@@ -353,7 +409,7 @@ export default function PackageOverviewClient({
                 Trip Overview
               </h2>
               <div className="text-neutral-900 font-medium text-sm md:text-base leading-relaxed space-y-4">
-                <p className="whitespace-pre-line">{overviewParagraphs.detailed}</p>
+                <ExpandableText text={overviewParagraphs.detailed} maxLength={320} />
               </div>
             </div>
 
@@ -363,7 +419,7 @@ export default function PackageOverviewClient({
                 <h2 className="text-xl md:text-2xl font-bold text-foreground font-display">
                   Select Tour
                 </h2>
-                <span className="text-xs font-semibold uppercase tracking-wider text-neutral-600">
+                <span className="hidden sm:inline-block text-xs font-semibold uppercase tracking-wider text-neutral-600">
                   Choose duration to see itinerary
                 </span>
               </div>
@@ -407,7 +463,7 @@ export default function PackageOverviewClient({
               </div>
             </div>
 
-            {/* Tour Highlights (Restored original bullet style list) */}
+            {/* Tour Highlights */}
             {highlights && highlights.length > 0 && (
               <div className="mb-12">
                 <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4">
@@ -457,6 +513,7 @@ export default function PackageOverviewClient({
             </div>
           </aside>
         </div>
+
         {/* RECOMMENDED PACKAGES SECTION */}
         <section className="mt-24 border-t border-border-light pt-24">
           <SectionHeader
@@ -465,7 +522,7 @@ export default function PackageOverviewClient({
             rightSlot={
               <Link
                 href="/packages"
-                className="group inline-flex items-center gap-1.5 text-neutral-900 hover:text-brand font-semibold text-sm transition-colors mt-4 md:mt-0 cursor-pointer"
+                className="group inline-flex items-center gap-1.5 text-neutral-900 hover:text-brand font-semibold text-sm transition-colors cursor-pointer"
               >
                 View all tours
                 <ChevronRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
