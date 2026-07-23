@@ -7,6 +7,9 @@ export const metadata = {
   title: "Cookie Policy | Mother India Tour Travels",
   description:
     "Read the Cookie Policy of Mother India Tour Travels. Learn how we use cookies, tracking pixels, and analytical tags to optimize your browsing experience.",
+  alternates: {
+    canonical: "/cookie-policy/",
+  },
 };
 
 export default async function CookiePolicyPage() {

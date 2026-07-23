@@ -7,6 +7,9 @@ export const metadata = {
   title: "Privacy Policy | Mother India Tour Travels",
   description:
     "Read the Privacy Policy of Mother India Tour Travels to understand how we collect, use, protect, and handle your personal information.",
+  alternates: {
+    canonical: "/privacy-policy/",
+  },
 };
 
 export default async function PrivacyPolicyPage() {

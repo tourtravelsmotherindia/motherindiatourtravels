@@ -7,6 +7,9 @@ export const metadata = {
   title: "Cancellation & Refund Policy | Mother India Tour Travels",
   description:
     "Read the Cancellation and Refund Policy of Mother India Tour Travels. Learn about package cancellation fees, hotel policies, and refund rules.",
+  alternates: {
+    canonical: "/cancellation-policy/",
+  },
 };
 
 export default async function CancellationPolicyPage() {

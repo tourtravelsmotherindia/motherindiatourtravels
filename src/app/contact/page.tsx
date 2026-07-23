@@ -9,6 +9,9 @@ export const metadata = {
   title: "Contact Us | Mother India Tour Travels",
   description:
     "Get in touch with Mother India Tour Travels for custom tour packages, car rentals, and travel itineraries across India. We're here to help you plan your perfect journey.",
+  alternates: {
+    canonical: "/contact/",
+  },
 };
 
 export default async function ContactPage() {

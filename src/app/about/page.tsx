@@ -9,6 +9,9 @@ export const metadata = {
   title: "About Us | Mother India Tour Travels",
   description:
     "Learn more about Mother India Tour Travels, the best travel operators in Delhi. Discover our mission, vision, history, and how we curate perfect travel experiences.",
+  alternates: {
+    canonical: "/about/",
+  },
 };
 
 export default async function AboutPage() {

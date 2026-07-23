@@ -38,6 +38,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: `${title} | Mother India Tour Travels`,
     description,
     keywords: pkg.seoKeywords?.join(", ") || pkg.tags?.join(", ") || "",
+    alternates: {
+      canonical: `/packages/${packageSlug}/${variantSlug}/`,
+    },
     openGraph: {
       title: `${title} | Mother India Tour Travels`,
       description,

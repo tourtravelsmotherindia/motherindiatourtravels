@@ -7,6 +7,9 @@ export const metadata = {
   title: "Terms of Service | Mother India Tour Travels",
   description:
     "Read the Terms of Service of Mother India Tour Travels. Understand the terms, guidelines, and policies governing our tour packages and services.",
+  alternates: {
+    canonical: "/terms-of-service/",
+  },
 };
 
 export default async function TermsOfServicePage() {

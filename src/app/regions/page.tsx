@@ -5,6 +5,15 @@ import { getRegionsWithDestinations } from "@/lib/db/repositories/destinationRep
 
 import RegionsClient from "./RegionsClient";
 
+export const metadata = {
+  title: "Regions in India | Mother India Tour Travels",
+  description:
+    "Discover the geographical regions of India. Explore tour packages and top destinations across North, South, East, West, Central, and Northeast India.",
+  alternates: {
+    canonical: "/regions/",
+  },
+};
+
 export default async function RegionsPage() {
   const [regionsData, companyData] = await Promise.all([
     getRegionsWithDestinations(),

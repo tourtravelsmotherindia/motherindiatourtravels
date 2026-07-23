@@ -7,6 +7,9 @@ export const metadata = {
   title: "Frequently Asked Questions | Mother India Tour Travels",
   description:
     "Find answers to frequently asked questions about tour packages, customization, bookings, cancellations, payments, and privacy policies with Mother India Tour Travels.",
+  alternates: {
+    canonical: "/faqs/",
+  },
 };
 
 export default async function FAQsPage() {

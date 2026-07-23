@@ -5,6 +5,15 @@ import { getAllDestinations } from "@/lib/db/repositories/destinationRepo";
 
 import DestinationsClient from "./DestinationsClient";
 
+export const metadata = {
+  title: "Top Travel Destinations in India | Mother India Tour Travels",
+  description:
+    "Explore the best travel destinations in India. From serene hill stations and beautiful beaches to heritage cities and wildlife sanctuaries, plan your perfect trip.",
+  alternates: {
+    canonical: "/destinations/",
+  },
+};
+
 export default async function DestinationsPage() {
   const [destinationsData, companyData] = await Promise.all([
     getAllDestinations(),
