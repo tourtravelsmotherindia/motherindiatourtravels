@@ -700,10 +700,10 @@ export default function PackageDetailClient({
         {/* MOBILE STICKY BOTTOM BAR */}
         <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden pointer-events-none">
           {/* Smooth gradient blur overlay extending upwards */}
-          <div className="h-10 w-full bg-gradient-to-t from-white via-white/80 to-transparent backdrop-blur-[1.5px]" />
+          <div className="h-6 w-full bg-gradient-to-t from-white via-white/80 to-transparent backdrop-blur-[1.5px]" />
 
           {/* Solid white bottom action container */}
-          <div className="bg-white px-4 pb-5 pt-0.5 flex items-center gap-3 pointer-events-auto">
+          <div className="bg-white px-4 pb-4 pt-1.5 flex items-center gap-3 pointer-events-auto">
             <button
               type="button"
               onClick={() => toggleFavorite(packageData.slug)}
