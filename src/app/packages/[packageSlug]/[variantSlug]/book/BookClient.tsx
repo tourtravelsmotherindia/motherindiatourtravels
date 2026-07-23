@@ -1,14 +1,10 @@
 "use client";
 
 import {
-  Bed,
   Check,
   ChevronRight,
   HelpCircle,
-  Hotel,
   Mail,
-  MapPin,
-  Navigation,
   User,
 } from "lucide-react";
 import Link from "next/link";
@@ -93,7 +89,7 @@ export default function BookClient({
   // Derived style info
   const tourStyle = packageData.tourStyle || "Classic";
 
-  // Recommended packages selection (ensuring absolute uniqueness of keys)
+  // Recommended packages selection
   const recommendedPackages = useMemo(() => {
     const others = allPackages.filter((p) => p.slug !== packageData.slug);
     const matchType = others.filter((p) => p.isPopular);
@@ -128,11 +124,9 @@ export default function BookClient({
     }
 
     try {
-      // Build country-code-prefixed phone string
       const dialCode = countryCodeVal.split(":")[1] ?? "";
       const fullPhone = `${dialCode}${phoneNumber}`.trim();
 
-      // Resolve flexible date fields
       const isFlexible = dateMode === "flexible";
       const flexMonth = isFlexible
         ? `${selectedFlexibleMonth.getFullYear()}-${String(selectedFlexibleMonth.getMonth() + 1).padStart(2, "0")}`
@@ -189,6 +183,43 @@ export default function BookClient({
     }
   };
 
+  const renderQuickSummary = () => (
+    <div className="flex flex-col gap-4 font-sans text-xs md:text-sm">
+      <div className="flex flex-col pb-3 border-b border-neutral-100">
+        <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider font-sans mb-1">
+          Booking Summary
+        </span>
+        <div className="font-display font-bold text-foreground text-sm flex flex-wrap items-center gap-1.5 leading-snug mt-1">
+          {packageData.destinations.map((dest, idx) => (
+            <React.Fragment key={dest.destinationId}>
+              {idx > 0 && <ChevronRight className="w-3 h-3 text-neutral-300 shrink-0" />}
+              <span className="text-foreground">{dest.destinationName}</span>
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-2.5 font-sans mt-2">
+        <div className="flex items-center justify-between text-xs font-semibold text-neutral-800 border-b border-neutral-100 pb-2">
+          <span>Tour Style</span>
+          <span className="text-neutral-800 font-bold uppercase">{tourStyle}</span>
+        </div>
+        <div className="flex items-center justify-between text-xs font-semibold text-neutral-800 border-b border-neutral-100 pb-2">
+          <span>Duration</span>
+          <span className="text-neutral-800 font-bold">
+            {activeVariant.days} Days / {activeVariant.nights} Nights
+          </span>
+        </div>
+        <div className="flex items-center justify-between text-xs font-semibold text-neutral-800 pb-1">
+          <span>Pricing</span>
+          <span className="text-brand font-extrabold font-display text-sm leading-none">
+            Price On Request
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <PageShell companyData={companyData} ptClass="pt-28" bgClass="bg-white" className="pb-24">
       <div className="layout-container font-sans">
@@ -220,9 +251,14 @@ export default function BookClient({
         </div>
 
         {/* TWO-COLUMN DETAILS GRID */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-12 lg:gap-16 items-start">
+        <div className="flex flex-col lg:grid lg:grid-cols-[1fr_380px] gap-12 lg:gap-16 items-start">
+          {/* MOBILE ONLY: Quick Summary at top */}
+          <div className="w-full lg:hidden pb-2">
+            {renderQuickSummary()}
+          </div>
+
           {/* LEFT COLUMN: Booking form */}
-          <div className="bg-white border border-border-light rounded-[2.5rem] p-6 sm:p-10 shadow-premium relative overflow-visible">
+          <div className="w-full bg-white border border-border-light rounded-[2.5rem] p-6 sm:p-10 shadow-premium relative overflow-visible">
             <form onSubmit={handleSubmit} className="flex flex-col gap-5 sm:gap-6">
               <FormField
                 id="fullName"
@@ -298,39 +334,24 @@ export default function BookClient({
                     Hotel Type / Category
                   </span>
                   <Dropdown
+                    id="hotelCategory"
                     options={hotelCategoryOptions}
                     value={hotelCategory}
-                    onChange={(val) => setHotelCategory(val)}
-                    align="left"
-                    triggerClassName="w-full border border-neutral-200 hover:border-brand/40 transition-all duration-200 py-3 lg:py-3 text-sm font-semibold text-neutral-800 bg-white"
-                    menuClassName="w-full rounded-2xl p-1"
-                    icon={Hotel}
+                    onChange={setHotelCategory}
                   />
                 </div>
 
-                <div className="relative flex flex-col gap-2">
-                  <span className="text-xs font-semibold text-neutral-800 ml-1">Rooms</span>
-                  <Dropdown
-                    options={[
-                      { value: "1", label: "1 Room" },
-                      { value: "2", label: "2 Rooms" },
-                      { value: "3", label: "3 Rooms" },
-                      { value: "4", label: "4 Rooms" },
-                      { value: "5", label: "5 Rooms" },
-                      { value: "6", label: "6 Rooms" },
-                      { value: "7", label: "7 Rooms" },
-                      { value: "8", label: "8 Rooms" },
-                      { value: "9", label: "9 Rooms" },
-                      { value: "10+", label: "10+ Rooms" },
-                    ]}
-                    value={String(rooms)}
-                    onChange={(val) => setRooms(Number(val))}
-                    align="left"
-                    triggerClassName="w-full border border-neutral-200 hover:border-brand/40 transition-all duration-200 py-3 lg:py-3 text-sm font-semibold text-neutral-800 bg-white"
-                    menuClassName="w-full rounded-2xl p-1"
-                    icon={Bed}
-                  />
-                </div>
+                <FormField
+                  id="rooms"
+                  label="Number of Rooms"
+                  type="number"
+                  required
+                  min={1}
+                  max={20}
+                  value={rooms}
+                  onChange={(val) => setRooms(Number(val))}
+                  placeholder="Rooms..."
+                />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -341,9 +362,9 @@ export default function BookClient({
                   required
                   value={pickupLocation}
                   onChange={setPickupLocation}
-                  placeholder="Enter pickup location..."
-                  icon={MapPin}
+                  placeholder="e.g. Delhi Airport / Hotel"
                 />
+
                 <FormField
                   id="dropLocation"
                   label="Drop Location"
@@ -351,8 +372,7 @@ export default function BookClient({
                   required
                   value={dropLocation}
                   onChange={setDropLocation}
-                  placeholder="Enter drop location..."
-                  icon={Navigation}
+                  placeholder="e.g. Jaipur Hotel / Airport"
                 />
               </div>
 
@@ -376,48 +396,15 @@ export default function BookClient({
             </form>
           </div>
 
-          {/* RIGHT COLUMN: Sticky summary form layout */}
-          <aside className="lg:sticky lg:top-28 flex flex-col gap-6">
-            {/* Package details / summary card */}
-            <div className="bg-white border border-border-light rounded-[2rem] p-6 shadow-premium">
-              <div className="flex flex-col gap-4">
-                <div className="bg-neutral-50 rounded-2xl p-4 flex flex-col border border-neutral-100">
-                  <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider font-sans mb-1">
-                    Booking Summary
-                  </span>
-                  <div className="font-display font-bold text-foreground text-sm flex flex-wrap items-center gap-1.5 leading-snug mt-1">
-                    {packageData.destinations.map((dest, idx) => (
-                      <React.Fragment key={dest.destinationId}>
-                        {idx > 0 && <ChevronRight className="w-3 h-3 text-neutral-300 shrink-0" />}
-                        <span className="text-foreground">{dest.destinationName}</span>
-                      </React.Fragment>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="flex flex-col gap-2.5 font-sans mt-2">
-                  <div className="flex items-center justify-between text-xs font-semibold text-neutral-800 border-b border-neutral-100 pb-2">
-                    <span>Tour Style</span>
-                    <span className="text-neutral-800 font-bold uppercase">{tourStyle}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-xs font-semibold text-neutral-800 border-b border-neutral-100 pb-2">
-                    <span>Duration</span>
-                    <span className="text-neutral-800 font-bold">
-                      {activeVariant.days} Days / {activeVariant.nights} Nights
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between text-xs font-semibold text-neutral-800 pb-1">
-                    <span>Pricing</span>
-                    <span className="text-brand font-extrabold font-display text-sm leading-none">
-                      Price On Request
-                    </span>
-                  </div>
-                </div>
-              </div>
+          {/* RIGHT COLUMN: Flat summary & trust layout (No cards styling) */}
+          <aside className="w-full lg:sticky lg:top-28 flex flex-col gap-8">
+            {/* Desktop Only: Quick Summary */}
+            <div className="hidden lg:block">
+              {renderQuickSummary()}
             </div>
 
-            {/* Travel details / trust card */}
-            <div className="bg-neutral-50 border border-neutral-100 rounded-[2rem] p-6 flex flex-col gap-4 font-sans text-xs md:text-sm">
+            {/* Travel details / trust list (Flat/Inline) */}
+            <div className="flex flex-col gap-4 font-sans text-xs md:text-sm pb-6 border-b border-neutral-100">
               <h4 className="font-bold text-neutral-800 font-display text-sm md:text-base">
                 Why book with us?
               </h4>
@@ -441,11 +428,13 @@ export default function BookClient({
               </ul>
             </div>
 
-            {/* Help & Support Card */}
-            <div className="bg-neutral-50/50 border border-border-light rounded-[2rem] p-6 text-center">
-              <HelpCircle className="w-6 h-6 text-neutral-400 mx-auto mb-3" />
-              <h4 className="font-bold text-foreground text-base mb-2">Need Help Planning?</h4>
-              <p className="text-xs text-neutral-800 font-medium leading-relaxed mb-4">
+            {/* Help & Support (Flat/Inline) */}
+            <div className="flex flex-col gap-3 font-sans text-xs md:text-sm">
+              <div className="flex items-center gap-2">
+                <HelpCircle className="w-5 h-5 text-brand shrink-0" />
+                <h4 className="font-bold text-foreground text-sm">Need Help Planning?</h4>
+              </div>
+              <p className="text-xs text-neutral-600 font-medium leading-relaxed">
                 Talk to our travel specialists for custom itineraries, group discounts, or special
                 requirements.
               </p>
@@ -454,7 +443,7 @@ export default function BookClient({
                   href={`https://wa.me/${companyData.whatsappNumber}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white font-semibold text-xs uppercase tracking-wider px-6 py-3 rounded-full transition-all duration-300 cursor-pointer select-none"
+                  className="inline-flex items-center justify-center gap-2 border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white font-semibold text-xs uppercase tracking-wider py-3 px-5 rounded-full transition-all duration-300 cursor-pointer select-none mt-1 w-fit"
                 >
                   WhatsApp Experts
                 </a>
@@ -463,7 +452,7 @@ export default function BookClient({
           </aside>
         </div>
 
-        {/* RECOMMENDED PACKAGES SECTION */}
+        {/* RECOMMENDED PACKAGES SECTION (Horizontal scroll on mobile view) */}
         <section className="mt-24 border-t border-border-light pt-24">
           <SectionHeader
             title="Recommended for you"
@@ -479,22 +468,23 @@ export default function BookClient({
             }
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="flex overflow-x-auto gap-4 sm:gap-8 snap-x snap-mandatory no-scrollbar pb-4 sm:pb-0 sm:grid sm:grid-cols-2 lg:grid-cols-3">
             {recommendedPackages.map((pkg) => {
               const defaultVariant = pkg.variants.find((v) => v.isDefault) || pkg.variants[0];
               return (
-                <PackageCard
-                  key={pkg.id}
-                  id={pkg.id}
-                  slug={pkg.slug}
-                  name={pkg.name}
-                  heroImage={pkg.heroImage}
-                  durationText={defaultVariant ? defaultVariant.label : undefined}
-                  destinations={pkg.destinations}
-                  variant="white"
-                  isFavorite={isFavorite(pkg.slug)}
-                  onToggleFavorite={toggleFavorite}
-                />
+                <div key={pkg.id} className="w-[280px] sm:w-auto shrink-0 snap-start">
+                  <PackageCard
+                    id={pkg.id}
+                    slug={pkg.slug}
+                    name={pkg.name}
+                    heroImage={pkg.heroImage}
+                    durationText={defaultVariant ? defaultVariant.label : undefined}
+                    destinations={pkg.destinations}
+                    variant="white"
+                    isFavorite={isFavorite(pkg.slug)}
+                    onToggleFavorite={toggleFavorite}
+                  />
+                </div>
               );
             })}
           </div>
