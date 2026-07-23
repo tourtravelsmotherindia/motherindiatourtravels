@@ -87,7 +87,7 @@ export default function PackageCard({
         whileInView={whileInView}
         viewport={viewport}
         transition={transition}
-        className="group relative w-full h-[340px] sm:h-[380px] md:h-[400px] lg:h-[350px] xl:h-[380px] 2xl:h-[420px] rounded-[2rem] overflow-hidden shadow-sm bg-gray-50 flex flex-col border-0"
+        className="group relative w-full h-[340px] sm:h-[380px] md:h-[400px] lg:h-[350px] xl:h-[380px] 2xl:h-[420px] rounded-[2rem] overflow-hidden shadow-none bg-gray-50 flex flex-col border-0"
       >
         <div className="absolute inset-0 z-0">
           <Image
@@ -163,7 +163,7 @@ export default function PackageCard({
       whileInView={whileInView}
       viewport={viewport}
       transition={transition}
-      className="group relative bg-white rounded-[2rem] shadow-sm flex flex-col h-full justify-between cursor-pointer border border-neutral-100 overflow-hidden"
+      className="group relative bg-white rounded-[2rem] shadow-none flex flex-col h-full justify-between cursor-pointer border border-neutral-100 overflow-hidden"
     >
       <div>
         {/* Flush Image Container with curvy bottom border radius */}
