@@ -46,13 +46,25 @@ export default function Breadcrumbs({
     );
   }
 
+  // Collapse middle items if there are more than 4 items to always show Home > ... > Parent > Current
+  const getVisibleItems = (): BreadcrumbItem[] => {
+    if (items.length <= 4) return items;
+    return [
+      items[0],
+      { label: "...", href: undefined },
+      ...items.slice(items.length - 2),
+    ];
+  };
+
+  const visibleItems = getVisibleItems();
+
   return (
     <nav
-      className={`flex items-center gap-1.5 sm:gap-2 text-xs md:text-sm font-medium text-neutral-400 mb-6 md:mb-8 font-sans overflow-hidden whitespace-nowrap max-w-full ${className}`}
+      className={`flex items-center gap-1.5 sm:gap-2 text-xs md:text-sm font-medium text-neutral-400 mb-6 md:mb-8 font-sans overflow-x-auto no-scrollbar whitespace-nowrap max-w-full select-none ${className}`}
       aria-label="Breadcrumb"
     >
-      {items.map((item, idx) => {
-        const isLast = idx === items.length - 1;
+      {visibleItems.map((item, idx) => {
+        const isLast = idx === visibleItems.length - 1;
         return (
           <React.Fragment key={idx}>
             {idx > 0 && <ChevronRight className="w-3 h-3 text-neutral-300 shrink-0" />}
