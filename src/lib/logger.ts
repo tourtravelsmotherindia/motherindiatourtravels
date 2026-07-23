@@ -1,7 +1,5 @@
 /**
- * Production-ready logging utility for application modules.
- * Ensures log messages are clean, formatted, free of emojis,
- * and redacts sensitive data (tokens, passwords, secrets) in production.
+ * Logging utility that formats messages, removes emojis, and sanitizes sensitive data.
  */
 
 const EMOJI_REGEX =
