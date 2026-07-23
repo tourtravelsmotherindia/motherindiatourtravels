@@ -49,11 +49,7 @@ export default function Breadcrumbs({
   // Collapse middle items if there are more than 4 items to always show Home > ... > Parent > Current
   const getVisibleItems = (): BreadcrumbItem[] => {
     if (items.length <= 4) return items;
-    return [
-      items[0],
-      { label: "...", href: undefined },
-      ...items.slice(items.length - 2),
-    ];
+    return [items[0], { label: "...", href: undefined }, ...items.slice(items.length - 2)];
   };
 
   const visibleItems = getVisibleItems();

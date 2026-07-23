@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Check,
-  ChevronRight,
-  HelpCircle,
-  Mail,
-  User,
-} from "lucide-react";
+import { Check, ChevronRight, HelpCircle, Mail, User } from "lucide-react";
 import Link from "next/link";
 import React, { useMemo, useState } from "react";
 
@@ -253,9 +247,7 @@ export default function BookClient({
         {/* TWO-COLUMN DETAILS GRID */}
         <div className="flex flex-col lg:grid lg:grid-cols-[1fr_380px] gap-12 lg:gap-16 items-start">
           {/* MOBILE ONLY: Quick Summary at top */}
-          <div className="w-full lg:hidden pb-2">
-            {renderQuickSummary()}
-          </div>
+          <div className="w-full lg:hidden pb-2">{renderQuickSummary()}</div>
 
           {/* LEFT COLUMN: Booking form */}
           <div className="w-full bg-white border border-border-light rounded-[2.5rem] p-6 sm:p-10 shadow-premium relative overflow-visible">
@@ -334,7 +326,6 @@ export default function BookClient({
                     Hotel Type / Category
                   </span>
                   <Dropdown
-                    id="hotelCategory"
                     options={hotelCategoryOptions}
                     value={hotelCategory}
                     onChange={setHotelCategory}
@@ -399,9 +390,7 @@ export default function BookClient({
           {/* RIGHT COLUMN: Flat summary & trust layout (No cards styling) */}
           <aside className="w-full lg:sticky lg:top-28 flex flex-col gap-8">
             {/* Desktop Only: Quick Summary */}
-            <div className="hidden lg:block">
-              {renderQuickSummary()}
-            </div>
+            <div className="hidden lg:block">{renderQuickSummary()}</div>
 
             {/* Travel details / trust list (Flat/Inline) */}
             <div className="flex flex-col gap-4 font-sans text-xs md:text-sm pb-6 border-b border-neutral-100">
