@@ -5,8 +5,10 @@ import {
   Building2,
   Calendar,
   Check,
+  ChevronDown,
   ChevronRight,
   Compass,
+  Heart,
   HelpCircle,
   MapPin,
   Sparkles,
@@ -436,116 +438,157 @@ export default function PackageDetailClient({
               </div>
             </div>
 
-            {/* Detailed Day-by-Day Itinerary Layout */}
-            {itinerary.length > 0 && (
-              <div className="mb-12 border-b border-border-light pb-10">
-                <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6 font-display">
-                  Day-by-Day Itinerary
-                </h2>
+            {/* Tour Highlights (Restored original bullet style list) */}
+            <div className="mb-12 border-b border-border-light pb-10">
+              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4">
+                Tour Highlights
+              </h2>
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3.5 list-disc pl-5 text-neutral-900 font-medium text-sm md:text-base">
+                {highlights.map((highlight, idx) => (
+                  <li key={idx} className="leading-relaxed">
+                    {highlight}
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-                <div className="flex flex-col gap-6 md:gap-8 items-stretch">
-                  {/* Left-Rail Day Switchers */}
-                  <div className="flex overflow-x-auto no-scrollbar gap-2.5 pb-2 select-none border-b border-neutral-100">
-                    {itinerary.map((day) => (
-                      <button
-                        key={day.day}
-                        onClick={() => setActiveItineraryDay(day.day)}
-                        className={`px-5 py-3 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 shrink-0 border outline-none cursor-pointer ${
-                          activeItineraryDay === day.day
-                            ? "bg-brand text-white border-brand shadow-sm"
-                            : "bg-white text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 border-neutral-200"
-                        }`}
-                      >
-                        Day {day.day}
-                      </button>
-                    ))}
+            {/* What's Included (Restored original rounded check style) */}
+            <div className="mb-12 border-b border-border-light pb-10">
+              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">
+                What&apos;s Included
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {inclusions.map((inc, idx) => (
+                  <div key={idx} className="flex gap-3">
+                    <div className="w-5 h-5 rounded-full bg-neutral-200 flex items-center justify-center shrink-0 mt-0.5">
+                      <Check className="w-3.5 h-3.5 text-neutral-700" />
+                    </div>
+                    <span className="text-neutral-900 font-medium text-sm leading-snug">{inc}</span>
                   </div>
-
-                  {/* Right-Rail Active Day Details Block */}
-                  <div className="flex-1 font-sans">
-                    <AnimatePresence mode="wait">
-                      {itinerary
-                        .filter((day) => day.day === activeItineraryDay)
-                        .map((day) => (
-                          <motion.div
-                            key={day.day}
-                            initial={{ opacity: 0, y: 15 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -15 }}
-                            transition={{ duration: 0.25 }}
-                            className="bg-neutral-50/50 border border-neutral-200/50 rounded-[2rem] p-6 sm:p-8"
-                          >
-                            <div className="flex flex-col gap-1.5 mb-6">
-                              <span className="text-[10px] font-bold text-brand uppercase tracking-widest pl-0.5">
-                                Day {day.day} Activity
-                              </span>
-                              <h3 className="text-lg md:text-xl font-bold text-foreground tracking-tight font-display">
-                                {day.title}
-                              </h3>
-                            </div>
-                            <p className="text-neutral-800 font-medium text-sm md:text-base leading-relaxed whitespace-pre-line mb-0">
-                              {day.description}
-                            </p>
-                          </motion.div>
-                        ))}
-                    </AnimatePresence>
-                  </div>
-                </div>
+                ))}
               </div>
-            )}
+            </div>
 
-            {/* Tour Highlights */}
-            {highlights && highlights.length > 0 && (
+            {/* What's Excluded (Restored original rounded X style) */}
+            <div className="mb-12 border-b border-border-light pb-10">
+              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">Exclusions</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {exclusions.map((exc, idx) => (
+                  <div key={idx} className="flex gap-3">
+                    <div className="w-5 h-5 rounded-full bg-neutral-100/50 flex items-center justify-center shrink-0 mt-0.5">
+                      <X className="w-3.5 h-3.5 text-neutral-400" />
+                    </div>
+                    <span className="text-neutral-900 font-medium text-sm leading-snug">{exc}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Important Notes (Restored original bullet style list) */}
+            {packageData.notes && packageData.notes.length > 0 && (
               <div className="mb-12 border-b border-border-light pb-10">
-                <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4">
-                  Tour Highlights
+                <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">
+                  Important Notes
                 </h2>
-                <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3.5 list-disc pl-5 text-neutral-900 font-medium text-sm md:text-base">
-                  {highlights.map((highlight, idx) => (
+                <ul className="flex flex-col gap-3.5 pl-5 list-disc text-neutral-900 font-medium text-sm md:text-base">
+                  {packageData.notes.map((item, idx) => (
                     <li key={idx} className="leading-relaxed">
-                      {highlight}
+                      {item}
                     </li>
                   ))}
                 </ul>
               </div>
             )}
 
-            {/* Inclusions & Exclusions Accordions */}
-            <div className="mb-12 border-b border-border-light pb-10 space-y-4">
-              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4 font-display">
-                Terms & Conditions
-              </h2>
+            {/* Daily Itinerary Section (Restored original vertical timeline style) */}
+            <div className="mb-12 border-b border-border-light pb-10">
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-xl md:text-2xl font-bold text-foreground">Itinerary</h2>
+                <span className="text-xs md:text-sm font-bold text-neutral-600 uppercase tracking-wider font-sans">
+                  {activeVariant.days} Days / {activeVariant.nights} Nights
+                </span>
+              </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Inclusions Card */}
-                <div className="bg-neutral-50/40 border border-neutral-100 rounded-[2rem] p-6 sm:p-8">
-                  <h3 className="font-bold text-neutral-800 text-sm md:text-base mb-4 font-display">
-                    Inclusions
-                  </h3>
-                  <ul className="space-y-3">
-                    {inclusions.map((inc, idx) => (
-                      <li key={idx} className="flex gap-2.5 items-start text-xs sm:text-sm">
-                        <Check className="w-4 h-4 text-brand shrink-0 stroke-[2.5] mt-0.5" />
-                        <span className="text-neutral-900 font-medium leading-relaxed">{inc}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+              <div className="relative pl-8 border-l border-neutral-200/80 ml-4 space-y-12 py-2">
+                {itinerary.map((day, idx) => {
+                  const isExpanded = activeItineraryDay === day.day;
+                  // Deterministic timeline fallback images if day images list is empty
+                  const dayImages =
+                    day.images && day.images.length > 0
+                      ? day.images
+                      : [
+                          "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=400&q=80",
+                          "https://images.unsplash.com/photo-1480796927426-f609979314bd?auto=format&fit=crop&w=400&q=80",
+                          "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=400&q=80",
+                        ];
 
-                {/* Exclusions Card */}
-                <div className="bg-neutral-50/40 border border-neutral-100 rounded-[2rem] p-6 sm:p-8">
-                  <h3 className="font-bold text-neutral-800 text-sm md:text-base mb-4 font-display">
-                    Exclusions
-                  </h3>
-                  <ul className="space-y-3">
-                    {exclusions.map((exc, idx) => (
-                      <li key={idx} className="flex gap-2.5 items-start text-xs sm:text-sm">
-                        <X className="w-4 h-4 text-neutral-400 shrink-0 stroke-[2.5] mt-0.5" />
-                        <span className="text-neutral-900 font-medium leading-relaxed">{exc}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                  return (
+                    <div key={idx} className="relative group">
+                      {/* Timeline dot */}
+                      <div className="absolute -left-[38px] top-1.5 w-3 h-3 rounded-full border-2 border-neutral-400 bg-white z-10 group-hover:border-brand transition-colors duration-300" />
+
+                      {/* Accordion Header */}
+                      <div
+                        onClick={() => setActiveItineraryDay(isExpanded ? null : day.day)}
+                        className="flex items-start justify-between gap-4 cursor-pointer select-none"
+                      >
+                        <div className="flex flex-col items-start gap-1">
+                          <span className="inline-block bg-neutral-100 text-neutral-600 font-semibold text-[11px] uppercase tracking-wider px-2.5 py-1 rounded-[10px]">
+                            Day {day.day}
+                          </span>
+                          <h3 className="font-bold text-lg md:text-xl text-foreground font-display mt-1.5 leading-snug">
+                            {day.title}
+                          </h3>
+                        </div>
+
+                        <div className="w-8 h-8 rounded-full border border-neutral-200 flex items-center justify-center text-neutral-500 group-hover:text-brand group-hover:border-brand/40 transition-colors shrink-0 mt-1">
+                          <ChevronDown
+                            className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Description */}
+                      <p
+                        className={`text-neutral-900 font-medium text-sm md:text-[14px] leading-relaxed mt-3.5 whitespace-pre-line pr-4 transition-all duration-300 ${
+                          isExpanded ? "" : "line-clamp-3"
+                        }`}
+                      >
+                        {day.description}
+                      </p>
+
+                      {/* Expanded day images */}
+                      <AnimatePresence initial={false}>
+                        {isExpanded && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="grid grid-cols-3 gap-3 mt-6 pt-2">
+                              {dayImages.slice(0, 3).map((img, i) => (
+                                <div
+                                  key={i}
+                                  className="relative aspect-[4/3] rounded-[1.5rem] overflow-hidden bg-neutral-100 shadow-sm border border-neutral-100 group/img"
+                                >
+                                  <Image
+                                    src={getOptimizedImageUrl(img, 600)}
+                                    alt={`Itinerary Day ${day.day} Image ${i + 1}`}
+                                    fill
+                                    sizes="(max-width: 768px) 33vw, 20vw"
+                                    className="object-cover"
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
@@ -561,21 +604,21 @@ export default function PackageDetailClient({
               </div>
             )}
 
-            {/* Mobile Custom Itinerary Banner (Flat/Inline layout) */}
+            {/* Mobile Custom Itinerary Banner (Flat/Inline layout with inline link) */}
             <div className="lg:hidden my-8 flex flex-col gap-2 font-sans">
               <div className="flex items-center gap-2">
                 <HelpCircle className="w-5 h-5 text-brand shrink-0" />
                 <h4 className="font-bold text-foreground text-sm">Need Custom Itinerary?</h4>
               </div>
               <p className="text-xs text-neutral-600 font-medium leading-relaxed">
-                Let our travel specialists design a tailored package just for you.
+                Let our travel specialists design a tailored package just for you.{" "}
+                <Link
+                  href="/contact"
+                  className="text-brand hover:underline font-bold transition-all inline-block"
+                >
+                  Contact Us
+                </Link>
               </p>
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center gap-2 border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white font-semibold text-xs uppercase tracking-wider py-3.5 px-5 rounded-full transition-all duration-300 cursor-pointer select-none mt-1 w-fit"
-              >
-                Contact Us
-              </Link>
             </div>
           </div>
 
@@ -702,6 +745,36 @@ export default function PackageDetailClient({
             })}
           </div>
         </section>
+
+        {/* MOBILE STICKY BOTTOM BAR (Blury background action button) */}
+        <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden pointer-events-none">
+          {/* Smooth gradient blur overlay extending upwards */}
+          <div className="h-6 w-full bg-gradient-to-t from-white via-white/80 to-transparent backdrop-blur-[1.5px]" />
+
+          {/* Solid white bottom action container */}
+          <div className="bg-white px-4 pb-4 pt-1.5 flex items-center gap-3 pointer-events-auto">
+            <button
+              type="button"
+              onClick={() => toggleFavorite(packageData.slug)}
+              className="w-12 h-12 rounded-full border border-neutral-300/80 bg-white flex items-center justify-center text-neutral-700 transition-all shrink-0 cursor-pointer shadow-xs active:scale-90"
+              aria-label="Toggle Wishlist"
+            >
+              <Heart
+                className={`w-5.5 h-5.5 transition-all duration-300 ${
+                  isFavorite(packageData.slug)
+                    ? "fill-red-500 text-red-500 stroke-red-500"
+                    : "text-neutral-600 stroke-neutral-600"
+                }`}
+              />
+            </button>
+            <Link
+              href={`/packages/${packageData.slug}/${activeVariant.slug}/book`}
+              className="flex-1 bg-brand hover:bg-brand-hover text-white font-bold text-sm tracking-wide py-3.5 px-6 rounded-full transition-all duration-300 shadow-sm cursor-pointer text-center select-none active:scale-98"
+            >
+              Book now
+            </Link>
+          </div>
+        </div>
       </div>
     </PageShell>
   );
