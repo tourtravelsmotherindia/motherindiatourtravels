@@ -18,7 +18,7 @@ import {
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import PageShell from "@/components/layout/PageShell";
@@ -83,6 +83,31 @@ interface PackageDetailClientProps {
   companyData: CompanyData | null;
 }
 
+// Expandable text helper component
+const ExpandableText = ({ text, maxLength = 240 }: { text: string; maxLength?: number }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  if (!text) return null;
+  if (text.length <= maxLength) {
+    return <p className="whitespace-pre-line">{text}</p>;
+  }
+
+  const displayText = isExpanded ? text : `${text.slice(0, maxLength)}...`;
+
+  return (
+    <div>
+      <p className="whitespace-pre-line inline">{displayText}</p>
+      <button
+        type="button"
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="text-brand hover:text-brand-hover font-bold text-xs uppercase tracking-wider ml-1.5 inline-block focus:outline-none cursor-pointer"
+      >
+        {isExpanded ? "see less" : "see more"}
+      </button>
+    </div>
+  );
+};
+
 export default function PackageDetailClient({
   packageData,
   activeVariant,
@@ -131,14 +156,32 @@ export default function PackageDetailClient({
     return itinerary.length > 0 ? itinerary[0].day : null;
   });
 
-  // Images fallback logic: variant level takes priority independently per field
-  const heroImage = activeVariant.heroImage || packageData.heroImage;
-  const galleryImages = useMemo(() => {
+  // Dynamic hero image and gallery list swap functionality
+  const initialHeroImage = activeVariant.heroImage || packageData.heroImage;
+  const initialGalleryImages = useMemo(() => {
     if (activeVariant.galleryImages && activeVariant.galleryImages.length > 0) {
       return activeVariant.galleryImages;
     }
     return packageData.galleryImages;
   }, [packageData.galleryImages, activeVariant.galleryImages]);
+
+  const [currentHeroImage, setCurrentHeroImage] = useState(initialHeroImage);
+  const [currentGalleryImages, setCurrentGalleryImages] = useState<string[]>([]);
+
+  useEffect(() => {
+    setCurrentHeroImage(initialHeroImage);
+    setCurrentGalleryImages(initialGalleryImages);
+  }, [initialHeroImage, initialGalleryImages]);
+
+  const handleGalleryClick = (clickedImg: string, index: number) => {
+    const previousHero = currentHeroImage;
+    setCurrentHeroImage(clickedImg);
+    setCurrentGalleryImages((prev) => {
+      const next = [...prev];
+      next[index] = previousHero;
+      return next;
+    });
+  };
 
   const mapMarkers = useMemo(() => {
     const list =
@@ -196,60 +239,72 @@ export default function PackageDetailClient({
         <Breadcrumbs items={breadcrumbItems} />
 
         {/* ASYMMETRIC MASONRY GALLERY */}
-        <section className="mb-12 animate-fade-in">
+        <section className="mb-12 animate-fade-in font-sans">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 h-[300px] md:h-[450px] lg:h-[550px]">
             {/* Left Column - 2 stacked images */}
             <div className="hidden lg:flex flex-col gap-4 col-span-3 h-full">
-              <div className="relative flex-[3] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100">
+              <div 
+                onClick={() => handleGalleryClick(currentGalleryImages[0] || currentHeroImage, 0)}
+                className="relative flex-[3] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100 cursor-pointer select-none"
+              >
                 <Image
-                  src={getOptimizedImageUrl(galleryImages[0] || heroImage, 800)}
+                  src={getOptimizedImageUrl(currentGalleryImages[0] || currentHeroImage, 800)}
                   alt={`${pkgName} Gallery 1`}
                   fill
                   sizes="(max-width: 1024px) 25vw, 15vw"
-                  className="object-cover"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
-              <div className="relative flex-[2] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100">
+              <div 
+                onClick={() => handleGalleryClick(currentGalleryImages[1] || currentHeroImage, 1)}
+                className="relative flex-[2] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100 cursor-pointer select-none"
+              >
                 <Image
-                  src={getOptimizedImageUrl(galleryImages[1] || heroImage, 800)}
+                  src={getOptimizedImageUrl(currentGalleryImages[1] || currentHeroImage, 800)}
                   alt={`${pkgName} Gallery 2`}
                   fill
                   sizes="(max-width: 1024px) 25vw, 15vw"
-                  className="object-cover"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
             </div>
 
             {/* Center Column - 1 huge main image */}
-            <div className="relative col-span-12 lg:col-span-6 h-full overflow-hidden rounded-[2rem] lg:rounded-[2.5rem] bg-neutral-100 group shadow-sm border border-neutral-100">
+            <div className="relative col-span-12 lg:col-span-6 h-full overflow-hidden rounded-[2rem] lg:rounded-[2.5rem] bg-neutral-100 group shadow-sm border border-neutral-100 select-none">
               <Image
-                src={getOptimizedImageUrl(heroImage, 1200)}
+                src={getOptimizedImageUrl(currentHeroImage, 1200)}
                 alt={`${pkgName} Main Gallery`}
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
+                className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
                 priority
               />
             </div>
 
             {/* Right Column - 2 stacked images */}
             <div className="hidden lg:flex flex-col gap-4 col-span-3 h-full">
-              <div className="relative flex-[2] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100">
+              <div 
+                onClick={() => handleGalleryClick(currentGalleryImages[3] || currentGalleryImages[2] || currentHeroImage, 3)}
+                className="relative flex-[2] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100 cursor-pointer select-none"
+              >
                 <Image
-                  src={getOptimizedImageUrl(galleryImages[3] || galleryImages[2] || heroImage, 800)}
+                  src={getOptimizedImageUrl(currentGalleryImages[3] || currentGalleryImages[2] || currentHeroImage, 800)}
                   alt={`${pkgName} Gallery 3`}
                   fill
                   sizes="(max-width: 1024px) 25vw, 15vw"
-                  className="object-cover"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
-              <div className="relative flex-[3] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100">
+              <div 
+                onClick={() => handleGalleryClick(currentGalleryImages[4] || currentGalleryImages[2] || currentHeroImage, 4)}
+                className="relative flex-[3] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100 cursor-pointer select-none"
+              >
                 <Image
-                  src={getOptimizedImageUrl(galleryImages[4] || galleryImages[2] || heroImage, 800)}
+                  src={getOptimizedImageUrl(currentGalleryImages[4] || currentGalleryImages[2] || currentHeroImage, 800)}
                   alt={`${pkgName} Gallery 4`}
                   fill
                   sizes="(max-width: 1024px) 25vw, 15vw"
-                  className="object-cover"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
             </div>
@@ -257,17 +312,18 @@ export default function PackageDetailClient({
 
           {/* Mobile horizontal gallery scrollbar */}
           <div className="flex lg:hidden gap-3 overflow-x-auto no-scrollbar py-2 mt-4 px-1">
-            {galleryImages.map((img, idx) => (
+            {currentGalleryImages.map((img, idx) => (
               <div
                 key={idx}
-                className="relative w-52 h-36 shrink-0 overflow-hidden rounded-[1.5rem] bg-neutral-100 shadow-sm border border-neutral-100"
+                onClick={() => handleGalleryClick(img, idx)}
+                className="relative w-52 h-36 shrink-0 overflow-hidden rounded-[1.5rem] bg-neutral-100 shadow-sm border border-neutral-100 cursor-pointer select-none"
               >
                 <Image
                   src={getOptimizedImageUrl(img, 800)}
                   alt={`${pkgName} Mobile Gallery ${idx + 1}`}
                   fill
                   sizes="208px"
-                  className="object-cover"
+                  className="object-cover transition-transform duration-500 hover:scale-105"
                 />
               </div>
             ))}
@@ -276,7 +332,7 @@ export default function PackageDetailClient({
 
         {/* TWO COLUMN GRID CONTENT */}
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-12 lg:gap-16 items-start">
-          {/* LEFT COLUMN: Info & Itinerary */}
+          {/* LEFT COLUMN: Info & Accordions */}
           <div className="flex flex-col">
             {/* Header Title */}
             <div className="mb-6">
@@ -285,7 +341,7 @@ export default function PackageDetailClient({
                   {packageData.isDomestic ? "Domestic" : "International"}
                 </span>
                 <span className="text-neutral-500 font-medium select-none">
-                  • Trip Code: MI-{packageData.id.toUpperCase().replace(/-/g, "")}
+                  • Trip Code: MI-{packageData.id.substring(0, 8).toUpperCase()}
                 </span>
               </div>
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight tracking-tight font-display">
@@ -296,31 +352,10 @@ export default function PackageDetailClient({
               </p>
             </div>
 
-            {/* Mobile Tour Route */}
-            {activeVariant.destinations.length > 0 && (
-              <div className="lg:hidden mb-6 pb-4 border-b border-neutral-100 font-sans">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-600 block mb-2">
-                  Tour Route
-                </span>
-                <div className="flex flex-wrap items-center gap-y-2 gap-x-1">
-                  {activeVariant.destinations.map((dest, idx) => (
-                    <div key={dest.destinationId} className="flex items-center gap-1">
-                      <span className="bg-neutral-100 text-[11px] font-bold text-neutral-800 px-2.5 py-1 rounded-full whitespace-nowrap">
-                        {dest.destinationName}
-                      </span>
-                      {idx < activeVariant.destinations.length - 1 && (
-                        <ChevronRight className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
             {/* Hero Description (Marketing Pitch) */}
             {overviewParagraphs.pitch && (
               <div className="text-neutral-900 font-medium text-sm md:text-base leading-relaxed space-y-4 mb-8">
-                <p className="whitespace-pre-line">{overviewParagraphs.pitch}</p>
+                <ExpandableText text={overviewParagraphs.pitch} maxLength={240} />
               </div>
             )}
 
@@ -381,167 +416,126 @@ export default function PackageDetailClient({
                 Trip Overview
               </h2>
               <div className="text-neutral-900 font-medium text-sm md:text-base leading-relaxed space-y-4">
-                <p className="whitespace-pre-line">{overviewParagraphs.detailed}</p>
+                <ExpandableText text={overviewParagraphs.detailed} maxLength={320} />
               </div>
             </div>
 
-            {/* Tour Highlights (Restored original bullet style list) */}
-            <div className="mb-12 border-b border-border-light pb-10">
-              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4">
-                Tour Highlights
-              </h2>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3.5 list-disc pl-5 text-neutral-900 font-medium text-sm md:text-base">
-                {highlights.map((highlight, idx) => (
-                  <li key={idx} className="leading-relaxed">
-                    {highlight}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* What's Included (Restored original rounded check style) */}
-            <div className="mb-12 border-b border-border-light pb-10">
-              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">
-                What&apos;s Included
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {inclusions.map((inc, idx) => (
-                  <div key={idx} className="flex gap-3">
-                    <div className="w-5 h-5 rounded-full bg-neutral-200 flex items-center justify-center shrink-0 mt-0.5">
-                      <Check className="w-3.5 h-3.5 text-neutral-700" />
-                    </div>
-                    <span className="text-neutral-900 font-medium text-sm leading-snug">{inc}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* What's Excluded (Restored original rounded X style) */}
-            <div className="mb-12 border-b border-border-light pb-10">
-              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">Exclusions</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {exclusions.map((exc, idx) => (
-                  <div key={idx} className="flex gap-3">
-                    <div className="w-5 h-5 rounded-full bg-neutral-100/50 flex items-center justify-center shrink-0 mt-0.5">
-                      <X className="w-3.5 h-3.5 text-neutral-400" />
-                    </div>
-                    <span className="text-neutral-900 font-medium text-sm leading-snug">{exc}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Important Notes (Restored original bullet style list) */}
-            {packageData.notes && packageData.notes.length > 0 && (
+            {/* Detailed Day-by-Day Itinerary Layout */}
+            {itinerary.length > 0 && (
               <div className="mb-12 border-b border-border-light pb-10">
-                <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">
-                  Important Notes
+                <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6 font-display">
+                  Day-by-Day Itinerary
                 </h2>
-                <ul className="flex flex-col gap-3.5 pl-5 list-disc text-neutral-900 font-medium text-sm md:text-base">
-                  {packageData.notes.map((item, idx) => (
+
+                <div className="flex flex-col gap-6 md:gap-8 items-stretch">
+                  {/* Left-Rail Day Switchers */}
+                  <div className="flex overflow-x-auto no-scrollbar gap-2.5 pb-2 select-none border-b border-neutral-100">
+                    {itinerary.map((day) => (
+                      <button
+                        key={day.day}
+                        onClick={() => setActiveItineraryDay(day.day)}
+                        className={`px-5 py-3 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 shrink-0 border outline-none cursor-pointer ${
+                          activeItineraryDay === day.day
+                            ? "bg-brand text-white border-brand shadow-sm"
+                            : "bg-white text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 border-neutral-200"
+                        }`}
+                      >
+                        Day {day.day}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Right-Rail Active Day Details Block */}
+                  <div className="flex-1 font-sans">
+                    <AnimatePresence mode="wait">
+                      {itinerary
+                        .filter((day) => day.day === activeItineraryDay)
+                        .map((day) => (
+                          <motion.div
+                            key={day.day}
+                            initial={{ opacity: 0, y: 15 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -15 }}
+                            transition={{ duration: 0.25 }}
+                            className="bg-neutral-50/50 border border-neutral-200/50 rounded-[2rem] p-6 sm:p-8"
+                          >
+                            <div className="flex flex-col gap-1.5 mb-6">
+                              <span className="text-[10px] font-bold text-brand uppercase tracking-widest pl-0.5">
+                                Day {day.day} Activity
+                              </span>
+                              <h3 className="text-lg md:text-xl font-bold text-foreground tracking-tight font-display">
+                                {day.title}
+                              </h3>
+                            </div>
+                            <p className="text-neutral-800 font-medium text-sm md:text-base leading-relaxed whitespace-pre-line mb-0">
+                              {day.description}
+                            </p>
+                          </motion.div>
+                        ))}
+                    </AnimatePresence>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Tour Highlights */}
+            {highlights && highlights.length > 0 && (
+              <div className="mb-12 border-b border-border-light pb-10">
+                <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4">
+                  Tour Highlights
+                </h2>
+                <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3.5 list-disc pl-5 text-neutral-900 font-medium text-sm md:text-base">
+                  {highlights.map((highlight, idx) => (
                     <li key={idx} className="leading-relaxed">
-                      {item}
+                      {highlight}
                     </li>
                   ))}
                 </ul>
               </div>
             )}
 
-            {/* Daily Itinerary Section (Restored original vertical timeline style) */}
-            <div className="mb-12 border-b border-border-light pb-10">
-              <div className="flex items-center justify-between mb-8">
-                <h2 className="text-xl md:text-2xl font-bold text-foreground">Itinerary</h2>
-                <span className="text-xs md:text-sm font-bold text-neutral-600 uppercase tracking-wider font-sans">
-                  {activeVariant.days} Days / {activeVariant.nights} Nights
-                </span>
-              </div>
+            {/* Inclusions & Exclusions Accordions */}
+            <div className="mb-12 border-b border-border-light pb-10 space-y-4">
+              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4 font-display">
+                Terms & Conditions
+              </h2>
 
-              <div className="relative pl-8 border-l border-neutral-200/80 ml-4 space-y-12 py-2">
-                {itinerary.map((day, idx) => {
-                  const isExpanded = activeItineraryDay === day.day;
-                  // Deterministic timeline fallback images if day images list is empty
-                  const dayImages =
-                    day.images && day.images.length > 0
-                      ? day.images
-                      : [
-                          "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=400&q=80",
-                          "https://images.unsplash.com/photo-1480796927426-f609979314bd?auto=format&fit=crop&w=400&q=80",
-                          "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=400&q=80",
-                        ];
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Inclusions Card */}
+                <div className="bg-neutral-50/40 border border-neutral-100 rounded-[2rem] p-6 sm:p-8">
+                  <h3 className="font-bold text-neutral-800 text-sm md:text-base mb-4 font-display">
+                    Inclusions
+                  </h3>
+                  <ul className="space-y-3">
+                    {inclusions.map((inc, idx) => (
+                      <li key={idx} className="flex gap-2.5 items-start text-xs sm:text-sm">
+                        <Check className="w-4 h-4 text-brand shrink-0 stroke-[2.5] mt-0.5" />
+                        <span className="text-neutral-900 font-medium leading-relaxed">{inc}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
-                  return (
-                    <div key={idx} className="relative group">
-                      {/* Timeline dot */}
-                      <div className="absolute -left-[38px] top-1.5 w-3 h-3 rounded-full border-2 border-neutral-400 bg-white z-10 group-hover:border-brand transition-colors duration-300" />
-
-                      {/* Accordion Header */}
-                      <div
-                        onClick={() => setActiveItineraryDay(isExpanded ? null : day.day)}
-                        className="flex items-start justify-between gap-4 cursor-pointer select-none"
-                      >
-                        <div className="flex flex-col items-start gap-1">
-                          <span className="inline-block bg-neutral-100 text-neutral-600 font-semibold text-[11px] uppercase tracking-wider px-2.5 py-1 rounded-[10px]">
-                            Day {day.day}
-                          </span>
-                          <h3 className="font-bold text-lg md:text-xl text-foreground font-display mt-1.5 leading-snug">
-                            {day.title}
-                          </h3>
-                        </div>
-
-                        <div className="w-8 h-8 rounded-full border border-neutral-200 flex items-center justify-center text-neutral-500 group-hover:text-brand group-hover:border-brand/40 transition-colors shrink-0 mt-1">
-                          <ChevronDown
-                            className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}
-                          />
-                        </div>
-                      </div>
-
-                      {/* Description */}
-                      <p
-                        className={`text-neutral-900 font-medium text-sm md:text-[14px] leading-relaxed mt-3.5 whitespace-pre-line pr-4 transition-all duration-300 ${
-                          isExpanded ? "" : "line-clamp-3"
-                        }`}
-                      >
-                        {day.description}
-                      </p>
-
-                      {/* Expanded day images */}
-                      <AnimatePresence initial={false}>
-                        {isExpanded && (
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.3, ease: "easeInOut" }}
-                            className="overflow-hidden"
-                          >
-                            <div className="grid grid-cols-3 gap-3 mt-6 pt-2">
-                              {dayImages.slice(0, 3).map((img, i) => (
-                                <div
-                                  key={i}
-                                  className="relative aspect-[4/3] rounded-[1.5rem] overflow-hidden bg-neutral-100 shadow-sm border border-neutral-100 group/img"
-                                >
-                                  <Image
-                                    src={getOptimizedImageUrl(img, 600)}
-                                    alt={`Itinerary Day ${day.day} Image ${i + 1}`}
-                                    fill
-                                    sizes="(max-width: 768px) 33vw, 20vw"
-                                    className="object-cover"
-                                  />
-                                </div>
-                              ))}
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  );
-                })}
+                {/* Exclusions Card */}
+                <div className="bg-neutral-50/40 border border-neutral-100 rounded-[2rem] p-6 sm:p-8">
+                  <h3 className="font-bold text-neutral-800 text-sm md:text-base mb-4 font-display">
+                    Exclusions
+                  </h3>
+                  <ul className="space-y-3">
+                    {exclusions.map((exc, idx) => (
+                      <li key={idx} className="flex gap-2.5 items-start text-xs sm:text-sm">
+                        <X className="w-4 h-4 text-neutral-400 shrink-0 stroke-[2.5] mt-0.5" />
+                        <span className="text-neutral-900 font-medium leading-relaxed">{exc}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </div>
 
-            {/* Where you'll be Section (Map) */}
+            {/* Interactive Route Map */}
             {mapMarkers.length > 0 && (
-              <div className="mb-12">
+              <div className="mb-12 border-b border-border-light pb-10">
                 <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4 font-display">
                   Where you&apos;ll be
                 </h2>
@@ -560,16 +554,12 @@ export default function PackageDetailClient({
               <p className="text-xs text-neutral-600 font-medium leading-relaxed">
                 Let our travel specialists design a tailored package just for you.
               </p>
-              {companyData?.whatsappNumber && (
-                <a
-                  href={`https://wa.me/${companyData.whatsappNumber}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white font-semibold text-xs uppercase tracking-wider py-3.5 px-5 rounded-full transition-all duration-300 cursor-pointer select-none mt-1 w-fit"
-                >
-                  WhatsApp Specialists
-                </a>
-              )}
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center gap-2 border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white font-semibold text-xs uppercase tracking-wider py-3.5 px-5 rounded-full transition-all duration-300 cursor-pointer select-none mt-1 w-fit"
+              >
+                Contact Us
+              </Link>
             </div>
           </div>
 
@@ -647,20 +637,17 @@ export default function PackageDetailClient({
                 <p className="text-xs text-neutral-600 font-medium leading-relaxed">
                   Let our travel specialists design a tailored package just for you.
                 </p>
-                {companyData?.whatsappNumber && (
-                  <a
-                    href={`https://wa.me/${companyData.whatsappNumber}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white font-semibold text-xs uppercase tracking-wider py-3 px-5 rounded-full transition-all duration-300 cursor-pointer select-none mt-2"
-                  >
-                    WhatsApp Specialists
-                  </a>
-                )}
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center gap-2 border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white font-semibold text-xs uppercase tracking-wider py-3.5 px-5 rounded-full transition-all duration-300 cursor-pointer select-none mt-2 text-center"
+                >
+                  Contact Us
+                </Link>
               </div>
             </div>
           </aside>
         </div>
+
         {/* RECOMMENDED PACKAGES SECTION */}
         <section className="mt-24 border-t border-border-light pt-24">
           <SectionHeader
@@ -669,7 +656,7 @@ export default function PackageDetailClient({
             rightSlot={
               <Link
                 href="/packages"
-                className="group inline-flex items-center gap-1.5 text-neutral-900 hover:text-brand font-semibold text-sm transition-colors mt-4 md:mt-0 cursor-pointer"
+                className="group inline-flex items-center gap-1.5 text-neutral-900 hover:text-brand font-semibold text-sm transition-colors cursor-pointer"
               >
                 View all tours
                 <ChevronRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -679,6 +666,7 @@ export default function PackageDetailClient({
 
           <div className="flex overflow-x-auto gap-4 sm:gap-8 snap-x snap-mandatory no-scrollbar pb-4 sm:pb-0 sm:grid sm:grid-cols-2 lg:grid-cols-3">
             {recommendedPackages.map((pkg) => {
+              const defaultVariant = pkg.variants.find((v) => v.isDefault) || pkg.variants[0];
               return (
                 <div key={pkg.id} className="w-[280px] sm:w-auto shrink-0 snap-start">
                   <PackageCard
@@ -686,6 +674,7 @@ export default function PackageDetailClient({
                     slug={pkg.slug}
                     name={pkg.name}
                     heroImage={pkg.heroImage}
+                    durationText={defaultVariant ? defaultVariant.label : undefined}
                     destinations={pkg.destinations}
                     variant="white"
                     isFavorite={isFavorite(pkg.slug)}
@@ -696,36 +685,6 @@ export default function PackageDetailClient({
             })}
           </div>
         </section>
-
-        {/* MOBILE STICKY BOTTOM BAR */}
-        <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden pointer-events-none">
-          {/* Smooth gradient blur overlay extending upwards */}
-          <div className="h-6 w-full bg-gradient-to-t from-white via-white/80 to-transparent backdrop-blur-[1.5px]" />
-
-          {/* Solid white bottom action container */}
-          <div className="bg-white px-4 pb-4 pt-1.5 flex items-center gap-3 pointer-events-auto">
-            <button
-              type="button"
-              onClick={() => toggleFavorite(packageData.slug)}
-              className="w-12 h-12 rounded-full border border-neutral-300/80 bg-white flex items-center justify-center text-neutral-700 transition-all shrink-0 cursor-pointer shadow-xs active:scale-90"
-              aria-label="Toggle Wishlist"
-            >
-              <Heart
-                className={`w-5.5 h-5.5 transition-all duration-300 ${
-                  isFavorite(packageData.slug)
-                    ? "fill-red-500 text-red-500 stroke-red-500"
-                    : "text-neutral-600 stroke-neutral-600"
-                }`}
-              />
-            </button>
-            <Link
-              href={`/packages/${packageData.slug}/${activeVariant.slug}/book`}
-              className="flex-1 bg-brand hover:bg-brand-hover text-white font-bold text-sm tracking-wide py-3.5 px-6 rounded-full transition-all duration-300 shadow-sm cursor-pointer text-center select-none active:scale-98"
-            >
-              Book now
-            </Link>
-          </div>
-        </div>
       </div>
     </PageShell>
   );
