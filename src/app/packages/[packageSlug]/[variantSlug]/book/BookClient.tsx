@@ -420,7 +420,7 @@ export default function BookClient({
             {/* Help & Support (Flat/Inline) */}
             <div className="flex flex-col gap-3 font-sans text-xs md:text-sm">
               <div className="flex items-center gap-2">
-                <HelpCircle className="w-5 h-5 text-brand shrink-0" />
+                <HelpCircle className="w-5 h-5 text-neutral-500 shrink-0" />
                 <h4 className="font-bold text-foreground text-sm">Need Help Planning?</h4>
               </div>
               <p className="text-xs text-neutral-600 font-medium leading-relaxed">
@@ -428,7 +428,7 @@ export default function BookClient({
                 requirements.{" "}
                 <Link
                   href="/contact"
-                  className="lg:hidden text-brand hover:underline font-bold transition-all inline-block"
+                  className="lg:hidden text-black underline font-bold transition-all inline-block hover:text-neutral-800"
                 >
                   Contact Us
                 </Link>

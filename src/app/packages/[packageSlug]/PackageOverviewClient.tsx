@@ -37,9 +37,9 @@ const ExpandableText = ({ text, maxLength = 240 }: { text: string; maxLength?: n
       <button
         type="button"
         onClick={() => setIsExpanded(!isExpanded)}
-        className="text-brand hover:text-brand-hover font-bold text-xs uppercase tracking-wider ml-1.5 inline-block focus:outline-none cursor-pointer"
+        className="text-black hover:text-neutral-700 font-semibold text-xs ml-1.5 inline-block focus:outline-none cursor-pointer"
       >
-        {isExpanded ? "see less" : "see more"}
+        {isExpanded ? "See Less" : "See More"}
       </button>
     </div>
   );

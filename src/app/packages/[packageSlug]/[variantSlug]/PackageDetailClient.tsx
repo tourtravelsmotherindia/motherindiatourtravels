@@ -100,9 +100,9 @@ const ExpandableText = ({ text, maxLength = 240 }: { text: string; maxLength?: n
       <button
         type="button"
         onClick={() => setIsExpanded(!isExpanded)}
-        className="text-brand hover:text-brand-hover font-bold text-xs uppercase tracking-wider ml-1.5 inline-block focus:outline-none cursor-pointer"
+        className="text-black hover:text-neutral-700 font-semibold text-xs ml-1.5 inline-block focus:outline-none cursor-pointer"
       >
-        {isExpanded ? "see less" : "see more"}
+        {isExpanded ? "See Less" : "See More"}
       </button>
     </div>
   );
@@ -607,14 +607,14 @@ export default function PackageDetailClient({
             {/* Mobile Custom Itinerary Banner (Flat/Inline layout with inline link) */}
             <div className="lg:hidden my-8 flex flex-col gap-2 font-sans">
               <div className="flex items-center gap-2">
-                <HelpCircle className="w-5 h-5 text-brand shrink-0" />
+                <HelpCircle className="w-5 h-5 text-neutral-500 shrink-0" />
                 <h4 className="font-bold text-foreground text-sm">Need Custom Itinerary?</h4>
               </div>
               <p className="text-xs text-neutral-600 font-medium leading-relaxed">
                 Let our travel specialists design a tailored package just for you.{" "}
                 <Link
                   href="/contact"
-                  className="text-brand hover:underline font-bold transition-all inline-block"
+                  className="text-black underline font-bold transition-all inline-block hover:text-neutral-800"
                 >
                   Contact Us
                 </Link>
