@@ -62,11 +62,6 @@ export default async function SitemapPage() {
     { name: "Cookie Policy", href: "/cookie-policy/" },
   ];
 
-  const accountLinks = [
-    { name: "Admin Dashboard", href: "/manage/login/" },
-    { name: "System Status", href: "/manage/system-status/" },
-  ];
-
   return (
     <PageShell companyData={companyData}>
       <div className="layout-container py-16 md:py-24 font-sans text-neutral-800 bg-white min-h-[60vh]">
@@ -202,25 +197,6 @@ export default async function SitemapPage() {
               </h2>
               <ul className="space-y-3.5">
                 {policyLinks.map((link, idx) => (
-                  <li key={idx}>
-                    <Link
-                      href={link.href}
-                      className="text-neutral-500 hover:text-brand transition-colors duration-200 text-[15px]"
-                    >
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Column 7: Account */}
-            <div>
-              <h2 className="text-base font-semibold text-neutral-900 tracking-wide uppercase mb-6">
-                Account
-              </h2>
-              <ul className="space-y-3.5">
-                {accountLinks.map((link, idx) => (
                   <li key={idx}>
                     <Link
                       href={link.href}
