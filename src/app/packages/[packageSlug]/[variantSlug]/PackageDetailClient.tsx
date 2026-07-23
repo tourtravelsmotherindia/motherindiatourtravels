@@ -5,10 +5,8 @@ import {
   Building2,
   Calendar,
   Check,
-  ChevronDown,
   ChevronRight,
   Compass,
-  Heart,
   HelpCircle,
   MapPin,
   Sparkles,
@@ -18,7 +16,7 @@ import {
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useEffect,useMemo, useState } from "react";
 
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import PageShell from "@/components/layout/PageShell";
@@ -165,13 +163,15 @@ export default function PackageDetailClient({
     return packageData.galleryImages;
   }, [packageData.galleryImages, activeVariant.galleryImages]);
 
+  const [prevHero, setPrevHero] = useState(initialHeroImage);
   const [currentHeroImage, setCurrentHeroImage] = useState(initialHeroImage);
-  const [currentGalleryImages, setCurrentGalleryImages] = useState<string[]>([]);
+  const [currentGalleryImages, setCurrentGalleryImages] = useState<string[]>(initialGalleryImages);
 
-  useEffect(() => {
+  if (initialHeroImage !== prevHero) {
+    setPrevHero(initialHeroImage);
     setCurrentHeroImage(initialHeroImage);
     setCurrentGalleryImages(initialGalleryImages);
-  }, [initialHeroImage, initialGalleryImages]);
+  }
 
   const handleGalleryClick = (clickedImg: string, index: number) => {
     const previousHero = currentHeroImage;
