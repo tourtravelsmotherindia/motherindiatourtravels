@@ -6,14 +6,16 @@ import React from "react";
 interface FormFieldProps {
   id: string;
   label: string;
-  type?: "text" | "email" | "tel" | "textarea";
-  value: string;
+  type?: "text" | "email" | "tel" | "textarea" | "number";
+  value: string | number;
   onChange: (value: string) => void;
   placeholder?: string;
   required?: boolean;
   className?: string;
   rows?: number;
   icon?: LucideIcon | React.ComponentType<{ className?: string }>;
+  min?: number;
+  max?: number;
 }
 
 export default function FormField({
@@ -27,6 +29,8 @@ export default function FormField({
   className = "",
   rows = 4,
   icon: Icon,
+  min,
+  max,
 }: FormFieldProps) {
   const commonClasses =
     "w-full bg-white border border-neutral-200 text-sm focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/35 hover:border-neutral-300 font-sans transition-all duration-200 text-neutral-800 placeholder-neutral-400";
@@ -56,6 +60,8 @@ export default function FormField({
             value={value}
             onChange={(e) => onChange(e.target.value)}
             placeholder={placeholder}
+            min={min}
+            max={max}
             className="w-full bg-transparent text-sm focus:outline-none font-sans text-neutral-800 placeholder-neutral-400 py-3 border-none p-0 focus:ring-0 focus:border-none focus:outline-none"
           />
         </div>
