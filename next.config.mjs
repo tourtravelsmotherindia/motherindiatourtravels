@@ -1,9 +1,12 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
-  // Static export — outputs an out/ folder you can drop into any static file server
-  // (cPanel, Apache, nginx, etc.). Pages are pre-rendered at build time.
+  allowedDevOrigins: ["192.168.0.170"],
+
+  // Static export
   output: process.env.NODE_ENV === "production" ? "export" : undefined,
   trailingSlash: true,
+
   images: {
     unoptimized: true,
     remotePatterns: [
@@ -29,8 +32,9 @@ const nextConfig = {
       },
     ],
   },
-  // Skip server-only features not needed for static export
+
   skipTrailingSlashRedirect: true,
+
   generateBuildId: async () => {
     return "motherindiatourtravels-static";
   },
