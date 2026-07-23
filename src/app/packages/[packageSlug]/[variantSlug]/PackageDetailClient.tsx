@@ -16,7 +16,7 @@ import {
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect,useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import PageShell from "@/components/layout/PageShell";
@@ -243,7 +243,7 @@ export default function PackageDetailClient({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 h-[300px] md:h-[450px] lg:h-[550px]">
             {/* Left Column - 2 stacked images */}
             <div className="hidden lg:flex flex-col gap-4 col-span-3 h-full">
-              <div 
+              <div
                 onClick={() => handleGalleryClick(currentGalleryImages[0] || currentHeroImage, 0)}
                 className="relative flex-[3] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100 cursor-pointer select-none"
               >
@@ -255,7 +255,7 @@ export default function PackageDetailClient({
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
-              <div 
+              <div
                 onClick={() => handleGalleryClick(currentGalleryImages[1] || currentHeroImage, 1)}
                 className="relative flex-[2] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100 cursor-pointer select-none"
               >
@@ -283,24 +283,40 @@ export default function PackageDetailClient({
 
             {/* Right Column - 2 stacked images */}
             <div className="hidden lg:flex flex-col gap-4 col-span-3 h-full">
-              <div 
-                onClick={() => handleGalleryClick(currentGalleryImages[3] || currentGalleryImages[2] || currentHeroImage, 3)}
+              <div
+                onClick={() =>
+                  handleGalleryClick(
+                    currentGalleryImages[3] || currentGalleryImages[2] || currentHeroImage,
+                    3,
+                  )
+                }
                 className="relative flex-[2] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100 cursor-pointer select-none"
               >
                 <Image
-                  src={getOptimizedImageUrl(currentGalleryImages[3] || currentGalleryImages[2] || currentHeroImage, 800)}
+                  src={getOptimizedImageUrl(
+                    currentGalleryImages[3] || currentGalleryImages[2] || currentHeroImage,
+                    800,
+                  )}
                   alt={`${pkgName} Gallery 3`}
                   fill
                   sizes="(max-width: 1024px) 25vw, 15vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
-              <div 
-                onClick={() => handleGalleryClick(currentGalleryImages[4] || currentGalleryImages[2] || currentHeroImage, 4)}
+              <div
+                onClick={() =>
+                  handleGalleryClick(
+                    currentGalleryImages[4] || currentGalleryImages[2] || currentHeroImage,
+                    4,
+                  )
+                }
                 className="relative flex-[3] overflow-hidden rounded-[1.5rem] bg-neutral-100 group border border-neutral-100 cursor-pointer select-none"
               >
                 <Image
-                  src={getOptimizedImageUrl(currentGalleryImages[4] || currentGalleryImages[2] || currentHeroImage, 800)}
+                  src={getOptimizedImageUrl(
+                    currentGalleryImages[4] || currentGalleryImages[2] || currentHeroImage,
+                    800,
+                  )}
                   alt={`${pkgName} Gallery 4`}
                   fill
                   sizes="(max-width: 1024px) 25vw, 15vw"
