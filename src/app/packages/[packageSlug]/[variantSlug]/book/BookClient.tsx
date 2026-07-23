@@ -442,10 +442,11 @@ export default function BookClient({
           <SectionHeader
             title="Recommended for you"
             badge="Explore More"
+            mobileLayout="row"
             rightSlot={
               <Link
                 href="/packages"
-                className="group inline-flex items-center gap-1.5 text-neutral-900 hover:text-brand font-semibold text-sm transition-colors mt-4 md:mt-0 cursor-pointer"
+                className="group inline-flex items-center gap-1.5 text-neutral-900 hover:text-brand font-semibold text-sm transition-colors cursor-pointer"
               >
                 View all tours
                 <ChevronRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />

@@ -9,6 +9,7 @@ interface SectionHeaderProps {
   align?: "left" | "center"; // default "left"
   rightSlot?: React.ReactNode; // Optional right-aligned CTA or Nav
   className?: string;
+  mobileLayout?: "row" | "col"; // default "col"
 }
 
 export default function SectionHeader({
@@ -18,16 +19,20 @@ export default function SectionHeader({
   align = "left",
   rightSlot,
   className = "",
+  mobileLayout = "col",
 }: SectionHeaderProps) {
   const isCenter = align === "center";
+  const isRow = mobileLayout === "row";
 
   return (
     <div
       className={`flex ${
         isCenter
-          ? "flex-col items-center justify-center text-center"
-          : "flex-row items-end justify-between animate-fade-in"
-      } mb-8 md:mb-12 gap-4 ${className}`}
+          ? "flex-col items-center justify-center text-center mb-12 gap-6"
+          : isRow
+            ? "flex-row items-end justify-between mb-8 md:mb-12 gap-4"
+            : "flex-col md:flex-row md:items-end md:justify-between mb-12 gap-6"
+      } ${className}`}
     >
       <div className={isCenter ? "max-w-3xl mx-auto" : "max-w-4xl"}>
         {badge && (
@@ -41,7 +46,9 @@ export default function SectionHeader({
         {subtitle && <p className="text-muted font-normal mt-2 text-sm md:text-base">{subtitle}</p>}
       </div>
 
-      {rightSlot && <div className="shrink-0">{rightSlot}</div>}
+      {rightSlot && (
+        <div className={`shrink-0 ${!isCenter && !isRow ? "mt-4 md:mt-0" : ""}`}>{rightSlot}</div>
+      )}
     </div>
   );
 }

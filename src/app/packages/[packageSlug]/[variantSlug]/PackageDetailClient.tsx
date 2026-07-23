@@ -669,6 +669,7 @@ export default function PackageDetailClient({
           <SectionHeader
             title="Recommended for you"
             badge="Explore More"
+            mobileLayout="row"
             rightSlot={
               <Link
                 href="/packages"
