@@ -159,7 +159,7 @@ function DestinationsContent({
   const paginatedDestinations = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredDestinations.slice(startIndex, startIndex + itemsPerPage);
-  }, [filteredDestinations, currentPage]);
+  }, [filteredDestinations, currentPage, itemsPerPage]);
 
   const isFilterActive =
     selectedType !== "all" || selectedLocation !== "all" || sortBy !== "default";

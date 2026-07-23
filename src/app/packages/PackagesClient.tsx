@@ -262,7 +262,7 @@ function PackagesContent({
   const paginatedPackages = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredPackages.slice(startIndex, startIndex + itemsPerPage);
-  }, [filteredPackages, currentPage]);
+  }, [filteredPackages, currentPage, itemsPerPage]);
 
   const isFilterActive =
     selectedCategory !== "all" || selectedDuration !== "all" || sortBy !== "default";
