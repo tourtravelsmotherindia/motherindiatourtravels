@@ -81,7 +81,16 @@ function DestinationsContent({
     setCurrentPage(page);
   };
 
-  const itemsPerPage = 8;
+  const [itemsPerPage, setItemsPerPage] = useState(8);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setItemsPerPage(window.innerWidth < 1024 ? 10 : 8);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const typeOptions = [
     { value: "all", label: "Any Type" },

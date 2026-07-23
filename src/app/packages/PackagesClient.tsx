@@ -108,7 +108,16 @@ function PackagesContent({
     setCurrentPage(page);
   };
 
-  const itemsPerPage = 9;
+  const [itemsPerPage, setItemsPerPage] = useState(9);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setItemsPerPage(window.innerWidth < 1024 ? 10 : 9);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const allPackages = useMemo(() => {
     return packagesData || [];
