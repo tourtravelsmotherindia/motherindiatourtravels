@@ -75,6 +75,7 @@ export interface PackageItem {
   destinations: PackageDestination[]; // Derived from default/first variant for listing cards
   categories: PackageCategory[];
   variants: PackageVariantItem[];
+  updatedAt?: Date;
 }
 
 /** Full package detail including all variants with itinerary */

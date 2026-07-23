@@ -225,6 +225,7 @@ function mapPackage(pkg: any): PackageItem {
     destinations,
     categories: (pkg.categories || []).map(mapCategory),
     variants: mappedVariants,
+    updatedAt: pkg.updatedAt,
   };
 }
 
@@ -263,6 +264,7 @@ function mapPackageDetail(pkg: any): PackageDetailItem {
     seoDescription: pkg.seoDescription,
     seoKeywords: pkg.seoKeywords,
     variants: mappedVariants,
+    updatedAt: pkg.updatedAt,
   };
 }
 

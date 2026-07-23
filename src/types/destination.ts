@@ -32,6 +32,7 @@ export interface DestinationItem {
   image: string;
   seoTitle: string;
   seoDescription: string;
+  updatedAt?: Date;
   attractions: AttractionItem[];
 }
 

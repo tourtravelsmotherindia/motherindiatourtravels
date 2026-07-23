@@ -35,6 +35,7 @@ function mapDestination(d: any): DestinationItem {
     image: d.image,
     seoTitle: d.seoTitle,
     seoDescription: d.seoDescription,
+    updatedAt: d.updatedAt,
     attractions: d.attractions.map(
       (a: {
         id: string;
