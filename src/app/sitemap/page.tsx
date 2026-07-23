@@ -1,4 +1,3 @@
-import { Compass, FileText, MapPin, ShieldCheck } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
 
@@ -25,224 +24,214 @@ export default async function SitemapPage() {
     getCompanyData(),
   ]);
 
-  const coreLinks = [
-    { name: "Home", href: "/", desc: "Welcome to Mother India Tour Travels" },
-    { name: "About Us", href: "/about/", desc: "Our history, mission, and travel expertise" },
+  // Display top 8 destinations & packages
+  const popularDestinations = destinations.slice(0, 8);
+  const popularPackages = packages.slice(0, 8);
+
+  const regionLinks = [
+    { name: "North India", href: "/regions/" },
+    { name: "South India", href: "/regions/" },
+    { name: "West India", href: "/regions/" },
+    { name: "East India", href: "/regions/" },
+    { name: "Central India", href: "/regions/" },
+    { name: "Northeast India", href: "/regions/" },
+    { name: "View All Regions", href: "/regions/", isBold: true },
+  ];
+
+  const companyLinks = [
+    { name: "About Us", href: "/about/" },
+    { name: "Contact Us", href: "/contact/" },
+    { name: "Frequently Asked Questions", href: "/faqs/" },
+  ];
+
+  const supportLinks = [
     {
-      name: "Tour Packages",
-      href: "/packages/",
-      desc: "Explore customized domestic & international tours",
+      name: "WhatsApp Inquiry",
+      href: companyData?.whatsappNumber
+        ? `https://wa.me/${companyData.whatsappNumber.replace(/[^0-9]/g, "")}`
+        : "https://wa.me/919999042456",
     },
-    {
-      name: "Travel Destinations",
-      href: "/destinations/",
-      desc: "Browse beautiful places across India",
-    },
-    { name: "Regions Grid", href: "/regions/", desc: "Tour plans grouped by geographic regions" },
-    { name: "FAQs", href: "/faqs/", desc: "Frequently asked booking & cancellation questions" },
-    {
-      name: "Contact Us",
-      href: "/contact/",
-      desc: "Get in touch for custom travel booking quotes",
-    },
+    { name: "Contact Support", href: "/contact/" },
+    { name: "Traveler Reviews", href: "/#testimonials" },
   ];
 
   const policyLinks = [
-    {
-      name: "Cancellation & Refund Policy",
-      href: "/cancellation-policy/",
-      desc: "Booking cancellation charges & timelines",
-    },
-    {
-      name: "Privacy Policy",
-      href: "/privacy-policy/",
-      desc: "How we collect, secure, and handle your data",
-    },
-    {
-      name: "Terms of Service",
-      href: "/terms-of-service/",
-      desc: "Standard terms and user agreements",
-    },
-    {
-      name: "Cookie Policy",
-      href: "/cookie-policy/",
-      desc: "Details on cookies and analytics tracking",
-    },
+    { name: "Cancellation & Refund", href: "/cancellation-policy/" },
+    { name: "Privacy Policy", href: "/privacy-policy/" },
+    { name: "Terms of Service", href: "/terms-of-service/" },
+    { name: "Cookie Policy", href: "/cookie-policy/" },
+  ];
+
+  const accountLinks = [
+    { name: "Admin Dashboard", href: "/manage/login/" },
+    { name: "System Status", href: "/manage/system-status/" },
   ];
 
   return (
     <PageShell companyData={companyData}>
-      <div className="layout-container py-12 md:py-20 font-sans">
-        {/* Header */}
-        <div className="max-w-3xl mb-12 md:mb-16">
-          <span className="text-brand font-display font-bold text-sm tracking-wider uppercase bg-brand-light px-3 py-1 rounded-full">
-            Directory
-          </span>
-          <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mt-4 mb-6">
-            HTML Sitemap
-          </h1>
-          <p className="text-muted text-lg leading-relaxed">
-            Browse our comprehensive index of travel routes, package variations, geographical
-            regions, and operational guidelines. Click any link to navigate directly.
-          </p>
-        </div>
+      <div className="layout-container py-16 md:py-24 font-sans text-neutral-800 bg-white min-h-[60vh]">
+        {/* Title */}
+        <h1 className="text-4xl md:text-5xl font-display font-semibold text-neutral-900 tracking-tight mb-16">
+          Sitemap
+        </h1>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
-          {/* Column Left */}
-          <div className="space-y-12">
-            {/* Section: Core Pages */}
-            <section className="bg-white border border-border-light rounded-2xl p-6 md:p-8 shadow-premium hover:shadow-lg transition-all duration-300">
-              <div className="flex items-center gap-3 mb-6 pb-4 border-b border-border-light">
-                <Compass className="text-brand w-6 h-6" />
-                <h2 className="text-xl md:text-2xl font-display font-bold text-foreground">
-                  Core Pages
-                </h2>
-              </div>
-              <ul className="space-y-4">
-                {coreLinks.map((link) => (
-                  <li key={link.href} className="group">
-                    <Link href={link.href} className="block">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <span className="text-foreground font-semibold group-hover:text-brand transition-colors duration-200 block text-base md:text-lg">
-                            {link.name}
-                          </span>
-                          <span className="text-muted text-sm block mt-0.5">{link.desc}</span>
-                        </div>
-                        <span className="text-border-light group-hover:text-brand group-hover:translate-x-1 transition-all duration-200 text-lg font-bold">
-                          &rarr;
-                        </span>
-                      </div>
+        {/* Link Grid */}
+        <div className="space-y-16">
+          {/* Row 1 */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
+            {/* Column 1: Destinations */}
+            <div>
+              <h2 className="text-base font-semibold text-neutral-900 tracking-wide uppercase mb-6">
+                Destinations
+              </h2>
+              <ul className="space-y-3.5">
+                {popularDestinations.map((d) => (
+                  <li key={d.slug}>
+                    <Link
+                      href={`/destinations/${d.slug}/`}
+                      className="text-neutral-500 hover:text-brand transition-colors duration-200 text-[15px]"
+                    >
+                      {d.name}
+                    </Link>
+                  </li>
+                ))}
+                <li>
+                  <Link
+                    href="/destinations/"
+                    className="text-neutral-900 font-semibold hover:text-brand transition-colors duration-200 text-[15px]"
+                  >
+                    View All Destinations
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Column 2: Tour Packages */}
+            <div>
+              <h2 className="text-base font-semibold text-neutral-900 tracking-wide uppercase mb-6">
+                Tour Packages
+              </h2>
+              <ul className="space-y-3.5">
+                {popularPackages.map((p) => (
+                  <li key={p.slug}>
+                    <Link
+                      href={`/packages/${p.slug}/`}
+                      className="text-neutral-500 hover:text-brand transition-colors duration-200 text-[15px]"
+                    >
+                      {p.name}
+                    </Link>
+                  </li>
+                ))}
+                <li>
+                  <Link
+                    href="/packages/"
+                    className="text-neutral-900 font-semibold hover:text-brand transition-colors duration-200 text-[15px]"
+                  >
+                    View All Packages
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Column 3: Regions */}
+            <div>
+              <h2 className="text-base font-semibold text-neutral-900 tracking-wide uppercase mb-6">
+                Regions
+              </h2>
+              <ul className="space-y-3.5">
+                {regionLinks.map((link, idx) => (
+                  <li key={idx}>
+                    <Link
+                      href={link.href}
+                      className={`${
+                        link.isBold ? "text-neutral-900 font-semibold" : "text-neutral-500"
+                      } hover:text-brand transition-colors duration-200 text-[15px]`}
+                    >
+                      {link.name}
                     </Link>
                   </li>
                 ))}
               </ul>
-            </section>
+            </div>
 
-            {/* Section: Support & Policies */}
-            <section className="bg-white border border-border-light rounded-2xl p-6 md:p-8 shadow-premium hover:shadow-lg transition-all duration-300">
-              <div className="flex items-center gap-3 mb-6 pb-4 border-b border-border-light">
-                <ShieldCheck className="text-brand w-6 h-6" />
-                <h2 className="text-xl md:text-2xl font-display font-bold text-foreground">
-                  Policies & Legal Info
-                </h2>
-              </div>
-              <ul className="space-y-4">
-                {policyLinks.map((link) => (
-                  <li key={link.href} className="group">
-                    <Link href={link.href} className="block">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <span className="text-foreground font-semibold group-hover:text-brand transition-colors duration-200 block text-base md:text-lg">
-                            {link.name}
-                          </span>
-                          <span className="text-muted text-sm block mt-0.5">{link.desc}</span>
-                        </div>
-                        <span className="text-border-light group-hover:text-brand group-hover:translate-x-1 transition-all duration-200 text-lg font-bold">
-                          &rarr;
-                        </span>
-                      </div>
+            {/* Column 4: Company */}
+            <div>
+              <h2 className="text-base font-semibold text-neutral-900 tracking-wide uppercase mb-6">
+                Company
+              </h2>
+              <ul className="space-y-3.5">
+                {companyLinks.map((link, idx) => (
+                  <li key={idx}>
+                    <Link
+                      href={link.href}
+                      className="text-neutral-500 hover:text-brand transition-colors duration-200 text-[15px]"
+                    >
+                      {link.name}
                     </Link>
                   </li>
                 ))}
               </ul>
-            </section>
+            </div>
           </div>
 
-          {/* Column Right */}
-          <div className="space-y-12">
-            {/* Section: Destinations */}
-            <section className="bg-white border border-border-light rounded-2xl p-6 md:p-8 shadow-premium hover:shadow-lg transition-all duration-300">
-              <div className="flex items-center gap-3 mb-6 pb-4 border-b border-border-light">
-                <MapPin className="text-brand w-6 h-6" />
-                <h2 className="text-xl md:text-2xl font-display font-bold text-foreground">
-                  Explore Destinations
-                </h2>
-              </div>
-              <div className="max-h-[400px] overflow-y-auto dropdown-scrollbar pr-2 space-y-4">
-                {destinations.length === 0 ? (
-                  <p className="text-muted text-sm italic">No destinations found.</p>
-                ) : (
-                  destinations.map((d) => (
-                    <div
-                      key={d.slug}
-                      className="group pb-3 border-b border-border-light last:border-0 last:pb-0"
+          {/* Row 2 */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
+            {/* Column 5: Support */}
+            <div>
+              <h2 className="text-base font-semibold text-neutral-900 tracking-wide uppercase mb-6">
+                Support
+              </h2>
+              <ul className="space-y-3.5">
+                {supportLinks.map((link, idx) => (
+                  <li key={idx}>
+                    <Link
+                      href={link.href}
+                      className="text-neutral-500 hover:text-brand transition-colors duration-200 text-[15px]"
                     >
-                      <Link href={`/destinations/${d.slug}/`} className="block">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <span className="text-foreground font-semibold group-hover:text-brand transition-colors duration-200 text-base">
-                              {d.name}
-                            </span>
-                            <div className="flex flex-wrap gap-2 mt-1 items-center">
-                              {d.stateName && (
-                                <span className="text-xs text-muted">
-                                  {d.stateName}, {d.countryName}
-                                </span>
-                              )}
-                              <span className="text-[10px] bg-brand-light text-brand px-1.5 py-0.5 rounded font-medium uppercase tracking-wider">
-                                {d.type.replace("_", " ")}
-                              </span>
-                            </div>
-                          </div>
-                          <span className="text-border-light group-hover:text-brand group-hover:translate-x-1 transition-all duration-200 text-sm">
-                            &rarr;
-                          </span>
-                        </div>
-                      </Link>
-                    </div>
-                  ))
-                )}
-              </div>
-            </section>
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-            {/* Section: Tour Packages & Variants */}
-            <section className="bg-white border border-border-light rounded-2xl p-6 md:p-8 shadow-premium hover:shadow-lg transition-all duration-300">
-              <div className="flex items-center gap-3 mb-6 pb-4 border-b border-border-light">
-                <FileText className="text-brand w-6 h-6" />
-                <h2 className="text-xl md:text-2xl font-display font-bold text-foreground">
-                  Tour Packages & Variants
-                </h2>
-              </div>
-              <div className="max-h-[500px] overflow-y-auto dropdown-scrollbar pr-2 space-y-6">
-                {packages.length === 0 ? (
-                  <p className="text-muted text-sm italic">No packages found.</p>
-                ) : (
-                  packages.map((p) => (
-                    <div key={p.slug} className="space-y-2">
-                      <Link href={`/packages/${p.slug}/`} className="block group">
-                        <div className="flex items-center justify-between">
-                          <span className="text-foreground font-bold group-hover:text-brand transition-colors duration-200 text-base">
-                            {p.name}
-                          </span>
-                          <span className="text-xs bg-brand text-white px-2 py-0.5 rounded-full font-medium">
-                            {p.tourStyle}
-                          </span>
-                        </div>
-                      </Link>
+            {/* Column 6: Policies */}
+            <div>
+              <h2 className="text-base font-semibold text-neutral-900 tracking-wide uppercase mb-6">
+                Policies
+              </h2>
+              <ul className="space-y-3.5">
+                {policyLinks.map((link, idx) => (
+                  <li key={idx}>
+                    <Link
+                      href={link.href}
+                      className="text-neutral-500 hover:text-brand transition-colors duration-200 text-[15px]"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-                      {/* Variants */}
-                      {p.variants && p.variants.length > 0 && (
-                        <div className="pl-4 border-l-2 border-border-light space-y-1.5 py-0.5">
-                          {p.variants.map((v) => (
-                            <Link
-                              key={v.slug}
-                              href={`/packages/${p.slug}/${v.slug}/`}
-                              className="block text-sm text-muted hover:text-brand transition-colors duration-200 py-0.5 flex items-center justify-between group"
-                            >
-                              <span>{v.label}</span>
-                              <span className="opacity-0 group-hover:opacity-100 text-brand transition-opacity duration-200 text-xs">
-                                view package &rarr;
-                              </span>
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ))
-                )}
-              </div>
-            </section>
+            {/* Column 7: Account */}
+            <div>
+              <h2 className="text-base font-semibold text-neutral-900 tracking-wide uppercase mb-6">
+                Account
+              </h2>
+              <ul className="space-y-3.5">
+                {accountLinks.map((link, idx) => (
+                  <li key={idx}>
+                    <Link
+                      href={link.href}
+                      className="text-neutral-500 hover:text-brand transition-colors duration-200 text-[15px]"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>
