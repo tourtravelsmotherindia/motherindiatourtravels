@@ -8,9 +8,8 @@ export const dynamic = "force-static";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const companyData = await getCompanyData();
-  const baseUrl = companyData?.website
-    ? companyData.website.replace(/\/$/, "")
-    : "https://www.motherindiatourtravels.com";
+  const rawBaseUrl = companyData?.website || "https://motherindiatourtravels.com";
+  const baseUrl = rawBaseUrl.replace(/\/$/, "").replace("www.", "");
 
   // 1. Static Pages
   const staticPaths = [

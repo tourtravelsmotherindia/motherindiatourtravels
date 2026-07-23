@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/manage/", "/packages/*/book/"],
     },
-    sitemap: "https://www.motherindiatourtravels.com/sitemap.xml",
+    sitemap: "https://motherindiatourtravels.com/sitemap.xml",
   };
 }

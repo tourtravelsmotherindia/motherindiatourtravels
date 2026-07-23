@@ -44,7 +44,7 @@ const tripSans = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.motherindiatourtravels.com"),
+  metadataBase: new URL("https://motherindiatourtravels.com"),
   title: "Mother India Tour Travels | Escape the City, Find Your Peace",
   description:
     "Discover unforgettable adventures in India's most beautiful places. Custom guided tours, serene Kerala backwaters, desert safaris, and Himalayan heights.",
