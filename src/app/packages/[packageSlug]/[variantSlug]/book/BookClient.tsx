@@ -427,16 +427,12 @@ export default function BookClient({
                 Talk to our travel specialists for custom itineraries, group discounts, or special
                 requirements.
               </p>
-              {companyData && companyData.whatsappNumber && (
-                <a
-                  href={`https://wa.me/${companyData.whatsappNumber}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white font-semibold text-xs uppercase tracking-wider py-3 px-5 rounded-full transition-all duration-300 cursor-pointer select-none mt-1 w-fit"
-                >
-                  WhatsApp Experts
-                </a>
-              )}
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center gap-2 border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white font-semibold text-xs uppercase tracking-wider py-3 px-5 rounded-full transition-all duration-300 cursor-pointer select-none mt-1 w-fit"
+              >
+                Contact Us
+              </Link>
             </div>
           </aside>
         </div>
