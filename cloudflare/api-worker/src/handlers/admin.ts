@@ -1,5 +1,6 @@
-import { requireAdmin } from "../middleware/auth";
+import { workerLogger } from "../lib/logger";
 import { createSupabaseClient } from "../lib/supabase";
+import { requireAdmin } from "../middleware/auth";
 import type { Env } from "../types";
 
 /** GET /admin/bookings — list all booking inquiries */
@@ -130,7 +131,13 @@ export async function handleDeploy(request: Request, env: Env): Promise<Response
         });
       } else {
         const errorText = await response.text();
-        console.error("Cloudflare Pages hook failed:", response.status, errorText);
+        workerLogger.error(
+          "Admin",
+          "Cloudflare Pages hook failed:",
+          env.ENVIRONMENT,
+          response.status,
+          errorText,
+        );
         return Response.json(
           {
             error: `Failed to trigger Cloudflare Pages deployment: ${errorText || response.statusText}`,
@@ -139,7 +146,12 @@ export async function handleDeploy(request: Request, env: Env): Promise<Response
         );
       }
     } catch (err: any) {
-      console.error("Error triggering Cloudflare Pages deployment:", err);
+      workerLogger.error(
+        "Admin",
+        "Error triggering Cloudflare Pages deployment:",
+        env.ENVIRONMENT,
+        err,
+      );
       return Response.json(
         { error: `Internal error triggering Cloudflare Pages deployment: ${err.message || err}` },
         { status: 500 },
@@ -180,14 +192,20 @@ export async function handleDeploy(request: Request, env: Env): Promise<Response
       return Response.json({ success: true, message: "Deployment triggered successfully" });
     } else {
       const errorText = await response.text();
-      console.error("GitHub dispatch failed:", response.status, errorText);
+      workerLogger.error(
+        "Admin",
+        "GitHub dispatch failed:",
+        env.ENVIRONMENT,
+        response.status,
+        errorText,
+      );
       return Response.json(
         { error: `Failed to trigger deployment: ${errorText || response.statusText}` },
         { status: response.status },
       );
     }
   } catch (err: any) {
-    console.error("Error triggering deployment:", err);
+    workerLogger.error("Admin", "Error triggering deployment:", env.ENVIRONMENT, err);
     return Response.json(
       { error: `Internal error triggering deployment: ${err.message || err}` },
       { status: 500 },
@@ -233,7 +251,13 @@ export async function handleDeployStatus(request: Request, env: Env): Promise<Re
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error("Failed to fetch Cloudflare Pages deployments:", response.status, errorText);
+        workerLogger.error(
+          "Admin",
+          "Failed to fetch Cloudflare Pages deployments:",
+          env.ENVIRONMENT,
+          response.status,
+          errorText,
+        );
         return Response.json(
           { error: `Failed to fetch deployment status: ${errorText || response.statusText}` },
           { status: response.status },
@@ -284,7 +308,12 @@ export async function handleDeployStatus(request: Request, env: Env): Promise<Re
         createdAt: latestDeployment.created_on,
       });
     } catch (err: any) {
-      console.error("Error fetching Cloudflare Pages deployment status:", err);
+      workerLogger.error(
+        "Admin",
+        "Error fetching Cloudflare Pages deployment status:",
+        env.ENVIRONMENT,
+        err,
+      );
       return Response.json(
         { error: `Internal error fetching deployment status: ${err.message || err}` },
         { status: 500 },
@@ -318,7 +347,13 @@ export async function handleDeployStatus(request: Request, env: Env): Promise<Re
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("Failed to fetch workflow runs:", response.status, errorText);
+      workerLogger.error(
+        "Admin",
+        "Failed to fetch workflow runs:",
+        env.ENVIRONMENT,
+        response.status,
+        errorText,
+      );
       return Response.json(
         { error: `Failed to fetch deployment status: ${errorText || response.statusText}` },
         { status: response.status },
@@ -347,7 +382,7 @@ export async function handleDeployStatus(request: Request, env: Env): Promise<Re
       createdAt: latestRun.created_at,
     });
   } catch (err: any) {
-    console.error("Error fetching deployment status:", err);
+    workerLogger.error("Admin", "Error fetching deployment status:", env.ENVIRONMENT, err);
     return Response.json(
       { error: `Internal error fetching deployment status: ${err.message || err}` },
       { status: 500 },

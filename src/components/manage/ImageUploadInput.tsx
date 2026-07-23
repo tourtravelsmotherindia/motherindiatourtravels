@@ -5,6 +5,7 @@ import React, { useRef, useState } from "react";
 
 import { useToast } from "@/context/ToastContext";
 import { uploadImage } from "@/lib/adminApi";
+import { logger } from "@/lib/logger";
 
 interface ImageUploadInputProps {
   value: string;
@@ -37,7 +38,7 @@ export default function ImageUploadInput({
       setUploadState("idle");
       showToast("success", "Upload Complete", "Image uploaded successfully to R2 storage.");
     } catch (err: unknown) {
-      console.error(err);
+      logger.error("ImageUpload", "Failed to upload image to storage", err);
       setUploadState("error");
       const errorMessage = err instanceof Error ? err.message : "Failed to upload image";
       showToast("error", "Upload Failed", errorMessage);

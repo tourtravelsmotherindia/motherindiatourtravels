@@ -29,6 +29,7 @@ import { useToast } from "@/context/ToastContext";
 import { useSystemPing } from "@/lib/hooks/mutations";
 import { useDashboardMetrics } from "@/lib/hooks/queries";
 import type { BookingSummary } from "@/lib/hooks/queries/useDashboardMetrics";
+import { logger } from "@/lib/logger";
 import { formatLocalDateTime, formatLocalDateTimeVerbose } from "@/lib/manage/dateUtils";
 
 interface MetricCardProps {
@@ -87,7 +88,7 @@ export default function DashboardOverview() {
         throw new Error(response?.error || "Diagnostics failed");
       }
     } catch (err: unknown) {
-      console.error("Diagnostic check failed:", err);
+      logger.error("ManageDashboard", "Diagnostic check failed:", err);
       const errMsg = err instanceof Error ? err.message : "Failed to trigger system status check.";
       // Don't toast on session expiry — the layout handles redirect smoothly
       if (!errMsg.includes("Session expired")) {

@@ -17,6 +17,7 @@ import React, { useEffect, useState } from "react";
 import ConfirmationModal from "@/components/ui/ConfirmationModal";
 import { useToast } from "@/context/ToastContext";
 import { adminGet, adminPost } from "@/lib/adminApi";
+import { logger } from "@/lib/logger";
 import { formatLocalDateTimeVerbose } from "@/lib/manage/dateUtils";
 
 function GithubIcon(props: React.ComponentProps<"svg">) {
@@ -79,7 +80,7 @@ export default function DeployDashboard() {
             }
           }
         } catch (err) {
-          console.error("Failed to fetch cpanel status:", err);
+          logger.error("DeployDashboard", "Failed to fetch cpanel status:", err);
         }
       }, ms);
     };
@@ -96,7 +97,7 @@ export default function DeployDashboard() {
           }
         }
       } catch (err) {
-        console.error("Failed to fetch cpanel status:", err);
+        logger.error("DeployDashboard", "Failed to fetch cpanel status:", err);
       } finally {
         if (active) setCpanelLoading(false);
       }
@@ -127,7 +128,7 @@ export default function DeployDashboard() {
             }
           }
         } catch (err) {
-          console.error("Failed to fetch Cloudflare status:", err);
+          logger.error("DeployDashboard", "Failed to fetch Cloudflare status:", err);
         }
       }, ms);
     };
@@ -144,7 +145,7 @@ export default function DeployDashboard() {
           }
         }
       } catch (err) {
-        console.error("Failed to fetch Cloudflare status:", err);
+        logger.error("DeployDashboard", "Failed to fetch Cloudflare status:", err);
       } finally {
         if (active) setCfLoading(false);
       }
@@ -172,7 +173,7 @@ export default function DeployDashboard() {
       );
       setTimeout(() => setCpanelActionState("idle"), 3000);
     } catch (err: unknown) {
-      console.error("Failed to trigger cPanel deploy:", err);
+      logger.error("DeployDashboard", "Failed to trigger cPanel deploy:", err);
       const errMsg = err instanceof Error ? err.message : "Failed to trigger cPanel deployment.";
       showToast("error", "Deployment Failed", errMsg);
       setCpanelActionState("error");
@@ -194,7 +195,7 @@ export default function DeployDashboard() {
       );
       setTimeout(() => setCfActionState("idle"), 3000);
     } catch (err: unknown) {
-      console.error("Failed to trigger Cloudflare Pages deploy:", err);
+      logger.error("DeployDashboard", "Failed to trigger Cloudflare Pages deploy:", err);
       const errMsg =
         err instanceof Error ? err.message : "Failed to trigger Cloudflare Pages deployment.";
       showToast("error", "Deployment Failed", errMsg);

@@ -1,3 +1,4 @@
+import { workerLogger } from "../lib/logger";
 import { createSupabaseClient } from "../lib/supabase";
 import type { Env } from "../types";
 
@@ -23,7 +24,7 @@ export async function handleNewsletter(request: Request, env: Env): Promise<Resp
     // Upsert to handle duplicate subscriptions gracefully
     await db.from("NewsletterSubscriber").upsert({ email, name }, "email");
   } catch (err) {
-    console.error("Newsletter upsert failed:", err);
+    workerLogger.error("Newsletter", "Newsletter upsert failed:", env.ENVIRONMENT, err);
     return Response.json({ error: "Failed to save subscription" }, { status: 500 });
   }
 

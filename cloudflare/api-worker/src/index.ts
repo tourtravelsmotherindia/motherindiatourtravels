@@ -1,3 +1,4 @@
+import { workerLogger } from "./lib/logger";
 import {
   handleAdminBookingsGet,
   handleAdminBookingsUpdateStatus,
@@ -78,7 +79,7 @@ export default {
     try {
       response = await route(request, url, env, ctx);
     } catch (err) {
-      console.error("Unhandled error:", err);
+      workerLogger.error("Worker", "Unhandled error:", env.ENVIRONMENT, err);
       response = Response.json({ error: "Internal server error" }, { status: 500 });
     }
 
@@ -88,11 +89,11 @@ export default {
   async scheduled(controller: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
     ctx.waitUntil(
       handleCronPing(env)
-        .then((res) => {
-          console.log("[Scheduled Cron] Cron ping executed successfully:", res);
+        .then(() => {
+          workerLogger.log("Scheduled Cron", "Cron ping executed successfully", env.ENVIRONMENT);
         })
         .catch((err) => {
-          console.error("[Scheduled Cron] Error executing cron ping:", err);
+          workerLogger.error("Scheduled Cron", "Error executing cron ping:", env.ENVIRONMENT, err);
         }),
     );
   },

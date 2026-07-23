@@ -9,6 +9,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { fetchRecords } from "@/lib/apiClient";
+import { logger } from "@/lib/logger";
 import type { SystemStatus } from "@/types/system-status";
 
 import { queryKeys } from "./queryKeys";
@@ -47,7 +48,7 @@ export function useDashboardMetrics() {
         fetchRecords("blog-posts"),
         fetchRecords("contacts"),
         fetchRecords<SystemStatus>("system-status", "order=createdAt.desc&limit=1").catch((e) => {
-          console.error("Failed to fetch system status for dashboard:", e);
+          logger.error("DashboardMetrics", "Failed to fetch system status for dashboard:", e);
           return [];
         }),
       ]);

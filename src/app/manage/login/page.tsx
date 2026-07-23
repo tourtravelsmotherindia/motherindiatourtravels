@@ -6,6 +6,7 @@ import React, { Suspense, useEffect, useState } from "react";
 
 import { useToast } from "@/context/ToastContext";
 import { setTokens } from "@/lib/adminApi";
+import { logger } from "@/lib/logger";
 
 function LoginForm() {
   const router = useRouter();
@@ -29,7 +30,7 @@ function LoginForm() {
           setNeedsInit(!!data.needsInitialization);
         }
       } catch (err) {
-        console.error("Failed to check initialization status:", err);
+        logger.error("Login", "Failed to check initialization status:", err);
       }
     };
     checkInitialization();

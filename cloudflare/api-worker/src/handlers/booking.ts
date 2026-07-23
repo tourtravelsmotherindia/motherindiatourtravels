@@ -4,6 +4,7 @@ import {
   bookingGuestTemplate,
 } from "../lib/email-templates";
 import { sendEmail } from "../lib/smtp";
+import { workerLogger } from "../lib/logger";
 import { createSupabaseClient } from "../lib/supabase";
 import type { Env } from "../types";
 import companyJson from "../company.json";
@@ -72,7 +73,7 @@ export async function handleBooking(
   try {
     inquiry = await db.from("BookingInquiry").insert(record);
   } catch (err) {
-    console.error("Booking insert failed:", err);
+    workerLogger.error("Booking", "Booking insert failed:", env.ENVIRONMENT, err);
     return Response.json({ error: "Failed to save booking inquiry" }, { status: 500 });
   }
 
@@ -197,7 +198,7 @@ export async function handleBooking(
     ]).then((results) => {
       results.forEach((r, i) => {
         if (r.status === "rejected") {
-          console.error(`Booking email ${i} failed:`, r.reason);
+          workerLogger.error("Booking", `Booking email ${i} failed:`, env.ENVIRONMENT, r.reason);
         }
       });
     }),

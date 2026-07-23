@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 
+import { logger } from "@/lib/logger";
+
 export function useFavorites(storageKey = "mother_india_favorites") {
   const [favorites, setFavorites] = useState<string[]>([]);
 
@@ -13,7 +15,7 @@ export function useFavorites(storageKey = "mother_india_favorites") {
         setFavorites(JSON.parse(saved));
       }
     } catch (e) {
-      console.error("Failed to parse favorites from localStorage", e);
+      logger.error("Favorites", "Failed to parse favorites from localStorage", e);
     }
   }, [storageKey]);
 
@@ -25,7 +27,7 @@ export function useFavorites(storageKey = "mother_india_favorites") {
       try {
         localStorage.setItem(storageKey, JSON.stringify(next));
       } catch (e) {
-        console.error("Failed to save favorites to localStorage", e);
+        logger.error("Favorites", "Failed to save favorites to localStorage", e);
       }
       return next;
     });

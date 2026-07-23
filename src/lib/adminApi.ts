@@ -1,3 +1,5 @@
+import { logger } from "@/lib/logger";
+
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "https://api.motherindiatourtravels.com";
 
 export interface LoginResponse {
@@ -88,7 +90,7 @@ async function adminRequest<T>(path: string, options: RequestInit = {}): Promise
           });
         }
       } catch (err) {
-        console.error("Token auto-refresh failed:", err);
+        logger.error("AdminApi", "Token auto-refresh failed:", err);
       }
     }
 

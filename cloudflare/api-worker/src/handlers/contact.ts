@@ -4,6 +4,7 @@ import {
   contactGuestTemplate,
 } from "../lib/email-templates";
 import { sendEmail } from "../lib/smtp";
+import { workerLogger } from "../lib/logger";
 import { createSupabaseClient } from "../lib/supabase";
 import type { Env } from "../types";
 import companyJson from "../company.json";
@@ -45,7 +46,7 @@ export async function handleContact(
       status: "NEW",
     });
   } catch (err) {
-    console.error("Contact insert failed:", err);
+    workerLogger.error("Contact", "Contact insert failed:", env.ENVIRONMENT, err);
     return Response.json({ error: "Failed to save contact submission" }, { status: 500 });
   }
 
@@ -97,7 +98,8 @@ export async function handleContact(
       }),
     ]).then((results) => {
       results.forEach((r, i) => {
-        if (r.status === "rejected") console.error(`Contact email ${i} failed:`, r.reason);
+        if (r.status === "rejected")
+          workerLogger.error("Contact", `Contact email ${i} failed:`, env.ENVIRONMENT, r.reason);
       });
     }),
   );

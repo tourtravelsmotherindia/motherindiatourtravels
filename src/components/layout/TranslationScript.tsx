@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 
 import CookieConsent from "@/components/layout/CookieConsent";
+import { logger } from "@/lib/logger";
 
 declare global {
   interface Window {
@@ -29,7 +30,7 @@ export default function TranslationScript() {
 
     // 1. Define the initialization callback Google Translate expects
     window.googleTranslateElementInit = () => {
-      console.log("🌐 Google Translate Element Initializing...");
+      logger.log("Translate", "Google Translate Element Initializing...");
       try {
         if (window.google?.translate?.TranslateElement) {
           new window.google.translate.TranslateElement(
@@ -41,30 +42,34 @@ export default function TranslationScript() {
             },
             "google_translate_element",
           );
-          console.log("🌐 Google Translate Element Initialized Successfully.");
+          logger.log("Translate", "Google Translate Element Initialized Successfully.");
         } else {
-          console.error(
-            "🌐 Google Translate Element failed: translate library not found on google object.",
+          logger.error(
+            "Translate",
+            "Google Translate Element failed: translate library not found on google object.",
           );
         }
       } catch (err) {
-        console.error("🌐 Exception during Google Translate initialization:", err);
+        logger.error("Translate", "Exception during Google Translate initialization:", err);
       }
     };
 
     // 2. If the Google Translate library is already loaded in window, run the init callback immediately
     if (window.google?.translate?.TranslateElement) {
-      console.log("🌐 Google Translate library already loaded. Initializing immediately...");
+      logger.log(
+        "Translate",
+        "Google Translate library already loaded. Initializing immediately...",
+      );
       window.googleTranslateElementInit();
     } else {
       // 3. Otherwise inject/re-inject the Google Translate script tag to guarantee fresh callback binding
       const scriptId = "google-translate-script";
       const existingScript = document.getElementById(scriptId);
       if (existingScript) {
-        console.log("🌐 Removing stale script tag for fresh callback binding...");
+        logger.log("Translate", "Removing stale script tag for fresh callback binding...");
         existingScript.remove();
       }
-      console.log("🌐 Injecting Google Translate Script...");
+      logger.log("Translate", "Injecting Google Translate Script...");
       const script = document.createElement("script");
       script.id = scriptId;
       script.type = "text/javascript";
@@ -72,8 +77,9 @@ export default function TranslationScript() {
         "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
       script.async = true;
       script.onerror = (err) => {
-        console.error(
-          "🌐 Google Translate Script failed to load. Blocked by adblocker or offline?",
+        logger.error(
+          "Translate",
+          "Google Translate Script failed to load. Blocked by adblocker or offline?",
           err,
         );
       };
@@ -108,7 +114,7 @@ export default function TranslationScript() {
  * Sets the appropriate cookie for cross-page persistence and triggers the select event.
  */
 export const triggerTranslation = (langCode: string) => {
-  console.log(`🌐 triggerTranslation called for: "${langCode}"`);
+  logger.log("Translate", `triggerTranslation called for: "${langCode}"`);
   try {
     const value = `/en/${langCode}`;
 
@@ -146,7 +152,7 @@ export const triggerTranslation = (langCode: string) => {
       if (googleSelect) {
         googleSelect.value = langCode;
         googleSelect.dispatchEvent(new Event("change"));
-        console.log(`🌐 Successfully triggered translation to: "${langCode}"`);
+        logger.log("Translate", `Successfully triggered translation to: "${langCode}"`);
         return true;
       }
       return false;
@@ -154,8 +160,9 @@ export const triggerTranslation = (langCode: string) => {
 
     // Attempt immediately
     if (!applyChange()) {
-      console.warn(
-        "🌐 Google Translate select element (.goog-te-combo) not found in DOM yet. Retrying...",
+      logger.warn(
+        "Translate",
+        "Google Translate select element (.goog-te-combo) not found in DOM yet. Retrying...",
       );
       // Poll every 150ms up to 20 times (3 seconds total) to handle deferred loading
       let attempts = 0;
@@ -165,13 +172,13 @@ export const triggerTranslation = (langCode: string) => {
         if (success || attempts >= 20) {
           clearInterval(interval);
           if (!success) {
-            console.error("🌐 Google Translate failed to initialize after 3 seconds.");
+            logger.error("Translate", "Google Translate failed to initialize after 3 seconds.");
           }
         }
       }, 150);
     }
   } catch (error) {
-    console.error("🌐 Error setting translation:", error);
+    logger.error("Translate", "Error setting translation:", error);
   }
 };
 
@@ -204,10 +211,10 @@ export const retriggerTranslation = () => {
       if (googleSelect) {
         googleSelect.value = activeLang;
         googleSelect.dispatchEvent(new Event("change"));
-        console.log(`🌐 Retriggered translation to: "${activeLang}"`);
+        logger.log("Translate", `Retriggered translation to: "${activeLang}"`);
       }
     }
   } catch (error) {
-    console.error("🌐 Error re-triggering translation:", error);
+    logger.error("Translate", "Error re-triggering translation:", error);
   }
 };

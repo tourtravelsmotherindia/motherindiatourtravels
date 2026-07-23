@@ -1,5 +1,6 @@
 import { withBuildCache } from "@/lib/db/buildCache";
 import { prisma } from "@/lib/db/prisma";
+import { logger } from "@/lib/logger";
 import type { AboutData, CompanyData, WorkingHoursSchedule } from "@/types/company";
 
 export async function getCompanyData(): Promise<CompanyData | null> {
@@ -14,7 +15,7 @@ export async function getCompanyData(): Promise<CompanyData | null> {
       aboutData =
         typeof c.about === "string" ? JSON.parse(c.about) : (c.about as unknown as AboutData);
     } catch (e) {
-      console.error("Failed to parse about field:", e);
+      logger.error("CompanyRepo", "Failed to parse about field:", e);
       aboutData = {} as AboutData;
     }
 
@@ -26,7 +27,7 @@ export async function getCompanyData(): Promise<CompanyData | null> {
           ? JSON.parse(c.schedule)
           : (c.schedule as unknown as WorkingHoursSchedule[]);
     } catch (e) {
-      console.error("Failed to parse schedule field:", e);
+      logger.error("CompanyRepo", "Failed to parse schedule field:", e);
     }
 
     let exceptionsParsed: unknown[] = [];
@@ -36,7 +37,7 @@ export async function getCompanyData(): Promise<CompanyData | null> {
           ? JSON.parse(c.exceptions)
           : (c.exceptions as unknown as unknown[]);
     } catch (e) {
-      console.error("Failed to parse exceptions field:", e);
+      logger.error("CompanyRepo", "Failed to parse exceptions field:", e);
     }
 
     let socialMediaParsed: Record<string, string> = {};
@@ -46,7 +47,7 @@ export async function getCompanyData(): Promise<CompanyData | null> {
           ? JSON.parse(c.socialMedia)
           : (c.socialMedia as unknown as Record<string, string>);
     } catch (e) {
-      console.error("Failed to parse socialMedia field:", e);
+      logger.error("CompanyRepo", "Failed to parse socialMedia field:", e);
     }
 
     const workingHoursObj = {

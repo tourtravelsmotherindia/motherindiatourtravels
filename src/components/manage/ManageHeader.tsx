@@ -9,6 +9,7 @@ import { useToast } from "@/context/ToastContext";
 import { adminGet } from "@/lib/adminApi";
 import { ADMIN_TABLES } from "@/lib/adminSchema";
 import { useSystemPing } from "@/lib/hooks/mutations";
+import { logger } from "@/lib/logger";
 
 interface ManageHeaderProps {
   onOpenMobile: () => void;
@@ -40,7 +41,7 @@ export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHe
         throw new Error(response?.error || "Diagnostics failed");
       }
     } catch (err: unknown) {
-      console.error("Diagnostic trigger failed:", err);
+      logger.error("ManageHeader", "Diagnostic trigger failed:", err);
       const errMsg = err instanceof Error ? err.message : "Failed to run manual diagnostics.";
       showToast("error", "Diagnostic Failed", errMsg);
     }
@@ -62,7 +63,7 @@ export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHe
             }
           }
         } catch (err) {
-          console.error("Failed to fetch deployment status:", err);
+          logger.error("ManageHeader", "Failed to fetch deployment status:", err);
         }
       }, ms);
     };
@@ -79,7 +80,7 @@ export default function ManageHeader({ onOpenMobile, title, subtitle }: ManageHe
           }
         }
       } catch (err) {
-        console.error("Failed to fetch deployment status:", err);
+        logger.error("ManageHeader", "Failed to fetch deployment status:", err);
       }
     };
 

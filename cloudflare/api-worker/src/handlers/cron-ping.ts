@@ -1,3 +1,4 @@
+import { workerLogger } from "../lib/logger";
 import { createSupabaseClient } from "../lib/supabase";
 import type { Env } from "../types";
 import { requireAdmin } from "../middleware/auth";
@@ -24,7 +25,7 @@ async function pingUrl(url: string): Promise<{ success: boolean; timeMs: number 
     // but both workers have a /health endpoint that returns 200, and the website should return 200.
     return { success: res.status >= 200 && res.status < 400, timeMs: Date.now() - start };
   } catch (err) {
-    console.error(`Health ping failed for ${url}:`, err);
+    workerLogger.error("KeepAlive Cron", `Health ping failed for ${url}:`, env.ENVIRONMENT, err);
     return { success: false, timeMs: Date.now() - start };
   }
 }
@@ -33,10 +34,18 @@ export async function handleCronPing(
   env: Env,
   triggeredBy = "cloudflare-worker-cron",
 ): Promise<Record<string, unknown>> {
-  console.log("[KeepAlive Cron] Starting system status and keep-alive checks...");
+  workerLogger.log(
+    "KeepAlive Cron",
+    "Starting system status and keep-alive checks...",
+    env.ENVIRONMENT,
+  );
 
   if (!env.SUPABASE_URL || !env.SUPABASE_SECRET_KEY) {
-    console.error("[KeepAlive Cron] SUPABASE_URL or SUPABASE_SECRET_KEY is missing!");
+    workerLogger.error(
+      "KeepAlive Cron",
+      "SUPABASE_URL or SUPABASE_SECRET_KEY is missing!",
+      env.ENVIRONMENT,
+    );
     throw new Error("Missing Supabase configuration");
   }
 
@@ -85,10 +94,14 @@ export async function handleCronPing(
 
     dbSuccess = true;
     dbPingTimeMs = Date.now() - dbStart;
-    console.log("[KeepAlive Cron] Database read queries completed successfully.");
+    workerLogger.log(
+      "KeepAlive Cron",
+      "Database read queries completed successfully.",
+      env.ENVIRONMENT,
+    );
   } catch (err) {
     dbPingTimeMs = Date.now() - dbStart;
-    console.error("[KeepAlive Cron] Database queries failed:", err);
+    workerLogger.error("KeepAlive Cron", "Database queries failed:", env.ENVIRONMENT, err);
   }
 
   // 3. Determine Overall Status
@@ -127,8 +140,8 @@ export async function handleCronPing(
 
   try {
     // 1. Insert new health log
-    const result = await db.from("SystemStatus").insert(statusPayload);
-    console.log("[KeepAlive Cron] Log inserted successfully:", result);
+    await db.from("SystemStatus").insert(statusPayload);
+    workerLogger.log("KeepAlive Cron", "Log inserted successfully", env.ENVIRONMENT);
 
     // 2. Delete logs older than 90 days
     const ninetyDaysAgo = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString();
@@ -141,14 +154,23 @@ export async function handleCronPing(
       },
     });
     if (!deleteRes.ok) {
-      console.error("[KeepAlive Cron] Failed to purge old logs:", await deleteRes.text());
+      workerLogger.error("KeepAlive Cron", "Failed to purge old logs", env.ENVIRONMENT);
     } else {
-      console.log("[KeepAlive Cron] Successfully purged logs older than 90 days.");
+      workerLogger.log(
+        "KeepAlive Cron",
+        "Successfully purged logs older than 90 days.",
+        env.ENVIRONMENT,
+      );
     }
 
     return statusPayload;
   } catch (err) {
-    console.error("[KeepAlive Cron] Failed to write SystemStatus to database:", err);
+    workerLogger.error(
+      "KeepAlive Cron",
+      "Failed to write SystemStatus to database:",
+      env.ENVIRONMENT,
+      err,
+    );
     throw err;
   }
 }

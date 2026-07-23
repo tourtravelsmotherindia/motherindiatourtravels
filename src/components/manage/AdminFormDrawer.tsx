@@ -10,6 +10,7 @@ import { ADMIN_TABLES, FieldConfig, getSingularLabel } from "@/lib/adminSchema";
 import { fetchRecords } from "@/lib/apiClient";
 import { useCreateRecord, useUpdateRecord } from "@/lib/hooks/mutations";
 import { useRecord } from "@/lib/hooks/queries";
+import { logger } from "@/lib/logger";
 import { formatForDatetimeLocalInput } from "@/lib/manage/dateUtils";
 import { type AboutData, type WorkingHoursSchedule } from "@/types/company";
 
@@ -164,7 +165,11 @@ export default function AdminFormDrawer({
             setRelationOptions((prev) => ({ ...prev, [field.name]: options }));
           }
         } catch (err) {
-          console.error(`Failed to load relation options for ${field.name}:`, err);
+          logger.error(
+            "AdminFormDrawer",
+            `Failed to load relation options for ${field.name}:`,
+            err,
+          );
         }
       }
     };

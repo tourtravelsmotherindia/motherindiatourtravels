@@ -8,7 +8,7 @@ import pg from "pg";
 async function main() {
   const connectionString = process.env.DIRECT_URL || process.env.DATABASE_URL;
   if (!connectionString) {
-    console.error("❌ Error: Neither DIRECT_URL nor DATABASE_URL is set in environment!");
+    console.error("[DbReset] Error: Neither DIRECT_URL nor DATABASE_URL is set in environment!");
     process.exit(1);
   }
 

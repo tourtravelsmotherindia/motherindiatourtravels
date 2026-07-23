@@ -22,15 +22,15 @@ config({ path: path.resolve(__dirname, "../.env") });
 const SEED_SQL = path.resolve(__dirname, "seed.sql");
 
 async function main() {
-  console.log("🌱 Starting seed (PostgreSQL / Supabase via SQL)...\n");
+  console.log("[Seed] Starting seed (PostgreSQL / Supabase via SQL)...\n");
 
   if (!fs.existsSync(SEED_SQL)) {
-    console.error(`❌ Seed SQL file not found: ${SEED_SQL}`);
+    console.error(`[Seed] Seed SQL file not found: ${SEED_SQL}`);
     process.exit(1);
   }
 
   const sql = fs.readFileSync(SEED_SQL, "utf-8");
-  console.log(`   Read ${sql.length} bytes from seed.sql\n`);
+  console.log(`[Seed] Read ${sql.length} bytes from seed.sql\n`);
 
   const client = new Client({ connectionString: process.env.DATABASE_URL });
   await client.connect();
@@ -38,9 +38,9 @@ async function main() {
   try {
     // pg's query() supports the full SQL script including DO $$ blocks
     await client.query(sql);
-    console.log("✅ Seed complete! All statements executed successfully.");
+    console.log("[Seed] Seed complete! All statements executed successfully.");
   } catch (err) {
-    console.error("\n❌ Seed failed:");
+    console.error("\n[Seed] Seed failed:");
     console.error((err as Error).message);
     throw err;
   } finally {
@@ -49,6 +49,6 @@ async function main() {
 }
 
 main().catch((e) => {
-  console.error("❌ Seed failed:", e);
+  console.error("[Seed] Seed failed:", e);
   process.exit(1);
 });

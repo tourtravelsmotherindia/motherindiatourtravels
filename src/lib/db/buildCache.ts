@@ -1,6 +1,8 @@
 import fs from "fs";
 import path from "path";
 
+import { logger } from "@/lib/logger";
+
 const CACHE_DIR = path.join(process.cwd(), ".build-cache");
 
 /**
@@ -21,7 +23,7 @@ export async function withBuildCache<T>(key: string, fetchFn: () => Promise<T>):
     try {
       fs.mkdirSync(CACHE_DIR, { recursive: true });
     } catch (e) {
-      console.warn(`[BuildCache] Failed to create cache directory:`, e);
+      logger.warn("BuildCache", "Failed to create cache directory:", e);
     }
   }
 
@@ -37,7 +39,7 @@ export async function withBuildCache<T>(key: string, fetchFn: () => Promise<T>):
         return JSON.parse(cachedData) as T;
       }
     } catch (e) {
-      console.warn(`[BuildCache] Failed to read/parse cache file for "${key}":`, e);
+      logger.warn("BuildCache", `Failed to read/parse cache file for "${key}":`, e);
     }
   }
 
@@ -54,7 +56,7 @@ export async function withBuildCache<T>(key: string, fetchFn: () => Promise<T>):
     fs.writeFileSync(tempFile, JSON.stringify(result), "utf-8");
     fs.renameSync(tempFile, cacheFile);
   } catch (e) {
-    console.warn(`[BuildCache] Failed to write cache file for "${key}":`, e);
+    logger.warn("BuildCache", `Failed to write cache file for "${key}":`, e);
   }
 
   return result;

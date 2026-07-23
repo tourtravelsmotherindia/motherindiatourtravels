@@ -1,3 +1,4 @@
+import { workerLogger } from "../lib/logger";
 import { createSupabaseClient } from "../lib/supabase";
 import type { Env } from "../types";
 
@@ -45,7 +46,7 @@ export async function requireAdmin(
       .eq("email", user.email)
       .getOne<{ role: string }>();
   } catch (err) {
-    console.error("Admin authorization check failed:", err);
+    workerLogger.error("AuthMiddleware", "Admin authorization check failed:", env.ENVIRONMENT, err);
     throw new Response(JSON.stringify({ error: "Internal server error authorizing user" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },

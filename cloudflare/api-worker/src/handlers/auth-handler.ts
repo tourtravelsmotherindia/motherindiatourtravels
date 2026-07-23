@@ -1,3 +1,4 @@
+import { workerLogger } from "../lib/logger";
 import { createSupabaseClient } from "../lib/supabase";
 import type { Env } from "../types";
 
@@ -9,7 +10,7 @@ export async function handleCheckInit(request: Request, env: Env): Promise<Respo
     const needsInitialization = admins.length === 0;
     return Response.json({ needsInitialization });
   } catch (err) {
-    console.error("Check-init check failed:", err);
+    workerLogger.error("Auth", "Check-init check failed:", env.ENVIRONMENT, err);
     // Safe fallback: allow initialization if database is not set up yet
     return Response.json({ needsInitialization: true });
   }
@@ -41,7 +42,12 @@ export async function handleSignup(request: Request, env: Env): Promise<Response
       );
     }
   } catch (err) {
-    console.warn("User table query during signup failed, proceeding:", err);
+    workerLogger.warn(
+      "Auth",
+      "User table query during signup failed, proceeding:",
+      env.ENVIRONMENT,
+      err,
+    );
   }
 
   // Create account in Supabase Auth
@@ -60,7 +66,7 @@ export async function handleSignup(request: Request, env: Env): Promise<Response
       updatedAt: new Date().toISOString(),
     });
   } catch (err) {
-    console.error("Failed to insert admin row in public.User:", err);
+    workerLogger.error("Auth", "Failed to insert admin row in public.User:", env.ENVIRONMENT, err);
     return Response.json(
       { error: "User created in auth, but failed to initialize public profile" },
       { status: 500 },

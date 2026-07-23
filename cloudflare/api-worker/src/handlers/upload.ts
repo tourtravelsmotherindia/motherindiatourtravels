@@ -1,3 +1,4 @@
+import { workerLogger } from "../lib/logger";
 import { requireAdmin } from "../middleware/auth";
 import type { Env } from "../types";
 
@@ -35,7 +36,7 @@ export async function handleUpload(request: Request, env: Env): Promise<Response
       },
     });
   } catch (err) {
-    console.error("R2 upload failed:", err);
+    workerLogger.error("Upload", "R2 upload failed:", env.ENVIRONMENT, err);
     return Response.json({ error: "Upload to R2 Object Storage failed" }, { status: 500 });
   }
 

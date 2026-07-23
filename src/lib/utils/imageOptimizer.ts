@@ -1,3 +1,5 @@
+import { logger } from "@/lib/logger";
+
 /**
  * Utility to optimize Pexels and Unsplash remote images by overriding
  * query parameters for size and quality. Since static export is used,
@@ -40,7 +42,7 @@ export function getOptimizedImageUrl(url: string, width: number, quality = 80): 
       return parsedUrl.toString();
     }
   } catch (e) {
-    console.error("Failed to parse image URL in optimizer", e);
+    logger.error("ImageOptimizer", "Failed to parse image URL in optimizer", e);
   }
 
   return url;
