@@ -325,7 +325,7 @@ export default function PackageDetailClient({
             )}
 
             {/* Summary Metadata Bar */}
-            <div className="border-y border-neutral-200 py-6 mb-10 flex flex-wrap items-center justify-between gap-6 md:gap-8 font-sans">
+            <div className="border-y border-neutral-200 py-6 mb-10 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 font-sans">
               <div className="flex items-center gap-3">
                 <Calendar className="w-5 h-5 text-neutral-800 shrink-0" />
                 <div className="flex flex-col">
@@ -551,11 +551,11 @@ export default function PackageDetailClient({
               </div>
             )}
 
-            {/* Mobile Custom Itinerary Banner */}
-            <div className="lg:hidden my-6 p-6 bg-neutral-50 border border-neutral-200/80 rounded-[2rem] flex flex-col gap-3 font-sans">
+            {/* Mobile Custom Itinerary Banner (Flat/Inline layout) */}
+            <div className="lg:hidden my-8 flex flex-col gap-2 font-sans">
               <div className="flex items-center gap-2">
                 <HelpCircle className="w-5 h-5 text-brand shrink-0" />
-                <h4 className="font-bold text-foreground text-base">Need Custom Itinerary?</h4>
+                <h4 className="font-bold text-foreground text-sm">Need Custom Itinerary?</h4>
               </div>
               <p className="text-xs text-neutral-600 font-medium leading-relaxed">
                 Let our travel specialists design a tailored package just for you.
@@ -565,7 +565,7 @@ export default function PackageDetailClient({
                   href={`https://wa.me/${companyData.whatsappNumber}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white font-semibold text-xs uppercase tracking-wider py-3.5 px-5 rounded-full transition-all duration-300 cursor-pointer select-none mt-1"
+                  className="inline-flex items-center justify-center gap-2 border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white font-semibold text-xs uppercase tracking-wider py-3.5 px-5 rounded-full transition-all duration-300 cursor-pointer select-none mt-1 w-fit"
                 >
                   WhatsApp Specialists
                 </a>
