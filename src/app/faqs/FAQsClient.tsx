@@ -88,7 +88,7 @@ export default function FAQsClient({
 
   return (
     <PageShell companyData={companyData} bgClass="bg-white">
-      <div className="py-12 md:py-20 font-sans">
+      <div className="pt-12 md:pt-20 pb-section-loose font-sans">
         {/* Left-aligned Header block consistent with Policy and About pages */}
         <div className="layout-container text-left mb-12 md:mb-16">
           <Breadcrumbs

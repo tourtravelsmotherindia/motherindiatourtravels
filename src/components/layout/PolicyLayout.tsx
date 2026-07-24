@@ -59,7 +59,7 @@ export default function PolicyLayout({
       {/* Top Anchor for Back to Top */}
       <div id="top" className="absolute top-0 left-0 w-full h-px" />
 
-      <div className="py-12 md:py-20 font-sans">
+      <div className="pt-12 md:pt-20 pb-section-loose font-sans">
         {/* Header Section (Left-aligned, consistent with About Us page) */}
         <div className="layout-container text-left mb-12 md:mb-16">
           <Breadcrumbs

@@ -75,7 +75,7 @@ export default function ContactClient({ companyData }: ContactClientProps) {
   };
 
   return (
-    <div className="layout-container py-16 sm:py-24">
+    <div className="layout-container pt-16 sm:pt-24 pb-section-standard">
       <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-20 items-start">
         <div className="flex flex-col">
           <Breadcrumbs
@@ -206,7 +206,7 @@ export default function ContactClient({ companyData }: ContactClientProps) {
         </div>
       </div>
 
-      <div className="mt-16 sm:mt-24">
+      <div className="pt-section-standard pb-section-loose">
         <ContactMap
           address={companyData.address}
           latitude={companyData.latitude}
