@@ -134,7 +134,7 @@ function RegionsContent({
 
   return (
     <PageShell companyData={companyData} ptClass="pt-24" bgClass="bg-white">
-      <div className="layout-container py-24">
+      <div className="layout-container pt-24 pb-section-loose">
         <SectionHeader
           title="Destinations By Region"
           subtitle="Explore adventures across every corner of the incredible Indian subcontinent, automatically grouped and organized by regional state mappings."

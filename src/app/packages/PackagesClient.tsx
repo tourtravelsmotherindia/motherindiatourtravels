@@ -269,7 +269,7 @@ function PackagesContent({
 
   return (
     <PageShell companyData={companyData} ptClass="pt-24" bgClass="bg-white">
-      <div className="layout-container py-24">
+      <div className="layout-container pt-24 pb-section-loose">
         <SectionHeader
           title="All Tour Packages"
           subtitle="Embark on unforgettable journeys with our premium, custom-designed itineraries. Explore majestic sights across India and handpicked international destinations."

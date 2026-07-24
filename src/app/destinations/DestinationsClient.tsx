@@ -166,7 +166,7 @@ function DestinationsContent({
 
   return (
     <PageShell companyData={companyData} ptClass="pt-24" bgClass="bg-white">
-      <div className="layout-container py-24">
+      <div className="layout-container pt-24 pb-section-loose">
         <SectionHeader
           title="Explore Destinations"
           subtitle="Discover beautiful destinations around the world, from tranquil hill stations and spiritual temples to tropical beaches and royal heritage cities."
