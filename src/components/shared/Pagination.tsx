@@ -93,7 +93,7 @@ export default function Pagination({
             aria-current={isPageActive ? "page" : undefined}
             className={`w-9 h-9 rounded-full flex items-center justify-center font-semibold text-sm transition-all duration-200 select-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 ${
               isPageActive
-                ? "bg-neutral-900 text-white shadow-md scale-105"
+                ? "bg-brand text-white shadow-md scale-105 hover:bg-brand-hover"
                 : "text-neutral-700 hover:bg-neutral-200/50"
             }`}
           >

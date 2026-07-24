@@ -615,7 +615,7 @@ export default function CrudClient({ table }: CrudClientProps) {
                         onClick={() => setCurrentPage(pageNum as number)}
                         className={`w-7 h-7 rounded-lg text-[10px] font-bold transition-all cursor-pointer ${
                           isCurrent
-                            ? "bg-brand text-white shadow-[0_1px_4px_rgba(0,0,0,0.1)]"
+                            ? "bg-brand text-white shadow-[0_1px_4px_rgba(0,0,0,0.1)] hover:bg-brand-hover"
                             : "bg-white border border-neutral-100 hover:bg-neutral-50 text-black"
                         }`}
                       >
