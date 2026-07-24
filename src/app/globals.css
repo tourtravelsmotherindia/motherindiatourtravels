@@ -14,6 +14,22 @@ html {
   --muted: #4c4c4c;
   --border-light: #ececec;
   --admin-bg: #f8f8f8;
+
+  --spacing-tight-val: 1rem;
+  --spacing-standard-val: 1.75rem;
+  --spacing-loose-val: 2.5rem;
+  --spacing-hero-val: 1.5rem;
+  --spacing-footer-val: 3rem;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --spacing-tight-val: 1.5rem;
+    --spacing-standard-val: 2.5rem;
+    --spacing-loose-val: 3.5rem;
+    --spacing-hero-val: 2rem;
+    --spacing-footer-val: 4rem;
+  }
 }
 
 @theme {
@@ -33,6 +49,12 @@ html {
   --font-display: var(--font-trip-sans), var(--font-sans);
   --shadow-premium: 0 8px 30px rgba(0, 0, 0, 0.04);
   --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.04);
+
+  --spacing-section-tight: var(--spacing-tight-val);
+  --spacing-section-standard: var(--spacing-standard-val);
+  --spacing-section-loose: var(--spacing-loose-val);
+  --spacing-section-hero: var(--spacing-hero-val);
+  --spacing-section-footer: var(--spacing-footer-val);
 }
 
 * {
