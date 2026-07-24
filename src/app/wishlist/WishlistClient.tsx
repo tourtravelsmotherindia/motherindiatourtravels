@@ -1,16 +1,16 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { Heart, Compass, Suitcase, Star, Clock, MapPin } from "lucide-react";
+import { motion } from "framer-motion";
+import { Compass, Heart, Suitcase } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import PageShell from "@/components/layout/PageShell";
 import DestinationCard from "@/components/shared/DestinationCard";
 import PackageCard from "@/components/shared/PackageCard";
 import SectionHeader from "@/components/shared/SectionHeader";
-import { useFavorites, useDestinationFavorites } from "@/lib/hooks/useFavorites";
+import { useDestinationFavorites,useFavorites } from "@/lib/hooks/useFavorites";
 import { type CompanyData } from "@/types/company";
 import { type DestinationItem } from "@/types/destination";
 import { type PackageItem } from "@/types/package";
@@ -32,6 +32,7 @@ export default function WishlistClient({
     useDestinationFavorites();
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
   }, []);
 
