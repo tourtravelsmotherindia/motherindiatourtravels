@@ -66,4 +66,3 @@ This ensures no lint errors, consistent formatting, and no broken builds.
 - **No server-only APIs in pages**: Since Next.js static export is used, do not use `headers()`, `cookies()`, `noStore()`, or dynamic runtime options.
 - **Clean Code Skill**: Always use the `clean-code` skill when writing or modifying any code in this repository.
 - **No decorative/excessive or git-reference comments**: Do not use heavy borders, decorative separators, or visual banners in code comments (e.g., `// ── ...`). Keep comments simple, concise, and meaningful. Do not use excessive comments, styling, or references to git commit hashes and restoration status (e.g., `(Restored original style from ...)`). This rule applies strictly to both the Next.js website and Cloudflare workers. Refer to the [Code Style](file://./.claude/rules/code_style.md) guidelines.
-
