@@ -81,11 +81,11 @@ function DestinationsContent({
     setCurrentPage(page);
   };
 
-  const [itemsPerPage, setItemsPerPage] = useState(8);
+  const [itemsPerPage, setItemsPerPage] = useState(12);
 
   useEffect(() => {
     const handleResize = () => {
-      setItemsPerPage(window.innerWidth < 1024 ? 10 : 8);
+      setItemsPerPage(window.innerWidth < 1024 ? 10 : 12);
     };
     handleResize();
     window.addEventListener("resize", handleResize);

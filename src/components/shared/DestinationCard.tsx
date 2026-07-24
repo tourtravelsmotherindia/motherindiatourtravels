@@ -1,6 +1,5 @@
 "use client";
 
-import { Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -26,7 +25,7 @@ export default function DestinationCard({
 
   return (
     <div className="relative h-full w-full rounded-[2.5rem] overflow-hidden group shadow-card border border-border-light cursor-pointer">
-      {/* Full Background Image */}
+      {/* 1. Base Sharp Background Image */}
       <Image
         src={imageSrc}
         alt={dest.name}
@@ -35,6 +34,21 @@ export default function DestinationCard({
         className="object-cover transition-transform duration-700 group-hover:scale-105"
         priority={priority}
       />
+
+      {/* 2. Duplicate Blurred Background Image for Bottom Gradient Blur */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 [mask-image:linear-gradient(to_top,black_15%,transparent_65%)]">
+        <Image
+          src={imageSrc}
+          alt=""
+          fill
+          sizes={isMobile ? "(max-width: 768px) 100vw, 290px" : "(max-width: 1024px) 50vw, 600px"}
+          className="object-cover blur-[8px] scale-[1.05] transition-transform duration-700 group-hover:scale-[1.10]"
+          priority={priority}
+        />
+      </div>
+
+      {/* 3. Subtle Darkening Gradient Overlay for High Text Readability */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-transparent transition-opacity duration-500 group-hover:from-black/75 group-hover:via-black/25 z-0" />
 
       {/* Favorite Button (Heart Icon) */}
       <div className="absolute top-6 right-6 z-20">
@@ -50,50 +64,22 @@ export default function DestinationCard({
         />
       </div>
 
-      {/* Bottom dark gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent transition-opacity duration-300 group-hover:via-black/55 group-hover:from-black/95 z-0" />
-
-      {/* Content Overlay */}
-      <div className="absolute inset-0 p-6 flex flex-col justify-end text-white z-10">
-        <div className="flex flex-col">
-          <h3 className="text-xl lg:text-2xl font-bold tracking-tight leading-tight mb-1">
-            {dest.name},{" "}
-            <span className="text-white/80 font-semibold text-lg lg:text-xl">{locationText}</span>
+      {/* Content Overlay - placed directly on the card, no box/borders */}
+      <div className="absolute inset-0 p-6 sm:p-8 flex flex-col justify-end text-white z-10">
+        <div className="flex flex-col gap-1 sm:gap-1.5">
+          <h3 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight leading-tight">
+            {dest.name}
           </h3>
-
-          {/* Duration & Rating Row */}
-          <div className="flex items-center gap-3 mt-1.5 text-xs lg:text-sm font-medium text-white/90">
-            <span>{dest.type || "Explore"}</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-white/50" />
-            <div className="flex items-center gap-1">
-              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-              <span>4.9</span>
-              <span className="text-white/70">(Featured)</span>
-            </div>
-          </div>
-        </div>
-
-        {/* View button: always visible on mobile, reveals on hover on desktop */}
-        <div
-          className={`transition-all duration-300 flex items-center justify-end overflow-hidden ${
-            isMobile
-              ? "h-10 mt-4 opacity-100"
-              : "h-0 opacity-0 group-hover:h-10 group-hover:opacity-100 group-hover:mt-4"
-          }`}
-        >
-          <Link
-            href={`/destinations/${dest.slug}/`}
-            className="bg-brand hover:bg-brand-hover text-white text-xs lg:text-sm font-semibold py-2 px-6 rounded-full transition-colors cursor-pointer shadow-sm inline-block"
-          >
-            View
-          </Link>
+          <p className="text-xs sm:text-sm md:text-base text-white/80 font-normal leading-normal tracking-wide">
+            {locationText}
+          </p>
         </div>
       </div>
 
-      {/* Full-card clickable overlay for desktop (mobile uses explicit View button) */}
+      {/* Full-card clickable overlay for all viewports */}
       <Link
         href={`/destinations/${dest.slug}/`}
-        className="absolute inset-0 z-10 cursor-pointer hidden md:block"
+        className="absolute inset-0 z-20 cursor-pointer"
         aria-label={`View details for ${dest.name}`}
       />
     </div>
