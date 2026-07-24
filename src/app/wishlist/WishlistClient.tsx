@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Compass, Heart, Suitcase } from "lucide-react";
+import { Briefcase, Compass, Heart } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
@@ -10,7 +10,7 @@ import PageShell from "@/components/layout/PageShell";
 import DestinationCard from "@/components/shared/DestinationCard";
 import PackageCard from "@/components/shared/PackageCard";
 import SectionHeader from "@/components/shared/SectionHeader";
-import { useDestinationFavorites,useFavorites } from "@/lib/hooks/useFavorites";
+import { useDestinationFavorites, useFavorites } from "@/lib/hooks/useFavorites";
 import { type CompanyData } from "@/types/company";
 import { type DestinationItem } from "@/types/destination";
 import { type PackageItem } from "@/types/package";
@@ -85,7 +85,7 @@ export default function WishlistClient({
                 : "border-transparent text-neutral-500 hover:text-neutral-800"
             }`}
           >
-            <Suitcase className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
+            <Briefcase className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
             <span>Saved Tours ({favoritePackages.length})</span>
           </button>
 
@@ -157,8 +157,8 @@ export default function WishlistClient({
                 Your Saved Destinations is empty
               </h3>
               <p className="text-neutral-500 text-sm mt-2 max-w-sm mx-auto px-4 font-medium mb-6 text-center leading-relaxed">
-                Discover the best destinations across India and international retreats, and save them
-                here.
+                Discover the best destinations across India and international retreats, and save
+                them here.
               </p>
               <Link
                 href="/destinations"
