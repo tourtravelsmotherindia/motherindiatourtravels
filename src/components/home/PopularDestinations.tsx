@@ -193,7 +193,7 @@ export default function PopularDestinations({
 
                       {/* Favorite Button (only active card) */}
                       {s === 2 && (
-                        <div className="absolute top-4 right-4 z-20">
+                        <div className="absolute top-4 right-4 z-30">
                           <FavoriteButton
                             isFavorite={favoriteActive}
                             onToggle={(e) => {

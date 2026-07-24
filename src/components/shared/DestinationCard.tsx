@@ -52,7 +52,7 @@ export default function DestinationCard({
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-transparent transition-opacity duration-500 group-hover:from-black/75 group-hover:via-black/25 z-0" />
 
       {/* Favorite Button (Heart Icon) */}
-      <div className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 z-20">
+      <div className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 z-30">
         <FavoriteButton
           isFavorite={favoriteActive}
           onToggle={(e) => {
