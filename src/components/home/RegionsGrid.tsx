@@ -27,14 +27,15 @@ export default function RegionsGrid({ regions }: { regions: Region[] }) {
         title="Destination By Region"
         subtitle="Explore adventures across every corner of the incredible Indian subcontinent"
         rightSlot={rightSlot}
+        mobileLayout="row"
       />
 
       <div className="flex overflow-x-auto gap-4 sm:gap-8 snap-x snap-mandatory no-scrollbar pb-4 sm:pb-0 sm:grid sm:grid-cols-2 md:grid-cols-3">
         {regions.map((region, idx) => {
           return (
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: idx * 0.05 }}
               key={region.id}

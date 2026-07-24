@@ -7,6 +7,7 @@ import DestinationCard from "@/components/shared/DestinationCard";
 import SectionHeader from "@/components/shared/SectionHeader";
 import DotIndicator from "@/components/ui/DotIndicator";
 import PrevNextNav from "@/components/ui/PrevNextNav";
+import SeeAllLink from "@/components/ui/SeeAllLink";
 import { type DestinationsSectionData } from "@/types/destination";
 
 export default function PopularDestinations({
@@ -62,20 +63,28 @@ export default function PopularDestinations({
   const cardD = destinations[wrap(currentIndex + 3)];
 
   const rightSlot = (
-    <PrevNextNav
-      onPrev={handlePrev}
-      onNext={handleNext}
-      prevAriaLabel="Previous destination"
-      nextAriaLabel="Next destination"
-      className="hidden md:flex"
-    />
+    <div className="flex items-center gap-6">
+      <SeeAllLink href="/destinations/" label="See All" />
+      <PrevNextNav
+        onPrev={handlePrev}
+        onNext={handleNext}
+        prevAriaLabel="Previous destination"
+        nextAriaLabel="Next destination"
+        className="hidden md:flex"
+      />
+    </div>
   );
 
   return (
-    <section className="py-section-standard bg-neutral-50/40">
+    <section className="py-section-standard">
       <div className="layout-container">
         {/* Section Header */}
-        <SectionHeader title={tagline} subtitle={subtitle} rightSlot={rightSlot} />
+        <SectionHeader
+          title={tagline}
+          subtitle={subtitle}
+          rightSlot={rightSlot}
+          mobileLayout="row"
+        />
 
         {/* MOBILE VIEW: Horizontal scroll layout */}
         <div className="md:hidden">
