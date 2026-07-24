@@ -151,7 +151,7 @@ export default function Footer({
   return (
     <footer
       id="contact"
-      className="bg-[#F9F9F9] border-t border-neutral-200 text-neutral-800 pt-16 pb-12 relative overflow-hidden font-sans"
+      className="bg-[#F9F9F9] text-neutral-800 pt-section-footer pb-12 relative overflow-hidden font-sans"
     >
       <div className="layout-container">
         <div className="flex flex-col md:flex-row items-stretch gap-8 md:gap-0 pb-12 border-b border-neutral-200">
