@@ -86,18 +86,42 @@ export default async function RootLayout({
               function gtag(){dataLayer.push(arguments);}
               
               var consentState = 'denied';
+              var hasChoice = false;
               try {
-                if (localStorage.getItem('cookies_accepted') === 'true') {
+                var localConsent = localStorage.getItem('cookies_accepted');
+                if (localConsent === 'true') {
                   consentState = 'granted';
+                  hasChoice = true;
+                } else if (localConsent === 'false') {
+                  consentState = 'denied';
+                  hasChoice = true;
                 }
               } catch (e) {}
 
-              gtag('consent', 'default', {
-                'ad_storage': consentState,
-                'ad_user_data': consentState,
-                'ad_personalization': consentState,
-                'analytics_storage': consentState
-              });
+              if (hasChoice) {
+                gtag('consent', 'default', {
+                  'ad_storage': consentState,
+                  'ad_user_data': consentState,
+                  'ad_personalization': consentState,
+                  'analytics_storage': consentState
+                });
+              } else {
+                // Default to granted globally to prevent measurement loss in non-EEA regions
+                gtag('consent', 'default', {
+                  'ad_storage': 'granted',
+                  'ad_user_data': 'granted',
+                  'ad_personalization': 'granted',
+                  'analytics_storage': 'granted'
+                });
+                // Default to denied for EEA countries, UK, and Switzerland
+                gtag('consent', 'default', {
+                  'ad_storage': 'denied',
+                  'ad_user_data': 'denied',
+                  'ad_personalization': 'denied',
+                  'analytics_storage': 'denied',
+                  'region': ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'GB', 'CH']
+                });
+              }
             `,
           }}
         />
