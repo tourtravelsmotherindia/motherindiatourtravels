@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, Globe, Menu, Search, X } from "lucide-react";
+import { ChevronDown, Globe, Heart, Menu, Search, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -623,17 +623,17 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
     { name: "About", href: "/about" },
     {
       name: "Trip Themes",
-      href: "/packages",
+      href: "/search",
       submenu: {
         type: "themes",
         items: [
-          { name: "Honeymoon Special", href: "/packages?category=honeymoon-tour-packages" },
-          { name: "Beach Getaways", href: "/packages?category=beach-tour-packages" },
-          { name: "Luxury Tours", href: "/packages?category=luxury-tour-packages" },
-          { name: "Spiritual Journeys", href: "/packages?category=spiritual-tour-packages" },
-          { name: "Wildlife & Nature", href: "/packages?category=wildlife-tour-packages" },
-          { name: "Budget Travel", href: "/packages?category=budget-tour-packages" },
-          { name: "Weekend Trips", href: "/packages?category=weekend-tour-packages" },
+          { name: "Honeymoon Special", href: "/search?category=honeymoon-tour-packages" },
+          { name: "Beach Getaways", href: "/search?category=beach-tour-packages" },
+          { name: "Luxury Tours", href: "/search?category=luxury-tour-packages" },
+          { name: "Spiritual Journeys", href: "/search?category=spiritual-tour-packages" },
+          { name: "Wildlife & Nature", href: "/search?category=wildlife-tour-packages" },
+          { name: "Budget Travel", href: "/search?category=budget-tour-packages" },
+          { name: "Weekend Trips", href: "/search?category=weekend-tour-packages" },
         ],
       },
     },
@@ -789,6 +789,18 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
             <Search className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
           </Link>
 
+          <Link
+            href="/wishlist"
+            className={`p-2 sm:p-2.5 rounded-full border transition-all duration-500 flex items-center justify-center cursor-pointer ${
+              !scrolled && isTransparentPage
+                ? "border-white/20 text-white hover:bg-white/10 hover:border-white/40 md:opacity-100 md:scale-100 opacity-0 scale-95 pointer-events-none md:pointer-events-auto"
+                : "border-border-light text-foreground hover:bg-neutral-50 hover:text-brand hover:border-brand/30 opacity-100 scale-100 pointer-events-auto"
+            }`}
+            aria-label="Wishlist"
+          >
+            <Heart className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
+          </Link>
+
           <div className="hidden md:block">
             <Dropdown
               options={languageOptions}
@@ -910,6 +922,15 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
                   </Link>
                 );
               })}
+
+              <Link
+                href="/wishlist"
+                onClick={() => setIsOpen(false)}
+                className="text-foreground hover:text-brand font-semibold text-sm py-2.5 px-3 hover:bg-brand-light rounded-xl transition-all duration-200 flex items-center gap-2"
+              >
+                <Heart className="w-4 h-4" />
+                <span>My Wishlist</span>
+              </Link>
 
               <div className="border-t border-border-light pt-4 mt-2 px-3 flex flex-col gap-2">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-muted mb-1">
