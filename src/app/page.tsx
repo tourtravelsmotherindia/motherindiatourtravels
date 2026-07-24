@@ -46,7 +46,6 @@ export default async function Home() {
       <PopularDestinations sectionData={destinationsSectionData} />
       <Gallery galleryData={galleryData} />
       <TestimonialsSection />
-      {/*<PartnerAirlines />*/}
       <RegionsGrid regions={regionsData} />
       <FAQ faqData={faqData} companyData={companyData} />
     </PageShell>
