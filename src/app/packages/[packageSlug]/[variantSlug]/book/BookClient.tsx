@@ -245,7 +245,7 @@ export default function BookClient({
         </div>
 
         {/* TWO-COLUMN DETAILS GRID */}
-        <div className="flex flex-col lg:grid lg:grid-cols-[1fr_380px] gap-12 lg:gap-16 items-start">
+        <div className="flex flex-col lg:grid lg:grid-cols-[1fr_380px] gap-12 lg:gap-16 items-start pb-section-loose">
           {/* MOBILE ONLY: Quick Summary at top */}
           <div className="w-full lg:hidden pb-2">{renderQuickSummary()}</div>
 
@@ -444,7 +444,7 @@ export default function BookClient({
         </div>
 
         {/* RECOMMENDED PACKAGES SECTION (Horizontal scroll on mobile view) */}
-        <section className="mt-24 border-t border-border-light pt-24">
+        <section className="pt-section-loose pb-0">
           <SectionHeader
             title="Recommended for you"
             badge="Explore More"

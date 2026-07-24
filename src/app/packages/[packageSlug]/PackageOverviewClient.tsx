@@ -237,7 +237,7 @@ export default function PackageOverviewClient({
         <Breadcrumbs items={breadcrumbItems} />
 
         {/* ASYMMETRIC MASONRY GALLERY */}
-        <section className="mb-12 animate-fade-in font-sans">
+        <section className="mb-section-tight animate-fade-in font-sans">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 h-[300px] md:h-[450px] lg:h-[550px]">
             {/* Left Column - 2 stacked images */}
             <div className="hidden lg:flex flex-col gap-4 col-span-3 h-full">
@@ -345,7 +345,7 @@ export default function PackageOverviewClient({
         </section>
 
         {/* TWO COLUMN GRID CONTENT */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-12 lg:gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-12 lg:gap-16 items-start pb-section-loose">
           {/* LEFT COLUMN: Info & Options */}
           <div className="flex flex-col">
             {/* Header Title */}
@@ -533,7 +533,7 @@ export default function PackageOverviewClient({
         </div>
 
         {/* RECOMMENDED PACKAGES SECTION */}
-        <section className="mt-24 border-t border-border-light pt-24">
+        <section className="pt-section-loose pb-0">
           <SectionHeader
             title="Recommended for you"
             badge="Explore More"
