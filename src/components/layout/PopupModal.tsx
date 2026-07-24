@@ -42,6 +42,16 @@ export default function PopupModal() {
   const calendarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const closedAt = localStorage.getItem("popupClosedAt");
+    if (closedAt) {
+      const closedTime = parseInt(closedAt, 10);
+      if (!isNaN(closedTime)) {
+        const timePassed = Date.now() - closedTime;
+        const oneDayInMs = 24 * 60 * 60 * 1000;
+        if (timePassed < oneDayInMs) return;
+      }
+    }
+
     const hasSeen = sessionStorage.getItem("hasSeenPopup");
     if (hasSeen === "true") return;
 
@@ -146,6 +156,7 @@ export default function PopupModal() {
   const handleClose = () => {
     setIsOpen(false);
     setSelectedPackage(null);
+    localStorage.setItem("popupClosedAt", Date.now().toString());
     sessionStorage.setItem("hasSeenPopup", "true");
   };
 
@@ -183,6 +194,7 @@ export default function PopupModal() {
     } finally {
       setIsOpen(false);
       setSelectedPackage(null);
+      localStorage.setItem("popupClosedAt", Date.now().toString());
       sessionStorage.setItem("hasSeenPopup", "true");
     }
   };
