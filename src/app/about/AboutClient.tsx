@@ -96,7 +96,7 @@ export default function AboutClient({ companyData }: AboutClientProps) {
 
   return (
     <div className="bg-white">
-      <section className="pt-8 pb-16 md:pb-24 layout-container bg-white">
+      <section className="pt-8 pb-section-standard layout-container bg-white">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center mb-12 md:mb-16">
           <motion.div
             initial="hidden"
@@ -204,7 +204,7 @@ export default function AboutClient({ companyData }: AboutClientProps) {
         </motion.div>
       </section>
 
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-section-standard bg-white">
         <div className="layout-container grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-center">
           <div className="lg:col-span-6 relative h-[320px] sm:h-[420px] md:h-[500px] w-full flex items-center">
             <div className="relative w-[78%] h-[88%] rounded-[1.75rem] md:rounded-[2.5rem] overflow-hidden shadow-card hover:shadow-premium transition-all duration-300">
@@ -259,7 +259,7 @@ export default function AboutClient({ companyData }: AboutClientProps) {
         </div>
       </section>
 
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-section-standard bg-white">
         <div className="layout-container grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-center">
           <motion.div
             initial="hidden"
@@ -314,7 +314,7 @@ export default function AboutClient({ companyData }: AboutClientProps) {
         </div>
       </section>
 
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-section-standard bg-white">
         <div className="layout-container grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-center">
           <div className="lg:col-span-6 relative h-[320px] sm:h-[420px] md:h-[500px] w-full flex items-center">
             <div className="relative w-[78%] h-[88%] rounded-[1.75rem] md:rounded-[2.5rem] overflow-hidden shadow-card hover:shadow-premium transition-all duration-300">
@@ -369,7 +369,7 @@ export default function AboutClient({ companyData }: AboutClientProps) {
         </div>
       </section>
 
-      <section className="py-16 md:py-24 bg-white layout-container">
+      <section className="pt-section-standard pb-section-loose bg-white layout-container">
         <motion.div
           initial="hidden"
           whileInView="visible"
