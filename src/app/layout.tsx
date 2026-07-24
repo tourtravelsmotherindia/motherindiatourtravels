@@ -7,6 +7,7 @@ import localFont from "next/font/local";
 import PopupModal from "@/components/layout/PopupModal";
 import TranslationScript from "@/components/layout/TranslationScript";
 import { ToastProvider } from "@/context/ToastContext";
+import { getCompanyData } from "@/lib/db/repositories/companyRepo";
 import { QueryProvider } from "@/lib/providers/QueryProvider";
 
 const poppins = Poppins({
@@ -62,18 +63,67 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const companyData = await getCompanyData();
+  const gtmId = companyData?.googleTagManager || "GTM-592ZJMN3";
+
   return (
     <html
       lang="en"
       data-scroll-behavior="smooth"
       className={`${poppins.variable} ${tripSans.variable} h-full antialiased`}
     >
+      <head>
+        {/* Google Consent Mode Defaults */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              
+              var consentState = 'denied';
+              try {
+                if (localStorage.getItem('cookies_accepted') === 'true') {
+                  consentState = 'granted';
+                }
+              } catch (e) {}
+
+              gtag('consent', 'default', {
+                'ad_storage': consentState,
+                'ad_user_data': consentState,
+                'ad_personalization': consentState,
+                'analytics_storage': consentState
+              });
+            `,
+          }}
+        />
+        {/* Google Tag Manager */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','${gtmId}');
+            `,
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
+        {/* Google Tag Manager (noscript) */}
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
         <QueryProvider>
           <ToastProvider>
             {children}

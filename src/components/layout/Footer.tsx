@@ -34,8 +34,8 @@ export default function Footer({
     about:
       "Mother India Tour Travels is a trusted tour and travel agency based in Delhi, India. We specialize in customized domestic and international tour packages for individuals, families, and groups. With years of experience, we have served thousands of satisfied customers from around the world.",
     whatsapp_number: "+919810140121",
-    google_analytics: "G-9R0JL5K333",
-    google_tag_manager: "GTM-W225BT8G",
+    google_analytics: "G-YEDRC0XL78",
+    google_tag_manager: "GTM-592ZJMN3",
     gstin: "07ADZPL9107F1Z3",
     messengerNumber: "https://www.messenger.com/e2ee/t/9661855783930883",
   };

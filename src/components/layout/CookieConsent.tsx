@@ -28,12 +28,41 @@ export default function CookieConsent({ onAccept }: CookieConsentProps) {
   const handleAccept = () => {
     localStorage.setItem("cookies_accepted", "true");
     setIsVisible(false);
+
+    // Update Google Consent Mode signals
+    const win =
+      typeof window !== "undefined"
+        ? (window as unknown as { gtag?: (...args: unknown[]) => void })
+        : null;
+    if (win && win.gtag) {
+      win.gtag("consent", "update", {
+        ad_storage: "granted",
+        ad_user_data: "granted",
+        ad_personalization: "granted",
+        analytics_storage: "granted",
+      });
+    }
+
     onAccept();
   };
 
   const handleDecline = () => {
     localStorage.setItem("cookies_accepted", "false");
     setIsVisible(false);
+
+    // Update Google Consent Mode signals
+    const win =
+      typeof window !== "undefined"
+        ? (window as unknown as { gtag?: (...args: unknown[]) => void })
+        : null;
+    if (win && win.gtag) {
+      win.gtag("consent", "update", {
+        ad_storage: "denied",
+        ad_user_data: "denied",
+        ad_personalization: "denied",
+        analytics_storage: "denied",
+      });
+    }
   };
 
   if (!isVisible) return null;

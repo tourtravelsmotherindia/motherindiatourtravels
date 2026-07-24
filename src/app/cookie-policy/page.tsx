@@ -142,13 +142,13 @@ export default async function CookiePolicyPage() {
             </li>
             <li>
               <strong>Google Analytics:</strong> We use Google Analytics (using tag ID{" "}
-              <code>{companyData?.googleAnalytics || "G-9R0JL5K333"}</code>) to monitor traffic
+              <code>{companyData?.googleAnalytics || "G-YEDRC0XL78"}</code>) to monitor traffic
               statistics and device types. Google Analytics cookies trace user actions on our site
               but do not store identifiers like names or phone numbers.
             </li>
             <li>
               <strong>Google Tag Manager:</strong> Used to run scripting tags and analytics pixels
-              (using container ID <code>{companyData?.googleTagManager || "GTM-W225BT8G"}</code>).
+              (using container ID <code>{companyData?.googleTagManager || "GTM-592ZJMN3"}</code>).
             </li>
             <li>
               <strong>Google Translate Widget:</strong> We run Google translation scripts to allow
