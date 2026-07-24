@@ -25,7 +25,10 @@ export default function WhyChooseUs() {
   ];
 
   return (
-    <section id="why-choose-us" className="pt-section-hero pb-section-standard scroll-mt-24 bg-white layout-container">
+    <section
+      id="why-choose-us"
+      className="pt-section-hero pb-section-standard scroll-mt-24 bg-white layout-container"
+    >
       <SectionHeader
         title="Why Choose Us?"
         subtitle="We provide exceptional travel experiences with attention to every detail"
