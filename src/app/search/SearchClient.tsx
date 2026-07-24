@@ -121,9 +121,18 @@ function SearchContent({
   const [searchQuery, setSearchQuery] = useState(
     () => searchParams.get("search") || searchParams.get("q") || "",
   );
-  const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
-  const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedRegions, setSelectedRegions] = useState<string[]>(() => {
+    const region = searchParams.get("region");
+    return region ? [region] : [];
+  });
+  const [selectedLocations, setSelectedLocations] = useState<string[]>(() => {
+    const loc = searchParams.get("location") || searchParams.get("type");
+    return loc ? [loc] : [];
+  });
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(() => {
+    const cat = searchParams.get("category") || searchParams.get("theme");
+    return cat ? [cat] : [];
+  });
   const [selectedDurations, setSelectedDurations] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState("default");
   const [currentPage, setCurrentPage] = useState(1);
@@ -302,6 +311,28 @@ function SearchContent({
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  useEffect(() => {
+    const q = searchParams.get("search") || searchParams.get("q");
+    if (q !== null) {
+      setSearchQuery(q);
+    }
+
+    const cat = searchParams.get("category") || searchParams.get("theme");
+    if (cat !== null) {
+      setSelectedCategories([cat]);
+    }
+
+    const region = searchParams.get("region");
+    if (region !== null) {
+      setSelectedRegions([region]);
+    }
+
+    const loc = searchParams.get("location") || searchParams.get("type");
+    if (loc !== null) {
+      setSelectedLocations([loc]);
+    }
+  }, [searchParams]);
 
   const totalPages = Math.ceil(filteredPackages.length / itemsPerPage);
   const paginatedPackages = useMemo(() => {
