@@ -31,7 +31,7 @@ export default function PopularDestinations({
 
   const len = destinations.length;
 
-  // Mobile scroll handlers (restored from commit 143b4b5944fdad9499b9ee062530371fc7f40052)
+  // Mobile scroll handlers
   const handleScroll = () => {
     if (!containerRef.current) return;
     const scrollLeft = containerRef.current.scrollLeft;
@@ -88,9 +88,7 @@ export default function PopularDestinations({
           mobileLayout="row"
         />
 
-        {/* ========================================================================= */}
-        {/* MOBILE VIEW (Restored original style from 143b4b5944fdad9499b9ee062530371fc7f40052) */}
-        {/* ========================================================================= */}
+        {/* Mobile View */}
         <div className="md:hidden mt-8">
           <div
             ref={containerRef}
@@ -114,9 +112,7 @@ export default function PopularDestinations({
           />
         </div>
 
-        {/* ========================================================================= */}
-        {/* DESKTOP VIEW (New static-slot layout with smooth layout animations) */}
-        {/* ========================================================================= */}
+        {/* Desktop View */}
         <div className="hidden md:block relative w-full mt-10 select-none overflow-hidden">
           {/* Centered Row of Slots */}
           <div className="flex items-center justify-center gap-5 lg:gap-8 py-8 w-max min-w-full mx-auto relative z-10">
@@ -228,21 +224,6 @@ export default function PopularDestinations({
                       >
                         {dest.name}
                       </h3>
-
-                      <AnimatePresence>
-                        {s === 2 && (
-                          <motion.div
-                            initial={{ opacity: 0, y: 5 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 5 }}
-                            transition={{ duration: 0.2 }}
-                            className="flex items-center gap-1.5 mt-1.5 text-xs font-semibold text-emerald-600 tracking-wide"
-                          >
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-                            <span>12k+ Happy Tourist</span>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
                     </div>
                   </motion.div>
                 );
