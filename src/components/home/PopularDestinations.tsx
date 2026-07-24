@@ -64,9 +64,9 @@ export default function PopularDestinations({
 
         {/* Carousel Viewport Wrapper */}
         <div className="relative w-full flex justify-center items-center h-[340px] sm:h-[480px] mt-8 select-none">
-          {/* Whitish Side Gradient Overlays */}
-          <div className="absolute left-0 top-0 bottom-0 w-[15%] sm:w-[20%] md:w-[28%] bg-gradient-to-r from-white via-white/80 to-transparent z-20 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-[15%] sm:w-[20%] md:w-[28%] bg-gradient-to-l from-white via-white/80 to-transparent z-20 pointer-events-none" />
+          {/* Whitish Side Gradient Overlays (narrower to keep adjacent cards visible) */}
+          <div className="absolute left-0 top-0 bottom-0 w-[10%] sm:w-[12%] md:w-[15%] bg-gradient-to-r from-white via-white/40 to-transparent z-20 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-[10%] sm:w-[12%] md:w-[15%] bg-gradient-to-l from-white via-white/40 to-transparent z-20 pointer-events-none" />
 
           {/* Overlaid Arrow Navigation Buttons */}
           <button
@@ -89,9 +89,9 @@ export default function PopularDestinations({
             <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-x-0.5" />
           </button>
 
-          {/* Sliding Cards container */}
+          {/* Sliding Cards container (items-end for straight bottom baseline) */}
           <div
-            className="absolute left-1/2 -translate-x-1/2 flex items-center transition-transform duration-500 ease-out h-full"
+            className="absolute left-1/2 -translate-x-1/2 flex items-end transition-transform duration-500 ease-out h-full pb-2"
             style={{
               transform: `translate3d(calc(-50% - ${(centerIndex - (destinations.length - 1) / 2) * (dimensions.cardWidth + dimensions.cardGap)}px), 0, 0)`,
               gap: `${dimensions.cardGap}px`,
@@ -105,22 +105,23 @@ export default function PopularDestinations({
                 1000
               );
 
-              let scaleClass = "scale-[0.70] opacity-20 blur-[1px]";
+              // Dynamic height classes to scale card containers upwards from the baseline
+              let heightClass = "h-[150px] md:h-[240px] opacity-35 blur-[0.5px]";
               if (distance === 0) {
-                scaleClass = "scale-100 opacity-100 shadow-md";
+                heightClass = "h-[240px] md:h-[360px] opacity-100 shadow-md";
               } else if (distance === 1) {
-                scaleClass = "scale-[0.84] opacity-55 blur-[0.3px]";
+                heightClass = "h-[190px] md:h-[290px] opacity-75";
               }
 
               return (
                 <div
                   key={dest.slug}
-                  className="flex flex-col items-center shrink-0 transition-all duration-500"
+                  className="flex flex-col items-center shrink-0 transition-all duration-500 justify-end"
                   style={{ width: `${dimensions.cardWidth}px` }}
                 >
                   {/* Card Image Container */}
                   <div
-                    className={`relative w-full aspect-[3/4] rounded-[2.5rem] overflow-hidden border border-neutral-100 transition-all duration-500 ${scaleClass}`}
+                    className={`relative w-full rounded-[2.5rem] overflow-hidden border border-neutral-100 transition-all duration-500 ${heightClass}`}
                   >
                     <Image
                       src={imageSrc}
