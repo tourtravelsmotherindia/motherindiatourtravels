@@ -12,13 +12,17 @@ export default function DestinationCard({
   dest,
   isMobile = false,
   priority = false,
+  isFavorite: propIsFavorite,
+  onToggleFavorite,
 }: {
   dest: DestinationDisplay;
   isMobile?: boolean;
   priority?: boolean;
+  isFavorite?: boolean;
+  onToggleFavorite?: (slug: string) => void;
 }) {
-  const { isFavorite, toggleFavorite } = useDestinationFavorites();
-  const favoriteActive = isFavorite(dest.slug);
+  const { isFavorite: hookIsFavorite, toggleFavorite } = useDestinationFavorites();
+  const favoriteActive = propIsFavorite !== undefined ? propIsFavorite : hookIsFavorite(dest.slug);
 
   const rawImageSrc = dest.image || "/images/placeholder-landscape.png";
   const imageSrc = getOptimizedImageUrl(rawImageSrc, 1000);
@@ -57,7 +61,11 @@ export default function DestinationCard({
           isFavorite={favoriteActive}
           onToggle={(e) => {
             e.stopPropagation();
-            toggleFavorite(dest.slug);
+            if (onToggleFavorite) {
+              onToggleFavorite(dest.slug);
+            } else {
+              toggleFavorite(dest.slug);
+            }
           }}
           variant="solid"
           size="sm"
