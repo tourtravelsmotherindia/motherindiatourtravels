@@ -11,6 +11,7 @@ import SectionHeader from "@/components/shared/SectionHeader";
 import DotIndicator from "@/components/ui/DotIndicator";
 import FavoriteButton from "@/components/ui/FavoriteButton";
 import SeeAllLink from "@/components/ui/SeeAllLink";
+import { useDestinationFavorites } from "@/lib/hooks/useFavorites";
 import { getOptimizedImageUrl } from "@/lib/utils/imageOptimizer";
 import { type DestinationsSectionData } from "@/types/destination";
 
@@ -24,7 +25,7 @@ export default function PopularDestinations({
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0); // for mobile dots
   const [centerIndex, setCenterIndex] = useState(0); // for desktop active center card
-  const [favorites, setFavorites] = useState<Record<string, boolean>>({});
+  const { isFavorite, toggleFavorite } = useDestinationFavorites();
 
   if (!destinations || destinations.length === 0) return null;
 
@@ -62,10 +63,6 @@ export default function PopularDestinations({
     if (slotIdx === 2) return;
     const diff = slotIdx - 2; // -2, -1, 1, 2
     setCenterIndex((prev) => (prev + diff + len) % len);
-  };
-
-  const toggleFavorite = (slug: string) => {
-    setFavorites((prev) => ({ ...prev, [slug]: !prev[slug] }));
   };
 
   const rightSlot = <SeeAllLink href="/destinations/" label="See All" />;
@@ -125,7 +122,7 @@ export default function PopularDestinations({
           <div className="flex items-center justify-center gap-5 lg:gap-8 py-8 w-max min-w-full mx-auto relative z-10">
             <AnimatePresence mode="popLayout" initial={false}>
               {visibleDestinations.map(({ dest, slot: s }) => {
-                const isFavorite = favorites[dest.slug] || false;
+                const favoriteActive = isFavorite(dest.slug);
                 const imageSrc = getOptimizedImageUrl(
                   dest.image || "/images/placeholder-landscape.png",
                   1000,
@@ -164,7 +161,7 @@ export default function PopularDestinations({
                     key={dest.slug}
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{
-                      opacity: s === 2 ? 1 : s === 1 || s === 3 ? 0.7 : 0.35,
+                      opacity: s === 0 || s === 4 ? 0.35 : 1, // Only outer cards have opacity fade
                       scale: 1,
                     }}
                     exit={{ opacity: 0, scale: 0.8 }}
@@ -198,7 +195,7 @@ export default function PopularDestinations({
                       {s === 2 && (
                         <div className="absolute top-4 right-4 z-20">
                           <FavoriteButton
-                            isFavorite={isFavorite}
+                            isFavorite={favoriteActive}
                             onToggle={(e) => {
                               e.stopPropagation();
                               toggleFavorite(dest.slug);
@@ -231,6 +228,21 @@ export default function PopularDestinations({
                       >
                         {dest.name}
                       </h3>
+
+                      <AnimatePresence>
+                        {s === 2 && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 5 }}
+                            transition={{ duration: 0.2 }}
+                            className="flex items-center gap-1.5 mt-1.5 text-xs font-semibold text-emerald-600 tracking-wide"
+                          >
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+                            <span>12k+ Happy Tourist</span>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
                   </motion.div>
                 );
