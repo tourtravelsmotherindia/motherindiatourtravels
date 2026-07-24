@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
 import React, { useMemo } from "react";
 
 interface PaginationProps {
@@ -61,6 +61,16 @@ export default function Pagination({
     >
       <button
         type="button"
+        onClick={() => onPageChange(1)}
+        disabled={currentPage === 1}
+        className="w-9 h-9 rounded-full flex items-center justify-center text-neutral-700 hover:bg-neutral-200/50 disabled:opacity-30 disabled:hover:bg-transparent transition-all duration-200 cursor-pointer disabled:cursor-not-allowed select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+        aria-label="Go to first page"
+      >
+        <ChevronsLeft className="w-4 h-4 stroke-[2.5]" />
+      </button>
+
+      <button
+        type="button"
         onClick={() => onPageChange(Math.max(currentPage - 1, 1))}
         disabled={currentPage === 1}
         className="w-9 h-9 rounded-full flex items-center justify-center text-neutral-700 hover:bg-neutral-200/50 disabled:opacity-30 disabled:hover:bg-transparent transition-all duration-200 cursor-pointer disabled:cursor-not-allowed select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
@@ -110,6 +120,16 @@ export default function Pagination({
         aria-label="Go to next page"
       >
         <ChevronRight className="w-4 h-4 stroke-[2.5]" />
+      </button>
+
+      <button
+        type="button"
+        onClick={() => onPageChange(totalPages)}
+        disabled={currentPage === totalPages}
+        className="w-9 h-9 rounded-full flex items-center justify-center text-neutral-700 hover:bg-neutral-200/50 disabled:opacity-30 disabled:hover:bg-transparent transition-all duration-200 cursor-pointer disabled:cursor-not-allowed select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+        aria-label="Go to last page"
+      >
+        <ChevronsRight className="w-4 h-4 stroke-[2.5]" />
       </button>
     </div>
   );
