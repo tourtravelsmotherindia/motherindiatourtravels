@@ -228,7 +228,6 @@ export default function PopularDestinations({
                     {distance === 0 && (
                       <div className="flex items-center gap-1.5 mt-1.5 text-[10px] sm:text-xs font-semibold text-emerald-600 tracking-wide">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-                        <span>12k+ Happy Tourist</span>
                       </div>
                     )}
                   </div>
@@ -358,7 +357,6 @@ export default function PopularDestinations({
                         {s === 2 && (
                           <div className="flex items-center gap-1.5 mt-1.5 text-xs font-semibold text-emerald-600 tracking-wide">
                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-                            <span>12k+ Happy Tourist</span>
                           </div>
                         )}
                       </motion.div>
