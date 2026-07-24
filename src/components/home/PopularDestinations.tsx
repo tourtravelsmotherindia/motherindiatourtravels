@@ -72,7 +72,7 @@ export default function PopularDestinations({
   );
 
   return (
-    <section className="py-24 bg-white border-y border-border-light">
+    <section className="py-section-standard bg-neutral-50/40">
       <div className="layout-container">
         {/* Section Header */}
         <SectionHeader title={tagline} subtitle={subtitle} rightSlot={rightSlot} />

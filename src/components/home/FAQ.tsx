@@ -32,7 +32,7 @@ export default function FAQ({
   };
 
   return (
-    <section id="faq" className="py-24 scroll-mt-24 layout-container">
+    <section id="faq" className="pt-section-standard pb-section-loose scroll-mt-24 layout-container">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-16 items-end">
         <div className="lg:col-span-2 text-left">
           <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">FAQ</div>

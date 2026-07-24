@@ -22,7 +22,7 @@ export default function RegionsGrid({ regions }: { regions: Region[] }) {
   const rightSlot = <SeeAllLink href="/regions/" label="See All" />;
 
   return (
-    <section id="regions" className="py-16 md:py-24 layout-container">
+    <section id="regions" className="py-section-standard layout-container">
       <SectionHeader
         title="Destination By Region"
         subtitle="Explore adventures across every corner of the incredible Indian subcontinent"

@@ -60,7 +60,7 @@ export default function TripCards({ packages }: { packages: PackageItem[] }) {
   );
 
   return (
-    <section id="packages" className="py-16 md:py-24 overflow-hidden layout-container">
+    <section id="packages" className="py-section-standard overflow-hidden layout-container">
       <SectionHeader
         title="Explore Trips"
         subtitle="Handpicked adventures designed to inspire your next journey"

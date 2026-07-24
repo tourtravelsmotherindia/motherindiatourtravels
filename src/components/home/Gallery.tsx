@@ -14,7 +14,7 @@ interface GalleryProps {
 
 export default function Gallery({ galleryData }: GalleryProps) {
   return (
-    <section id="gallery" className="py-16 md:py-24 scroll-mt-24 layout-container">
+    <section id="gallery" className="py-section-standard scroll-mt-24 layout-container">
       <SectionHeader title={galleryData.tagline} subtitle={galleryData.subtitle} />
 
       <div className="flex overflow-x-auto gap-4 sm:gap-6 snap-x snap-mandatory no-scrollbar pb-4 sm:pb-0 sm:grid sm:grid-cols-2 lg:grid-cols-3">

@@ -89,7 +89,7 @@ export default function TravelerMoments() {
   );
 
   return (
-    <section id="blog" className="py-16 md:py-24 overflow-hidden layout-container">
+    <section id="blog" className="py-section-standard overflow-hidden layout-container">
       <SectionHeader
         title={
           <>
