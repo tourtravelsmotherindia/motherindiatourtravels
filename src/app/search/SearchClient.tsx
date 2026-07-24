@@ -321,19 +321,16 @@ function SearchContent({
 
     const cat = searchParams.get("category") || searchParams.get("theme");
     if (cat !== null) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSelectedCategories([cat]);
     }
 
     const region = searchParams.get("region");
     if (region !== null) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSelectedRegions([region]);
     }
 
     const loc = searchParams.get("location") || searchParams.get("type");
     if (loc !== null) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSelectedLocations([loc]);
     }
   }, [searchParams]);
