@@ -224,12 +224,6 @@ export default function PopularDestinations({
                     >
                       {dest.name}
                     </h3>
-
-                    {distance === 0 && (
-                      <div className="flex items-center gap-1.5 mt-1.5 text-[10px] sm:text-xs font-semibold text-emerald-600 tracking-wide">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-                      </div>
-                    )}
                   </div>
                 </div>
               );
@@ -353,12 +347,6 @@ export default function PopularDestinations({
                         <h3 className={`tracking-tight leading-snug ${textClasses}`}>
                           {dest.name}
                         </h3>
-
-                        {s === 2 && (
-                          <div className="flex items-center gap-1.5 mt-1.5 text-xs font-semibold text-emerald-600 tracking-wide">
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-                          </div>
-                        )}
                       </motion.div>
                     </AnimatePresence>
                   </div>
