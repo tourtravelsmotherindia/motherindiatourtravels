@@ -307,6 +307,7 @@ export default function Footer({
                   { name: "Home", href: "#home" },
                   { name: "About Us", href: "/about" },
                   { name: "Tour Packages", href: "/packages" },
+                  { name: "My Wishlist", href: "/wishlist" },
                   { name: "Travel Blog", href: "#blog" },
                   { name: "FAQs", href: "/faqs" },
                   { name: "Gallery", href: "#gallery" },
@@ -335,14 +336,14 @@ export default function Footer({
                   { name: "Rajasthan Heritage Tour", href: "/packages?search=Jaipur" },
                   {
                     name: "Honeymoon Specials",
-                    href: "/packages?category=honeymoon-tour-packages",
+                    href: "/search?category=honeymoon-tour-packages",
                   },
-                  { name: "Beach Getaways", href: "/packages?category=beach-tour-packages" },
+                  { name: "Beach Getaways", href: "/search?category=beach-tour-packages" },
                   {
                     name: "Spiritual Journeys",
-                    href: "/packages?category=spiritual-tour-packages",
+                    href: "/search?category=spiritual-tour-packages",
                   },
-                  { name: "International Escapes", href: "/packages?type=international" },
+                  { name: "International Escapes", href: "/search?location=international" },
                 ].map((item) => (
                   <li key={item.name}>
                     <Link
