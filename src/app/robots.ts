@@ -7,7 +7,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/manage/", "/packages/*/book/"],
+      disallow: ["/manage/", "/packages/*/book/", "/cdn-cgi/"],
     },
     sitemap: "https://motherindiatourtravels.com/sitemap.xml",
   };
