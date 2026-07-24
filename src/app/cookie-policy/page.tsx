@@ -1,6 +1,7 @@
 import React from "react";
 
 import PolicyLayout from "@/components/layout/PolicyLayout";
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import { getCompanyData } from "@/lib/db/repositories/companyRepo";
 
 export const metadata = {
@@ -200,12 +201,15 @@ export default async function CookiePolicyPage() {
     "At Mother India Tour Travels, we believe in being open and clear about how we handle your data. This Cookie Policy explains how cookies and similar tracking systems are used on our website and how you can manage your preferences.";
 
   return (
-    <PolicyLayout
-      title="Cookie Policy"
-      lastUpdated="July 21st, 2026"
-      introText={introText}
-      sections={sections}
-      companyData={companyData}
-    />
+    <>
+      <BreadcrumbJsonLd path="/cookie-policy" />
+      <PolicyLayout
+        title="Cookie Policy"
+        lastUpdated="July 21st, 2026"
+        introText={introText}
+        sections={sections}
+        companyData={companyData}
+      />
+    </>
   );
 }

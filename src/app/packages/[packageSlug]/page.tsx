@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import { getCompanyData } from "@/lib/db/repositories/companyRepo";
 import { getAllPackages, getPackageBySlug } from "@/lib/db/repositories/packageRepo";
 
@@ -55,6 +56,16 @@ export default async function PackageOverviewPage({ params }: PageProps) {
   if (!pkg) notFound();
 
   return (
-    <PackageOverviewClient packageData={pkg} allPackages={allPackages} companyData={companyData} />
+    <>
+      <BreadcrumbJsonLd
+        path={`/packages/${packageSlug}`}
+        customLabels={{ [packageSlug]: pkg.name }}
+      />
+      <PackageOverviewClient
+        packageData={pkg}
+        allPackages={allPackages}
+        companyData={companyData}
+      />
+    </>
   );
 }

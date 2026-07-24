@@ -7,6 +7,7 @@ import TestimonialsSection from "@/components/home/TravelerMoments";
 import TripCards from "@/components/home/TripCards";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import PageShell from "@/components/layout/PageShell";
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import { getCompanyData } from "@/lib/db/repositories/companyRepo";
 import {
   getDestinationsByRegion,
@@ -38,6 +39,7 @@ export default async function Home() {
 
   return (
     <PageShell companyData={companyData} ptClass="pt-0">
+      <BreadcrumbJsonLd path="/" />
       <Hero heroConfig={heroConfig} />
       <WhyChooseUs />
       <TripCards packages={packages} />

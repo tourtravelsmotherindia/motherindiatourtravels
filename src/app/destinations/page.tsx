@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import { getCompanyData } from "@/lib/db/repositories/companyRepo";
 import { getAllDestinations } from "@/lib/db/repositories/destinationRepo";
 
@@ -28,6 +29,7 @@ export default async function DestinationsPage() {
         </div>
       }
     >
+      <BreadcrumbJsonLd path="/destinations" />
       <DestinationsClient destinationsData={destinationsData} companyData={companyData} />
     </Suspense>
   );

@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import { getCompanyData } from "@/lib/db/repositories/companyRepo";
 import {
   getAllPackages,
@@ -49,11 +50,20 @@ export default async function PackageBookPage({ params }: PageProps) {
   const { package: packageData, variant } = result;
 
   return (
-    <BookClient
-      packageData={packageData}
-      activeVariant={variant}
-      allPackages={allPackages}
-      companyData={companyData}
-    />
+    <>
+      <BreadcrumbJsonLd
+        path={`/packages/${packageSlug}/${variantSlug}/book`}
+        customLabels={{
+          [packageSlug]: packageData.name,
+          [variantSlug]: variant.label,
+        }}
+      />
+      <BookClient
+        packageData={packageData}
+        activeVariant={variant}
+        allPackages={allPackages}
+        companyData={companyData}
+      />
+    </>
   );
 }

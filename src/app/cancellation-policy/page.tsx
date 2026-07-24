@@ -1,6 +1,7 @@
 import React from "react";
 
 import PolicyLayout from "@/components/layout/PolicyLayout";
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import { getCompanyData } from "@/lib/db/repositories/companyRepo";
 
 export const metadata = {
@@ -257,12 +258,15 @@ export default async function CancellationPolicyPage() {
     "We understand that sometimes travel plans change. This Cancellation & Refund Policy outlines the terms, timelines, and fees associated with cancelling your travel packages, hotel stays, and transport arrangements with Mother India Tour Travels.";
 
   return (
-    <PolicyLayout
-      title="Cancellation & Refund Policy"
-      lastUpdated="July 21st, 2026"
-      introText={introText}
-      sections={sections}
-      companyData={companyData}
-    />
+    <>
+      <BreadcrumbJsonLd path="/cancellation-policy" />
+      <PolicyLayout
+        title="Cancellation & Refund Policy"
+        lastUpdated="July 21st, 2026"
+        introText={introText}
+        sections={sections}
+        companyData={companyData}
+      />
+    </>
   );
 }

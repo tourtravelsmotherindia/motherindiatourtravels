@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import { getCompanyData } from "@/lib/db/repositories/companyRepo";
 import { getAllDestinations, getDestinationBySlug } from "@/lib/db/repositories/destinationRepo";
 import { getPackagesByDestinationSlug } from "@/lib/db/repositories/packageRepo";
@@ -60,18 +61,24 @@ export default async function DestinationDetailPage({ params }: PageProps) {
   }
 
   return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen bg-white flex items-center justify-center font-sans text-muted">
-          Loading destination details...
-        </div>
-      }
-    >
-      <DestinationDetailClient
-        destination={destinationData}
-        packages={packagesData}
-        companyData={companyData}
+    <>
+      <BreadcrumbJsonLd
+        path={`/destinations/${destinationSlug}`}
+        customLabels={{ [destinationSlug]: destinationData.name }}
       />
-    </Suspense>
+      <Suspense
+        fallback={
+          <div className="min-h-screen bg-white flex items-center justify-center font-sans text-muted">
+            Loading destination details...
+          </div>
+        }
+      >
+        <DestinationDetailClient
+          destination={destinationData}
+          packages={packagesData}
+          companyData={companyData}
+        />
+      </Suspense>
+    </>
   );
 }

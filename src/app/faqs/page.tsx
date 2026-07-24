@@ -1,3 +1,4 @@
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import { getCompanyData } from "@/lib/db/repositories/companyRepo";
 import { getAllFAQs } from "@/lib/db/repositories/faqRepo";
 
@@ -15,5 +16,10 @@ export const metadata = {
 export default async function FAQsPage() {
   const [faqs, companyData] = await Promise.all([getAllFAQs(), getCompanyData()]);
 
-  return <FAQsClient initialFaqs={faqs} companyData={companyData} />;
+  return (
+    <>
+      <BreadcrumbJsonLd path="/faqs" />
+      <FAQsClient initialFaqs={faqs} companyData={companyData} />
+    </>
+  );
 }

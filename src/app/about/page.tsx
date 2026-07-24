@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 
 import PageShell from "@/components/layout/PageShell";
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import { getCompanyData } from "@/lib/db/repositories/companyRepo";
 
 import AboutClient from "./AboutClient";
@@ -23,6 +24,7 @@ export default async function AboutPage() {
 
   return (
     <PageShell companyData={companyData}>
+      <BreadcrumbJsonLd path="/about" />
       <AboutClient companyData={companyData} />
     </PageShell>
   );

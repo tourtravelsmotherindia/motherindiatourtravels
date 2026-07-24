@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import { getCompanyData } from "@/lib/db/repositories/companyRepo";
 import { getAllPackages } from "@/lib/db/repositories/packageRepo";
 
@@ -15,6 +16,7 @@ export default async function PackagesPage() {
         </div>
       }
     >
+      <BreadcrumbJsonLd path="/packages" />
       <PackagesClient packagesData={packagesData} companyData={companyData} />
     </Suspense>
   );

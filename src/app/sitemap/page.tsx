@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 import PageShell from "@/components/layout/PageShell";
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import { getCompanyData } from "@/lib/db/repositories/companyRepo";
 import { getAllDestinations } from "@/lib/db/repositories/destinationRepo";
 import { getAllPackages } from "@/lib/db/repositories/packageRepo";
@@ -63,8 +64,9 @@ export default async function SitemapPage() {
   ];
 
   return (
-    <PageShell companyData={companyData}>
-      <div className="layout-container py-16 md:py-24 font-sans text-neutral-800 bg-white min-h-[60vh]">
+    <PageShell companyData={companyData} ptClass="pt-28" bgClass="bg-white">
+      <BreadcrumbJsonLd path="/sitemap" />
+      <div className="layout-container pb-24 font-sans select-none">
         {/* Title */}
         <h1 className="text-4xl md:text-5xl font-display font-semibold text-neutral-900 tracking-tight mb-16">
           Sitemap

@@ -1,6 +1,7 @@
 import React from "react";
 
 import PolicyLayout from "@/components/layout/PolicyLayout";
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import { getCompanyData } from "@/lib/db/repositories/companyRepo";
 
 export const metadata = {
@@ -308,12 +309,15 @@ export default async function PrivacyPolicyPage() {
     "At Mother India Tour Travels, we are committed to protecting your personal information and your right to privacy. This Privacy Policy explains how we collect, use, share, and safeguard your data when you visit our website, book our packages, or engage with us in any way.";
 
   return (
-    <PolicyLayout
-      title="Privacy Policy"
-      lastUpdated="July 21st, 2026"
-      introText={introText}
-      sections={sections}
-      companyData={companyData}
-    />
+    <>
+      <BreadcrumbJsonLd path="/privacy-policy" />
+      <PolicyLayout
+        title="Privacy Policy"
+        lastUpdated="July 21st, 2026"
+        introText={introText}
+        sections={sections}
+        companyData={companyData}
+      />
+    </>
   );
 }

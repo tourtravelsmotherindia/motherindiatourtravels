@@ -1,6 +1,7 @@
 import React from "react";
 
 import PolicyLayout from "@/components/layout/PolicyLayout";
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import { getCompanyData } from "@/lib/db/repositories/companyRepo";
 
 export const metadata = {
@@ -386,12 +387,15 @@ export default async function TermsOfServicePage() {
     "Welcome to Mother India Tour Travels. By availing of our services, booking tour packages, or browsing our website, you agree to comply with and be bound by the following Terms of Service. Please read them carefully before finalizing your bookings.";
 
   return (
-    <PolicyLayout
-      title="Terms of Service"
-      lastUpdated="July 21st, 2026"
-      introText={introText}
-      sections={sections}
-      companyData={companyData}
-    />
+    <>
+      <BreadcrumbJsonLd path="/terms-of-service" />
+      <PolicyLayout
+        title="Terms of Service"
+        lastUpdated="July 21st, 2026"
+        introText={introText}
+        sections={sections}
+        companyData={companyData}
+      />
+    </>
   );
 }
