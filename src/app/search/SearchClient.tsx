@@ -590,7 +590,7 @@ function SearchContent({
       <div className="layout-container pb-section-loose font-sans">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-12 items-start">
           {/* Desktop Left Sidebar Panel */}
-          <div className="hidden lg:block lg:col-span-3 lg:sticky lg:top-28">
+          <div className="hidden lg:block lg:col-span-3">
             <div className="bg-white border border-border-light rounded-[2rem] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.01)]">
               {renderSidebarFilters()}
             </div>
