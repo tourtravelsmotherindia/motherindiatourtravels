@@ -593,10 +593,9 @@ export default function PackageOverviewClient({
             rightSlot={
               <Link
                 href="/packages"
-                className="group inline-flex items-center gap-1.5 text-neutral-900 hover:text-brand font-semibold text-sm transition-colors cursor-pointer"
+                className="text-neutral-900 font-bold underline hover:text-brand transition-colors duration-200 text-sm cursor-pointer"
               >
                 View all tours
-                <ChevronRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
             }
           />

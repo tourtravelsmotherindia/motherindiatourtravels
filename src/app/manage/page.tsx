@@ -2,7 +2,6 @@
 
 import {
   AlertTriangle,
-  ArrowRight,
   ArrowUpRight,
   CheckCircle2,
   Clock,
@@ -241,10 +240,9 @@ export default function DashboardOverview() {
             </div>
             <Link
               href="/manage/bookings/"
-              className="inline-flex items-center gap-1 text-xs font-semibold text-brand hover:text-brand-hover transition-colors"
+              className="text-neutral-900 font-bold underline hover:text-brand transition-colors duration-200 text-xs"
             >
-              <span>View All</span>
-              <ArrowRight className="w-3 h-3 text-brand" />
+              View All
             </Link>
           </div>
 
