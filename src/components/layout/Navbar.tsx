@@ -779,10 +779,10 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
         <div className="flex items-center gap-2 sm:gap-4">
           <Link
             href="/search"
-            className={`p-2 sm:p-2.5 rounded-full border transition-all duration-300 flex items-center justify-center cursor-pointer ${
+            className={`p-2 sm:p-2.5 rounded-full border transition-all duration-500 flex items-center justify-center cursor-pointer ${
               !scrolled && isTransparentPage
-                ? "border-white/20 text-white hover:bg-white/10 hover:border-white/40"
-                : "border-border-light text-foreground hover:bg-neutral-50 hover:text-brand hover:border-brand/30"
+                ? "border-white/20 text-white hover:bg-white/10 hover:border-white/40 md:opacity-100 md:scale-100 opacity-0 scale-95 pointer-events-none md:pointer-events-auto"
+                : "border-border-light text-foreground hover:bg-neutral-50 hover:text-brand hover:border-brand/30 opacity-100 scale-100 pointer-events-auto"
             }`}
             aria-label="Search"
           >

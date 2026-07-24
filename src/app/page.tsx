@@ -41,12 +41,12 @@ export default async function Home() {
     <PageShell companyData={companyData} ptClass="pt-0">
       <BreadcrumbJsonLd path="/" />
       <Hero heroConfig={heroConfig} />
-      <WhyChooseUs />
       <TripCards packages={packages} />
       <PopularDestinations sectionData={destinationsSectionData} />
       <Gallery galleryData={galleryData} />
       <TestimonialsSection />
       <RegionsGrid regions={regionsData} />
+      <WhyChooseUs />
       <FAQ faqData={faqData} companyData={companyData} />
     </PageShell>
   );
