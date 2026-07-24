@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 
 import FavoriteButton from "@/components/ui/FavoriteButton";
+import { useDestinationFavorites } from "@/lib/hooks/useFavorites";
 import { getOptimizedImageUrl } from "@/lib/utils/imageOptimizer";
 import { type DestinationDisplay } from "@/types/destination";
 
@@ -17,7 +17,8 @@ export default function DestinationCard({
   isMobile?: boolean;
   priority?: boolean;
 }) {
-  const [isFavorite, setIsFavorite] = useState(false);
+  const { isFavorite, toggleFavorite } = useDestinationFavorites();
+  const favoriteActive = isFavorite(dest.slug);
 
   const rawImageSrc = dest.image || "/images/placeholder-landscape.png";
   const imageSrc = getOptimizedImageUrl(rawImageSrc, 1000);
@@ -53,10 +54,10 @@ export default function DestinationCard({
       {/* Favorite Button (Heart Icon) */}
       <div className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 z-20">
         <FavoriteButton
-          isFavorite={isFavorite}
+          isFavorite={favoriteActive}
           onToggle={(e) => {
             e.stopPropagation();
-            setIsFavorite(!isFavorite);
+            toggleFavorite(dest.slug);
           }}
           variant="solid"
           size="sm"

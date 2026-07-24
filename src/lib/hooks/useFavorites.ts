@@ -39,3 +39,7 @@ export function useFavorites(storageKey = "mother_india_favorites") {
     toggleFavorite,
   };
 }
+
+export function useDestinationFavorites() {
+  return useFavorites("mother_india_destination_favorites");
+}
