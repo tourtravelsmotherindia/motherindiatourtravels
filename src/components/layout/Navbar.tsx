@@ -72,7 +72,7 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
   };
 
   const languageOptions = [
-    // --- POPULAR ---
+    // Popular
     {
       value: "en",
       label: "English",
@@ -110,7 +110,7 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
       icon: (props: { className?: string }) => <FlagIcon countryCode="sa" {...props} />,
     },
 
-    // --- GLOBAL ---
+    // Global
     {
       value: "af",
       label: "Afrikaans",
@@ -527,7 +527,7 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
       icon: (props: { className?: string }) => <FlagIcon countryCode="za" {...props} />,
     },
 
-    // --- REGIONAL INDIAN ---
+    // Regional Indian
     {
       value: "bn",
       label: "বাংলা (Bengali)",
