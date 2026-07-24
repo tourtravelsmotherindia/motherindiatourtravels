@@ -65,7 +65,7 @@ export default function DestinationDetailClient({
       </section>
 
       {/* Main Details and Quick Facts */}
-      <section className="py-20 layout-container">
+      <section className="pt-section-hero pb-section-standard layout-container">
         <div className="grid grid-cols-1 lg:grid-cols-[1.8fr_1fr] gap-12 items-start">
           {/* Detailed Overview */}
           <motion.div
@@ -137,7 +137,7 @@ export default function DestinationDetailClient({
 
       {/* Local Attractions (if available) */}
       {destination.attractions && destination.attractions.length > 0 && (
-        <section className="py-20 bg-neutral-50/70 border-t border-neutral-100">
+        <section className="py-section-standard bg-neutral-50/70">
           <div className="layout-container">
             <SectionHeader
               title={`Top Attractions in ${destination.name}`}
@@ -186,7 +186,7 @@ export default function DestinationDetailClient({
       )}
 
       {/* Tour Packages visiting this destination */}
-      <section className="py-24 border-t border-neutral-100">
+      <section className="pt-section-standard pb-section-loose">
         <div className="layout-container">
           <SectionHeader
             title={`Tour Packages visiting ${destination.name}`}
