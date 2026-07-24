@@ -571,7 +571,7 @@ function SearchContent({
             }}
             className="w-full pl-12 pr-12 py-4 bg-white border border-neutral-200 rounded-2xl focus:outline-none focus:border-neutral-350 transition-all duration-200 text-neutral-900 font-semibold placeholder-neutral-400 shadow-[0_4px_20px_rgba(0,0,0,0.01)] text-base"
           />
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 w-5 h-5" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 w-5 h-5 pointer-events-none z-10" />
           {searchQuery && (
             <button
               onClick={() => {

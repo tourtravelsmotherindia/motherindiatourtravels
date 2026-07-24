@@ -285,7 +285,6 @@ export default function Hero({ heroConfig }: { heroConfig?: HeroConfigData | nul
           <div className="absolute bottom-5 left-0 right-0 px-5 z-30 pointer-events-auto">
             <form onSubmit={handleSearchSubmit} className="flex gap-2.5 items-center w-full">
               <div className="relative flex-1">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/50 w-4 h-4" />
                 <input
                   type="text"
                   value={searchQuery}
@@ -293,6 +292,7 @@ export default function Hero({ heroConfig }: { heroConfig?: HeroConfigData | nul
                   placeholder="Search Place"
                   className="w-full bg-white/10 backdrop-blur-xl pl-11 pr-4 py-3 rounded-full text-base text-white placeholder-white/50 font-medium focus:bg-white/15 focus:outline-none focus:ring-1 focus:ring-white/20 shadow-inner transition-all border border-white/10"
                 />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/50 w-4 h-4 pointer-events-none z-10" />
               </div>
               <button
                 type="submit"
