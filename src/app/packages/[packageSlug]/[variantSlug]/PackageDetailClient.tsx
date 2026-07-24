@@ -438,7 +438,7 @@ export default function PackageDetailClient({
               </div>
             </div>
 
-            {/* Tour Highlights (Restored original bullet style list) */}
+            {/* Tour Highlights */}
             <div className="mb-12 border-b border-border-light pb-10">
               <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4">
                 Tour Highlights
@@ -452,7 +452,7 @@ export default function PackageDetailClient({
               </ul>
             </div>
 
-            {/* What's Included (Restored original rounded check style) */}
+            {/* What's Included */}
             <div className="mb-12 border-b border-border-light pb-10">
               <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">
                 What&apos;s Included
@@ -469,7 +469,7 @@ export default function PackageDetailClient({
               </div>
             </div>
 
-            {/* What's Excluded (Restored original rounded X style) */}
+            {/* What's Excluded */}
             <div className="mb-12 border-b border-border-light pb-10">
               <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">Exclusions</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -484,7 +484,7 @@ export default function PackageDetailClient({
               </div>
             </div>
 
-            {/* Important Notes (Restored original bullet style list) */}
+            {/* Important Notes */}
             {packageData.notes && packageData.notes.length > 0 && (
               <div className="mb-12 border-b border-border-light pb-10">
                 <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">
@@ -500,7 +500,7 @@ export default function PackageDetailClient({
               </div>
             )}
 
-            {/* Daily Itinerary Section (Restored original vertical timeline style) */}
+            {/* Daily Itinerary Section */}
             <div className="mb-12 border-b border-border-light pb-10">
               <div className="flex items-center justify-between mb-8">
                 <h2 className="text-xl md:text-2xl font-bold text-foreground">Itinerary</h2>
