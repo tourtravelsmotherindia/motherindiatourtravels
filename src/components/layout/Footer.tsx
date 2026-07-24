@@ -16,8 +16,10 @@ export type FooterCompanyData = CompanyData;
 
 export default function Footer({
   companyData: rawCompanyData,
+  className = "",
 }: {
   companyData?: FooterCompanyData | null;
+  className?: string;
 }) {
   const pathname = usePathname();
   // Provide fallback empty object so destructuring doesn't crash
@@ -151,7 +153,7 @@ export default function Footer({
   return (
     <footer
       id="contact"
-      className="bg-[#F9F9F9] text-neutral-800 pt-section-footer pb-12 relative overflow-hidden font-sans"
+      className={`bg-[#F9F9F9] text-neutral-800 pt-section-footer pb-12 relative overflow-hidden font-sans ${className}`}
     >
       <div className="layout-container">
         <div className="flex flex-col md:flex-row items-stretch gap-8 md:gap-0 pb-12 border-b border-neutral-200">
@@ -378,21 +380,21 @@ export default function Footer({
             >
               Privacy Policy
             </Link>
-            <span className="text-neutral-300">|</span>
+            <span className="hidden sm:inline text-neutral-300">|</span>
             <Link
               href="/terms-of-service"
               className="hover:text-brand transition-colors duration-200"
             >
               Terms of Service
             </Link>
-            <span className="text-neutral-300">|</span>
+            <span className="hidden sm:inline text-neutral-300">|</span>
             <Link
               href="/cancellation-policy"
               className="hover:text-brand transition-colors duration-200"
             >
               Cancellation Policy
             </Link>
-            <span className="text-neutral-300">|</span>
+            <span className="hidden sm:inline text-neutral-300">|</span>
             <Link href="/cookie-policy" className="hover:text-brand transition-colors duration-200">
               Cookie Policy
             </Link>

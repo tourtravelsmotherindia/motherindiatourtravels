@@ -235,7 +235,13 @@ export default function PackageDetailClient({
   const tourStyle = packageData.tourStyle || "Classic";
 
   return (
-    <PageShell companyData={companyData} ptClass="pt-28" bgClass="bg-white" className="pb-24">
+    <PageShell
+      companyData={companyData}
+      ptClass="pt-28"
+      bgClass="bg-white"
+      className="pb-24"
+      footerClassName="pb-28 lg:pb-12"
+    >
       <div className="layout-container">
         {/* Breadcrumbs */}
         <Breadcrumbs items={breadcrumbItems} />
