@@ -92,10 +92,10 @@ function LoginForm() {
   };
 
   return (
-    <div className="h-screen max-h-screen min-h-screen w-full flex flex-col justify-between items-center bg-[#FAF8F5] relative overflow-hidden font-sans p-6 select-none">
+    <div className="h-screen max-h-screen min-h-screen w-full flex flex-col justify-between items-center bg-[#F4F6F8] relative overflow-hidden font-sans p-6 select-none">
       {/* Background Dotted Pillar (Left) */}
       <div
-        className="absolute left-[5%] bottom-[12%] w-24 h-48 rounded-t-[2rem] bg-[#E58E35] opacity-80 hidden xl:block border border-neutral-200/30"
+        className="absolute left-[5%] bottom-[12%] w-24 h-48 rounded-t-[2rem] bg-brand opacity-80 hidden xl:block border border-neutral-200/30"
         style={{
           backgroundImage: "radial-gradient(#262626 15%, transparent 15%)",
           backgroundSize: "16px 16px",
@@ -148,7 +148,7 @@ function LoginForm() {
                 placeholder="Enter Email Address"
                 disabled={loading}
                 required
-                className="w-full rounded-[1.25rem] border border-neutral-200 px-5 py-3.5 text-sm focus:border-[#E58E35] focus:outline-none transition-colors disabled:opacity-50 font-medium placeholder:text-neutral-400"
+                className="w-full rounded-[1.25rem] border border-neutral-200 px-5 py-3.5 text-sm focus:border-brand focus:outline-none transition-colors disabled:opacity-50 font-medium placeholder:text-neutral-400"
               />
             </div>
 
@@ -161,7 +161,7 @@ function LoginForm() {
                 placeholder="Password"
                 disabled={loading}
                 required
-                className="w-full rounded-[1.25rem] border border-neutral-200 pl-5 pr-14 py-3.5 text-sm focus:border-[#E58E35] focus:outline-none transition-colors disabled:opacity-50 font-medium placeholder:text-neutral-400"
+                className="w-full rounded-[1.25rem] border border-neutral-200 pl-5 pr-14 py-3.5 text-sm focus:border-brand focus:outline-none transition-colors disabled:opacity-50 font-medium placeholder:text-neutral-400"
               />
               <button
                 type="button"
@@ -176,7 +176,7 @@ function LoginForm() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-4 px-6 rounded-[1.25rem] bg-[#E58E35] hover:bg-[#C77625] text-white font-extrabold text-sm transition-all shadow-sm hover:shadow-md disabled:opacity-50 mt-4 cursor-pointer flex items-center justify-center gap-2"
+              className="w-full py-4 px-6 rounded-[1.25rem] bg-brand hover:bg-brand-hover text-white font-extrabold text-sm transition-all shadow-sm hover:shadow-md disabled:opacity-50 mt-4 cursor-pointer flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
@@ -206,14 +206,14 @@ function LoginForm() {
         {/* Mountain Layer 1 (Back) */}
         <path
           d="M 60,320 L 150,190 L 220,270 L 300,160 L 380,320 Z"
-          fill="#E58E35"
+          fill="var(--brand)"
           opacity="0.25"
         />
 
         {/* Mountain Layer 2 (Middle) */}
         <path
           d="M 40,320 L 110,230 L 170,290 L 250,195 L 360,320 Z"
-          fill="#C77625"
+          fill="var(--brand-hover)"
           opacity="0.45"
         />
 
@@ -262,19 +262,19 @@ function LoginForm() {
           {/* Stripes */}
           <path
             d="M 210,80 C 213,90 216,130 227,157 L 221,162 C 209,134 205,94 202,86 Z"
-            fill="#E58E35"
+            fill="var(--brand)"
             stroke="#262626"
             strokeWidth="1.5"
           />
           <path
             d="M 230,73 C 235,85 238,135 240,165 L 243,165 C 241,135 237,85 232,73 Z"
-            fill="#E58E35"
+            fill="var(--brand)"
             stroke="#262626"
             strokeWidth="1.5"
           />
           <path
             d="M 270,86 C 267,94 263,134 251,162 L 245,157 C 256,130 259,90 262,80 Z"
-            fill="#E58E35"
+            fill="var(--brand)"
             stroke="#262626"
             strokeWidth="1.5"
           />
@@ -290,7 +290,7 @@ function LoginForm() {
             width="20"
             height="15"
             rx="3"
-            fill="#E58E35"
+            fill="var(--brand)"
             stroke="#262626"
             strokeWidth="2"
           />
@@ -301,7 +301,7 @@ function LoginForm() {
         <g transform="translate(10, 0)">
           <path
             d="M 110,80 C 110,65 130,65 130,80 C 130,90 122,100 120,105 C 118,100 110,90 110,80 Z"
-            fill="#C77625"
+            fill="var(--brand-hover)"
             stroke="#262626"
             strokeWidth="1.5"
             opacity="0.7"
@@ -313,7 +313,7 @@ function LoginForm() {
             y="111"
             width="7"
             height="5"
-            fill="#E58E35"
+            fill="var(--brand)"
             stroke="#262626"
             strokeWidth="1"
             opacity="0.8"
@@ -323,20 +323,20 @@ function LoginForm() {
         {/* Front Hills / Base silhouette */}
         <path
           d="M 40,320 Q 120,290 200,310 T 360,320 L 360,360 L 40,360 Z"
-          fill="#8D4C15"
+          fill="#041626"
           opacity="0.8"
         />
 
         {/* Definition of Gradients */}
         <defs>
           <radialGradient id="sky-grad" cx="50%" cy="80%" r="80%">
-            <stop offset="0%" stopColor="#FFF3E0" />
-            <stop offset="50%" stopColor="#FFE0B2" />
-            <stop offset="100%" stopColor="#E58E35" stopOpacity="0.25" />
+            <stop offset="0%" stopColor="#e6eff7" />
+            <stop offset="50%" stopColor="#b0cbe3" />
+            <stop offset="100%" stopColor="var(--brand)" stopOpacity="0.25" />
           </radialGradient>
           <linearGradient id="sun-grad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#FFA726" />
-            <stop offset="100%" stopColor="#E58E35" />
+            <stop offset="0%" stopColor="#b0cbe3" />
+            <stop offset="100%" stopColor="var(--brand)" />
           </linearGradient>
         </defs>
       </svg>

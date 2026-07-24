@@ -576,7 +576,7 @@ export const ADMIN_TABLES: Record<string, TableConfig> = {
         required: true,
       },
       { name: "image", label: "Slide Image", type: "image", required: true },
-      { name: "tag", label: "Tag Subtext (orange badge)", type: "text", defaultValue: "" },
+      { name: "tag", label: "Tag Subtext (brand badge)", type: "text", defaultValue: "" },
       { name: "title", label: "Slide Heading", type: "text", required: true },
       { name: "description", label: "Slide Description", type: "textarea", defaultValue: "" },
       { name: "sortOrder", label: "Sort Order", type: "number", defaultValue: 0 },

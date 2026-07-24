@@ -100,7 +100,7 @@ export default function PackageMap({ markers }: PackageMapProps) {
           source: "route",
           layout: { "line-join": "round", "line-cap": "round" },
           paint: {
-            "line-color": "#E58E35",
+            "line-color": "#0d395f",
             "line-width": 3,
             "line-dasharray": [2, 2],
           },
