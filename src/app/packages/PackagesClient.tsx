@@ -2,6 +2,7 @@
 
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 
+import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import PageShell from "@/components/layout/PageShell";
 import PackageCard from "@/components/shared/PackageCard";
 import Pagination from "@/components/shared/Pagination";
@@ -59,7 +60,11 @@ function PackagesContent({
 
   return (
     <PageShell companyData={companyData} ptClass="pt-24" bgClass="bg-white">
-      <div className="layout-container pt-24 pb-section-loose font-sans">
+      <div className="layout-container pt-12 md:pt-16 pb-section-loose font-sans">
+        <Breadcrumbs
+          items={[{ label: "Home", href: "/" }, { label: "Packages" }]}
+          variant="brackets"
+        />
         <SectionHeader
           title="All Tour Packages"
           subtitle="Embark on unforgettable journeys with our premium, custom-designed itineraries. Explore majestic sights across India and handpicked international destinations."

@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, ChevronUp, Filter, Search, X } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { Suspense, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import PageShell from "@/components/layout/PageShell";
@@ -131,10 +131,10 @@ function SearchContent({
 
   // Setup collapsible states
   const [collapsedFilters, setCollapsedFilters] = useState({
-    region: false,
-    location: false,
-    type: false,
-    duration: false,
+    region: true,
+    location: true,
+    type: true,
+    duration: true,
   });
 
   const toggleFilterCollapse = (key: keyof typeof collapsedFilters) => {
@@ -292,12 +292,22 @@ function SearchContent({
   ]);
 
   // Pagination bounds
-  const itemsPerPage = 9;
+  const [itemsPerPage, setItemsPerPage] = useState(9);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setItemsPerPage(window.innerWidth < 1024 ? 10 : 9);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const totalPages = Math.ceil(filteredPackages.length / itemsPerPage);
   const paginatedPackages = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredPackages.slice(startIndex, startIndex + itemsPerPage);
-  }, [filteredPackages, currentPage]);
+  }, [filteredPackages, currentPage, itemsPerPage]);
 
   // Scroll to results when page changes
   const resultsContainerRef = useRef<HTMLDivElement>(null);
@@ -549,7 +559,7 @@ function SearchContent({
 
       {/* Unified Search Input Box (No Card Outline, white bg, border border-neutral-200) */}
       <div className="layout-container mb-12">
-        <div className="relative w-full max-w-4xl">
+        <div className="relative w-full">
           <input
             id="unified-search-input"
             type="text"
@@ -581,7 +591,7 @@ function SearchContent({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-12 items-start">
           {/* Desktop Left Sidebar Panel */}
           <div className="hidden lg:block lg:col-span-3 lg:sticky lg:top-28">
-            <div className="bg-white border border-border-light rounded-[2rem] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.01)] max-h-[calc(100vh-140px)] overflow-y-auto">
+            <div className="bg-white border border-border-light rounded-[2rem] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.01)]">
               {renderSidebarFilters()}
             </div>
           </div>
