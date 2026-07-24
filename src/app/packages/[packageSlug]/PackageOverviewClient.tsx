@@ -145,22 +145,74 @@ export default function PackageOverviewClient({
 
   const { isFavorite, toggleFavorite } = useFavorites();
 
-  // Recommended packages selection (ensuring absolute uniqueness of keys)
+  // Weighted similarity scoring to select up to 6 recommended packages
   const recommendedPackages = useMemo(() => {
-    const others = allPackages.filter((p) => p.slug !== packageData.slug);
-    const matchType = others.filter((p) => p.isPopular);
-    const pool = matchType.length >= 3 ? matchType : others;
+    const currentDestIds = new Set(packageData.destinations.map((d) => d.destinationId));
+    const currentCatSlugs = new Set(packageData.categories?.map((c) => c.categorySlug) || []);
+    const currentTags = new Set(packageData.tags || []);
 
-    const unique = Array.from(new Set(pool.map((p) => p.id)))
-      .map((id) => pool.find((p) => p.id === id))
-      .filter((p): p is PackageItem => !!p);
+    const scored = allPackages
+      .filter((p) => p.slug !== packageData.slug)
+      .map((p) => {
+        let score = 0;
 
-    const offset = packageData.slug.length % unique.length;
-    const result = [];
-    for (let i = 0; i < Math.min(3, unique.length); i++) {
-      result.push(unique[(offset + i) % unique.length]);
-    }
-    return result;
+        // Match destinations
+        p.destinations.forEach((d) => {
+          if (currentDestIds.has(d.destinationId)) {
+            score += 10;
+          }
+        });
+
+        // Match categories
+        p.categories?.forEach((c) => {
+          if (currentCatSlugs.has(c.categorySlug)) {
+            score += 7;
+          }
+        });
+
+        // Match tour style
+        if (
+          p.tourStyle &&
+          packageData.tourStyle &&
+          p.tourStyle.toLowerCase() === packageData.tourStyle.toLowerCase()
+        ) {
+          score += 5;
+        }
+
+        // Match geography
+        if (p.stateId && packageData.stateId && p.stateId === packageData.stateId) {
+          score += 4;
+        }
+        if (p.countryId && packageData.countryId && p.countryId === packageData.countryId) {
+          score += 3;
+        }
+        if (p.isDomestic === packageData.isDomestic) {
+          score += 2;
+        }
+
+        // Match tags
+        p.tags?.forEach((t) => {
+          if (currentTags.has(t)) {
+            score += 1;
+          }
+        });
+
+        // Promote popular/featured as tie-breakers
+        if (p.isPopular) score += 0.5;
+        if (p.isFeatured) score += 0.5;
+
+        return { pkg: p, score };
+      });
+
+    // Sort by similarity score descending, then by name for stable sorting
+    scored.sort((a, b) => {
+      if (b.score !== a.score) {
+        return b.score - a.score;
+      }
+      return a.pkg.name.localeCompare(b.pkg.name);
+    });
+
+    return scored.slice(0, 6).map((item) => item.pkg);
   }, [allPackages, packageData]);
 
   const breadcrumbItems = [
