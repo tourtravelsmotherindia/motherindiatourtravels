@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, ChevronUp, Filter, Search, Star, X } from "lucide-react";
+import { ChevronDown, ChevronUp, Filter, Search, X } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useMemo, useRef, useState } from "react";
 
@@ -9,6 +9,7 @@ import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import PageShell from "@/components/layout/PageShell";
 import PackageCard from "@/components/shared/PackageCard";
 import Pagination from "@/components/shared/Pagination";
+import Dropdown from "@/components/ui/Dropdown";
 import { type CategoryItem } from "@/lib/db/repositories/categoryRepo";
 import { type CompanyData } from "@/types/company";
 import { type DestinationItem } from "@/types/destination";
@@ -103,16 +104,6 @@ function getPackageDays(pkg: PackageItem): number {
   return defaultVar?.days || 0;
 }
 
-// Helper to get deterministic rating for filter and display
-function getPackageRating(pkg: PackageItem): number {
-  if (pkg.isFeatured && pkg.isPopular) return 4.9;
-  if (pkg.isFeatured) return 4.8;
-  if (pkg.isPopular) return 4.7;
-  const nameLen = pkg.name.length;
-  const ratingValue = 4.2 + ((nameLen + pkg.slug.charCodeAt(0)) % 5) * 0.1;
-  return Math.round(ratingValue * 10) / 10;
-}
-
 function SearchContent({
   packagesData,
   destinationsData,
@@ -131,9 +122,9 @@ function SearchContent({
     () => searchParams.get("search") || searchParams.get("q") || "",
   );
   const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
+  const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedDurations, setSelectedDurations] = useState<string[]>([]);
-  const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
   const [sortBy, setSortBy] = useState("default");
   const [currentPage, setCurrentPage] = useState(1);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
@@ -141,10 +132,9 @@ function SearchContent({
   // Setup collapsible states
   const [collapsedFilters, setCollapsedFilters] = useState({
     region: false,
-    budget: false,
+    location: false,
     type: false,
     duration: false,
-    rating: false,
   });
 
   const toggleFilterCollapse = (key: keyof typeof collapsedFilters) => {
@@ -157,48 +147,12 @@ function SearchContent({
     return m;
   }, [destinationsData]);
 
-  // Determine budget bounds dynamically
-  const { absoluteMinPrice, absoluteMaxPrice } = useMemo(() => {
-    let min = Infinity;
-    let max = -Infinity;
-    packagesData.forEach((pkg) => {
-      const price = getPackagePrice(pkg);
-      if (price > 0) {
-        if (price < min) min = price;
-        if (price > max) max = price;
-      }
-    });
-    return {
-      absoluteMinPrice: min === Infinity ? 0 : min,
-      absoluteMaxPrice: max === -Infinity ? 150000 : max,
-    };
-  }, [packagesData]);
-
-  const [maxPrice, setMaxPrice] = useState(() => absoluteMaxPrice);
-
-  // Sync maxPrice if absoluteMaxPrice changes
-  const [prevAbsoluteMaxPrice, setPrevAbsoluteMaxPrice] = useState(absoluteMaxPrice);
-  if (absoluteMaxPrice !== prevAbsoluteMaxPrice) {
-    setPrevAbsoluteMaxPrice(absoluteMaxPrice);
-    setMaxPrice(absoluteMaxPrice);
-  }
-
-  // Sync with search URL parameter changes during rendering to avoid useEffect cascading renders
-  const [prevParamsStr, setPrevParamsStr] = useState(() => searchParams.toString());
-  const currentParams = searchParams.toString();
-  if (currentParams !== prevParamsStr) {
-    setPrevParamsStr(currentParams);
-    setSearchQuery(searchParams.get("search") || searchParams.get("q") || "");
-    setCurrentPage(1);
-  }
-
   // Reset filters helper
   const handleResetFilters = () => {
     setSelectedRegions([]);
+    setSelectedLocations([]);
     setSelectedCategories([]);
     setSelectedDurations([]);
-    setSelectedRatings([]);
-    setMaxPrice(absoluteMaxPrice);
     setSortBy("default");
     setCurrentPage(1);
   };
@@ -278,7 +232,15 @@ function SearchContent({
           if (!matchesAnySelectedRegion) return false;
         }
 
-        // 3. Category / Travel Type Filter
+        // 3. Location Scope Filter (Domestic / International)
+        if (selectedLocations.length > 0) {
+          const hasDomestic = selectedLocations.includes("domestic");
+          const hasInternational = selectedLocations.includes("international");
+          if (hasDomestic && !hasInternational && !pkg.isDomestic) return false;
+          if (hasInternational && !hasDomestic && pkg.isDomestic) return false;
+        }
+
+        // 4. Category / Travel Type Filter
         if (selectedCategories.length > 0) {
           const matchesAnySelectedCat = pkg.categories?.some((c) =>
             selectedCategories.includes(c.categorySlug),
@@ -286,7 +248,7 @@ function SearchContent({
           if (!matchesAnySelectedCat) return false;
         }
 
-        // 4. Duration Filter
+        // 5. Duration Filter
         if (selectedDurations.length > 0) {
           const days = getPackageDays(pkg);
           let matchDuration = false;
@@ -296,17 +258,6 @@ function SearchContent({
           if (selectedDurations.includes("15+") && days >= 15) matchDuration = true;
           if (!matchDuration) return false;
         }
-
-        // 5. Rating Filter
-        if (selectedRatings.length > 0) {
-          const rating = getPackageRating(pkg);
-          const minSelectedRating = Math.min(...selectedRatings);
-          if (rating < minSelectedRating) return false;
-        }
-
-        // 6. Budget (Per Person) Filter
-        const price = getPackagePrice(pkg);
-        if (price > 0 && price > maxPrice) return false;
 
         return true;
       })
@@ -333,10 +284,9 @@ function SearchContent({
     packagesData,
     searchQuery,
     selectedRegions,
+    selectedLocations,
     selectedCategories,
     selectedDurations,
-    selectedRatings,
-    maxPrice,
     sortBy,
     destinationsMap,
   ]);
@@ -358,10 +308,9 @@ function SearchContent({
 
   const isFilterActive =
     selectedRegions.length > 0 ||
+    selectedLocations.length > 0 ||
     selectedCategories.length > 0 ||
     selectedDurations.length > 0 ||
-    selectedRatings.length > 0 ||
-    maxPrice < absoluteMaxPrice ||
     sortBy !== "default";
 
   // Sidebar Filter Form markup shared between desktop and mobile drawer
@@ -427,45 +376,52 @@ function SearchContent({
         </AnimatePresence>
       </div>
 
-      {/* Budget Filter */}
+      {/* Location Scope (Domestic/International) Filter */}
       <div className="flex flex-col border-b border-border-light pb-5">
         <button
-          onClick={() => toggleFilterCollapse("budget")}
+          onClick={() => toggleFilterCollapse("location")}
           className="flex items-center justify-between w-full py-1 text-sm font-bold text-neutral-800 hover:text-brand transition-colors cursor-pointer text-left"
         >
-          <span>Budget (Per Person)</span>
-          {collapsedFilters.budget ? (
+          <span>Location Scope</span>
+          {collapsedFilters.location ? (
             <ChevronDown className="w-4 h-4 text-neutral-400" />
           ) : (
             <ChevronUp className="w-4 h-4 text-neutral-400" />
           )}
         </button>
         <AnimatePresence initial={false}>
-          {!collapsedFilters.budget && (
+          {!collapsedFilters.location && (
             <motion.div
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              className="overflow-hidden flex flex-col gap-3 mt-4 pl-1 pr-1"
+              className="overflow-hidden flex flex-col gap-2.5 mt-3 pl-1"
             >
-              <div className="flex justify-between items-center text-xs font-bold text-neutral-500">
-                <span>₹{absoluteMinPrice.toLocaleString("en-IN")}</span>
-                <span className="text-brand bg-brand-light px-2.5 py-1 rounded-full">
-                  Up to ₹{maxPrice.toLocaleString("en-IN")}
-                </span>
-              </div>
-              <input
-                type="range"
-                min={absoluteMinPrice}
-                max={absoluteMaxPrice}
-                step={5000}
-                value={maxPrice}
-                onChange={(e) => {
-                  setMaxPrice(Number(e.target.value));
-                  setCurrentPage(1);
-                }}
-                className="w-full accent-brand bg-neutral-200 h-1.5 rounded-lg appearance-none cursor-pointer"
-              />
+              {[
+                { label: "Domestic (India)", value: "domestic" },
+                { label: "International", value: "international" },
+              ].map((loc) => {
+                const isChecked = selectedLocations.includes(loc.value);
+                return (
+                  <label
+                    key={loc.value}
+                    className="flex items-center gap-3 text-sm font-semibold text-neutral-600 hover:text-neutral-900 cursor-pointer"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={isChecked}
+                      onChange={() => {
+                        setSelectedLocations((prev) =>
+                          isChecked ? prev.filter((l) => l !== loc.value) : [...prev, loc.value],
+                        );
+                        setCurrentPage(1);
+                      }}
+                      className="accent-brand rounded border-neutral-300 w-4 h-4 focus:ring-brand/30"
+                    />
+                    <span>{loc.label}</span>
+                  </label>
+                );
+              })}
             </motion.div>
           )}
         </AnimatePresence>
@@ -520,7 +476,7 @@ function SearchContent({
       </div>
 
       {/* Duration Filter */}
-      <div className="flex flex-col border-b border-border-light pb-5">
+      <div className="flex flex-col pb-2">
         <button
           onClick={() => toggleFilterCollapse("duration")}
           className="flex items-center justify-between w-full py-1 text-sm font-bold text-neutral-800 hover:text-brand transition-colors cursor-pointer text-left"
@@ -564,68 +520,6 @@ function SearchContent({
                       className="accent-brand rounded border-neutral-300 w-4 h-4 focus:ring-brand/30"
                     />
                     <span>{dur.label}</span>
-                  </label>
-                );
-              })}
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-
-      {/* Rating Filter */}
-      <div className="flex flex-col pb-2">
-        <button
-          onClick={() => toggleFilterCollapse("rating")}
-          className="flex items-center justify-between w-full py-1 text-sm font-bold text-neutral-800 hover:text-brand transition-colors cursor-pointer text-left"
-        >
-          <span>Rating</span>
-          {collapsedFilters.rating ? (
-            <ChevronDown className="w-4 h-4 text-neutral-400" />
-          ) : (
-            <ChevronUp className="w-4 h-4 text-neutral-400" />
-          )}
-        </button>
-        <AnimatePresence initial={false}>
-          {!collapsedFilters.rating && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              className="overflow-hidden flex flex-col gap-3 mt-3 pl-1"
-            >
-              {[5, 4, 3].map((val) => {
-                const isChecked = selectedRatings.includes(val);
-                return (
-                  <label
-                    key={val}
-                    className="flex items-center gap-3 text-sm font-semibold text-neutral-600 hover:text-neutral-900 cursor-pointer select-none"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={isChecked}
-                      onChange={() => {
-                        setSelectedRatings((prev) =>
-                          isChecked ? prev.filter((r) => r !== val) : [...prev, val],
-                        );
-                        setCurrentPage(1);
-                      }}
-                      className="accent-brand rounded border-neutral-300 w-4 h-4 focus:ring-brand/30"
-                    />
-                    <div className="flex items-center gap-1">
-                      <div className="flex items-center gap-0.5">
-                        {Array.from({ length: 5 }).map((_, idx) => (
-                          <Star
-                            key={idx}
-                            className={`w-3.5 h-3.5 ${
-                              idx < val ? "fill-yellow-400 text-yellow-400" : "text-neutral-300"
-                            }`}
-                          />
-                        ))}
-                      </div>
-                      {val < 5 && (
-                        <span className="text-xs text-neutral-500 font-bold ml-1">& up</span>
-                      )}
-                    </div>
                   </label>
                 );
               })}
@@ -717,26 +611,24 @@ function SearchContent({
                 </button>
 
                 <div className="flex items-center gap-2 shrink-0">
-                  <span className="text-xs font-bold text-neutral-400 uppercase tracking-wider hidden xs:inline">
-                    Sort By:
-                  </span>
-                  <div className="relative">
-                    <select
-                      value={sortBy}
-                      onChange={(e) => {
-                        setSortBy(e.target.value);
-                        setCurrentPage(1);
-                      }}
-                      className="bg-white border border-neutral-200 rounded-full pl-4 pr-9 py-2 text-xs font-semibold text-neutral-600 focus:outline-none focus:border-brand/40 transition-all appearance-none cursor-pointer"
-                    >
-                      <option value="default">Featured First</option>
-                      <option value="price-asc">Price: Low to High</option>
-                      <option value="price-desc">Price: High to Low</option>
-                      <option value="duration-asc">Duration: Short to Long</option>
-                      <option value="duration-desc">Duration: Long to Short</option>
-                    </select>
-                    <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-neutral-400 pointer-events-none" />
-                  </div>
+                  <Dropdown
+                    label="Sort By"
+                    options={[
+                      { value: "default", label: "Featured First" },
+                      { value: "price-asc", label: "Price: Low to High" },
+                      { value: "price-desc", label: "Price: High to Low" },
+                      { value: "duration-asc", label: "Duration: Short to Long" },
+                      { value: "duration-desc", label: "Duration: Long to Short" },
+                    ]}
+                    value={sortBy}
+                    onChange={(val) => {
+                      setSortBy(val);
+                      setCurrentPage(1);
+                    }}
+                    variant="slim"
+                    triggerClassName="bg-white border border-neutral-200 text-neutral-700 font-semibold px-4.5 py-2 w-[180px] xs:w-[210px] md:w-[220px]"
+                    menuClassName="w-[180px] xs:w-[210px] md:w-[220px] rounded-2xl"
+                  />
                 </div>
               </div>
             </div>
