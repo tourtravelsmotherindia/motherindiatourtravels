@@ -16,25 +16,37 @@ export function Marquee({
   children,
   vertical = false,
   repeat = 4,
+  style,
   ...props
 }: MarqueeProps) {
   return (
     <div
       {...props}
+      style={
+        {
+          ...style,
+          gap: "var(--gap, 1.5rem)",
+        } as React.CSSProperties
+      }
       className={cn(
-        "group flex overflow-hidden p-2 [--duration:40s] [--gap:1.5rem] [gap:var(--gap)]",
+        "group flex overflow-hidden p-2",
         vertical ? "flex-col" : "flex-row",
+        pauseOnHover && "pause-on-hover",
         className,
       )}
     >
       {Array.from({ length: repeat }).map((_, i) => (
         <div
           key={i}
+          style={
+            {
+              gap: "var(--gap, 1.5rem)",
+              animationDirection: reverse ? "reverse" : undefined,
+            } as React.CSSProperties
+          }
           className={cn(
-            "flex shrink-0 justify-around [gap:var(--gap)]",
+            "flex shrink-0 justify-around",
             vertical ? "animate-marquee-vertical flex-col" : "animate-marquee flex-row",
-            reverse && "[animation-direction:reverse]",
-            pauseOnHover && "group-hover:[animation-play-state:paused]",
           )}
         >
           {children}

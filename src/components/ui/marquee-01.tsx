@@ -101,12 +101,21 @@ const ReviewCard = ({
 export default function TestimonialMarqueeDemo() {
   return (
     <div className="relative flex w-full flex-col items-center justify-center overflow-hidden py-4">
-      <Marquee pauseOnHover className="[--duration:25s]">
+      <Marquee
+        pauseOnHover
+        className="[--duration:25s]"
+        style={{ "--duration": "25s" } as React.CSSProperties}
+      >
         {firstRow.map((review) => (
           <ReviewCard key={review.username} {...review} />
         ))}
       </Marquee>
-      <Marquee reverse pauseOnHover className="[--duration:25s]">
+      <Marquee
+        reverse
+        pauseOnHover
+        className="[--duration:25s]"
+        style={{ "--duration": "25s" } as React.CSSProperties}
+      >
         {secondRow.map((review) => (
           <ReviewCard key={review.username} {...review} />
         ))}

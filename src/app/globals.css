@@ -14,6 +14,8 @@ html {
   --muted: #4c4c4c;
   --border-light: #ececec;
   --admin-bg: #f8f8f8;
+  --duration: 20s;
+  --gap: 1.5rem;
 
   --spacing-tight-val: 1rem;
   --spacing-standard-val: 1.75rem;
@@ -75,27 +77,37 @@ html {
   --spacing-gap-standard: var(--gap-standard-val);
   --spacing-gap-section: var(--gap-section-val);
   --spacing-gap-major: var(--gap-major-val);
+}
 
-  --animate-marquee: marquee var(--duration) linear infinite;
-  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+.animate-marquee {
+  animation: marquee var(--duration, 20s) linear infinite;
+}
 
-  @keyframes marquee {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(calc(-100% - var(--gap)));
-    }
+.animate-marquee-vertical {
+  animation: marquee-vertical var(--duration, 20s) linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
   }
-
-  @keyframes marquee-vertical {
-    from {
-      transform: translateY(0);
-    }
-    to {
-      transform: translateY(calc(-100% - var(--gap)));
-    }
+  to {
+    transform: translateX(calc(-100% - var(--gap, 1.5rem)));
   }
+}
+
+@keyframes marquee-vertical {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-100% - var(--gap, 1.5rem)));
+  }
+}
+
+.pause-on-hover:hover .animate-marquee,
+.pause-on-hover:hover .animate-marquee-vertical {
+  animation-play-state: paused;
 }
 
 * {
