@@ -32,10 +32,7 @@ export default function FAQ({
   };
 
   return (
-    <section
-      id="faq"
-      className="pt-section-standard pb-section-loose scroll-mt-24 layout-container"
-    >
+    <section id="faq" className="pt-gap-section pb-gap-major scroll-mt-24 layout-container">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-16 items-end">
         <div className="lg:col-span-2 text-left">
           <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">FAQ</div>
@@ -84,13 +81,13 @@ export default function FAQ({
             const isOpen = activeIndex === index;
             const trigger = (
               <div className="w-full px-6 py-5 flex items-center justify-between text-left group">
-                <span className="text-sm md:text-base font-semibold text-gray-800 tracking-tight transition-colors duration-200 group-hover:text-brand">
+                <span className="text-sm md:text-base font-semibold text-gray-800 tracking-tight transition-colors duration-200 group-hover:text-neutral-900">
                   {faq.question}
                 </span>
                 <span
                   className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 shrink-0 ml-4 ${
                     isOpen
-                      ? "bg-brand text-white"
+                      ? "bg-neutral-800 text-white"
                       : "bg-gray-50 text-gray-800 group-hover:bg-gray-100"
                   }`}
                 >

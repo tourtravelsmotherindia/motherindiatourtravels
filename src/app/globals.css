@@ -20,6 +20,14 @@ html {
   --spacing-loose-val: 2.5rem;
   --spacing-hero-val: 1.5rem;
   --spacing-footer-val: 3rem;
+
+  --card-gap-micro: 0.5rem;
+  --card-gap-small: 0.75rem;
+
+  --gap-micro-val: 0.75rem;
+  --gap-standard-val: 1.5rem;
+  --gap-section-val: 1.5rem;
+  --gap-major-val: 2.5rem;
 }
 
 @media (min-width: 768px) {
@@ -29,6 +37,11 @@ html {
     --spacing-loose-val: 3.5rem;
     --spacing-hero-val: 2rem;
     --spacing-footer-val: 4rem;
+
+    --gap-micro-val: 1rem;
+    --gap-standard-val: 2.75rem;
+    --gap-section-val: 3.5rem;
+    --gap-major-val: 5rem;
   }
 }
 
@@ -55,6 +68,13 @@ html {
   --spacing-section-loose: var(--spacing-loose-val);
   --spacing-section-hero: var(--spacing-hero-val);
   --spacing-section-footer: var(--spacing-footer-val);
+
+  --spacing-card-micro: var(--card-gap-micro);
+  --spacing-card-small: var(--card-gap-small);
+  --spacing-gap-micro: var(--gap-micro-val);
+  --spacing-gap-standard: var(--gap-standard-val);
+  --spacing-gap-section: var(--gap-section-val);
+  --spacing-gap-major: var(--gap-major-val);
 }
 
 * {

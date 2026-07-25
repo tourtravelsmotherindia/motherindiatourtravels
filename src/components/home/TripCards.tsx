@@ -60,7 +60,7 @@ export default function TripCards({ packages }: { packages: PackageItem[] }) {
   );
 
   return (
-    <section id="packages" className="py-section-standard overflow-hidden layout-container">
+    <section id="packages" className="py-gap-section overflow-hidden layout-container">
       <SectionHeader
         title="Explore Trips"
         subtitle="Handpicked adventures designed to inspire your next journey"
@@ -74,7 +74,7 @@ export default function TripCards({ packages }: { packages: PackageItem[] }) {
         transition={{ duration: 0.3, ease: "easeOut" }}
         className="flex overflow-x-auto gap-4 sm:gap-6 snap-x snap-mandatory no-scrollbar pb-4 sm:pb-0 sm:grid sm:grid-cols-2 lg:grid-cols-4"
       >
-        {currentTrips.map((pkg, idx) => {
+        {currentTrips.map((pkg) => {
           const isFav = isFavorite(pkg.slug);
 
           return (
@@ -89,10 +89,6 @@ export default function TripCards({ packages }: { packages: PackageItem[] }) {
                 isFavorite={isFav}
                 onToggleFavorite={toggleFavorite}
                 showRating={true}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.4, delay: idx * 0.05 }}
               />
             </div>
           );

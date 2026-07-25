@@ -89,7 +89,7 @@ export default function TravelerMoments() {
   );
 
   return (
-    <section id="blog" className="py-section-standard overflow-hidden layout-container">
+    <section id="blog" className="py-gap-section overflow-hidden layout-container">
       <SectionHeader
         title={
           <>
@@ -174,9 +174,9 @@ export default function TravelerMoments() {
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.35, ease: "easeOut" }}
             className="flex flex-col gap-8"
           >

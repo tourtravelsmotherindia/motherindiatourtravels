@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Eye } from "lucide-react";
 import Image from "next/image";
 import React from "react";
@@ -14,16 +13,12 @@ interface GalleryProps {
 
 export default function Gallery({ galleryData }: GalleryProps) {
   return (
-    <section id="gallery" className="py-section-standard scroll-mt-24 layout-container">
+    <section id="gallery" className="py-gap-section scroll-mt-24 layout-container">
       <SectionHeader title={galleryData.tagline} subtitle={galleryData.subtitle} />
 
       <div className="flex overflow-x-auto gap-4 sm:gap-6 snap-x snap-mandatory no-scrollbar pb-4 sm:pb-0 sm:grid sm:grid-cols-2 lg:grid-cols-3">
         {galleryData.images.map((item, idx) => (
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: idx * 0.08 }}
+          <div
             key={item.id}
             className="group relative h-[280px] sm:h-[300px] lg:h-[340px] xl:h-[370px] 2xl:h-[400px] w-[260px] sm:w-auto shrink-0 snap-start rounded-[2rem] overflow-hidden shadow-card hover:shadow-premium transition-all duration-300 border border-border-light cursor-pointer"
           >
@@ -45,12 +40,12 @@ export default function Gallery({ galleryData }: GalleryProps) {
             </div>
 
             <div className="absolute bottom-0 left-0 right-0 p-6 flex flex-col gap-1 text-white z-10 transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
-              <span className="text-xs font-semibold text-brand-light/95 uppercase tracking-widest">
+              <span className="text-xs font-semibold text-neutral-300 uppercase tracking-widest">
                 {item.location}
               </span>
               <h3 className="text-lg md:text-xl font-bold tracking-tight">{item.title}</h3>
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
     </section>

@@ -78,7 +78,7 @@ export default function PopularDestinations({
   });
 
   return (
-    <section className="py-section-standard bg-white overflow-hidden">
+    <section className="py-gap-section bg-white overflow-hidden">
       <div className="layout-container relative">
         {/* Section Header */}
         <SectionHeader

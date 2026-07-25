@@ -25,10 +25,7 @@ export default function WhyChooseUs() {
   ];
 
   return (
-    <section
-      id="why-choose-us"
-      className="pt-section-hero pb-section-standard scroll-mt-24 bg-white layout-container"
-    >
+    <section id="why-choose-us" className="py-gap-section scroll-mt-24 bg-white layout-container">
       <SectionHeader
         title="Why Choose Us?"
         subtitle="We provide exceptional travel experiences with attention to every detail"
@@ -42,7 +39,7 @@ export default function WhyChooseUs() {
             key={idx}
             className="flex flex-row md:flex-col items-center md:items-center text-left md:text-center group bg-neutral-50/60 md:bg-transparent p-4 md:p-0 rounded-2xl md:rounded-none border border-neutral-100 md:border-none gap-4 md:gap-0"
           >
-            <div className="text-slate-800 group-hover:text-brand transition-all duration-300 transform group-hover:scale-105 ease-out md:mb-5 shrink-0 p-2.5 md:p-0 bg-white md:bg-transparent rounded-xl shadow-xs md:shadow-none">
+            <div className="text-slate-800 group-hover:text-neutral-900 transition-all duration-300 transform group-hover:scale-105 ease-out md:mb-5 shrink-0 p-2.5 md:p-0 bg-white md:bg-transparent rounded-xl shadow-xs md:shadow-none">
               {React.cloneElement(feature.icon, {
                 className: "w-6 h-6 md:w-14 md:h-14 stroke-[1.5] md:stroke-[1.25]",
               })}
