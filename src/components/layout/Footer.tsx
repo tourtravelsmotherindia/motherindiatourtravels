@@ -4,7 +4,8 @@ import { ArrowRight, CheckCircle2, Loader2, Mail, MapPin, Phone } from "lucide-r
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useState } from "react";
+import type React from "react";
+import { useState } from "react";
 
 import { useToast } from "@/context/ToastContext";
 import { useSubscribeNewsletter } from "@/lib/hooks/mutations";
@@ -155,15 +156,12 @@ export default function Footer({
       className={`bg-[#F9F9F9] text-neutral-800 pt-section-footer pb-12 relative overflow-hidden font-sans ${className}`}
     >
       <div className="layout-container">
-        {/* Top bar: social + newsletter */}
-        <div className="flex flex-col md:flex-row items-stretch gap-6 md:gap-0 pb-10 border-b border-neutral-200">
-          {/* Social */}
-          <div className="flex flex-row items-center justify-between md:flex-col md:justify-center gap-4 flex-1 pr-0 md:pr-12">
-            <h3 className="text-xl md:text-2xl font-extrabold text-neutral-900 tracking-tight leading-tight">
-              Leading the way
-              <br className="hidden md:inline" /> in adventure
+        <div className="flex flex-col md:flex-row items-stretch gap-8 md:gap-0 pb-12 border-b border-neutral-200">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 flex-1 pr-0 md:pr-12">
+            <h3 className="text-2xl font-extrabold text-neutral-900 tracking-tight leading-tight max-w-[200px]">
+              Leading the way in adventure
             </h3>
-            <div className="flex items-center gap-2.5">
+            <div className="flex items-center gap-3">
               {socialIcons
                 .filter((social) => social.href)
                 .map((social) => (
@@ -172,7 +170,7 @@ export default function Footer({
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-white text-neutral-800 shadow-[0_2px_8px_rgba(0,0,0,0.06)] hover:bg-neutral-100 flex items-center justify-center transition-all duration-300 border border-neutral-100"
+                    className="w-10 h-10 rounded-full bg-white text-neutral-800 shadow-[0_2px_8px_rgba(0,0,0,0.06)] hover:bg-neutral-100 flex items-center justify-center transition-all duration-300 border border-neutral-100"
                     aria-label={social.name}
                   >
                     {social.svg}
@@ -181,15 +179,15 @@ export default function Footer({
             </div>
           </div>
 
-          <div className="hidden md:block w-px bg-neutral-200 self-stretch my-2" />
-          <div className="block md:hidden h-px bg-neutral-200 w-full" />
+          <div className="hidden md:block w-px bg-neutral-200 self-stretch my-2"></div>
+          <div className="block md:hidden h-px bg-neutral-200 w-full"></div>
 
-          {/* Newsletter */}
-          <div className="flex flex-col gap-3 flex-1 pl-0 md:pl-12 justify-center">
-            <h3 className="text-xl md:text-2xl font-bold text-neutral-900 tracking-tight leading-tight">
-              Join our Newsletter
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 flex-1 pl-0 md:pl-12">
+            <h3 className="text-2xl font-bold text-neutral-900 tracking-tight leading-tight">
+              Join our
+              <br className="hidden sm:inline" /> Newsletter
             </h3>
-            <div className="w-full max-w-sm">
+            <div className="w-full max-w-[320px]">
               {subscribed ? (
                 <div className="flex items-center gap-2 text-emerald-600 bg-emerald-50 border border-emerald-100 rounded-full py-2 px-4 text-xs font-semibold">
                   <CheckCircle2 className="w-4 h-4 shrink-0" />
@@ -226,9 +224,7 @@ export default function Footer({
           </div>
         </div>
 
-        {/* Main link grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pt-12 mb-10">
-          {/* Brand description */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pt-16 mb-12">
           <div className="lg:col-span-4 flex flex-col gap-5">
             <Link href="/" className="flex items-center gap-3 group w-max select-none">
               <div className="relative transition-transform group-hover:scale-105 duration-300 shrink-0">
@@ -256,7 +252,6 @@ export default function Footer({
             </p>
           </div>
 
-          {/* Contact info */}
           <div className="lg:col-span-3 flex flex-col gap-4">
             <h4 className="text-xs font-bold uppercase tracking-widest text-neutral-900">
               Contact
@@ -264,17 +259,17 @@ export default function Footer({
             <ul className="flex flex-col gap-3 text-sm text-neutral-800 font-medium">
               <li className="flex items-start gap-2.5">
                 <Phone className="w-4 h-4 text-neutral-400 shrink-0 mt-0.5" />
-                <div className="flex flex-row flex-wrap items-center gap-x-2 gap-y-0.5 text-neutral-800 font-medium">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 text-neutral-800 font-medium">
                   {companyData.phone.map((phoneNum, idx) => (
-                    <React.Fragment key={idx}>
-                      {idx > 0 && <span className="text-neutral-300 select-none">|</span>}
+                    <div key={idx} className="flex items-center gap-1.5 sm:gap-2">
+                      {idx > 0 && <span className="hidden sm:inline text-neutral-300">|</span>}
                       <a
                         href={`tel:${phoneNum.replace(/\s+/g, "")}`}
-                        className="hover:text-neutral-950 transition-colors duration-200 whitespace-nowrap"
+                        className="hover:text-neutral-950 transition-colors duration-200"
                       >
                         {phoneNum}
                       </a>
-                    </React.Fragment>
+                    </div>
                   ))}
                 </div>
               </li>
@@ -302,8 +297,7 @@ export default function Footer({
             </ul>
           </div>
 
-          {/* Quick Links + Popular Highlights — always 2-col on mobile */}
-          <div className="grid grid-cols-2 gap-6 md:col-span-2 lg:col-span-5 lg:grid-cols-5">
+          <div className="grid grid-cols-2 gap-8 md:col-span-2 lg:col-span-5 lg:grid-cols-5">
             <div className="lg:col-span-2 flex flex-col gap-4">
               <h4 className="text-xs font-bold uppercase tracking-widest text-neutral-900">
                 Quick Links
@@ -316,7 +310,7 @@ export default function Footer({
                   { name: "My Wishlist", href: "/wishlist" },
                   { name: "Travel Blog", href: "/blogs" },
                   { name: "FAQs", href: "/faqs" },
-                  { name: "Testimonials", href: "/testimonials" },
+                  { name: "Customer Reviews", href: "/reviews" },
                   { name: "Gallery", href: "#gallery" },
                   { name: "Contact Us", href: "/contact" },
                 ].map((link) => (
@@ -366,13 +360,9 @@ export default function Footer({
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="pt-6 border-t border-neutral-200 flex flex-col gap-4 items-center lg:flex-row lg:justify-between">
-          <div className="flex flex-col items-center gap-1 sm:flex-row sm:items-center sm:gap-4">
-            <p
-              className="text-xs font-medium text-neutral-800 text-center"
-              suppressHydrationWarning
-            >
+        <div className="pt-8 border-t border-neutral-200 flex flex-col lg:flex-row items-center justify-between gap-6">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 text-center sm:text-left">
+            <p className="text-xs font-medium text-neutral-800" suppressHydrationWarning>
               © {new Date().getFullYear()} <span className="notranslate">{companyData.name}</span>.
               All rights reserved.
             </p>
@@ -385,28 +375,28 @@ export default function Footer({
               </>
             )}
           </div>
-          <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-xs font-medium text-neutral-500">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs font-medium text-neutral-500">
             <Link
               href="/privacy-policy"
               className="hover:text-brand transition-colors duration-200"
             >
               Privacy Policy
             </Link>
-            <span className="text-neutral-300">|</span>
+            <span className="hidden sm:inline text-neutral-300">|</span>
             <Link
               href="/terms-of-service"
               className="hover:text-brand transition-colors duration-200"
             >
               Terms of Service
             </Link>
-            <span className="text-neutral-300">|</span>
+            <span className="hidden sm:inline text-neutral-300">|</span>
             <Link
               href="/cancellation-policy"
               className="hover:text-brand transition-colors duration-200"
             >
               Cancellation Policy
             </Link>
-            <span className="text-neutral-300">|</span>
+            <span className="hidden sm:inline text-neutral-300">|</span>
             <Link href="/cookie-policy" className="hover:text-brand transition-colors duration-200">
               Cookie Policy
             </Link>
