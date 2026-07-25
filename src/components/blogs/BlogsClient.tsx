@@ -9,6 +9,7 @@ import React, { useMemo, useState } from "react";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import PageShell from "@/components/layout/PageShell";
 import Pagination from "@/components/shared/Pagination";
+import Dropdown from "@/components/ui/Dropdown";
 import { type CompanyData } from "@/types/company";
 
 interface BlogItem {
@@ -24,6 +25,7 @@ interface BlogItem {
   categoryName: string | null;
   categorySlug: string | null;
   tags: string[];
+  isFeatured: boolean;
 }
 
 interface CategoryItem {
@@ -42,6 +44,7 @@ interface BlogsClientProps {
 export default function BlogsClient({ initialBlogs, categories, companyData }: BlogsClientProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [sortBy, setSortBy] = useState("featured");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
 
@@ -58,12 +61,39 @@ export default function BlogsClient({ initialBlogs, categories, companyData }: B
     });
   }, [initialBlogs, selectedCategory, searchQuery]);
 
+  // Sort blogs based on selected sort criteria
+  const sortedBlogs = useMemo(() => {
+    const cloned = [...filteredBlogs];
+    if (sortBy === "featured") {
+      cloned.sort((a, b) => {
+        if (a.isFeatured && !b.isFeatured) return -1;
+        if (!a.isFeatured && b.isFeatured) return 1;
+        const dateA = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
+        const dateB = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
+        return dateB - dateA;
+      });
+    } else if (sortBy === "newest") {
+      cloned.sort((a, b) => {
+        const dateA = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
+        const dateB = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
+        return dateB - dateA;
+      });
+    } else if (sortBy === "oldest") {
+      cloned.sort((a, b) => {
+        const dateA = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
+        const dateB = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
+        return dateA - dateB;
+      });
+    }
+    return cloned;
+  }, [filteredBlogs, sortBy]);
+
   // Pagination logic
-  const totalPages = Math.ceil(filteredBlogs.length / itemsPerPage);
+  const totalPages = Math.ceil(sortedBlogs.length / itemsPerPage);
   const paginatedBlogs = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
-    return filteredBlogs.slice(startIndex, startIndex + itemsPerPage);
-  }, [filteredBlogs, currentPage]);
+    return sortedBlogs.slice(startIndex, startIndex + itemsPerPage);
+  }, [sortedBlogs, currentPage]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -188,8 +218,36 @@ export default function BlogsClient({ initialBlogs, categories, companyData }: B
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 w-5 h-5 pointer-events-none z-10" />
               </div>
 
+              {/* Header controls: Results Count & Sort Selection */}
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 px-1">
+                <div>
+                  <p className="text-xs md:text-sm font-bold text-neutral-500 uppercase tracking-wider">
+                    Showing {sortedBlogs.length > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0}–
+                    {Math.min(currentPage * itemsPerPage, sortedBlogs.length)} of{" "}
+                    {sortedBlogs.length} {sortedBlogs.length === 1 ? "blog post" : "blog posts"}
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
+                  <Dropdown
+                    options={[
+                      { value: "featured", label: "Featured" },
+                      { value: "newest", label: "Newest First" },
+                      { value: "oldest", label: "Oldest First" },
+                    ]}
+                    value={sortBy}
+                    onChange={(val) => {
+                      setSortBy(val);
+                      setCurrentPage(1);
+                    }}
+                    variant="slim"
+                    label="Sort"
+                  />
+                </div>
+              </div>
+
               {/* Blogs Grid */}
-              {filteredBlogs.length === 0 ? (
+              {sortedBlogs.length === 0 ? (
                 <div className="text-center py-20 bg-neutral-50 border border-neutral-100 rounded-[2rem] max-w-4xl mx-auto">
                   <h3 className="text-lg md:text-xl font-bold text-neutral-800">
                     No blog posts found

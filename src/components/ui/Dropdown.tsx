@@ -100,7 +100,7 @@ export default function Dropdown({
             ? "rounded-xl px-3.5 py-1.5 text-xs font-semibold"
             : "rounded-full px-5 py-2.5 lg:py-3 text-sm font-semibold"
         } ${
-          isTransparent ? "" : "bg-white hover:bg-neutral-50/50 focus:border-brand/40"
+          isTransparent ? "" : "bg-white hover:bg-neutral-50/50"
         } ${isWhiteBorder ? "" : "border border-neutral-200 hover:border-brand/35"} ${
           isWhiteText ? "" : isSlim ? "text-black" : "text-neutral-700"
         } ${triggerClassName}`}
@@ -202,7 +202,7 @@ export default function Dropdown({
                     <button
                       type="button"
                       onClick={() => handleOptionClick(option)}
-                      className={`flex items-center justify-between w-full text-left transition-all duration-200 select-none outline-none ${
+                      className={`flex items-center justify-between w-full text-left transition-all duration-200 select-none outline-none focus:outline-none focus:ring-0 ${
                         isSlim
                           ? "px-3 py-2 text-xs font-semibold rounded-lg cursor-pointer"
                           : "px-4 py-3 text-sm font-semibold rounded-2xl cursor-pointer"
