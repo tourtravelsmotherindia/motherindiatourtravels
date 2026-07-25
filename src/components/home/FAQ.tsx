@@ -33,7 +33,7 @@ export default function FAQ({
 
   return (
     <section id="faq" className="pt-gap-section pb-gap-major scroll-mt-24 layout-container">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-16 items-end">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8 md:mb-16 items-end">
         <div className="lg:col-span-2 text-left">
           <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">FAQ</div>
           <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight leading-[1.1] max-w-2xl">

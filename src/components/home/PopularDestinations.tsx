@@ -89,7 +89,7 @@ export default function PopularDestinations({
         />
 
         {/* Mobile View */}
-        <div className="md:hidden mt-8">
+        <div className="md:hidden mt-4">
           <div
             ref={containerRef}
             onScroll={handleScroll}

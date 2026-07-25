@@ -28,11 +28,11 @@ export default function SectionHeader({
     <div
       className={`flex ${
         isCenter
-          ? "flex-col items-center justify-center text-center mb-12 gap-6"
+          ? "flex-col items-center justify-center text-center mb-6 md:mb-12 gap-4 md:gap-6"
           : isRow
-            ? "flex-row items-end justify-between mb-8 md:mb-12 gap-4"
-            : "flex-col md:flex-row md:items-end md:justify-between mb-12 gap-6"
-      } ${className}`}
+            ? "flex-row items-end justify-between mb-5 md:mb-12 gap-3 md:gap-4"
+            : "flex-col md:flex-row md:items-end md:justify-between mb-6 md:mb-12 gap-4 md:gap-6"
+      }  ${className}`}
     >
       <div className={isCenter ? "max-w-3xl mx-auto" : "max-w-4xl"}>
         {badge && (

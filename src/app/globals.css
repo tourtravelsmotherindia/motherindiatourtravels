@@ -25,9 +25,9 @@ html {
   --card-gap-small: 0.75rem;
 
   --gap-micro-val: 0.75rem;
-  --gap-standard-val: 1.5rem;
-  --gap-section-val: 1.5rem;
-  --gap-major-val: 2.5rem;
+  --gap-standard-val: 1.25rem;
+  --gap-section-val: 1rem;
+  --gap-major-val: 1.75rem;
 }
 
 @media (min-width: 768px) {

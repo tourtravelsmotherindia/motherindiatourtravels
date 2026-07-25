@@ -30,7 +30,7 @@ export default function WhyChooseUs() {
         title="Why Choose Us?"
         subtitle="We provide exceptional travel experiences with attention to every detail"
         align="center"
-        className="mb-8 md:mb-16"
+        className="mb-5 md:mb-16"
       />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 max-w-[1100px] mx-auto">
