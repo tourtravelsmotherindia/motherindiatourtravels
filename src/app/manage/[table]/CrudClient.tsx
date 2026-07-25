@@ -24,6 +24,7 @@ import EmptyState from "@/components/manage/EmptyState";
 import ErrorState from "@/components/manage/ErrorState";
 import LoadingState from "@/components/manage/LoadingState";
 import Dropdown from "@/components/ui/Dropdown";
+import SegmentedControl from "@/components/ui/SegmentedControl";
 import { useToast } from "@/context/ToastContext";
 import { ADMIN_TABLES, getFriendlyLabel, getSingularLabel } from "@/lib/adminSchema";
 import { useDeleteRecord } from "@/lib/hooks/mutations";
@@ -394,11 +395,27 @@ export default function CrudClient({ table }: CrudClientProps) {
                   let dropdownOptions: { label: string; value: string }[] = [];
 
                   if (field.type === "boolean") {
-                    dropdownOptions = [
+                    // Boolean filters → SegmentedControl (3 options: All / Yes / No)
+                    const boolOptions = [
                       { label: "All", value: "" },
                       { label: field.trueLabel || "Yes", value: "true" },
                       { label: field.falseLabel || "No", value: "false" },
                     ];
+                    const currentBoolValue = filters[field.name] || "";
+                    return (
+                      <div key={field.name} className="flex items-center gap-1.5 shrink-0">
+                        <SegmentedControl
+                          options={boolOptions}
+                          value={currentBoolValue}
+                          onChange={(val) => {
+                            setFilters((prev) => ({ ...prev, [field.name]: val }));
+                            setCurrentPage(1);
+                          }}
+                          layoutId={`filter-${field.name}`}
+                          size="sm"
+                        />
+                      </div>
+                    );
                   } else if (field.type === "select") {
                     dropdownOptions = [{ label: "All", value: "" }];
                     if (field.relation) {
@@ -411,26 +428,27 @@ export default function CrudClient({ table }: CrudClientProps) {
                         dropdownOptions.push({ label: opt.label, value: String(opt.value) });
                       });
                     }
+
+                    const currentValue = filters[field.name] || "";
+                    return (
+                      <div key={field.name} className="flex items-center gap-1.5 shrink-0">
+                        <Dropdown
+                          options={dropdownOptions}
+                          value={currentValue}
+                          onChange={(val) => {
+                            setFilters((prev) => ({ ...prev, [field.name]: val }));
+                            setCurrentPage(1);
+                          }}
+                          label={getFriendlyLabel(field.name, field.label)}
+                          placeholder={getFriendlyLabel(field.name, field.label)}
+                          variant="slim"
+                          className="w-auto min-w-[130px]"
+                        />
+                      </div>
+                    );
                   }
 
-                  const currentValue = filters[field.name] || "";
-
-                  return (
-                    <div key={field.name} className="flex items-center gap-1.5 shrink-0">
-                      <Dropdown
-                        options={dropdownOptions}
-                        value={currentValue}
-                        onChange={(val) => {
-                          setFilters((prev) => ({ ...prev, [field.name]: val }));
-                          setCurrentPage(1);
-                        }}
-                        label={getFriendlyLabel(field.name, field.label)}
-                        placeholder={getFriendlyLabel(field.name, field.label)}
-                        variant="slim"
-                        className="w-auto min-w-[130px]"
-                      />
-                    </div>
-                  );
+                  return null;
                 })}
               </div>
             )}
