@@ -39,34 +39,6 @@ interface BlogsClientProps {
   companyData: CompanyData | null;
 }
 
-const CardDecoration = ({ index }: { index: number }) => {
-  if (index % 3 === 0) {
-    // Card 1: Orange bottom-left, green top-right
-    return (
-      <>
-        <div className="absolute -bottom-6 -left-6 w-16 h-16 bg-[#ff5a36] rounded-full z-10 pointer-events-none" />
-        <div className="absolute -top-6 -right-6 w-12 h-12 bg-[#10b981] rounded-full z-10 pointer-events-none" />
-      </>
-    );
-  } else if (index % 3 === 1) {
-    // Card 2: Orange top-left, blue bottom-left
-    return (
-      <>
-        <div className="absolute -top-8 -left-8 w-16 h-16 bg-[#f97316] rounded-full z-10 pointer-events-none" />
-        <div className="absolute -bottom-6 -left-6 w-12 h-12 bg-[#3b82f6] rounded-full z-10 pointer-events-none" />
-      </>
-    );
-  } else {
-    // Card 3: Orange top-left, purple bottom-right
-    return (
-      <>
-        <div className="absolute -top-6 -left-6 w-12 h-12 bg-[#ef4444] rounded-full z-10 pointer-events-none" />
-        <div className="absolute -bottom-8 -right-8 w-16 h-16 bg-[#8b5cf6] rounded-full z-10 pointer-events-none" />
-      </>
-    );
-  }
-};
-
 export default function BlogsClient({ initialBlogs, categories, companyData }: BlogsClientProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -131,148 +103,183 @@ export default function BlogsClient({ initialBlogs, categories, companyData }: B
           </p>
         </div>
 
-        {/* Filter Bar & Search Row */}
-        <div className="layout-container mb-12">
-          <div className="flex flex-col md:flex-row gap-6 justify-between items-stretch md:items-center border-b border-neutral-100 pb-8">
-            {/* Horizontal Scroll Categories */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-none snap-x flex-1 max-w-3xl">
-              <button
-                onClick={() => handleCategorySelect("All")}
-                className={`snap-center shrink-0 py-2.5 px-6 rounded-full text-sm font-semibold transition-all duration-300 ${
-                  selectedCategory === "All"
-                    ? "bg-brand text-white shadow-premium"
-                    : "bg-neutral-50 text-neutral-600 hover:bg-neutral-100 hover:text-black border border-neutral-200/50"
-                }`}
-              >
-                All
-              </button>
-              {categories.map((cat) => (
+        {/* Main Grid Section (Matches FAQ Page Structure) */}
+        <div className="layout-container">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+            {/* Sidebar Column - Category Tabs */}
+            <div className="lg:col-span-3 lg:sticky lg:top-28">
+              <h2 className="text-xl md:text-2xl font-bold text-neutral-900 mb-5">Categories</h2>
+
+              {/* Category Tab List - Desktop view */}
+              <div className="hidden lg:flex flex-col gap-2 font-semibold text-base">
                 <button
-                  key={cat.id}
-                  onClick={() => handleCategorySelect(cat.slug)}
-                  className={`snap-center shrink-0 py-2.5 px-6 rounded-full text-sm font-semibold transition-all duration-300 ${
-                    selectedCategory === cat.slug
-                      ? "bg-brand text-white shadow-premium"
-                      : "bg-neutral-50 text-neutral-600 hover:bg-neutral-100 hover:text-black border border-neutral-200/50"
+                  onClick={() => handleCategorySelect("All")}
+                  className={`text-left py-2.5 px-4 rounded-xl transition-all duration-200 cursor-pointer ${
+                    selectedCategory === "All"
+                      ? "bg-neutral-100/90 text-black font-semibold"
+                      : "text-neutral-700 hover:bg-neutral-50/90 hover:text-black font-semibold"
                   }`}
                 >
-                  {cat.name}
+                  All Categories
                 </button>
-              ))}
-            </div>
-
-            {/* Search Input */}
-            <div className="relative w-full md:w-80 shrink-0">
-              <input
-                type="text"
-                placeholder="Search blogs..."
-                value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                  setCurrentPage(1);
-                }}
-                className="w-full pl-11 pr-4 py-3.5 bg-neutral-50 border border-neutral-200 rounded-full focus:outline-none focus:border-brand focus:bg-white transition-all duration-200 text-neutral-900 font-medium placeholder-neutral-400 text-sm shadow-[0_2px_8px_rgba(0,0,0,0.01)]"
-              />
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 w-4 h-4 pointer-events-none" />
-            </div>
-          </div>
-        </div>
-
-        {/* Blogs Grid */}
-        <div className="layout-container">
-          {filteredBlogs.length === 0 ? (
-            <div className="text-center py-20 bg-neutral-50 border border-neutral-100 rounded-[2rem] max-w-4xl mx-auto">
-              <h3 className="text-lg md:text-xl font-bold text-neutral-800">No blog posts found</h3>
-              <p className="text-neutral-500 text-sm mt-2 max-w-sm mx-auto px-4 font-medium">
-                Try searching for other terms or selecting a different category.
-              </p>
-            </div>
-          ) : (
-            <div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
-                {paginatedBlogs.map((blog, idx) => (
-                  <motion.article
-                    key={blog.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: Math.min(idx * 0.05, 0.3) }}
-                    className="group flex flex-col bg-white overflow-hidden"
-                  >
-                    {/* Image Wrapper with clipped corner decoration elements */}
-                    <div className="relative aspect-[16/10] w-full rounded-[1.75rem] md:rounded-[2.25rem] overflow-hidden mb-5 bg-neutral-100 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
-                      <Image
-                        src={
-                          blog.coverImage ||
-                          "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80"
-                        }
-                        alt={blog.title}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        className="object-cover transition-transform duration-700 group-hover:scale-103"
-                        priority={idx < 3}
-                      />
-                      {/* Interactive hover overlays/decorations matching references */}
-                      <CardDecoration index={idx} />
-                    </div>
-
-                    {/* Blog Content */}
-                    <div className="flex-1 flex flex-col items-start">
-                      {/* Category Pill */}
-                      {blog.categoryName && (
-                        <span className="px-3.5 py-1 bg-neutral-100 text-[10px] font-bold uppercase tracking-wider rounded-full text-neutral-500 mb-3 group-hover:bg-brand-light group-hover:text-brand transition-colors duration-300">
-                          {blog.categoryName}
-                        </span>
-                      )}
-
-                      {/* Date & Reading Time */}
-                      <div className="flex items-center gap-3 text-xs text-neutral-400 font-semibold mb-3">
-                        <span className="flex items-center gap-1.5">
-                          <Calendar className="w-3.5 h-3.5" />
-                          {formatDate(blog.publishedAt)}
-                        </span>
-                        <span>•</span>
-                        <span className="flex items-center gap-1.5">
-                          <Clock className="w-3.5 h-3.5" />
-                          {blog.readingTimeMinutes} min read
-                        </span>
-                      </div>
-
-                      {/* Title */}
-                      <h3 className="text-xl md:text-2xl font-bold font-display text-neutral-900 tracking-tight leading-[1.2] mb-3 group-hover:text-brand transition-colors duration-200">
-                        <Link href={`/blogs/${blog.slug}`}>{blog.title}</Link>
-                      </h3>
-
-                      {/* Excerpt */}
-                      <p className="text-sm md:text-base text-neutral-500 leading-relaxed font-normal line-clamp-3 mb-4">
-                        {blog.excerpt}
-                      </p>
-
-                      {/* Read More Link */}
-                      <Link
-                        href={`/blogs/${blog.slug}`}
-                        className="text-sm font-bold text-brand hover:text-brand-hover inline-flex items-center gap-1 mt-auto group/link"
-                      >
-                        Read Post
-                        <span className="transform translate-x-0 group-hover/link:translate-x-1 transition-transform duration-200">
-                          →
-                        </span>
-                      </Link>
-                    </div>
-                  </motion.article>
-                ))}
+                {categories.map((cat) => {
+                  const isActive = selectedCategory === cat.slug;
+                  return (
+                    <button
+                      key={cat.id}
+                      onClick={() => handleCategorySelect(cat.slug)}
+                      className={`text-left py-2.5 px-4 rounded-xl transition-all duration-200 cursor-pointer ${
+                        isActive
+                          ? "bg-neutral-100/90 text-black font-semibold"
+                          : "text-neutral-700 hover:bg-neutral-50/90 hover:text-black font-semibold"
+                      }`}
+                    >
+                      {cat.name}
+                    </button>
+                  );
+                })}
               </div>
 
-              {totalPages > 1 && (
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={handlePageChange}
-                  className="mt-16"
+              {/* Horizontal Scroll tabs - Mobile view */}
+              <div className="flex lg:hidden gap-2 overflow-x-auto pb-4 scrollbar-none snap-x -mx-4 px-4">
+                <button
+                  onClick={() => handleCategorySelect("All")}
+                  className={`snap-center shrink-0 py-2 px-4 rounded-full text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                    selectedCategory === "All"
+                      ? "bg-neutral-100/90 text-black border border-transparent"
+                      : "bg-white text-neutral-700 hover:bg-neutral-50/90 hover:text-black border border-neutral-200"
+                  }`}
+                >
+                  All
+                </button>
+                {categories.map((cat) => {
+                  const isActive = selectedCategory === cat.slug;
+                  return (
+                    <button
+                      key={cat.id}
+                      onClick={() => handleCategorySelect(cat.slug)}
+                      className={`snap-center shrink-0 py-2 px-4 rounded-full text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                        isActive
+                          ? "bg-neutral-100/90 text-black border border-transparent"
+                          : "bg-white text-neutral-700 hover:bg-neutral-50/90 hover:text-black border border-neutral-200"
+                      }`}
+                    >
+                      {cat.name}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Content Column - Search Input & Blogs Grid */}
+            <div className="lg:col-span-9">
+              {/* Search Box (FAQ page style) */}
+              <div className="relative mb-8">
+                <input
+                  type="text"
+                  placeholder="Search blogs..."
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setCurrentPage(1);
+                  }}
+                  className="w-full pl-12 pr-4 py-4 bg-white border border-neutral-200 rounded-2xl focus:outline-none focus:border-neutral-300 transition-all duration-200 text-neutral-900 font-medium placeholder-neutral-400 text-base shadow-[0_2px_8px_rgba(0,0,0,0.01)]"
                 />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 w-5 h-5 pointer-events-none z-10" />
+              </div>
+
+              {/* Blogs Grid */}
+              {filteredBlogs.length === 0 ? (
+                <div className="text-center py-20 bg-neutral-50 border border-neutral-100 rounded-[2rem] max-w-4xl mx-auto">
+                  <h3 className="text-lg md:text-xl font-bold text-neutral-800">
+                    No blog posts found
+                  </h3>
+                  <p className="text-neutral-505 text-sm mt-2 max-w-sm mx-auto px-4 font-medium">
+                    Try searching for other terms or selecting a different category.
+                  </p>
+                </div>
+              ) : (
+                <div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+                    {paginatedBlogs.map((blog, idx) => (
+                      <motion.article
+                        key={blog.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: Math.min(idx * 0.05, 0.3) }}
+                        className="group relative flex flex-col bg-white overflow-hidden"
+                      >
+                        {/* Image Wrapper (Clean rounded design without corner color cycle decorations) */}
+                        <div className="relative aspect-[16/10] w-full rounded-[1.75rem] md:rounded-[2.25rem] overflow-hidden mb-5 bg-neutral-100 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
+                          <Image
+                            src={
+                              blog.coverImage ||
+                              "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80"
+                            }
+                            alt={blog.title}
+                            fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                            className="object-cover transition-transform duration-700 group-hover:scale-103"
+                            priority={idx < 2}
+                          />
+                        </div>
+
+                        {/* Blog Content */}
+                        <div className="flex-1 flex flex-col items-start">
+                          {/* Category Pill */}
+                          {blog.categoryName && (
+                            <span className="px-3.5 py-1 bg-neutral-105 text-[10px] font-bold uppercase tracking-wider rounded-full text-neutral-500 mb-3 group-hover:bg-neutral-100 group-hover:text-black transition-colors duration-300">
+                              {blog.categoryName}
+                            </span>
+                          )}
+
+                          {/* Date & Reading Time */}
+                          <div className="flex items-center gap-3 text-xs text-neutral-400 font-semibold mb-3">
+                            <span className="flex items-center gap-1.5">
+                              <Calendar className="w-3.5 h-3.5" />
+                              {formatDate(blog.publishedAt)}
+                            </span>
+                            <span>•</span>
+                            <span className="flex items-center gap-1.5">
+                              <Clock className="w-3.5 h-3.5" />
+                              {blog.readingTimeMinutes} min read
+                            </span>
+                          </div>
+
+                          {/* Title */}
+                          <h3 className="text-xl md:text-2xl font-bold font-display text-neutral-900 tracking-tight leading-[1.2] mb-3 group-hover:text-brand transition-colors duration-200">
+                            <Link href={`/blogs/${blog.slug}`}>{blog.title}</Link>
+                          </h3>
+
+                          {/* Excerpt */}
+                          <p className="text-sm md:text-base text-neutral-500 leading-relaxed font-normal line-clamp-3">
+                            {blog.excerpt}
+                          </p>
+                        </div>
+
+                        {/* Full Clickable Card Overlay */}
+                        <Link
+                          href={`/blogs/${blog.slug}`}
+                          className="absolute inset-0 z-10 cursor-pointer"
+                          aria-label={`View details for ${blog.title}`}
+                        />
+                      </motion.article>
+                    ))}
+                  </div>
+
+                  {totalPages > 1 && (
+                    <Pagination
+                      currentPage={currentPage}
+                      totalPages={totalPages}
+                      onPageChange={handlePageChange}
+                      className="mt-16"
+                    />
+                  )}
+                </div>
               )}
             </div>
-          )}
+          </div>
         </div>
       </div>
     </PageShell>

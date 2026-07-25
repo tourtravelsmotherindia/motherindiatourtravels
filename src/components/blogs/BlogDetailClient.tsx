@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, Calendar, Clock, Copy } from "lucide-react";
+import { Calendar, Clock, Copy } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
@@ -48,91 +48,160 @@ interface BlogDetailClientProps {
   companyData: CompanyData | null;
 }
 
-// Custom simple Markdown to JSX renderer
+// Custom line-by-line Markdown to JSX renderer
 function parseMarkdownToJSX(markdown: string) {
   if (!markdown) return null;
 
-  const blocks = markdown.split(/\n\n+/);
+  const lines = markdown.split("\n");
+  const elements: React.ReactNode[] = [];
+  let currentList: React.ReactNode[] = [];
+  let listType: "ul" | "ol" | null = null;
+  let currentParagraph: string[] = [];
 
-  return blocks.map((block, idx) => {
-    const trimmed = block.trim();
-    if (!trimmed) return null;
+  const flushParagraph = (key: string | number) => {
+    if (currentParagraph.length > 0) {
+      const text = currentParagraph.join(" ").trim();
+      if (text) {
+        elements.push(
+          <p
+            key={`p-${key}`}
+            className="text-neutral-800 leading-relaxed font-medium text-sm md:text-base mb-6"
+          >
+            {parseInlineMarkdown(text)}
+          </p>,
+        );
+      }
+      currentParagraph = [];
+    }
+  };
+
+  const flushList = (key: string | number) => {
+    if (currentList.length > 0) {
+      if (listType === "ul") {
+        elements.push(
+          <ul
+            key={`ul-${key}`}
+            className="list-disc pl-6 space-y-2.5 my-5 text-neutral-800 font-medium"
+          >
+            {currentList}
+          </ul>,
+        );
+      } else if (listType === "ol") {
+        elements.push(
+          <ol
+            key={`ol-${key}`}
+            className="list-decimal pl-6 space-y-2.5 my-5 text-neutral-800 font-medium"
+          >
+            {currentList}
+          </ol>,
+        );
+      }
+      currentList = [];
+      listType = null;
+    }
+  };
+
+  const flushAll = (key: string | number) => {
+    flushParagraph(key);
+    flushList(key);
+  };
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const trimmed = line.trim();
+
+    if (!trimmed) {
+      flushAll(i);
+      continue;
+    }
 
     // Headers
-    if (trimmed.startsWith("### ")) {
-      const text = trimmed.replace("### ", "");
-      const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-      return (
-        <h3
-          key={idx}
-          id={id}
-          className="text-xl font-bold text-neutral-900 mt-8 mb-4 scroll-mt-28 font-display"
-        >
-          {text}
-        </h3>
-      );
-    }
-    if (trimmed.startsWith("## ")) {
-      const text = trimmed.replace("## ", "");
-      const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-      return (
-        <h2
-          key={idx}
-          id={id}
-          className="text-2xl font-bold text-neutral-900 mt-10 mb-5 scroll-mt-28 font-display"
-        >
-          {text}
-        </h2>
-      );
-    }
     if (trimmed.startsWith("# ")) {
-      const text = trimmed.replace("# ", "");
-      const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-      return (
+      flushAll(i);
+      const text = trimmed.replace("# ", "").trim();
+      const cleanText = text.replace(/\*\*/g, "").replace(/\*/g, "");
+      const id = cleanText.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+      elements.push(
         <h1
-          key={idx}
+          key={`h1-${i}`}
           id={id}
           className="text-3xl font-extrabold text-neutral-900 mt-12 mb-6 scroll-mt-28 font-display"
         >
-          {text}
-        </h1>
+          {parseInlineMarkdown(text)}
+        </h1>,
+      );
+    } else if (trimmed.startsWith("## ")) {
+      flushAll(i);
+      const text = trimmed.replace("## ", "").trim();
+      const cleanText = text.replace(/\*\*/g, "").replace(/\*/g, "");
+      const id = cleanText.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+      elements.push(
+        <h2
+          key={`h2-${i}`}
+          id={id}
+          className="text-2xl font-bold text-neutral-900 mt-10 mb-5 scroll-mt-28 font-display"
+        >
+          {parseInlineMarkdown(text)}
+        </h2>,
+      );
+    } else if (trimmed.startsWith("### ")) {
+      flushAll(i);
+      const text = trimmed.replace("### ", "").trim();
+      const cleanText = text.replace(/\*\*/g, "").replace(/\*/g, "");
+      const id = cleanText.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+      elements.push(
+        <h3
+          key={`h3-${i}`}
+          id={id}
+          className="text-xl font-bold text-neutral-900 mt-8 mb-4 scroll-mt-28 font-display"
+        >
+          {parseInlineMarkdown(text)}
+        </h3>,
       );
     }
-
-    // Unordered List
-    if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
-      const items = trimmed.split(/\n[-*]\s+/).map((item) => item.replace(/^[-*]\s+/, "").trim());
-      return (
-        <ul key={idx} className="list-disc pl-6 space-y-2.5 my-5 text-neutral-800 font-medium">
-          {items.map((item, i) => (
-            <li key={i}>{parseInlineMarkdown(item)}</li>
-          ))}
-        </ul>
+    // Unordered list items
+    else if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
+      flushParagraph(i);
+      if (listType !== "ul") {
+        flushList(i);
+        listType = "ul";
+      }
+      const text = trimmed.substring(2).trim();
+      currentList.push(<li key={`li-${i}`}>{parseInlineMarkdown(text)}</li>);
+    }
+    // Ordered list items
+    else if (/^\d+\.\s+/.test(trimmed)) {
+      flushParagraph(i);
+      if (listType !== "ol") {
+        flushList(i);
+        listType = "ol";
+      }
+      const match = trimmed.match(/^(\d+)\.\s+/);
+      const text = trimmed.substring(match ? match[0].length : 3).trim();
+      currentList.push(<li key={`li-${i}`}>{parseInlineMarkdown(text)}</li>);
+    }
+    // Blockquote
+    else if (trimmed.startsWith("> ")) {
+      flushAll(i);
+      const text = trimmed.substring(2).trim();
+      elements.push(
+        <blockquote
+          key={`bq-${i}`}
+          className="border-l-4 border-neutral-300 pl-4 italic text-neutral-600 my-4"
+        >
+          {parseInlineMarkdown(text)}
+        </blockquote>,
       );
     }
-
-    // Ordered List
-    if (/^\d+\.\s+/.test(trimmed)) {
-      const items = trimmed.split(/\n\d+\.\s+/).map((item) => item.replace(/^\d+\.\s+/, "").trim());
-      return (
-        <ol key={idx} className="list-decimal pl-6 space-y-2.5 my-5 text-neutral-800 font-medium">
-          {items.map((item, i) => (
-            <li key={i}>{parseInlineMarkdown(item)}</li>
-          ))}
-        </ol>
-      );
+    // Paragraph content
+    else {
+      flushList(i);
+      currentParagraph.push(line);
     }
+  }
 
-    // Paragraph
-    return (
-      <p
-        key={idx}
-        className="text-neutral-800 leading-relaxed font-medium text-sm md:text-base mb-6"
-      >
-        {parseInlineMarkdown(trimmed)}
-      </p>
-    );
-  });
+  flushAll("end");
+  return elements;
 }
 
 function parseInlineMarkdown(text: string) {
@@ -155,14 +224,25 @@ function extractHeaders(markdown: string) {
 
   lines.forEach((line) => {
     const trimmed = line.trim();
+    let title = "";
+    let level = 0;
     if (trimmed.startsWith("## ")) {
-      const title = trimmed.replace("## ", "");
-      const id = title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-      headers.push({ id, title, level: 2 });
+      title = trimmed.replace("## ", "").trim();
+      level = 2;
     } else if (trimmed.startsWith("### ")) {
-      const title = trimmed.replace("### ", "");
-      const id = title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-      headers.push({ id, title, level: 3 });
+      title = trimmed.replace("### ", "").trim();
+      level = 3;
+    } else if (trimmed.startsWith("# ")) {
+      title = trimmed.replace("# ", "").trim();
+      level = 1;
+    }
+
+    if (level > 0 && title) {
+      const cleanTitle = title.replace(/\*\*/g, "").replace(/\*/g, "");
+      const id = cleanTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+      if (level === 2 || level === 3) {
+        headers.push({ id, title: cleanTitle, level });
+      }
     }
   });
 
@@ -189,42 +269,54 @@ export default function BlogDetailClient({ post, companyData }: BlogDetailClient
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Scrollspy for active Table of Contents element
+  // Highlight active TOC item based on viewport scroll position
   useEffect(() => {
     if (headers.length === 0) return;
 
-    const handleScrollspy = () => {
-      const scrollPosition = window.scrollY + 160;
+    const handleIntersection = () => {
+      let currentActiveId = "";
+      const scrollPosition = window.scrollY + 120; // offset
 
       for (let i = 0; i < headers.length; i++) {
         const element = document.getElementById(headers[i].id);
         if (element) {
-          const top = element.offsetTop;
-          const nextElement =
-            i < headers.length - 1 ? document.getElementById(headers[i + 1].id) : null;
-          const bottom = nextElement
-            ? nextElement.offsetTop
-            : document.documentElement.scrollHeight;
-
-          if (scrollPosition >= top && scrollPosition < bottom) {
-            setActiveId(headers[i].id);
-            break;
+          const offsetTop = element.offsetTop;
+          if (scrollPosition >= offsetTop) {
+            currentActiveId = headers[i].id;
           }
         }
       }
+
+      if (currentActiveId) {
+        setActiveId(currentActiveId);
+      }
     };
 
-    window.addEventListener("scroll", handleScrollspy);
-    handleScrollspy();
+    window.addEventListener("scroll", handleIntersection);
+    // Initial check
+    handleIntersection();
 
-    return () => window.removeEventListener("scroll", handleScrollspy);
+    return () => window.removeEventListener("scroll", handleIntersection);
   }, [headers]);
 
   const handleCopyLink = () => {
-    navigator.clipboard.writeText(window.location.href);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    if (typeof window !== "undefined") {
+      navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   };
+
+  const shareUrls = useMemo(() => {
+    if (typeof window === "undefined") return { facebook: "", twitter: "", whatsapp: "" };
+    const url = encodeURIComponent(window.location.href);
+    const title = encodeURIComponent(post.title);
+    return {
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
+      twitter: `https://twitter.com/intent/tweet?url=${url}&text=${title}`,
+      whatsapp: `https://api.whatsapp.com/send?text=${title}%20${url}`,
+    };
+  }, [post.title]);
 
   const formatDate = (date: Date | null | string) => {
     if (!date) return "";
@@ -236,68 +328,47 @@ export default function BlogDetailClient({ post, companyData }: BlogDetailClient
     });
   };
 
-  const shareUrls = useMemo(() => {
-    if (typeof window === "undefined") return { facebook: "", twitter: "", whatsapp: "" };
-    const currentUrl = encodeURIComponent(window.location.href);
-    const title = encodeURIComponent(post.title);
-    return {
-      facebook: `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`,
-      twitter: `https://twitter.com/intent/tweet?url=${currentUrl}&text=${title}`,
-      whatsapp: `https://api.whatsapp.com/send?text=${title}%20${currentUrl}`,
-    };
-  }, [post.title]);
-
   return (
     <PageShell companyData={companyData} bgClass="bg-white">
-      {/* Reading progress bar */}
-      <div
-        className="fixed top-0 left-0 h-1 bg-brand z-50 transition-all duration-100"
-        style={{ width: `${scrollProgress}%` }}
-      />
+      {/* Scroll Progress Indicator Bar */}
+      <div className="fixed top-[72px] left-0 w-full h-[3px] bg-neutral-100 z-40">
+        <div
+          className="h-full bg-brand transition-all duration-75"
+          style={{ width: `${scrollProgress}%` }}
+        />
+      </div>
 
       <div className="pt-12 md:pt-20 pb-section-loose font-sans">
-        {/* Top Header Section */}
-        <div className="layout-container text-left mb-8 md:mb-12">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-            <Breadcrumbs
-              items={[
-                { label: "Home", href: "/" },
-                { label: "Blogs", href: "/blogs" },
-                { label: post.title.slice(0, 30) + (post.title.length > 30 ? "..." : "") },
-              ]}
-              variant="brackets"
-            />
-            <Link
-              href="/blogs"
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-neutral-500 hover:text-neutral-900 transition-colors uppercase tracking-wider"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Back to blogs
-            </Link>
-          </div>
+        {/* Breadcrumb, Title & Meta Details */}
+        <div className="layout-container text-left mb-10 md:mb-12">
+          <Breadcrumbs
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Blogs", href: "/blogs/" },
+              { label: post.title },
+            ]}
+            variant="brackets"
+          />
 
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-neutral-900 tracking-tight leading-[1.1] mb-6 font-display">
+          <h1 className="text-3xl md:text-5xl font-extrabold text-neutral-900 tracking-tight leading-[1.15] mt-4 mb-6 font-display max-w-4xl">
             {post.title}
           </h1>
 
-          {/* Author & Read Time Header details */}
-          <div className="flex flex-wrap items-center gap-4 pb-6 border-b border-neutral-100">
+          {/* Author Metadata Bar */}
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6 mt-4">
             <div className="flex items-center gap-3">
               <div className="relative w-10 h-10 rounded-full overflow-hidden bg-neutral-100">
                 <Image
-                  src={
-                    post.authorImage ||
-                    "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80"
-                  }
+                  src={post.authorImage}
                   alt={post.authorName}
                   fill
                   sizes="40px"
                   className="object-cover"
                 />
               </div>
-              <div>
-                <span className="block text-sm font-bold text-neutral-900 leading-tight">
-                  {post.authorName || "Mother India Editor"}
+              <div className="text-left">
+                <span className="block text-sm font-bold text-neutral-900 leading-none">
+                  {post.authorName}
                 </span>
                 <span className="block text-[11px] text-neutral-400 font-semibold tracking-wide uppercase mt-0.5">
                   Author
@@ -340,29 +411,39 @@ export default function BlogDetailClient({ post, companyData }: BlogDetailClient
                 />
               </div>
 
-              {/* Large Intro Paragraph */}
-              <div className="text-lg md:text-xl text-neutral-950 font-semibold leading-relaxed mb-10 border-l-4 border-brand pl-6">
+              {/* Large Intro Paragraph (Styled exactly like Policy intro text) */}
+              <div className="text-lg md:text-xl text-neutral-900 font-medium leading-relaxed mb-12 border-l-4 border-neutral-200 pl-6">
                 {post.excerpt}
               </div>
 
               {/* Table of Contents - Mobile view only */}
               {headers.length > 0 && (
                 <div className="block lg:hidden mb-10 py-5 px-6 bg-neutral-50 border border-neutral-150 rounded-2xl">
-                  <h2 className="text-lg font-bold text-neutral-950 mb-3 font-display">
+                  <h2 className="text-lg font-bold text-neutral-955 mb-3 font-display">
                     Table of contents
                   </h2>
-                  <ol className="space-y-2 list-decimal list-inside text-sm font-semibold text-neutral-700">
+                  <ol className="space-y-2.5 list-decimal list-inside text-sm font-semibold text-neutral-700">
                     {headers.map((h) => (
                       <li key={h.id} style={{ marginLeft: h.level === 3 ? "1rem" : "0" }}>
                         <a
                           href={`#${h.id}`}
-                          className="text-neutral-700 hover:text-brand hover:underline transition-colors"
+                          className="text-neutral-750 hover:text-brand hover:underline transition-colors"
                         >
                           {h.title}
                         </a>
                       </li>
                     ))}
                   </ol>
+                  <div className="flex justify-end mt-4">
+                    <button
+                      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                      className="flex items-center gap-1 text-xs font-bold text-neutral-500 hover:text-neutral-900 transition-colors cursor-pointer group"
+                    >
+                      <span className="group-hover:-translate-y-0.5 transition-transform duration-200">
+                        Back to top ↑
+                      </span>
+                    </button>
+                  </div>
                 </div>
               )}
 
@@ -371,9 +452,9 @@ export default function BlogDetailClient({ post, companyData }: BlogDetailClient
                 {parseMarkdownToJSX(post.content)}
               </article>
 
-              {/* Blog Gallery Images Section */}
+              {/* Blog Gallery Images Section (Clean styling without top divider line) */}
               {post.images && post.images.length > 0 && (
-                <div className="mt-12 pt-10 border-t border-neutral-100">
+                <div className="mt-12">
                   <h3 className="text-2xl font-bold text-neutral-950 mb-6 font-display">
                     Trip Gallery & Moments
                   </h3>
@@ -396,115 +477,117 @@ export default function BlogDetailClient({ post, companyData }: BlogDetailClient
                 </div>
               )}
 
-              {/* Related Tags, Destinations, States & Countries */}
-              <div className="mt-12 pt-8 border-t border-neutral-100 flex flex-wrap items-center gap-3">
-                <span className="text-xs font-bold text-neutral-400 uppercase tracking-wider mr-2">
-                  Tagged:
-                </span>
-                {post.categoryName && (
-                  <span className="px-3.5 py-1 bg-neutral-50 border border-neutral-200 text-xs font-semibold rounded-full text-neutral-800">
-                    {post.categoryName}
+              {/* Related Tags & Share Panel */}
+              <div className="mt-16 flex flex-col gap-6">
+                {/* Tags section without capitalized label, styled as premium badges */}
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-widest mr-2">
+                    Tags:
                   </span>
-                )}
-                {post.destinationName && (
-                  <Link
-                    href={`/packages?search=${post.destinationName}`}
-                    className="px-3.5 py-1 bg-brand-light text-brand text-xs font-semibold rounded-full hover:bg-brand hover:text-white transition-colors duration-250"
-                  >
-                    {post.destinationName}
-                  </Link>
-                )}
-                {post.stateName && (
-                  <span className="px-3.5 py-1 bg-neutral-50 border border-neutral-200 text-xs font-semibold rounded-full text-neutral-800">
-                    {post.stateName}
-                  </span>
-                )}
-                {post.countryName && (
-                  <span className="px-3.5 py-1 bg-neutral-50 border border-neutral-200 text-xs font-semibold rounded-full text-neutral-800">
-                    {post.countryName}
-                  </span>
-                )}
-                {post.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-3.5 py-1 bg-neutral-100 text-xs font-medium rounded-full text-neutral-600"
-                  >
-                    #{tag}
-                  </span>
-                ))}
-              </div>
-
-              {/* Share Post Row */}
-              <div className="mt-8 pt-6 border-t border-neutral-100 flex items-center justify-between flex-wrap gap-4">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold text-neutral-400 uppercase tracking-wider mr-2">
-                    Share:
-                  </span>
-                  <a
-                    href={shareUrls.facebook}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-9 h-9 rounded-full bg-[#3b5998]/5 hover:bg-[#3b5998] hover:text-white text-[#3b5998] flex items-center justify-center transition-all duration-200"
-                    aria-label="Share on Facebook"
-                  >
-                    <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                      <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.8c4.56-.93 8-4.96 8-9.8z" />
-                    </svg>
-                  </a>
-                  <a
-                    href={shareUrls.twitter}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-9 h-9 rounded-full bg-[#1da1f2]/5 hover:bg-[#1da1f2] hover:text-white text-[#1da1f2] flex items-center justify-center transition-all duration-200"
-                    aria-label="Share on X"
-                  >
-                    <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                    </svg>
-                  </a>
-                  <a
-                    href={shareUrls.whatsapp}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-9 h-9 rounded-full bg-[#25d366]/5 hover:bg-[#25d366] hover:text-white text-[#25d366] flex items-center justify-center transition-all duration-200"
-                    aria-label="Share on WhatsApp"
-                  >
-                    {/* Reusing standard check icon structure with raw SVG or fill circle */}
-                    <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current">
-                      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.458L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.859-4.407 9.862-9.83.001-2.628-1.01-5.1-2.861-6.956-1.851-1.855-4.316-2.873-6.947-2.873-5.438 0-9.862 4.41-9.866 9.833-.001 1.742.485 3.446 1.407 4.954L1.87 21.053l4.777-1.253zM16.533 13.9c-.27-.134-1.597-.788-1.846-.879-.25-.09-.431-.134-.612.134-.181.27-.7.879-.858 1.058-.16.179-.318.2-.588.066-.27-.133-1.139-.42-2.17-1.341-.803-.717-1.346-1.603-1.503-1.872-.158-.27-.017-.416.118-.55.121-.12.27-.315.405-.472.135-.158.18-.27.27-.45.09-.18.045-.337-.022-.472-.068-.135-.612-1.474-.839-2.016-.22-.53-.443-.459-.612-.468-.158-.008-.339-.01-.52-.01-.18 0-.472.067-.719.337-.247.27-.943.923-.943 2.253s.967 2.61 1.101 2.79c.134.18 1.902 2.906 4.607 4.072.643.278 1.146.444 1.538.568.647.206 1.237.177 1.702.107.518-.077 1.597-.653 1.822-1.284.225-.63.225-1.17.158-1.284-.068-.113-.25-.179-.52-.315z" />
-                    </svg>
-                  </a>
+                  {post.categoryName && (
+                    <span className="px-3.5 py-1 bg-neutral-50 border border-neutral-200/60 text-xs font-semibold text-neutral-700 rounded-full">
+                      {post.categoryName}
+                    </span>
+                  )}
+                  {post.destinationName && (
+                    <Link
+                      href={`/packages?search=${post.destinationName}`}
+                      className="px-3.5 py-1 bg-neutral-100 hover:bg-neutral-200 text-xs font-semibold text-neutral-800 rounded-full transition-all duration-200"
+                    >
+                      {post.destinationName}
+                    </Link>
+                  )}
+                  {post.stateName && (
+                    <span className="px-3.5 py-1 bg-neutral-50 border border-neutral-200/60 text-xs font-semibold text-neutral-700 rounded-full">
+                      {post.stateName}
+                    </span>
+                  )}
+                  {post.countryName && (
+                    <span className="px-3.5 py-1 bg-neutral-50 border border-neutral-200/60 text-xs font-semibold text-neutral-700 rounded-full">
+                      {post.countryName}
+                    </span>
+                  )}
+                  {post.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-3.5 py-1 bg-neutral-50 text-xs font-medium text-neutral-500 rounded-full"
+                    >
+                      #{tag}
+                    </span>
+                  ))}
                 </div>
 
-                <button
-                  onClick={handleCopyLink}
-                  className="flex items-center gap-1.5 text-xs font-bold text-neutral-500 hover:text-neutral-900 transition-colors uppercase tracking-wider cursor-pointer"
-                >
-                  <AnimatePresence mode="wait">
-                    {copied ? (
-                      <motion.span
-                        key="copied"
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="text-emerald-600 font-bold"
-                      >
-                        Link Copied!
-                      </motion.span>
-                    ) : (
-                      <motion.span
-                        key="copy"
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="flex items-center gap-1.5"
-                      >
-                        <Copy className="w-4 h-4" />
-                        Copy Link
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
-                </button>
+                {/* Share panel with circular icon buttons and copy action */}
+                <div className="flex items-center justify-between flex-wrap gap-4 pt-6 border-t border-neutral-100/60">
+                  <div className="flex items-center gap-3">
+                    <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-widest mr-2">
+                      Share:
+                    </span>
+                    <a
+                      href={shareUrls.facebook}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-9 h-9 rounded-full bg-neutral-50 border border-neutral-200 hover:bg-neutral-100 text-neutral-700 hover:text-black flex items-center justify-center transition-all duration-200 cursor-pointer"
+                      aria-label="Share on Facebook"
+                    >
+                      <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                        <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.8c4.56-.93 8-4.96 8-9.8z" />
+                      </svg>
+                    </a>
+                    <a
+                      href={shareUrls.twitter}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-9 h-9 rounded-full bg-neutral-50 border border-neutral-200 hover:bg-neutral-100 text-neutral-700 hover:text-black flex items-center justify-center transition-all duration-200 cursor-pointer"
+                      aria-label="Share on X"
+                    >
+                      <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                      </svg>
+                    </a>
+                    <a
+                      href={shareUrls.whatsapp}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-9 h-9 rounded-full bg-neutral-50 border border-neutral-200 hover:bg-neutral-100 text-neutral-700 hover:text-black flex items-center justify-center transition-all duration-200 cursor-pointer"
+                      aria-label="Share on WhatsApp"
+                    >
+                      <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current">
+                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.458L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.859-4.407 9.862-9.83.001-2.628-1.01-5.1-2.861-6.956-1.851-1.855-4.316-2.873-6.947-2.873-5.438 0-9.862 4.41-9.866 9.833-.001 1.742.485 3.446 1.407 4.954L1.87 21.053l4.777-1.253zM16.533 13.9c-.27-.134-1.597-.788-1.846-.879-.25-.09-.431-.134-.612.134-.181.27-.7.879-.858 1.058-.16.179-.318.2-.588.066-.27-.133-1.139-.42-2.17-1.341-.803-.717-1.346-1.603-1.503-1.872-.158-.27-.017-.416.118-.55.121-.12.27-.315.405-.472.135-.158.18-.27.27-.45.09-.18.045-.337-.022-.472-.068-.135-.612-1.474-.839-2.016-.22-.53-.443-.459-.612-.468-.158-.008-.339-.01-.52-.01-.18 0-.472.067-.719.337-.247.27-.943.923-.943 2.253s.967 2.61 1.101 2.79c.134.18 1.902 2.906 4.607 4.072.643.278 1.146.444 1.538.568.647.206 1.237.177 1.702.107.518-.077 1.597-.653 1.822-1.284.225-.63.225-1.17.158-1.284-.068-.113-.25-.179-.52-.315z" />
+                      </svg>
+                    </a>
+                  </div>
+
+                  <button
+                    onClick={handleCopyLink}
+                    className="flex items-center gap-2 text-xs font-bold bg-neutral-50 border border-neutral-200 hover:bg-neutral-100 px-3.5 py-2 rounded-full text-neutral-750 transition-all duration-200 cursor-pointer"
+                  >
+                    <AnimatePresence mode="wait">
+                      {copied ? (
+                        <motion.span
+                          key="copied"
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0 }}
+                          className="text-emerald-600 font-bold"
+                        >
+                          Link Copied!
+                        </motion.span>
+                      ) : (
+                        <motion.span
+                          key="copy"
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0 }}
+                          className="flex items-center gap-1.5"
+                        >
+                          <Copy className="w-3.5 h-3.5" />
+                          Copy Link
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -513,7 +596,7 @@ export default function BlogDetailClient({ post, companyData }: BlogDetailClient
               {/* Table of Contents */}
               {headers.length > 0 && (
                 <div>
-                  <h2 className="text-lg font-bold text-neutral-950 mb-4 font-display">
+                  <h2 className="text-lg font-bold text-neutral-955 mb-4 font-display">
                     Table of contents
                   </h2>
                   <ol className="space-y-3 list-decimal list-inside text-sm font-semibold text-neutral-700">
@@ -530,7 +613,7 @@ export default function BlogDetailClient({ post, companyData }: BlogDetailClient
                             className={`transition-colors underline decoration-neutral-200 hover:decoration-neutral-800 ${
                               isActive
                                 ? "text-neutral-950 font-bold decoration-neutral-800"
-                                : "text-neutral-600 hover:text-neutral-950"
+                                : "text-neutral-650 hover:text-neutral-950"
                             }`}
                           >
                             {h.title}
@@ -539,7 +622,16 @@ export default function BlogDetailClient({ post, companyData }: BlogDetailClient
                       );
                     })}
                   </ol>
-                  <div className="w-full h-px bg-neutral-100 mt-6" />
+                  <div className="flex justify-between items-center mt-6">
+                    <button
+                      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                      className="flex items-center gap-1 text-xs font-bold text-neutral-500 hover:text-neutral-900 transition-colors cursor-pointer group"
+                    >
+                      <span className="group-hover:-translate-y-0.5 transition-transform duration-200">
+                        Back to top ↑
+                      </span>
+                    </button>
+                  </div>
                 </div>
               )}
 
@@ -604,7 +696,7 @@ export default function BlogDetailClient({ post, companyData }: BlogDetailClient
           {/* Related Packages - Mobile view only (Bottom of page) */}
           {post.relatedPackages && post.relatedPackages.length > 0 && (
             <div className="block lg:hidden mt-16 pt-10 border-t border-neutral-100">
-              <h2 className="text-2xl font-bold text-neutral-950 mb-6 font-display">
+              <h2 className="text-2xl font-bold text-neutral-955 mb-6 font-display">
                 Related Packages
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
