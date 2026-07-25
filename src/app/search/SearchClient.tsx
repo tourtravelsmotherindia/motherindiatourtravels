@@ -622,7 +622,7 @@ function SearchContent({
       <div className="layout-container pb-section-loose font-sans">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-12 items-start">
           {/* Desktop Left Sidebar Panel */}
-          <div className="hidden lg:block lg:col-span-3">
+          <div className="hidden lg:block lg:col-span-3 lg:sticky lg:top-28">
             <div className="bg-white border border-border-light rounded-[2rem] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.01)]">
               {renderSidebarFilters()}
             </div>
@@ -631,7 +631,7 @@ function SearchContent({
           {/* Right Listings Column */}
           <div ref={resultsContainerRef} className="lg:col-span-9 scroll-mt-28">
             {/* Header controls: Results Count & Sort Selection */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-border-light px-1">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 px-1">
               <div>
                 <p className="text-xs md:text-sm font-bold text-neutral-500 uppercase tracking-wider">
                   Showing {filteredPackages.length > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0}–

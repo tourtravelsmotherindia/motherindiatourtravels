@@ -158,7 +158,7 @@ export default function FAQsClient({
             </div>
 
             {/* Content Column - Search Input & FAQ Accordions */}
-            <div className="lg:col-span-9 lg:h-[calc(100vh-160px)] lg:overflow-y-auto lg:pr-4 dropdown-scrollbar">
+            <div className="lg:col-span-9">
               {/* Search Box */}
               <div className="relative mb-8">
                 <input

@@ -517,7 +517,7 @@ export default function BlogDetailClient({ post, companyData }: BlogDetailClient
                   ))}
                 </div>
 
-                {/* Share Section */}
+                {/* Share panel with circular icon buttons and copy action */}
                 <div className="flex items-center justify-between flex-wrap gap-4 pt-6">
                   <div className="flex items-center gap-3">
                     <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-widest mr-2">
@@ -695,7 +695,7 @@ export default function BlogDetailClient({ post, companyData }: BlogDetailClient
 
           {/* Related Packages - Mobile view only (Bottom of page) */}
           {post.relatedPackages && post.relatedPackages.length > 0 && (
-            <div className="block lg:hidden mt-16 pt-10">
+            <div className="block lg:hidden mt-16">
               <h2 className="text-2xl font-bold text-neutral-955 mb-6 font-display">
                 Related Packages
               </h2>
