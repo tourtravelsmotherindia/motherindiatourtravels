@@ -436,7 +436,7 @@ export default function PackageDetailClient({
             )}
 
             {/* Summary Metadata Bar */}
-            <div className="border-y border-neutral-200 py-6 mb-10 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 font-sans">
+            <div className="py-6 mb-12 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 font-sans">
               <div className="flex items-center gap-3">
                 <Calendar className="w-5 h-5 text-neutral-800 shrink-0" />
                 <div className="flex flex-col">
@@ -487,7 +487,7 @@ export default function PackageDetailClient({
             </div>
 
             {/* Trip Overview */}
-            <div className="mb-12 border-b border-border-light pb-10">
+            <div className="mb-14">
               <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4 font-display">
                 Trip Overview
               </h2>
@@ -497,7 +497,7 @@ export default function PackageDetailClient({
             </div>
 
             {/* Tour Highlights */}
-            <div className="mb-12 border-b border-border-light pb-10">
+            <div className="mb-14">
               <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4">
                 Tour Highlights
               </h2>
@@ -511,7 +511,7 @@ export default function PackageDetailClient({
             </div>
 
             {/* What's Included */}
-            <div className="mb-12 border-b border-border-light pb-10">
+            <div className="mb-14">
               <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">
                 What&apos;s Included
               </h2>
@@ -528,7 +528,7 @@ export default function PackageDetailClient({
             </div>
 
             {/* What's Excluded */}
-            <div className="mb-12 border-b border-border-light pb-10">
+            <div className="mb-14">
               <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">Exclusions</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {exclusions.map((exc, idx) => (
@@ -544,7 +544,7 @@ export default function PackageDetailClient({
 
             {/* Important Notes */}
             {packageData.notes && packageData.notes.length > 0 && (
-              <div className="mb-12 border-b border-border-light pb-10">
+              <div className="mb-14">
                 <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">
                   Important Notes
                 </h2>
@@ -559,7 +559,7 @@ export default function PackageDetailClient({
             )}
 
             {/* Daily Itinerary Section */}
-            <div className="mb-12 border-b border-border-light pb-10">
+            <div className="mb-14">
               <div className="flex items-center justify-between mb-8">
                 <h2 className="text-xl md:text-2xl font-bold text-foreground">Itinerary</h2>
                 <span className="text-xs md:text-sm font-bold text-neutral-600 uppercase tracking-wider font-sans">
@@ -652,7 +652,7 @@ export default function PackageDetailClient({
 
             {/* Interactive Route Map */}
             {mapMarkers.length > 0 && (
-              <div className="mb-12 border-b border-border-light pb-10">
+              <div className="mb-14">
                 <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4 font-display">
                   Where you&apos;ll be
                 </h2>
@@ -685,7 +685,7 @@ export default function PackageDetailClient({
             <div className="py-2 space-y-6">
               {/* Tour Route Path */}
               {activeVariant.destinations.length > 0 && (
-                <div className="pb-4 border-b border-neutral-200/80">
+                <div className="pb-4">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-600 block mb-2.5">
                     Tour Route
                   </span>
@@ -715,7 +715,7 @@ export default function PackageDetailClient({
                   </span>
                 </div>
 
-                <div className="border-t border-b border-neutral-200/80 py-4 space-y-3">
+                <div className="py-4 space-y-3">
                   <div className="flex items-center gap-3">
                     <Check className="w-4 h-4 text-neutral-500 shrink-0" />
                     <span className="text-xs font-semibold text-neutral-700">
@@ -746,7 +746,7 @@ export default function PackageDetailClient({
               </Link>
 
               {/* Need Custom Itinerary - Seamless Inline Integration */}
-              <div className="pt-6 border-t border-neutral-200/80 flex flex-col gap-2">
+              <div className="pt-6 flex flex-col gap-2">
                 <div className="flex items-center gap-2">
                   <HelpCircle className="w-4 h-4 text-neutral-500 shrink-0" />
                   <h4 className="font-bold text-foreground text-sm">Need Custom Itinerary?</h4>

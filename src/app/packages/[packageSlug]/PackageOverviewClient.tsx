@@ -414,16 +414,14 @@ export default function PackageOverviewClient({
                 {pkgName}
               </h1>
             </div>
-
             {/* Hero Description (Marketing Pitch) */}
             {overviewParagraphs.pitch && (
               <div className="text-neutral-900 font-medium text-sm md:text-base leading-relaxed space-y-4 mb-8">
                 <ExpandableText text={overviewParagraphs.pitch} maxLength={240} />
               </div>
-            )}
-
+            )}{" "}
             {/* Summary Metadata Bar (Perfect Column Alignment Grid) */}
-            <div className="border-y border-neutral-200 py-6 mb-10 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 font-sans">
+            <div className="py-6 mb-12 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 font-sans">
               <div className="flex items-center gap-3">
                 <MapPin className="w-5 h-5 text-neutral-800 shrink-0" />
                 <div className="flex flex-col">
@@ -472,9 +470,8 @@ export default function PackageOverviewClient({
                 </div>
               </div>
             </div>
-
             {/* Trip Overview */}
-            <div className="mb-12 border-b border-border-light pb-10">
+            <div className="mb-14">
               <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4 font-display">
                 Trip Overview
               </h2>
@@ -482,9 +479,8 @@ export default function PackageOverviewClient({
                 <ExpandableText text={overviewParagraphs.detailed} maxLength={320} />
               </div>
             </div>
-
             {/* Choose Option Grid */}
-            <div className="mb-12 border-b border-border-light pb-10">
+            <div className="mb-14">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl md:text-2xl font-bold text-foreground font-display">
                   Select Tour
@@ -532,10 +528,9 @@ export default function PackageOverviewClient({
                 })}
               </div>
             </div>
-
             {/* Tour Highlights */}
             {highlights && highlights.length > 0 && (
-              <div className="mb-12">
+              <div className="mb-14">
                 <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4">
                   Tour Highlights
                 </h2>
@@ -553,7 +548,7 @@ export default function PackageOverviewClient({
           {/* RIGHT COLUMN: Sticky summary of route */}
           <aside className="lg:sticky lg:top-28 z-10 flex flex-col gap-6 font-sans">
             <div className="py-2 animate-fade-in">
-              <div className="flex items-center justify-between mb-6 pb-3 border-b border-neutral-200/80">
+              <div className="flex items-center justify-between mb-6 pb-3">
                 <h3 className="font-bold text-base md:text-lg text-foreground tracking-tight font-display flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-neutral-500" />
                   Destinations Covered
