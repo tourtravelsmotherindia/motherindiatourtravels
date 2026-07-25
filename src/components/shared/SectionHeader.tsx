@@ -36,7 +36,7 @@ export default function SectionHeader({
     >
       <div className={isCenter ? "max-w-3xl mx-auto" : "max-w-4xl"}>
         {badge && (
-          <span className="block text-brand text-xs font-semibold uppercase tracking-wider mb-2">
+          <span className="block text-neutral-500 text-xs font-semibold uppercase tracking-wider mb-2">
             {badge}
           </span>
         )}

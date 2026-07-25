@@ -170,7 +170,7 @@ export default function Footer({
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-full bg-white text-neutral-800 shadow-[0_2px_8px_rgba(0,0,0,0.06)] hover:bg-brand hover:text-white flex items-center justify-center transition-all duration-300 border border-neutral-100"
+                    className="w-10 h-10 rounded-full bg-white text-neutral-800 shadow-[0_2px_8px_rgba(0,0,0,0.06)] hover:bg-neutral-100 flex items-center justify-center transition-all duration-300 border border-neutral-100"
                     aria-label={social.name}
                   >
                     {social.svg}

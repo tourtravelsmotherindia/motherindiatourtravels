@@ -32,7 +32,7 @@ export default function Breadcrumbs({
             <React.Fragment key={idx}>
               {idx > 0 && <span className="mx-1 text-neutral-300">/</span>}
               {isLast || !item.href ? (
-                <span className="text-brand">{item.label}</span>
+                <span className="text-neutral-850">{item.label}</span>
               ) : (
                 <Link href={item.href} className="hover:text-brand transition-colors duration-200">
                   {item.label}

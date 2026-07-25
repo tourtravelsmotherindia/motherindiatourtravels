@@ -782,7 +782,7 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
             className={`p-2 sm:p-2.5 rounded-full border transition-all duration-500 flex items-center justify-center cursor-pointer ${
               !scrolled && isTransparentPage
                 ? "border-white/20 text-white hover:bg-white/10 hover:border-white/40 md:opacity-100 md:scale-100 opacity-0 scale-95 pointer-events-none md:pointer-events-auto"
-                : "border-border-light text-foreground hover:bg-neutral-50 hover:text-brand hover:border-brand/30 opacity-100 scale-100 pointer-events-auto"
+                : "border-border-light text-foreground hover:bg-neutral-50 hover:text-brand hover:border-neutral-300 opacity-100 scale-100 pointer-events-auto"
             }`}
             aria-label="Search"
           >
@@ -794,7 +794,7 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
             className={`p-2 sm:p-2.5 rounded-full border transition-all duration-500 flex items-center justify-center cursor-pointer ${
               !scrolled && isTransparentPage
                 ? "border-white/20 text-white hover:bg-white/10 hover:border-white/40 md:opacity-100 md:scale-100 opacity-0 scale-95 pointer-events-none md:pointer-events-auto"
-                : "border-border-light text-foreground hover:bg-neutral-50 hover:text-brand hover:border-brand/30 opacity-100 scale-100 pointer-events-auto"
+                : "border-border-light text-foreground hover:bg-neutral-50 hover:text-brand hover:border-neutral-300 opacity-100 scale-100 pointer-events-auto"
             }`}
             aria-label="Wishlist"
           >
@@ -824,7 +824,7 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
             className={`md:hidden p-2 rounded-full transition-colors duration-200 ${
               !scrolled && isTransparentPage
                 ? "text-white hover:text-white/80 hover:bg-white/10"
-                : "text-foreground hover:text-brand hover:bg-brand-light"
+                : "text-foreground hover:text-brand hover:bg-neutral-100"
             }`}
             aria-label="Toggle menu"
           >
@@ -850,7 +850,7 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
                     <div key={link.name} className="flex flex-col">
                       <button
                         onClick={() => toggleMobileSubmenu(link.name)}
-                        className="flex items-center justify-between text-foreground hover:text-brand font-semibold text-sm py-2.5 px-3 hover:bg-brand-light rounded-xl transition-all duration-200 w-full text-left"
+                        className="flex items-center justify-between text-foreground hover:text-brand font-semibold text-sm py-2.5 px-3 hover:bg-neutral-100 rounded-xl transition-all duration-200 w-full text-left"
                       >
                         <span>{link.name}</span>
                         <ChevronDown
@@ -880,7 +880,7 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
                                       key={item.name}
                                       href={item.href}
                                       onClick={() => setIsOpen(false)}
-                                      className="text-foreground hover:text-brand text-xs font-semibold py-1.5 px-2 hover:bg-brand-light rounded-lg transition-all duration-200"
+                                      className="text-foreground hover:text-brand text-xs font-semibold py-1.5 px-2 hover:bg-neutral-100 rounded-lg transition-all duration-200"
                                     >
                                       {item.name}
                                     </Link>
@@ -897,7 +897,7 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
                                     key={item.name}
                                     href={item.href}
                                     onClick={() => setIsOpen(false)}
-                                    className="text-foreground hover:text-brand text-xs font-semibold py-1.5 px-2 hover:bg-brand-light rounded-lg transition-all duration-200"
+                                    className="text-foreground hover:text-brand text-xs font-semibold py-1.5 px-2 hover:bg-neutral-100 rounded-lg transition-all duration-200"
                                   >
                                     {item.name}
                                   </Link>
@@ -916,7 +916,7 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
                     key={link.name}
                     href={getHref(link.href)}
                     onClick={() => setIsOpen(false)}
-                    className="text-foreground hover:text-brand font-semibold text-sm py-2.5 px-3 hover:bg-brand-light rounded-xl transition-all duration-200"
+                    className="text-foreground hover:text-brand font-semibold text-sm py-2.5 px-3 hover:bg-neutral-100 rounded-xl transition-all duration-200"
                   >
                     {link.name}
                   </Link>
@@ -926,7 +926,7 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
               <Link
                 href="/wishlist"
                 onClick={() => setIsOpen(false)}
-                className="text-foreground hover:text-brand font-semibold text-sm py-2.5 px-3 hover:bg-brand-light rounded-xl transition-all duration-200 flex items-center gap-2"
+                className="text-foreground hover:text-brand font-semibold text-sm py-2.5 px-3 hover:bg-neutral-100 rounded-xl transition-all duration-200 flex items-center gap-2"
               >
                 <Heart className="w-4 h-4" />
                 <span>My Wishlist</span>
@@ -941,7 +941,7 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
                   value={lang}
                   onChange={(val) => handleLanguageChange(val)}
                   align="left"
-                  triggerClassName="px-4 py-2.5 border border-border-light rounded-full text-foreground hover:bg-brand-light hover:text-brand hover:border-brand/30 transition-all duration-200 text-xs font-semibold w-full shadow-none bg-transparent flex items-center justify-between"
+                  triggerClassName="px-4 py-2.5 border border-border-light rounded-full text-foreground hover:bg-neutral-100 hover:text-brand hover:border-neutral-300 transition-all duration-200 text-xs font-semibold w-full shadow-none bg-transparent flex items-center justify-between"
                   menuClassName="w-full max-h-[250px] overflow-y-auto rounded-2xl p-1"
                   icon={Globe}
                   className="notranslate"
