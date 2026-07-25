@@ -287,25 +287,30 @@ export default function BlogsClient({ initialBlogs, categories, companyData }: B
 
                         {/* Blog Content */}
                         <div className="flex-1 flex flex-col items-start">
-                          {/* Date & Reading Time row */}
-                          <div className="flex items-center gap-3 text-xs text-neutral-400 font-semibold mb-3">
-                            <span className="flex items-center gap-1.5">
-                              <Calendar className="w-3.5 h-3.5" />
-                              {formatDate(blog.publishedAt)}
-                            </span>
-                            <span>•</span>
-                            <span className="flex items-center gap-1.5">
-                              <Clock className="w-3.5 h-3.5" />
-                              {blog.readingTimeMinutes} min read
-                            </span>
-                          </div>
+                          {/* Meta Row (Desktop: one line, Mobile: Category then Date/Time) */}
+                          <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-3 mb-3 text-xs font-semibold text-neutral-400">
+                            {blog.categoryName && (
+                              <span className="self-start md:self-auto px-3.5 py-1 bg-neutral-100 text-[10px] font-bold uppercase tracking-wider rounded-full text-neutral-500">
+                                {blog.categoryName}
+                              </span>
+                            )}
 
-                          {/* Category Pill — always visible */}
-                          {blog.categoryName && (
-                            <span className="px-3.5 py-1 bg-neutral-100 text-[10px] font-bold uppercase tracking-wider rounded-full text-neutral-500 mb-3">
-                              {blog.categoryName}
-                            </span>
-                          )}
+                            {blog.categoryName && (
+                              <span className="hidden md:inline text-neutral-300">•</span>
+                            )}
+
+                            <div className="flex items-center gap-3">
+                              <span className="flex items-center gap-1.5">
+                                <Calendar className="w-3.5 h-3.5" />
+                                {formatDate(blog.publishedAt)}
+                              </span>
+                              <span>•</span>
+                              <span className="flex items-center gap-1.5">
+                                <Clock className="w-3.5 h-3.5" />
+                                {blog.readingTimeMinutes} min read
+                              </span>
+                            </div>
+                          </div>
 
                           {/* Title */}
                           <h3 className="text-xl md:text-2xl font-bold font-display text-neutral-900 tracking-tight leading-[1.2] mb-3 group-hover:text-brand transition-colors duration-200">
