@@ -8,6 +8,7 @@ import React, { useEffect, useMemo, useState } from "react";
 
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import PageShell from "@/components/layout/PageShell";
+import TableOfContents from "@/components/shared/TableOfContents";
 import { type CompanyData } from "@/types/company";
 
 interface RelatedPackage {
@@ -274,6 +275,17 @@ export default function BlogDetailClient({ post, companyData }: BlogDetailClient
   const headers = useMemo(() => extractHeaders(post.content), [post.content]);
   const headerTree = useMemo(() => buildHeaderTree(headers), [headers]);
 
+  // Convert tree to TocItem[] shape for the shared component
+  const tocItems = useMemo(
+    () =>
+      headerTree.map((h2) => ({
+        id: h2.id,
+        title: h2.title,
+        children: h2.children.map((h3) => ({ id: h3.id, title: h3.title })),
+      })),
+    [headerTree],
+  );
+
   // Highlight active ToC item based on viewport scroll position
   useEffect(() => {
     if (headers.length === 0) return;
@@ -430,62 +442,15 @@ export default function BlogDetailClient({ post, companyData }: BlogDetailClient
                 {post.excerpt}
               </div>
 
-              {/* Table of Contents - Mobile Only (matches PolicyLayout mobile ToC exactly, but nested structure for H2/H3 alignment) */}
-              {headers.length > 0 && (
+              {/* Table of Contents — Mobile Only */}
+              {tocItems.length > 0 && (
                 <div className="block lg:hidden mb-10 py-4 border-t border-b border-neutral-100">
-                  <h2 className="text-xl md:text-2xl font-bold text-neutral-900 mb-5">
-                    Table of contents
-                  </h2>
-                  <ol className="space-y-3.5 list-decimal list-inside text-base text-neutral-700 font-semibold">
-                    {headerTree.map((h2) => {
-                      const isH2Active = activeId === h2.id;
-                      return (
-                        <li key={h2.id} className="text-neutral-400">
-                          <a
-                            href={`#${h2.id}`}
-                            className={`hover:text-neutral-900 transition-colors underline decoration-neutral-300 hover:decoration-neutral-950 ${
-                              isH2Active
-                                ? "text-neutral-900 font-bold decoration-neutral-950"
-                                : "text-neutral-700"
-                            }`}
-                          >
-                            {h2.title}
-                          </a>
-                          {h2.children.length > 0 && (
-                            <ol className="mt-2.5 ml-6 space-y-2.5 list-decimal text-sm font-semibold">
-                              {h2.children.map((h3) => {
-                                const isH3Active = activeId === h3.id;
-                                return (
-                                  <li key={h3.id} className="text-neutral-450">
-                                    <a
-                                      href={`#${h3.id}`}
-                                      className={`transition-all duration-200 underline decoration-neutral-200 hover:decoration-neutral-900 ${
-                                        isH3Active
-                                          ? "text-neutral-900 font-bold underline decoration-neutral-900"
-                                          : "text-neutral-600 hover:text-neutral-900"
-                                      }`}
-                                    >
-                                      {h3.title}
-                                    </a>
-                                  </li>
-                                );
-                              })}
-                            </ol>
-                          )}
-                        </li>
-                      );
-                    })}
-                  </ol>
-                  <div className="flex justify-end mt-4">
-                    <button
-                      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                      className="flex items-center gap-1 text-xs font-bold text-neutral-500 hover:text-neutral-900 transition-colors cursor-pointer group"
-                    >
-                      <span className="group-hover:-translate-y-0.5 transition-transform duration-200">
-                        Back to top ↑
-                      </span>
-                    </button>
-                  </div>
+                  <TableOfContents
+                    items={tocItems}
+                    activeId={activeId}
+                    size="sm"
+                    showBackToTop={false}
+                  />
                 </div>
               )}
 
@@ -633,63 +598,10 @@ export default function BlogDetailClient({ post, companyData }: BlogDetailClient
               </div>
             </div>
 
-            {/* Right Sticky Sidebar — Desktop Table of Contents (matches PolicyLayout exactly, but nested structure for H2/H3 alignment) */}
+            {/* Right Sticky Sidebar — Desktop ToC + Related Packages */}
             <div className="hidden lg:block lg:col-span-4 sticky top-28 pl-4 space-y-10">
-              {headers.length > 0 && (
-                <div>
-                  <h2 className="text-xl md:text-2xl font-bold text-neutral-900 mb-5">
-                    Table of contents
-                  </h2>
-                  <ol className="space-y-3.5 list-decimal list-inside text-base font-semibold">
-                    {headerTree.map((h2) => {
-                      const isH2Active = activeId === h2.id;
-                      return (
-                        <li key={h2.id} className="text-neutral-400">
-                          <a
-                            href={`#${h2.id}`}
-                            className={`transition-all duration-200 underline decoration-neutral-300 hover:decoration-neutral-950 ${
-                              isH2Active
-                                ? "text-neutral-900 font-bold underline decoration-neutral-950"
-                                : "text-neutral-700 hover:text-neutral-900"
-                            }`}
-                          >
-                            {h2.title}
-                          </a>
-                          {h2.children.length > 0 && (
-                            <ol className="mt-2.5 ml-6 space-y-2.5 list-decimal text-sm font-semibold">
-                              {h2.children.map((h3) => {
-                                const isH3Active = activeId === h3.id;
-                                return (
-                                  <li key={h3.id} className="text-neutral-450">
-                                    <a
-                                      href={`#${h3.id}`}
-                                      className={`transition-all duration-200 underline decoration-neutral-200 hover:decoration-neutral-900 ${
-                                        isH3Active
-                                          ? "text-neutral-900 font-bold underline decoration-neutral-900"
-                                          : "text-neutral-600 hover:text-neutral-900"
-                                      }`}
-                                    >
-                                      {h3.title}
-                                    </a>
-                                  </li>
-                                );
-                              })}
-                            </ol>
-                          )}
-                        </li>
-                      );
-                    })}
-                  </ol>
-                  <div className="w-full h-px bg-neutral-200 mt-6 mb-4" />
-                  <button
-                    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                    className="flex items-center gap-2 text-xs font-bold text-neutral-500 hover:text-neutral-900 transition-colors cursor-pointer group"
-                  >
-                    <span className="group-hover:-translate-y-0.5 transition-transform duration-200">
-                      Back to top ↑
-                    </span>
-                  </button>
-                </div>
+              {tocItems.length > 0 && (
+                <TableOfContents items={tocItems} activeId={activeId} size="sm" showBackToTop />
               )}
 
               {/* Related Tour Packages - Desktop sidebar */}
