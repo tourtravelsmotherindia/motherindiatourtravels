@@ -30,7 +30,7 @@ export default async function SitemapPage() {
   // Display top 8 destinations & packages
   const popularDestinations = destinations.slice(0, 8);
   const popularPackages = packages.slice(0, 8);
-  const recentBlogs = blogs.slice(0, 8);
+  const recentBlogs = blogs.slice(0, 6);
 
   const regionLinks = [
     { name: "North India", href: "/regions/" },
@@ -133,7 +133,34 @@ export default async function SitemapPage() {
               </ul>
             </div>
 
-            {/* Column 3: Regions */}
+            {/* Column 3: Travel Blogs */}
+            <div>
+              <h2 className="text-base font-semibold text-neutral-900 tracking-wide uppercase mb-6">
+                Travel Blogs
+              </h2>
+              <ul className="space-y-3.5">
+                {recentBlogs.map((b) => (
+                  <li key={b.slug}>
+                    <Link
+                      href={`/blogs/${b.slug}/`}
+                      className="text-neutral-500 hover:text-brand transition-colors duration-200 text-[15px]"
+                    >
+                      {b.title}
+                    </Link>
+                  </li>
+                ))}
+                <li>
+                  <Link
+                    href="/blogs/"
+                    className="text-neutral-900 font-semibold hover:text-brand transition-colors duration-200 text-[15px]"
+                  >
+                    View All Blogs
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Column 4: Regions */}
             <div>
               <h2 className="text-base font-semibold text-neutral-900 tracking-wide uppercase mb-6">
                 Regions
@@ -143,28 +170,8 @@ export default async function SitemapPage() {
                   <li key={idx}>
                     <Link
                       href={link.href}
-                      className={`${
-                        link.isBold ? "text-neutral-900 font-semibold" : "text-neutral-500"
-                      } hover:text-brand transition-colors duration-200 text-[15px]`}
-                    >
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Column 4: Company */}
-            <div>
-              <h2 className="text-base font-semibold text-neutral-900 tracking-wide uppercase mb-6">
-                Company
-              </h2>
-              <ul className="space-y-3.5">
-                {companyLinks.map((link, idx) => (
-                  <li key={idx}>
-                    <Link
-                      href={link.href}
-                      className="text-neutral-500 hover:text-brand transition-colors duration-200 text-[15px]"
+                      className={`${link.isBold ? "text-neutral-900 font-semibold" : "text-neutral-500"
+                        } hover:text-brand transition-colors duration-200 text-[15px]`}
                     >
                       {link.name}
                     </Link>
@@ -214,30 +221,22 @@ export default async function SitemapPage() {
               </ul>
             </div>
 
-            {/* Column 7: Travel Blogs */}
+            {/* Column 7: Company */}
             <div>
               <h2 className="text-base font-semibold text-neutral-900 tracking-wide uppercase mb-6">
-                Travel Blogs
+                Company
               </h2>
               <ul className="space-y-3.5">
-                {recentBlogs.map((b) => (
-                  <li key={b.slug}>
+                {companyLinks.map((link, idx) => (
+                  <li key={idx}>
                     <Link
-                      href={`/blogs/${b.slug}/`}
+                      href={link.href}
                       className="text-neutral-500 hover:text-brand transition-colors duration-200 text-[15px]"
                     >
-                      {b.title}
+                      {link.name}
                     </Link>
                   </li>
                 ))}
-                <li>
-                  <Link
-                    href="/blogs/"
-                    className="text-neutral-900 font-semibold hover:text-brand transition-colors duration-200 text-[15px]"
-                  >
-                    View All Blogs
-                  </Link>
-                </li>
               </ul>
             </div>
           </div>
