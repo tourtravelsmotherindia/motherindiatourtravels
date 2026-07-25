@@ -250,7 +250,7 @@ export default function BookClient({
           <div className="w-full lg:hidden pb-2">{renderQuickSummary()}</div>
 
           {/* LEFT COLUMN: Booking form */}
-          <div className="w-full bg-white border border-border-light rounded-[2.5rem] p-6 sm:p-10 shadow-premium relative overflow-visible">
+          <div className="w-full bg-white border border-border-light rounded-[2.5rem] p-6 md:p-8 xl:p-10 shadow-premium relative overflow-visible">
             <form onSubmit={handleSubmit} className="flex flex-col gap-5 sm:gap-6">
               <FormField
                 id="fullName"

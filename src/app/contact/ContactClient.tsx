@@ -139,7 +139,7 @@ export default function ContactClient({ companyData }: ContactClientProps) {
           </div>
         </div>
 
-        <div className="bg-white border border-border-light rounded-[2.5rem] p-6 sm:p-10 shadow-premium">
+        <div className="bg-white border border-border-light rounded-[2.5rem] p-6 md:p-8 xl:p-10 shadow-premium">
           <form onSubmit={handleSubmit} className="flex flex-col gap-5 sm:gap-6">
             <FormField
               id="fullName"
