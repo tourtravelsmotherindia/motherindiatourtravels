@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Calendar, CloudSun, Compass, MapPin, Sparkles } from "lucide-react";
 import Image from "next/image";
 import React from "react";
@@ -42,12 +41,7 @@ export default function DestinationDetailClient({
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent z-10" />
 
         <div className="layout-container pb-16 z-20 text-white relative">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-3xl"
-          >
+          <div className="max-w-3xl">
             <div className="flex items-center gap-2 mb-3">
               <span className="bg-brand text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider select-none shadow-sm">
                 {destination.type || "Explore"}
@@ -60,7 +54,7 @@ export default function DestinationDetailClient({
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4 drop-shadow-sm">
               {destination.name}
             </h1>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -68,13 +62,7 @@ export default function DestinationDetailClient({
       <section className="pt-section-hero pb-section-standard layout-container">
         <div className="grid grid-cols-1 lg:grid-cols-[1.8fr_1fr] gap-12 items-start">
           {/* Detailed Overview */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="flex flex-col gap-6"
-          >
+          <div className="flex flex-col gap-6">
             <h2 className="text-2xl md:text-3xl font-extrabold text-foreground tracking-tight flex items-center gap-2">
               <Compass className="w-6 h-6 text-brand" />
               <span>About {destination.name}</span>
@@ -83,16 +71,10 @@ export default function DestinationDetailClient({
               {destination.description ||
                 `Welcome to ${destination.name}. Explore the unique culture, landscapes, and experiences this beautiful place has to offer.`}
             </p>
-          </motion.div>
+          </div>
 
           {/* Quick Facts Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="bg-neutral-50 border border-neutral-200/50 p-6 md:p-8 rounded-[2.5rem] shadow-sm flex flex-col gap-6"
-          >
+          <div className="bg-neutral-50 border border-neutral-200/50 p-6 md:p-8 rounded-[2.5rem] shadow-sm flex flex-col gap-6">
             <h3 className="text-lg font-bold text-neutral-800 tracking-tight flex items-center gap-2 pl-1">
               <Sparkles className="w-5 h-5 text-brand" />
               <span>Quick Details</span>
@@ -131,7 +113,7 @@ export default function DestinationDetailClient({
                 </div>
               )}
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -146,18 +128,14 @@ export default function DestinationDetailClient({
             />
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
-              {destination.attractions.map((attraction, idx) => {
+              {destination.attractions.map((attraction) => {
                 const attractionImg = getOptimizedImageUrl(
                   attraction.image || "/images/placeholder-landscape.png",
                   800,
                 );
                 return (
-                  <motion.div
+                  <div
                     key={attraction.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: idx * 0.05 }}
                     className="bg-white rounded-3xl overflow-hidden border border-neutral-200/50 shadow-sm flex flex-col h-full"
                   >
                     <div className="relative aspect-[16/10] w-full">
@@ -177,7 +155,7 @@ export default function DestinationDetailClient({
                           "A gorgeous location worth exploring during your tour."}
                       </p>
                     </div>
-                  </motion.div>
+                  </div>
                 );
               })}
             </div>

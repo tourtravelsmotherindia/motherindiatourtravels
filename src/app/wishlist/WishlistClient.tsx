@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Briefcase, Compass, Heart } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -81,8 +80,8 @@ export default function WishlistClient({
             onClick={() => setActiveTab("packages")}
             className={`flex items-center gap-2 font-display font-bold text-xs sm:text-sm tracking-wider uppercase pb-3.5 -mb-4.5 border-b-2 transition-all duration-300 cursor-pointer ${
               activeTab === "packages"
-                ? "border-brand text-brand"
-                : "border-transparent text-neutral-500 hover:text-neutral-800"
+                ? "border-neutral-900 text-neutral-900"
+                : "border-transparent text-neutral-500 hover:text-neutral-850 hover:border-neutral-200"
             }`}
           >
             <Briefcase className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
@@ -93,8 +92,8 @@ export default function WishlistClient({
             onClick={() => setActiveTab("destinations")}
             className={`flex items-center gap-2 font-display font-bold text-xs sm:text-sm tracking-wider uppercase pb-3.5 -mb-4.5 border-b-2 transition-all duration-300 cursor-pointer ${
               activeTab === "destinations"
-                ? "border-brand text-brand"
-                : "border-transparent text-neutral-500 hover:text-neutral-800"
+                ? "border-neutral-900 text-neutral-900"
+                : "border-transparent text-neutral-500 hover:text-neutral-850 hover:border-neutral-200"
             }`}
           >
             <Compass className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
@@ -106,12 +105,8 @@ export default function WishlistClient({
         <div className="mt-8 min-h-[300px]">
           {activeTab === "packages" ? (
             favoritePackages.length === 0 ? (
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-center py-20 bg-neutral-50/50 border border-neutral-100 rounded-[2.5rem] flex flex-col items-center px-4"
-              >
-                <div className="w-16 h-16 rounded-full bg-brand-light flex items-center justify-center text-brand mb-4.5">
+              <div className="text-center py-20 bg-neutral-50/50 border border-neutral-100 rounded-[2.5rem] flex flex-col items-center px-4">
+                <div className="w-16 h-16 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-600 mb-4.5">
                   <Heart className="w-7 h-7" />
                 </div>
                 <h3 className="text-lg md:text-xl font-bold text-neutral-800">
@@ -126,7 +121,7 @@ export default function WishlistClient({
                 >
                   Browse Packages
                 </Link>
-              </motion.div>
+              </div>
             ) : (
               <div className="grid grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-6 lg:gap-8">
                 {favoritePackages.map((pkg) => (
@@ -145,12 +140,8 @@ export default function WishlistClient({
               </div>
             )
           ) : favoriteDestinations.length === 0 ? (
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-center py-20 bg-neutral-50/50 border border-neutral-100 rounded-[2.5rem] flex flex-col items-center px-4"
-            >
-              <div className="w-16 h-16 rounded-full bg-brand-light flex items-center justify-center text-brand mb-4.5">
+            <div className="text-center py-20 bg-neutral-50/50 border border-neutral-100 rounded-[2.5rem] flex flex-col items-center px-4">
+              <div className="w-16 h-16 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-600 mb-4.5">
                 <Compass className="w-7 h-7" />
               </div>
               <h3 className="text-lg md:text-xl font-bold text-neutral-800">
@@ -166,7 +157,7 @@ export default function WishlistClient({
               >
                 Browse Destinations
               </Link>
-            </motion.div>
+            </div>
           ) : (
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-6 lg:gap-8">
               {favoriteDestinations.map((dest) => (

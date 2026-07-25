@@ -1,7 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ArrowUpRight, Clock, MapPin, Star } from "lucide-react";
+import { Clock, MapPin, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -26,11 +25,6 @@ interface PackageCardProps {
   isFavorite?: boolean;
   onToggleFavorite?: (slug: string) => void;
   showRating?: boolean; // overlay-variant only
-  // Framer-motion props
-  initial?: React.ComponentPropsWithoutRef<typeof motion.div>["initial"];
-  whileInView?: React.ComponentPropsWithoutRef<typeof motion.div>["whileInView"];
-  viewport?: React.ComponentPropsWithoutRef<typeof motion.div>["viewport"];
-  transition?: React.ComponentPropsWithoutRef<typeof motion.div>["transition"];
 }
 
 export default function PackageCard({
@@ -47,10 +41,6 @@ export default function PackageCard({
   isFavorite = false,
   onToggleFavorite,
   showRating = true,
-  initial,
-  whileInView,
-  viewport,
-  transition,
 }: PackageCardProps) {
   const rawImageSrc = heroImage || hero_image || "/images/placeholder-landscape.png";
   const imageSrc = getOptimizedImageUrl(rawImageSrc, 800);
@@ -82,13 +72,7 @@ export default function PackageCard({
 
   if (variant === "overlay") {
     return (
-      <motion.div
-        initial={initial}
-        whileInView={whileInView}
-        viewport={viewport}
-        transition={transition}
-        className="group relative w-full h-[340px] sm:h-[380px] md:h-[400px] lg:h-[350px] xl:h-[380px] 2xl:h-[420px] rounded-[2rem] overflow-hidden shadow-none bg-gray-50 flex flex-col border-0"
-      >
+      <div className="group relative w-full h-[340px] sm:h-[380px] md:h-[400px] lg:h-[350px] xl:h-[380px] 2xl:h-[420px] rounded-[2rem] overflow-hidden shadow-none bg-gray-50 flex flex-col border-0">
         <div className="absolute inset-0 z-0">
           <Image
             src={imageSrc}
@@ -121,7 +105,7 @@ export default function PackageCard({
         )}
 
         <div className="mt-auto p-5 xl:p-6 z-20 flex flex-col justify-end">
-          <h3 className="text-lg xl:text-xl font-bold text-white leading-snug tracking-tight mb-2 drop-shadow-sm">
+          <h3 className="text-lg xl:text-xl font-bold text-white leading-snug tracking-tight mb-card-small drop-shadow-sm">
             {name}
           </h3>
           <div className="flex items-center justify-between mt-1 gap-2">
@@ -141,7 +125,20 @@ export default function PackageCard({
                 </div>
               )}
               <div className="w-8 h-8 rounded-full bg-white text-brand-dark flex items-center justify-center shadow-md transition-all duration-300 active:scale-95">
-                <ArrowUpRight className="w-4 h-4" />
+                {/* Arrow up icon */}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="w-4 h-4"
+                >
+                  <line x1="7" y1="17" x2="17" y2="7" />
+                  <polyline points="7 7 17 7 17 17" />
+                </svg>
               </div>
             </div>
           </div>
@@ -152,19 +149,13 @@ export default function PackageCard({
           className="absolute inset-0 z-10 cursor-pointer"
           aria-label={`View details for ${name}`}
         />
-      </motion.div>
+      </div>
     );
   }
 
   // "white" variant (Heart icon positioned on top-right of the image)
   return (
-    <motion.div
-      initial={initial}
-      whileInView={whileInView}
-      viewport={viewport}
-      transition={transition}
-      className="group relative bg-white rounded-[2rem] shadow-none flex flex-col h-full justify-between cursor-pointer border border-neutral-100 overflow-hidden"
-    >
+    <div className="group relative bg-white rounded-[2rem] shadow-none flex flex-col h-full justify-between cursor-pointer border border-neutral-100 overflow-hidden">
       <div>
         {/* Flush Image Container with curvy bottom border radius */}
         <div className="relative w-full aspect-[4/3] bg-neutral-100 z-0 rounded-b-[1.5rem] overflow-hidden">
@@ -183,18 +174,18 @@ export default function PackageCard({
           {duration ? (
             /* Layout when duration exists */
             <div>
-              <div className="flex items-center gap-1.5 text-neutral-600 font-normal mb-1.5 sm:mb-2.5">
+              <div className="flex items-center gap-1.5 text-neutral-600 font-normal mb-card-micro">
                 <Clock className="w-3.5 h-3.5 sm:w-4.5 sm:h-4.5 text-neutral-400 shrink-0" />
                 <span className="text-[11px] sm:text-xs font-semibold">{duration}</span>
               </div>
 
-              <h3 className="font-bold text-xs sm:text-base text-foreground leading-snug line-clamp-1 mb-1.5 sm:mb-2">
+              <h3 className="font-bold text-xs sm:text-base text-foreground leading-snug line-clamp-1 mb-card-small group-hover:text-brand transition-colors duration-200">
                 {name}
               </h3>
             </div>
           ) : (
             /* Layout when duration is absent (Name is at the very top of the text block) */
-            <h3 className="font-bold text-xs sm:text-base text-foreground leading-snug line-clamp-2 mb-1.5 sm:mb-2.5">
+            <h3 className="font-bold text-xs sm:text-base text-foreground leading-snug line-clamp-2 mb-card-small group-hover:text-brand transition-colors duration-200">
               {name}
             </h3>
           )}
@@ -223,6 +214,6 @@ export default function PackageCard({
         className="absolute inset-0 z-10 cursor-pointer"
         aria-label={`View details for ${name}`}
       />
-    </motion.div>
+    </div>
   );
 }

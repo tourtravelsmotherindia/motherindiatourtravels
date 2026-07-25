@@ -289,7 +289,7 @@ export default function PackageOverviewClient({
         <Breadcrumbs items={breadcrumbItems} />
 
         {/* ASYMMETRIC MASONRY GALLERY */}
-        <section className="mb-section-tight animate-fade-in font-sans">
+        <section className="mb-section-tight font-sans">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 h-[300px] md:h-[450px] lg:h-[550px]">
             {/* Left Column - 2 stacked images */}
             <div className="hidden lg:flex flex-col gap-4 col-span-3 h-full">
@@ -547,7 +547,7 @@ export default function PackageOverviewClient({
 
           {/* RIGHT COLUMN: Sticky summary of route */}
           <aside className="lg:sticky lg:top-28 z-10 flex flex-col gap-6 font-sans">
-            <div className="py-2 animate-fade-in">
+            <div className="py-2">
               <div className="flex items-center justify-between mb-6 pb-3">
                 <h3 className="font-bold text-base md:text-lg text-foreground tracking-tight font-display flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-neutral-500" />

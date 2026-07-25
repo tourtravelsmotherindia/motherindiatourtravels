@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Calendar, Clock, Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -219,16 +218,16 @@ export default function BlogsClient({ initialBlogs, categories, companyData }: B
               </div>
 
               {/* Header controls: Results Count & Sort Selection */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 px-1">
+              <div className="flex flex-row items-center justify-between gap-2 mb-8 px-1">
                 <div>
-                  <p className="text-xs md:text-sm font-bold text-neutral-500 uppercase tracking-wider">
+                  <p className="text-[10px] xs:text-xs md:text-sm font-bold text-neutral-500 uppercase tracking-wider">
                     Showing {sortedBlogs.length > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0}–
                     {Math.min(currentPage * itemsPerPage, sortedBlogs.length)} of{" "}
-                    {sortedBlogs.length} {sortedBlogs.length === 1 ? "blog post" : "blog posts"}
+                    {sortedBlogs.length} {sortedBlogs.length === 1 ? "post" : "posts"}
                   </p>
                 </div>
 
-                <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
+                <div className="flex items-center gap-3 shrink-0">
                   <Dropdown
                     label="Sort By"
                     options={[
@@ -242,8 +241,8 @@ export default function BlogsClient({ initialBlogs, categories, companyData }: B
                       setCurrentPage(1);
                     }}
                     variant="slim"
-                    triggerClassName="bg-white border border-neutral-200 text-neutral-700 font-semibold px-4.5 py-2 w-[180px] xs:w-[210px] md:w-[220px]"
-                    menuClassName="w-[180px] xs:w-[210px] md:w-[220px] rounded-2xl"
+                    triggerClassName="bg-white border border-neutral-200 text-neutral-700 font-semibold px-3 sm:px-4.5 py-2 w-[130px] xs:w-[150px] sm:w-[180px] md:w-[220px]"
+                    menuClassName="w-[130px] xs:w-[150px] sm:w-[180px] md:w-[220px] rounded-2xl"
                   />
                 </div>
               </div>
@@ -262,16 +261,12 @@ export default function BlogsClient({ initialBlogs, categories, companyData }: B
                 <div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
                     {paginatedBlogs.map((blog, idx) => (
-                      <motion.article
+                      <article
                         key={blog.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: Math.min(idx * 0.05, 0.3) }}
                         className="group relative flex flex-col bg-white overflow-hidden"
                       >
                         {/* Image Wrapper (Clean rounded design without corner color cycle decorations) */}
-                        <div className="relative aspect-[16/10] w-full rounded-[1.75rem] md:rounded-[2.25rem] overflow-hidden mb-5 bg-neutral-100 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
+                        <div className="relative aspect-[16/10] w-full rounded-[1.75rem] md:rounded-[2.25rem] overflow-hidden mb-4 bg-neutral-100 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
                           <Image
                             src={
                               blog.coverImage ||
@@ -288,7 +283,7 @@ export default function BlogsClient({ initialBlogs, categories, companyData }: B
                         {/* Blog Content */}
                         <div className="flex-1 flex flex-col items-start">
                           {/* Meta Row (Desktop: Date on left, Category right-aligned on right. Mobile: Category then Date) */}
-                          <div className="flex flex-col md:flex-row-reverse md:justify-between md:items-center gap-2 md:gap-3 mb-3 text-xs font-semibold text-neutral-400 w-full">
+                          <div className="flex flex-col md:flex-row-reverse md:justify-between md:items-center gap-2 md:gap-3 mb-card-micro text-xs font-semibold text-neutral-400 w-full">
                             {blog.categoryName && (
                               <span className="self-start md:self-auto px-3.5 py-1 bg-neutral-100 text-[10px] font-bold uppercase tracking-wider rounded-full text-neutral-500">
                                 {blog.categoryName}
@@ -309,7 +304,7 @@ export default function BlogsClient({ initialBlogs, categories, companyData }: B
                           </div>
 
                           {/* Title */}
-                          <h3 className="text-xl md:text-2xl font-bold font-display text-neutral-900 tracking-tight leading-[1.2] mb-3 group-hover:text-brand transition-colors duration-200">
+                          <h3 className="text-xl md:text-2xl font-bold font-display text-neutral-900 tracking-tight leading-[1.2] mb-card-small group-hover:text-brand transition-colors duration-200">
                             <Link href={`/blogs/${blog.slug}`}>{blog.title}</Link>
                           </h3>
 
@@ -325,7 +320,7 @@ export default function BlogsClient({ initialBlogs, categories, companyData }: B
                           className="absolute inset-0 z-10 cursor-pointer"
                           aria-label={`View details for ${blog.title}`}
                         />
-                      </motion.article>
+                      </article>
                     ))}
                   </div>
 

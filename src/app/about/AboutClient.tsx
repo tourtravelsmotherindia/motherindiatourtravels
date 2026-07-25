@@ -89,22 +89,11 @@ export default function AboutClient({ companyData }: AboutClientProps) {
     videoUrl: "https://www.youtube.com/watch?v=BbrdQLqGUp0",
   };
 
-  const fadeIn = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
-  };
-
   return (
     <div className="bg-white">
       <section className="pt-8 pb-section-standard layout-container bg-white">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center mb-12 md:mb-16">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeIn}
-            className="lg:col-span-7 flex flex-col items-start text-left"
-          >
+          <div className="lg:col-span-7 flex flex-col items-start text-left">
             <Breadcrumbs
               items={[{ label: "Home", href: "/" }, { label: "About" }]}
               variant="brackets"
@@ -117,15 +106,9 @@ export default function AboutClient({ companyData }: AboutClientProps) {
             <p className="text-sm md:text-base text-muted font-normal leading-relaxed max-w-xl">
               {header.description}
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeIn}
-            className="lg:col-span-5 relative flex items-center justify-center w-full pb-8 lg:pb-0"
-          >
+          <div className="lg:col-span-5 relative flex items-center justify-center w-full pb-8 lg:pb-0">
             <div className="relative w-full aspect-[4/5] md:aspect-[3/4] lg:h-[480px] rounded-[1.75rem] md:rounded-[2.5rem] overflow-hidden shadow-card hover:shadow-premium transition-all duration-300">
               <Image
                 src={header.image}
@@ -164,16 +147,10 @@ export default function AboutClient({ companyData }: AboutClientProps) {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeIn}
-          className="pt-12 md:pt-16 pb-8 md:pb-12 mt-8 md:mt-12 text-center"
-        >
+        <div className="pt-12 md:pt-16 pb-8 md:pb-12 mt-8 md:mt-12 text-center">
           <p className="text-lg md:text-2xl lg:text-3xl max-w-5xl mx-auto leading-relaxed font-semibold font-sans tracking-tight text-neutral-900">
             At {companyData.name} we are committed to delivering reliable, high-quality travel
             solutions. With over two decades of experience, we combine local expertise, premium
@@ -182,15 +159,9 @@ export default function AboutClient({ companyData }: AboutClientProps) {
               and customer-centric planning to bring your travel dreams to life.
             </span>
           </p>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeIn}
-          className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 justify-center max-w-4xl mx-auto pt-6 text-center"
-        >
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 justify-center max-w-4xl mx-auto pt-6 text-center">
           {header.stats.map((stat, idx) => (
             <div key={idx} className="flex flex-col items-center">
               <span className="text-3xl md:text-5xl lg:text-6xl font-bold font-display text-foreground tracking-tight">
@@ -201,7 +172,7 @@ export default function AboutClient({ companyData }: AboutClientProps) {
               </span>
             </div>
           ))}
-        </motion.div>
+        </div>
       </section>
 
       <section className="py-section-standard bg-white">
@@ -231,13 +202,7 @@ export default function AboutClient({ companyData }: AboutClientProps) {
             </div>
           </div>
 
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeIn}
-            className="lg:col-span-6 flex flex-col gap-6"
-          >
+          <div className="lg:col-span-6 flex flex-col gap-6">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground tracking-tight leading-[1.1] font-display">
               {mission.title}
             </h2>
@@ -255,19 +220,13 @@ export default function AboutClient({ companyData }: AboutClientProps) {
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       <section className="py-section-standard bg-white">
         <div className="layout-container grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-center">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeIn}
-            className="lg:col-span-6 lg:order-1 flex flex-col gap-6"
-          >
+          <div className="lg:col-span-6 lg:order-1 flex flex-col gap-6">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground tracking-tight leading-[1.1] font-display">
               {vision.title}
             </h2>
@@ -285,7 +244,7 @@ export default function AboutClient({ companyData }: AboutClientProps) {
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </div>
 
           <div className="lg:col-span-6 lg:order-2 relative h-[320px] sm:h-[420px] md:h-[500px] w-full flex items-center justify-end">
             <div className="relative w-[78%] h-[88%] rounded-[1.75rem] md:rounded-[2.5rem] overflow-hidden shadow-card hover:shadow-premium transition-all duration-300">
@@ -341,13 +300,7 @@ export default function AboutClient({ companyData }: AboutClientProps) {
             </div>
           </div>
 
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeIn}
-            className="lg:col-span-6 flex flex-col gap-6"
-          >
+          <div className="lg:col-span-6 flex flex-col gap-6">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground tracking-tight leading-[1.1] font-display">
               {history.title}
             </h2>
@@ -365,20 +318,14 @@ export default function AboutClient({ companyData }: AboutClientProps) {
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       <section className="pt-section-standard pb-section-loose bg-white layout-container">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeIn}
-          className="mb-12 md:mb-16"
-        >
+        <div className="mb-12 md:mb-16">
           <SectionHeader title={howWeWork.title} subtitle={howWeWork.subtitle} align="center" />
-        </motion.div>
+        </div>
 
         <div className="relative w-full h-[240px] sm:h-[400px] md:h-[500px] lg:h-[580px] rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-premium group">
           <Image
