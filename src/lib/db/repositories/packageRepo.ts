@@ -303,7 +303,7 @@ export async function getAllPackages(): Promise<PackageItem[]> {
   return withBuildCache("all-packages", async () => {
     const packages = await prisma.package.findMany({
       include: packageListInclude,
-      orderBy: { createdAt: "desc" },
+      orderBy: [{ isFeatured: "desc" }, { createdAt: "desc" }],
     });
     return packages.map(mapPackage);
   });

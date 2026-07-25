@@ -65,7 +65,7 @@ function mapDestination(d: any): DestinationItem {
 export async function getAllDestinations(): Promise<DestinationItem[]> {
   const destinations = await prisma.destination.findMany({
     include: destinationInclude,
-    orderBy: { name: "asc" },
+    orderBy: [{ isFeatured: "desc" }, { name: "asc" }],
   });
   return destinations.map(mapDestination);
 }
@@ -333,6 +333,12 @@ export async function getRegionsWithDestinations(): Promise<RegionWithDestinatio
       }
     });
 
-    return regionsMap;
+    // Sort destinations within each region: featured first, then alphabetically
+    return regionsMap.map((r) => ({
+      ...r,
+      destinations: r.destinations.sort(
+        (a, b) => Number(b.isFeatured) - Number(a.isFeatured) || a.name.localeCompare(b.name),
+      ),
+    }));
   });
 }
