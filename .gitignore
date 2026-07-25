@@ -48,6 +48,7 @@ migration_lock.toml
 motherindiatourtravels-old/
 dev-scripts/
 generated/
+dev-data/
 
 # cloudflare workers dependencies and build artifacts
 /cloudflare/*/node_modules
