@@ -47,4 +47,3 @@ Follow these standards to ensure search engine optimization and standard-complia
    - When adding new static pages or introducing new dynamic page routes (or custom data-driven content collections like blogs, regions, categories, etc.), you **must** update the sitemap generator (`src/app/sitemap.ts`) to output these paths.
    - You must also update the user-facing HTML sitemap (`src/app/sitemap/page.tsx`) to display the new sections or key paths.
    - If any new routes require search exclusion (e.g. admin panels, booking flows, or webhook paths), verify and update `src/app/robots.ts` as necessary to enforce the correct crawlers rules.
-
