@@ -114,7 +114,7 @@ export default function Hero({ heroConfig }: { heroConfig?: HeroConfigData | nul
           marginTop: "calc(-1 * env(safe-area-inset-top, 0px))",
           height: "calc(100dvh + env(safe-area-inset-top, 0px))",
         }}
-        className="hidden md:block relative w-full overflow-hidden bg-black touch-pan-y"
+        className="hidden lg:block relative w-full overflow-hidden bg-black touch-pan-y"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
         aria-label="Hero slider desktop"
@@ -226,7 +226,7 @@ export default function Hero({ heroConfig }: { heroConfig?: HeroConfigData | nul
           minHeight: "calc(360px + env(safe-area-inset-top, 0px))",
           maxHeight: "calc(450px + env(safe-area-inset-top, 0px))",
         }}
-        className="block md:hidden relative w-full h-[52vh] overflow-hidden bg-black rounded-b-[2rem] shadow-premium touch-pan-y"
+        className="block lg:hidden relative w-full h-[52vh] overflow-hidden bg-black rounded-b-[2rem] shadow-premium touch-pan-y"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
         aria-label="Hero slider mobile"

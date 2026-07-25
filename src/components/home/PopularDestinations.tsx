@@ -89,7 +89,7 @@ export default function PopularDestinations({
         />
 
         {/* Mobile View */}
-        <div className="md:hidden mt-4">
+        <div className="lg:hidden mt-4">
           <div
             ref={containerRef}
             onScroll={handleScroll}
@@ -113,7 +113,7 @@ export default function PopularDestinations({
         </div>
 
         {/* Desktop View */}
-        <div className="hidden md:block relative w-full mt-10 select-none overflow-hidden">
+        <div className="hidden lg:block relative w-full mt-10 select-none overflow-hidden">
           {/* Centered Row of Slots */}
           <div className="flex items-center justify-center gap-5 lg:gap-8 py-8 w-max min-w-full mx-auto relative z-10">
             <AnimatePresence mode="popLayout" initial={false}>

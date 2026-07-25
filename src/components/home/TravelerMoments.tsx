@@ -84,7 +84,7 @@ export default function TravelerMoments() {
       onNext={handleNext}
       prevAriaLabel="Previous testimonial"
       nextAriaLabel="Next testimonial"
-      className="hidden md:flex"
+      className="hidden lg:flex"
     />
   );
 
@@ -93,8 +93,8 @@ export default function TravelerMoments() {
       <SectionHeader
         title={
           <>
-            <span className="md:hidden">Reviews</span>
-            <span className="hidden md:inline">What Our Customers Say</span>
+            <span className="lg:hidden">Reviews</span>
+            <span className="hidden lg:inline">What Our Customers Say</span>
           </>
         }
         subtitle="Hear from our adventurers about their recent travel experiences"
@@ -102,7 +102,7 @@ export default function TravelerMoments() {
       />
 
       {/* MOBILE VIEW: Horizontal scrolling cards */}
-      <div className="flex overflow-x-auto md:hidden gap-4 snap-x snap-mandatory no-scrollbar pb-4">
+      <div className="flex overflow-x-auto lg:hidden gap-4 snap-x snap-mandatory no-scrollbar pb-4">
         {reviews.map((review) => {
           return (
             <div
@@ -170,7 +170,7 @@ export default function TravelerMoments() {
       </div>
 
       {/* DESKTOP VIEW: The new alternating grid layout matching reference */}
-      <div className="hidden md:block min-h-[600px] relative">
+      <div className="hidden lg:block min-h-[600px] relative">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
