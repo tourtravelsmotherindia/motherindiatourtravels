@@ -539,6 +539,8 @@ model Testimonial {
   rating      Int // 1–5
   packageName String   @default("") // Loose string — not a FK
   source      String   @default("Google") // e.g. Google, TripAdvisor
+  avatar      String   @default("")
+  reviewLink  String   @default("")
   isApproved  Boolean  @default(true)
   isFeatured  Boolean  @default(false)
   createdAt   DateTime @default(now())

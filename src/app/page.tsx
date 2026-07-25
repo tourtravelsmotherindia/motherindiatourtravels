@@ -17,6 +17,7 @@ import { getFAQSectionData } from "@/lib/db/repositories/faqRepo";
 import { getGallerySectionData } from "@/lib/db/repositories/galleryRepo";
 import { getHeroConfig } from "@/lib/db/repositories/heroRepo";
 import { getAllPackages } from "@/lib/db/repositories/packageRepo";
+import { getAllTestimonials } from "@/lib/db/repositories/testimonialRepo";
 
 export default async function Home() {
   const [
@@ -27,6 +28,7 @@ export default async function Home() {
     destinationsSectionData,
     galleryData,
     regionsData,
+    testimonials,
   ] = await Promise.all([
     getHeroConfig(),
     getAllPackages(),
@@ -35,6 +37,7 @@ export default async function Home() {
     getFeaturedDestinationsSectionData(),
     getGallerySectionData(),
     getDestinationsByRegion(),
+    getAllTestimonials(),
   ]);
 
   return (
@@ -44,7 +47,7 @@ export default async function Home() {
       <TripCards packages={packages} />
       <PopularDestinations sectionData={destinationsSectionData} />
       <Gallery galleryData={galleryData} />
-      <TestimonialsSection />
+      <TestimonialsSection testimonials={testimonials} />
       <RegionsGrid regions={regionsData} />
       <WhyChooseUs />
       <FAQ faqData={faqData} companyData={companyData} />

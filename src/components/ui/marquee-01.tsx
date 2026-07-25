@@ -1,123 +1,202 @@
 import Image from "next/image";
+import React from "react";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Marquee } from "@/components/ui/marquee-01-utils/marquee";
+import { type ReviewItem } from "@/lib/db/repositories/testimonialRepo";
 
-const reviews = [
+const fallbackReviews: ReviewItem[] = [
   {
-    name: "Salahuddin Shakib",
-    username: "@shakib",
-    body: "I am a traveler and Mother India Travels helps me a lot in finding interesting tourist destinations and of course the price offered is very worth it.",
-    profile:
+    id: "f1",
+    reviewer: "Salahuddin Shakib",
+    review:
+      "I am a traveler and Mother India Travels helps me a lot in finding interesting tourist destinations and of course the price offered is very worth it.",
+    rating: 5,
+    packageName: "",
+    source: "Google",
+    avatar:
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80",
+    reviewLink: "",
+    isApproved: true,
+    isFeatured: true,
+    createdAt: new Date(),
   },
   {
-    name: "Sarah Johnson",
-    username: "@sarah_j",
-    body: "The view from Tiger Nest in Ladakh was absolutely breathtaking! A life-changing journey organized flawlessly.",
-    profile:
+    id: "f2",
+    reviewer: "Sarah Johnson",
+    review:
+      "The view from Tiger Nest in Ladakh was absolutely breathtaking! A life-changing journey organized flawlessly.",
+    rating: 5,
+    packageName: "",
+    source: "Google",
+    avatar:
       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&h=150&q=80",
+    reviewLink: "",
+    isApproved: true,
+    isFeatured: true,
+    createdAt: new Date(),
   },
   {
-    name: "Michael Chen",
-    username: "@mchen_travels",
-    body: "Kerala houseboats are a dream! Every evening was magical, and the food was outstanding. Highly recommend them!",
-    profile:
+    id: "f3",
+    reviewer: "Michael Chen",
+    review:
+      "Kerala houseboats are a dream! Every evening was magical, and the food was outstanding. Highly recommend them!",
+    rating: 5,
+    packageName: "",
+    source: "Google",
+    avatar:
       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&h=150&q=80",
+    reviewLink: "",
+    isApproved: true,
+    isFeatured: true,
+    createdAt: new Date(),
   },
   {
-    name: "Emma Wilson",
-    username: "@emma_wild",
-    body: "Sleeping under the Jaisalmer desert stars was an experience of a lifetime. The staff was incredibly friendly.",
-    profile:
+    id: "f4",
+    reviewer: "Emma Wilson",
+    review:
+      "Sleeping under the Jaisalmer desert stars was an experience of a lifetime. The staff was incredibly friendly.",
+    rating: 5,
+    packageName: "",
+    source: "Google",
+    avatar:
       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150&h=150&q=80",
+    reviewLink: "",
+    isApproved: true,
+    isFeatured: true,
+    createdAt: new Date(),
   },
   {
-    name: "Rajesh Patel",
-    username: "@rajesh_p",
-    body: "Exceptional service! The Kashmir package was well planned, hotels were great, and our driver was very professional.",
-    profile:
+    id: "f5",
+    reviewer: "Rajesh Patel",
+    review:
+      "Exceptional service! The Kashmir package was well planned, hotels were great, and our driver was very professional.",
+    rating: 5,
+    packageName: "",
+    source: "Google",
+    avatar:
       "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&h=150&q=80",
+    reviewLink: "",
+    isApproved: true,
+    isFeatured: true,
+    createdAt: new Date(),
   },
   {
-    name: "Ananya Sharma",
-    username: "@ananya_sharma",
-    body: "Highly recommend Mother India Travels for solo female travelers. I felt safe throughout my entire solo trip to Himachal.",
-    profile:
+    id: "f6",
+    reviewer: "Ananya Sharma",
+    review:
+      "Highly recommend Mother India Travels for solo female travelers. I felt safe throughout my entire solo trip to Himachal.",
+    rating: 5,
+    packageName: "",
+    source: "Google",
+    avatar:
       "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&h=150&q=80",
-  },
-  {
-    name: "David Warner",
-    username: "@david_w",
-    body: "Flawless organization. The Taj Mahal and Rajasthan tour was stunning. We didn't have to worry about a single detail.",
-    profile:
-      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&h=150&q=80",
-  },
-  {
-    name: "Priya Nair",
-    username: "@priya_nair",
-    body: "The tour of Kerala backwaters was serene. Great itinerary, friendly local guides, and seamless transfers.",
-    profile:
-      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&h=150&q=80",
+    reviewLink: "",
+    isApproved: true,
+    isFeatured: true,
+    createdAt: new Date(),
   },
 ];
 
-const firstRow = reviews.slice(0, reviews.length / 2);
-const secondRow = reviews.slice(reviews.length / 2);
-
 const ReviewCard = ({
-  profile,
-  name,
-  username,
-  body,
+  reviewer,
+  review,
+  avatar,
+  reviewLink,
 }: {
-  profile: string;
-  name: string;
-  username: string;
-  body: string;
+  reviewer: string;
+  review: string;
+  avatar: string;
+  reviewLink: string;
 }) => {
-  return (
+  const profileImg =
+    avatar && avatar.startsWith("http")
+      ? avatar
+      : "https://lh3.googleusercontent.com/a/default-user=s64-c";
+
+  const card = (
     <Card className="relative h-full w-64 cursor-pointer overflow-hidden border-border-light bg-card shadow-none p-4 hover:bg-neutral-50 transition-colors duration-200">
       <CardContent className="p-0 flex flex-col gap-2">
         <div className="flex flex-row items-center gap-2">
           <Image
-            className="rounded-full object-cover"
+            className="rounded-full object-cover shrink-0"
             width={32}
             height={32}
             alt=""
-            src={profile}
+            src={profileImg}
           />
-          <div className="flex flex-col">
-            <p className="text-sm font-medium text-foreground">{name}</p>
-            <p className="text-xs font-medium text-muted-foreground">{username}</p>
+          <div className="flex flex-col min-w-0">
+            <p className="text-sm font-medium text-foreground truncate">{reviewer}</p>
           </div>
         </div>
-        <p className="text-sm line-clamp-2 text-foreground">{body}</p>
+        <p
+          className="text-xs line-clamp-3 text-foreground font-normal leading-relaxed whitespace-pre-wrap"
+          dangerouslySetInnerHTML={{ __html: review }}
+        />
       </CardContent>
     </Card>
   );
+
+  if (reviewLink) {
+    return (
+      <a
+        href={reviewLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block h-full no-underline outline-none"
+      >
+        {card}
+      </a>
+    );
+  }
+
+  return card;
 };
 
-export default function TestimonialMarqueeDemo() {
+export default function TestimonialMarquee({ testimonials = [] }: { testimonials?: ReviewItem[] }) {
+  const activeReviews = testimonials && testimonials.length > 0 ? testimonials : fallbackReviews;
+
+  // Divide the raw activeReviews list first: 1 to 55 for the first row, 56 to rest for the second row
+  const firstRowAll = activeReviews.slice(0, 55);
+  const secondRowAll = activeReviews.slice(55);
+
+  // Then filter each row for reviews that have non-empty text
+  const firstRow = firstRowAll.filter((t) => t.review && t.review.trim() !== "");
+  const secondRow = secondRowAll.filter((t) => t.review && t.review.trim() !== "");
+
+  if (firstRow.length === 0 && secondRow.length === 0) return null;
+
   return (
-    <div className="relative flex w-full flex-col items-center justify-center overflow-hidden py-4">
+    <div className="relative flex w-full flex-col items-center justify-center overflow-hidden py-4 select-none">
       <Marquee
         pauseOnHover
-        className="[--duration:25s]"
-        style={{ "--duration": "25s" } as React.CSSProperties}
+        className="[--duration:90s]"
+        style={{ "--duration": "90s" } as React.CSSProperties}
       >
         {firstRow.map((review) => (
-          <ReviewCard key={review.username} {...review} />
+          <ReviewCard
+            key={review.id}
+            reviewer={review.reviewer}
+            review={review.review}
+            avatar={review.avatar}
+            reviewLink={review.reviewLink}
+          />
         ))}
       </Marquee>
       <Marquee
         reverse
         pauseOnHover
-        className="[--duration:25s]"
-        style={{ "--duration": "25s" } as React.CSSProperties}
+        className="[--duration:90s]"
+        style={{ "--duration": "90s" } as React.CSSProperties}
       >
         {secondRow.map((review) => (
-          <ReviewCard key={review.username} {...review} />
+          <ReviewCard
+            key={review.id}
+            reviewer={review.reviewer}
+            review={review.review}
+            avatar={review.avatar}
+            reviewLink={review.reviewLink}
+          />
         ))}
       </Marquee>
       <div className="from-background pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r"></div>

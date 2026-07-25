@@ -853,7 +853,16 @@ export const ADMIN_TABLES: Record<string, TableConfig> = {
     dbName: "Testimonial",
     icon: "MessageSquare",
     searchField: "reviewer",
-    displayColumns: ["reviewer", "rating", "packageName", "source", "isApproved", "isFeatured"],
+    displayColumns: [
+      "reviewer",
+      "rating",
+      "packageName",
+      "source",
+      "avatar",
+      "reviewLink",
+      "isApproved",
+      "isFeatured",
+    ],
     fields: [
       { name: "reviewer", label: "Reviewer Name", type: "text", required: true },
       { name: "review", label: "Review Content", type: "textarea", required: true },
@@ -866,6 +875,8 @@ export const ADMIN_TABLES: Record<string, TableConfig> = {
       },
       { name: "packageName", label: "Loose Package Text Label", type: "text", defaultValue: "" },
       { name: "source", label: "Review Platform Source", type: "text", defaultValue: "Google" },
+      { name: "avatar", label: "Reviewer Avatar URL", type: "text", defaultValue: "" },
+      { name: "reviewLink", label: "Review Link URL", type: "text", defaultValue: "" },
       {
         name: "isApproved",
         label: "Is Approved",

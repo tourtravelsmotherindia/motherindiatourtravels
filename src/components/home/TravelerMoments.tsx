@@ -1,9 +1,8 @@
-"use client";
-
 import SectionHeader from "@/components/shared/SectionHeader";
 import TestimonialMarquee from "@/components/ui/marquee-01";
+import { type ReviewItem } from "@/lib/db/repositories/testimonialRepo";
 
-export default function TravelerMoments() {
+export default function TravelerMoments({ testimonials }: { testimonials: ReviewItem[] }) {
   return (
     <section id="testimonials" className="py-gap-section overflow-hidden layout-container">
       <SectionHeader
@@ -11,7 +10,7 @@ export default function TravelerMoments() {
         subtitle="Hear from our adventurers about their recent travel experiences"
       />
       <div className="mt-8">
-        <TestimonialMarquee />
+        <TestimonialMarquee testimonials={testimonials} />
       </div>
     </section>
   );

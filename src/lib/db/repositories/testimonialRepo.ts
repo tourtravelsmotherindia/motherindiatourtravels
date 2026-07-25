@@ -7,6 +7,8 @@ export interface ReviewItem {
   rating: number;
   packageName: string;
   source: string;
+  avatar: string;
+  reviewLink: string;
   isApproved: boolean;
   isFeatured: boolean;
   createdAt: Date;
@@ -25,6 +27,8 @@ export async function getFeaturedTestimonials(): Promise<ReviewItem[]> {
     rating: t.rating,
     packageName: t.packageName,
     source: t.source,
+    avatar: t.avatar,
+    reviewLink: t.reviewLink,
     isApproved: t.isApproved,
     isFeatured: t.isFeatured,
     createdAt: t.createdAt,
@@ -44,6 +48,8 @@ export async function getAllTestimonials(): Promise<ReviewItem[]> {
     rating: t.rating,
     packageName: t.packageName,
     source: t.source,
+    avatar: t.avatar,
+    reviewLink: t.reviewLink,
     isApproved: t.isApproved,
     isFeatured: t.isFeatured,
     createdAt: t.createdAt,
