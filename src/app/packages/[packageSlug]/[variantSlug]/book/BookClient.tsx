@@ -428,17 +428,11 @@ export default function BookClient({
                 requirements.{" "}
                 <Link
                   href="/contact"
-                  className="lg:hidden text-black underline font-bold transition-all inline-block hover:text-neutral-800"
+                  className="text-black underline font-bold transition-all inline-block hover:text-neutral-800"
                 >
                   Contact Us
                 </Link>
               </p>
-              <Link
-                href="/contact"
-                className="hidden lg:inline-flex items-center justify-center gap-2 border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white font-semibold text-xs uppercase tracking-wider py-3 px-5 rounded-full transition-all duration-300 cursor-pointer select-none mt-1 w-fit"
-              >
-                Contact Us
-              </Link>
             </div>
           </aside>
         </div>

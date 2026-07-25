@@ -33,8 +33,6 @@ const nextConfig = {
     ],
   },
 
-  skipTrailingSlashRedirect: true,
-
   generateBuildId: async () => {
     return "motherindiatourtravels-static";
   },
