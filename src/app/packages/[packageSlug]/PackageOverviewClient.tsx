@@ -421,7 +421,7 @@ export default function PackageOverviewClient({
               </div>
             )}{" "}
             {/* Summary Metadata Bar (Perfect Column Alignment Grid) */}
-            <div className="py-6 mb-12 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 font-sans">
+            <div className="py-6 mb-12 grid grid-cols-2 xl:grid-cols-4 gap-6 md:gap-8 font-sans">
               <div className="flex items-center gap-3">
                 <MapPin className="w-5 h-5 text-neutral-800 shrink-0" />
                 <div className="flex flex-col">
