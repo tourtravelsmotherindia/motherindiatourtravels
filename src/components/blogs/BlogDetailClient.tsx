@@ -24,7 +24,7 @@ interface BlogPostDetailItem {
   slug: string;
   title: string;
   excerpt: string;
-  content: string; // Markdown
+  content: string;
   coverImage: string;
   authorName: string;
   authorImage: string;
@@ -115,7 +115,6 @@ function parseMarkdownToJSX(markdown: string) {
       continue;
     }
 
-    // Headers
     if (trimmed.startsWith("# ")) {
       flushAll(i);
       const text = trimmed.replace("# ", "").trim();
@@ -158,9 +157,7 @@ function parseMarkdownToJSX(markdown: string) {
           {parseInlineMarkdown(text)}
         </h3>,
       );
-    }
-    // Unordered list items
-    else if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
+    } else if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
       flushParagraph(i);
       if (listType !== "ul") {
         flushList(i);
@@ -168,9 +165,7 @@ function parseMarkdownToJSX(markdown: string) {
       }
       const text = trimmed.substring(2).trim();
       currentList.push(<li key={`li-${i}`}>{parseInlineMarkdown(text)}</li>);
-    }
-    // Ordered list items
-    else if (/^\d+\.\s+/.test(trimmed)) {
+    } else if (/^\d+\.\s+/.test(trimmed)) {
       flushParagraph(i);
       if (listType !== "ol") {
         flushList(i);
@@ -179,9 +174,7 @@ function parseMarkdownToJSX(markdown: string) {
       const match = trimmed.match(/^(\d+)\.\s+/);
       const text = trimmed.substring(match ? match[0].length : 3).trim();
       currentList.push(<li key={`li-${i}`}>{parseInlineMarkdown(text)}</li>);
-    }
-    // Blockquote
-    else if (trimmed.startsWith("> ")) {
+    } else if (trimmed.startsWith("> ")) {
       flushAll(i);
       const text = trimmed.substring(2).trim();
       elements.push(
@@ -192,9 +185,7 @@ function parseMarkdownToJSX(markdown: string) {
           {parseInlineMarkdown(text)}
         </blockquote>,
       );
-    }
-    // Paragraph content
-    else {
+    } else {
       flushList(i);
       currentParagraph.push(line);
     }
@@ -251,31 +242,17 @@ function extractHeaders(markdown: string) {
 
 export default function BlogDetailClient({ post, companyData }: BlogDetailClientProps) {
   const [activeId, setActiveId] = useState<string>("");
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [copied, setCopied] = useState(false);
 
   const headers = useMemo(() => extractHeaders(post.content), [post.content]);
 
-  // Handle scroll progress bar
-  useEffect(() => {
-    const handleScroll = () => {
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-      if (totalHeight > 0) {
-        const progress = (window.scrollY / totalHeight) * 100;
-        setScrollProgress(progress);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Highlight active TOC item based on viewport scroll position
+  // Highlight active ToC item based on viewport scroll position
   useEffect(() => {
     if (headers.length === 0) return;
 
-    const handleIntersection = () => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 150;
       let currentActiveId = "";
-      const scrollPosition = window.scrollY + 120; // offset
 
       for (let i = 0; i < headers.length; i++) {
         const element = document.getElementById(headers[i].id);
@@ -292,18 +269,35 @@ export default function BlogDetailClient({ post, companyData }: BlogDetailClient
       }
     };
 
-    window.addEventListener("scroll", handleIntersection);
-    // Initial check
-    handleIntersection();
-
-    return () => window.removeEventListener("scroll", handleIntersection);
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [headers]);
 
-  const handleCopyLink = () => {
-    if (typeof window !== "undefined") {
-      navigator.clipboard.writeText(window.location.href);
+  // Cross-platform copy link — falls back to execCommand for iOS Safari
+  const handleCopyLink = async () => {
+    const url = typeof window !== "undefined" ? window.location.href : "";
+    if (!url) return;
+
+    try {
+      if (navigator?.clipboard?.writeText) {
+        await navigator.clipboard.writeText(url);
+      } else {
+        // Fallback for iOS Safari / older browsers
+        const el = document.createElement("input");
+        el.value = url;
+        el.style.position = "fixed";
+        el.style.opacity = "0";
+        document.body.appendChild(el);
+        el.focus();
+        el.select();
+        document.execCommand("copy");
+        document.body.removeChild(el);
+      }
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Silent fail — user may have declined clipboard permission
     }
   };
 
@@ -330,14 +324,6 @@ export default function BlogDetailClient({ post, companyData }: BlogDetailClient
 
   return (
     <PageShell companyData={companyData} bgClass="bg-white">
-      {/* Scroll Progress Indicator Bar */}
-      <div className="fixed top-[72px] left-0 w-full h-[3px] bg-neutral-100 z-40">
-        <div
-          className="h-full bg-brand transition-all duration-75"
-          style={{ width: `${scrollProgress}%` }}
-        />
-      </div>
-
       <div className="pt-12 md:pt-20 pb-section-loose font-sans">
         {/* Breadcrumb, Title & Meta Details */}
         <div className="layout-container text-left mb-10 md:mb-12">
@@ -416,18 +402,22 @@ export default function BlogDetailClient({ post, companyData }: BlogDetailClient
                 {post.excerpt}
               </div>
 
-              {/* Table of Contents - Mobile view only */}
+              {/* Table of Contents - Mobile Only (matches PolicyLayout mobile ToC exactly) */}
               {headers.length > 0 && (
-                <div className="block lg:hidden mb-10 py-5 px-6 bg-neutral-50 border border-neutral-150 rounded-2xl">
-                  <h2 className="text-lg font-bold text-neutral-955 mb-3 font-display">
+                <div className="block lg:hidden mb-10 py-4 border-t border-b border-neutral-100">
+                  <h2 className="text-xl md:text-2xl font-bold text-neutral-900 mb-5">
                     Table of contents
                   </h2>
-                  <ol className="space-y-2.5 list-decimal list-inside text-sm font-semibold text-neutral-700">
+                  <ol className="space-y-3.5 list-decimal list-inside text-base text-neutral-700 font-semibold">
                     {headers.map((h) => (
-                      <li key={h.id} style={{ marginLeft: h.level === 3 ? "1rem" : "0" }}>
+                      <li
+                        key={h.id}
+                        className="text-neutral-400"
+                        style={{ marginLeft: h.level === 3 ? "1rem" : "0" }}
+                      >
                         <a
                           href={`#${h.id}`}
-                          className="text-neutral-750 hover:text-brand hover:underline transition-colors"
+                          className="hover:text-neutral-900 transition-colors underline decoration-neutral-300 hover:decoration-neutral-950 text-neutral-700"
                         >
                           {h.title}
                         </a>
@@ -452,7 +442,7 @@ export default function BlogDetailClient({ post, companyData }: BlogDetailClient
                 {parseMarkdownToJSX(post.content)}
               </article>
 
-              {/* Blog Gallery Images Section (Clean styling without top divider line) */}
+              {/* Blog Gallery Images Section */}
               {post.images && post.images.length > 0 && (
                 <div className="mt-12">
                   <h3 className="text-2xl font-bold text-neutral-950 mb-6 font-display">
@@ -479,7 +469,7 @@ export default function BlogDetailClient({ post, companyData }: BlogDetailClient
 
               {/* Related Tags & Share Panel */}
               <div className="mt-16 flex flex-col gap-6">
-                {/* Tags section without capitalized label, styled as premium badges */}
+                {/* Tags section */}
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-widest mr-2">
                     Tags:
@@ -517,8 +507,8 @@ export default function BlogDetailClient({ post, companyData }: BlogDetailClient
                   ))}
                 </div>
 
-                {/* Share panel with circular icon buttons and copy action */}
-                <div className="flex items-center justify-between flex-wrap gap-4 pt-6">
+                {/* Share panel */}
+                <div className="flex items-center justify-between flex-wrap gap-4 pt-4">
                   <div className="flex items-center gap-3">
                     <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-widest mr-2">
                       Share:
@@ -591,29 +581,28 @@ export default function BlogDetailClient({ post, companyData }: BlogDetailClient
               </div>
             </div>
 
-            {/* Right Sticky Sidebar (Desktop Only) */}
+            {/* Right Sticky Sidebar — Desktop Table of Contents (matches PolicyLayout exactly) */}
             <div className="hidden lg:block lg:col-span-4 sticky top-28 pl-4 space-y-10">
-              {/* Table of Contents */}
               {headers.length > 0 && (
                 <div>
-                  <h2 className="text-lg font-bold text-neutral-955 mb-4 font-display">
+                  <h2 className="text-xl md:text-2xl font-bold text-neutral-900 mb-5">
                     Table of contents
                   </h2>
-                  <ol className="space-y-3 list-decimal list-inside text-sm font-semibold text-neutral-700">
+                  <ol className="space-y-3.5 list-decimal list-inside text-base font-semibold">
                     {headers.map((h) => {
                       const isActive = activeId === h.id;
                       return (
                         <li
                           key={h.id}
-                          className="text-neutral-300"
+                          className="text-neutral-400"
                           style={{ marginLeft: h.level === 3 ? "1rem" : "0" }}
                         >
                           <a
                             href={`#${h.id}`}
-                            className={`transition-colors underline decoration-neutral-200 hover:decoration-neutral-800 ${
+                            className={`transition-all duration-200 underline decoration-neutral-300 hover:decoration-neutral-950 ${
                               isActive
-                                ? "text-neutral-950 font-bold decoration-neutral-800"
-                                : "text-neutral-650 hover:text-neutral-950"
+                                ? "text-neutral-900 font-bold underline decoration-neutral-950"
+                                : "text-neutral-700 hover:text-neutral-900"
                             }`}
                           >
                             {h.title}
@@ -622,23 +611,22 @@ export default function BlogDetailClient({ post, companyData }: BlogDetailClient
                       );
                     })}
                   </ol>
-                  <div className="flex justify-between items-center mt-6">
-                    <button
-                      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                      className="flex items-center gap-1 text-xs font-bold text-neutral-500 hover:text-neutral-900 transition-colors cursor-pointer group"
-                    >
-                      <span className="group-hover:-translate-y-0.5 transition-transform duration-200">
-                        Back to top ↑
-                      </span>
-                    </button>
-                  </div>
+                  <div className="w-full h-px bg-neutral-200 mt-6 mb-4" />
+                  <button
+                    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                    className="flex items-center gap-2 text-xs font-bold text-neutral-500 hover:text-neutral-900 transition-colors cursor-pointer group"
+                  >
+                    <span className="group-hover:-translate-y-0.5 transition-transform duration-200">
+                      Back to top ↑
+                    </span>
+                  </button>
                 </div>
               )}
 
-              {/* Related Tour Packages */}
+              {/* Related Tour Packages - Desktop sidebar */}
               {post.relatedPackages && post.relatedPackages.length > 0 && (
                 <div>
-                  <h2 className="text-lg font-bold text-neutral-950 mb-4 font-display">
+                  <h2 className="text-xl md:text-2xl font-bold text-neutral-900 mb-5">
                     Related Packages
                   </h2>
                   <div className="space-y-4">
@@ -693,7 +681,7 @@ export default function BlogDetailClient({ post, companyData }: BlogDetailClient
             </div>
           </div>
 
-          {/* Related Packages - Mobile view only (Bottom of page) */}
+          {/* Related Packages - Mobile only (Bottom of page) */}
           {post.relatedPackages && post.relatedPackages.length > 0 && (
             <div className="block lg:hidden mt-16">
               <h2 className="text-2xl font-bold text-neutral-955 mb-6 font-display">

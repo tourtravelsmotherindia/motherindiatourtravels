@@ -285,14 +285,7 @@ export default function BlogsClient({ initialBlogs, categories, companyData }: B
 
                         {/* Blog Content */}
                         <div className="flex-1 flex flex-col items-start">
-                          {/* Category Pill */}
-                          {blog.categoryName && (
-                            <span className="px-3.5 py-1 bg-neutral-105 text-[10px] font-bold uppercase tracking-wider rounded-full text-neutral-500 mb-3 group-hover:bg-neutral-100 group-hover:text-black transition-colors duration-300">
-                              {blog.categoryName}
-                            </span>
-                          )}
-
-                          {/* Date & Reading Time */}
+                          {/* Date & Reading Time row */}
                           <div className="flex items-center gap-3 text-xs text-neutral-400 font-semibold mb-3">
                             <span className="flex items-center gap-1.5">
                               <Calendar className="w-3.5 h-3.5" />
@@ -304,6 +297,13 @@ export default function BlogsClient({ initialBlogs, categories, companyData }: B
                               {blog.readingTimeMinutes} min read
                             </span>
                           </div>
+
+                          {/* Category Pill — always visible */}
+                          {blog.categoryName && (
+                            <span className="px-3.5 py-1 bg-neutral-100 text-[10px] font-bold uppercase tracking-wider rounded-full text-neutral-500 mb-3">
+                              {blog.categoryName}
+                            </span>
+                          )}
 
                           {/* Title */}
                           <h3 className="text-xl md:text-2xl font-bold font-display text-neutral-900 tracking-tight leading-[1.2] mb-3 group-hover:text-brand transition-colors duration-200">

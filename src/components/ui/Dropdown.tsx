@@ -101,7 +101,7 @@ export default function Dropdown({
             : "rounded-full px-5 py-2.5 lg:py-3 text-sm font-semibold"
         } ${
           isTransparent ? "" : "bg-white hover:bg-neutral-50/50"
-        } ${isWhiteBorder ? "" : "border border-neutral-200 hover:border-brand/35"} ${
+        } ${isWhiteBorder ? "" : "border border-neutral-200 hover:border-neutral-200"} ${
           isWhiteText ? "" : isSlim ? "text-black" : "text-neutral-700"
         } ${triggerClassName}`}
         aria-haspopup="true"
