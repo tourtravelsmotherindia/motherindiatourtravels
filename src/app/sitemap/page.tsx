@@ -56,7 +56,7 @@ export default async function SitemapPage() {
         : "https://wa.me/919999042456",
     },
     { name: "Contact Support", href: "/contact/" },
-    { name: "Traveler Reviews", href: "/reviews/" },
+    { name: "Traveler Reviews", href: "/testimonials/" },
   ];
 
   const policyLinks = [
