@@ -4,8 +4,7 @@ import { ArrowRight, CheckCircle2, Loader2, Mail, MapPin, Phone } from "lucide-r
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 
 import { useToast } from "@/context/ToastContext";
 import { useSubscribeNewsletter } from "@/lib/hooks/mutations";
@@ -259,17 +258,17 @@ export default function Footer({
             <ul className="flex flex-col gap-3 text-sm text-neutral-800 font-medium">
               <li className="flex items-start gap-2.5">
                 <Phone className="w-4 h-4 text-neutral-400 shrink-0 mt-0.5" />
-                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 text-neutral-800 font-medium">
+                <div className="flex flex-row flex-wrap items-center gap-x-2 gap-y-0.5 text-neutral-800 font-medium">
                   {companyData.phone.map((phoneNum, idx) => (
-                    <div key={idx} className="flex items-center gap-1.5 sm:gap-2">
-                      {idx > 0 && <span className="hidden sm:inline text-neutral-300">|</span>}
+                    <React.Fragment key={idx}>
+                      {idx > 0 && <span className="text-neutral-300 select-none">|</span>}
                       <a
                         href={`tel:${phoneNum.replace(/\s+/g, "")}`}
-                        className="hover:text-neutral-950 transition-colors duration-200"
+                        className="hover:text-neutral-950 transition-colors duration-200 whitespace-nowrap"
                       >
                         {phoneNum}
                       </a>
-                    </div>
+                    </React.Fragment>
                   ))}
                 </div>
               </li>
@@ -310,7 +309,7 @@ export default function Footer({
                   { name: "My Wishlist", href: "/wishlist" },
                   { name: "Travel Blog", href: "/blogs" },
                   { name: "FAQs", href: "/faqs" },
-                  { name: "Customer Reviews", href: "/reviews" },
+                  { name: "Customer Reviews", href: "/testimonials" },
                   { name: "Gallery", href: "#gallery" },
                   { name: "Contact Us", href: "/contact" },
                 ].map((link) => (

@@ -9,7 +9,8 @@ export default function TravelerMoments({ testimonials }: { testimonials: Review
       <SectionHeader
         title="What Our Customers Say"
         subtitle="Hear from our adventurers about their recent travel experiences"
-        rightSlot={<SeeAllLink href="/reviews" label="See All Reviews" />}
+        mobileLayout="row"
+        rightSlot={<SeeAllLink href="/testimonials" label="See All Testimonials" />}
       />
       <div className="mt-8">
         <TestimonialMarquee testimonials={testimonials} />
