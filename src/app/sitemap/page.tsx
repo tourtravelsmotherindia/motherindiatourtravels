@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import PageShell from "@/components/layout/PageShell";
 import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
+import { getPublishedBlogPosts } from "@/lib/db/repositories/blogRepo";
 import { getCompanyData } from "@/lib/db/repositories/companyRepo";
 import { getAllDestinations } from "@/lib/db/repositories/destinationRepo";
 import { getAllPackages } from "@/lib/db/repositories/packageRepo";
@@ -19,15 +20,17 @@ export const metadata: Metadata = {
 };
 
 export default async function SitemapPage() {
-  const [packages, destinations, companyData] = await Promise.all([
+  const [packages, destinations, companyData, blogs] = await Promise.all([
     getAllPackages(),
     getAllDestinations(),
     getCompanyData(),
+    getPublishedBlogPosts(),
   ]);
 
   // Display top 8 destinations & packages
   const popularDestinations = destinations.slice(0, 8);
   const popularPackages = packages.slice(0, 8);
+  const recentBlogs = blogs.slice(0, 8);
 
   const regionLinks = [
     { name: "North India", href: "/regions/" },
@@ -208,6 +211,33 @@ export default async function SitemapPage() {
                     </Link>
                   </li>
                 ))}
+              </ul>
+            </div>
+
+            {/* Column 7: Travel Blogs */}
+            <div>
+              <h2 className="text-base font-semibold text-neutral-900 tracking-wide uppercase mb-6">
+                Travel Blogs
+              </h2>
+              <ul className="space-y-3.5">
+                {recentBlogs.map((b) => (
+                  <li key={b.slug}>
+                    <Link
+                      href={`/blogs/${b.slug}/`}
+                      className="text-neutral-500 hover:text-brand transition-colors duration-200 text-[15px]"
+                    >
+                      {b.title}
+                    </Link>
+                  </li>
+                ))}
+                <li>
+                  <Link
+                    href="/blogs/"
+                    className="text-neutral-900 font-semibold hover:text-brand transition-colors duration-200 text-[15px]"
+                  >
+                    View All Blogs
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
