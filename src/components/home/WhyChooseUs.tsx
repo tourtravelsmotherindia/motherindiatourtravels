@@ -33,22 +33,22 @@ export default function WhyChooseUs() {
         className="mb-5 md:mb-16"
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 max-w-[1100px] mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8 max-w-[1100px] mx-auto">
         {features.map((feature, idx) => (
           <div
             key={idx}
-            className="flex flex-row md:flex-col items-center md:items-center text-left md:text-center group bg-neutral-50/60 md:bg-transparent p-4 md:p-0 rounded-2xl md:rounded-none border border-neutral-100 md:border-none gap-4 md:gap-0"
+            className="flex flex-row lg:flex-col items-center lg:items-center text-left lg:text-center group bg-neutral-50/60 lg:bg-transparent p-4 lg:p-0 rounded-2xl lg:rounded-none border border-neutral-100 lg:border-none gap-4 lg:gap-0"
           >
-            <div className="text-slate-800 group-hover:text-neutral-900 transition-all duration-300 transform group-hover:scale-105 ease-out md:mb-5 shrink-0 p-2.5 md:p-0 bg-white md:bg-transparent rounded-xl shadow-xs md:shadow-none">
+            <div className="text-slate-800 group-hover:text-neutral-900 transition-all duration-300 transform group-hover:scale-105 ease-out lg:mb-5 shrink-0 p-2.5 lg:p-0 bg-white lg:bg-transparent rounded-xl shadow-xs lg:shadow-none">
               {React.cloneElement(feature.icon, {
-                className: "w-6 h-6 md:w-14 md:h-14 stroke-[1.5] md:stroke-[1.25]",
+                className: "w-6 h-6 lg:w-14 lg:h-14 stroke-[1.5] lg:stroke-[1.25]",
               })}
             </div>
             <div>
-              <h3 className="text-base md:text-2xl font-bold text-foreground tracking-tight md:mb-2.5">
+              <h3 className="text-base lg:text-2xl font-bold text-foreground tracking-tight lg:mb-2.5">
                 {feature.title}
               </h3>
-              <p className="text-muted text-xs md:text-sm font-normal leading-relaxed max-w-[280px] mt-0.5 md:mt-0">
+              <p className="text-muted text-xs lg:text-sm font-normal leading-relaxed max-w-[280px] mt-0.5 lg:mt-0">
                 {feature.description}
               </p>
             </div>

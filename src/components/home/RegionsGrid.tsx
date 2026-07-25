@@ -29,7 +29,7 @@ export default function RegionsGrid({ regions }: { regions: Region[] }) {
         mobileLayout="row"
       />
 
-      <div className="flex overflow-x-auto gap-4 sm:gap-8 snap-x snap-mandatory no-scrollbar pb-4 sm:pb-0 sm:grid sm:grid-cols-2 md:grid-cols-3">
+      <div className="flex overflow-x-auto gap-4 sm:gap-8 snap-x snap-mandatory no-scrollbar pb-4 sm:pb-0 sm:grid sm:grid-cols-2 lg:grid-cols-3">
         {regions.map((region, idx) => {
           return (
             <div
