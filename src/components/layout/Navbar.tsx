@@ -652,7 +652,7 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
     <header
       className={`fixed left-0 right-0 z-50 transition-all duration-500 ${
         scrolled || !isTransparentPage
-          ? "top-3 md:top-4 layout-container"
+          ? "top-3 lg:top-4 layout-container"
           : "top-0 w-full px-6 md:px-12 lg:px-24 bg-gradient-to-b from-black/40 to-transparent"
       }`}
     >
@@ -692,13 +692,13 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
           </div>
         </Link>
 
-        <div className="hidden md:flex items-center gap-6 lg:gap-8">
+        <div className="hidden lg:flex items-center gap-4 xl:gap-8">
           {navLinks.map((link) => {
             if (link.submenu) {
               return (
                 <div key={link.name} className="relative group py-2">
                   <button
-                    className={`flex items-center gap-1.5 font-semibold text-sm transition-colors duration-200 cursor-pointer select-none ${
+                    className={`flex items-center gap-1.5 font-semibold text-[13px] xl:text-sm transition-colors duration-200 cursor-pointer select-none ${
                       !scrolled && isTransparentPage
                         ? "text-white hover:text-white/70"
                         : "text-foreground hover:text-brand"
@@ -764,7 +764,7 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
               <Link
                 key={link.name}
                 href={getHref(link.href)}
-                className={`font-semibold text-sm transition-colors duration-200 ${
+                className={`font-semibold text-[13px] xl:text-sm transition-colors duration-200 ${
                   !scrolled && isTransparentPage
                     ? "text-white hover:text-white/70"
                     : "text-foreground hover:text-brand"
@@ -781,7 +781,7 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
             href="/search"
             className={`p-2 sm:p-2.5 rounded-full border transition-all duration-500 flex items-center justify-center cursor-pointer ${
               !scrolled && isTransparentPage
-                ? "border-white/20 text-white hover:bg-white/10 hover:border-white/40 md:opacity-100 md:scale-100 opacity-0 scale-95 pointer-events-none md:pointer-events-auto"
+                ? "border-white/20 text-white hover:bg-white/10 hover:border-white/40 lg:opacity-100 lg:scale-100 opacity-0 scale-95 pointer-events-none lg:pointer-events-auto"
                 : "border-border-light text-foreground hover:bg-neutral-50 hover:text-brand hover:border-neutral-300 opacity-100 scale-100 pointer-events-auto"
             }`}
             aria-label="Search"
@@ -793,7 +793,7 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
             href="/wishlist"
             className={`p-2 sm:p-2.5 rounded-full border transition-all duration-500 flex items-center justify-center cursor-pointer ${
               !scrolled && isTransparentPage
-                ? "border-white/20 text-white hover:bg-white/10 hover:border-white/40 md:opacity-100 md:scale-100 opacity-0 scale-95 pointer-events-none md:pointer-events-auto"
+                ? "border-white/20 text-white hover:bg-white/10 hover:border-white/40 lg:opacity-100 lg:scale-100 opacity-0 scale-95 pointer-events-none lg:pointer-events-auto"
                 : "border-border-light text-foreground hover:bg-neutral-50 hover:text-brand hover:border-neutral-300 opacity-100 scale-100 pointer-events-auto"
             }`}
             aria-label="Wishlist"
@@ -801,7 +801,7 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
             <Heart className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
           </Link>
 
-          <div className="hidden md:block">
+          <div className="hidden lg:block">
             <Dropdown
               options={languageOptions}
               value={lang}
@@ -821,7 +821,7 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
           <button
             type="button"
             onClick={toggleMenu}
-            className={`md:hidden p-2 rounded-full transition-colors duration-200 ${
+            className={`lg:hidden p-2 rounded-full transition-colors duration-200 ${
               !scrolled && isTransparentPage
                 ? "text-white hover:text-white/80 hover:bg-white/10"
                 : "text-foreground hover:text-brand hover:bg-neutral-100"
@@ -840,7 +840,7 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
-            className="absolute top-24 left-4 right-4 bg-white rounded-2xl p-5 shadow-premium border border-border-light flex flex-col gap-4 md:hidden z-40 max-h-[80vh] overflow-y-auto dropdown-scrollbar"
+            className="absolute top-24 left-4 right-4 bg-white rounded-2xl p-5 shadow-premium border border-border-light flex flex-col gap-4 lg:hidden z-40 max-h-[80vh] overflow-y-auto dropdown-scrollbar"
           >
             <div className="flex flex-col gap-2">
               {navLinks.map((link) => {
