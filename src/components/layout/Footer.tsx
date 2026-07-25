@@ -310,6 +310,7 @@ export default function Footer({
                   { name: "My Wishlist", href: "/wishlist" },
                   { name: "Travel Blog", href: "/blogs" },
                   { name: "FAQs", href: "/faqs" },
+                  { name: "Customer Reviews", href: "/reviews" },
                   { name: "Gallery", href: "#gallery" },
                   { name: "Contact Us", href: "/contact" },
                 ].map((link) => (

@@ -1,5 +1,6 @@
 import SectionHeader from "@/components/shared/SectionHeader";
 import TestimonialMarquee from "@/components/ui/marquee-01";
+import SeeAllLink from "@/components/ui/SeeAllLink";
 import { type ReviewItem } from "@/types/review";
 
 export default function TravelerMoments({ testimonials }: { testimonials: ReviewItem[] }) {
@@ -8,6 +9,7 @@ export default function TravelerMoments({ testimonials }: { testimonials: Review
       <SectionHeader
         title="What Our Customers Say"
         subtitle="Hear from our adventurers about their recent travel experiences"
+        rightSlot={<SeeAllLink href="/reviews" label="See All Reviews" />}
       />
       <div className="mt-8">
         <TestimonialMarquee testimonials={testimonials} />

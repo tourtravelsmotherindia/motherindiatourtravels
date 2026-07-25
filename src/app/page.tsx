@@ -17,7 +17,7 @@ import { getFAQSectionData } from "@/lib/db/repositories/faqRepo";
 import { getGallerySectionData } from "@/lib/db/repositories/galleryRepo";
 import { getHeroConfig } from "@/lib/db/repositories/heroRepo";
 import { getAllPackages } from "@/lib/db/repositories/packageRepo";
-import { getAllTestimonials } from "@/lib/db/repositories/testimonialRepo";
+import { getFeaturedTestimonials } from "@/lib/db/repositories/testimonialRepo";
 
 export default async function Home() {
   const [
@@ -37,7 +37,7 @@ export default async function Home() {
     getFeaturedDestinationsSectionData(),
     getGallerySectionData(),
     getDestinationsByRegion(),
-    getAllTestimonials(),
+    getFeaturedTestimonials(),
   ]);
 
   return (
