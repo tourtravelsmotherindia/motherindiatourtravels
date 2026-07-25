@@ -1,9 +1,28 @@
+import { withBuildCache } from "@/lib/db/buildCache";
 import { prisma } from "@/lib/db/prisma";
-import type { BlogPostDetail, BlogPostItem } from "@/types/blog";
+import type { BlogPostCategoryItem, BlogPostDetail, BlogPostItem } from "@/types/blog";
 
 const blogInclude = {
   destination: { select: { name: true, slug: true } },
   category: { select: { name: true, slug: true } },
+  state: { select: { name: true, slug: true } },
+  country: { select: { name: true, slug: true } },
+  relatedPackages: {
+    include: {
+      package: {
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          heroImage: true,
+          variants: {
+            where: { isDefault: true },
+            select: { basePrice: true, discountedPrice: true },
+          },
+        },
+      },
+    },
+  },
 } as const;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -27,35 +46,83 @@ function mapBlogPost(b: any): BlogPostItem {
     categoryId: b.categoryId,
     categoryName: b.category?.name ?? null,
     categorySlug: b.category?.slug ?? null,
+    stateId: b.stateId,
+    stateName: b.state?.name ?? null,
+    stateSlug: b.state?.slug ?? null,
+    countryId: b.countryId,
+    countryName: b.country?.name ?? null,
+    countrySlug: b.country?.slug ?? null,
+    seoTitle: b.seoTitle ?? "",
+    seoDescription: b.seoDescription ?? "",
+    seoKeywords: b.seoKeywords ?? [],
+    images: b.images ?? [],
     createdAt: b.createdAt,
     updatedAt: b.updatedAt,
   };
 }
 
 export async function getPublishedBlogPosts(): Promise<BlogPostItem[]> {
-  const posts = await prisma.blogPost.findMany({
-    where: { isPublished: true },
-    include: blogInclude,
-    orderBy: { publishedAt: "desc" },
+  return withBuildCache("published-blog-posts", async () => {
+    const posts = await prisma.blogPost.findMany({
+      where: { isPublished: true },
+      include: blogInclude,
+      orderBy: { publishedAt: "desc" },
+    });
+    return posts.map(mapBlogPost);
   });
-  return posts.map(mapBlogPost);
 }
 
 export async function getFeaturedBlogPosts(): Promise<BlogPostItem[]> {
-  const posts = await prisma.blogPost.findMany({
-    where: { isPublished: true, isFeatured: true },
-    include: blogInclude,
-    orderBy: { publishedAt: "desc" },
+  return withBuildCache("featured-blog-posts", async () => {
+    const posts = await prisma.blogPost.findMany({
+      where: { isPublished: true, isFeatured: true },
+      include: blogInclude,
+      orderBy: { publishedAt: "desc" },
+    });
+    return posts.map(mapBlogPost);
   });
-  return posts.map(mapBlogPost);
 }
 
 export async function getBlogPostBySlug(slug: string): Promise<BlogPostDetail | null> {
-  const post = await prisma.blogPost.findUnique({
-    where: { slug },
-    include: blogInclude,
-  });
-  if (!post || !post.isPublished) return null;
+  return withBuildCache(`blog-post-detail-${slug}`, async () => {
+    const post = await prisma.blogPost.findUnique({
+      where: { slug },
+      include: blogInclude,
+    });
+    if (!post || !post.isPublished) return null;
 
-  return { ...mapBlogPost(post), content: post.content };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const relatedPackages = (post.relatedPackages || []).map((rp: any) => {
+      const pkg = rp.package;
+      const defaultVariant = pkg.variants?.[0] ?? null;
+      return {
+        id: pkg.id,
+        name: pkg.name,
+        slug: pkg.slug,
+        heroImage: pkg.heroImage,
+        basePrice: defaultVariant?.basePrice ?? null,
+        discountedPrice: defaultVariant?.discountedPrice ?? null,
+      };
+    });
+
+    return {
+      ...mapBlogPost(post),
+      content: post.content,
+      relatedPackages,
+    };
+  });
+}
+
+export async function getBlogCategories(): Promise<BlogPostCategoryItem[]> {
+  return withBuildCache("blog-categories", async () => {
+    return prisma.blogPostCategory.findMany({
+      orderBy: { sortOrder: "asc" },
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        sortOrder: true,
+      },
+    });
+  });
 }

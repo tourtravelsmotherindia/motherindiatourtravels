@@ -4,6 +4,7 @@ export interface BlogPostCategoryItem {
   id: string;
   name: string;
   slug: string;
+  sortOrder?: number;
 }
 
 export interface BlogPostItem {
@@ -25,10 +26,28 @@ export interface BlogPostItem {
   categoryId: string | null;
   categoryName: string | null;
   categorySlug: string | null;
+  stateId: string | null;
+  stateName: string | null;
+  stateSlug: string | null;
+  countryId: string | null;
+  countryName: string | null;
+  countrySlug: string | null;
+  seoTitle: string;
+  seoDescription: string;
+  seoKeywords: string[];
+  images: string[];
   createdAt: Date;
   updatedAt: Date;
 }
 
 export interface BlogPostDetail extends BlogPostItem {
   content: string; // Markdown
+  relatedPackages: Array<{
+    id: string;
+    name: string;
+    slug: string;
+    heroImage: string;
+    basePrice: number | null;
+    discountedPrice: number | null;
+  }>;
 }

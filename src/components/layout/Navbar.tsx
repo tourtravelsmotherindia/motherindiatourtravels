@@ -643,7 +643,7 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
       href: "/destinations",
     },
     { name: "Regions", href: "/regions/" },
-    { name: "Blog", href: "#blog" },
+    { name: "Blog", href: "/blogs" },
     { name: "Gallery", href: "#gallery" },
     { name: "Contact", href: "/contact" },
   ];

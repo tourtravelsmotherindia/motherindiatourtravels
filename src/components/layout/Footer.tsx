@@ -308,7 +308,7 @@ export default function Footer({
                   { name: "About Us", href: "/about" },
                   { name: "Tour Packages", href: "/packages" },
                   { name: "My Wishlist", href: "/wishlist" },
-                  { name: "Travel Blog", href: "#blog" },
+                  { name: "Travel Blog", href: "/blogs" },
                   { name: "FAQs", href: "/faqs" },
                   { name: "Gallery", href: "#gallery" },
                   { name: "Contact Us", href: "/contact" },

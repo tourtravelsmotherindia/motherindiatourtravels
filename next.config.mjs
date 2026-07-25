@@ -38,6 +38,11 @@ const nextConfig = {
   generateBuildId: async () => {
     return "motherindiatourtravels-static";
   },
+
+  experimental: {
+    workerThreads: false,
+    cpus: 1,
+  },
 };
 
 export default nextConfig;

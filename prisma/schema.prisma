@@ -38,6 +38,7 @@ model Country {
   states       State[]
   destinations Destination[]
   packages     Package[]
+  blogPosts    BlogPost[]
 
   @@index([slug])
   @@index([isFeatured])
@@ -59,6 +60,7 @@ model State {
   country      Country       @relation(fields: [countryId], references: [id])
   destinations Destination[]
   packages     Package[]
+  blogPosts    BlogPost[]
 
   @@index([countryId])
   @@index([slug])
@@ -197,6 +199,7 @@ model Package {
   categories       PackageCategory[]
   variants         PackageVariant[]
   bookingInquiries BookingInquiry[]
+  blogPosts        BlogPostPackage[]
 
   @@index([slug])
   @@index([isPopular])
@@ -353,9 +356,10 @@ model GalleryImage {
 }
 
 model BlogPostCategory {
-  id   String @id @default(cuid())
-  name String
-  slug String @unique
+  id        String @id @default(cuid())
+  name      String
+  slug      String @unique
+  sortOrder Int    @default(0)
 
   posts BlogPost[]
 
@@ -378,16 +382,39 @@ model BlogPost {
   tags               String[]
   destinationId      String?
   categoryId         String?
+  stateId            String?
+  countryId          String?
+  seoTitle           String    @default("")
+  seoDescription     String    @default("")
+  seoKeywords        String[]
+  images             String[]
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
 
   destination Destination?      @relation(fields: [destinationId], references: [id], onDelete: SetNull)
   category    BlogPostCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  state       State?            @relation(fields: [stateId], references: [id], onDelete: SetNull)
+  country     Country?          @relation(fields: [countryId], references: [id], onDelete: SetNull)
+  relatedPackages BlogPostPackage[]
 
   @@index([slug])
   @@index([isPublished])
   @@index([isFeatured])
   @@index([destinationId])
+  @@index([stateId])
+  @@index([countryId])
+}
+
+model BlogPostPackage {
+  blogPostId String
+  packageId  String
+
+  blogPost BlogPost @relation(fields: [blogPostId], references: [id], onDelete: Cascade)
+  package  Package  @relation(fields: [packageId], references: [id], onDelete: Cascade)
+
+  @@id([blogPostId, packageId])
+  @@index([blogPostId])
+  @@index([packageId])
 }
 
 // LEAD CAPTURE GROUP
