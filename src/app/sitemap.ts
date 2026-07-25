@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next";
 
+import { getPublishedBlogPosts } from "@/lib/db/repositories/blogRepo";
 import { getCompanyData } from "@/lib/db/repositories/companyRepo";
 import { getAllDestinations } from "@/lib/db/repositories/destinationRepo";
 import { getAllPackages } from "@/lib/db/repositories/packageRepo";
@@ -19,6 +20,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: "packages", priority: 0.9, changefreq: "daily" },
     { url: "destinations", priority: 0.9, changefreq: "daily" },
     { url: "regions", priority: 0.8, changefreq: "weekly" },
+    { url: "blogs", priority: 0.8, changefreq: "daily" },
     { url: "faqs", priority: 0.7, changefreq: "weekly" },
     { url: "privacy-policy", priority: 0.3, changefreq: "monthly" },
     { url: "terms-of-service", priority: 0.3, changefreq: "monthly" },
@@ -63,5 +65,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
   );
 
-  return [...staticEntries, ...destinationEntries, ...packageEntries, ...variantEntries];
+  // 5. Blogs
+  const blogs = await getPublishedBlogPosts();
+  const blogEntries = blogs.map((b) => ({
+    url: `${baseUrl}/blogs/${b.slug}/`,
+    lastModified: b.updatedAt ? new Date(b.updatedAt) : new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.7,
+  }));
+
+  return [
+    ...staticEntries,
+    ...destinationEntries,
+    ...packageEntries,
+    ...variantEntries,
+    ...blogEntries,
+  ];
 }
