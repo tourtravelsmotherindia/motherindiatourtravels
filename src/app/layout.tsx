@@ -1,6 +1,6 @@
 import "./globals.css";
 
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Poppins } from "next/font/google";
 import localFont from "next/font/local";
 
@@ -44,6 +44,12 @@ const tripSans = localFont({
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://motherindiatourtravels.com"),
   title: "Mother India Tour Travels | Escape the City, Find Your Peace",
@@ -75,9 +81,13 @@ export default async function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
+      style={{ backgroundColor: "#051b2e" }}
       className={`${poppins.variable} ${tripSans.variable} h-full antialiased`}
     >
       <head>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="theme-color" content="#051b2e" />
         {/* Google Consent Mode Defaults */}
         <script
           dangerouslySetInnerHTML={{

@@ -109,7 +109,7 @@ The codebase uses **highly rounded, organic shapes** to prevent a boxy feel. The
   - `shadow-card` — card hover states
 - **Cards at rest**: No heavy shadow (use shadow-sm or none). No hover shadow elevation effects are allowed.
 - **Borders**: Input fields and general section dividers can use subtle borders. For tour package cards, the image must touch the top, left, and right edges, with a thin border container outline.
-- **Card Hover Transitions**: Cards must NOT transition their title/header text to the brand orange color on hover, and must NOT elevate their shadow on hover. Title text should remain its base color, and card shadow elevation should remain flat.
+- **Card Hover Transitions**: Cards must transition their title/header text to the brand orange color on hover (`group-hover:text-brand transition-colors duration-200`), but must NOT elevate their shadow on hover. Card shadow elevation should remain flat.
 - **Accent Borders**: Do not use colored accent borders (such as `border-l-[3px]` or custom left-accent lines) on notification banner cards, system health monitors, or status widgets. This reduces visual noise and keeps the dashboard minimal. Use standard subtle borders and soft background colors instead.
 - **Forbidden**: `shadow-lg`, `shadow-xl`, custom dark box-shadows, heavy borders.
 
@@ -117,7 +117,9 @@ The codebase uses **highly rounded, organic shapes** to prevent a boxy feel. The
 
 ## Spacing & Layout
 
-- **Section vertical padding**: All major landing-page sections use `py-24` (96px top and bottom). Do not deviate.
+- **Section vertical padding**: Homepage sections use `py-gap-section` where `--gap-section-val` is configured responsively (36px on mobile, 56px on desktop) to ensure elegant, compact spacing. Total gap between adjacent landing sections is twice this value (72px mobile / 112px desktop).
+- **Major spacing shifts**: A major section-shift gap before the footer uses `pb-gap-major` (56px mobile / 80px desktop) for proper breathing room.
+- **Card layout flow gaps**: Within all card types (Tours, Blogs), keep internal gaps minimal: Badge to title uses `mb-card-micro` (8px), Title to description uses `mb-card-small` (12px).
 - **Layout container**: Always use the `layout-container` utility class (defined in `globals.css`) for full-width section wrappers:
   - `max-width: 1800px` + horizontal auto-margins
   - Responsive padding: `px-6` (default) → `px-12` (md: 768px) → `px-[4.5rem]` (lg: 1024px) → `px-24` (xl: 1280px) → `px-28` (2xl: 1536px)
@@ -132,3 +134,20 @@ The codebase uses **highly rounded, organic shapes** to prevent a boxy feel. The
 - **Scrollbar Default** (`html, body`): 6px thin, `#E5E5E5` thumb, transparent track, hover → `#D4D4D4`
 - **Dropdown Scrollbar** (`.dropdown-scrollbar`): 5px thin, same color scheme — apply to scrollable dropdown menus
 - **Hidden Scrollbar** (`.no-scrollbar`): Hides scrollbar entirely while preserving scroll — use on horizontal mobile card rows
+
+---
+
+## iOS Safe Area & Status Bar Overlays
+
+- **Full-Bleed Media Layouts**: On full-screen image displays (Hero slideshow sliders, 404 remote island background page), layouts must bleed fully under the iOS top safe area (status bar).
+- **Viewport Config**: Set `viewportFit: "cover"` in Next.js viewport metadata to let the layout span the entire screen.
+- **Translucent Top Status Bar**: Declare the status bar as translucent in `<head>` so text elements overlay on top of full-bleed backgrounds without letterboxing:
+  `<meta name="apple-mobile-web-app-capable" content="yes" />`
+  `<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />`
+
+---
+
+## Active States & Page Routing Rules
+
+- **Category & Tab State Colors (Strict)**: Active indicators on structural tab switchers, category pages, and paginated buttons must use neutral greyscale (Active = `#111111` or deep grey background, Inactive = transparent, hover = `#F5F5F5` light grey background), never brand orange.
+- **Trailing Slash Redirection**: The Next.js static export requires all routes to be exported as folders containing `index.html` (via `trailingSlash: true` config). To prevent 404 errors during development and local page loads, Next.js routing must always enforce automatic trailing slash redirects; never set `skipTrailingSlashRedirect: true` in the Next.js configurations.

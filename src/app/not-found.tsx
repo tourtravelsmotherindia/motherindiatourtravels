@@ -16,12 +16,16 @@ export default async function NotFound() {
     <PageShell
       companyData={companyData}
       ptClass="pt-0"
+      bgClass="bg-[#051b2e]"
       transparentNavbar={true}
       className="relative flex items-center justify-center min-h-screen z-10"
     >
       <HideScrollbar />
-      {/* Background Image Container */}
-      <div className="absolute inset-0 z-0 select-none">
+      {/* Background Image — extended into iOS safe area so it renders behind the status bar */}
+      <div
+        style={{ top: "calc(-1 * env(safe-area-inset-top, 0px))" }}
+        className="absolute left-0 right-0 bottom-0 z-0 select-none"
+      >
         <Image
           src={bgImage}
           alt="Oops! You landed on a remote island..."

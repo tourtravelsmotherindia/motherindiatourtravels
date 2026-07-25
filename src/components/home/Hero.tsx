@@ -107,10 +107,14 @@ export default function Hero({ heroConfig }: { heroConfig?: HeroConfigData | nul
 
   return (
     <>
-      {/* Desktop Hero (hidden on mobile, block on desktop) */}
+      {/* Desktop Hero — extended into iOS safe area so image shows behind status bar */}
       <section
         id="home"
-        className="hidden md:block relative w-full h-[100dvh] overflow-hidden bg-black touch-pan-y"
+        style={{
+          marginTop: "calc(-1 * env(safe-area-inset-top, 0px))",
+          height: "calc(100dvh + env(safe-area-inset-top, 0px))",
+        }}
+        className="hidden md:block relative w-full overflow-hidden bg-black touch-pan-y"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
         aria-label="Hero slider desktop"
@@ -215,10 +219,15 @@ export default function Hero({ heroConfig }: { heroConfig?: HeroConfigData | nul
         </div>
       </section>
 
-      {/* Mobile Hero (block on mobile, hidden on desktop) */}
+      {/* Mobile Hero — extended into iOS safe area so image shows behind status bar */}
       <section
         id="home"
-        className="block md:hidden relative w-full h-[52vh] min-h-[360px] max-h-[450px] overflow-hidden bg-black rounded-b-[2rem] shadow-premium touch-pan-y"
+        style={{
+          marginTop: "calc(-1 * env(safe-area-inset-top, 0px))",
+          minHeight: "calc(360px + env(safe-area-inset-top, 0px))",
+          maxHeight: "calc(450px + env(safe-area-inset-top, 0px))",
+        }}
+        className="block md:hidden relative w-full h-[52vh] overflow-hidden bg-black rounded-b-[2rem] shadow-premium touch-pan-y"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
         aria-label="Hero slider mobile"
