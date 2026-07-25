@@ -56,7 +56,7 @@ export default async function SitemapPage() {
         : "https://wa.me/919999042456",
     },
     { name: "Contact Support", href: "/contact/" },
-    { name: "Traveler Reviews", href: "/#testimonials" },
+    { name: "Traveler Reviews", href: "/reviews/" },
   ];
 
   const policyLinks = [
@@ -170,8 +170,9 @@ export default async function SitemapPage() {
                   <li key={idx}>
                     <Link
                       href={link.href}
-                      className={`${link.isBold ? "text-neutral-900 font-semibold" : "text-neutral-500"
-                        } hover:text-brand transition-colors duration-200 text-[15px]`}
+                      className={`${
+                        link.isBold ? "text-neutral-900 font-semibold" : "text-neutral-500"
+                      } hover:text-brand transition-colors duration-200 text-[15px]`}
                     >
                       {link.name}
                     </Link>
