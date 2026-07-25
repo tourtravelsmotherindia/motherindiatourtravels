@@ -2,19 +2,21 @@
 
 import { Search, Star } from "lucide-react";
 import Image from "next/image";
-import React, { useMemo, useRef, useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import PageShell from "@/components/layout/PageShell";
+import SegmentedControl from "@/components/ui/SegmentedControl";
 import { type CompanyData } from "@/types/company";
 import { type ReviewItem } from "@/types/review";
 
-const sources = ["All", "Google", "TripAdvisor"] as const;
-type Source = (typeof sources)[number];
+const SOURCE_OPTIONS = [
+  { label: "All Testimonials", value: "All" },
+  { label: "Google Reviews", value: "Google" },
+  { label: "TripAdvisor Reviews", value: "TripAdvisor" },
+] as const;
 
-function SourceLabel(src: Source) {
-  return src === "All" ? "All Testimonials" : `${src} Reviews`;
-}
+type Source = (typeof SOURCE_OPTIONS)[number]["value"];
 
 export default function TestimonialsClient({
   initialReviews,
@@ -25,7 +27,6 @@ export default function TestimonialsClient({
 }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSource, setSelectedSource] = useState<Source>("All");
-  const pillRef = useRef<HTMLDivElement>(null);
 
   const filteredReviews = useMemo(() => {
     return initialReviews.filter((r) => {
@@ -58,51 +59,31 @@ export default function TestimonialsClient({
         {/* Filter & Search */}
         <div className="layout-container mb-10">
           <div className="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
-            {/* Desktop: animated sliding pill switch */}
-            <div
-              className="hidden md:flex relative gap-1 p-1 bg-neutral-100/80 rounded-2xl shrink-0"
-              ref={pillRef}
-            >
-              {sources.map((src) => {
-                const isActive = selectedSource === src;
-                return (
-                  <button
-                    key={src}
-                    onClick={() => setSelectedSource(src)}
-                    className={`relative py-2 px-5 rounded-xl text-sm font-semibold transition-all duration-300 z-10 ${
-                      isActive ? "text-black" : "text-neutral-600 hover:text-black"
-                    }`}
-                  >
-                    {/* Sliding background pill */}
-                    {isActive && (
-                      <span
-                        className="absolute inset-0 bg-white rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.06)]"
-                        style={{
-                          transition: "all 0.25s cubic-bezier(0.4,0,0.2,1)",
-                        }}
-                      />
-                    )}
-                    <span className="relative z-10">{SourceLabel(src)}</span>
-                  </button>
-                );
-              })}
+            {/* Desktop: animated SegmentedControl */}
+            <div className="hidden md:block">
+              <SegmentedControl
+                options={SOURCE_OPTIONS as unknown as { label: string; value: string }[]}
+                value={selectedSource}
+                onChange={(v) => setSelectedSource(v as Source)}
+                layoutId="testimonials-source"
+              />
             </div>
 
             {/* Mobile: badge-style tabs like FAQs page */}
             <div className="flex md:hidden gap-2 overflow-x-auto pb-1 scrollbar-none snap-x -mx-4 px-4">
-              {sources.map((src) => {
-                const isActive = selectedSource === src;
+              {SOURCE_OPTIONS.map((opt) => {
+                const isActive = selectedSource === opt.value;
                 return (
                   <button
-                    key={src}
-                    onClick={() => setSelectedSource(src)}
+                    key={opt.value}
+                    onClick={() => setSelectedSource(opt.value)}
                     className={`snap-center shrink-0 py-2 px-4 rounded-full text-sm font-semibold transition-all duration-200 ${
                       isActive
                         ? "bg-neutral-100/90 text-black border border-transparent"
                         : "bg-white text-neutral-700 hover:bg-neutral-50/90 hover:text-black border border-neutral-200"
                     }`}
                   >
-                    {SourceLabel(src)}
+                    {opt.label}
                   </button>
                 );
               })}
@@ -122,7 +103,7 @@ export default function TestimonialsClient({
           </div>
         </div>
 
-        {/* Masonry reviews grid */}
+        {/* Masonry grid */}
         <div className="layout-container">
           {filteredReviews.length > 0 ? (
             <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 [column-fill:balance]">
@@ -134,7 +115,6 @@ export default function TestimonialsClient({
 
                 const cardContent = (
                   <div className="break-inside-avoid relative bg-white border border-border-light rounded-2xl p-6 hover:shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:border-neutral-300 transition-all duration-300 flex flex-col gap-4 mb-6">
-                    {/* Header: avatar, name & source badge */}
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex items-center gap-3">
                         <Image
@@ -164,7 +144,6 @@ export default function TestimonialsClient({
                       </span>
                     </div>
 
-                    {/* Star Rating */}
                     <div className="flex gap-0.5">
                       {Array.from({ length: 5 }).map((_, i) => (
                         <Star
@@ -178,7 +157,6 @@ export default function TestimonialsClient({
                       ))}
                     </div>
 
-                    {/* Review Text */}
                     {review.review && (
                       <p
                         className="text-sm text-neutral-700 leading-relaxed font-normal whitespace-pre-wrap"
