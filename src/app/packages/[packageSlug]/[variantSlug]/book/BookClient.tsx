@@ -179,7 +179,7 @@ export default function BookClient({
 
   const renderQuickSummary = () => (
     <div className="flex flex-col gap-4 font-sans text-xs md:text-sm">
-      <div className="flex flex-col pb-3 border-b border-neutral-100">
+      <div className="flex flex-col pb-3">
         <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider font-sans mb-1">
           Booking Summary
         </span>
@@ -194,11 +194,11 @@ export default function BookClient({
       </div>
 
       <div className="flex flex-col gap-2.5 font-sans mt-2">
-        <div className="flex items-center justify-between text-xs font-semibold text-neutral-800 border-b border-neutral-100 pb-2">
+        <div className="flex items-center justify-between text-xs font-semibold text-neutral-800 pb-2">
           <span>Tour Style</span>
           <span className="text-neutral-800 font-bold uppercase">{tourStyle}</span>
         </div>
-        <div className="flex items-center justify-between text-xs font-semibold text-neutral-800 border-b border-neutral-100 pb-2">
+        <div className="flex items-center justify-between text-xs font-semibold text-neutral-800 pb-2">
           <span>Duration</span>
           <span className="text-neutral-800 font-bold">
             {activeVariant.days} Days / {activeVariant.nights} Nights
@@ -393,7 +393,7 @@ export default function BookClient({
             <div className="hidden lg:block">{renderQuickSummary()}</div>
 
             {/* Travel details / trust list (Flat/Inline) */}
-            <div className="flex flex-col gap-4 font-sans text-xs md:text-sm pb-6 border-b border-neutral-100">
+            <div className="flex flex-col gap-4 font-sans text-xs md:text-sm pb-4">
               <h4 className="font-bold text-neutral-800 font-display text-sm md:text-base">
                 Why book with us?
               </h4>

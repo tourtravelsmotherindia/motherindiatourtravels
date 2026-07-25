@@ -172,7 +172,7 @@ export default function BlogsClient({ initialBlogs, categories, companyData }: B
             </div>
 
             {/* Content Column - Search Input & Blogs Grid */}
-            <div className="lg:col-span-9">
+            <div className="lg:col-span-9 lg:h-[calc(100vh-160px)] lg:overflow-y-auto lg:pr-4 dropdown-scrollbar">
               {/* Search Box (FAQ page style) */}
               <div className="relative mb-8">
                 <input
