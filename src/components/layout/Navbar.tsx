@@ -810,7 +810,7 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
               triggerClassName={`px-4 py-2 border transition-all duration-200 text-xs font-semibold w-auto shadow-none bg-transparent ${
                 !scrolled && isTransparentPage
                   ? "border-white/20 text-white hover:bg-white/10 hover:border-white/40"
-                  : "border-border-light text-foreground hover:bg-brand-light hover:text-brand hover:border-brand/30"
+                  : "border-border-light text-foreground hover:bg-neutral-50/50 hover:border-border-light"
               }`}
               menuClassName="w-64 max-h-[300px] overflow-y-auto rounded-2xl p-1"
               icon={Globe}

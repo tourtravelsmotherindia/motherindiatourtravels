@@ -230,6 +230,7 @@ export default function BlogsClient({ initialBlogs, categories, companyData }: B
 
                 <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
                   <Dropdown
+                    label="Sort By"
                     options={[
                       { value: "featured", label: "Featured" },
                       { value: "newest", label: "Newest First" },
@@ -241,7 +242,8 @@ export default function BlogsClient({ initialBlogs, categories, companyData }: B
                       setCurrentPage(1);
                     }}
                     variant="slim"
-                    label="Sort"
+                    triggerClassName="bg-white border border-neutral-200 text-neutral-700 font-semibold px-4.5 py-2 w-[180px] xs:w-[210px] md:w-[220px]"
+                    menuClassName="w-[180px] xs:w-[210px] md:w-[220px] rounded-2xl"
                   />
                 </div>
               </div>

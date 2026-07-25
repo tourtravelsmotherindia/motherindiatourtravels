@@ -240,11 +240,39 @@ function extractHeaders(markdown: string) {
   return headers;
 }
 
+interface HeaderNode {
+  id: string;
+  title: string;
+  level: number;
+  children: HeaderNode[];
+}
+
+function buildHeaderTree(headersList: { id: string; title: string; level: number }[]) {
+  const root: HeaderNode[] = [];
+  let lastH2: HeaderNode | null = null;
+
+  headersList.forEach((h) => {
+    if (h.level === 2) {
+      lastH2 = { ...h, children: [] };
+      root.push(lastH2);
+    } else if (h.level === 3) {
+      if (lastH2) {
+        lastH2.children.push({ ...h, children: [] });
+      } else {
+        root.push({ ...h, children: [] });
+      }
+    }
+  });
+
+  return root;
+}
+
 export default function BlogDetailClient({ post, companyData }: BlogDetailClientProps) {
   const [activeId, setActiveId] = useState<string>("");
   const [copied, setCopied] = useState(false);
 
   const headers = useMemo(() => extractHeaders(post.content), [post.content]);
+  const headerTree = useMemo(() => buildHeaderTree(headers), [headers]);
 
   // Highlight active ToC item based on viewport scroll position
   useEffect(() => {
@@ -402,27 +430,51 @@ export default function BlogDetailClient({ post, companyData }: BlogDetailClient
                 {post.excerpt}
               </div>
 
-              {/* Table of Contents - Mobile Only (matches PolicyLayout mobile ToC exactly) */}
+              {/* Table of Contents - Mobile Only (matches PolicyLayout mobile ToC exactly, but nested structure for H2/H3 alignment) */}
               {headers.length > 0 && (
                 <div className="block lg:hidden mb-10 py-4 border-t border-b border-neutral-100">
                   <h2 className="text-xl md:text-2xl font-bold text-neutral-900 mb-5">
                     Table of contents
                   </h2>
                   <ol className="space-y-3.5 list-decimal list-inside text-base text-neutral-700 font-semibold">
-                    {headers.map((h) => (
-                      <li
-                        key={h.id}
-                        className="text-neutral-400"
-                        style={{ marginLeft: h.level === 3 ? "1rem" : "0" }}
-                      >
-                        <a
-                          href={`#${h.id}`}
-                          className="hover:text-neutral-900 transition-colors underline decoration-neutral-300 hover:decoration-neutral-950 text-neutral-700"
-                        >
-                          {h.title}
-                        </a>
-                      </li>
-                    ))}
+                    {headerTree.map((h2) => {
+                      const isH2Active = activeId === h2.id;
+                      return (
+                        <li key={h2.id} className="text-neutral-400">
+                          <a
+                            href={`#${h2.id}`}
+                            className={`hover:text-neutral-900 transition-colors underline decoration-neutral-300 hover:decoration-neutral-950 ${
+                              isH2Active
+                                ? "text-neutral-900 font-bold decoration-neutral-950"
+                                : "text-neutral-700"
+                            }`}
+                          >
+                            {h2.title}
+                          </a>
+                          {h2.children.length > 0 && (
+                            <ol className="mt-2.5 ml-6 space-y-2.5 list-decimal text-sm font-semibold">
+                              {h2.children.map((h3) => {
+                                const isH3Active = activeId === h3.id;
+                                return (
+                                  <li key={h3.id} className="text-neutral-450">
+                                    <a
+                                      href={`#${h3.id}`}
+                                      className={`transition-all duration-200 underline decoration-neutral-200 hover:decoration-neutral-900 ${
+                                        isH3Active
+                                          ? "text-neutral-900 font-bold underline decoration-neutral-900"
+                                          : "text-neutral-600 hover:text-neutral-900"
+                                      }`}
+                                    >
+                                      {h3.title}
+                                    </a>
+                                  </li>
+                                );
+                              })}
+                            </ol>
+                          )}
+                        </li>
+                      );
+                    })}
                   </ol>
                   <div className="flex justify-end mt-4">
                     <button
@@ -581,7 +633,7 @@ export default function BlogDetailClient({ post, companyData }: BlogDetailClient
               </div>
             </div>
 
-            {/* Right Sticky Sidebar — Desktop Table of Contents (matches PolicyLayout exactly) */}
+            {/* Right Sticky Sidebar — Desktop Table of Contents (matches PolicyLayout exactly, but nested structure for H2/H3 alignment) */}
             <div className="hidden lg:block lg:col-span-4 sticky top-28 pl-4 space-y-10">
               {headers.length > 0 && (
                 <div>
@@ -589,24 +641,41 @@ export default function BlogDetailClient({ post, companyData }: BlogDetailClient
                     Table of contents
                   </h2>
                   <ol className="space-y-3.5 list-decimal list-inside text-base font-semibold">
-                    {headers.map((h) => {
-                      const isActive = activeId === h.id;
+                    {headerTree.map((h2) => {
+                      const isH2Active = activeId === h2.id;
                       return (
-                        <li
-                          key={h.id}
-                          className="text-neutral-400"
-                          style={{ marginLeft: h.level === 3 ? "1rem" : "0" }}
-                        >
+                        <li key={h2.id} className="text-neutral-400">
                           <a
-                            href={`#${h.id}`}
+                            href={`#${h2.id}`}
                             className={`transition-all duration-200 underline decoration-neutral-300 hover:decoration-neutral-950 ${
-                              isActive
+                              isH2Active
                                 ? "text-neutral-900 font-bold underline decoration-neutral-950"
                                 : "text-neutral-700 hover:text-neutral-900"
                             }`}
                           >
-                            {h.title}
+                            {h2.title}
                           </a>
+                          {h2.children.length > 0 && (
+                            <ol className="mt-2.5 ml-6 space-y-2.5 list-decimal text-sm font-semibold">
+                              {h2.children.map((h3) => {
+                                const isH3Active = activeId === h3.id;
+                                return (
+                                  <li key={h3.id} className="text-neutral-450">
+                                    <a
+                                      href={`#${h3.id}`}
+                                      className={`transition-all duration-200 underline decoration-neutral-200 hover:decoration-neutral-900 ${
+                                        isH3Active
+                                          ? "text-neutral-900 font-bold underline decoration-neutral-900"
+                                          : "text-neutral-600 hover:text-neutral-900"
+                                      }`}
+                                    >
+                                      {h3.title}
+                                    </a>
+                                  </li>
+                                );
+                              })}
+                            </ol>
+                          )}
                         </li>
                       );
                     })}
