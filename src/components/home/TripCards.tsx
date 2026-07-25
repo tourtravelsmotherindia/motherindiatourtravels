@@ -6,11 +6,19 @@ import { useState } from "react";
 import PackageCard from "@/components/shared/PackageCard";
 import SectionHeader from "@/components/shared/SectionHeader";
 import SeeAllLink from "@/components/ui/SeeAllLink";
+import SegmentedControl from "@/components/ui/SegmentedControl";
 import { useFavorites } from "@/lib/hooks/useFavorites";
 import { type PackageItem } from "@/types/package";
 
+const TRIP_TYPE_OPTIONS = [
+  { label: "Domestic", value: "domestic" },
+  { label: "International", value: "international" },
+] as const;
+
+type TripType = (typeof TRIP_TYPE_OPTIONS)[number]["value"];
+
 export default function TripCards({ packages }: { packages: PackageItem[] }) {
-  const [isDomestic, setIsDomestic] = useState(true);
+  const [tripType, setTripType] = useState<TripType>("domestic");
   const { isFavorite, toggleFavorite } = useFavorites();
 
   const featuredPackages = packages.filter((pkg) => pkg.isFeatured);
@@ -18,43 +26,16 @@ export default function TripCards({ packages }: { packages: PackageItem[] }) {
   const domesticPackages = featuredPackages.filter((pkg) => pkg.isDomestic).slice(0, 4);
   const internationalPackages = featuredPackages.filter((pkg) => !pkg.isDomestic).slice(0, 4);
 
-  const currentTrips = isDomestic ? domesticPackages : internationalPackages;
+  const currentTrips = tripType === "domestic" ? domesticPackages : internationalPackages;
 
   const rightSlot = (
     <div className="flex flex-wrap items-center justify-between sm:justify-start gap-3 sm:gap-6 w-full sm:w-auto">
-      <div className="bg-neutral-100 p-1 rounded-full flex gap-1 border border-neutral-200/50 relative">
-        <button
-          onClick={() => setIsDomestic(true)}
-          className={`relative px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-semibold uppercase tracking-wider transition-colors duration-200 z-10 cursor-pointer select-none ${
-            isDomestic ? "text-foreground" : "text-muted hover:text-foreground"
-          }`}
-        >
-          {isDomestic && (
-            <motion.span
-              layoutId="activeTripTab"
-              className="absolute inset-0 bg-white rounded-full shadow-sm -z-10"
-              transition={{ type: "spring", stiffness: 380, damping: 30 }}
-            />
-          )}
-          Domestic
-        </button>
-        <button
-          onClick={() => setIsDomestic(false)}
-          className={`relative px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-semibold uppercase tracking-wider transition-colors duration-200 z-10 cursor-pointer select-none ${
-            !isDomestic ? "text-foreground" : "text-muted hover:text-foreground"
-          }`}
-        >
-          {!isDomestic && (
-            <motion.span
-              layoutId="activeTripTab"
-              className="absolute inset-0 bg-white rounded-full shadow-sm -z-10"
-              transition={{ type: "spring", stiffness: 380, damping: 30 }}
-            />
-          )}
-          International
-        </button>
-      </div>
-
+      <SegmentedControl
+        options={TRIP_TYPE_OPTIONS as unknown as { label: string; value: string }[]}
+        value={tripType}
+        onChange={(v) => setTripType(v as TripType)}
+        layoutId="trip-type"
+      />
       <SeeAllLink href="/packages" label="See All" />
     </div>
   );
@@ -68,7 +49,7 @@ export default function TripCards({ packages }: { packages: PackageItem[] }) {
       />
 
       <motion.div
-        key={isDomestic ? "domestic" : "international"}
+        key={tripType}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3, ease: "easeOut" }}
