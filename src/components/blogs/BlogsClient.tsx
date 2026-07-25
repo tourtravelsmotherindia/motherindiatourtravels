@@ -287,16 +287,12 @@ export default function BlogsClient({ initialBlogs, categories, companyData }: B
 
                         {/* Blog Content */}
                         <div className="flex-1 flex flex-col items-start">
-                          {/* Meta Row (Desktop: one line, Mobile: Category then Date/Time) */}
-                          <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-3 mb-3 text-xs font-semibold text-neutral-400">
+                          {/* Meta Row (Desktop: Date on left, Category right-aligned on right. Mobile: Category then Date) */}
+                          <div className="flex flex-col md:flex-row-reverse md:justify-between md:items-center gap-2 md:gap-3 mb-3 text-xs font-semibold text-neutral-400 w-full">
                             {blog.categoryName && (
                               <span className="self-start md:self-auto px-3.5 py-1 bg-neutral-100 text-[10px] font-bold uppercase tracking-wider rounded-full text-neutral-500">
                                 {blog.categoryName}
                               </span>
-                            )}
-
-                            {blog.categoryName && (
-                              <span className="hidden md:inline text-neutral-300">•</span>
                             )}
 
                             <div className="flex items-center gap-3">
