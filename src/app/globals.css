@@ -121,6 +121,25 @@ body {
   overflow-x: hidden;
 }
 
+/* Prevent auto-zoom on mobile (iOS Safari) when focusing text inputs, textareas, and select elements */
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not(
+    [type="file"]
+  ),
+textarea,
+select {
+  font-size: 16px;
+}
+
+@media screen and (max-width: 768px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not(
+      [type="file"]
+    ),
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
 h1,
 h2,
 h3,

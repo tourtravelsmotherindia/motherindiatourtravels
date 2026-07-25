@@ -262,7 +262,7 @@ export default function PopupModal() {
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
                       placeholder="Type your name"
-                      className="w-full bg-white border border-neutral-200 rounded-full pl-11 pr-5 py-3 text-sm focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200 text-neutral-800 placeholder-neutral-400"
+                      className="w-full bg-white border border-neutral-200 rounded-full pl-11 pr-5 py-3 text-base focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200 text-neutral-800 placeholder-neutral-400"
                     />
                   </div>
                 </div>
@@ -279,7 +279,7 @@ export default function PopupModal() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="Type your email address"
-                      className="w-full bg-white border border-neutral-200 rounded-full pl-11 pr-5 py-3 text-sm focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200 text-neutral-800 placeholder-neutral-400"
+                      className="w-full bg-white border border-neutral-200 rounded-full pl-11 pr-5 py-3 text-base focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200 text-neutral-800 placeholder-neutral-400"
                     />
                   </div>
                 </div>
@@ -407,7 +407,7 @@ export default function PopupModal() {
                         value={travellers}
                         onChange={(e) => setTravellers(e.target.value)}
                         placeholder="1"
-                        className="w-full bg-white border border-neutral-200 rounded-full pl-11 pr-5 py-3 text-sm focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200 text-neutral-800 placeholder-neutral-400"
+                        className="w-full bg-white border border-neutral-200 rounded-full pl-11 pr-5 py-3 text-base focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200 text-neutral-800 placeholder-neutral-400"
                       />
                     </div>
                   </div>
@@ -423,7 +423,7 @@ export default function PopupModal() {
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       placeholder="Describe any special preferences..."
-                      className="w-full bg-white border border-neutral-200 rounded-2xl pl-11 pr-5 py-3 text-sm focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200 h-20 resize-none text-neutral-800 placeholder-neutral-400"
+                      className="w-full bg-white border border-neutral-200 rounded-2xl pl-11 pr-5 py-3 text-base focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200 h-20 resize-none text-neutral-800 placeholder-neutral-400"
                     />
                   </div>
                 </div>

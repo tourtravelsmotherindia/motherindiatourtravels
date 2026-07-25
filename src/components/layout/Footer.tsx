@@ -204,7 +204,7 @@ export default function Footer({
                     placeholder="Enter your e-mail"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="bg-transparent border-none outline-none text-sm text-neutral-800 placeholder-neutral-400 flex-grow min-w-0"
+                    className="bg-transparent border-none outline-none text-base text-neutral-800 placeholder-neutral-400 flex-grow min-w-0"
                   />
                   <button
                     type="submit"
@@ -259,13 +259,13 @@ export default function Footer({
             <ul className="flex flex-col gap-3 text-sm text-neutral-800 font-medium">
               <li className="flex items-start gap-2.5">
                 <Phone className="w-4 h-4 text-neutral-400 shrink-0 mt-0.5" />
-                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 text-neutral-800 font-medium">
+                <div className="flex flex-wrap items-center gap-1.5 text-neutral-800 font-medium">
                   {companyData.phone.map((phoneNum, idx) => (
-                    <div key={idx} className="flex items-center gap-1.5 sm:gap-2">
-                      {idx > 0 && <span className="hidden sm:inline text-neutral-300">|</span>}
+                    <div key={idx} className="flex items-center gap-1.5">
+                      {idx > 0 && <span className="text-neutral-300">|</span>}
                       <a
                         href={`tel:${phoneNum.replace(/\s+/g, "")}`}
-                        className="hover:text-neutral-950 transition-colors duration-200"
+                        className="hover:text-neutral-950 transition-colors duration-200 whitespace-nowrap"
                       >
                         {phoneNum}
                       </a>

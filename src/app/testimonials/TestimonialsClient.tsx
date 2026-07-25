@@ -96,7 +96,7 @@ export default function TestimonialsClient({
                 placeholder="Search testimonials or reviewers..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-white border border-neutral-200 rounded-2xl focus:outline-none focus:border-neutral-300 transition-all duration-200 text-neutral-900 font-medium placeholder-neutral-400 text-sm"
+                className="w-full pl-12 pr-4 py-3 bg-white border border-neutral-200 rounded-2xl focus:outline-none focus:border-neutral-300 transition-all duration-200 text-neutral-900 font-medium placeholder-neutral-400 text-base"
               />
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 w-4 h-4 pointer-events-none z-10" />
             </div>

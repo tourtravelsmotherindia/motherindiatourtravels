@@ -116,7 +116,7 @@ export default function PhoneInput({
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search country/code..."
-                  className="w-full border border-neutral-200 bg-neutral-50/50 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-neutral-300 mb-2 placeholder-neutral-400 font-sans text-neutral-800"
+                  className="w-full border border-neutral-200 bg-neutral-50/50 rounded-lg px-2.5 py-1.5 text-base focus:outline-none focus:border-neutral-300 mb-2 placeholder-neutral-400 font-sans text-neutral-800"
                 />
                 <div className="max-h-48 overflow-y-auto flex flex-col gap-0.5 pr-1 dropdown-scrollbar select-none">
                   {filteredCountries.length > 0 ? (
@@ -164,7 +164,7 @@ export default function PhoneInput({
             value={phoneNumber}
             onChange={(e) => onChange(e.target.value)}
             placeholder={placeholder}
-            className="w-full bg-white border border-neutral-200 rounded-full pl-11 pr-5 py-3 text-sm focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200 h-[46px] text-neutral-800 placeholder-neutral-400"
+            className="w-full bg-white border border-neutral-200 rounded-full pl-11 pr-5 py-3 text-base focus:outline-none focus:border-brand/50 hover:border-neutral-300 font-sans transition-all duration-200 h-[46px] text-neutral-800 placeholder-neutral-400"
           />
         </div>
       </div>

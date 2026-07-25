@@ -148,7 +148,7 @@ function LoginForm() {
                 placeholder="Enter Email Address"
                 disabled={loading}
                 required
-                className="w-full rounded-[1.25rem] border border-neutral-200 px-5 py-3.5 text-sm focus:border-brand focus:outline-none transition-colors disabled:opacity-50 font-medium placeholder:text-neutral-400"
+                className="w-full rounded-[1.25rem] border border-neutral-200 px-5 py-3.5 text-base focus:border-brand focus:outline-none transition-colors disabled:opacity-50 font-medium placeholder:text-neutral-400"
               />
             </div>
 
@@ -161,7 +161,7 @@ function LoginForm() {
                 placeholder="Password"
                 disabled={loading}
                 required
-                className="w-full rounded-[1.25rem] border border-neutral-200 pl-5 pr-14 py-3.5 text-sm focus:border-brand focus:outline-none transition-colors disabled:opacity-50 font-medium placeholder:text-neutral-400"
+                className="w-full rounded-[1.25rem] border border-neutral-200 pl-5 pr-14 py-3.5 text-base focus:border-brand focus:outline-none transition-colors disabled:opacity-50 font-medium placeholder:text-neutral-400"
               />
               <button
                 type="button"

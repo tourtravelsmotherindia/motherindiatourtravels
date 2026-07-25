@@ -62,7 +62,7 @@ export default function FormField({
             placeholder={placeholder}
             min={min}
             max={max}
-            className="w-full bg-transparent text-sm focus:outline-none font-sans text-neutral-800 placeholder-neutral-400 py-3 border-none p-0 focus:ring-0 focus:border-none focus:outline-none"
+            className="w-full bg-transparent text-base focus:outline-none font-sans text-neutral-800 placeholder-neutral-400 py-3 border-none p-0 focus:ring-0 focus:border-none focus:outline-none"
           />
         </div>
       )}

@@ -151,3 +151,10 @@ The codebase uses **highly rounded, organic shapes** to prevent a boxy feel. The
 
 - **Category & Tab State Colors (Strict)**: Active indicators on structural tab switchers, category pages, and paginated buttons must use neutral greyscale (Active = `#111111` or deep grey background, Inactive = transparent, hover = `#F5F5F5` light grey background), never brand orange.
 - **Trailing Slash Redirection**: The Next.js static export requires all routes to be exported as folders containing `index.html` (via `trailingSlash: true` config). To prevent 404 errors during development and local page loads, Next.js routing must always enforce automatic trailing slash redirects; never set `skipTrailingSlashRedirect: true` in the Next.js configurations.
+
+---
+
+## Form Controls & Mobile Input Rules
+
+- **Minimum Font Size (16px)**: All `<input>`, `<textarea>`, and `<select>` elements must have a computed font size of at least `16px` (`text-base`). WebKit / iOS Safari automatically zooms in on focus for any form control with a font size smaller than 16px (e.g. `text-sm` or `text-xs`).
+- **Global Defensive Style**: `globals.css` enforces `font-size: 16px !important` on mobile viewports for all input types to guarantee no auto-zoom occurs regardless of component-level styling.
