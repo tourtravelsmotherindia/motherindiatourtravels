@@ -156,13 +156,11 @@ const ReviewCard = ({
 export default function TestimonialMarquee({ testimonials = [] }: { testimonials?: ReviewItem[] }) {
   const activeReviews = testimonials && testimonials.length > 0 ? testimonials : fallbackReviews;
 
-  // Divide the raw activeReviews list first: 1 to 55 for the first row, 56 to rest for the second row
-  const firstRowAll = activeReviews.slice(0, 55);
-  const secondRowAll = activeReviews.slice(55);
-
-  // Then filter each row for reviews that have non-empty text
-  const firstRow = firstRowAll.filter((t) => t.review && t.review.trim() !== "");
-  const secondRow = secondRowAll.filter((t) => t.review && t.review.trim() !== "");
+  // Filter out empty reviews first, then split evenly into two rows
+  const nonEmpty = activeReviews.filter((t) => t.review && t.review.trim() !== "");
+  const mid = Math.ceil(nonEmpty.length / 2);
+  const firstRow = nonEmpty.slice(0, mid);
+  const secondRow = nonEmpty.slice(mid);
 
   if (firstRow.length === 0 && secondRow.length === 0) return null;
 
