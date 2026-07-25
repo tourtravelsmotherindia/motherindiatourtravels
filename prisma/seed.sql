@@ -7448,3 +7448,503 @@ BEGIN
   ON CONFLICT DO NOTHING;
 
 END $$;
+
+-- ─────────────────────────────────────────────
+-- BLOG CATEGORIES & POSTS
+-- ─────────────────────────────────────────────
+DO $$
+DECLARE
+  cat_planning_id TEXT := gen_random_uuid()::text;
+  cat_honeymoon_id TEXT := gen_random_uuid()::text;
+  cat_family_id TEXT := gen_random_uuid()::text;
+  cat_adventure_id TEXT := gen_random_uuid()::text;
+  cat_pilgrimage_id TEXT := gen_random_uuid()::text;
+  cat_food_id TEXT := gen_random_uuid()::text;
+  cat_offbeat_id TEXT := gen_random_uuid()::text;
+  cat_itineraries_id TEXT := gen_random_uuid()::text;
+
+  post_planning_id TEXT := gen_random_uuid()::text;
+  post_honeymoon_id TEXT := gen_random_uuid()::text;
+  post_family_id TEXT := gen_random_uuid()::text;
+  post_adventure_id TEXT := gen_random_uuid()::text;
+  post_pilgrimage_id TEXT := gen_random_uuid()::text;
+  post_food_id TEXT := gen_random_uuid()::text;
+  post_offbeat_id TEXT := gen_random_uuid()::text;
+  post_itineraries_id TEXT := gen_random_uuid()::text;
+
+  dest_munnar_id TEXT;
+  dest_leh_id TEXT;
+  dest_jaipur_id TEXT;
+  dest_srinagar_id TEXT;
+
+  pkg_kerala_id TEXT;
+  pkg_rajasthan_id TEXT;
+  pkg_varanasi_id TEXT;
+  pkg_kashmir_id TEXT;
+  pkg_golden_triangle_id TEXT;
+
+  india_country_id TEXT;
+  delhi_state_id TEXT;
+  kerala_state_id TEXT;
+  rajasthan_state_id TEXT;
+  kashmir_state_id TEXT;
+  ladakh_state_id TEXT;
+BEGIN
+  -- Clear old blog data to avoid duplicate key issues on seed re-run
+  DELETE FROM "BlogPostPackage";
+  DELETE FROM "BlogPost";
+  DELETE FROM "BlogPostCategory";
+
+  -- Insert Categories
+  INSERT INTO "BlogPostCategory" ("id", "name", "slug", "sortOrder") VALUES
+    (cat_planning_id, 'Travel Tips & Planning', 'travel-tips-planning', 1),
+    (cat_honeymoon_id, 'Honeymoon & Couple Trips', 'honeymoon-couple-trips', 2),
+    (cat_family_id, 'Family Travel', 'family-travel', 3),
+    (cat_adventure_id, 'Adventure & Trekking', 'adventure-trekking', 4),
+    (cat_pilgrimage_id, 'Pilgrimage & Spiritual Travel', 'pilgrimage-spiritual-travel', 5),
+    (cat_food_id, 'Food & Culture', 'food-culture', 6),
+    (cat_offbeat_id, 'Offbeat & Hidden Gems', 'offbeat-hidden-gems', 7),
+    (cat_itineraries_id, 'Travel Guides & Itineraries', 'travel-guides-itineraries', 8)
+  ON CONFLICT ("slug") DO UPDATE SET "name" = EXCLUDED."name", "sortOrder" = EXCLUDED."sortOrder";
+
+  -- Resolve dynamic references to destinations, packages, country, and states
+  SELECT "id" INTO dest_munnar_id FROM "Destination" WHERE "slug" = 'munnar' LIMIT 1;
+  SELECT "id" INTO dest_leh_id FROM "Destination" WHERE "slug" = 'leh' LIMIT 1;
+  SELECT "id" INTO dest_jaipur_id FROM "Destination" WHERE "slug" = 'jaipur' LIMIT 1;
+  SELECT "id" INTO dest_srinagar_id FROM "Destination" WHERE "slug" = 'srinagar' LIMIT 1;
+
+  SELECT "id" INTO pkg_kerala_id FROM "Package" WHERE "slug" = 'kerala-tours' LIMIT 1;
+  SELECT "id" INTO pkg_rajasthan_id FROM "Package" WHERE "slug" = 'rajasthan-tours' LIMIT 1;
+  SELECT "id" INTO pkg_varanasi_id FROM "Package" WHERE "slug" = 'varanasi-spiritual' LIMIT 1;
+  SELECT "id" INTO pkg_kashmir_id FROM "Package" WHERE "slug" = 'kashmir-tours' LIMIT 1;
+  SELECT "id" INTO pkg_golden_triangle_id FROM "Package" WHERE "slug" = 'delhi-agra-jaipur' LIMIT 1;
+
+  SELECT "id" INTO india_country_id FROM "Country" WHERE "slug" = 'india' LIMIT 1;
+  SELECT "id" INTO delhi_state_id FROM "State" WHERE "slug" = 'delhi' LIMIT 1;
+  SELECT "id" INTO kerala_state_id FROM "State" WHERE "slug" = 'kerala' LIMIT 1;
+  SELECT "id" INTO rajasthan_state_id FROM "State" WHERE "slug" = 'rajasthan' LIMIT 1;
+  SELECT "id" INTO kashmir_state_id FROM "State" WHERE "slug" = 'jammu-kashmir' LIMIT 1;
+  SELECT "id" INTO ladakh_state_id FROM "State" WHERE "slug" = 'ladakh' LIMIT 1;
+
+  -- 1. Travel Tips & Planning
+  INSERT INTO "BlogPost" (
+    "id", "slug", "title", "excerpt", "content", "coverImage",
+    "authorName", "authorImage", "readingTimeMinutes", "publishedAt",
+    "isPublished", "isFeatured", "tags", "destinationId", "categoryId",
+    "stateId", "countryId", "seoTitle", "seoDescription", "seoKeywords", "images", "createdAt", "updatedAt"
+  ) VALUES (
+    post_planning_id,
+    'first-time-travel-planning',
+    'First-Time India Travel Planning: 10 Essential Steps for a Smooth Vacation',
+    'Planning your first trip to India can feel overwhelming. This comprehensive, step-by-step guide walks you through choosing destinations, managing budgets, and securing permits.',
+    '## The Ultimate First-Time India Travel Planning Guide
+
+India is a beautiful, vibrant, and incredibly diverse country, but for first-time visitors, it can also present a steep learning curve. From navigating train bookings to choosing the right tour packages, a little preparation goes a long way in ensuring a memorable, stress-free journey.
+
+Here is our definitive 10-step planning checklist designed by the experts at Mother India Tour Travels.
+
+---
+
+### 1. Choose Your Region Wisely
+India is almost a continent in itself. Instead of trying to see everything in one go, focus on a specific circuit:
+*   **The Heritage Trail (North India):** The classic Golden Triangle (Delhi, Agra, Jaipur) is perfect for first-timers, showcasing Mughal forts, royal palaces, and the majestic Taj Mahal.
+*   **The Serenity Route (South India):** Kerala is ideal for a relaxed trip, famous for its lazy backwaters, tea plantations, and ayurvedic spas.
+*   **The Adventure Escapade (Himalayas):** Himachal Pradesh or Ladakh offer cold deserts, high passes, and remote monasteries.
+
+### 2. Time Your Visit Perfectly
+Weather varies greatly across India.
+*   **Winter (October to March):** Best time to visit most of India, including Rajasthan, Kerala, and the Golden Triangle. Expect pleasant days and cool nights.
+*   **Summer (April to June):** Perfect for hill stations like Shimla, Manali, and Ladakh, but plains can get extremely hot.
+*   **Monsoon (July to September):** Great for scenic greenery in Kerala or exploring Ladakh (which remains rain-shadowed).
+
+### 3. Get Your Visa Sorted Early
+Most tourists can apply for an Indian e-Visa online.
+*   Apply at least 7-14 days before your departure.
+*   Ensure your passport has at least 6 months of validity and two blank pages.
+
+### 4. Opt for Comfortable Transportation
+Getting around India is part of the experience, but comfort is key to avoiding travel fatigue.
+*   **Private AC Car with Driver:** Highly recommended for maximum flexibility. You can stop at scenic spots, travel on your own schedule, and enjoy local insights from a professional driver.
+*   **Trains:** A legendary experience, but book 1AC or 2AC class months in advance.
+
+### 5. Smart Health & Hygiene Rules
+*   **Drink Bottled Water:** Only drink sealed mineral water. Avoid ice or open tap water.
+*   **Eat Freshly Cooked Foods:** Stick to hot, freshly prepared meals. Street food is amazing, but choose busy stalls with high turnover.
+
+---
+
+### Key Takeaway
+Planning early and traveling with local experts like **Mother India Tour Travels** ensures all logistics, permits, and private transfers are handled, leaving you to simply soak in the incredible sights and sounds.',
+    'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=80',
+    'Mother India Tour Travels',
+    'https://images.motherindiatourtravels.com/logo.png',
+    8, NOW(), TRUE, TRUE, ARRAY['traveltips', 'planning', 'guide', 'first-time'], NULL, cat_planning_id,
+    delhi_state_id, india_country_id,
+    'Ultimate Guide to First-Time Travel Planning in India',
+    'Detailed step-by-step vacation planning guide for India. Learn about visa setup, seasonal travel, transport options, and healthy habits.',
+    ARRAY['travel planning', 'first time india', 'india travel tips', 'vacation guide', 'mother india tour travels'],
+    ARRAY['https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80'], NOW(), NOW()
+  );
+
+  -- 2. Honeymoon & Couple Trips (Kerala)
+  INSERT INTO "BlogPost" (
+    "id", "slug", "title", "excerpt", "content", "coverImage",
+    "authorName", "authorImage", "readingTimeMinutes", "publishedAt",
+    "isPublished", "isFeatured", "tags", "destinationId", "categoryId",
+    "stateId", "countryId", "seoTitle", "seoDescription", "seoKeywords", "images", "createdAt", "updatedAt"
+  ) VALUES (
+    post_honeymoon_id,
+    'romantic-honeymoon-destinations',
+    'Romancing the Hills & Backwaters: A Dream Kerala Honeymoon Guide',
+    'From the misty valleys of Munnar to the pristine waters of Alleppey backwaters, discover the ultimate romantic spots in God''s Own Country.',
+    '## The Perfect Kerala Honeymoon Guide
+
+There is a reason Kerala is affectionately called "God''s Own Country" and rated as one of the most romantic destinations in Asia. With its unique blend of mist-shrouded hill stations, endless tea estates, tranquil backwaters, and tropical beaches, Kerala offers newlyweds the ultimate setting for romance and relaxation.
+
+If you are planning your honeymoon, here is your curated guide to creating an unforgettable journey.
+
+---
+
+### 1. Munnar: Whispering Valleys and Tea Gardens
+Munnar is a paradise of endless green hills, cool mountain breezes, and sweet eucalyptus scent.
+*   **Romantic Stays:** Book a secluded resort overlooking the tea gardens or a premium treehouse high in the forest canopy.
+*   **Couples Activities:** Take a private morning walk through Lockhart Tea Estate, catch the sunrise at Top Station, and enjoy a quiet boat ride on Kundala Lake.
+
+### 2. Alleppey: The Magic of Private Houseboats
+Floating along the tranquil backwaters of Alleppey (Alappuzha) in a traditional *Kettuvallam* (houseboat) is an absolute must-do.
+*   **The Experience:** Sail past whispering coconut groves, remote villages, and green paddy fields. Enjoy fresh-cooked traditional meals prepared by your private chef onboard.
+*   **Sunset Romance:** Spend the evening sipping tender coconut water as the sun dips below the watery horizon, followed by a candlelit dinner under the stars.
+
+### 3. Kovalam: Sunset Beach Walks
+End your romantic getaway with the golden sands of Kovalam.
+*   Walk hand-in-hand beneath the iconic red-and-white lighthouse.
+*   Indulge in a signature couples Ayurvedic massage therapy at a beachfront wellness spa.
+
+---
+
+### Planning Tips for Couples
+*   **Recommended Duration:** A 5N/6D or 6N/7D package is ideal to cover Cochin, Munnar, Thekkady, and Alleppey without rushing.
+*   **Private Carriage:** A private AC sedan ensures your intimate conversations are uninterrupted and stops can be made on a whim at roadside waterfalls or viewpoints.',
+    'https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=1200&q=80',
+    'Mother India Tour Travels',
+    'https://images.motherindiatourtravels.com/logo.png',
+    7, NOW(), TRUE, TRUE, ARRAY['honeymoon', 'couples', 'kerala', 'romance', 'alleppey'], dest_munnar_id, cat_honeymoon_id,
+    kerala_state_id, india_country_id,
+    'Romantic Kerala Honeymoon Guide | Backwater & Hill Resorts',
+    'Explore the ultimate honeymoon guide to Kerala. Plan romantic getaways in Munnar tea gardens and private houseboats in Alleppey backwaters.',
+    ARRAY['kerala honeymoon', 'romantic destination', 'alleppey houseboat', 'munnar couple package', 'kerala tour'],
+    ARRAY['https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80'], NOW(), NOW()
+  );
+
+  -- 3. Family Travel
+  INSERT INTO "BlogPost" (
+    "id", "slug", "title", "excerpt", "content", "coverImage",
+    "authorName", "authorImage", "readingTimeMinutes", "publishedAt",
+    "isPublished", "isFeatured", "tags", "destinationId", "categoryId",
+    "stateId", "countryId", "seoTitle", "seoDescription", "seoKeywords", "images", "createdAt", "updatedAt"
+  ) VALUES (
+    post_family_id,
+    'stress-free-family-travel',
+    'Creating Lifelong Memories: The Ultimate India Family Vacation Guide',
+    'Traveling with kids and elderly parents requires a special balance of comfort and adventure. Discover our top tips for a smooth multi-generational trip.',
+    '## The Art of Multi-Generational Family Travel in India
+
+Family holidays are the perfect occasion to reconnect, share stories, and build memories that span generations. However, traveling with both active children and elderly grandparents requires a thoughtful balance of pace, comfort, and safety. 
+
+Here are the key guidelines to keep your next family holiday completely stress-free.
+
+---
+
+### 1. Pick a Balanced Route
+Avoid itineraries that require long road trips or daily hotel check-outs. Instead, opt for a "slow travel" approach.
+*   **The Golden Triangle (Delhi-Agra-Jaipur):** Highly educational and visually spectacular. The cities are close to each other, minimizing travel time. Kids love the elephant interactions in Jaipur and the puppet shows at Chokhi Dhani, while parents and grandparents appreciate the magnificent architecture and royal hospitality.
+*   **Kerala Backwater and Wildlife:** Peaceful, slow-paced, and filled with mild wildlife experiences, making it safe and enjoyable for seniors.
+
+### 2. Prioritize Comfortable Road Travel
+Long transit times can cause fatigue and crankiness.
+*   Always book a spacious, private air-conditioned vehicle (like an Innova Crysta or Tempo Traveller) for family transfers.
+*   Ensure the vehicle is equipped with comfortable seats, seat belts, and a professional driver who values safety over speed.
+
+### 3. Choose Stays with Spacious Layouts
+Instead of booking separate cramped hotel rooms, consider:
+*   Heritage resorts offering interconnected rooms.
+*   Homestays or villas with private lawn spaces where kids can play under the eyes of grandparents.
+
+### 4. Smart Dining Planning
+Indian cuisine is incredibly diverse, but it can sometimes be spicy for young kids or heavy for elders.
+*   Look for hotels that serve a mix of Continental, Chinese, and mild local specialties.
+*   Keep fresh fruits, dry fruits, and cookies handy during sightseeing transfers.',
+    'https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=1200&q=80',
+    'Mother India Tour Travels',
+    'https://images.motherindiatourtravels.com/logo.png',
+    6, NOW(), TRUE, FALSE, ARRAY['family', 'vacation', 'planning', 'heritage'], NULL, cat_family_id,
+    rajasthan_state_id, india_country_id,
+    'Ultimate Family Vacation Guide India | Comfort Travel Tips',
+    'Discover expert tips on planning a comfortable multi-generational family vacation in India. Choose the right transport, stays, and pace.',
+    ARRAY['family holiday india', 'kids friendly travel', 'senior comfort tours', 'golden triangle family', 'mother india travels'],
+    ARRAY[]::TEXT[], NOW(), NOW()
+  );
+
+  -- 4. Adventure & Trekking
+  INSERT INTO "BlogPost" (
+    "id", "slug", "title", "excerpt", "content", "coverImage",
+    "authorName", "authorImage", "readingTimeMinutes", "publishedAt",
+    "isPublished", "isFeatured", "tags", "destinationId", "categoryId",
+    "stateId", "countryId", "seoTitle", "seoDescription", "seoKeywords", "images", "createdAt", "updatedAt"
+  ) VALUES (
+    post_adventure_id,
+    'top-trekking-routes',
+    'Conquering the Cold Desert: Hampta Pass & Markha Valley Trekking Guide',
+    'For adventure seekers, the high mountain passes of Ladakh and Himachal offer world-class trekking. Discover the best trails for your next Himalayan escapade.',
+    '## The Call of the High Pass: Hampta vs Markha Valley
+
+The Indian Himalayas host some of the most dramatic alpine trekking trails in the world. Two routes stand out for their breathtaking scenery, contrasting environments, and spiritual heights: **Hampta Pass** in Himachal Pradesh and **Markha Valley** in Ladakh.
+
+If you are looking for an adventure of a lifetime, here is what you need to know about these iconic treks.
+
+---
+
+### 1. Hampta Pass: The Green & Desert Contrast
+Located in the Kullu region, Hampta Pass is famous for its sudden, dramatic transition of landscapes.
+*   **The Route:** Start from the lush green valleys and pine forests of Manali, climb through wildflower meadows, and cross the pass to descend into the stark, dry cold desert of Spiti.
+*   **Difficulty:** Moderate (suitable for fit beginners).
+*   **Highlight:** Camping beside the pristine, crescent-shaped Chandratal Lake (Moon Lake).
+
+### 2. Markha Valley: The Heart of Ladakh
+Trekking through the Markha Valley is a journey through remote Buddhist villages, cold alpine canyons, and barley fields.
+*   **The Route:** Follow the Markha River, passing ancient monasteries (gompas) built into cliffs, and stay in local Ladakhi homestays.
+*   **Difficulty:** Challenging (requires good physical fitness).
+*   **Highlight:** Crossing the high pass of Kongmaru La at 5,200 meters, offering panoramic views of Kang Yatse peak.
+
+### 3. Critical Safety Rules for High Altitudes
+Himalayan trekking is incredibly rewarding, but the altitude must be respected.
+*   **Acclimatize:** Spend at least 48 to 72 hours in Leh or Manali before starting your trek to avoid altitude sickness.
+*   **Stay Hydrated:** Drink 4-5 liters of water daily. Avoid alcohol.
+*   **Layer Wisely:** Temperatures drop rapidly. Carry premium thermal wear, down jackets, and windproof outer shells.',
+    'https://images.unsplash.com/photo-1524492412937-b280b415be35?auto=format&fit=crop&w=1200&q=80',
+    'Mother India Tour Travels',
+    'https://images.motherindiatourtravels.com/logo.png',
+    9, NOW(), TRUE, FALSE, ARRAY['trekking', 'adventure', 'himalayas', 'ladakh', 'spiti'], dest_leh_id, cat_adventure_id,
+    ladakh_state_id, india_country_id,
+    'Himalayan Trekking Guide | Hampta Pass & Markha Valley Ladakh',
+    'Plan your next Himalayan adventure with our detailed trekking guide to Hampta Pass (Himachal) and Markha Valley (Ladakh). Safety and packing tips.',
+    ARRAY['himalayan treks', 'markha valley trek', 'hampta pass manali', 'ladakh adventure guide', 'altitude acclimatization'],
+    ARRAY['https://images.unsplash.com/photo-1506461883276-594a12b11db3?auto=format&fit=crop&w=800&q=80'], NOW(), NOW()
+  );
+
+  -- 5. Pilgrimage & Spiritual Travel
+  INSERT INTO "BlogPost" (
+    "id", "slug", "title", "excerpt", "content", "coverImage",
+    "authorName", "authorImage", "readingTimeMinutes", "publishedAt",
+    "isPublished", "isFeatured", "tags", "destinationId", "categoryId",
+    "stateId", "countryId", "seoTitle", "seoDescription", "seoKeywords", "images", "createdAt", "updatedAt"
+  ) VALUES (
+    post_pilgrimage_id,
+    'spiritual-journeys-ganges',
+    'Spiritual Awakening: A Journey Through Varanasi, Ayodhya, and Prayagraj',
+    'Explore India''s sacred heartland along the holy Ganges. Learn how to plan a meaningful pilgrimage through ancient temples and river rituals.',
+    '## Exploring India''s Sacred Heartland
+
+The holy cities along the Ganges and Saryu rivers represent the spiritual soul of India. A pilgrimage through Varanasi, Ayodhya, and Prayagraj offers a deep cultural encounter with ancient rituals, grand temple architecture, and historic faith.
+
+Here is your comprehensive guide to planning a spiritual journey through these sacred sites.
+
+---
+
+### 1. Varanasi: The Eternal City of Light
+Varanasi, or Kashi, is believed to be one of the oldest continuously inhabited cities on earth.
+*   **The Ganga Aarti:** Witness the evening Ganga Aarti at Dashashwamedh Ghat. The synchronized chanting, brass lamps, and flower offerings create a magical atmosphere.
+*   **Sunrise Boat Ride:** Take a morning boat cruise along Assi Ghat and Manikarnika Ghat to observe the sunrise prayers, bathing rituals, and sacred chants.
+*   **Spiritual Stops:** Visit the historic Kashi Vishwanath Temple and the peaceful Buddhist site of Sarnath nearby.
+
+### 2. Ayodhya: The Sacred Birthplace
+Sitting peacefully along the banks of the Saryu River, Ayodhya is central to Hindu epic heritage.
+*   **The Ram Mandir:** Visit the newly opened grand temple dedicated to Lord Ram, a masterpiece of traditional stone architecture.
+*   **Cultural Spots:** Climb the steps to the ancient Hanumangarhi fortress temple and walk through Kanak Bhawan palace.
+
+### 3. Prayagraj: The Confluence of Faith
+Prayagraj (formerly Allahabad) is home to the sacred **Triveni Sangam**—the confluence of the Ganges, Yamuna, and the mythical Saraswati rivers.
+*   Take a wooden boat to the Sangam point, where the light green waters of the Ganges meet the deep blue of the Yamuna.
+*   Take a holy dip in the waters, a ritual believed to cleanse the soul.',
+    'https://images.unsplash.com/photo-1561361513-2d000a50f0db?auto=format&fit=crop&w=1200&q=80',
+    'Mother India Tour Travels',
+    'https://images.motherindiatourtravels.com/logo.png',
+    8, NOW(), TRUE, TRUE, ARRAY['spiritual', 'varanasi', 'ayodhya', 'pilgrimage', 'ganges'], NULL, cat_pilgrimage_id,
+    NULL, india_country_id,
+    'Spiritual India Guide | Varanasi Ayodhya Prayagraj Pilgrimage',
+    'Plan a sacred tour through Varanasi Ganga Aarti, Ayodhya Ram Mandir, and Prayagraj Triveni Sangam with our expert pilgrimage guide.',
+    ARRAY['varanasi ganga aarti', 'ayodhya ram mandir tour', 'triveni sangam boat ride', 'spiritual india package', 'kashi pilgrimage'],
+    ARRAY[]::TEXT[], NOW(), NOW()
+  );
+
+  -- 6. Food & Culture
+  INSERT INTO "BlogPost" (
+    "id", "slug", "title", "excerpt", "content", "coverImage",
+    "authorName", "authorImage", "readingTimeMinutes", "publishedAt",
+    "isPublished", "isFeatured", "tags", "destinationId", "categoryId",
+    "stateId", "countryId", "seoTitle", "seoDescription", "seoKeywords", "images", "createdAt", "updatedAt"
+  ) VALUES (
+    post_food_id,
+    'culinary-heritage-rajasthan',
+    'The Royal Feast: A Gastronomic Journey Through Rajasthan''s Heritage',
+    'Explore the rich flavors and spices of Rajasthani cuisine, from the iconic Dal Baati Churma to royal delicacies in Jaipur and Udaipur.',
+    '## Savoring the Flavors of Royalty and Desert
+
+Rajasthani cuisine is a reflection of the land''s rich royal heritage and its arid desert environment. Historically, dishes were designed to last for days without heating and require minimal water, resulting in unique uses of milk, curd, and pure ghee.
+
+Let''s dive into the dishes and street foods you must try on your next trip to Rajasthan.
+
+---
+
+### 1. The Signature Feast: Dal Baati Churma
+This is the heart of Rajasthani hospitality.
+*   **Baati:** Golden, hard wheat-flour balls baked over wood fires and soaked in warm, fragrant cow ghee.
+*   **Dal:** A spicy lentil preparation cooked with green chilies, cumin, and dry coriander.
+*   **Churma:** A sweet mixture of crushed wheat cakes, sugar, almonds, and cardamom.
+
+### 2. Royal Non-Vegetarian Delicacies
+Crafted by royal chefs for the Rajput kings after successful hunting trips.
+*   **Laal Maas:** A fiery mutton curry cooked with local mathania red chilies, garlic, and yogurt. Expect robust, hot flavors!
+*   **Safed Maas:** A rich, white mutton gravy prepared with cashew nuts, cream, and melon seeds for a mild, aromatic taste.
+
+### 3. Street Food Crawl in Jaipur
+*   **Pyaaz Kachori:** Crisp, deep-fried flour shells filled with a spicy onion paste. Try the legendary ones at Rawat Mishthan Bhandar.
+*   **Sweet Lassi:** Thicked curd served in traditional clay cups (kulhad), topped with a thick layer of malai (cream). Catch the best at Lassiwala on MI Road.',
+    'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=80',
+    'Mother India Tour Travels',
+    'https://images.motherindiatourtravels.com/logo.png',
+    6, NOW(), TRUE, FALSE, ARRAY['rajasthan', 'food', 'cuisine', 'culture', 'heritage'], dest_jaipur_id, cat_food_id,
+    rajasthan_state_id, india_country_id,
+    'Rajasthani Food Heritage | Authentic Recipes & Jaipur Street Food',
+    'Embark on a culinary tour of Rajasthan. Discover Dal Baati Churma, royal Laal Maas, and the best sweet Lassi spots in Jaipur.',
+    ARRAY['rajasthan food guide', 'dal baati churma jaipur', 'laal maas recipe', 'jaipur street food', 'lassiwala mi road'],
+    ARRAY['https://images.unsplash.com/photo-1603262110263-fb0112e7cc33?auto=format&fit=crop&w=800&q=80'], NOW(), NOW()
+  );
+
+  -- 7. Offbeat & Hidden Gems
+  INSERT INTO "BlogPost" (
+    "id", "slug", "title", "excerpt", "content", "coverImage",
+    "authorName", "authorImage", "readingTimeMinutes", "publishedAt",
+    "isPublished", "isFeatured", "tags", "destinationId", "categoryId",
+    "stateId", "countryId", "seoTitle", "seoDescription", "seoKeywords", "images", "createdAt", "updatedAt"
+  ) VALUES (
+    post_offbeat_id,
+    'offbeat-north-east-gems',
+    'Hidden Jewels of the North East: Unveiling Meghalaya, Sikkim, and Ziro Valley',
+    'Escape the crowd to discover massive waterfalls, ancient living root bridges, pine valleys, and warm tribal cultures in North-East India.',
+    '## Stepping Into Unspoiled Wilderness
+
+North-East India is a sanctuary of dense pine forests, incredible rain-drenched canyons, and ancient cultures. For travelers looking to step away from traditional tourist hubs, the states of Meghalaya, Sikkim, and Arunachal Pradesh offer pristine natural wonders.
+
+Here are three offbeat destinations you should add to your travel list.
+
+---
+
+### 1. Cherrapunji and Mawlynnong, Meghalaya
+Meghalaya, the "Abode of Clouds", is home to some of the wettest places on earth and unique bio-engineering wonders.
+*   **Living Root Bridges:** Created by the local Khasi tribe by weaving the aerial roots of rubber trees over rivers. The double-decker living root bridge in Cherrapunji is a marvel that gets stronger as it ages.
+*   **Mawlynnong Village:** Famous for being awarded the cleanest village in Asia. Stroll through spotless stone-paved lanes bordered by orchid gardens.
+
+### 2. Buddha Park of Ravangla, Sikkim
+Set against the backdrop of Mount Kanchenjunga, Ravangla is a peaceful town in South Sikkim.
+*   Visit the Buddha Park featuring a massive 130-foot statue of Buddha, surrounded by beautifully manicured gardens.
+*   Soak in the nearby natural sulfur hot springs, believed to have therapeutic healing properties.
+
+### 3. Ziro Valley, Arunachal Pradesh
+A stunning high-altitude valley home to the unique Apatani tribe.
+*   Explore local pine-clad villages, terraced fish farming fields, and tattoo cultures.
+*   If you visit in September, catch the world-famous Ziro Festival of Music, an outdoor independent music celebration in the hills.',
+    'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
+    'Mother India Tour Travels',
+    'https://images.motherindiatourtravels.com/logo.png',
+    7, NOW(), TRUE, FALSE, ARRAY['northeast', 'offbeat', 'meghalaya', 'sikkim', 'waterfalls'], NULL, cat_offbeat_id,
+    NULL, india_country_id,
+    'Offbeat North East India | Root Bridges & Sikkim Monasteries',
+    'Discover hidden gems in North-East India. Explore Meghalaya living root bridges, Ziro Valley music festival, and Buddha Park in Ravangla.',
+    ARRAY['offbeat northeast india', 'living root bridges meghalaya', 'ziro valley tour', 'sikkim hidden gems', 'budhha park ravangla'],
+    ARRAY[]::TEXT[], NOW(), NOW()
+  );
+
+  -- 8. Travel Guides & Itineraries (Kashmir)
+  INSERT INTO "BlogPost" (
+    "id", "slug", "title", "excerpt", "content", "coverImage",
+    "authorName", "authorImage", "readingTimeMinutes", "publishedAt",
+    "isPublished", "isFeatured", "tags", "destinationId", "categoryId",
+    "stateId", "countryId", "seoTitle", "seoDescription", "seoKeywords", "images", "createdAt", "updatedAt"
+  ) VALUES (
+    post_itineraries_id,
+    'kashmir-valley-escape-itinerary',
+    'Kashmir Valley Escape: The Perfect 6-Day Day-by-Day Itinerary',
+    'A detailed day-by-day travel guide to exploring Srinagar, Gulmarg, and Pahalgam, including Shikara rides, Gondola passes, and local food secrets.',
+    '## The Perfect 6-Day Kashmir Valley Itinerary
+
+With its snow-capped peaks, alpine lakes, pine forests, and flower-filled valleys, Kashmir is rightfully called "Paradise on Earth". To help you experience the best of this heavenly region, the travel designers at Mother India Tour Travels have crafted this detailed 6-day travel itinerary.
+
+---
+
+### Day 1: Welcome to Srinagar & Dal Lake Houseboat
+Arrive at Srinagar Airport, where your private driver will meet you.
+*   Check-in to a traditional, hand-carved wooden houseboat on Dal Lake.
+*   Enjoy a relaxing 2-hour sunset Shikara ride, gliding past floating gardens and vegetable markets.
+*   **Overnight:** Srinagar Houseboat.
+
+### Day 2: Srinagar Royal Gardens & Ancient Temples
+Explore the historic capital.
+*   Visit **Shalimar Bagh** and **Nishat Bagh**, royal terraced Mughal gardens boasting historic fountains and chinar trees.
+*   Climb to the **Shankaracharya Temple** set on a hill, offering panoramic views of Dal Lake and the city.
+*   **Overnight:** Srinagar Houseboat or Hotel.
+
+### Day 3: Excursion to Gulmarg (The Meadow of Flowers)
+Drive 2 hours to Gulmarg, a scenic valley famous for summer flowers and winter skiing.
+*   Experience the **Gulmarg Gondola**, one of the highest cable cars in the world, riding up to Phase 1 (Kungdoor) and Phase 2 (Apharwat Peak) at 13,780 feet.
+*   Enjoy horse riding in the alpine meadows.
+*   **Overnight:** Srinagar.
+
+### Day 4: Srinagar to Pahalgam (The Valley of Shepherds)
+Drive 3 hours to Pahalgam. En route, stop at saffron fields in Pampore.
+*   Follow the gushing waters of the Lidder River.
+*   Visit **Betaab Valley** (named after the Bollywood film) and **Aru Valley**, a scenic village surrounded by snow peaks.
+*   **Overnight:** Pahalgam Hotel.
+
+### Day 5: Quiet Pahalgam & Return to Srinagar
+Spend a quiet morning taking walks along the Lidder riverbank or trying local Trout fish curry.
+*   Drive back to Srinagar in the afternoon.
+*   Spend the evening shopping for high-quality cashmere shawls, walnuts, saffron, and wooden handicrafts.
+*   **Overnight:** Srinagar.
+
+### Day 6: Farewell Paradise
+After a warm breakfast, check out and enjoy your transfer to Srinagar Airport for your return flight.',
+    'https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=1200&q=80',
+    'Mother India Tour Travels',
+    'https://images.motherindiatourtravels.com/logo.png',
+    9, NOW(), TRUE, TRUE, ARRAY['kashmir', 'itinerary', 'srinagar', 'gulmarg', 'pahalgam'], dest_srinagar_id, cat_itineraries_id,
+    kashmir_state_id, india_country_id,
+    'Kashmir 6 Days Day-by-Day Travel Itinerary | Srinagar Tour Plan',
+    'Follow our detailed 6-day Kashmir travel itinerary. Spend houseboats stays on Dal Lake, ride Gulmarg Gondola, and explore Pahalgam valleys.',
+    ARRAY['kashmir 6 days itinerary', 'srinagar tour guide', 'gulmarg gondola ride', 'pahalgam valley tour', 'kashmir packages'],
+    ARRAY['https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80'], NOW(), NOW()
+  );
+
+  -- Relate blog posts to the respective packages
+  IF pkg_kerala_id IS NOT NULL THEN
+    INSERT INTO "BlogPostPackage" ("blogPostId", "packageId") VALUES (post_honeymoon_id, pkg_kerala_id) ON CONFLICT DO NOTHING;
+  END IF;
+
+  IF pkg_rajasthan_id IS NOT NULL THEN
+    INSERT INTO "BlogPostPackage" ("blogPostId", "packageId") VALUES (post_food_id, pkg_rajasthan_id) ON CONFLICT DO NOTHING;
+  END IF;
+
+  IF pkg_varanasi_id IS NOT NULL THEN
+    INSERT INTO "BlogPostPackage" ("blogPostId", "packageId") VALUES (post_pilgrimage_id, pkg_varanasi_id) ON CONFLICT DO NOTHING;
+  END IF;
+
+  IF pkg_kashmir_id IS NOT NULL THEN
+    INSERT INTO "BlogPostPackage" ("blogPostId", "packageId") VALUES (post_itineraries_id, pkg_kashmir_id) ON CONFLICT DO NOTHING;
+  END IF;
+
+  IF pkg_golden_triangle_id IS NOT NULL THEN
+    INSERT INTO "BlogPostPackage" ("blogPostId", "packageId") VALUES (post_planning_id, pkg_golden_triangle_id) ON CONFLICT DO NOTHING;
+  END IF;
+
+END $$;
+
