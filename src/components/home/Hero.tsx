@@ -153,7 +153,6 @@ export default function Hero({ heroConfig }: { heroConfig?: HeroConfigData | nul
               key={`content-${slide.id}`}
               animate={{
                 opacity: index === currentSlide ? 1 : 0,
-                y: index === currentSlide ? 0 : 20,
               }}
               initial={false}
               transition={{ duration: 0.5 }}
@@ -273,9 +272,9 @@ export default function Hero({ heroConfig }: { heroConfig?: HeroConfigData | nul
             <AnimatePresence mode="wait">
               <motion.div
                 key={`mobile-content-${slides[currentSlide].id}`}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
               >
                 <h1 className="text-xl font-extrabold text-white leading-snug font-display tracking-tight [text-shadow:0_2px_8px_rgba(0,0,0,0.5)]">
