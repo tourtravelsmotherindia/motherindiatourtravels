@@ -1,18 +1,5 @@
 import { prisma } from "@/lib/db/prisma";
-
-export interface ReviewItem {
-  id: string;
-  reviewer: string;
-  review: string;
-  rating: number;
-  packageName: string;
-  source: string;
-  avatar: string;
-  reviewLink: string;
-  isApproved: boolean;
-  isFeatured: boolean;
-  createdAt: Date;
-}
+import { type ReviewItem } from "@/types/review";
 
 export async function getFeaturedTestimonials(): Promise<ReviewItem[]> {
   const testimonials = await prisma.testimonial.findMany({

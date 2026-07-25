@@ -1,15 +1,5 @@
 import { prisma } from "@/lib/db/prisma";
-
-export interface CategoryItem {
-  id: string;
-  name: string;
-  slug: string;
-  description: string;
-  icon: string;
-  sortOrder: number;
-  seoTitle: string;
-  seoDescription: string;
-}
+import { type CategoryItem } from "@/types/category";
 
 export async function getAllCategories(): Promise<CategoryItem[]> {
   const categories = await prisma.category.findMany({

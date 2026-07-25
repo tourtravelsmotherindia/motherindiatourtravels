@@ -1,6 +1,6 @@
 import SectionHeader from "@/components/shared/SectionHeader";
 import TestimonialMarquee from "@/components/ui/marquee-01";
-import { type ReviewItem } from "@/lib/db/repositories/testimonialRepo";
+import { type ReviewItem } from "@/types/review";
 
 export default function TravelerMoments({ testimonials }: { testimonials: ReviewItem[] }) {
   return (

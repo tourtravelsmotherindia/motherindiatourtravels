@@ -10,7 +10,7 @@ import PageShell from "@/components/layout/PageShell";
 import PackageCard from "@/components/shared/PackageCard";
 import Pagination from "@/components/shared/Pagination";
 import Dropdown from "@/components/ui/Dropdown";
-import { type CategoryItem } from "@/lib/db/repositories/categoryRepo";
+import { type CategoryItem } from "@/types/category";
 import { type CompanyData } from "@/types/company";
 import { type DestinationItem } from "@/types/destination";
 import { type PackageItem } from "@/types/package";

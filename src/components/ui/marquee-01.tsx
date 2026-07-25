@@ -3,7 +3,7 @@ import React from "react";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Marquee } from "@/components/ui/marquee-01-utils/marquee";
-import { type ReviewItem } from "@/lib/db/repositories/testimonialRepo";
+import { type ReviewItem } from "@/types/review";
 
 const fallbackReviews: ReviewItem[] = [
   {

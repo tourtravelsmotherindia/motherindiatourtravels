@@ -15,6 +15,8 @@ All components are organized under `src/components/` by domain layer:
 - **`src/components/contact/`** — Contact page components (e.g. `ContactMap`).
 - **`src/components/packages/`** — Packages page components (e.g. `PackageMap`).
 - **`src/types/`** — Consolidated types for all entities.
+- **`dev-scripts/`** — Git-ignored directory for development utilities, data imports, and SQL generators.
+- **`scripts/`** — Directory reserved exclusively for production-required runtime and migration scripts (e.g., fallback database seeding).
 
 ---
 
@@ -26,6 +28,7 @@ The PostgreSQL schema (`prisma/schema.prisma`) represents 14 primary models:
 | ---------------- | --------------------------------------------------------------------------------------- |
 | `Country`        | Sovereign countries with flags, slugs, and travel metadata.                             |
 | `State`          | Regional states within countries to structure packages.                                 |
+| `Attraction`     | Points of interest inside destinations.                                                 |
 | `Destination`    | Specific travel destinations with attractions, best times, coordinates, and images.     |
 | `Category`       | Trip categories with styling rules and icons.                                           |
 | `Package`        | High-level tour package listing data, pricing indicators, style, and duration.          |
@@ -47,7 +50,10 @@ Consolidated interface models live in the `src/types/` folder. Standard models:
 
 - [company.ts](file:///home/sandipansingh/Projects/clients/mother-india/src/types/company.ts) — contains `CompanyData`, `WorkingHours`, `WorkingHoursSchedule`, `AboutData`.
 - [package.ts](file:///home/sandipansingh/Projects/clients/mother-india/src/types/package.ts) — contains `PackageItem`, `PackageDetailItem`, `PackageVariant`, `ItineraryDay`.
-- [destination.ts](file:///home/sandipansingh/Projects/clients/mother-india/src/types/destination.ts) — contains `DestinationItem`, `DestinationDisplay`, `DestinationsData`.
-- [faq.ts](file:///home/sandipansingh/Projects/clients/mother-india/src/types/faq.ts) — contains `FAQItem`, `FAQData`.
-- [hero.ts](file:///home/sandipansingh/Projects/clients/mother-india/src/types/hero.ts) — contains `Slide`, `HeroData`.
-- [review.ts](file:///home/sandipansingh/Projects/clients/mother-india/src/types/review.ts) — contains `Review`.
+- [destination.ts](file:///home/sandipansingh/Projects/clients/mother-india/src/types/destination.ts) — contains `DestinationItem`, `DestinationDisplay`, `DestinationsSectionData`, `RegionWithDestinations`.
+- [faq.ts](file:///home/sandipansingh/Projects/clients/mother-india/src/types/faq.ts) — contains `FAQItem`, `FAQSectionData`.
+- [hero.ts](file:///home/sandipansingh/Projects/clients/mother-india/src/types/hero.ts) — contains `HeroSlide`, `HeroConfigData`.
+- [review.ts](file:///home/sandipansingh/Projects/clients/mother-india/src/types/review.ts) — contains `ReviewItem` (Google Review / Testimonial).
+- [category.ts](file:///home/sandipansingh/Projects/clients/mother-india/src/types/category.ts) — contains `CategoryItem` (Package Category).
+- [country.ts](file:///home/sandipansingh/Projects/clients/mother-india/src/types/country.ts) — contains `CountryItem`.
+- [state.ts](file:///home/sandipansingh/Projects/clients/mother-india/src/types/state.ts) — contains `StateItem`.

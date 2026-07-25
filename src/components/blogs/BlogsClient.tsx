@@ -9,34 +9,12 @@ import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import PageShell from "@/components/layout/PageShell";
 import Pagination from "@/components/shared/Pagination";
 import Dropdown from "@/components/ui/Dropdown";
+import { type BlogPostCategoryItem, type BlogPostItem } from "@/types/blog";
 import { type CompanyData } from "@/types/company";
 
-interface BlogItem {
-  id: string;
-  slug: string;
-  title: string;
-  excerpt: string;
-  coverImage: string;
-  authorName: string;
-  authorImage: string;
-  readingTimeMinutes: number;
-  publishedAt: Date | null;
-  categoryName: string | null;
-  categorySlug: string | null;
-  tags: string[];
-  isFeatured: boolean;
-}
-
-interface CategoryItem {
-  id: string;
-  name: string;
-  slug: string;
-  sortOrder?: number;
-}
-
 interface BlogsClientProps {
-  initialBlogs: BlogItem[];
-  categories: CategoryItem[];
+  initialBlogs: BlogPostItem[];
+  categories: BlogPostCategoryItem[];
   companyData: CompanyData | null;
 }
 

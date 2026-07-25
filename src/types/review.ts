@@ -1,10 +1,13 @@
-export interface Review {
-  id: number;
-  name: string;
-  role: string;
-  avatar: string;
-  image: string;
-  quote: string;
-  hasVideo: boolean;
+export interface ReviewItem {
+  id: string;
+  reviewer: string;
+  review: string;
   rating: number;
+  packageName: string;
+  source: string;
+  avatar: string;
+  reviewLink: string;
+  isApproved: boolean;
+  isFeatured: boolean;
+  createdAt: Date;
 }
