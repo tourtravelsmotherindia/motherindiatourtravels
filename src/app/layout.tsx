@@ -81,7 +81,7 @@ export default async function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      style={{ backgroundColor: "#051b2e" }}
+      style={{ backgroundColor: "#ffffff" }}
       className={`${poppins.variable} ${tripSans.variable} h-full antialiased`}
     >
       <head>

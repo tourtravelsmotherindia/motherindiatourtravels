@@ -131,7 +131,7 @@ The codebase uses **highly rounded, organic shapes** to prevent a boxy feel. The
 ## Logo Presentation & Scrollbar Styling
 
 - **Logo Presentation**: Brand logo images (Navbar and Footer) must **never** have a surrounding frame, background box, border, or shadow.
-- **Scrollbar Default** (`html, body`): 6px thin, `#E5E5E5` thumb, transparent track, hover → `#D4D4D4`
+- **Scrollbar Default** (`html, body`): 5px thin, `#E5E5E5` thumb, transparent track, hover → `#D4D4D4`
 - **Dropdown Scrollbar** (`.dropdown-scrollbar`): 5px thin, same color scheme — apply to scrollable dropdown menus
 - **Hidden Scrollbar** (`.no-scrollbar`): Hides scrollbar entirely while preserving scroll — use on horizontal mobile card rows
 
